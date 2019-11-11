@@ -1,6 +1,6 @@
 {
   "name": "@substrate/ui-components",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "UI components shared across Substrate Light UI",
   "license": "Apache-2.0",
@@ -31,7 +31,7 @@
     "@storybook/addon-knobs": "^5.2.5",
     "@storybook/addon-links": "^5.2.5",
     "@storybook/react": "^5.2.5",
-    "@substrate/context": "^0.1.2",
+    "@substrate/context": "^0.1.3",
     "@types/react-color": "^3.0.1",
     "@types/webpack-env": "^1.14.0"
   }
