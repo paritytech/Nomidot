@@ -5,7 +5,6 @@
   "description": "Wrapper to connect React components to PolkadotJS Api",
   "license": "Apache-2.0",
   "main": "build/index.js",
-  "private": true,
   "publishConfig": {
     "access": "public"
   },
