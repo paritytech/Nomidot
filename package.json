@@ -11,9 +11,13 @@
   },
   "private": true,
   "devDependencies": {
+    "lerna": "^3.18.4",
     "typescript": "^3.7.2"
   },
   "scripts": {
+    "lerna:build": "lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
+    "lerna:version": "lerna version --conventional-commits",
+    "lerna:publish": "lerna publish from-git",
     "lint": "tsc --noEmit",
     "start": "cd ./front/gatsby && gatsby develop",
     "storybook": "cd ./front/ui-components && yarn storybook"

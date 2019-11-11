@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { LinkProps } from 'react-router-dom';
-
 import { Color } from './globalStyle';
 import { FlexAlign, FlexDirection, FlexJustify, FontSize, MarginSize } from './types';
 
@@ -37,7 +35,7 @@ export interface StackProps {
   width?: string;
 }
 
-export interface StyledNavLinkProps extends LinkProps {
+export interface StyledNavLinkProps {
   inverted?: boolean;
 }
 

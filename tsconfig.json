@@ -7,7 +7,6 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "lib": ["dom", "esnext"],
-    "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "es5"

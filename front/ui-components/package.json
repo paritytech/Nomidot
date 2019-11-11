@@ -1,12 +1,13 @@
 {
   "name": "@substrate/ui-components",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "UI components shared across Substrate Light UI",
   "license": "Apache-2.0",
   "main": "src/index.ts",
   "private": true,
   "scripts": {
+    "build": "tsc",
     "build-storybook": "build-storybook -c .storybook -o .out",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
@@ -28,7 +29,7 @@
     "@storybook/addon-knobs": "^5.2.5",
     "@storybook/addon-links": "^5.2.5",
     "@storybook/react": "^5.2.5",
-    "@substrate/ui-common": "^0.2.0",
+    "@substrate/context": "^0.1.0",
     "@types/react-color": "^3.0.1",
     "@types/webpack-env": "^1.14.0"
   }

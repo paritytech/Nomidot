@@ -9,6 +9,7 @@ import { StyledNavLinkProps } from './StyleProps';
 import { FontSize } from './types';
 
 interface NavLinkProps extends StyledNavLinkProps {
+  children: React.ReactChildren;
   fontSize?: FontSize;
   fontWeight?: string;
   value?: string;

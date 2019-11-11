@@ -13,7 +13,7 @@ export interface AlertWithoutId {
 
 export interface Alert extends AlertWithoutId {
   id: number;
-  timerCb: NodeJS.Timeout;
+  timerCb: number;
 }
 
 export const AlertsContext = createContext({
