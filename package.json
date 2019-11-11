@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "workspaces": {
     "packages": [
       "front/*"
@@ -15,6 +15,7 @@
   },
   "scripts": {
     "lint": "tsc --noEmit",
-    "start": "cd ./front/gatsby && gatsby develop"
+    "start": "cd ./front/gatsby && gatsby develop",
+    "storybook": "cd ./front/ui-components && yarn storybook"
   }
 }
