@@ -1,0 +1,15 @@
+{
+  "exclude": ["node_modules", "public", ".cache"],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "declaration": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "lib": ["dom", "esnext"],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es5"
+  }
+}
