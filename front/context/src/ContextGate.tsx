@@ -53,7 +53,7 @@ const SS58_PREFIX = 42;
 
 let keyringInitialized = false;
 
-const l = logger('ui-common');
+const l = logger('context');
 
 const api = new ApiRx({ provider: new WsProvider(WS_URL) });
 

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { AppContext } from '@substrate/ui-common/src';
+import { AppContext } from '@substrate/context/src';
 import React, { useContext, useEffect, useState } from 'react';
 import { combineLatest, of } from 'rxjs';
 
