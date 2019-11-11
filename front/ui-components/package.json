@@ -4,8 +4,11 @@
   "author": "Parity Technologies <admin@parity.io>",
   "description": "UI components shared across Substrate Light UI",
   "license": "Apache-2.0",
-  "main": "src/index.ts",
+  "main": "build/index.js",
   "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "build-storybook": "build-storybook -c .storybook -o .out",
