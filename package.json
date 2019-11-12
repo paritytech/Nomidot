@@ -1,26 +1,25 @@
 {
   "name": "nomidot",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "",
+  "author": "Parity Technologies <admin@parity.io>",
+  "description": "Staking Portal for Polkadot",
   "license": "Apache-2.0",
+  "private": true,
+  "repository":"https://github.com/yjkimjunior/Nomidot",
+  "scripts": {
+    "prelerna:publish": "lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
+    "lerna:publish": "lerna version --conventional-commits && lerna publish from-git",
+    "lint": "tsc --noEmit",
+    "start": "cd ./front/gatsby && gatsby develop",
+    "storybook": "cd ./front/ui-components && yarn storybook"
+  },
   "workspaces": {
     "packages": [
       "front/*"
     ]
   },
-  "private": true,
   "devDependencies": {
     "eslint-config-react-app": "^5.0.2",
     "lerna": "^3.18.4",
     "typescript": "^3.7.2"
-  },
-  "scripts": {
-    "lerna:build": "lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
-    "lerna:version": "lerna version --conventional-commits",
-    "lerna:publish": "lerna publish from-git",
-    "lint": "tsc --noEmit && eslint .",
-    "start": "cd ./front/gatsby && gatsby develop",
-    "storybook": "cd ./front/ui-components && yarn storybook"
   }
 }

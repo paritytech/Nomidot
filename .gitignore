@@ -1,5 +1,5 @@
-**/build
-.npmrc
+# Generated outputs
+**/lib/
 
 # Logs
 logs
@@ -43,6 +43,7 @@ jspm_packages/
 typings/
 
 # Optional npm cache directory
+.npmrc
 .npm
 
 # Optional eslint cache

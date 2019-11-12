@@ -2,15 +2,10 @@
   "command": {
     "version": {
       "message": "chore(release): Publish %s"
-    },
-    "publish": {
-      "npmClient": "npm"
     }
   },
   "npmClient": "yarn",
-  "packages": [
-    "front/*"
-  ],
+  "packages": ["front/*"],
   "useWorkspaces": true,
   "version": "0.1.5"
 }
