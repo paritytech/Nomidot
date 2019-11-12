@@ -1,17 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./build"
+    "outDir": "./lib"
   },
-  "rootDirs": [
-    "src",
-    "stories"
-  ],
+  "rootDirs": ["src", "stories"],
   "extends": "../../tsconfig",
-  "include": [
-    "./src"
-  ],
-  "types": [
-    "node",
-    "jest"
-  ]
+  "include": ["./src"],
+  "types": ["node", "jest"]
 }
