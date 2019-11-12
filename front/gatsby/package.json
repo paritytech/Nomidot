@@ -1,9 +1,11 @@
 {
   "name": "gatsby-starter-default",
-  "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.5",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Parity Technologies <admin@parity.io>",
+  "description": "Staking Portal for Polkadot",
+  "license": "Apache-2.0",
+  "private": true,
+  "repository":"https://github.com/yjkimjunior/Nomidot",
   "dependencies": {
     "@types/react-helmet": "^5.0.14",
     "gatsby": "^2.17.10",
@@ -23,10 +25,6 @@
   "devDependencies": {
     "prettier": "^1.19.1"
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -34,12 +32,5 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
   }
 }

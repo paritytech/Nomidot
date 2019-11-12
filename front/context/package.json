@@ -1,13 +1,17 @@
 {
   "name": "@substrate/context",
-  "author": "Parity Technologies <admin@parity.io>",
   "version": "0.1.5",
+  "author": "Parity Technologies <admin@parity.io>",
   "description": "Wrapper to connect React components to PolkadotJS Api",
+  "files":[
+    "lib"
+  ],
   "license": "Apache-2.0",
-  "main": "build/index.js",
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
+  "repository":"https://github.com/yjkimjunior/Nomidot",
   "scripts": {
     "build": "tsc",
     "start": "yarn build --watch",
