@@ -11,7 +11,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Onboarding } from './onboarding';
 
-function IndexPage() {
+function IndexPage(): React.ReactElement {
   // const { injectedAccounts } = useContext(AccountsContext);
 
   return (

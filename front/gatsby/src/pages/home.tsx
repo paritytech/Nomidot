@@ -8,7 +8,7 @@ import React from 'react';
 
 import { ContextGate } from '../ContextGate';
 
-function HomePage() {
+function HomePage(): React.ReactElement {
   return (
     <>
       <Header />

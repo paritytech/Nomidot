@@ -12,7 +12,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import "./layout.css"
 
-const Layout = ({ children }: any) => {
+const Layout = ({ children }: any): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {

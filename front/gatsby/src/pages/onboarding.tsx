@@ -14,7 +14,7 @@ const ONBOARDING_STEPS = [
 
 interface Props extends RouteComponentProps {};
 
-export const Onboarding = (props: Props) => {
+export const Onboarding = (props: Props): React.ReactElement => {
   const { injectedAccounts } = useContext(AccountsContext);
   const [stash, setStash] = useState();
   const [controller, setController] = useState();
