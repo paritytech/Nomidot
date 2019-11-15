@@ -17,7 +17,6 @@ import { InjectedAccountExt } from './types';
 
 interface State {
   injectedAccounts: InjectedAccountExt[];
-  isWaitingInjected: boolean;
   isReady: boolean;
   system: System;
 }
@@ -27,7 +26,6 @@ const INIT_ERROR = new Error('Please wait for `isReady` before fetching this pro
 const DISCONNECTED_STATE_PROPERTIES = {
   injectedAccounts: [],
   isReady: false,
-  isWaitingInjected: true,
   system: {
     get chain (): never {
       throw INIT_ERROR;
@@ -64,7 +62,6 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
     const [injectedAccounts] = await Promise.all([
       web3Accounts().then((accounts): InjectedAccountExt[] =>
         accounts.map(({ address, meta }): InjectedAccountExt => ({
-
           address,
           meta: {
             ...meta,
@@ -112,6 +109,9 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
       .subscribe(([chain, health, name, properties, version]) => {
         l.log(`Api connected to ${WS_URL}`);
         l.log(`Api ready, connected to chain "${chain}" with properties ${JSON.stringify(properties)}`);
+
+        getInjected();
+
         setState({
           ...state,
           isReady: true,
@@ -123,6 +123,7 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
             version: version.toString()
           }
         })
+        l.log(`AppContext state set to ${state}`);
       });
   }, []);
 

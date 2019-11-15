@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppContext, ContextGate } from '@substrate/context/src';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -13,18 +13,14 @@ function IndexPage() {
   return (
     <ContextGate>
       <AppContext.Consumer>
-        {({ isReady, isWeb3Injected }) => {
-          if (isReady && !isWeb3Injected) {
-            return (
-              <Layout>
-                <SEO title="Home" />
-                <Onboarding />
-              </Layout>
-            )
-          } else {
-            return 'we not ready'
-          }
-        }}
+        {({ isReady, isWeb3Injected }) => (
+          isReady && isWeb3Injected && (
+            <Layout>
+              <SEO title="Home" />
+              <Onboarding />
+            </Layout>
+          )
+        )}
       </AppContext.Consumer>
     </ContextGate>
   )
