@@ -3,20 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiRx, WsProvider } from '@polkadot/api';
-import { web3Accounts, web3Enable, isWeb3Injected } from '@polkadot/extension-dapp';
 import { logger } from '@polkadot/util';
 import React, { useState, useEffect } from 'react';
 import { combineLatest } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
-import { AlertsContextProvider } from './AlertsContext';
-import { AppContext, System } from './AppContext';
-import { StakingContextProvider } from './StakingContext';
-import { TxQueueContextProvider } from './TxQueueContext';
-import { InjectedAccountExt } from './types';
+import { AccountsContextProvider, AlertsContextProvider, ApiContext, StakingContextProvider, System, TxQueueContextProvider } from '@substrate/context/src';
 
 interface State {
-  injectedAccounts: InjectedAccountExt[];
   isReady: boolean;
   system: System;
 }
@@ -24,7 +18,6 @@ interface State {
 const INIT_ERROR = new Error('Please wait for `isReady` before fetching this property');
 
 const DISCONNECTED_STATE_PROPERTIES = {
-  injectedAccounts: [],
   isReady: false,
   system: {
     get chain (): never {
@@ -55,28 +48,7 @@ const api = new ApiRx({ provider: new WsProvider(WS_URL) });
 export function ContextGate (props: { children: React.ReactNode }): React.ReactElement {
   const { children } = props;
   const [state, setState] = useState<State>(DISCONNECTED_STATE_PROPERTIES);
-  const { injectedAccounts, isReady, system } = state;
-
-  const getInjected = async () => {
-    await web3Enable('nomidot');
-    const [injectedAccounts] = await Promise.all([
-      web3Accounts().then((accounts): InjectedAccountExt[] =>
-        accounts.map(({ address, meta }): InjectedAccountExt => ({
-          address,
-          meta: {
-            ...meta,
-            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-          }
-        }))
-      )
-    ]);
-
-    setState({
-      ...state,
-      isReady: true,
-      injectedAccounts
-    })
-  }
+  const { isReady, system } = state;
 
   useEffect(() => {
     // Block the UI when disconnected
@@ -110,8 +82,6 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
         l.log(`Api connected to ${WS_URL}`);
         l.log(`Api ready, connected to chain "${chain}" with properties ${JSON.stringify(properties)}`);
 
-        getInjected();
-
         setState({
           ...state,
           isReady: true,
@@ -123,25 +93,24 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
             version: version.toString()
           }
         })
-        l.log(`AppContext state set to ${state}`);
       });
   }, []);
 
   return (
     <AlertsContextProvider>
-      <TxQueueContextProvider>
-        <AppContext.Provider value={{
-          api: api,
-          injectedAccounts,
-          isReady,
-          isWeb3Injected,
-          system
-        }}>
-          <StakingContextProvider>
-            {children}
-          </StakingContextProvider>
-        </AppContext.Provider>
-      </TxQueueContextProvider>
+      <AccountsContextProvider>
+        <TxQueueContextProvider>
+          <ApiContext.Provider value={{
+            api: api,
+            isReady,
+            system
+          }}>
+            <StakingContextProvider>
+              {children}
+            </StakingContextProvider>
+          </ApiContext.Provider>
+        </TxQueueContextProvider>
+      </AccountsContextProvider>
     </AlertsContextProvider>
   );
 }

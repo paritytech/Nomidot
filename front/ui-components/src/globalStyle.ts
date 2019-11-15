@@ -42,8 +42,18 @@ export const substrateLightTheme = {
   white: '#ffffff'
 };
 
-export type Color = keyof typeof substrateLightTheme;
+export const polkadotOfficialTheme = {
+  black: '#1E1E1E',
+  grey: '#B5AEAE',
+  hotPink: '#E6007A',
+  maroon: '#670D35',
+  eggShell: '#f2f2f2',
+  white: '#ffffff'
+}
+
+export type Color = keyof typeof substrateLightTheme & keyof typeof polkadotOfficialTheme;
 
 export type StyledProps = {
-  theme: typeof substrateLightTheme
+  substrateTheme: typeof substrateLightTheme,
+  polkadotTheme: typeof polkadotOfficialTheme
 }

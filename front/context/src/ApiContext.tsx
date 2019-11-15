@@ -6,8 +6,6 @@ import ApiRx from '@polkadot/api/rx';
 import { ChainProperties, Health } from '@polkadot/types/interfaces';
 import React from 'react';
 
-import { InjectedAccountExt } from './types';
-
 export interface System {
   chain: string;
   health: Health;
@@ -16,12 +14,10 @@ export interface System {
   version: string;
 }
 
-export interface AppContextType {
+export interface ApiContextType {
   api: ApiRx; // From @polkadot/api
-  injectedAccounts: InjectedAccountExt[]; // accounts injected from @polkadot/extension
   isReady: boolean; // Are api and keyring loaded?
-  isWeb3Injected: boolean; // waiting on @polkadotjs/extension accounts?
   system: System; // Information about the chain
 }
 
-export const AppContext: React.Context<AppContextType> = React.createContext({} as AppContextType);
+export const ApiContext: React.Context<ApiContextType> = React.createContext({} as ApiContextType);

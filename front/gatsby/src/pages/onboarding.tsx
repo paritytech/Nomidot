@@ -4,21 +4,21 @@
 
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { AccountsList, Modal, Transition } from '@substrate/ui-components/src';
-import { AppContext } from '@substrate/context/src';
+import { AccountsContext } from '@substrate/context/src';
 import React, { useContext, useEffect, useState } from 'react';
 
 export const Onboarding = () => {
-  const { accountsExt } = useContext(AppContext);
+  const { injectedAccounts } = useContext(AccountsContext);
   const [accounts, setAccounts] = useState<Array<InjectedAccountWithMeta>>();
 
   useEffect(() => {
 
-  }, [accountsExt]);
+  }, [injectedAccounts]);
 
   return (
     <Transition duration={500} transitionOnMount>
       <Modal dimmer>
-        <AccountsList accounts={accounts} />
+        <AccountsList accounts={injectedAccounts} />
       </Modal>
     </Transition>
   );

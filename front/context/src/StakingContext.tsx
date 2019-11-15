@@ -8,7 +8,7 @@ import { DerivedFees, DerivedStaking } from '@polkadot/api-derive/types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
-import { AppContext } from './AppContext';
+import { AccountsContext, ApiContext } from './index';
 import { AccountDerivedStakingMap, InjectedAccountExt } from './types';
 
 export const StakingContext = createContext({
@@ -26,7 +26,8 @@ interface Props {
 
 export function StakingContextProvider (props: Props): React.ReactElement {
   const { children } = props;
-  const { api, isReady, injectedAccounts } = useContext(AppContext);
+  const { injectedAccounts } = useContext(AccountsContext);
+  const { api, isReady } = useContext(ApiContext);
   const [accountStakingMap, setAccountStakingMap] = useState<AccountDerivedStakingMap>({});
   const [onlyBondedAccounts, setOnlyBondedAccounts] = useState<AccountDerivedStakingMap>({});
   const [allStashesAndControllers, setAllStashesAndControllers] = useState();

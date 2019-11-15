@@ -15,7 +15,7 @@ export {
   Sidebar, SidebarProps,
   Step, StepProps,
   Table, TableProps,
-  Transition, TransitionGroup, TransitionProps, TransitionGroupProps, TransitionPropDuration
+  Transition, TransitionGroup
 } from 'semantic-ui-react';
 
 export * from './Accordion';
@@ -31,6 +31,7 @@ export * from './constants';
 export * from './Fab';
 export * from './FlexSegment';
 export * from './globalStyle';
+export * from './Header';
 export * from './Icon';
 export * from './InputFile';
 export * from './Labelled';
