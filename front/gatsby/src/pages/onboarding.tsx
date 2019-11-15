@@ -2,16 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountsList, Circle, Modal, Transition, polkadotOfficialTheme } from '@substrate/ui-components/src';
+import { AccountsList, Breadcrumbs, Circle, Modal, Transition, polkadotOfficialTheme } from '@substrate/ui-components/src';
 import { AccountsContext } from '@substrate/context/src';
-import React, { useContext } from 'react';
+import { RouteComponentProps } from '@reach/router';
+import React, { useContext, useState } from 'react';
 
-export const Onboarding = () => {
+const ONBOARDING_STEPS = [
+  'stash',
+  'controller'
+]
+
+interface Props extends RouteComponentProps {};
+
+export const Onboarding = (props: Props) => {
   const { injectedAccounts } = useContext(AccountsContext);
+  const [stash, setStash] = useState();
+  const [controller, setController] = useState();
 
   return (
-    <Transition animation='pulse' duration={500} transitionOnMount visible>
+    <Transition animation='scale' duration={500} transitionOnMount visible>
       <Modal dimmer open>
+        <Breadcrumbs activeLabel={ONBOARDING_STEPS[0]} sectionLabels={ONBOARDING_STEPS} />
         <Modal.Header>Accounts injected from @polkadot-js extension. <Circle fill={polkadotOfficialTheme.neonBlue} /></Modal.Header>
         <Modal.SubHeader>To get started, select the account you wish to use as your stash.</Modal.SubHeader>
         <Modal.Content>
