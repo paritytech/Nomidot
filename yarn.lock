@@ -2335,6 +2335,21 @@
     "@polkadot/types" "^0.97.0-beta.2"
     "@polkadot/util-crypto" "^1.7.0-beta.6"
 
+"@polkadot/extension-dapp@^0.13.1":
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.13.1.tgz#61070fcf5d40cfd028441ec648f4d4535255de10"
+  integrity sha512-E5y2J/y8b3P2YNjXUMdPfTP/LFro8y3M1y6e87b4KmOAW5UX1mNvffCFo/v4MFcdjQ7KbWMGjvzlu1iqub3sbw==
+  dependencies:
+    "@babel/runtime" "^7.6.3"
+    "@polkadot/extension-inject" "^0.13.1"
+
+"@polkadot/extension-inject@^0.13.1":
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.13.1.tgz#d6c9c40ceccb8884ec444158e802260dc440b96e"
+  integrity sha512-uRLopFzrIo6zclA85NjCYSm4Gya2C7GhPfLxEPu7yp7WBVGuqyfD+DI1tmBPavYla1nq7Z5gsTpP/KAlPx58KA==
+  dependencies:
+    "@babel/runtime" "^7.6.3"
+
 "@polkadot/jsonrpc@^0.97.0-beta.2":
   version "0.97.0-beta.2"
   resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.97.0-beta.2.tgz#a9a1190db828a9a68a2967d2a55e3e0a30598e6f"

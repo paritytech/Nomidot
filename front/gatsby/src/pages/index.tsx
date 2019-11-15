@@ -1,22 +1,32 @@
-import React from "react"
-import { Link } from "gatsby"
+// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { NavButton } from '@substrate/ui-components/src';
+import { AppContext, ContextGate } from '@substrate/context/src';
+import React, { useEffect, useState } from 'react';
+
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
+import { Onboarding } from './onboarding';
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <NavButton>hello Nav button</NavButton>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+function IndexPage() {
+  return (
+    <ContextGate>
+      <AppContext.Consumer>
+        {({ isReady }) => (
+          isReady
+            ? (
+              <Layout>
+                <SEO title="Home" />
+                <Onboarding />
+              </Layout>
+            ) : (
+              'no ready'
+            )
+        )}
+      </AppContext.Consumer>
+    </ContextGate>
+  )
+}
 
 export default IndexPage;

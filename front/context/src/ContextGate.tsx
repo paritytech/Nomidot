@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiRx, WsProvider } from '@polkadot/api';
-import { createType } from '@polkadot/types';
+import { web3Accounts, web3Enable, isWeb3Injected } from '@polkadot/extension-dapp';
+import { createType, bool } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { logger } from '@polkadot/util';
 import React, { useState, useEffect } from 'react';
@@ -14,9 +15,13 @@ import { AlertsContextProvider } from './AlertsContext';
 import { AppContext, System } from './AppContext';
 import { StakingContextProvider } from './StakingContext';
 import { TxQueueContextProvider } from './TxQueueContext';
+import { InjectedAccountExt } from './types';
 import { isTestChain } from './util';
 
 interface State {
+  injectedAccounts: InjectedAccountExt[];
+  isWaitingInjected: boolean;
+  isWeb3Injected: boolean;
   isReady: boolean;
   system: System;
 }
@@ -24,7 +29,10 @@ interface State {
 const INIT_ERROR = new Error('Please wait for `isReady` before fetching this property');
 
 const DISCONNECTED_STATE_PROPERTIES = {
+  injectedAccounts: [],
+  isWeb3Injected: false,
   isReady: false,
+  isWaitingInjected: true,
   system: {
     get chain (): never {
       throw INIT_ERROR;
@@ -45,7 +53,7 @@ const DISCONNECTED_STATE_PROPERTIES = {
 };
 
 // Hardcode default to Kusama
-const WS_URL = 'wss://kusama-rpc.polkadot.io/'; // FIXME Change to localhost when light client ready
+const WS_URL = 'wss://kusama-rpc.polkadot.io/';
 
 // Most chains (including Kusama) put the ss58 prefix in the chain properties.
 // Just in case, we default to 42
@@ -56,13 +64,42 @@ let keyringInitialized = false;
 const l = logger('context');
 
 const api = new ApiRx({ provider: new WsProvider(WS_URL) });
+const injectedPromise = web3Enable('nomidot'); // FIXME change when name is finalized
 
 export function ContextGate (props: { children: React.ReactNode }): React.ReactElement {
   const { children } = props;
   const [state, setState] = useState<State>(DISCONNECTED_STATE_PROPERTIES);
-  const { isReady, system } = state;
+  const { injectedAccounts, isWeb3Injected, isReady, system } = state;
+
+  const getInjected = async () => {
+    const [injectedAccounts] = await Promise.all([
+      web3Accounts().then((accounts): InjectedAccountExt[] =>
+        accounts.map(({ address, meta }): InjectedAccountExt => ({
+
+          address,
+          meta: {
+            ...meta,
+            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+          }
+        }))
+      )
+    ]);
+
+    setState({
+      ...state,
+      isWeb3Injected,
+      injectedAccounts
+    })
+  }
 
   useEffect(() => {
+    injectedPromise
+      .then((): void => setState({
+        ...state,
+        isWaitingInjected: false
+      }))
+      .catch((error: Error) => console.error(error));
+
     // Block the UI when disconnected
     api.isConnected.pipe(
       filter(isConnected => !isConnected)
@@ -91,6 +128,8 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
         )
       )
       .subscribe(([chain, health, name, properties, version]) => {
+        getInjected();
+
         if (!keyringInitialized) {
           // keyring with Schnorrkel support
           keyring.loadAll({
@@ -112,6 +151,7 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
         l.log(`Api ready, connected to chain "${chain}" with properties ${JSON.stringify(properties)}`);
 
         setState({
+          ...state,
           isReady: true,
           system: {
             chain: chain.toString(),
@@ -129,6 +169,7 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
       <TxQueueContextProvider>
         <AppContext.Provider value={{
           api: api,
+          injectedAccounts,
           isReady,
           keyring,
           system

@@ -7,6 +7,8 @@ import { ChainProperties, Health } from '@polkadot/types/interfaces';
 import keyring from '@polkadot/ui-keyring';
 import React from 'react';
 
+import { InjectedAccountExt } from './types';
+
 export interface System {
   chain: string;
   health: Health;
@@ -17,6 +19,7 @@ export interface System {
 
 export interface AppContextType {
   api: ApiRx; // From @polkadot/api
+  injectedAccounts: InjectedAccountExt[]; // accounts injected from @polkadot/extension
   isReady: boolean; // Are api and keyring loaded?
   keyring: typeof keyring; // From @polkadot/ui-keyring
   system: System; // Information about the chain
