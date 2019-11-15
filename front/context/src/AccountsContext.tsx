@@ -17,25 +17,25 @@ interface Props {
 export function AccountsContextProvider (props: Props): React.ReactElement {
   const { children } = props;
   const [injectedAccounts, setInjected] = useState<InjectedAccountExt[]>([] as InjectedAccountExt[]);
-
-  const getInjected = async () => {
-    await web3Enable('nomidot');
-    const [injectedAccounts] = await Promise.all([
-      web3Accounts().then((accounts): InjectedAccountExt[] =>
-        accounts.map(({ address, meta }): InjectedAccountExt => ({
-          address,
-          meta: {
-            ...meta,
-            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-          }
-        }))
-      )
-    ]);
-
-    setInjected(injectedAccounts);
-  }
   
   useEffect(() => {
+    const getInjected = async () => {
+      await web3Enable('nomidot');
+      const [injectedAccounts] = await Promise.all([
+        web3Accounts().then((accounts): InjectedAccountExt[] =>
+          accounts.map(({ address, meta }): InjectedAccountExt => ({
+            address,
+            meta: {
+              ...meta,
+              name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+            }
+          }))
+        )
+      ]);
+  
+      setInjected(injectedAccounts);
+    }
+
     getInjected();
   }, [])
 
