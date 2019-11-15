@@ -4,7 +4,6 @@
 
 import ApiRx from '@polkadot/api/rx';
 import { ChainProperties, Health } from '@polkadot/types/interfaces';
-import keyring from '@polkadot/ui-keyring';
 import React from 'react';
 
 import { InjectedAccountExt } from './types';
@@ -21,7 +20,7 @@ export interface AppContextType {
   api: ApiRx; // From @polkadot/api
   injectedAccounts: InjectedAccountExt[]; // accounts injected from @polkadot/extension
   isReady: boolean; // Are api and keyring loaded?
-  keyring: typeof keyring; // From @polkadot/ui-keyring
+  isWeb3Injected: boolean; // waiting on @polkadotjs/extension accounts?
   system: System; // Information about the chain
 }
 

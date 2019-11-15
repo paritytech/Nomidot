@@ -13,17 +13,18 @@ function IndexPage() {
   return (
     <ContextGate>
       <AppContext.Consumer>
-        {({ isReady }) => (
-          isReady
-            ? (
+        {({ isReady, isWeb3Injected }) => {
+          if (isReady && !isWeb3Injected) {
+            return (
               <Layout>
                 <SEO title="Home" />
                 <Onboarding />
               </Layout>
-            ) : (
-              'no ready'
             )
-        )}
+          } else {
+            return 'we not ready'
+          }
+        }}
       </AppContext.Consumer>
     </ContextGate>
   )

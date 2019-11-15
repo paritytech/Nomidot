@@ -2,26 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import { InjectedAccountExt } from '@substrate/context/src';
 import React from 'react';
 import List from 'semantic-ui-react/dist/commonjs/elements/List/List';
 
 import { AddressSummary, Card } from './index';
 import { FadedText } from './Shared.styles';
-import { KeyringPair$Json } from '@polkadot/keyring/types';
 
 type Props = {
-  accounts?: Array<string | InjectedAccountWithMeta>
+  accounts?: InjectedAccountExt[]
 }
 
 export function AccountsList(props: Props) {
   const { accounts } = props;
 
-  const renderAccountsFromAddressString = () => {
+  const renderAccountsListItem = () => {
     return (
       <List>
         {
-          accounts!.map((address) => {
+          accounts!.map((account: InjectedAccountExt) => {
+            const { address, meta: { name, source } } = account;
+
             <List.Content>
               <AddressSummary address={address.toString()} orientation='horizontal' size='small' />
             </List.Content>
@@ -39,17 +40,13 @@ export function AccountsList(props: Props) {
     )
   }
 
-  if (accounts && accounts.length > 0) {
-    
-    return renderAccountsFromAddressString();
-  }
-
-
   return (
     <Card>
       <Card.Content>
         {
-          renderEmpty()
+          accounts
+            ? renderAccountsListItem()
+            : renderEmpty()
         }
       </Card.Content>
     </Card>

@@ -5,12 +5,11 @@
 import { Option } from '@polkadot/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedFees, DerivedStaking } from '@polkadot/api-derive/types';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
 import { AppContext } from './AppContext';
-import { AccountDerivedStakingMap } from './types';
+import { AccountDerivedStakingMap, InjectedAccountExt } from './types';
 
 export const StakingContext = createContext({
   accountStakingMap: {} as AccountDerivedStakingMap,
@@ -27,7 +26,7 @@ interface Props {
 
 export function StakingContextProvider (props: Props): React.ReactElement {
   const { children } = props;
-  const { api, isReady, keyring } = useContext(AppContext);
+  const { api, isReady, injectedAccounts } = useContext(AppContext);
   const [accountStakingMap, setAccountStakingMap] = useState<AccountDerivedStakingMap>({});
   const [onlyBondedAccounts, setOnlyBondedAccounts] = useState<AccountDerivedStakingMap>({});
   const [allStashesAndControllers, setAllStashesAndControllers] = useState();
@@ -37,24 +36,25 @@ export function StakingContextProvider (props: Props): React.ReactElement {
 
   // get derive.staking.info for each account in keyring
   useEffect(() => {
-    if (!isReady) { return; }
-    const accounts: KeyringAddress[] = keyring.getAccounts();
-    accounts.map(({ address }: KeyringAddress) => {
-      const subscription = api.derive.staking.info(address)
-        .pipe(take(1))
-        .subscribe((derivedStaking: DerivedStaking) => {
-          const newAccountStakingMap = accountStakingMap;
-          newAccountStakingMap[address] = derivedStaking;
+    if (isReady) {
+      const accounts: InjectedAccountExt[] = injectedAccounts;
+      accounts.map(({ address }: InjectedAccountExt) => {
+        const subscription = api.derive.staking.info(address)
+          .pipe(take(1))
+          .subscribe((derivedStaking: DerivedStaking) => {
+            const newAccountStakingMap = accountStakingMap;
+            newAccountStakingMap[address] = derivedStaking;
 
-          setAccountStakingMap(newAccountStakingMap);
-          if (derivedStaking.stashId && derivedStaking.controllerId) {
-            setOnlyBondedAccounts(newAccountStakingMap);
-          }
-        });
+            setAccountStakingMap(newAccountStakingMap);
+            if (derivedStaking.stashId && derivedStaking.controllerId) {
+              setOnlyBondedAccounts(newAccountStakingMap);
+            }
+          });
 
-      return (): void => subscription.unsubscribe();
-    });
-  }, [accountStakingMap, api, isReady, keyring]);
+        return (): void => subscription.unsubscribe();
+      });
+    }
+  }, [accountStakingMap, api, isReady, injectedAccounts]);
 
   // get allStashesAndControllers
   useEffect(() => {
@@ -88,12 +88,12 @@ export function StakingContextProvider (props: Props): React.ReactElement {
 
   return (
     <StakingContext.Provider value={{
-      accountStakingMap: accountStakingMap,
+      accountStakingMap,
       allControllers,
       allStashes,
       allStashesAndControllers,
       derivedBalanceFees,
-      onlyBondedAccounts: onlyBondedAccounts
+      onlyBondedAccounts
     }}>
       {children}
     </StakingContext.Provider>
