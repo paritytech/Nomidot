@@ -8,12 +8,12 @@ import SUIDropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import { FONT_SIZES, MARGIN_SIZES } from './constants';
-import { substrateLightTheme } from './globalStyle';
+import { polkadotOfficialTheme } from './globalStyle';
 import { DynamicSizeTextProps, HeaderProps, FlexItemProps, StackProps, StyledNavButtonProps, StyledNavLinkProps, SubHeaderProps, WithSpaceAroundProps, WithSpaceBetweenProps, WrapperDivProps } from './StyleProps';
 
 // FIXME: customize as needed
 export const Dropdown = styled<any>(SUIDropdown)`
-  color: ${substrateLightTheme.black};
+  color: ${polkadotOfficialTheme.black};
 `;
 
 export const Input = styled<any>(SUIInput)`
@@ -46,11 +46,11 @@ export const FixedWidthContainer = styled(Container)`
 `;
 
 export const BoldText = styled.b`
-  color: ${substrateLightTheme.black};
+  color: ${polkadotOfficialTheme.black};
 `;
 
 export const FadedText = styled.p`
-  color: ${substrateLightTheme.black};
+  color: ${polkadotOfficialTheme.black};
   opacity: 0.5;
   text-align: center;
 `;
@@ -91,7 +91,7 @@ export const WithPadding = styled.div`
 `;
 
 export const Header = styled.h2<HeaderProps>`
-  color: ${(props): string => props.color ? substrateLightTheme[props.color] : substrateLightTheme.grey};
+  color: ${(props): string => props.color ? polkadotOfficialTheme[props.color] : polkadotOfficialTheme.grey};
   font-weight: 300;
   font-size: ${FONT_SIZES.big};
   margin: ${(props): string => props.margin ? MARGIN_SIZES[props.margin] : `${MARGIN_SIZES.big} 0`};
@@ -109,18 +109,18 @@ export const DynamicSizeText = styled.p<DynamicSizeTextProps>`
 export const RefreshButton = styled.button`
   border: none;
   background-color: inherit;
-  color: ${substrateLightTheme.lightBlue1};
+  color: ${polkadotOfficialTheme.hotPink};
 
   :hover {
     cursor: pointer;
-    color: ${substrateLightTheme.darkBlue};
+    color: ${polkadotOfficialTheme.maroon};
   }
 `;
 
 export const StyledNavLink = styled.span <StyledNavLinkProps>`
   background: none;
   border: none;
-  color: ${(props): string => props.inverted ? substrateLightTheme.white : substrateLightTheme.lightBlue2};
+  color: ${(props): string => props.inverted ? polkadotOfficialTheme.white : polkadotOfficialTheme.hotPink};
   font-size: ${FONT_SIZES.medium};
   font-weight: 300;
 
@@ -133,7 +133,7 @@ export const StyledLinkButton = styled.button`
   align-items: space-between;
   background: none;
   border: none;
-  color: ${(props): string => props.color || substrateLightTheme.lightBlue2};
+  color: ${(props): string => props.color || polkadotOfficialTheme.hotPink};
   display: flex;
   font-size: ${FONT_SIZES.medium};
   font-weight: 300;
@@ -147,13 +147,13 @@ export const StyledLinkButton = styled.button`
 export const StyledNavButton = styled.button<StyledNavButtonProps>`
   background-image: linear-gradient(
     107deg,
-    ${(props): string => props.disabled ? substrateLightTheme.grey : props.negative ? substrateLightTheme.orangeYellow : substrateLightTheme.lightBlue1},
-    ${(props): string => props.disabled ? substrateLightTheme.grey : props.negative ? substrateLightTheme.redOrange : substrateLightTheme.neonBlue}
+    ${(props): string => props.disabled ? polkadotOfficialTheme.grey : props.negative ? polkadotOfficialTheme.grey : polkadotOfficialTheme.white},
+    ${(props): string => props.disabled ? polkadotOfficialTheme.grey : props.negative ? polkadotOfficialTheme.maroon : polkadotOfficialTheme.hotPink}
   );
   border: none;
   border-radius: 15px;
-  box-shadow: 0 4px 6px 0 rgba(${substrateLightTheme.black}, 0.3);
-  color: ${substrateLightTheme.white};
+  box-shadow: 0 4px 6px 0 rgba(${polkadotOfficialTheme.black}, 0.3);
+  color: ${polkadotOfficialTheme.white};
   fontSize: ${FONT_SIZES.large};
   height: 42px;
   width: 134px;
@@ -166,13 +166,13 @@ export const StyledNavButton = styled.button<StyledNavButtonProps>`
 export const VoteNayButton = styled.button`
 background-image: linear-gradient(
     107deg,
-    ${substrateLightTheme.hotPink},
-    ${substrateLightTheme.electricPurple}
+    ${polkadotOfficialTheme.lightBlue1},
+    ${polkadotOfficialTheme.neonBlue}
   );
   border: none;
   border-radius: 8px;
-  box-shadow: 0 4px 6px 0 rgba(${substrateLightTheme.black}, 0.3);
-  color: ${substrateLightTheme.white};
+  box-shadow: 0 4px 6px 0 rgba(${polkadotOfficialTheme.black}, 0.3);
+  color: ${polkadotOfficialTheme.white};
   fontSize: ${FONT_SIZES.large};
   height: 21px;
   width: 51px;
@@ -185,13 +185,13 @@ background-image: linear-gradient(
 export const VoteYayButton = styled.button`
 background-image: linear-gradient(
     107deg,
-    ${substrateLightTheme.lightBlue1},
-    ${substrateLightTheme.lightBlue2}
+    ${polkadotOfficialTheme.lightBlue1},
+    ${polkadotOfficialTheme.lightBlue2}
   );
   border: none;
   border-radius: 8px;
-  box-shadow: 0 4px 6px 0 rgba(${substrateLightTheme.black}, 0.3);
-  color: ${substrateLightTheme.white};
+  box-shadow: 0 4px 6px 0 rgba(${polkadotOfficialTheme.black}, 0.3);
+  color: ${polkadotOfficialTheme.white};
   fontSize: ${FONT_SIZES.large};
   height: 21px;
   width: 51px;
@@ -215,17 +215,20 @@ export const StackedHorizontal = styled.div<StackProps>`
   display: flex;
   flex: 1;
   flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
   margin: ${(props): string | number => props.margin || 0}
   justify-content: ${(props): string => props.justifyContent || 'center'};
   text-align: ${(props): string => props.textAlign || 'center'};
+
 `;
 
 export const SubHeader = styled.h3<SubHeaderProps>`
-  color: ${substrateLightTheme.lightBlue2};
-  font-weight: 600;
+  color: ${polkadotOfficialTheme.black};
+  font-weight: 200;
   font-size: ${FONT_SIZES.medium};
   margin: ${(props): string => props.noMargin ? '0 0' : '1rem auto 0.3rem auto'};
-  text-align: ${(props): string => props.textAlign || 'center'};
+  text-align: ${(props): string => props.textAlign || 'left'};
 `;
 
 export const InlineSubHeader = styled(SubHeader)`

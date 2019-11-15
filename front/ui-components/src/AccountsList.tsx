@@ -6,15 +6,16 @@ import { InjectedAccountExt } from '@substrate/context/src';
 import React from 'react';
 import List from 'semantic-ui-react/dist/commonjs/elements/List/List';
 
-import { AddressSummary, Card } from './index';
+import { AddressSummary, Card, Container } from './index';
 import { FadedText } from './Shared.styles';
 
 type Props = {
-  accounts?: InjectedAccountExt[]
+  accounts?: InjectedAccountExt[];
+  onSelectAccount?: () => void;
 }
 
 export function AccountsList(props: Props) {
-  const { accounts } = props;
+  const { accounts, onSelectAccount } = props;
 
   const renderAccountsListItem = () => {
     return (
@@ -23,9 +24,11 @@ export function AccountsList(props: Props) {
           accounts!.map((account: InjectedAccountExt) => {
             const { address, meta: { name, source } } = account;
 
-            <List.Content>
-              <AddressSummary address={address.toString()} orientation='horizontal' size='small' />
-            </List.Content>
+            return (
+              <List.Content>
+                <Card height='100%' onClick={onSelectAccount}><Card.Content><AddressSummary address={address} alignItems='center' justifyContent='center' orientation='horizontal' size='small' name={name} withShortAddress /></Card.Content></Card>
+              </List.Content>
+            )
           })
         }
       </List>
@@ -41,14 +44,12 @@ export function AccountsList(props: Props) {
   }
 
   return (
-    <Card>
-      <Card.Content>
+    <Container>
         {
           accounts
             ? renderAccountsListItem()
             : renderEmpty()
         }
-      </Card.Content>
-    </Card>
+    </Container>
   );
 }

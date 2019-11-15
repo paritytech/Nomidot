@@ -81,7 +81,7 @@ export function BalanceDisplay (props: BalanceDisplayProps = defaultProps): Reac
   };
 
   return (
-    <Stacked>
+    <>
       {allBalances
         ? <React.Fragment>
           <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
@@ -96,6 +96,6 @@ export function BalanceDisplay (props: BalanceDisplayProps = defaultProps): Reac
         allBalances &&
         renderDetailedBalances()
       }
-    </Stacked >
+    </>
   );
 }
