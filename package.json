@@ -19,8 +19,10 @@
   },
   "devDependencies": {
     "@polkadot/dev": "^0.31.1",
+    "eslint-config-prettier": "^6.6.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
     "lerna": "^3.18.4",
     "prettier": "1.19.1",
     "typescript": "^3.7.2"
@@ -31,7 +33,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,json,md}": [
+    "*.{ts, tsx, js,css,json,md}": [
       "prettier --write",
       "git add"
     ]
