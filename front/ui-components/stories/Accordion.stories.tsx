@@ -10,40 +10,40 @@ import { Accordion, Icon, StackedHorizontal, SubHeader } from '../src';
 import { withTheme } from './customDecorators';
 
 storiesOf('Accordion', module)
-	.addDecorator(withKnobs)
-	.addDecorator(withTheme)
-	.add('no props', () => <Accordion />)
-	.add('inactive', () => (
-		<Accordion
-			fluid={boolean('fluid', false)}
-			inverted={boolean('inverted', false)}
-			styled={boolean('styled', false)}
-		>
-			<Accordion.Title active={boolean('active', false)}>
-				<StackedHorizontal>
-					<Icon name='dropdown' onClick={linkTo('Accordion', 'active')} />
-					<SubHeader noMargin> Click Icon </SubHeader>
-				</StackedHorizontal>
-			</Accordion.Title>
-			<Accordion.Content active={boolean('active', false)}>
-				Hello this is my content
-			</Accordion.Content>
-		</Accordion>
-	))
-	.add('active', () => (
-		<Accordion
-			fluid={boolean('fluid', false)}
-			inverted={boolean('inverted', false)}
-			styled={boolean('styled', false)}
-		>
-			<Accordion.Title active={boolean('active', true)}>
-				<StackedHorizontal>
-					<Icon name='dropdown' onClick={linkTo('Accordion', 'inactive')} />
-					<SubHeader noMargin> Click Icon </SubHeader>
-				</StackedHorizontal>
-			</Accordion.Title>
-			<Accordion.Content active={boolean('active', true)}>
-				Hello this is my content
-			</Accordion.Content>
-		</Accordion>
-	));
+  .addDecorator(withKnobs)
+  .addDecorator(withTheme)
+  .add('no props', () => <Accordion />)
+  .add('inactive', () => (
+    <Accordion
+      fluid={boolean('fluid', false)}
+      inverted={boolean('inverted', false)}
+      styled={boolean('styled', false)}
+    >
+      <Accordion.Title active={boolean('active', false)}>
+        <StackedHorizontal>
+          <Icon name='dropdown' onClick={linkTo('Accordion', 'active')} />
+          <SubHeader noMargin> Click Icon </SubHeader>
+        </StackedHorizontal>
+      </Accordion.Title>
+      <Accordion.Content active={boolean('active', false)}>
+        Hello this is my content
+      </Accordion.Content>
+    </Accordion>
+  ))
+  .add('active', () => (
+    <Accordion
+      fluid={boolean('fluid', false)}
+      inverted={boolean('inverted', false)}
+      styled={boolean('styled', false)}
+    >
+      <Accordion.Title active={boolean('active', true)}>
+        <StackedHorizontal>
+          <Icon name='dropdown' onClick={linkTo('Accordion', 'inactive')} />
+          <SubHeader noMargin> Click Icon </SubHeader>
+        </StackedHorizontal>
+      </Accordion.Title>
+      <Accordion.Content active={boolean('active', true)}>
+        Hello this is my content
+      </Accordion.Content>
+    </Accordion>
+  ));

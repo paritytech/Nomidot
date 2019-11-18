@@ -9,25 +9,25 @@ import { StyledNavButtonProps } from './StyleProps';
 import { FontSize } from './types';
 
 interface NavButtonProps extends StyledNavButtonProps {
-	fontSize?: FontSize;
-	fontWeight?: string;
-	value?: string;
+  fontSize?: FontSize;
+  fontWeight?: string;
+  value?: string;
 }
 
 export function NavButton(props: NavButtonProps): React.ReactElement {
-	const {
-		children,
-		fontSize = 'medium',
-		fontWeight = '300',
-		value,
-		...rest
-	} = props;
+  const {
+    children,
+    fontSize = 'medium',
+    fontWeight = '300',
+    value,
+    ...rest
+  } = props;
 
-	return (
-		<StyledNavButton {...rest}>
-			<DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
-				{value || children}
-			</DynamicSizeText>
-		</StyledNavButton>
-	);
+  return (
+    <StyledNavButton {...rest}>
+      <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+        {value || children}
+      </DynamicSizeText>
+    </StyledNavButton>
+  );
 }

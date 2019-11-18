@@ -5,41 +5,40 @@
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext } from '@substrate/context/src';
 import {
-	AccountsList,
-	Breadcrumbs,
-	Circle,
-	Modal,
-	polkadotOfficialTheme,
-	Transition,
+  AccountsList,
+  Breadcrumbs,
+  Circle,
+  Modal,
+  polkadotOfficialTheme,
+  Transition,
 } from '@substrate/ui-components/src';
 import React, { useContext } from 'react';
 
 const ONBOARDING_STEPS = ['stash', 'controller'];
 
-// eslint-disable-next-line
 export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
-	const { injectedAccounts } = useContext(AccountsContext);
-	// const [stash, setStash] = useState();
-	// const [controller, setController] = useState();
+  const { injectedAccounts } = useContext(AccountsContext);
+  // const [stash, setStash] = useState();
+  // const [controller, setController] = useState();
 
-	return (
-		<Transition animation='scale' duration={500} transitionOnMount visible>
-			<Modal dimmer open>
-				<Breadcrumbs
-					activeLabel={ONBOARDING_STEPS[0]}
-					sectionLabels={ONBOARDING_STEPS}
-				/>
-				<Modal.Header>
-					Accounts injected from @polkadot-js extension.{' '}
-					<Circle fill={polkadotOfficialTheme.neonBlue} />
-				</Modal.Header>
-				<Modal.SubHeader>
-					To get started, select the account you wish to use as your stash.
-				</Modal.SubHeader>
-				<Modal.Content>
-					<AccountsList accounts={injectedAccounts} />
-				</Modal.Content>
-			</Modal>
-		</Transition>
-	);
+  return (
+    <Transition animation='scale' duration={500} transitionOnMount visible>
+      <Modal dimmer open>
+        <Breadcrumbs
+          activeLabel={ONBOARDING_STEPS[0]}
+          sectionLabels={ONBOARDING_STEPS}
+        />
+        <Modal.Header>
+          Accounts injected from @polkadot-js extension.{' '}
+          <Circle fill={polkadotOfficialTheme.neonBlue} />
+        </Modal.Header>
+        <Modal.SubHeader>
+          To get started, select the account you wish to use as your stash.
+        </Modal.SubHeader>
+        <Modal.Content>
+          <AccountsList accounts={injectedAccounts} />
+        </Modal.Content>
+      </Modal>
+    </Transition>
+  );
 };

@@ -4,28 +4,28 @@
 
 import React from 'react';
 import SUISegment, {
-	SegmentProps,
+  SegmentProps,
 } from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import styled from 'styled-components';
 
 import { theme } from './globalStyle';
 
 const StyledFlexSegment = styled(SUISegment)`
-	&&& {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: ${(props): string => props.height || '3rem'};
-		width: ${(props): string => props.width || '80%'};
-		margin: 0.3rem auto;
-		box-shadow: 0 2px 2px 0 rgba(${theme.black}, 0.3);
-		background-color: ${(props): string =>
-			props.backgroundColor || theme.white};
-	}
+  &&& {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: ${(props): string => props.height || '3rem'};
+    width: ${(props): string => props.width || '80%'};
+    margin: 0.3rem auto;
+    box-shadow: 0 2px 2px 0 rgba(${theme.black}, 0.3);
+    background-color: ${(props): string =>
+      props.backgroundColor || theme.white};
+  }
 `;
 
 export function FlexSegment(props: SegmentProps): React.ReactElement {
-	return <StyledFlexSegment {...props} />;
+  return <StyledFlexSegment {...props} />;
 }
 
 FlexSegment.Group = SUISegment.Group;

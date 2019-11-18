@@ -9,9 +9,9 @@ import React from 'react';
 // import { ContextGate } from '../ContextGate';
 
 export function HomePage(): React.ReactElement {
-	return (
-		<>
-			<Header />
-		</>
-	);
+  return (
+    <>
+      <Header />
+    </>
+  );
 }

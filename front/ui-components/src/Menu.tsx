@@ -6,7 +6,7 @@ import SUIMenu from 'semantic-ui-react/dist/commonjs/collections/Menu/Menu';
 import SUIDivider from 'semantic-ui-react/dist/commonjs/elements/Divider/Divider';
 
 type MenuDef = typeof SUIMenu & {
-	Divider: typeof SUIDivider;
+  Divider: typeof SUIDivider;
 };
 
 export const Menu: MenuDef = SUIMenu as MenuDef;

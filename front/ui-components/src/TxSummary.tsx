@@ -9,35 +9,35 @@ import React from 'react';
 import { DEFAULT_TOKEN_SYMBOL, Margin, StackedHorizontal } from './';
 
 type TxSummaryProps = {
-	amount: BN;
-	methodCall: string;
-	recipientAddress?: string;
-	senderAddress: string;
-	tokenSymbol?: string;
+  amount: BN;
+  methodCall: string;
+  recipientAddress?: string;
+  senderAddress: string;
+  tokenSymbol?: string;
 };
 
 function smallIcon(address: string): React.ReactElement {
-	return (
-		<Margin as='span' left='small' right='small' top='small'>
-			<IdentityIcon theme='substrate' size={16} value={address} />
-		</Margin>
-	);
+  return (
+    <Margin as='span' left='small' right='small' top='small'>
+      <IdentityIcon theme='substrate' size={16} value={address} />
+    </Margin>
+  );
 }
 
 export function TxSummary({
-	amount,
-	methodCall,
-	recipientAddress,
-	senderAddress,
-	tokenSymbol = DEFAULT_TOKEN_SYMBOL,
+  amount,
+  methodCall,
+  recipientAddress,
+  senderAddress,
+  tokenSymbol = DEFAULT_TOKEN_SYMBOL,
 }: TxSummaryProps): React.ReactElement {
-	return (
-		<StackedHorizontal>
-			{methodCall} {amount.toString()} {tokenSymbol} from
-			{smallIcon(senderAddress)}
-			{recipientAddress && (
-				<React.Fragment>to {smallIcon(recipientAddress)}</React.Fragment>
-			)}
-		</StackedHorizontal>
-	);
+  return (
+    <StackedHorizontal>
+      {methodCall} {amount.toString()} {tokenSymbol} from
+      {smallIcon(senderAddress)}
+      {recipientAddress && (
+        <React.Fragment>to {smallIcon(recipientAddress)}</React.Fragment>
+      )}
+    </StackedHorizontal>
+  );
 }

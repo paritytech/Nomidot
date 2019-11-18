@@ -7,21 +7,21 @@ import React from 'react';
 import { FadedText, FlexSegment, Icon, RefreshButton } from './';
 
 type MnemonicSegmentProps = {
-	mnemonic?: string;
-	onClick?: () => void;
+  mnemonic?: string;
+  onClick?: () => void;
 };
 
 export function MnemonicSegment(
-	props: MnemonicSegmentProps
+  props: MnemonicSegmentProps
 ): React.ReactElement {
-	const { mnemonic, onClick } = props;
+  const { mnemonic, onClick } = props;
 
-	return (
-		<FlexSegment>
-			<FadedText style={{ margin: '0 auto' }}> {mnemonic} </FadedText>
-			<RefreshButton>
-				<Icon onClick={onClick} name='refresh' />
-			</RefreshButton>
-		</FlexSegment>
-	);
+  return (
+    <FlexSegment>
+      <FadedText style={{ margin: '0 auto' }}> {mnemonic} </FadedText>
+      <RefreshButton>
+        <Icon onClick={onClick} name='refresh' />
+      </RefreshButton>
+    </FlexSegment>
+  );
 }

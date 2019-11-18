@@ -13,29 +13,29 @@ import { withTheme } from './customDecorators';
 
 const inputTypes = ['number', 'password', 'text'];
 const sizes: SUIInputSize[] = [
-	'mini',
-	'small',
-	'large',
-	'big',
-	'huge',
-	'massive',
+  'mini',
+  'small',
+  'large',
+  'big',
+  'huge',
+  'massive',
 ];
 
 storiesOf('Input', module)
-	.addDecorator(withKnobs)
-	.addDecorator(withTheme)
-	.add('raw input', () => <Input />)
-	.add('with props', () => (
-		<Input
-			disabled={boolean('disabled', false)}
-			focus={boolean('focus', false)}
-			inverted={boolean('inverted', false)}
-			icon={{ name: 'search', link: true }}
-			label={text('label', 'Kg')}
-			labelPosition='left'
-			onChange={action('typed')}
-			placeholder='placeholder...'
-			size={select('size', sizes, 'small')}
-			type={select('input type', inputTypes, 'text')}
-		/>
-	));
+  .addDecorator(withKnobs)
+  .addDecorator(withTheme)
+  .add('raw input', () => <Input />)
+  .add('with props', () => (
+    <Input
+      disabled={boolean('disabled', false)}
+      focus={boolean('focus', false)}
+      inverted={boolean('inverted', false)}
+      icon={{ name: 'search', link: true }}
+      label={text('label', 'Kg')}
+      labelPosition='left'
+      onChange={action('typed')}
+      placeholder='placeholder...'
+      size={select('size', sizes, 'small')}
+      type={select('input type', inputTypes, 'text')}
+    />
+  ));

@@ -10,50 +10,50 @@ import { AddressSummary, Card, Container } from './index';
 import { FadedText } from './Shared.styles';
 
 type Props = {
-	accounts?: InjectedAccountExt[];
-	onSelectAccount?: () => void;
+  accounts?: InjectedAccountExt[];
+  onSelectAccount?: () => void;
 };
 
 export function AccountsList(props: Props): React.ReactElement {
-	const { accounts, onSelectAccount } = props;
+  const { accounts, onSelectAccount } = props;
 
-	const renderAccountsListItem = (): React.ReactElement => {
-		return (
-			<List>
-				{accounts &&
-					accounts.map((account: InjectedAccountExt) => {
-						const {
-							address,
-							meta: { name, source },
-						} = account;
-						console.log(source); // FIXME use in summary
-						return (
-							<List.Content key={address}>
-								<Card height='100%' onClick={onSelectAccount}>
-									<Card.Content>
-										<AddressSummary
-											address={address}
-											alignItems='center'
-											justifyContent='center'
-											orientation='horizontal'
-											size='small'
-											name={name}
-											withShortAddress
-										/>
-									</Card.Content>
-								</Card>
-							</List.Content>
-						);
-					})}
-			</List>
-		);
-	};
+  const renderAccountsListItem = (): React.ReactElement => {
+    return (
+      <List>
+        {accounts &&
+          accounts.map((account: InjectedAccountExt) => {
+            const {
+              address,
+              meta: { name, source },
+            } = account;
+            console.log(source); // FIXME use in summary
+            return (
+              <List.Content key={address}>
+                <Card height='100%' onClick={onSelectAccount}>
+                  <Card.Content>
+                    <AddressSummary
+                      address={address}
+                      alignItems='center'
+                      justifyContent='center'
+                      orientation='horizontal'
+                      size='small'
+                      name={name}
+                      withShortAddress
+                    />
+                  </Card.Content>
+                </Card>
+              </List.Content>
+            );
+          })}
+      </List>
+    );
+  };
 
-	const renderEmpty = (): React.ReactElement => {
-		return <FadedText>Hmmm...nothing to see here.</FadedText>;
-	};
+  const renderEmpty = (): React.ReactElement => {
+    return <FadedText>Hmmm...nothing to see here.</FadedText>;
+  };
 
-	return (
-		<Container>{accounts ? renderAccountsListItem() : renderEmpty()}</Container>
-	);
+  return (
+    <Container>{accounts ? renderAccountsListItem() : renderEmpty()}</Container>
+  );
 }

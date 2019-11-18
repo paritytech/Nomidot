@@ -10,35 +10,35 @@ import { SUISize } from './types';
 type MarginPropsValue = SUISize | boolean | undefined;
 
 interface MarginProps {
-	bottom?: MarginPropsValue; // bottom=true means bottom='medium'
-	left?: MarginPropsValue;
-	right?: MarginPropsValue;
-	top?: MarginPropsValue;
+  bottom?: MarginPropsValue; // bottom=true means bottom='medium'
+  left?: MarginPropsValue;
+  right?: MarginPropsValue;
+  top?: MarginPropsValue;
 }
 
 /**
  * Mapping between <Margin />'s size and its CSS value.
  */
 function sizeValues(size: MarginPropsValue): string {
-	switch (size) {
-		case true:
-			return MARGIN_SIZES.medium;
-		case 'small':
-		case 'medium':
-		case 'large':
-		case 'big':
-		case 'huge':
-			return MARGIN_SIZES[size];
-		default:
-			return '0';
-	}
+  switch (size) {
+    case true:
+      return MARGIN_SIZES.medium;
+    case 'small':
+    case 'medium':
+    case 'large':
+    case 'big':
+    case 'huge':
+      return MARGIN_SIZES[size];
+    default:
+      return '0';
+  }
 }
 
 /**
  * Get value from prop.
  */
 const getMarginValue = (position: keyof MarginProps) => (
-	props: MarginProps
+  props: MarginProps
 ): string => sizeValues(props[position]);
 
 export const Margin = styled.div<MarginProps>`

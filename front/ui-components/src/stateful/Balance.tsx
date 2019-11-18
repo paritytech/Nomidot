@@ -10,44 +10,44 @@ import { combineLatest, of } from 'rxjs';
 import { BalanceDisplay, BalanceDisplayProps } from '../BalanceDisplay';
 
 interface BalanceProps
-	extends Pick<
-		BalanceDisplayProps,
-		Exclude<keyof BalanceDisplayProps, 'balance'>
-	> {
-	address: string;
-	detailed?: boolean;
+  extends Pick<
+    BalanceDisplayProps,
+    Exclude<keyof BalanceDisplayProps, 'balance'>
+  > {
+  address: string;
+  detailed?: boolean;
 }
 
 export function Balance(props: BalanceProps): React.ReactElement {
-	const { address, detailed = false, ...rest } = props;
-	const { api } = useContext(ApiContext);
-	const [allBalances, setAllBalances] = useState<DerivedBalances>();
-	const [allStaking, setAllStaking] = useState<DerivedStaking>();
+  const { address, detailed = false, ...rest } = props;
+  const { api } = useContext(ApiContext);
+  const [allBalances, setAllBalances] = useState<DerivedBalances>();
+  const [allStaking, setAllStaking] = useState<DerivedStaking>();
 
-	useEffect(() => {
-		const balanceSub = combineLatest([
-			api.derive.balances.all(address),
-			api.derive.staking.info(address),
-		]).subscribe(([allBalances, allStaking]) => {
-			setAllBalances(allBalances);
-			setAllStaking(allStaking);
-		});
+  useEffect(() => {
+    const balanceSub = combineLatest([
+      api.derive.balances.all(address),
+      api.derive.staking.info(address),
+    ]).subscribe(([allBalances, allStaking]) => {
+      setAllBalances(allBalances);
+      setAllStaking(allStaking);
+    });
 
-		return (): void => balanceSub.unsubscribe();
-	}, [api, address]);
+    return (): void => balanceSub.unsubscribe();
+  }, [api, address]);
 
-	const handleRedeem = (address: string): void => {
-		// FIXME We're not unsubscring here, we should
-		of(api.tx.staking.withdrawUnbonded(address)).subscribe();
-	};
+  const handleRedeem = (address: string): void => {
+    // FIXME We're not unsubscring here, we should
+    of(api.tx.staking.withdrawUnbonded(address)).subscribe();
+  };
 
-	return (
-		<BalanceDisplay
-			allBalances={allBalances}
-			allStaking={allStaking}
-			detailed={detailed}
-			handleRedeem={handleRedeem}
-			{...rest}
-		/>
-	);
+  return (
+    <BalanceDisplay
+      allBalances={allBalances}
+      allStaking={allStaking}
+      detailed={detailed}
+      handleRedeem={handleRedeem}
+      {...rest}
+    />
+  );
 }

@@ -10,15 +10,15 @@ import { Container, NavHeader } from '../src';
 import { withTheme } from './customDecorators';
 
 storiesOf('Header', module)
-	.addDecorator(withKnobs)
-	.addDecorator(withTheme)
-	.add('empty', () => (
-		<Container>
-			<NavHeader />
-		</Container>
-	))
-	.add('with header', () => (
-		<Container>
-			<NavHeader siteTitle={text('title', 'Nomidot')} />
-		</Container>
-	));
+  .addDecorator(withKnobs)
+  .addDecorator(withTheme)
+  .add('empty', () => (
+    <Container>
+      <NavHeader />
+    </Container>
+  ))
+  .add('with header', () => (
+    <Container>
+      <NavHeader siteTitle={text('title', 'Nomidot')} />
+    </Container>
+  ));

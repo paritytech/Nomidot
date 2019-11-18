@@ -12,50 +12,50 @@ import Helmet from 'react-helmet';
 type MetaProps = JSX.IntrinsicElements['meta'];
 
 interface Props {
-	description?: string;
-	lang?: string;
-	meta?: MetaProps[];
-	title?: string;
+  description?: string;
+  lang?: string;
+  meta?: MetaProps[];
+  title?: string;
 }
 
 function SEO({
-	description = '',
-	lang = 'en',
-	meta = [],
-	title = '',
+  description = '',
+  lang = 'en',
+  meta = [],
+  title = '',
 }: Props): React.ReactElement {
-	const { site } = useStaticQuery(
-		graphql`
-			query {
-				site {
-					siteMetadata {
-						title
-						description
-						author
-					}
-				}
-			}
-		`
-	);
+  const { site } = useStaticQuery(
+    graphql`
+      query {
+        site {
+          siteMetadata {
+            title
+            description
+            author
+          }
+        }
+      }
+    `
+  );
 
-	const metaDescription: string = description || site.siteMetadata.description;
-	const defaultMeta = [
-		{
-			name: `description`,
-			content: metaDescription,
-		},
-	];
+  const metaDescription: string = description || site.siteMetadata.description;
+  const defaultMeta = [
+    {
+      name: `description`,
+      content: metaDescription,
+    },
+  ];
 
-	return (
-		<Helmet
-			htmlAttributes={{
-				lang,
-			}}
-			title={title}
-			titleTemplate={`%s | ${site.siteMetadata.title}`}
-			meta={[...defaultMeta, ...meta]}
-		/>
-	);
+  return (
+    <Helmet
+      htmlAttributes={{
+        lang,
+      }}
+      title={title}
+      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      meta={[...defaultMeta, ...meta]}
+    />
+  );
 }
 
 export default SEO;

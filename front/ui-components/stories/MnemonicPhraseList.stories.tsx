@@ -10,11 +10,11 @@ import { MnemonicPhraseList } from '../src';
 import { withTheme } from './customDecorators';
 
 const SAMPLE_PHRASE =
-	'glass decrease speak taxi pencil spice carpet danger planet will cage park';
+  'glass decrease speak taxi pencil spice carpet danger planet will cage park';
 
 storiesOf('Mnemonic Phrase List', module)
-	.addDecorator(withKnobs)
-	.addDecorator(withTheme)
-	.add('with mnemonic', () => (
-		<MnemonicPhraseList phrase={text('mnemonic phrase', SAMPLE_PHRASE)} />
-	));
+  .addDecorator(withKnobs)
+  .addDecorator(withTheme)
+  .add('with mnemonic', () => (
+    <MnemonicPhraseList phrase={text('mnemonic phrase', SAMPLE_PHRASE)} />
+  ));

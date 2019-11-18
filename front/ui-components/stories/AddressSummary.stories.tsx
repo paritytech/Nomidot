@@ -8,8 +8,8 @@ import React from 'react';
 
 import { AddressSummary } from '../src/stateful/AddressSummary';
 import {
-	OrientationType,
-	SizeType,
+  OrientationType,
+  SizeType,
 } from '../src/stateful/AddressSummary/types';
 import { withTheme } from './customDecorators';
 
@@ -17,16 +17,16 @@ const orientations: Array<OrientationType> = ['horizontal', 'vertical'];
 const sizes: Array<SizeType> = ['tiny', 'small', 'medium', 'large'];
 
 storiesOf('Address Sumary', module)
-	.addDecorator(withKnobs)
-	.addDecorator(withTheme)
-	.add('summary', () => (
-		<AddressSummary
-			address={text(
-				'address',
-				'5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk'
-			)}
-			name={text('name', 'Joe Schmoe')}
-			orientation={select('orientation', orientations, orientations[0])}
-			size={select('size', sizes, sizes[0])}
-		/>
-	));
+  .addDecorator(withKnobs)
+  .addDecorator(withTheme)
+  .add('summary', () => (
+    <AddressSummary
+      address={text(
+        'address',
+        '5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk'
+      )}
+      name={text('name', 'Joe Schmoe')}
+      orientation={select('orientation', orientations, orientations[0])}
+      size={select('size', sizes, sizes[0])}
+    />
+  ));

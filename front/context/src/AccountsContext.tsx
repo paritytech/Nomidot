@@ -8,47 +8,47 @@ import React, { createContext, useEffect, useState } from 'react';
 import { InjectedAccountExt } from './types';
 
 export const AccountsContext = createContext({
-	injectedAccounts: [] as InjectedAccountExt[],
+  injectedAccounts: [] as InjectedAccountExt[],
 });
 
 interface Props {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
-	const { children } = props;
-	const [injectedAccounts, setInjected] = useState<InjectedAccountExt[]>(
-		[] as InjectedAccountExt[]
-	);
+  const { children } = props;
+  const [injectedAccounts, setInjected] = useState<InjectedAccountExt[]>(
+    [] as InjectedAccountExt[]
+  );
 
-	useEffect(() => {
-		const getInjected: () => void = async () => {
-			await web3Enable('nomidot');
-			const [injectedAccounts] = await Promise.all([
-				web3Accounts().then((accounts): InjectedAccountExt[] =>
-					accounts.map(
-						({ address, meta }): InjectedAccountExt => ({
-							address,
-							meta: {
-								...meta,
-								name: `${meta.name} (${
-									meta.source === 'polkadot-js' ? 'extension' : meta.source
-								})`,
-							},
-						})
-					)
-				),
-			]);
+  useEffect(() => {
+    const getInjected: () => void = async () => {
+      await web3Enable('nomidot');
+      const [injectedAccounts] = await Promise.all([
+        web3Accounts().then((accounts): InjectedAccountExt[] =>
+          accounts.map(
+            ({ address, meta }): InjectedAccountExt => ({
+              address,
+              meta: {
+                ...meta,
+                name: `${meta.name} (${
+                  meta.source === 'polkadot-js' ? 'extension' : meta.source
+                })`,
+              },
+            })
+          )
+        ),
+      ]);
 
-			setInjected(injectedAccounts);
-		};
+      setInjected(injectedAccounts);
+    };
 
-		getInjected();
-	}, []);
+    getInjected();
+  }, []);
 
-	return (
-		<AccountsContext.Provider value={{ injectedAccounts }}>
-			{children}
-		</AccountsContext.Provider>
-	);
+  return (
+    <AccountsContext.Provider value={{ injectedAccounts }}>
+      {children}
+    </AccountsContext.Provider>
+  );
 }

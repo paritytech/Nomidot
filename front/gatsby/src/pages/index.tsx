@@ -11,24 +11,24 @@ import { ContextGate } from '../ContextGate';
 import { Onboarding } from './onboarding';
 
 function IndexPage(): React.ReactElement {
-	// const { injectedAccounts } = useContext(AccountsContext);
+  // const { injectedAccounts } = useContext(AccountsContext);
 
-	return (
-		<ContextGate>
-			<ApiContext.Consumer>
-				{({
-					isReady,
-				}: Partial<ApiContextType>): React.ReactElement | boolean | undefined =>
-					isReady && (
-						<Layout>
-							<SEO title='Home' />
-							<Onboarding />
-						</Layout>
-					)
-				}
-			</ApiContext.Consumer>
-		</ContextGate>
-	);
+  return (
+    <ContextGate>
+      <ApiContext.Consumer>
+        {({
+          isReady,
+        }: Partial<ApiContextType>): React.ReactElement | boolean | undefined =>
+          isReady && (
+            <Layout>
+              <SEO title='Home' />
+              <Onboarding />
+            </Layout>
+          )
+        }
+      </ApiContext.Consumer>
+    </ContextGate>
+  );
 }
 
 export default IndexPage;
