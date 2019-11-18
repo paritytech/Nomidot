@@ -36,7 +36,7 @@ const StyledActions = styled(StyledContent)`
 const StyledHeader = styled(SUIModal.Header)`
   &&& {
     display: flex;
-    justify-content: space-between;
+    justify-content: ${(props): string => props.justifyContent || 'space-between'}
     align-items: flex-start;
     font-weight: 200;
   }

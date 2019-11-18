@@ -8,7 +8,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { InjectedAccountExt } from './types';
 
 export const AccountsContext = createContext({
-  injectedAccounts: [] as InjectedAccountExt[],
+  injectedAccounts: [] as InjectedAccountExt[]
 });
 
 interface Props {
@@ -47,7 +47,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, []);
 
   return (
-    <AccountsContext.Provider value={{ injectedAccounts }}>
+    <AccountsContext.Provider value={{ 
+      injectedAccounts
+    }}>
       {children}
     </AccountsContext.Provider>
   );
