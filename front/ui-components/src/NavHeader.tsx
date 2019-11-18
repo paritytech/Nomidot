@@ -7,10 +7,10 @@ import React from 'react';
 import { polkadotOfficialTheme } from './globalStyle';
 
 interface HeaderProps {
-	siteTitle?: any; // pass in a Link directly
+	siteTitle?: string; // pass in a Link directly
 }
 
-export const NavHeader = (props: HeaderProps) => (
+export const NavHeader = (props: HeaderProps): React.ReactElement => (
 	<header
 		style={{
 			background: `${polkadotOfficialTheme.hotPink}`,

@@ -10,15 +10,15 @@ import styled from 'styled-components';
 
 type CardProps = SUICardProps;
 
-const StyledCard = styled<any>(SUICard)`
+const StyledCard = styled<typeof SUICard>(SUICard)`
 	&&& {
 		background-color: #ffffff;
 		border-radius: 2px;
 		box-shadow: 0 4px 5px 1px rgba(0, 0, 0, 0.3);
-		height: ${(props): string => props.height || '357px'};
-		min-height: ${(props): string => props.minHeight || '100%'};
-		width: ${(props): string => props.width || '100%'};
-		overflow: ${(props): string => props.overflow || 'none'};
+		height: ${(props: CardProps): string => props.height || '357px'};
+		min-height: ${(props: CardProps): string => props.minHeight || '100%'};
+		width: ${(props: CardProps): string => props.width || '100%'};
+		overflow: ${(props: CardProps): string => props.overflow || 'none'};
 	}
 `;
 

@@ -4,7 +4,6 @@
 
 import { Header } from '@substrate/ui-components/src';
 // import { ApiContext } from '@substrate/context/src';
-
 import React from 'react';
 
 // import { ContextGate } from '../ContextGate';

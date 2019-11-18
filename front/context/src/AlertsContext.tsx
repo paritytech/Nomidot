@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState, createContext } from 'react';
+import React, { createContext, useState } from 'react';
 
 export type AlertType = 'error' | 'info' | 'success' | 'warning';
 
@@ -29,7 +29,7 @@ export const AlertsContext = createContext({
 });
 
 interface Props {
-	children: any;
+	children: React.ReactNode;
 }
 
 export function AlertsContextProvider(props: Props): React.ReactElement {

@@ -14,41 +14,42 @@ type Props = {
 	onSelectAccount?: () => void;
 };
 
-export function AccountsList(props: Props) {
+export function AccountsList(props: Props): React.ReactElement {
 	const { accounts, onSelectAccount } = props;
 
-	const renderAccountsListItem = () => {
+	const renderAccountsListItem = (): React.ReactElement => {
 		return (
 			<List>
-				{accounts!.map((account: InjectedAccountExt) => {
-					const {
-						address,
-						meta: { name, source },
-					} = account;
-					console.log(source); // FIXME use in summary
-					return (
-						<List.Content key={address}>
-							<Card height='100%' onClick={onSelectAccount}>
-								<Card.Content>
-									<AddressSummary
-										address={address}
-										alignItems='center'
-										justifyContent='center'
-										orientation='horizontal'
-										size='small'
-										name={name}
-										withShortAddress
-									/>
-								</Card.Content>
-							</Card>
-						</List.Content>
-					);
-				})}
+				{accounts &&
+					accounts.map((account: InjectedAccountExt) => {
+						const {
+							address,
+							meta: { name, source },
+						} = account;
+						console.log(source); // FIXME use in summary
+						return (
+							<List.Content key={address}>
+								<Card height='100%' onClick={onSelectAccount}>
+									<Card.Content>
+										<AddressSummary
+											address={address}
+											alignItems='center'
+											justifyContent='center'
+											orientation='horizontal'
+											size='small'
+											name={name}
+											withShortAddress
+										/>
+									</Card.Content>
+								</Card>
+							</List.Content>
+						);
+					})}
 			</List>
 		);
 	};
 
-	const renderEmpty = () => {
+	const renderEmpty = (): React.ReactElement => {
 		return <FadedText>Hmmm...nothing to see here.</FadedText>;
 	};
 

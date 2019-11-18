@@ -20,7 +20,7 @@ module.exports = {
       './tsconfig.json'
     ]
   },
-  plugins: ['prettier', 'react', 'react-hooks', '@typescript-eslint'],
+  plugins: ['prettier', 'react', 'react-hooks', 'simple-import-sort', '@typescript-eslint'],
   rules: {
     // Disable prop-types, because we already have TS
     "react/prop-types": "off",
@@ -29,6 +29,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
     // prettier
     "prettier/prettier": "error",
+    "simple-import-sort/sort": "error",
     "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   },
   settings: {

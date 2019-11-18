@@ -7,14 +7,14 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import React from 'react';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
 
-import { FontSize, FontWeight } from './types';
+import { Icon } from './index';
 import {
 	DynamicSizeText,
 	FadedText,
 	Stacked,
 	StyledLinkButton,
 } from './Shared.styles';
-import { Icon } from './index';
+import { FontSize, FontWeight } from './types';
 
 export type BalanceDisplayProps = {
 	allBalances?: DerivedBalances;
@@ -76,7 +76,11 @@ export function BalanceDisplay(
 	};
 
 	const renderDetailedBalances = (): React.ReactElement => {
-		const { availableBalance, lockedBalance, reservedBalance } = allBalances!;
+		if (!allBalances) {
+			return <></>;
+		}
+
+		const { availableBalance, lockedBalance, reservedBalance } = allBalances;
 
 		return (
 			<React.Fragment>

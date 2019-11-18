@@ -4,7 +4,7 @@
 
 import React, { useCallback } from 'react';
 import { DropzoneState, useDropzone } from 'react-dropzone';
-import styled from 'styled-components';
+import styled, { ThemedStyledProps } from 'styled-components';
 
 type Props = {
 	onChange?: (data: string | null) => void;
@@ -25,11 +25,13 @@ const getColor = (props: Partial<DropzoneState>): string => {
 	return '#eeeeee';
 };
 
-const Container = styled<any>('div')`
+const Container = styled.div`
 	align-items: center;
 	border-width: 2px;
 	border-radius: 2px;
-	border-color: ${(props): string => getColor(props)};
+	border-color: ${(
+		props: ThemedStyledProps<Partial<DropzoneState>, string>
+	): string => getColor(props)};
 	border-style: dashed;
 	background-color: #fafafa;
 	color: #bdbdbd;

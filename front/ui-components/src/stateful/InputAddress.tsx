@@ -23,7 +23,7 @@ import { Margin } from '../Margin';
 type AddressType = 'accounts' | 'addresses';
 
 export interface InputAddressProps extends DropdownProps {
-	onChangeAddress?: (address: string) => any;
+	onChangeAddress?: (address: string) => void;
 	types?: AddressType[];
 	value: string;
 }

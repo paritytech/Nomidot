@@ -4,10 +4,6 @@
 
 import { ApiRx, WsProvider } from '@polkadot/api';
 import { logger } from '@polkadot/util';
-import React, { useState, useEffect } from 'react';
-import { combineLatest } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
-
 import {
 	AccountsContextProvider,
 	AlertsContextProvider,
@@ -16,6 +12,9 @@ import {
 	System,
 	TxQueueContextProvider,
 } from '@substrate/context/src';
+import React, { useEffect, useState } from 'react';
+import { combineLatest } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 
 interface State {
 	isReady: boolean;

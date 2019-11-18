@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { select, text, withKnobs } from '@storybook/addon-knobs';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
-import { withTheme } from './customDecorators';
 import { AddressSummary } from '../src/stateful/AddressSummary';
 import {
 	OrientationType,
 	SizeType,
 } from '../src/stateful/AddressSummary/types';
+import { withTheme } from './customDecorators';
 
 const orientations: Array<OrientationType> = ['horizontal', 'vertical'];
 const sizes: Array<SizeType> = ['tiny', 'small', 'medium', 'large'];

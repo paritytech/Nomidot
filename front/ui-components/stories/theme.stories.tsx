@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { select, text, withKnobs } from '@storybook/addon-knobs';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
 import {
 	Card,
@@ -16,8 +16,8 @@ import {
 	FontSize,
 	Header,
 	SubHeader,
-	SuccessText,
 	substrateLightTheme,
+	SuccessText,
 } from '../src';
 
 const colorPaletteCard = (color: string, hex: string): React.ReactElement => (

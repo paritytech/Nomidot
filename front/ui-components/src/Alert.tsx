@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import React from 'react';
 import {
 	Message as SUIMessage,
 	MessageProps as AlertProps,
@@ -50,7 +51,7 @@ function gradientColor(index: 0 | 1) {
 	};
 }
 
-export const Alert = styled<any>(SUIMessage)`
+const StyledAlert = styled(SUIMessage)`
 	&&& {
 		background-image: linear-gradient(
 			107deg,
@@ -68,3 +69,7 @@ export const Alert = styled<any>(SUIMessage)`
 		width: 100%;
 	}
 `;
+
+export function Alert(props: AlertProps): React.ReactElement {
+	return <StyledAlert {...props} />;
+}

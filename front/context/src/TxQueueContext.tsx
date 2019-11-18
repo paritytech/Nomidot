@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { SubmittableResult } from '@polkadot/api/submittable';
+import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Balance } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 import React, { createContext, useState } from 'react';
 import { Subject } from 'rxjs';
-
-import { logger } from '@polkadot/util';
 
 const l = logger('tx-queue');
 

@@ -5,17 +5,17 @@
 import IdentityIcon from '@polkadot/react-identicon';
 import React from 'react';
 
-import { Balance } from '../Balance';
 import { Margin } from '../../Margin';
 import {
 	DynamicSizeText,
 	FadedText,
-	SubHeader,
 	Stacked,
 	StackedHorizontal,
+	SubHeader,
 } from '../../Shared.styles';
-import { OrientationType, SizeType } from './types';
 import { FlexAlign, FlexJustify, FontSize } from '../../types';
+import { Balance } from '../Balance';
+import { OrientationType, SizeType } from './types';
 
 type AddressSummaryProps = {
 	address?: string; // TODO support AccountId
@@ -49,7 +49,11 @@ function renderIcon(address: string, size: SizeType): React.ReactElement {
 	);
 }
 
-const FONT_SIZES: any = {
+type FontSizeType = {
+	[x: string]: string;
+};
+
+const FONT_SIZES: FontSizeType = {
 	tiny: 'small',
 	small: 'medium',
 	medium: 'large',

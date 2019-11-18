@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import { boolean, withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
-import { withTheme } from './customDecorators';
 import { Menu } from '../src';
+import { withTheme } from './customDecorators';
 
 const dropdownValues = [
 	{

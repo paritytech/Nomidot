@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RouteComponentProps } from '@reach/router';
+import { AccountsContext } from '@substrate/context/src';
 import {
 	AccountsList,
 	Breadcrumbs,
 	Circle,
 	Modal,
-	Transition,
 	polkadotOfficialTheme,
+	Transition,
 } from '@substrate/ui-components/src';
-import { AccountsContext } from '@substrate/context/src';
-import { RouteComponentProps } from '@reach/router';
 import React, { useContext } from 'react';
 
 const ONBOARDING_STEPS = ['stash', 'controller'];

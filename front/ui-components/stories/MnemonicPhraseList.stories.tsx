@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { text, withKnobs } from '@storybook/addon-knobs';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
-import { withTheme } from './customDecorators';
 import { MnemonicPhraseList } from '../src';
+import { withTheme } from './customDecorators';
 
 const SAMPLE_PHRASE =
 	'glass decrease speak taxi pencil spice carpet danger planet will cage park';

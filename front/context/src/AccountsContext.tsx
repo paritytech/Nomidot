@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import React, { useState, createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
+
 import { InjectedAccountExt } from './types';
 
 export const AccountsContext = createContext({
@@ -11,7 +12,7 @@ export const AccountsContext = createContext({
 });
 
 interface Props {
-	children: any;
+	children: React.ReactNode;
 }
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
@@ -21,7 +22,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 	);
 
 	useEffect(() => {
-		const getInjected = async () => {
+		const getInjected: () => void = async () => {
 			await web3Enable('nomidot');
 			const [injectedAccounts] = await Promise.all([
 				web3Accounts().then((accounts): InjectedAccountExt[] =>

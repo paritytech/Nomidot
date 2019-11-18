@@ -53,6 +53,8 @@ export const polkadotOfficialTheme = {
   white: '#ffffff'
 }
 
+export const theme = {...substrateLightTheme, ...polkadotOfficialTheme};
+
 export type Color = keyof typeof substrateLightTheme & keyof typeof polkadotOfficialTheme;
 
 export type StyledProps = {
