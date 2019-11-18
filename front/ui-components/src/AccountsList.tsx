@@ -10,46 +10,55 @@ import { AddressSummary, Card, Container } from './index';
 import { FadedText } from './Shared.styles';
 
 type Props = {
-  accounts?: InjectedAccountExt[];
-  onSelectAccount?: () => void;
+  accounts: InjectedAccountExt[];
+  exclude?: string[]; // optional address(es) to exclude from display
+  onSelectAccount?: (
+    event: React.MouseEvent<HTMLElement>,
+    data: object
+  ) => void;
 };
 
 export function AccountsList(props: Props): React.ReactElement {
-  const { accounts, onSelectAccount } = props;
+  const { accounts, exclude, onSelectAccount } = props;
 
   const renderAccountsListItem = (): React.ReactElement => {
+    const accountsExcludingFilter = exclude
+      ? accounts.filter(accountExt => !exclude.includes(accountExt.address))
+      : accounts;
+
     return (
-      <List>
-        {accounts &&
-          accounts.map((account: InjectedAccountExt) => {
-            const {
-              address,
-              meta: { name, source },
-            } = account;
+      <List animated>
+        {accountsExcludingFilter.map((account: InjectedAccountExt) => {
+          const {
+            address,
+            meta: { name, source },
+          } = account;
 
-            return (
-              <List.Item>
-                <List.Content key={address}>
-                  <Card height='100%' onClick={onSelectAccount}>
-                    <Card.Content>
-                      <AddressSummary
-                        address={address}
-                        alignItems='center'
-                        justifyContent='center'
-                        orientation='horizontal'
-                        size='small'
-                        source={source}
-                        name={name}
-                        withShortAddress
-                      />
-
-
-                    </Card.Content>
-                  </Card>
-                </List.Content>
-              </List.Item>
-            );
-          })}
+          return (
+            <List.Item
+              key={address}
+              onClick={onSelectAccount}
+              data-address={address}
+            >
+              <List.Content>
+                <Card height='100%'>
+                  <Card.Content>
+                    <AddressSummary
+                      address={address}
+                      alignItems='center'
+                      justifyContent='center'
+                      orientation='horizontal'
+                      size='small'
+                      source={source}
+                      name={name}
+                      withShortAddress
+                    />
+                  </Card.Content>
+                </Card>
+              </List.Content>
+            </List.Item>
+          );
+        })}
       </List>
     );
   };

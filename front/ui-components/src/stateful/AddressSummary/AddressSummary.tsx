@@ -38,8 +38,8 @@ type AddressSummaryProps = {
 const PLACEHOLDER_NAME = 'No Name';
 
 const ICON_SIZES = {
-  tiny: 16,
-  small: 32,
+  tiny: 32,
+  small: 64,
   medium: 96,
   large: 128,
 };
@@ -61,8 +61,12 @@ const FONT_SIZES: FontSizeType = {
   large: 'big',
 };
 
-function renderAccountType(type: string): React.ReactElement {
-  return <FadedText> Account Type: {type} </FadedText>;
+function renderAccountType(size: string, type: string): React.ReactElement {
+  return (
+    <DynamicSizeText fontSize={FONT_SIZES[size] as FontSize}>
+      <FadedText> Account Type: {type} </FadedText>
+    </DynamicSizeText>
+  );
 }
 
 function renderBadge(type: string): React.ReactElement {
@@ -114,7 +118,7 @@ function renderDetails(
           {noPlaceholderName ? null : name}{' '}
         </DynamicSizeText>
         {withShortAddress && renderShortAddress(address)}
-        {type && renderAccountType(type)}
+        {type && renderAccountType(size, type)}
       </Stacked>
       <Stacked alignItems='flex-start'>
         {bondingPair && renderBondingPair(bondingPair)}
@@ -139,7 +143,7 @@ export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
     justifyContent = 'flex-start',
     orientation = 'vertical',
     size = 'medium',
-    source = ''
+    source = '',
   } = props;
 
   return address ? (
@@ -157,7 +161,7 @@ export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
         <Margin left />
         {renderDetails(address, props)}
         <Margin left />
-        { source && `Source: ${source}`}
+        {source && `Source: ${source}`}
       </StackedHorizontal>
     )
   ) : (
