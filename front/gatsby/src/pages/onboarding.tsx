@@ -16,6 +16,7 @@ import React, { useContext } from 'react';
 
 const ONBOARDING_STEPS = ['stash', 'controller'];
 
+// eslint-disable-next-line
 export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
   const { injectedAccounts } = useContext(AccountsContext);
   // const [stash, setStash] = useState();
