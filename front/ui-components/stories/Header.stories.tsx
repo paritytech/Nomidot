@@ -8,18 +8,18 @@ import { action } from '@storybook/addon-actions';
 import { boolean, select, text, withKnobs } from '@storybook/addon-knobs';
 
 import { withTheme } from './customDecorators';
-import { Container, Header } from '../src';
+import { Container, NavHeader } from '../src';
 
 storiesOf('Header', module)
   .addDecorator(withKnobs)
   .addDecorator(withTheme)
   .add('empty', () => (
     <Container>
-      <Header />
+      <NavHeader />
     </Container>
   ))
   .add('with header', () => (
     <Container>
-      <Header siteTitle={text('title', 'Nomidot')} />
+      <NavHeader siteTitle={text('title', 'Nomidot')} />
     </Container>
   ))

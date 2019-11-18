@@ -10,7 +10,7 @@ interface HeaderProps {
   siteTitle?: any // pass in a Link directly
 }
 
-export const Header = (props: HeaderProps) => (
+export const NavHeader = (props: HeaderProps) => (
   <header
     style={{
       background: `${polkadotOfficialTheme.hotPink}`,
