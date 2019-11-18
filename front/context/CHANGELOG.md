@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/yjkimjunior/Nomidot/compare/v0.1.5...v0.2.0) (2019-11-18)
+
+
+### Bug Fixes
+
+* move get injected into useeffect ([4781c80](https://github.com/yjkimjunior/Nomidot/commit/4781c804dc8b8702b62facf5476a5996e59bb8ae))
+* ready async ([27d1e72](https://github.com/yjkimjunior/Nomidot/commit/27d1e72f4e1fc8334ddfbbfbb940a8f59d9ad473))
+* remove keyring from context ([1234dac](https://github.com/yjkimjunior/Nomidot/commit/1234dac333971c6619b60e64b6a6a9b9f5b16b70))
+* split up contexts, move context gate to gatsby, drop keyring ([3f22b2a](https://github.com/yjkimjunior/Nomidot/commit/3f22b2a72c297f2a5e4cff3b9ba22b60bb9e9009))
+
+
+### Features
+
+* get and format injected accounts ([ae5deae](https://github.com/yjkimjunior/Nomidot/commit/ae5deae12932b27e4358705f3b65a1acbc7d1b81))
+
+
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/yjkimjunior/Nomidot/compare/v0.1.3...v0.1.5) (2019-11-12)
 
