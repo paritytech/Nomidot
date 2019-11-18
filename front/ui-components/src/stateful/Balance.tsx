@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { AppContext } from '@substrate/context/src';
+import { ApiContext } from '@substrate/context/src';
 import React, { useContext, useEffect, useState } from 'react';
 import { combineLatest, of } from 'rxjs';
 
@@ -16,7 +16,7 @@ interface BalanceProps extends Pick<BalanceDisplayProps, Exclude<keyof BalanceDi
 
 export function Balance (props: BalanceProps): React.ReactElement {
   const { address, detailed = false, ...rest } = props;
-  const { api } = useContext(AppContext);
+  const { api } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState<DerivedBalances>();
   const [allStaking, setAllStaking] = useState<DerivedStaking>();
 

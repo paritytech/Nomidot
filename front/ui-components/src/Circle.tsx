@@ -5,7 +5,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { substrateLightTheme } from './globalStyle';
+import { polkadotOfficialTheme } from './globalStyle';
 
 interface CircleProps {
   fill: string;
@@ -23,8 +23,8 @@ export function Circle (props: CircleProps): React.ReactElement {
     background-color: ${fill};
     background-image: ${`linear-gradient(
       107deg,
-      ${substrateLightTheme.lightBlue1},
-      ${substrateLightTheme.neonBlue}
+      ${polkadotOfficialTheme.lightBlue1},
+      ${polkadotOfficialTheme.neonBlue}
     )`};
     border-radius: 50%;
     display: flex;

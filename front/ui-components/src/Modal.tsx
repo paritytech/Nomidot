@@ -31,7 +31,21 @@ const StyledActions = styled(StyledContent)`
   margin-top: 2rem;
 `;
 
-// FIXME: this component is reused here and in @polkadot/apps - should be moved to @polkadot/ui
+const StyledHeader = styled(SUIModal.Header)`
+  &&& {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-weight: 200;
+  }
+`;
+
+const StyledSubHeader = styled(SubHeader)`
+  &&& {
+    padding: 0 3rem 0 3rem
+  }
+`
+
 export function Modal (props: ModalProps): React.ReactElement {
   return (
     <StyledModal {...props} />
@@ -40,7 +54,7 @@ export function Modal (props: ModalProps): React.ReactElement {
 
 Modal.Actions = StyledActions;
 Modal.Content = StyledContent;
-Modal.Header = Header;
-Modal.SubHeader = SubHeader;
+Modal.Header = StyledHeader;
+Modal.SubHeader = StyledSubHeader;
 Modal.FadedText = FadedText;
 Modal.Description = SUIModal.Description;

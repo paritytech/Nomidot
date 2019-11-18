@@ -16,8 +16,7 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: center;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-      'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Montseratt', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 `;
@@ -42,8 +41,22 @@ export const substrateLightTheme = {
   white: '#ffffff'
 };
 
-export type Color = keyof typeof substrateLightTheme;
+export const polkadotOfficialTheme = {
+  black: '#1E1E1E',
+  grey: '#B5AEAE',
+  hotPink: '#E6007A',
+  lightBlue2: '#51a0ec',
+  lightBlue1: '#53a0fd',
+  neonBlue: '#0ed2f7',
+  maroon: '#670D35',
+  eggShell: '#f2f2f2',
+  white: '#ffffff'
+}
+
+export type Color = keyof typeof substrateLightTheme & keyof typeof polkadotOfficialTheme;
 
 export type StyledProps = {
-  theme: typeof substrateLightTheme
+  theme: typeof substrateLightTheme & typeof polkadotOfficialTheme,
+  substrateTheme: typeof substrateLightTheme,
+  polkadotTheme: typeof polkadotOfficialTheme
 }

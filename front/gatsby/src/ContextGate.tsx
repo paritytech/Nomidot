@@ -3,18 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiRx, WsProvider } from '@polkadot/api';
-import { createType } from '@polkadot/types';
-import keyring from '@polkadot/ui-keyring';
 import { logger } from '@polkadot/util';
 import React, { useState, useEffect } from 'react';
 import { combineLatest } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
-import { AlertsContextProvider } from './AlertsContext';
-import { AppContext, System } from './AppContext';
-import { StakingContextProvider } from './StakingContext';
-import { TxQueueContextProvider } from './TxQueueContext';
-import { isTestChain } from './util';
+import { AccountsContextProvider, AlertsContextProvider, ApiContext, StakingContextProvider, System, TxQueueContextProvider } from '@substrate/context/src';
 
 interface State {
   isReady: boolean;
@@ -45,13 +39,7 @@ const DISCONNECTED_STATE_PROPERTIES = {
 };
 
 // Hardcode default to Kusama
-const WS_URL = 'wss://kusama-rpc.polkadot.io/'; // FIXME Change to localhost when light client ready
-
-// Most chains (including Kusama) put the ss58 prefix in the chain properties.
-// Just in case, we default to 42
-const SS58_PREFIX = 42;
-
-let keyringInitialized = false;
+const WS_URL = 'wss://kusama-rpc.polkadot.io/';
 
 const l = logger('context');
 
@@ -91,27 +79,11 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
         )
       )
       .subscribe(([chain, health, name, properties, version]) => {
-        if (!keyringInitialized) {
-          // keyring with Schnorrkel support
-          keyring.loadAll({
-            ss58Format: properties.ss58Format.unwrapOr(createType('u8', SS58_PREFIX)).toNumber(),
-            genesisHash: api.genesisHash,
-            isDevelopment: isTestChain(chain.toString()),
-            type: 'ed25519'
-          });
-          keyringInitialized = true;
-        } else {
-          // The keyring can only be initialized once. To make sure that the
-          // keyring values are up-to-date in case the node has changed settings
-          // we need to reinitialize it.
-          window.location.reload();
-          return;
-        }
-
         l.log(`Api connected to ${WS_URL}`);
         l.log(`Api ready, connected to chain "${chain}" with properties ${JSON.stringify(properties)}`);
 
         setState({
+          ...state,
           isReady: true,
           system: {
             chain: chain.toString(),
@@ -120,24 +92,25 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
             properties,
             version: version.toString()
           }
-        });
+        })
       });
   }, []);
 
   return (
     <AlertsContextProvider>
-      <TxQueueContextProvider>
-        <AppContext.Provider value={{
-          api: api,
-          isReady,
-          keyring,
-          system
-        }}>
-          <StakingContextProvider>
-            {children}
-          </StakingContextProvider>
-        </AppContext.Provider>
-      </TxQueueContextProvider>
+      <AccountsContextProvider>
+        <TxQueueContextProvider>
+          <ApiContext.Provider value={{
+            api: api,
+            isReady,
+            system
+          }}>
+            <StakingContextProvider>
+              {children}
+            </StakingContextProvider>
+          </ApiContext.Provider>
+        </TxQueueContextProvider>
+      </AccountsContextProvider>
     </AlertsContextProvider>
   );
 }

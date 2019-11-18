@@ -15,10 +15,11 @@ export {
   Sidebar, SidebarProps,
   Step, StepProps,
   Table, TableProps,
-  Transition, TransitionGroup, TransitionProps, TransitionGroupProps, TransitionPropDuration
+  Transition, TransitionGroup
 } from 'semantic-ui-react';
 
 export * from './Accordion';
+export * from './AccountsList';
 export * from './Address';
 export * from './Alert';
 export * from './BalanceDisplay';
@@ -41,6 +42,7 @@ export * from './MnemonicPhraseList';
 export * from './MnemonicRewriteParts';
 export * from './Modal';
 export * from './NavButton';
+export * from './NavHeader';
 export * from './Progress';
 export * from './Shared.styles';
 export * from './stateful';

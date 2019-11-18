@@ -10,10 +10,11 @@ import { Balance } from '../Balance';
 import { Margin } from '../../Margin';
 import { DynamicSizeText, FadedText, SubHeader, Stacked, StackedHorizontal } from '../../Shared.styles';
 import { OrientationType, SizeType } from './types';
-import { FlexJustify, FontSize } from '../../types';
+import { FlexAlign, FlexJustify, FontSize } from '../../types';
 
 type AddressSummaryProps = {
   address?: string; // TODO support AccountId
+  alignItems?: FlexAlign;
   bondingPair?: string; // TODO support AccountId
   detailed?: boolean;
   isNominator?: boolean;
@@ -33,7 +34,7 @@ const PLACEHOLDER_NAME = 'No Name';
 const ICON_SIZES = {
   tiny: 16,
   small: 32,
-  medium: 64,
+  medium: 96,
   large: 128
 };
 
@@ -48,31 +49,48 @@ const FONT_SIZES: any = {
   large: 'big'
 };
 
+function renderAccountType(type: string): React.ReactElement {
+  return <FadedText> Account Type: {type} </FadedText>
+}
+
 function renderBadge (type: string): React.ReactElement {
   // FIXME make it an actual badge
   return type === 'nominator' ? <SubHeader>nominator</SubHeader> : <SubHeader>validator</SubHeader>;
+}
+
+function renderBondingPair(bondingPair: string): React.ReactElement {
+  return <StackedHorizontal><FadedText> Bonding Pair: </FadedText> {renderIcon(bondingPair, 'tiny')} </StackedHorizontal>
+}
+
+function renderShortAddress (address: string): string {
+  return address.slice(0, 8).concat('......').concat(address.slice(address.length - 8, address.length))
 }
 
 function renderDetails (address: string, summaryProps: Exclude<AddressSummaryProps, keyof 'address'>): React.ReactElement {
   const { bondingPair, detailed, isNominator, isValidator, name = PLACEHOLDER_NAME, noBalance, noPlaceholderName, size = 'medium', type, withShortAddress } = summaryProps;
 
   return (
-    <Stacked>
-      <DynamicSizeText fontSize={FONT_SIZES[size] as FontSize}> {noPlaceholderName ? null : name} </DynamicSizeText>
-      {withShortAddress && <Address address={address} shortened />}
-      {type && <FadedText> Account Type: {type} </FadedText>}
-      {bondingPair && <StackedHorizontal><FadedText> Bonding Pair: </FadedText> {renderIcon(bondingPair, 'tiny')} </StackedHorizontal>}
-      {isNominator && renderBadge('nominator')}
-      {isValidator && renderBadge('validator')}
-      {!noBalance && <Balance address={address} detailed={detailed} fontSize={FONT_SIZES[size] as FontSize} />}
-    </Stacked>
+    <>
+      <Stacked alignItems='flex-start'>
+        <DynamicSizeText fontSize={FONT_SIZES[size] as FontSize}> {noPlaceholderName ? null : name} </DynamicSizeText>
+        {withShortAddress && renderShortAddress(address)}
+        {type && renderAccountType(type)}
+      </Stacked>
+      <Stacked alignItems='flex-start'>
+        {bondingPair && renderBondingPair(bondingPair)}
+        {isNominator && renderBadge('nominator')}
+        {isValidator && renderBadge('validator')}
+        {!noBalance && <Balance address={address} detailed={detailed} fontSize={FONT_SIZES[size] as FontSize} />}
+      </Stacked>
+    </>
   );
 }
 
 export function AddressSummary (props: AddressSummaryProps): React.ReactElement {
   const {
     address,
-    justifyContent = 'space-around',
+    alignItems = 'center',
+    justifyContent = 'flex-start',
     orientation = 'vertical',
     size = 'medium'
   } = props;
@@ -86,12 +104,10 @@ export function AddressSummary (props: AddressSummaryProps): React.ReactElement 
             </Stacked>
           )
           : (
-            <StackedHorizontal justifyContent={justifyContent}>
+            <StackedHorizontal alignItems={alignItems} justifyContent={justifyContent}>
               {renderIcon(address, size)}
               <Margin left />
-              <Stacked>
-                {renderDetails(address, props)}
-              </Stacked>
+              {renderDetails(address, props)}
             </StackedHorizontal>
           )
           : <div>No Address Provided</div>;

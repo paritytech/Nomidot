@@ -4,7 +4,6 @@
 
 import ApiRx from '@polkadot/api/rx';
 import { ChainProperties, Health } from '@polkadot/types/interfaces';
-import keyring from '@polkadot/ui-keyring';
 import React from 'react';
 
 export interface System {
@@ -15,11 +14,10 @@ export interface System {
   version: string;
 }
 
-export interface AppContextType {
+export interface ApiContextType {
   api: ApiRx; // From @polkadot/api
   isReady: boolean; // Are api and keyring loaded?
-  keyring: typeof keyring; // From @polkadot/ui-keyring
   system: System; // Information about the chain
 }
 
-export const AppContext: React.Context<AppContextType> = React.createContext({} as AppContextType);
+export const ApiContext: React.Context<ApiContextType> = React.createContext({} as ApiContextType);
