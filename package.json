@@ -4,7 +4,7 @@
   "description": "Staking Portal for Polkadot",
   "license": "Apache-2.0",
   "private": true,
-  "repository":"https://github.com/yjkimjunior/Nomidot",
+  "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
     "prelerna:publish": "lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
     "lerna:publish": "lerna version --conventional-commits && lerna publish from-git",
@@ -18,8 +18,22 @@
     ]
   },
   "devDependencies": {
+    "@polkadot/dev": "^0.31.1",
     "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-import": "^2.18.2",
     "lerna": "^3.18.4",
+    "prettier": "1.19.1",
     "typescript": "^3.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
