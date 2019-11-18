@@ -10,46 +10,49 @@ import { AddressSummary, Card, Container } from './index';
 import { FadedText } from './Shared.styles';
 
 type Props = {
-  accounts?: InjectedAccountExt[];
-  onSelectAccount?: () => void;
-}
+	accounts?: InjectedAccountExt[];
+	onSelectAccount?: () => void;
+};
 
 export function AccountsList(props: Props) {
-  const { accounts, onSelectAccount } = props;
+	const { accounts, onSelectAccount } = props;
 
-  const renderAccountsListItem = () => {
-    return (
-      <List>
-        {
-          accounts!.map((account: InjectedAccountExt) => {
-            const { address, meta: { name, source } } = account;
+	const renderAccountsListItem = () => {
+		return (
+			<List>
+				{accounts!.map((account: InjectedAccountExt) => {
+					const {
+						address,
+						meta: { name, source },
+					} = account;
+					console.log(source); // FIXME use in summary
+					return (
+						<List.Content key={address}>
+							<Card height='100%' onClick={onSelectAccount}>
+								<Card.Content>
+									<AddressSummary
+										address={address}
+										alignItems='center'
+										justifyContent='center'
+										orientation='horizontal'
+										size='small'
+										name={name}
+										withShortAddress
+									/>
+								</Card.Content>
+							</Card>
+						</List.Content>
+					);
+				})}
+			</List>
+		);
+	};
 
-            return (
-              <List.Content>
-                <Card height='100%' onClick={onSelectAccount}><Card.Content><AddressSummary address={address} alignItems='center' justifyContent='center' orientation='horizontal' size='small' name={name} withShortAddress /></Card.Content></Card>
-              </List.Content>
-            )
-          })
-        }
-      </List>
-    )
-  }
+	const renderEmpty = () => {
+		return <FadedText>Hmmm...nothing to see here.</FadedText>;
+	};
 
-  const renderEmpty = () => {
-    return (
-      <FadedText>
-        Hmmm...nothing to see here.
-      </FadedText>
-    )
-  }
-
-  return (
-    <Container>
-        {
-          accounts
-            ? renderAccountsListItem()
-            : renderEmpty()
-        }
-    </Container>
-  );
+	return (
+		<Container>{accounts ? renderAccountsListItem() : renderEmpty()}</Container>
+	);
 }

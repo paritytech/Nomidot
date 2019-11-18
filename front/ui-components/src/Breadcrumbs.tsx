@@ -10,35 +10,38 @@ import { Circle, FadedText, Margin, Stacked, StackedHorizontal } from './index';
 import { SUIBreadcrumbSize } from './types';
 
 interface BreadcrumbProps {
-  activeLabel: string;
-  onClick?: (event: React.MouseEvent<HTMLElement>, data: any) => void;
-  sectionLabels: Array<string>;
-  size?: SUIBreadcrumbSize;
+	activeLabel: string;
+	onClick?: (event: React.MouseEvent<HTMLElement>, data: any) => void;
+	sectionLabels: Array<string>;
+	size?: SUIBreadcrumbSize;
 }
 
-export function Breadcrumbs (props: BreadcrumbProps): React.ReactElement {
-  const { activeLabel, onClick, sectionLabels, size } = props;
+export function Breadcrumbs(props: BreadcrumbProps): React.ReactElement {
+	const { activeLabel, onClick, sectionLabels, size } = props;
 
-  return (
-    <SUIBreadcrumb size={size}>
-      <StackedHorizontal>
-        {
-          sectionLabels.map((label, idx) => {
-            const active = activeLabel === label;
-            return (
-              <Margin key={label} left='big'>
-                <SUIBreadcrumb.Section active={active} onClick={onClick}>
-                  <Stacked>
-                    <Circle fill={substrateLightTheme.lightBlue1} label={idx.toString()} radius={32} withShadow={active} />
-                    <Margin top />
-                    <FadedText>{label}</FadedText>
-                  </Stacked>
-                </SUIBreadcrumb.Section>
-              </Margin>
-            );
-          })
-        }
-      </StackedHorizontal>
-    </SUIBreadcrumb>
-  );
+	return (
+		<SUIBreadcrumb size={size}>
+			<StackedHorizontal>
+				{sectionLabels.map((label, idx) => {
+					const active = activeLabel === label;
+					return (
+						<Margin key={label} left='big'>
+							<SUIBreadcrumb.Section active={active} onClick={onClick}>
+								<Stacked>
+									<Circle
+										fill={substrateLightTheme.lightBlue1}
+										label={idx.toString()}
+										radius={32}
+										withShadow={active}
+									/>
+									<Margin top />
+									<FadedText>{label}</FadedText>
+								</Stacked>
+							</SUIBreadcrumb.Section>
+						</Margin>
+					);
+				})}
+			</StackedHorizontal>
+		</SUIBreadcrumb>
+	);
 }

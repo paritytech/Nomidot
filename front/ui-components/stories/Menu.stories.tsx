@@ -11,46 +11,49 @@ import { withTheme } from './customDecorators';
 import { Menu } from '../src';
 
 const dropdownValues = [
-  {
-    key: 'Edit',
-    text: 'Edit',
-    value: 'Edit'
-  },
-  {
-    key: 'Create',
-    text: 'Create',
-    value: 'Create'
-  },
-  {
-    key: 'Restore',
-    text: 'Restore',
-    value: 'Restore'
-  }
+	{
+		key: 'Edit',
+		text: 'Edit',
+		value: 'Edit',
+	},
+	{
+		key: 'Create',
+		text: 'Create',
+		value: 'Create',
+	},
+	{
+		key: 'Restore',
+		text: 'Restore',
+		value: 'Restore',
+	},
 ];
 
 storiesOf('Menu', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('with dropdown', () => (
-    <Menu>
-      <Dropdown
-        options={dropdownValues}
-        placeholder='click me!'
-        selection={boolean('selection', true)}
-        vertical={boolean('vertical', true)} />
-    </Menu>
-  ))
-  .add('with multiple dropdowns', () => (
-    <Menu>
-      <Dropdown
-        options={dropdownValues}
-        placeholder='im first!'
-        selection={boolean('selection', true)}
-        vertical={boolean('vertical', true)} />
-      <Dropdown
-        options={dropdownValues}
-        placeholder='me second!'
-        selection={boolean('selection', true)}
-        vertical={boolean('vertical', true)} />
-    </Menu>
-  ));
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('with dropdown', () => (
+		<Menu>
+			<Dropdown
+				options={dropdownValues}
+				placeholder='click me!'
+				selection={boolean('selection', true)}
+				vertical={boolean('vertical', true)}
+			/>
+		</Menu>
+	))
+	.add('with multiple dropdowns', () => (
+		<Menu>
+			<Dropdown
+				options={dropdownValues}
+				placeholder='im first!'
+				selection={boolean('selection', true)}
+				vertical={boolean('vertical', true)}
+			/>
+			<Dropdown
+				options={dropdownValues}
+				placeholder='me second!'
+				selection={boolean('selection', true)}
+				vertical={boolean('vertical', true)}
+			/>
+		</Menu>
+	));

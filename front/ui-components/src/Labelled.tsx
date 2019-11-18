@@ -8,23 +8,23 @@ import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import { StackedHorizontal } from './index';
 
 type LabelledProps = {
-  children: React.ReactNode;
-  isHidden?: boolean;
-  label?: React.ReactNode;
-  withLabel?: boolean;
+	children: React.ReactNode;
+	isHidden?: boolean;
+	label?: React.ReactNode;
+	withLabel?: boolean;
 };
 
-export function Labelled (props: LabelledProps): React.ReactElement | null {
-  const { children, isHidden = false, label, withLabel = false } = props;
+export function Labelled(props: LabelledProps): React.ReactElement | null {
+	const { children, isHidden = false, label, withLabel = false } = props;
 
-  if (isHidden) {
-    return null;
-  }
+	if (isHidden) {
+		return null;
+	}
 
-  return (
-    <StackedHorizontal justifyContent='space-around'>
-      {withLabel && <Label>{label}</Label>}
-      {children}
-    </StackedHorizontal>
-  );
+	return (
+		<StackedHorizontal justifyContent='space-around'>
+			{withLabel && <Label>{label}</Label>}
+			{children}
+		</StackedHorizontal>
+	);
 }

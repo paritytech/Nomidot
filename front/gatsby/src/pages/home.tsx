@@ -3,15 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Header } from '@substrate/ui-components/src';
-import { ApiContext } from '@substrate/context/src';
+// import { ApiContext } from '@substrate/context/src';
+
 import React from 'react';
 
-import { ContextGate } from '../ContextGate';
+// import { ContextGate } from '../ContextGate';
 
-function HomePage(): React.ReactElement {
-  return (
-    <>
-      <Header />
-    </>
-  )
+export function HomePage(): React.ReactElement {
+	return (
+		<>
+			<Header />
+		</>
+	);
 }

@@ -11,19 +11,23 @@ import { Breadcrumbs, WrapperDiv } from '../src';
 import { withTheme } from './customDecorators';
 
 const sectionLabels = [
-  'Welcome',
-  'Stash',
-  'Controller',
-  'Confirm',
-  'Claim',
-  'Bond'
+	'Welcome',
+	'Stash',
+	'Controller',
+	'Confirm',
+	'Claim',
+	'Bond',
 ];
 
 storiesOf('Breadcrumbs', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('3 sections', () => (
-    <WrapperDiv width='100%'>
-      <Breadcrumbs activeLabel={select('activeLabel', sectionLabels, 'Welcome')} onClick={action('clicked')} sectionLabels={sectionLabels} />
-    </WrapperDiv>
-  ));
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('3 sections', () => (
+		<WrapperDiv width='100%'>
+			<Breadcrumbs
+				activeLabel={select('activeLabel', sectionLabels, 'Welcome')}
+				onClick={action('clicked')}
+				sectionLabels={sectionLabels}
+			/>
+		</WrapperDiv>
+	));

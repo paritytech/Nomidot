@@ -11,8 +11,11 @@ import { withTheme } from './customDecorators';
 import { Fab } from '../src';
 
 storiesOf('Fab', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('Fab', () => (
-    <Fab onClick={action('clicked')} type={select('fab type', ['add', 'send'], 'send')} />
-  ));
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('Fab', () => (
+		<Fab
+			onClick={action('clicked')}
+			type={select('fab type', ['add', 'send'], 'send')}
+		/>
+	));

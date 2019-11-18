@@ -10,8 +10,13 @@ import { withTheme } from './customDecorators';
 import { Address } from '../src/Address';
 
 storiesOf('Address Segment', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('with address', () => (
-    <Address address={text('address', '5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk')} />
-  ));
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('with address', () => (
+		<Address
+			address={text(
+				'address',
+				'5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk'
+			)}
+		/>
+	));

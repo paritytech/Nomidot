@@ -8,22 +8,23 @@ import { CopyButton } from './CopyButton';
 import { FlexSegment } from './FlexSegment';
 
 type AddressProps = {
-  address: string;
-  shortened?: boolean;
-  zIndex?: number;
+	address: string;
+	shortened?: boolean;
+	zIndex?: number;
 };
 
-export function Address (props: AddressProps): React.ReactElement {
-  const { address, shortened, zIndex = 0 } = props;
+export function Address(props: AddressProps): React.ReactElement {
+	const { address, shortened, zIndex = 0 } = props;
 
-  return (
-    <FlexSegment style={{ zIndex: zIndex }}>
-      {
-        shortened
-          ? address.slice(0, 8).concat('......').concat(address.slice(address.length - 8, address.length))
-          : address
-      }
-      <CopyButton value={address} />
-    </FlexSegment>
-  );
+	return (
+		<FlexSegment style={{ zIndex: zIndex }}>
+			{shortened
+				? address
+						.slice(0, 8)
+						.concat('......')
+						.concat(address.slice(address.length - 8, address.length))
+				: address}
+			<CopyButton value={address} />
+		</FlexSegment>
+	);
 }

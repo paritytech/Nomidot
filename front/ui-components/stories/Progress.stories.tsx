@@ -11,13 +11,13 @@ import { Progress } from '../src/Progress';
 import { WrapperDiv } from '../src/Shared.styles';
 
 storiesOf('Progress Bar', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('Primary', () => (
-    <WrapperDiv>
-      <Progress
-        disabled={boolean('disable', false)}
-        percent={number('percent complete', 50)}
-      />
-    </WrapperDiv>
-  ));
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('Primary', () => (
+		<WrapperDiv>
+			<Progress
+				disabled={boolean('disable', false)}
+				percent={number('percent complete', 50)}
+			/>
+		</WrapperDiv>
+	));

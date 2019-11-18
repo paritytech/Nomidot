@@ -4,22 +4,21 @@
 
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { boolean, select, text, withKnobs } from '@storybook/addon-knobs';
+import { text, withKnobs } from '@storybook/addon-knobs';
 
 import { withTheme } from './customDecorators';
 import { Container, NavHeader } from '../src';
 
 storiesOf('Header', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('empty', () => (
-    <Container>
-      <NavHeader />
-    </Container>
-  ))
-  .add('with header', () => (
-    <Container>
-      <NavHeader siteTitle={text('title', 'Nomidot')} />
-    </Container>
-  ))
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('empty', () => (
+		<Container>
+			<NavHeader />
+		</Container>
+	))
+	.add('with header', () => (
+		<Container>
+			<NavHeader siteTitle={text('title', 'Nomidot')} />
+		</Container>
+	));

@@ -11,12 +11,7 @@ import { withTheme } from './customDecorators';
 import { InputFile } from '../src';
 
 storiesOf('Input File', module)
-  .addDecorator(withKnobs)
-  .addDecorator(withTheme)
-  .add('no props', () => (
-    <InputFile />
-  ))
-  .add('with props', () => (
-    <InputFile
-      onChange={action('file dropped')} />
-  ));
+	.addDecorator(withKnobs)
+	.addDecorator(withTheme)
+	.add('no props', () => <InputFile />)
+	.add('with props', () => <InputFile onChange={action('file dropped')} />);

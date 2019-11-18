@@ -7,6 +7,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'semistandard',
+    'prettier',
     'plugin:prettier/recommended',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -19,13 +20,16 @@ module.exports = {
       './tsconfig.json'
     ]
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
+  plugins: ['prettier', 'react', 'react-hooks', '@typescript-eslint'],
   rules: {
     // Disable prop-types, because we already have TS
     "react/prop-types": "off",
     // Hooks rules
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    // prettier
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   },
   settings: {
     react: {

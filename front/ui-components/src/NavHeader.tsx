@@ -7,33 +7,33 @@ import React from 'react';
 import { polkadotOfficialTheme } from './globalStyle';
 
 interface HeaderProps {
-  siteTitle?: any // pass in a Link directly
+	siteTitle?: any; // pass in a Link directly
 }
 
 export const NavHeader = (props: HeaderProps) => (
-  <header
-    style={{
-      background: `${polkadotOfficialTheme.hotPink}`,
-      marginBottom: `1.45rem`
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <span
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {props.siteTitle}
-        </span>
-      </h1>
-    </div>
-  </header>
-)
+	<header
+		style={{
+			background: `${polkadotOfficialTheme.hotPink}`,
+			marginBottom: `1.45rem`,
+		}}
+	>
+		<div
+			style={{
+				margin: `0 auto`,
+				maxWidth: 960,
+				padding: `1.45rem 1.0875rem`,
+			}}
+		>
+			<h1 style={{ margin: 0 }}>
+				<span
+					style={{
+						color: `white`,
+						textDecoration: `none`,
+					}}
+				>
+					{props.siteTitle}
+				</span>
+			</h1>
+		</div>
+	</header>
+);

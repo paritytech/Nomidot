@@ -8,14 +8,15 @@ import styled from 'styled-components';
 import { substrateLightTheme } from './globalStyle';
 
 export const FlexSegment = styled<any>(SUISegment)`
-  &&& {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: ${(props): string => props.height || '3rem'};
-    width: ${(props): string => props.width || '80%'};
-    margin: 0.3rem auto;
-    box-shadow: 0 2px 2px 0 rgba(${substrateLightTheme.black}, 0.3);
-    background-color: ${(props): string => props.backgroundColor || substrateLightTheme.white};
-  }
+	&&& {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: ${(props): string => props.height || '3rem'};
+		width: ${(props): string => props.width || '80%'};
+		margin: 0.3rem auto;
+		box-shadow: 0 2px 2px 0 rgba(${substrateLightTheme.black}, 0.3);
+		background-color: ${(props): string =>
+			props.backgroundColor || substrateLightTheme.white};
+	}
 `;

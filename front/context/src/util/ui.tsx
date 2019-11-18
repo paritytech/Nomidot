@@ -13,8 +13,10 @@ import React from 'react';
  * <Input onChange={handleChangeName} />;
  * ```
  */
-export function handler (setter: React.Dispatch<React.SetStateAction<string>>) {
-  return function ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void {
-    setter(value);
-  };
+export function handler(setter: React.Dispatch<React.SetStateAction<string>>) {
+	return function({
+		target: { value },
+	}: React.ChangeEvent<HTMLInputElement>): void {
+		setter(value);
+	};
 }

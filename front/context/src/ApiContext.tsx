@@ -7,17 +7,19 @@ import { ChainProperties, Health } from '@polkadot/types/interfaces';
 import React from 'react';
 
 export interface System {
-  chain: string;
-  health: Health;
-  name: string;
-  properties: ChainProperties;
-  version: string;
+	chain: string;
+	health: Health;
+	name: string;
+	properties: ChainProperties;
+	version: string;
 }
 
 export interface ApiContextType {
-  api: ApiRx; // From @polkadot/api
-  isReady: boolean; // Are api and keyring loaded?
-  system: System; // Information about the chain
+	api: ApiRx; // From @polkadot/api
+	isReady: boolean; // Are api and keyring loaded?
+	system: System; // Information about the chain
 }
 
-export const ApiContext: React.Context<ApiContextType> = React.createContext({} as ApiContextType);
+export const ApiContext: React.Context<ApiContextType> = React.createContext(
+	{} as ApiContextType
+);
