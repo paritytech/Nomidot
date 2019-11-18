@@ -22,9 +22,7 @@ export const Onboarding = (props: Props): React.ReactElement => {
   return (
     <Transition animation='scale' duration={500} transitionOnMount visible>
       <Modal dimmer open>
-        <Breadcrumbs activeLabel={ONBOARDING_STEPS[0]} sectionLabels={ONBOARDING_STEPS} />
-        <Modal.Header>Accounts injected from @polkadot-js extension. <Circle fill={polkadotOfficialTheme.neonBlue} /></Modal.Header>
-        <Modal.SubHeader>To get started, select the account you wish to use as your stash.</Modal.SubHeader>
+        <Breadcrumbs activeLabel={ONBOARDING_STEPS[0]} sectionLabels={ONBOARDING_STEPS} /><Modal.Header>Accounts injected from @polkadot-js extension. <Circle fill={polkadotOfficialTheme.neonBlue} /></Modal.Header><Modal.SubHeader>To get started, select the account you wish to use as your stash.</Modal.SubHeader>
         <Modal.Content>
           <AccountsList accounts={injectedAccounts} />
         </Modal.Content>
