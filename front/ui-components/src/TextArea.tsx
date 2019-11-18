@@ -13,12 +13,17 @@ type TextAreaProps = {
   value?: string;
 };
 
-export function TextArea (props: TextAreaProps): React.ReactElement {
+export function TextArea(props: TextAreaProps): React.ReactElement {
   const { placeholder, rows, value } = props;
 
   return (
     <Form>
-      <SUITextArea placeholder={placeholder} rows={rows} style={{ minHeight: '100px' }} value={value} />
+      <SUITextArea
+        placeholder={placeholder}
+        rows={rows}
+        style={{ minHeight: '100px' }}
+        value={value}
+      />
     </Form>
   );
 }

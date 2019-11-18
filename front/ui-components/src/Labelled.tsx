@@ -14,7 +14,7 @@ type LabelledProps = {
   withLabel?: boolean;
 };
 
-export function Labelled (props: LabelledProps): React.ReactElement | null {
+export function Labelled(props: LabelledProps): React.ReactElement | null {
   const { children, isHidden = false, label, withLabel = false } = props;
 
   if (isHidden) {

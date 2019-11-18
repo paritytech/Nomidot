@@ -4,7 +4,7 @@
 
 import React, { useCallback } from 'react';
 import { DropzoneState, useDropzone } from 'react-dropzone';
-import styled from 'styled-components';
+import styled, { ThemedStyledProps } from 'styled-components';
 
 type Props = {
   onChange?: (data: string | null) => void;
@@ -25,11 +25,13 @@ const getColor = (props: Partial<DropzoneState>): string => {
   return '#eeeeee';
 };
 
-const Container = styled<any>('div')`
+const Container = styled.div`
   align-items: center;
   border-width: 2px;
   border-radius: 2px;
-  border-color: ${(props): string => getColor(props)};
+  border-color: ${(
+    props: ThemedStyledProps<Partial<DropzoneState>, string>
+  ): string => getColor(props)};
   border-style: dashed;
   background-color: #fafafa;
   color: #bdbdbd;
@@ -38,33 +40,38 @@ const Container = styled<any>('div')`
   flex-direction: column;
   outline: none;
   padding: 100px;
-  transition: border .24s ease-in-out;
+  transition: border 0.24s ease-in-out;
 `;
 
-export function InputFile (props: Props): React.ReactElement {
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    const reader = new FileReader();
+export function InputFile(props: Props): React.ReactElement {
+  const onDrop = useCallback(
+    (acceptedFiles: Array<File>) => {
+      const reader = new FileReader();
 
-    reader.onabort = (): void => console.log('file reading was aborted');
-    reader.onerror = (): void => console.log('file reading has failed');
-    reader.onload = (): void => {
-      props.onChange && props.onChange(reader.result as string);
-    };
+      reader.onabort = (): void => console.log('file reading was aborted');
+      reader.onerror = (): void => console.log('file reading has failed');
+      reader.onload = (): void => {
+        props.onChange && props.onChange(reader.result as string);
+      };
 
-    acceptedFiles.forEach(file => reader.readAsBinaryString(file));
-  }, [props]);
+      acceptedFiles.forEach(file => reader.readAsBinaryString(file));
+    },
+    [props]
+  );
 
   const {
     getRootProps,
     getInputProps,
     isDragActive,
     isDragAccept,
-    isDragReject
+    isDragReject,
   } = useDropzone({ accept: defaultAccept, onDrop });
 
   return (
     <div className='container'>
-      <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
+      <Container
+        {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
+      >
         <input {...getInputProps()} />
         <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
       </Container>

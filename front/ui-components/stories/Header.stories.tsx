@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import { text, withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { boolean, select, text, withKnobs } from '@storybook/addon-knobs';
+import React from 'react';
 
-import { withTheme } from './customDecorators';
 import { Container, NavHeader } from '../src';
+import { withTheme } from './customDecorators';
 
 storiesOf('Header', module)
   .addDecorator(withKnobs)
@@ -22,4 +21,4 @@ storiesOf('Header', module)
     <Container>
       <NavHeader siteTitle={text('title', 'Nomidot')} />
     </Container>
-  ))
+  ));

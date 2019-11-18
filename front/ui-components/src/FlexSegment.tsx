@@ -2,12 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import SUISegment from 'semantic-ui-react/dist/commonjs/elements/Segment';
+import React from 'react';
+import SUISegment, {
+  SegmentProps,
+} from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import styled from 'styled-components';
 
-import { substrateLightTheme } from './globalStyle';
+import { theme } from './globalStyle';
 
-export const FlexSegment = styled<any>(SUISegment)`
+const StyledFlexSegment = styled(SUISegment)`
   &&& {
     display: flex;
     justify-content: center;
@@ -15,7 +18,14 @@ export const FlexSegment = styled<any>(SUISegment)`
     height: ${(props): string => props.height || '3rem'};
     width: ${(props): string => props.width || '80%'};
     margin: 0.3rem auto;
-    box-shadow: 0 2px 2px 0 rgba(${substrateLightTheme.black}, 0.3);
-    background-color: ${(props): string => props.backgroundColor || substrateLightTheme.white};
+    box-shadow: 0 2px 2px 0 rgba(${theme.black}, 0.3);
+    background-color: ${(props): string =>
+      props.backgroundColor || theme.white};
   }
 `;
+
+export function FlexSegment(props: SegmentProps): React.ReactElement {
+  return <StyledFlexSegment {...props} />;
+}
+
+FlexSegment.Group = SUISegment.Group;

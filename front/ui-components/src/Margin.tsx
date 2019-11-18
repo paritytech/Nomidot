@@ -19,7 +19,7 @@ interface MarginProps {
 /**
  * Mapping between <Margin />'s size and its CSS value.
  */
-function sizeValues (size: MarginPropsValue): string {
+function sizeValues(size: MarginPropsValue): string {
   switch (size) {
     case true:
       return MARGIN_SIZES.medium;
@@ -29,15 +29,17 @@ function sizeValues (size: MarginPropsValue): string {
     case 'big':
     case 'huge':
       return MARGIN_SIZES[size];
-    default: return '0';
+    default:
+      return '0';
   }
 }
 
 /**
  * Get value from prop.
  */
-const getMarginValue = (position: keyof MarginProps) => (props: MarginProps): string =>
-  sizeValues(props[position]);
+const getMarginValue = (position: keyof MarginProps) => (
+  props: MarginProps
+): string => sizeValues(props[position]);
 
 export const Margin = styled.div<MarginProps>`
   margin-bottom: ${getMarginValue('bottom')}

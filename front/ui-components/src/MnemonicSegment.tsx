@@ -4,14 +4,16 @@
 
 import React from 'react';
 
-import { Icon, FadedText, FlexSegment, RefreshButton } from './';
+import { FadedText, FlexSegment, Icon, RefreshButton } from './';
 
 type MnemonicSegmentProps = {
   mnemonic?: string;
   onClick?: () => void;
 };
 
-export function MnemonicSegment (props: MnemonicSegmentProps): React.ReactElement {
+export function MnemonicSegment(
+  props: MnemonicSegmentProps
+): React.ReactElement {
   const { mnemonic, onClick } = props;
 
   return (

@@ -5,17 +5,17 @@
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
 
-import { SUIProgressBarSize } from './types';
+import { SUIColor, SUIProgressBarSize } from './types';
 
 interface ProgressProps {
-  color?: any; // FIXME
+  color?: SUIColor;
   disabled?: boolean;
   percent?: number;
   size?: SUIProgressBarSize;
   value?: number;
 }
 
-export function Progress (props: ProgressProps): React.ReactElement {
+export function Progress(props: ProgressProps): React.ReactElement {
   const { color = 'blue', disabled, percent, size } = props;
 
   return (

@@ -14,16 +14,18 @@ interface NavButtonProps extends StyledNavButtonProps {
   value?: string;
 }
 
-export function NavButton (props: NavButtonProps): React.ReactElement {
-  const { children, fontSize = 'medium', fontWeight = '300', value, ...rest } = props;
+export function NavButton(props: NavButtonProps): React.ReactElement {
+  const {
+    children,
+    fontSize = 'medium',
+    fontWeight = '300',
+    value,
+    ...rest
+  } = props;
 
   return (
-
     <StyledNavButton {...rest}>
-      <DynamicSizeText
-        fontSize={fontSize}
-        fontWeight={fontWeight}
-      >
+      <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
         {value || children}
       </DynamicSizeText>
     </StyledNavButton>

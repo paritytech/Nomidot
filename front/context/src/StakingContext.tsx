@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedFees, DerivedStaking } from '@polkadot/api-derive/types';
 import { Option } from '@polkadot/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { DerivedFees, DerivedStaking } from '@polkadot/api-derive/types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
@@ -17,30 +17,37 @@ export const StakingContext = createContext({
   allStashes: [] as AccountId[],
   allStashesAndControllers: [[], []] as [AccountId[], Option<AccountId>[]],
   derivedBalanceFees: {} as DerivedFees,
-  onlyBondedAccounts: {} as AccountDerivedStakingMap
+  onlyBondedAccounts: {} as AccountDerivedStakingMap,
 });
 
 interface Props {
   children: React.ReactNode;
 }
 
-export function StakingContextProvider (props: Props): React.ReactElement {
+export function StakingContextProvider(props: Props): React.ReactElement {
   const { children } = props;
   const { injectedAccounts } = useContext(AccountsContext);
   const { api, isReady } = useContext(ApiContext);
-  const [accountStakingMap, setAccountStakingMap] = useState<AccountDerivedStakingMap>({});
-  const [onlyBondedAccounts, setOnlyBondedAccounts] = useState<AccountDerivedStakingMap>({});
+  const [accountStakingMap, setAccountStakingMap] = useState<
+    AccountDerivedStakingMap
+  >({});
+  const [onlyBondedAccounts, setOnlyBondedAccounts] = useState<
+    AccountDerivedStakingMap
+  >({});
   const [allStashesAndControllers, setAllStashesAndControllers] = useState();
   const [allStashes, setAllStashes] = useState<AccountId[]>([]);
   const [allControllers, setAllControllers] = useState<AccountId[]>([]);
-  const [derivedBalanceFees, setDerivedBalanceFees] = useState<DerivedFees>({} as DerivedFees);
+  const [derivedBalanceFees, setDerivedBalanceFees] = useState<DerivedFees>(
+    {} as DerivedFees
+  );
 
   // get derive.staking.info for each account in keyring
   useEffect(() => {
     if (isReady) {
       const accounts: InjectedAccountExt[] = injectedAccounts;
       accounts.map(({ address }: InjectedAccountExt) => {
-        const subscription = api.derive.staking.info(address)
+        const subscription = api.derive.staking
+          .info(address)
           .pipe(take(1))
           .subscribe((derivedStaking: DerivedStaking) => {
             const newAccountStakingMap = accountStakingMap;
@@ -59,13 +66,17 @@ export function StakingContextProvider (props: Props): React.ReactElement {
 
   // get allStashesAndControllers
   useEffect(() => {
-    if (!isReady) { return; }
+    if (!isReady) {
+      return;
+    }
 
-    const controllersSub = api.derive.staking.controllers()
+    const controllersSub = api.derive.staking
+      .controllers()
       .pipe(take(1))
-      .subscribe((allStashesAndControllers) => {
+      .subscribe(allStashesAndControllers => {
         setAllStashesAndControllers(allStashesAndControllers);
-        const allControllers = allStashesAndControllers[1].filter((optional: Option<AccountId>): boolean => optional.isSome)
+        const allControllers = allStashesAndControllers[1]
+          .filter((optional: Option<AccountId>): boolean => optional.isSome)
           .map((accountId): AccountId => accountId.unwrap());
         const allStashes = allStashesAndControllers[0];
 
@@ -78,9 +89,12 @@ export function StakingContextProvider (props: Props): React.ReactElement {
 
   // derived fees
   useEffect(() => {
-    if (!isReady) { return; }
+    if (!isReady) {
+      return;
+    }
 
-    const feeSub = api.derive.balances.fees()
+    const feeSub = api.derive.balances
+      .fees()
       .pipe(take(1))
       .subscribe(setDerivedBalanceFees);
 
@@ -88,14 +102,16 @@ export function StakingContextProvider (props: Props): React.ReactElement {
   }, [api, isReady]);
 
   return (
-    <StakingContext.Provider value={{
-      accountStakingMap,
-      allControllers,
-      allStashes,
-      allStashesAndControllers,
-      derivedBalanceFees,
-      onlyBondedAccounts
-    }}>
+    <StakingContext.Provider
+      value={{
+        accountStakingMap,
+        allControllers,
+        allStashes,
+        allStashesAndControllers,
+        derivedBalanceFees,
+        onlyBondedAccounts,
+      }}
+    >
       {children}
     </StakingContext.Provider>
   );

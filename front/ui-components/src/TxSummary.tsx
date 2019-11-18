@@ -16,18 +16,20 @@ type TxSummaryProps = {
   tokenSymbol?: string;
 };
 
-function smallIcon (address: string): React.ReactElement {
-  return <Margin as='span' left='small' right='small' top='small'>
-    <IdentityIcon theme='substrate' size={16} value={address} />
-  </Margin>;
+function smallIcon(address: string): React.ReactElement {
+  return (
+    <Margin as='span' left='small' right='small' top='small'>
+      <IdentityIcon theme='substrate' size={16} value={address} />
+    </Margin>
+  );
 }
 
-export function TxSummary ({
+export function TxSummary({
   amount,
   methodCall,
   recipientAddress,
   senderAddress,
-  tokenSymbol = DEFAULT_TOKEN_SYMBOL
+  tokenSymbol = DEFAULT_TOKEN_SYMBOL,
 }: TxSummaryProps): React.ReactElement {
   return (
     <StackedHorizontal>

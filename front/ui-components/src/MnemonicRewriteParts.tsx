@@ -4,7 +4,14 @@
 
 import React from 'react';
 
-import { Input, Labelled, Margin, Stacked, StackedHorizontal, WrapperDiv } from './index';
+import {
+  Input,
+  Labelled,
+  Margin,
+  Stacked,
+  StackedHorizontal,
+  WrapperDiv,
+} from './index';
 
 interface Props {
   firstWord: string;
@@ -18,7 +25,7 @@ interface Props {
   handleSetFourthWord: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function MnemonicRewriteParts (props: Props): React.ReactElement {
+export function MnemonicRewriteParts(props: Props): React.ReactElement {
   const {
     randomFourWords,
     firstWord,
@@ -28,7 +35,7 @@ export function MnemonicRewriteParts (props: Props): React.ReactElement {
     handleSetFirstWord,
     handleSetSecondWord,
     handleSetThirdWord,
-    handleSetFourthWord
+    handleSetFourthWord,
   } = props;
 
   return (

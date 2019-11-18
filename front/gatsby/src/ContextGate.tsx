@@ -4,38 +4,46 @@
 
 import { ApiRx, WsProvider } from '@polkadot/api';
 import { logger } from '@polkadot/util';
-import React, { useState, useEffect } from 'react';
+import {
+  AccountsContextProvider,
+  AlertsContextProvider,
+  ApiContext,
+  StakingContextProvider,
+  System,
+  TxQueueContextProvider,
+} from '@substrate/context/src';
+import React, { useEffect, useState } from 'react';
 import { combineLatest } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
-
-import { AccountsContextProvider, AlertsContextProvider, ApiContext, StakingContextProvider, System, TxQueueContextProvider } from '@substrate/context/src';
 
 interface State {
   isReady: boolean;
   system: System;
 }
 
-const INIT_ERROR = new Error('Please wait for `isReady` before fetching this property');
+const INIT_ERROR = new Error(
+  'Please wait for `isReady` before fetching this property'
+);
 
 const DISCONNECTED_STATE_PROPERTIES = {
   isReady: false,
   system: {
-    get chain (): never {
+    get chain(): never {
       throw INIT_ERROR;
     },
-    get health (): never {
+    get health(): never {
       throw INIT_ERROR;
     },
-    get name (): never {
+    get name(): never {
       throw INIT_ERROR;
     },
-    get properties (): never {
+    get properties(): never {
       throw INIT_ERROR;
     },
-    get version (): never {
+    get version(): never {
       throw INIT_ERROR;
-    }
-  }
+    },
+  },
 };
 
 // Hardcode default to Kusama
@@ -45,16 +53,16 @@ const l = logger('context');
 
 const api = new ApiRx({ provider: new WsProvider(WS_URL) });
 
-export function ContextGate (props: { children: React.ReactNode }): React.ReactElement {
+export function ContextGate(props: {
+  children: React.ReactNode;
+}): React.ReactElement {
   const { children } = props;
   const [state, setState] = useState<State>(DISCONNECTED_STATE_PROPERTIES);
   const { isReady, system } = state;
 
   useEffect(() => {
     // Block the UI when disconnected
-    api.isConnected.pipe(
-      filter(isConnected => !isConnected)
-    ).subscribe(() => {
+    api.isConnected.pipe(filter(isConnected => !isConnected)).subscribe(() => {
       setState(DISCONNECTED_STATE_PROPERTIES);
     });
 
@@ -65,22 +73,24 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
       .pipe(
         filter(isConnected => !!isConnected),
         // API needs to be ready to be able to use RPCs; connected isn't enough
-        switchMap(() =>
-          api.isReady
-        ),
+        switchMap(() => api.isReady),
         switchMap(() =>
           combineLatest([
             api.rpc.system.chain(),
             api.rpc.system.health(),
             api.rpc.system.name(),
             api.rpc.system.properties(),
-            api.rpc.system.version()
+            api.rpc.system.version(),
           ])
         )
       )
       .subscribe(([chain, health, name, properties, version]) => {
         l.log(`Api connected to ${WS_URL}`);
-        l.log(`Api ready, connected to chain "${chain}" with properties ${JSON.stringify(properties)}`);
+        l.log(
+          `Api ready, connected to chain "${chain}" with properties ${JSON.stringify(
+            properties
+          )}`
+        );
 
         setState({
           ...state,
@@ -90,24 +100,24 @@ export function ContextGate (props: { children: React.ReactNode }): React.ReactE
             health,
             name: name.toString(),
             properties,
-            version: version.toString()
-          }
-        })
+            version: version.toString(),
+          },
+        });
       });
-  }, []);
+  }, [state]);
 
   return (
     <AlertsContextProvider>
       <AccountsContextProvider>
         <TxQueueContextProvider>
-          <ApiContext.Provider value={{
-            api: api,
-            isReady,
-            system
-          }}>
-            <StakingContextProvider>
-              {children}
-            </StakingContextProvider>
+          <ApiContext.Provider
+            value={{
+              api: api,
+              isReady,
+              system,
+            }}
+          >
+            <StakingContextProvider>{children}</StakingContextProvider>
           </ApiContext.Provider>
         </TxQueueContextProvider>
       </AccountsContextProvider>

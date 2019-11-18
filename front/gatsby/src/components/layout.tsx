@@ -5,14 +5,17 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
+import './layout.css';
+
 import { Container } from '@substrate/ui-components/src';
-import React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import { graphql, useStaticQuery } from 'gatsby';
+import React from 'react';
 
-import "./layout.css"
+interface Props {
+  children: React.ReactNode;
+}
 
-const Layout = ({ children }: any): React.ReactElement => {
+const Layout = ({ children }: Props): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -21,7 +24,7 @@ const Layout = ({ children }: any): React.ReactElement => {
         }
       }
     }
-  `)
+  `);
   return (
     <>
       <div
@@ -34,18 +37,13 @@ const Layout = ({ children }: any): React.ReactElement => {
       >
         <Container>{children}</Container>
         <footer>
-          {data.site.siteMetadata.title}
-          © {new Date().getFullYear()}, Built with
+          {data.site.siteMetadata.title}© {new Date().getFullYear()}, Built with
           {` `}
-          <a href="https://polkadot.js.org/api/">Polkadot-js</a>
+          <a href='https://polkadot.js.org/api/'>Polkadot-js</a>
         </footer>
       </div>
     </>
-  )
-}
+  );
+};
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default Layout
+export default Layout;

@@ -14,7 +14,7 @@ interface CircleProps {
   withShadow?: boolean;
 }
 
-export function Circle (props: CircleProps): React.ReactElement {
+export function Circle(props: CircleProps): React.ReactElement {
   const { fill, label, radius = 20, withShadow = false } = props;
 
   const StyledCircle = styled.span`
@@ -32,11 +32,12 @@ export function Circle (props: CircleProps): React.ReactElement {
     justify-content: center;
     text-align: center;
     vertical-align: center;
-    box-shadow: ${withShadow && '0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12)'};
+    box-shadow: ${withShadow &&
+      '0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12)'};
   `;
 
   const WhiteText = styled.p`
-    color: #ffffff
+    color: #ffffff;
   `;
 
   return (

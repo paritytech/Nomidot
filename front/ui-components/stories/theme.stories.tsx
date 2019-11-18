@@ -2,18 +2,38 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { select, text, withKnobs } from '@storybook/addon-knobs';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
-import { Card, Container, DynamicSizeText, ErrorText, FadedText, FONT_SIZES, FontSize, Header, SubHeader, SuccessText, substrateLightTheme } from '../src';
+import {
+  Card,
+  Container,
+  DynamicSizeText,
+  ErrorText,
+  FadedText,
+  FONT_SIZES,
+  FontSize,
+  Header,
+  SubHeader,
+  substrateLightTheme,
+  SuccessText,
+} from '../src';
 
 const colorPaletteCard = (color: string, hex: string): React.ReactElement => (
-  <Card style={{ flex: '1 0 calc(33.333% - 20px)', maxWidth: 'calc(33.333% - 20px)' }}>
+  <Card
+    style={{
+      flex: '1 0 calc(33.333% - 20px)',
+      maxWidth: 'calc(33.333% - 20px)',
+    }}
+  >
     <div style={{ background: hex, width: '100%', height: '85%' }} />
     <Card.Content style={{ display: 'flex column', textAlign: 'center' }}>
       <Card.Header> {color} </Card.Header>
-      <Card.Description> <b>Hex:</b> {hex} </Card.Description>
+      <Card.Description>
+        {' '}
+        <b>Hex:</b> {hex}{' '}
+      </Card.Description>
     </Card.Content>
   </Card>
 );
@@ -22,11 +42,9 @@ storiesOf('Theme', module)
   .addDecorator(withKnobs)
   .add('colors', () => (
     <Container style={{ display: 'flex', flexFlow: 'row wrap', width: '90%' }}>
-      {
-        Object.entries(substrateLightTheme).map(([color, hex]) => {
-          return colorPaletteCard(color, hex);
-        })
-      }
+      {Object.entries(substrateLightTheme).map(([color, hex]) => {
+        return colorPaletteCard(color, hex);
+      })}
     </Container>
   ))
   .add('typescale', () => (
@@ -38,7 +56,8 @@ storiesOf('Theme', module)
       <FadedText> Faded </FadedText>
       <DynamicSizeText
         fontSize={select('font size', FONT_SIZES, 'medium') as FontSize}
-        fontWeight={text('fontWeight', '500')}>
+        fontWeight={text('fontWeight', '500')}
+      >
         Dynamic
       </DynamicSizeText>
     </Container>

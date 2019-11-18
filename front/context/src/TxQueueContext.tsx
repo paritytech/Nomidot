@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { SubmittableResult } from '@polkadot/api/submittable';
+import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Balance } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 import React, { createContext, useState } from 'react';
 import { Subject } from 'rxjs';
-
-import { logger } from '@polkadot/util';
 
 const l = logger('tx-queue');
 
@@ -58,17 +57,23 @@ const errorObservable = new Subject<{ error: string }>();
 
 export const TxQueueContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  enqueue: (extrinsic: Extrinsic, details: ExtrinsicDetails) => { console.error(INIT_ERROR); },
+  enqueue: (extrinsic: Extrinsic, details: ExtrinsicDetails) => {
+    console.error(INIT_ERROR);
+  },
   txQueue: [] as PendingExtrinsic[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  submit: (extrinsicId: number) => { console.error(INIT_ERROR); },
-  clear: () => { console.error(INIT_ERROR); },
+  submit: (extrinsicId: number) => {
+    console.error(INIT_ERROR);
+  },
+  clear: () => {
+    console.error(INIT_ERROR);
+  },
   cancelObservable,
   successObservable,
-  errorObservable
+  errorObservable,
 });
 
-export function TxQueueContextProvider (props: Props): React.ReactElement {
+export function TxQueueContextProvider(props: Props): React.ReactElement {
   const [txCounter, setTxCounter] = useState(0); // Number of tx sent in total
   const [txQueue, setTxQueue] = useState([] as PendingExtrinsic[]);
 
@@ -76,18 +81,18 @@ export function TxQueueContextProvider (props: Props): React.ReactElement {
    * Replace tx with id `extrinsicId` with a new tx
    */
   const replaceTx = (extrinsicId: number, newTx: PendingExtrinsic): void => {
-    setTxQueue((prevTxQueue: PendingExtrinsic[]) => prevTxQueue.map((tx: PendingExtrinsic) => (
-      tx.id === extrinsicId
-        ? newTx
-        : tx
-    )));
+    setTxQueue((prevTxQueue: PendingExtrinsic[]) =>
+      prevTxQueue.map((tx: PendingExtrinsic) =>
+        tx.id === extrinsicId ? newTx : tx
+      )
+    );
   };
 
   /**
    * Unsubscribe the tx with id `extrinsicId`
    */
   const closeTxSubscription = (extrinsicId: number): void => {
-    const tx = txQueue.find((tx) => tx.id === extrinsicId);
+    const tx = txQueue.find(tx => tx.id === extrinsicId);
     if (tx) {
       tx.unsubscribe();
       setTxQueue(txQueue.splice(txQueue.indexOf(tx), 1));
@@ -101,43 +106,48 @@ export function TxQueueContextProvider (props: Props): React.ReactElement {
     const extrinsicId = txCounter;
     setTxCounter(txCounter + 1);
 
-    l.log(`Queued extrinsic #${extrinsicId} from ${details.senderPair.address} to ${details.recipientAddress} of amount ${details.amount}`, details);
+    l.log(
+      `Queued extrinsic #${extrinsicId} from ${details.senderPair.address} to ${details.recipientAddress} of amount ${details.amount}`,
+      details
+    );
 
-    setTxQueue(txQueue.concat({
-      details,
-      extrinsic,
-      id: extrinsicId,
-      status: {
-        isAskingForConfirm: true,
-        isFinalized: false,
-        isDropped: false,
-        isPending: false,
-        isUsurped: false
-      },
-      unsubscribe: () => { /* Do nothing on unsubscribe at this stage */ }
-    }));
+    setTxQueue(
+      txQueue.concat({
+        details,
+        extrinsic,
+        id: extrinsicId,
+        status: {
+          isAskingForConfirm: true,
+          isFinalized: false,
+          isDropped: false,
+          isPending: false,
+          isUsurped: false,
+        },
+        unsubscribe: () => {
+          /* Do nothing on unsubscribe at this stage */
+        },
+      })
+    );
   };
 
   /**
    * Sign and send the tx with id `extrinsicId`
    */
   const submit = (extrinsicId: number): void => {
-    const pendingExtrinsic = txQueue.find((tx) => tx.id === extrinsicId);
+    const pendingExtrinsic = txQueue.find(tx => tx.id === extrinsicId);
 
     if (!pendingExtrinsic) {
       l.error(`There's no extrinsic with id #${extrinsicId}`);
       return;
     }
 
-    const {
-      details,
-      extrinsic,
-      status
-    } = pendingExtrinsic;
+    const { details, extrinsic, status } = pendingExtrinsic;
     const { senderPair } = details;
 
     if (!status.isAskingForConfirm) {
-      l.error(`Extrinsic #${extrinsicId} is being submitted, but its status is not isAskingForConfirm`);
+      l.error(
+        `Extrinsic #${extrinsicId} is being submitted, but its status is not isAskingForConfirm`
+      );
       return;
     }
 
@@ -147,7 +157,9 @@ export function TxQueueContextProvider (props: Props): React.ReactElement {
       .signAndSend(senderPair) // send the extrinsic
       .subscribe(
         (txResult: SubmittableResult) => {
-          const { status: { isFinalized, isDropped, isUsurped } } = txResult;
+          const {
+            status: { isFinalized, isDropped, isUsurped },
+          } = txResult;
 
           l.log(`Extrinsic #${extrinsicId} has new status:`, txResult);
 
@@ -158,8 +170,8 @@ export function TxQueueContextProvider (props: Props): React.ReactElement {
               isDropped,
               isFinalized,
               isPending: false,
-              isUsurped
-            }
+              isUsurped,
+            },
           });
 
           if (isFinalized) {
@@ -186,9 +198,11 @@ export function TxQueueContextProvider (props: Props): React.ReactElement {
       status: {
         ...pendingExtrinsic.status,
         isAskingForConfirm: false,
-        isPending: true
+        isPending: true,
       },
-      unsubscribe: () => { subscription.unsubscribe(); }
+      unsubscribe: () => {
+        subscription.unsubscribe();
+      },
     });
   };
 
@@ -203,19 +217,23 @@ export function TxQueueContextProvider (props: Props): React.ReactElement {
     });
     setTxQueue([]);
     l.log('Cleared all extrinsics');
-    cancelObservable.next({ msg: `cleared the following extrinsic(s): ${msg.join(' ')}` });
+    cancelObservable.next({
+      msg: `cleared the following extrinsic(s): ${msg.join(' ')}`,
+    });
   };
 
   return (
-    <TxQueueContext.Provider value={{
-      clear,
-      enqueue,
-      submit,
-      txQueue,
-      successObservable,
-      errorObservable,
-      cancelObservable
-    }}>
+    <TxQueueContext.Provider
+      value={{
+        clear,
+        enqueue,
+        submit,
+        txQueue,
+        successObservable,
+        errorObservable,
+        cancelObservable,
+      }}
+    >
       {props.children}
     </TxQueueContext.Provider>
   );

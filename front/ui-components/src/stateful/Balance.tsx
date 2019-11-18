@@ -9,12 +9,16 @@ import { combineLatest, of } from 'rxjs';
 
 import { BalanceDisplay, BalanceDisplayProps } from '../BalanceDisplay';
 
-interface BalanceProps extends Pick<BalanceDisplayProps, Exclude<keyof BalanceDisplayProps, 'balance'>> {
+interface BalanceProps
+  extends Pick<
+    BalanceDisplayProps,
+    Exclude<keyof BalanceDisplayProps, 'balance'>
+  > {
   address: string;
   detailed?: boolean;
 }
 
-export function Balance (props: BalanceProps): React.ReactElement {
+export function Balance(props: BalanceProps): React.ReactElement {
   const { address, detailed = false, ...rest } = props;
   const { api } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState<DerivedBalances>();
@@ -23,7 +27,7 @@ export function Balance (props: BalanceProps): React.ReactElement {
   useEffect(() => {
     const balanceSub = combineLatest([
       api.derive.balances.all(address),
-      api.derive.staking.info(address)
+      api.derive.staking.info(address),
     ]).subscribe(([allBalances, allStaking]) => {
       setAllBalances(allBalances);
       setAllStaking(allStaking);
@@ -43,6 +47,7 @@ export function Balance (props: BalanceProps): React.ReactElement {
       allStaking={allStaking}
       detailed={detailed}
       handleRedeem={handleRedeem}
-      {...rest} />
+      {...rest}
+    />
   );
 }

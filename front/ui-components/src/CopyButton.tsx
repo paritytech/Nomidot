@@ -24,7 +24,7 @@ const StyledCopyButton = styled.button`
   }
 `;
 
-export function CopyButton (props: CopyButtonProps): React.ReactElement {
+export function CopyButton(props: CopyButtonProps): React.ReactElement {
   const { value } = props;
   const [copied, setCopied] = useState(false);
 

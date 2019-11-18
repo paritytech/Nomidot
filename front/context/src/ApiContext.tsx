@@ -20,4 +20,6 @@ export interface ApiContextType {
   system: System; // Information about the chain
 }
 
-export const ApiContext: React.Context<ApiContextType> = React.createContext({} as ApiContextType);
+export const ApiContext: React.Context<ApiContextType> = React.createContext(
+  {} as ApiContextType
+);

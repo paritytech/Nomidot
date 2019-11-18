@@ -2,24 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, text, withKnobs } from '@storybook/addon-knobs';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
-import { withTheme } from './customDecorators';
 import { Input } from '../src';
 import { SUIInputSize } from '../src/types';
+import { withTheme } from './customDecorators';
 
 const inputTypes = ['number', 'password', 'text'];
-const sizes: SUIInputSize[] = ['mini', 'small', 'large', 'big', 'huge', 'massive'];
+const sizes: SUIInputSize[] = [
+  'mini',
+  'small',
+  'large',
+  'big',
+  'huge',
+  'massive',
+];
 
 storiesOf('Input', module)
   .addDecorator(withKnobs)
   .addDecorator(withTheme)
-  .add('raw input', () => (
-    <Input />
-  ))
+  .add('raw input', () => <Input />)
   .add('with props', () => (
     <Input
       disabled={boolean('disabled', false)}
@@ -31,5 +36,6 @@ storiesOf('Input', module)
       onChange={action('typed')}
       placeholder='placeholder...'
       size={select('size', sizes, 'small')}
-      type={select('input type', inputTypes, 'text')} />
+      type={select('input type', inputTypes, 'text')}
+    />
   ));

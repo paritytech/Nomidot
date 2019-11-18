@@ -3,7 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import SUIButton, { ButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button';
+import SUIButton, {
+  ButtonProps,
+} from 'semantic-ui-react/dist/commonjs/elements/Button';
 import styled from 'styled-components';
 
 import { substrateLightTheme } from './globalStyle';
@@ -38,14 +40,24 @@ interface Props extends ButtonProps {
   type?: FabTypes;
 }
 
-export function Fab (props: Props): React.ReactElement {
+export function Fab(props: Props): React.ReactElement {
   return (
     <SUIFab {...props}>
-      {
-        props.type === 'add'
-          ? <Icon name='add' color='white' size='large' style={{ marginLeft: '8px' }} />
-          : <Icon name='send' color='white' size='large' style={{ marginLeft: '3.9px' }} />
-      }
+      {props.type === 'add' ? (
+        <Icon
+          name='add'
+          color='white'
+          size='large'
+          style={{ marginLeft: '8px' }}
+        />
+      ) : (
+        <Icon
+          name='send'
+          color='white'
+          size='large'
+          style={{ marginLeft: '3.9px' }}
+        />
+      )}
     </SUIFab>
   );
 }
