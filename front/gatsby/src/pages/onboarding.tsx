@@ -6,15 +6,12 @@ import { RouteComponentProps } from '@reach/router';
 import { AccountsContext } from '@substrate/context/src';
 import {
   AccountsList,
-  Breadcrumbs,
   Circle,
   Modal,
   polkadotOfficialTheme,
   Transition,
 } from '@substrate/ui-components/src';
 import React, { useContext } from 'react';
-
-const ONBOARDING_STEPS = ['stash', 'controller'];
 
 export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
   const { injectedAccounts } = useContext(AccountsContext);
@@ -24,10 +21,6 @@ export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
   return (
     <Transition animation='slide up' duration={500} transitionOnMount visible>
       <Modal centered dimmer open>
-        <Breadcrumbs
-          activeLabel={ONBOARDING_STEPS[0]}
-          sectionLabels={ONBOARDING_STEPS}
-        />
         <Modal.Header>
           Accounts injected from @polkadot-js extension.{' '}
           <Circle fill={polkadotOfficialTheme.neonBlue} />

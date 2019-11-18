@@ -31,6 +31,7 @@ type AddressSummaryProps = {
   orientation?: OrientationType;
   type?: 'stash' | 'controller';
   size?: SizeType;
+  source?: string;
   withShortAddress?: boolean;
 };
 
@@ -138,6 +139,7 @@ export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
     justifyContent = 'flex-start',
     orientation = 'vertical',
     size = 'medium',
+    source = ''
   } = props;
 
   return address ? (
@@ -154,6 +156,8 @@ export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
         {renderIcon(address, size)}
         <Margin left />
         {renderDetails(address, props)}
+        <Margin left />
+        { source && `Source: ${source}`}
       </StackedHorizontal>
     )
   ) : (

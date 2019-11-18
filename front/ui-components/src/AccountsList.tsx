@@ -26,23 +26,28 @@ export function AccountsList(props: Props): React.ReactElement {
               address,
               meta: { name, source },
             } = account;
-            console.log(source); // FIXME use in summary
+
             return (
-              <List.Content key={address}>
-                <Card height='100%' onClick={onSelectAccount}>
-                  <Card.Content>
-                    <AddressSummary
-                      address={address}
-                      alignItems='center'
-                      justifyContent='center'
-                      orientation='horizontal'
-                      size='small'
-                      name={name}
-                      withShortAddress
-                    />
-                  </Card.Content>
-                </Card>
-              </List.Content>
+              <List.Item>
+                <List.Content key={address}>
+                  <Card height='100%' onClick={onSelectAccount}>
+                    <Card.Content>
+                      <AddressSummary
+                        address={address}
+                        alignItems='center'
+                        justifyContent='center'
+                        orientation='horizontal'
+                        size='small'
+                        source={source}
+                        name={name}
+                        withShortAddress
+                      />
+
+
+                    </Card.Content>
+                  </Card>
+                </List.Content>
+              </List.Item>
             );
           })}
       </List>
