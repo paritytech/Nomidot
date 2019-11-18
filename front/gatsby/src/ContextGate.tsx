@@ -104,7 +104,7 @@ export function ContextGate(props: {
           },
         });
       });
-  }, [state]);
+  }, []);
 
   return (
     <AlertsContextProvider>

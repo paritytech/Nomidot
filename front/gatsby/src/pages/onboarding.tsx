@@ -22,8 +22,8 @@ export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
   // const [controller, setController] = useState();
 
   return (
-    <Transition animation='scale' duration={500} transitionOnMount visible>
-      <Modal dimmer open>
+    <Transition animation='slide up' duration={500} transitionOnMount visible>
+      <Modal centered dimmer open>
         <Breadcrumbs
           activeLabel={ONBOARDING_STEPS[0]}
           sectionLabels={ONBOARDING_STEPS}

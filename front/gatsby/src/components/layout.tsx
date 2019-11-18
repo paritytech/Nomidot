@@ -7,7 +7,7 @@
 
 import './layout.css';
 
-import { Container } from '@substrate/ui-components/src';
+import { FixedWidthContainer } from '@substrate/ui-components/src';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 
@@ -29,13 +29,13 @@ const Layout = ({ children }: Props): React.ReactElement => {
     <>
       <div
         style={{
+          minHeight: '100%',
           margin: `0 auto`,
-          maxWidth: 960,
           padding: `0px 1.0875rem 1.45rem`,
           paddingTop: 0,
         }}
       >
-        <Container>{children}</Container>
+        <FixedWidthContainer>{children}</FixedWidthContainer>
         <footer>
           {data.site.siteMetadata.title}© {new Date().getFullYear()}, Built with
           {` `}
