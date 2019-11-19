@@ -1,4 +1,4 @@
-// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2019 @paritytech/nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,6 +11,7 @@ import { FadedText } from './Shared.styles';
 
 type Props = {
   accounts: InjectedAccountExt[];
+  clickable: boolean;
   exclude?: string[]; // optional address(es) to exclude from display
   onSelectAccount?: (
     event: React.MouseEvent<HTMLElement>,
@@ -19,7 +20,7 @@ type Props = {
 };
 
 export function AccountsList(props: Props): React.ReactElement {
-  const { accounts, exclude, onSelectAccount } = props;
+  const { accounts, clickable, exclude, onSelectAccount } = props;
 
   const renderAccountsListItem = (): React.ReactElement => {
     const accountsExcludingFilter = exclude
@@ -41,7 +42,7 @@ export function AccountsList(props: Props): React.ReactElement {
               data-address={address}
             >
               <List.Content>
-                <Card height='100%'>
+                <Card clickable={clickable} height='100%'>
                   <Card.Content>
                     <AddressSummary
                       address={address}

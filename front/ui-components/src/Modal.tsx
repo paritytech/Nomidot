@@ -1,4 +1,4 @@
-// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2019 @paritytech/nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,6 +8,7 @@ import SUIModal, {
 } from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 import styled from 'styled-components';
 
+import { theme } from './globalStyle';
 import { FadedText, SubHeader } from './Shared.styles';
 
 type ModalProps = SUIModalProps;
@@ -26,6 +27,7 @@ const StyledContent = styled(SUIModal.Content)`
     align-items: ${(props): string => props.alignItems || 'center'};
     justify-content: ${(props): string => props.justifyContent || 'center'};
     min-width: 100%;
+    padding: ${(props): string => props.padding || '0 0'};
   }
 `;
 
@@ -36,15 +38,15 @@ const StyledActions = styled(StyledContent)`
 const StyledHeader = styled(SUIModal.Header)`
   &&& {
     display: flex;
-    justify-content: ${(props): string => props.justifyContent || 'space-between'}
-    align-items: flex-start;
     font-weight: 200;
+    justify-content: ${(props): string => props.justifyContent || 'space-between'}
   }
 `;
 
 const StyledSubHeader = styled(SubHeader)`
   &&& {
-    padding: 0 3rem 0 3rem;
+    color: ${(props): string => props.color || theme.black}
+    padding: ${(props): string => props.padding || '0 2rem'};
   }
 `;
 

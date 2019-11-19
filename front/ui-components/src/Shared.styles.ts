@@ -1,4 +1,4 @@
-// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2019 @paritytech/nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -103,8 +103,8 @@ export const Header = styled.h2<HeaderProps>`
 export const DynamicSizeText = styled.p<DynamicSizeTextProps>`
   font-size: ${(props): string => FONT_SIZES[props.fontSize || 'medium']};
   font-weight: ${(props): string => props.fontWeight || 'light'};
-  margin: 0 0;
-  text-align: center;
+  margin: ${(props): string => props.margin || '0 0'};
+  text-align: ${(props): string => props.textAlign || 'center'};
 `;
 
 export const RefreshButton = styled.button`

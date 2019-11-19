@@ -1,4 +1,4 @@
-// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2019 @paritytech/nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -19,6 +19,10 @@ const StyledCard = styled<typeof SUICard>(SUICard)`
     min-height: ${(props: CardProps): string => props.minHeight || '100%'};
     width: ${(props: CardProps): string => props.width || '100%'};
     overflow: ${(props: CardProps): string => props.overflow || 'none'};
+    
+    :hover {
+      cursor: ${(props) => props.clickable ? 'pointer' : 'auto'};
+    }
   }
 `;
 

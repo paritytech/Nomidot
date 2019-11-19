@@ -1,50 +1,34 @@
-// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2019 @paritytech/nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, InjectedAccountExt } from '@substrate/context/src';
 import {
   AccountsList,
   AddressSummary,
-  FadedText,
+  DynamicSizeText,
+  ErrorText,
   Icon,
   Margin,
   Modal,
   NavButton,
   Stacked,
   StackedHorizontal,
-  Transition,
+  Transition
 } from '@substrate/ui-components/src';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
+export const Onboarding = (): React.ReactElement => {
   const { injectedAccounts } = useContext(AccountsContext);
   const [step, setStep] = useState<number>(1);
   const [stash, setStash] = useState<InjectedAccountExt>();
   const [controller, setController] = useState<InjectedAccountExt>();
   const [exclude, setExclude] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (step === 1 && stash && exclude.includes(stash.address)) {
-      setStash(undefined);
-
-      const newExclude = exclude.splice(exclude.indexOf(stash!.address), 1);
-
-      setExclude(newExclude);
-    } else if (step === 2 && controller && exclude.includes(controller.address)) {
-      setStash(undefined);
-      setController(undefined);
-
-      let newExclude = exclude.splice(exclude.indexOf(stash!.address), 1);
-      newExclude = newExclude.splice(exclude.indexOf(controller!.address), 1);
-
-      setExclude(newExclude);
-    }
-  }, [step]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const goBackOneStep = () => {
     setStep(step - 1);
+    setExclude([]);
   }
 
   const handleSelectAccount = (
@@ -55,24 +39,32 @@ export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
     }: React.MouseEvent<HTMLElement>
   ) => {
     if (!address) {
-      console.error('No address supplied from extension!') // should never come here
+      console.error('No address supplied!') // should never come here
+      setErrors([...errors, 'No address supplied!']);
     } else {
       if (step === 1) {
         setStash(injectedAccounts.find(account => account.address === address));
-        setExclude([...exclude, address]);
-        setStep(step + 1);
       } else if (step === 2) {
         setController(injectedAccounts.find(account => account.address === address));
-        setExclude([...exclude, address]);
-        setStep(step + 1);
       }
+
+      if (stash === controller) {
+        setErrors([...errors, 'Stash cannot be the same as controller']);
+      } else if (checkIfBonded(stash)) {
+        setErrors([...errors, 'Stash is already bonded to another controller'])
+      }
+ 
+      setExclude([...exclude, address]);
+      setStep(step + 1);
     }
   };
 
   const renderSelectStashMessage = () => {
     return (
       <Modal.SubHeader>
-        To get started, select the account you wish to use as your stash.
+        <DynamicSizeText fontSize='medium'>Your Stash Account(s) will hold the majority of your funds.</DynamicSizeText>
+        <Margin top />
+        <DynamicSizeText fontSize='small' fontWeight='600'>We highly encourage you to keep its private key disconnected from any network, and only use it to bond funds to your Controller Account.</DynamicSizeText>
       </Modal.SubHeader>
     );
   };
@@ -80,7 +72,9 @@ export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
   const renderSelectControllerMessage = () => {
     return (
       <Modal.SubHeader>
-        Nice! Now choose the account you wish to use as your controller.
+        <DynamicSizeText fontSize='medium'>Nice! Now choose the account you wish to use as your controller.</DynamicSizeText>
+
+        <DynamicSizeText fontSize='small' fontWeight='600'>Your Controller Account will be for day to day needs, such as paying tx fees, and nominating new validators.</DynamicSizeText>
       </Modal.SubHeader>
     );
   };
@@ -125,13 +119,18 @@ export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
     )
   }
 
+  const renderErrors = () => {
+    return errors.map(msg => <ErrorText>{msg}</ErrorText>)
+  }
+
   return (
-    <Transition animation='slide up' duration={500} transitionOnMount visible>
+    <Transition animation='slide up' duration={400} transitionOnMount visible>
       <Modal centered dimmer open>
         <Modal.Header justifyContent='flex-start'>
           {step > 1 && <Icon name='arrow left' onClick={goBackOneStep} />}
           <Margin left />
-          <FadedText>Accounts injected from @polkadot-js extension.</FadedText>
+          Nominator Profile Creation Walkthrough
+          <Margin left />
         </Modal.Header>
         { step < 3 && renderSelectedAccountsHeader() }
         {
@@ -143,13 +142,14 @@ export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
                 ? renderConfirmMessage()
                 : null
         }
-        <Modal.Content>
+        <Modal.Content padding='0 4rem'>
           {
             step === 3
               ? renderSelectedAccountsHeader()
               : (
                 <AccountsList
                   accounts={injectedAccounts}
+                  clickable
                   exclude={exclude}
                   onSelectAccount={handleSelectAccount}
                 />
