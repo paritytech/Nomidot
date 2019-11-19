@@ -103,7 +103,8 @@ export const Header = styled.h2<HeaderProps>`
 export const DynamicSizeText = styled.p<DynamicSizeTextProps>`
   font-size: ${(props): string => FONT_SIZES[props.fontSize || 'medium']};
   font-weight: ${(props): string => props.fontWeight || 'light'};
-  margin: ${(props): string => props.margin || '0 0'};
+  margin: ${(props): string => props.margin || '0 auto'};
+  padding: ${(props): string => props.padding || '0 auto'};
   text-align: ${(props): string => props.textAlign || 'center'};
 `;
 
@@ -121,7 +122,7 @@ export const RefreshButton = styled.button`
 export const StyledNavLink = styled.span <StyledNavLinkProps>`
   background: none;
   border: none;
-  color: ${(props): string => props.inverted ? theme.white : theme.hotPink};
+  color: ${(props): string => props.inverted ? theme.white : theme.lightBlue1};
   font-size: ${FONT_SIZES.medium};
   font-weight: 300;
 
@@ -134,7 +135,7 @@ export const StyledLinkButton = styled.button`
   align-items: space-between;
   background: none;
   border: none;
-  color: ${(props): string => props.color || theme.hotPink};
+  color: ${(props): string => props.color || theme.lightBlue1};
   display: flex;
   font-size: ${FONT_SIZES.medium};
   font-weight: 300;

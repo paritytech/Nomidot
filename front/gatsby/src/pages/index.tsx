@@ -4,17 +4,24 @@
 
 import { ApiContext, ApiContextType } from '@substrate/context/src';
 import { Loading } from '@substrate/ui-components/src';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+// global
 import Layout from '../components/layout';
 import SEO from '../components/seo';
+
+// context
 import { ContextGate } from '../ContextGate';
+
+// pages
 import Onboarding from './onboarding';
-import { useEffect } from '@storybook/addons';
+import Profile from './profile';
 
 function IndexPage(): React.ReactElement {
+  const [isOnboarded, setIsOnboarded] = useState();
+  
   useEffect(() => {
-    checkIfOnboarded();
+    setIsOnboarded(localStorage.getItem('isOnboarded'));
   }, []);
 
   return (
@@ -26,7 +33,11 @@ function IndexPage(): React.ReactElement {
           isReady ? (
             <Layout>
               <SEO title='Home' />
-              <Onboarding />
+              {
+                isOnboarded
+                  ? <Profile />
+                  : <Onboarding />
+              }
             </Layout>
           ) : (
             <Loading active inline />

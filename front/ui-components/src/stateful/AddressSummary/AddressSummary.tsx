@@ -120,6 +120,7 @@ function renderDetails(
         {withShortAddress && renderShortAddress(address)}
         {type && renderAccountType(size, type)}
       </Stacked>
+      <Margin left />
       <Stacked alignItems='flex-start'>
         {bondingPair && renderBondingPair(bondingPair)}
         {isNominator && renderBadge('nominator')}
@@ -161,7 +162,7 @@ export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
         <Margin left />
         {renderDetails(address, props)}
         <Margin left />
-        {source && `Source: ${source}`}
+        {source && <span style={{ position: 'absolute', bottom: 5, right: 5, fontSize: '12px' }}>Source: {source}</span>}
       </StackedHorizontal>
     )
   ) : (

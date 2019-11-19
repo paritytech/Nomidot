@@ -9,11 +9,13 @@ import {
   DynamicSizeText,
   ErrorText,
   Icon,
+  Image,
   Margin,
   Modal,
   NavButton,
   Stacked,
   StackedHorizontal,
+  StyledLinkButton,
   theme,
   Transition,
   WithSpaceAround
@@ -21,12 +23,32 @@ import {
 import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
+import extensionCreateGif from '../images/extension_create.gif';
+
 const Onboarding = (): React.ReactElement => {
+  const { isWeb3Injected } = useContext(AccountsContext);
+  const [isComponentMounted, setIsComponentMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsComponentMounted(true);
+  }, []);
+
+  return (
+    <Transition animation='slide up' duration={500} visible={isComponentMounted}>
+      {
+        isWeb3Injected
+          ? <ProfileCreationWalkthrough />
+          : <WalletCreationTutorial />
+      }
+    </Transition>
+  );
+};
+
+const ProfileCreationWalkthrough = (): React.ReactElement => {
   // contexts
   const { injectedAccounts } = useContext(AccountsContext);
   const { onlyBondedAccounts } = useContext(StakingContext);
   // states
-  const [isComponentMounted, setIsComponentMounted] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1);
   const [stash, setStash] = useState<InjectedAccountExt>();
   const [controller, setController] = useState<InjectedAccountExt>();
@@ -36,9 +58,7 @@ const Onboarding = (): React.ReactElement => {
   /*
   * -------------------- React Lifecycle Methods ---------------------
   */
-  useEffect(() => {
-    setIsComponentMounted(true);
-  }, []);
+  
 
   useEffect(() => {
     if (stash && controller && stash === controller) {
@@ -64,12 +84,13 @@ const Onboarding = (): React.ReactElement => {
 
   const handleConfirmation = () => {
     if (stash && controller) {
-      // FIXME: set this as a column in Users table in DB
-      localStorage.setItem(stash.address, 'stash');
-      localStorage.setItem(controller.address, 'controller');
-
       // navigate to Bonding page
-      navigate('/bonding');
+      navigate('/bonding', {
+        state: {
+          controller,
+          stash
+        }
+      });
     }
   }
 
@@ -97,6 +118,11 @@ const Onboarding = (): React.ReactElement => {
       setStep(step + 1);
     }
   };
+
+  const handleSkipOnboarding = () => {
+    localStorage.setItem('isOnboarded', 'true');
+    window.location.reload();
+  }
 
   const handleGoBack = () => {
     setStep(step - 1);
@@ -176,17 +202,20 @@ const Onboarding = (): React.ReactElement => {
 
   const renderModalHeader = () => {
     return (
-      <Modal.Header justifyContent='flex-start'>
+      <Modal.Header justifyContent='space-between'>
         {step > 1 && <Icon color={theme.neonBlue} name='arrow left' onClick={handleGoBack} />}
         <Margin left />
         Nominator Profile Creation Walkthrough
         <Margin left />
+        {renderSkipOnboarding()}
       </Modal.Header>
     )
   }
 
   const renderModalSubheader = () => {
-    if (step === 1) {
+    if (!injectedAccounts.length) {
+      return renderNoInjectedAccounts();
+    } else if (step === 1) {
       return renderSelectStashMessage();
     } else if (step === 2) {
       return renderSelectControllerMessage()
@@ -208,6 +237,7 @@ const Onboarding = (): React.ReactElement => {
               />
             )
         }
+    
       </Modal.Content>
     )
   }
@@ -216,17 +246,45 @@ const Onboarding = (): React.ReactElement => {
     return errors.map(msg => <ErrorText>{msg}</ErrorText>)
   }
 
+  const renderSkipOnboarding = (): React.ReactElement => {
+    return <StyledLinkButton onClick={handleSkipOnboarding}>Skip</StyledLinkButton>;
+  };
+
+  const renderNoInjectedAccounts = (): React.ReactElement => {
+    return (
+      <Modal.SubHeader>
+        <Stacked>
+          <DynamicSizeText fontSize='large'>No Injected Accounts Found.</DynamicSizeText>
+          <Margin top />
+          <DynamicSizeText fontWeight='600'>Please create or restore them from the @polkadotjs-extension to continue.</DynamicSizeText>
+          <Margin top />
+          <Image src={extensionCreateGif} alt='Create Account from Extension' size='medium' />
+        </Stacked>
+      </Modal.SubHeader>
+    )
+  }
+
   return (
-    <Transition animation='slide up' duration={500} visible={isComponentMounted}>
-      <Modal centered dimmer open>
-        {renderModalHeader()}
-        { step < 3 && renderSelectedAccountsHeader()}
-        {renderModalSubheader()}
-        {renderModalContent()}
-        {renderErrors()}
-      </Modal>
-    </Transition>
-  );
-};
+    <Modal centered dimmer open>
+      {renderModalHeader()}
+      { step < 3 && renderSelectedAccountsHeader()}
+      {renderModalSubheader()}
+      {renderModalContent()}
+      {renderErrors()}
+    </Modal>
+  )
+}
+
+const WalletCreationTutorial = (): React.ReactElement => {
+  const [step, setStep] = useState(1);
+  
+
+  return (
+    <Modal centered dimmer open>
+      <Modal.Header>Wallet Creation Tutorial</Modal.Header>
+
+    </Modal>
+  )
+}
 
 export default Onboarding;

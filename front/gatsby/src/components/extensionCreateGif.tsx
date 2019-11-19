@@ -13,10 +13,10 @@ import React from 'react';
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Image = (): React.ReactElement => {
+const ExtensionCreateGif = (): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query {
-      placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
+      placeholderImage: file(relativePath: { eq: "extension_create.gif" }) {
         childImageSharp {
           fluid(maxWidth: 300) {
             ...GatsbyImageSharpFluid
@@ -29,4 +29,4 @@ const Image = (): React.ReactElement => {
   return <Img fluid={data.placeholderImage.childImageSharp.fluid} />;
 };
 
-export default Image;
+export default ExtensionCreateGif;

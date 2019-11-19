@@ -23,6 +23,7 @@ export interface DynamicSizeTextProps {
   fontWeight?: string;
   fontSize?: FontSize;
   margin?: string;
+  padding?: string;
   textAlign?: TextAlign;
 }
 
