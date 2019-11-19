@@ -12,8 +12,6 @@ import { ContextGate } from '../ContextGate';
 import { Onboarding } from './onboarding';
 
 function IndexPage(): React.ReactElement {
-  // const { injectedAccounts } = useContext(AccountsContext);
-
   return (
     <ContextGate>
       <ApiContext.Consumer>

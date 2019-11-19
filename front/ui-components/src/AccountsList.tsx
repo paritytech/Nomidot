@@ -69,6 +69,6 @@ export function AccountsList(props: Props): React.ReactElement {
   };
 
   return (
-    <Container>{accounts ? renderAccountsListItem() : renderEmpty()}</Container>
+    <>{accounts ? renderAccountsListItem() : renderEmpty()}</>
   );
 }

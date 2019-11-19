@@ -229,6 +229,7 @@ export const SubHeader = styled.h3<SubHeaderProps>`
   font-weight: 200;
   font-size: ${FONT_SIZES.medium};
   margin: ${(props): string => props.noMargin ? '0 0' : '1rem auto 0.3rem auto'};
+  padding: ${(props): string => props.padding || '0 0'};
   text-align: ${(props): string => props.textAlign || 'left'};
 `;
 

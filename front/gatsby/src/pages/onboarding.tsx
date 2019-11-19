@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountsContext, InjectedAccountExt } from '@substrate/context/src';
+import { AccountsContext, InjectedAccountExt, StakingContext } from '@substrate/context/src';
 import {
   AccountsList,
   AddressSummary,
@@ -14,21 +14,57 @@ import {
   NavButton,
   Stacked,
   StackedHorizontal,
-  Transition
+  theme,
+  Transition,
+  WithSpaceAround
 } from '@substrate/ui-components/src';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 export const Onboarding = (): React.ReactElement => {
+  // contexts
   const { injectedAccounts } = useContext(AccountsContext);
+  const { onlyBondedAccounts } = useContext(StakingContext);
+  // states
+  const [isComponentMounted, setIsComponentMounted] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1);
   const [stash, setStash] = useState<InjectedAccountExt>();
   const [controller, setController] = useState<InjectedAccountExt>();
   const [exclude, setExclude] = useState<string[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const goBackOneStep = () => {
+  useEffect(() => {
+    setIsComponentMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (stash && controller && stash === controller) {
+      setErrors([...errors, 'Stash cannot be the same as controller.']);
+    }
+    
+    if (stash && checkIfBonded(stash.address)) {
+      setErrors([...errors, 'Stash is already bonded to another controller.'])
+    }
+    
+    if (controller && checkIfBonded(controller.address)) {
+      setErrors([...errors, 'Controller is already bonded from another controller.'])
+    }
+  }, [stash, controller]);
+
+  const checkIfBonded = (address: string) => {
+    return !!onlyBondedAccounts[address];
+  }
+
+  const goBack = () => {
     setStep(step - 1);
     setExclude([]);
+  }
+
+  const handleConfirmation = () => {
+    if (stash && controller) {
+      // set roles in meta
+      localStorage.setItem(stash.address, 'stash');
+      localStorage.setItem(controller.address, 'controller');
+    }
   }
 
   const handleSelectAccount = (
@@ -41,19 +77,17 @@ export const Onboarding = (): React.ReactElement => {
     if (!address) {
       console.error('No address supplied!') // should never come here
       setErrors([...errors, 'No address supplied!']);
-    } else {
-      if (step === 1) {
-        setStash(injectedAccounts.find(account => account.address === address));
-      } else if (step === 2) {
-        setController(injectedAccounts.find(account => account.address === address));
-      }
+      return;
+    }
 
-      if (stash === controller) {
-        setErrors([...errors, 'Stash cannot be the same as controller']);
-      } else if (checkIfBonded(stash)) {
-        setErrors([...errors, 'Stash is already bonded to another controller'])
-      }
- 
+    if (step === 1) {
+      setStash(injectedAccounts.find(account => account.address === address));
+    } else if (step === 2) {
+      setController(injectedAccounts.find(account => account.address === address));
+    }
+    
+    if (!errors.length) {
+      debugger;
       setExclude([...exclude, address]);
       setStep(step + 1);
     }
@@ -81,41 +115,44 @@ export const Onboarding = (): React.ReactElement => {
 
   const renderSelectedAccountsHeader = () => {
     return (
-      <Modal.SubHeader>
-        <StackedHorizontal>
-          { stash 
-            && <AddressSummary 
-                  justifyContent='center'
-                  noBalance address={stash.address}
-                  name={stash.meta.name}
-                  size='tiny'
-                  type='stash' />
-          }
-          { controller
-            && <AddressSummary
-                  justifyContent='center'
-                  name={controller.meta.name}
-                  noBalance
-                  address={controller.address}
-                  size='tiny'
-                  type='controller' /> }
-        </StackedHorizontal>
-      </Modal.SubHeader>
+      <>
+        <Margin top='massive' />
+        <Modal.SubHeader>
+          <StackedHorizontal>
+            { stash 
+              && <AddressSummary 
+                    justifyContent='center'
+                    noBalance address={stash.address}
+                    name={stash.meta.name}
+                    size='tiny'
+                    type='stash' />
+            }
+            { controller
+              && <AddressSummary
+                    justifyContent='center'
+                    name={controller.meta.name}
+                    noBalance
+                    address={controller.address}
+                    size='tiny'
+                    type='controller' /> }
+          </StackedHorizontal>
+          {step === 3 && renderConfirmMessage()}
+        </Modal.SubHeader>
+      </>
     );
   };
 
   const renderConfirmMessage = () => {
     return (
-      <>
-        <Margin top />
+      <WithSpaceAround>
         <Stacked>
           <Modal.SubHeader>
-            Confirm details and get staking!
+            <DynamicSizeText fontSize='medium' fontWeight='500'>Confirm details and get staking!</DynamicSizeText>
           </Modal.SubHeader>
           <Margin top='large' />
-          <NavButton>Get Started!</NavButton>
+          <NavButton onClick={handleConfirmation}>Get Started!</NavButton>
         </Stacked>
-      </>
+      </WithSpaceAround>
     )
   }
 
@@ -123,39 +160,52 @@ export const Onboarding = (): React.ReactElement => {
     return errors.map(msg => <ErrorText>{msg}</ErrorText>)
   }
 
-  return (
-    <Transition animation='slide up' duration={400} transitionOnMount visible>
-      <Modal centered dimmer open>
-        <Modal.Header justifyContent='flex-start'>
-          {step > 1 && <Icon name='arrow left' onClick={goBackOneStep} />}
-          <Margin left />
-          Nominator Profile Creation Walkthrough
-          <Margin left />
-        </Modal.Header>
-        { step < 3 && renderSelectedAccountsHeader() }
+  const renderModalContent = () => {
+    return (
+      <Modal.Content padding='2rem 3rem'>
         {
-          step === 1
-            ? renderSelectStashMessage()
-            : step === 2 && stash
-              ? renderSelectControllerMessage()
-              : step === 3 && controller
-                ? renderConfirmMessage()
-                : null
+          step === 3
+            ? renderSelectedAccountsHeader()
+            : (
+              <AccountsList
+                accounts={injectedAccounts}
+                clickable
+                exclude={exclude}
+                onSelectAccount={handleSelectAccount}
+              />
+            )
         }
-        <Modal.Content padding='0 4rem'>
-          {
-            step === 3
-              ? renderSelectedAccountsHeader()
-              : (
-                <AccountsList
-                  accounts={injectedAccounts}
-                  clickable
-                  exclude={exclude}
-                  onSelectAccount={handleSelectAccount}
-                />
-              )
-          }
-        </Modal.Content>
+      </Modal.Content>
+    )
+  }
+
+  const renderModalHeader = () => {
+    return (
+      <Modal.Header justifyContent='flex-start'>
+        {step > 1 && <Icon color={theme.neonBlue} name='arrow left' onClick={goBack} />}
+        <Margin left />
+        Nominator Profile Creation Walkthrough
+        <Margin left />
+      </Modal.Header>
+    )
+  }
+
+  const renderModalSubheader = () => {
+    if (step === 1) {
+      return renderSelectStashMessage();
+    } else if (step === 2) {
+      return renderSelectControllerMessage()
+    }
+  }
+
+  return (
+    <Transition animation='slide up' duration={500} visible={isComponentMounted}>
+      <Modal centered dimmer open>
+        {renderModalHeader()}
+        { step < 3 && renderSelectedAccountsHeader()}
+        {renderModalSubheader()}
+        {renderModalContent()}
+        {renderErrors()}
       </Modal>
     </Transition>
   );
