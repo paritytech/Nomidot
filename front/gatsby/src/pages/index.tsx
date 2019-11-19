@@ -9,9 +9,14 @@ import React from 'react';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { ContextGate } from '../ContextGate';
-import { Onboarding } from './onboarding';
+import Onboarding from './onboarding';
+import { useEffect } from '@storybook/addons';
 
 function IndexPage(): React.ReactElement {
+  useEffect(() => {
+    checkIfOnboarded();
+  }, []);
+
   return (
     <ContextGate>
       <ApiContext.Consumer>

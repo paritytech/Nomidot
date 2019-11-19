@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-export const Validators = (props: RouteComponentProps): React.ReactElement => {
-  console.log(props);
-
+const Bonding = (): React.ReactElement => {
   return (
-    <div>'hellow vlaidators'</div>
+    <>
+    There's some stuff going on here!
+    </>
   )
 }
+
+export default Bonding;

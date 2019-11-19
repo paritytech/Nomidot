@@ -21,7 +21,7 @@ import {
 import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
-export const Onboarding = (): React.ReactElement => {
+const Onboarding = (): React.ReactElement => {
   // contexts
   const { injectedAccounts } = useContext(AccountsContext);
   const { onlyBondedAccounts } = useContext(StakingContext);
@@ -33,6 +33,9 @@ export const Onboarding = (): React.ReactElement => {
   const [exclude, setExclude] = useState<string[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
 
+  /*
+  * -------------------- React Lifecycle Methods ---------------------
+  */
   useEffect(() => {
     setIsComponentMounted(true);
   }, []);
@@ -209,7 +212,6 @@ export const Onboarding = (): React.ReactElement => {
     )
   }
 
-
   const renderErrors = () => {
     return errors.map(msg => <ErrorText>{msg}</ErrorText>)
   }
@@ -226,3 +228,5 @@ export const Onboarding = (): React.ReactElement => {
     </Transition>
   );
 };
+
+export default Onboarding;
