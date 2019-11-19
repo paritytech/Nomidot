@@ -203,8 +203,7 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
   const renderModalHeader = () => {
     return (
       <Modal.Header justifyContent='space-between'>
-        {step > 1 && <Icon color={theme.neonBlue} name='arrow left' onClick={handleGoBack} />}
-        <Margin left />
+        {step > 1 && <><Icon color={theme.neonBlue} name='arrow left' onClick={handleGoBack} /><Margin left /></>}
         Nominator Profile Creation Walkthrough
         <Margin left />
         {renderSkipOnboarding()}
@@ -213,7 +212,7 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
   }
 
   const renderModalSubheader = () => {
-    if (!injectedAccounts.length) {
+    if (!injectedAccounts.length || exclude.length === injectedAccounts.length) {
       return renderNoInjectedAccounts();
     } else if (step === 1) {
       return renderSelectStashMessage();
@@ -237,7 +236,6 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
               />
             )
         }
-    
       </Modal.Content>
     )
   }
@@ -254,9 +252,9 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
     return (
       <Modal.SubHeader>
         <Stacked>
-          <DynamicSizeText fontSize='large'>No Injected Accounts Found.</DynamicSizeText>
+          <DynamicSizeText fontSize='large'>No More Injected Accounts Found.</DynamicSizeText>
           <Margin top />
-          <DynamicSizeText fontWeight='600'>Please create or restore them from the @polkadotjs-extension to continue.</DynamicSizeText>
+          <DynamicSizeText fontWeight='600'>Please create or restore more from the @polkadotjs-extension to continue.</DynamicSizeText>
           <Margin top />
           <Image src={extensionCreateGif} alt='Create Account from Extension' size='medium' />
         </Stacked>
