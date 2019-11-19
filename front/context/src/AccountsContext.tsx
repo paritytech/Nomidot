@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { isWeb3Injected, web3AccountsSubscribe, web3Enable } from '@polkadot/extension-dapp';
-import { InjectedAccountWithMeta, Unsubcall } from '@polkadot/extension-inject/types';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import React, { createContext, useEffect, useState } from 'react';
 
 import { InjectedAccountExt } from './types';

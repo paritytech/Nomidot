@@ -7,7 +7,7 @@
 
 import './layout.css';
 
-import { FixedWidthContainer } from '@substrate/ui-components/src';
+import { NavHeader } from '@substrate/ui-components/src';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 
@@ -27,16 +27,17 @@ const Layout = ({ children }: Props): React.ReactElement => {
   `);
   return (
     <>
+    <NavHeader siteTitle={data.site.siteMetadata.title} />
       <div
         style={{
-          minHeight: '100%',
+          height: '100%',
           margin: `0 auto`,
           padding: `0px 1.0875rem 1.45rem`,
           paddingTop: 0,
         }}
       >
-        <FixedWidthContainer>{children}</FixedWidthContainer>
-        <footer>
+        <main className='content'>{children}</main>
+        <footer className='footer'>
           {data.site.siteMetadata.title}© {new Date().getFullYear()}, Built with
           {` `}
           <a href='https://polkadot.js.org/api/'>Polkadot-js</a>

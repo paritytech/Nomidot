@@ -4,6 +4,7 @@
 
 import { ApiContext, ApiContextType } from '@substrate/context/src';
 import { Loading } from '@substrate/ui-components/src';
+import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
 
 // global
@@ -35,8 +36,8 @@ function IndexPage(): React.ReactElement {
               <SEO title='Home' />
               {
                 isOnboarded
-                  ? <Profile />
-                  : <Onboarding />
+                  ? () => navigate('/profile')
+                  : () => navigate('/onboarding')
               }
             </Layout>
           ) : (

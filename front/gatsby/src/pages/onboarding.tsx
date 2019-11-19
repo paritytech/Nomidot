@@ -13,6 +13,7 @@ import {
   Margin,
   Modal,
   NavButton,
+  NavHeader,
   Stacked,
   StackedHorizontal,
   StyledLinkButton,
@@ -84,8 +85,8 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
 
   const handleConfirmation = () => {
     if (stash && controller) {
-      // navigate to Bonding page
-      navigate('/bonding', {
+      // navigate to Profile page
+      navigate('/profile', {
         state: {
           controller,
           stash
@@ -191,7 +192,7 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
       <WithSpaceAround>
         <Stacked>
           <Modal.SubHeader>
-            <DynamicSizeText fontSize='medium' fontWeight='500'>Confirm details and get staking!</DynamicSizeText>
+            <DynamicSizeText fontSize='medium' fontWeight='500'>Let's get staking!</DynamicSizeText>
           </Modal.SubHeader>
           <Margin top='large' />
           <NavButton onClick={handleConfirmation}>Get Started!</NavButton>
@@ -212,7 +213,7 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
   }
 
   const renderModalSubheader = () => {
-    if (!injectedAccounts.length || exclude.length === injectedAccounts.length) {
+    if (!injectedAccounts.length || (exclude.length === injectedAccounts.length && step < 3)) {
       return renderNoInjectedAccounts();
     } else if (step === 1) {
       return renderSelectStashMessage();

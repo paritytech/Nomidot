@@ -620,3 +620,15 @@ pre tt:after {
     font-size: 100%;
   }
 }
+
+/*
+* Sticky Footer
+*/
+
+.content {
+  min-height: calc(100vh - 150px);
+}
+
+.footer {
+  height: '50px'
+}
