@@ -18,6 +18,7 @@ import {
   Transition,
   WithSpaceAround
 } from '@substrate/ui-components/src';
+import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
 export const Onboarding = (): React.ReactElement => {
@@ -54,16 +55,18 @@ export const Onboarding = (): React.ReactElement => {
     return !!onlyBondedAccounts[address];
   }
 
-  const goBack = () => {
-    setStep(step - 1);
-    setExclude([]);
-  }
+  /*
+  * -------------------- Event Handlers ---------------------
+  */
 
   const handleConfirmation = () => {
     if (stash && controller) {
-      // set roles in meta
+      // FIXME: set this as a column in Users table in DB
       localStorage.setItem(stash.address, 'stash');
       localStorage.setItem(controller.address, 'controller');
+
+      // navigate to Bonding page
+      navigate('/bonding');
     }
   }
 
@@ -87,12 +90,21 @@ export const Onboarding = (): React.ReactElement => {
     }
     
     if (!errors.length) {
-      debugger;
       setExclude([...exclude, address]);
       setStep(step + 1);
     }
   };
 
+  const handleGoBack = () => {
+    setStep(step - 1);
+    setExclude([]);
+  }
+
+  /*
+  * --------------------- Render Subcomponents ---------------------
+  */
+
+  // Step 1.
   const renderSelectStashMessage = () => {
     return (
       <Modal.SubHeader>
@@ -103,6 +115,7 @@ export const Onboarding = (): React.ReactElement => {
     );
   };
 
+  // Step 2.
   const renderSelectControllerMessage = () => {
     return (
       <Modal.SubHeader>
@@ -121,15 +134,16 @@ export const Onboarding = (): React.ReactElement => {
           <StackedHorizontal>
             { stash 
               && <AddressSummary 
-                    justifyContent='center'
-                    noBalance address={stash.address}
+                    justifyContent='flex-end'
+                    noBalance
+                    address={stash.address}
                     name={stash.meta.name}
                     size='tiny'
                     type='stash' />
             }
             { controller
               && <AddressSummary
-                    justifyContent='center'
+                    justifyContent='flex-end'
                     name={controller.meta.name}
                     noBalance
                     address={controller.address}
@@ -142,6 +156,7 @@ export const Onboarding = (): React.ReactElement => {
     );
   };
 
+  // Step 3.
   const renderConfirmMessage = () => {
     return (
       <WithSpaceAround>
@@ -156,8 +171,23 @@ export const Onboarding = (): React.ReactElement => {
     )
   }
 
-  const renderErrors = () => {
-    return errors.map(msg => <ErrorText>{msg}</ErrorText>)
+  const renderModalHeader = () => {
+    return (
+      <Modal.Header justifyContent='flex-start'>
+        {step > 1 && <Icon color={theme.neonBlue} name='arrow left' onClick={handleGoBack} />}
+        <Margin left />
+        Nominator Profile Creation Walkthrough
+        <Margin left />
+      </Modal.Header>
+    )
+  }
+
+  const renderModalSubheader = () => {
+    if (step === 1) {
+      return renderSelectStashMessage();
+    } else if (step === 2) {
+      return renderSelectControllerMessage()
+    }
   }
 
   const renderModalContent = () => {
@@ -179,23 +209,9 @@ export const Onboarding = (): React.ReactElement => {
     )
   }
 
-  const renderModalHeader = () => {
-    return (
-      <Modal.Header justifyContent='flex-start'>
-        {step > 1 && <Icon color={theme.neonBlue} name='arrow left' onClick={goBack} />}
-        <Margin left />
-        Nominator Profile Creation Walkthrough
-        <Margin left />
-      </Modal.Header>
-    )
-  }
 
-  const renderModalSubheader = () => {
-    if (step === 1) {
-      return renderSelectStashMessage();
-    } else if (step === 2) {
-      return renderSelectControllerMessage()
-    }
+  const renderErrors = () => {
+    return errors.map(msg => <ErrorText>{msg}</ErrorText>)
   }
 
   return (

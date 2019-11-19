@@ -108,19 +108,21 @@ export function ContextGate(props: {
 
   return (
     <AlertsContextProvider>
-      <AccountsContextProvider>
-        <TxQueueContextProvider>
-          <ApiContext.Provider
-            value={{
-              api: api,
-              isReady,
-              system,
-            }}
-          >
-            <StakingContextProvider>{children}</StakingContextProvider>
-          </ApiContext.Provider>
-        </TxQueueContextProvider>
-      </AccountsContextProvider>
+      <TxQueueContextProvider>
+        <ApiContext.Provider
+          value={{
+            api: api,
+            isReady,
+            system,
+          }}
+        >
+          <AccountsContextProvider>
+            <StakingContextProvider>
+              {children}
+            </StakingContextProvider>
+          </AccountsContextProvider>
+        </ApiContext.Provider>
+      </TxQueueContextProvider>
     </AlertsContextProvider>
   );
 }
