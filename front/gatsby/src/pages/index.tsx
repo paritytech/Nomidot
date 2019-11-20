@@ -4,7 +4,6 @@
 
 import { ApiContext, ApiContextType } from '@substrate/context/src';
 import { Loading } from '@substrate/ui-components/src';
-import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
 
 // global
@@ -14,11 +13,15 @@ import SEO from '../components/seo';
 // context
 import { ContextGate } from '../ContextGate';
 
+// pages
+import Profile from './profile';
+import Onboarding from './onboarding';
+
 function IndexPage(): React.ReactElement {
-  const [isOnboarded, setIsOnboarded] = useState();
-  
+  const [exploringAs, setExploringAs] = useState();
+
   useEffect(() => {
-    setIsOnboarded(localStorage.getItem('isOnboarded'));
+    setExploringAs(localStorage.getItem('exploringAs'));
   }, []);
 
   return (
@@ -31,9 +34,9 @@ function IndexPage(): React.ReactElement {
             <Layout>
               <SEO title='Home' />
               {
-                isOnboarded
-                  ? navigate('/profile')
-                  : navigate('/onboarding')
+                exploringAs
+                  ? <Profile />
+                  : <Onboarding />
               }
             </Layout>
           ) : (

@@ -28,25 +28,25 @@ export function AccountsList(props: Props): React.ReactElement {
       : accounts;
 
     return (
-      <List animated>
-        {accountsExcludingFilter.map((account: InjectedAccountExt) => {
-          const {
-            address,
-            meta: { name, source },
-          } = account;
+      <Container>
+        <List animated verticalAlign='top'>
+          {accountsExcludingFilter.map((account: InjectedAccountExt) => {
+            const {
+              address,
+              meta: { name, source },
+            } = account;
 
-          return (
-            <List.Item
-              key={address}
-              onClick={onSelectAccount}
-              data-address={address}
-            >
-              <List.Content>
-                <Card clickable={clickable} height='100%'>
+            return (
+              <List.Item
+                key={address}
+                onClick={onSelectAccount}
+                data-address={address}
+              >
+                <Card clickable={clickable} height='6rem'>
                   <Card.Content>
                     <AddressSummary
                       address={address}
-                      alignItems='center'
+                      alignItems='flex-start'
                       justifyContent='space-between'
                       orientation='horizontal'
                       size='small'
@@ -56,11 +56,11 @@ export function AccountsList(props: Props): React.ReactElement {
                     />
                   </Card.Content>
                 </Card>
-              </List.Content>
-            </List.Item>
-          );
-        })}
-      </List>
+              </List.Item>
+            );
+          })}
+        </List>
+      </Container>
     );
   };
 

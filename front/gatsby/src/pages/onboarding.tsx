@@ -17,8 +17,11 @@ const Onboarding = (): React.ReactElement => {
     return () => setIsComponentMounted(false);
   }, []);
 
+  // TODO: save to DB not local storage
   const handleSelectAccount = ({ currentTarget: { dataset: { address } } }: React.MouseEvent<HTMLElement>) => {
-    
+    if (address) {
+      localStorage.setItem('exploringAs', address);
+    }
   }
 
   return (
@@ -26,9 +29,7 @@ const Onboarding = (): React.ReactElement => {
       <Modal dimmer open>
         <Modal.Header>Select an account to start exploring.</Modal.Header>
         <Modal.Content>
-        {
-          injectedAccounts && <AccountsList accounts={injectedAccounts} clickable onSelectAccount={handleSelectAccount} />
-        }
+          <AccountsList accounts={injectedAccounts} clickable onSelectAccount={handleSelectAccount} />
         </Modal.Content>
       </Modal>
     </Transition>
