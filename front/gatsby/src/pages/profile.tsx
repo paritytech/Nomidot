@@ -4,21 +4,12 @@
 
 import { AccountsContext } from '@substrate/context/src';
 import { AccountsList } from '@substrate/ui-components/src';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 const Profile = (): React.ReactElement => {
   const { injectedAccounts } = useContext(AccountsContext);
-  const [isComponentMounted, setIsComponentMounted] = useState<boolean>(false);
 
-  useEffect(() => {
-    setIsComponentMounted(true);
-
-    return () => setIsComponentMounted(false);
-  }, []);
-
-  return (
-    <AccountsList accounts={injectedAccounts} clickable />
-  )
-}
+  return <AccountsList accounts={injectedAccounts} clickable />;
+};
 
 export default Profile;

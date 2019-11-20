@@ -162,7 +162,18 @@ export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
         <Margin left />
         {renderDetails(address, props)}
         <Margin left />
-        {source && <span style={{ position: 'absolute', bottom: 5, right: 5, fontSize: '12px' }}>Source: {source}</span>}
+        {source && (
+          <span
+            style={{
+              position: 'absolute',
+              bottom: 5,
+              right: 5,
+              fontSize: '12px',
+            }}
+          >
+            Source: {source}
+          </span>
+        )}
       </StackedHorizontal>
     )
   ) : (

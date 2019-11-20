@@ -4,7 +4,6 @@
 
 import { AccountsContext } from '@substrate/context/src';
 import { AccountsList, Modal, Transition } from '@substrate/ui-components/src';
-import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
 const Onboarding = (): React.ReactElement => {
@@ -14,22 +13,34 @@ const Onboarding = (): React.ReactElement => {
   useEffect(() => {
     setIsComponentMounted(true);
 
-    return () => setIsComponentMounted(false);
+    return (): void => setIsComponentMounted(false);
   }, []);
 
   // TODO: save to DB not local storage
-  const handleSelectAccount = ({ currentTarget: { dataset: { address } } }: React.MouseEvent<HTMLElement>) => {
+  const handleSelectAccount = ({
+    currentTarget: {
+      dataset: { address },
+    },
+  }: React.MouseEvent<HTMLElement>): void => {
     if (address) {
       localStorage.setItem('exploringAs', address);
     }
-  }
+  };
 
   return (
-    <Transition animation='slide up' duration={500} visible={isComponentMounted}>
+    <Transition
+      animation='slide up'
+      duration={500}
+      visible={isComponentMounted}
+    >
       <Modal dimmer open>
         <Modal.Header>Select an account to start exploring.</Modal.Header>
         <Modal.Content>
-          <AccountsList accounts={injectedAccounts} clickable onSelectAccount={handleSelectAccount} />
+          <AccountsList
+            accounts={injectedAccounts}
+            clickable
+            onSelectAccount={handleSelectAccount}
+          />
         </Modal.Content>
       </Modal>
     </Transition>

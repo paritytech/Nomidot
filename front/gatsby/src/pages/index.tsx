@@ -9,13 +9,11 @@ import React, { useEffect, useState } from 'react';
 // global
 import Layout from '../components/layout';
 import SEO from '../components/seo';
-
 // context
 import { ContextGate } from '../ContextGate';
-
+import Onboarding from './onboarding';
 // pages
 import Profile from './profile';
-import Onboarding from './onboarding';
 
 function IndexPage(): React.ReactElement {
   const [exploringAs, setExploringAs] = useState();
@@ -33,11 +31,7 @@ function IndexPage(): React.ReactElement {
           isReady ? (
             <Layout>
               <SEO title='Home' />
-              {
-                exploringAs
-                  ? <Profile />
-                  : <Onboarding />
-              }
+              {exploringAs ? <Profile /> : <Onboarding />}
             </Layout>
           ) : (
             <Loading active inline />

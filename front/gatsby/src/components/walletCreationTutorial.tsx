@@ -11,7 +11,7 @@ import {
   Stacked,
   StackedHorizontal,
   StyledLinkButton,
-  WithSpaceAround
+  WithSpaceAround,
 } from '@substrate/ui-components/src';
 import { navigate } from 'gatsby';
 import React, { useState } from 'react';
@@ -51,8 +51,8 @@ const WalletCreationTutorial = (): React.ReactElement => {
     'To keep your funds as safe as possible, it is highly encouraged that you keep two separate accounts: a Stash and a Controller. The basic distinction can be thought of as, a Savings and Checking account. Keep most of your funds on your Stash, and use your Controller for daily activities such as paying transaction fees or nominating a new set of validators.',
   ];
 
-  // FIXME
-  const TUTORIAL_STEP_IMGS: Array<any> = [
+  // FIXME: once I get graphics from zsofia
+  const TUTORIAL_STEP_IMGS: Array<object> = [
     // commitmentPng,
     // fundsPng,
     // mnemonicPng,
@@ -61,7 +61,7 @@ const WalletCreationTutorial = (): React.ReactElement => {
 
   const [step, setStep] = useState(0);
 
-  const handleNext = async () => {
+  const handleNext = async (): Promise<void> => {
     if (step >= 0 && step < 4) {
       setStep(step + 1);
     } else {
@@ -70,12 +70,12 @@ const WalletCreationTutorial = (): React.ReactElement => {
     }
   };
 
-  const skipWalletCreationTutorial = () => {
+  const skipWalletCreationTutorial = (): void => {
     localStorage.setItem('isOnboarded', 'true');
     window.location.reload();
   };
 
-  const renderTutorialStep = () => {
+  const renderTutorialStep = (): React.ReactElement => {
     return (
       <Stacked justifyContent='space-around'>
         <StackedHorizontal justifyContent='space-around'>

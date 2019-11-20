@@ -2,14 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import {
+  isWeb3Injected,
+  web3Accounts,
+  web3Enable,
+} from '@polkadot/extension-dapp';
 import React, { createContext, useEffect, useState } from 'react';
 
 import { InjectedAccountExt } from './types';
 
 export const AccountsContext = createContext({
   injectedAccounts: [] as InjectedAccountExt[],
-  isWeb3Injected: false
+  isWeb3Injected: false,
 });
 
 interface Props {
@@ -48,10 +52,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, []);
 
   return (
-    <AccountsContext.Provider value={{
-      injectedAccounts,
-      isWeb3Injected
-    }}>
+    <AccountsContext.Provider
+      value={{
+        injectedAccounts,
+        isWeb3Injected,
+      }}
+    >
       {children}
     </AccountsContext.Provider>
   );

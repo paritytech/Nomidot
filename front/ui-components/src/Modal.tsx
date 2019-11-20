@@ -39,7 +39,8 @@ const StyledHeader = styled(SUIModal.Header)`
   &&& {
     display: flex;
     font-weight: 200;
-    justify-content: ${(props): string => props.justifyContent || 'space-between'}
+    justify-content: ${(props): string =>
+      props.justifyContent || 'space-between'};
   }
 `;
 

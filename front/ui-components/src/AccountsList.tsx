@@ -68,7 +68,5 @@ export function AccountsList(props: Props): React.ReactElement {
     return <FadedText>Hmmm...nothing to see here.</FadedText>;
   };
 
-  return (
-    <>{accounts ? renderAccountsListItem() : renderEmpty()}</>
-  );
+  return <>{accounts ? renderAccountsListItem() : renderEmpty()}</>;
 }

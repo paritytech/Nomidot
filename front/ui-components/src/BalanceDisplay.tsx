@@ -118,8 +118,13 @@ export function BalanceDisplay(
     <>
       {allBalances ? (
         <Stacked>
-          <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>Total Balance: {' '} {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}</DynamicSizeText>
-          <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>Transactions: {formatNumber(allBalances.accountNonce)}{' '}</DynamicSizeText>
+          <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+            Total Balance:{' '}
+            {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
+          </DynamicSizeText>
+          <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+            Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+          </DynamicSizeText>
         </Stacked>
       ) : (
         <Loader active inline />

@@ -53,6 +53,7 @@ export interface StyledNavLinkProps {
 export interface SubHeaderProps {
   color?: Color;
   margin?: MarginSize;
+  padding?: string;
   noMargin?: boolean;
   textAlign?: string;
 }

@@ -27,7 +27,7 @@ const Layout = ({ children }: Props): React.ReactElement => {
   `);
   return (
     <>
-    <NavHeader siteTitle={data.site.siteMetadata.title} />
+      <NavHeader siteTitle={data.site.siteMetadata.title} />
       <div
         style={{
           height: '100%',

@@ -5,11 +5,7 @@
 import React from 'react';
 
 const Bonding = (): React.ReactElement => {
-  return (
-    <>
-    There's some stuff going on here!
-    </>
-  )
-}
+  return <>Theres some stuff going on here!</>;
+};
 
 export default Bonding;

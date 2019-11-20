@@ -19,9 +19,10 @@ const StyledCard = styled<typeof SUICard>(SUICard)`
     min-height: ${(props: CardProps): string => props.minHeight || '100%'};
     width: ${(props: CardProps): string => props.width || '100%'};
     overflow: ${(props: CardProps): string => props.overflow || 'none'};
-    
+
     :hover {
-      cursor: ${(props: CardProps): string => props.clickable ? 'pointer' : 'auto'};
+      cursor: ${(props: CardProps): string =>
+        props.clickable ? 'pointer' : 'auto'};
     }
   }
 `;
