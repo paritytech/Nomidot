@@ -6,6 +6,7 @@
   "private": true,
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
+    "clean": "./scripts/clean-build.sh",
     "prelerna:publish": "lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
     "lerna:publish": "lerna version --conventional-commits && lerna publish from-git",
     "lint": "tsc --noEmit && eslint --ext tx,tsx .",
