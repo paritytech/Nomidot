@@ -4,18 +4,28 @@
 
 // We export these ones as-is from SUI
 export {
-  Dropdown, DropdownProps,
-  Form, FormProps,
-  Grid, GridProps,
-  List, ListProps,
-  Image, ImageProps,
-  Menu, MenuProps,
-  Message, MessageProps,
-  Segment, SegmentProps,
-  Sidebar, SidebarProps,
-  Step, StepProps,
-  Table, TableProps,
-  Transition, TransitionGroup
+  DropdownProps,
+  Form,
+  FormProps,
+  Grid,
+  GridProps,
+  List,
+  ListProps,
+  Image,
+  ImageProps,
+  MenuProps,
+  Message,
+  MessageProps,
+  Segment,
+  SegmentProps,
+  Sidebar,
+  SidebarProps,
+  Step,
+  StepProps,
+  Table,
+  TableProps,
+  Transition,
+  TransitionGroup,
 } from 'semantic-ui-react';
 
 export * from './Accordion';
