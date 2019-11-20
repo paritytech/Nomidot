@@ -22,7 +22,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   );
 
   useEffect(() => {
-    const getInjected: () => void = async () => {
+    const getInjected = async (): Promise<void> => {
       await web3Enable('nomidot');
       const [injectedAccounts] = await Promise.all([
         web3Accounts().then((accounts): InjectedAccountExt[] =>
