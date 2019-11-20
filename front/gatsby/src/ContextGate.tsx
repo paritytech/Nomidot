@@ -91,7 +91,7 @@ export function ContextGate(props: {
             properties
           )}`
         );
-
+        debugger;
         setState({
           ...state,
           isReady: true,
@@ -103,6 +103,7 @@ export function ContextGate(props: {
             version: version.toString(),
           },
         });
+        debugger;
       });
   }, []);
 

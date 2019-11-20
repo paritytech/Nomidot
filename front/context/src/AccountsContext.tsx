@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isWeb3Injected, web3AccountsSubscribe, web3Enable } from '@polkadot/extension-dapp';
+import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import React, { createContext, useEffect, useState } from 'react';
 
@@ -24,28 +24,22 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   );
 
   useEffect(() => {
-    const getInjected: () => void = async () => {
-      await web3Enable('nomidot');
-      const unsubscribe = web3AccountsSubscribe((accounts: InjectedAccountWithMeta[]) => {
-          const injectedAccounts: InjectedAccountExt[] = accounts.map(
-            ({ address, meta }): InjectedAccountExt => ({
-              address,
-              meta: {
-                ...meta,
-                name: `${meta.name} (${
-                  meta.source === 'polkadot-js' ? 'extension' : meta.source
-                })`,
-              },
-            })
-          )
+    const enableWeb3 = async () => {
+      return await web3Enable('nomidot');
+    }
 
-          setInjected(injectedAccounts);
-      });
+    enableWeb3();
 
-      return () => unsubscribe;
-    };
+    Promise.resolve(web3Accounts().then((accounts): InjectedAccountExt[] =>
+      accounts.map(({ address, meta }): InjectedAccountExt => ({
+        address,
+        meta: {
+          ...meta,
+          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+        }
+      }))
+    )).then(injectedAccounts => setInjected(injectedAccounts));
 
-    getInjected();
   }, [isWeb3Injected]);
 
   return (

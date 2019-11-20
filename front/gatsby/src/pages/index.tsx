@@ -14,10 +14,6 @@ import SEO from '../components/seo';
 // context
 import { ContextGate } from '../ContextGate';
 
-// pages
-import Onboarding from './onboarding';
-import Profile from './profile';
-
 function IndexPage(): React.ReactElement {
   const [isOnboarded, setIsOnboarded] = useState();
   
@@ -36,8 +32,8 @@ function IndexPage(): React.ReactElement {
               <SEO title='Home' />
               {
                 isOnboarded
-                  ? () => navigate('/profile')
-                  : () => navigate('/onboarding')
+                  ? navigate('/profile')
+                  : navigate('/onboarding')
               }
             </Layout>
           ) : (
