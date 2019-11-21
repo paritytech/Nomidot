@@ -135,7 +135,7 @@ const ProfileCreationWalkthrough = (): React.ReactElement => {
         <Stacked>
           <Modal.SubHeader>
             <DynamicSizeText fontSize='medium' fontWeight='500'>
-              Let &apos s get staking!
+              Let &apos;s get staking!
             </DynamicSizeText>
           </Modal.SubHeader>
           <Margin top='large' />
