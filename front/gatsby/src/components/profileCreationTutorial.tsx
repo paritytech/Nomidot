@@ -13,7 +13,6 @@ import {
   DynamicSizeText,
   ErrorText,
   Icon,
-  // Image,
   Margin,
   Modal,
   NavButton,
