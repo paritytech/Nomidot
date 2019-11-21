@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiContext, ApiContextType } from '@substrate/context/src';
-import { Loading } from '@substrate/ui-components/src';
 import React, { useEffect, useState } from 'react';
 
 // global
@@ -28,13 +27,11 @@ function IndexPage(): React.ReactElement {
         {({
           isReady,
         }: Partial<ApiContextType>): React.ReactElement | boolean | undefined =>
-          isReady ? (
+          isReady && (
             <Layout>
               <SEO title='Home' />
               {exploringAs ? <Profile /> : <Onboarding />}
             </Layout>
-          ) : (
-            <Loading active inline />
           )
         }
       </ApiContext.Consumer>

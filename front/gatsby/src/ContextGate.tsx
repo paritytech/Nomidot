@@ -9,6 +9,7 @@ import {
   StakingContextProvider,
   TxQueueContextProvider,
 } from '@substrate/context/src';
+import { Loading } from '@substrate/ui-components/src';
 import React from 'react';
 
 export function ContextGate({
@@ -20,7 +21,7 @@ export function ContextGate({
     <AlertsContextProvider>
       <AccountsContextProvider>
         <TxQueueContextProvider>
-          <ApiContextProvider>
+          <ApiContextProvider loading={<Loading active inline />}>
             <StakingContextProvider>{children}</StakingContextProvider>
           </ApiContextProvider>
         </TxQueueContextProvider>

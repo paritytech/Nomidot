@@ -20,6 +20,7 @@ interface BalanceProps
 
 export function Balance(props: BalanceProps): React.ReactElement {
   const { address, detailed = false, ...rest } = props;
+  // TODO db
   const { api } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState<DerivedBalances>();
   const [allStaking, setAllStaking] = useState<DerivedStaking>();

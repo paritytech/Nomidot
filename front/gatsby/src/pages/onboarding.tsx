@@ -24,6 +24,7 @@ const Onboarding = (): React.ReactElement => {
   }: React.MouseEvent<HTMLElement>): void => {
     if (address) {
       localStorage.setItem('exploringAs', address);
+      window.alert('TODO: set exploringAs in session store');
     }
   };
 

@@ -27,6 +27,7 @@ interface Props {
 export function StakingContextProvider(props: Props): React.ReactElement {
   const { children } = props;
   const { injectedAccounts } = useContext(AccountsContext);
+  // TODO db
   const { api, isReady } = useContext(ApiContext);
   const [accountStakingMap, setAccountStakingMap] = useState<
     AccountDerivedStakingMap
