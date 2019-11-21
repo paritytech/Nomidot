@@ -4,6 +4,7 @@
 
 // We export these ones as-is from SUI
 export {
+  Dropdown,
   DropdownProps,
   Form,
   FormProps,
