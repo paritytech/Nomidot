@@ -9,3 +9,4 @@
     * -d: detached mode (run in the background)
     * -p: set the port
     * -v: tell it the path to the volume where to persist, i.e. mount the `$HOME/docker/volumes/postgres` to the docker container's side volume path `/var/lib/postgresql/data`
+* `docker run -d -p 5432:5432 --name my-postgres -e`

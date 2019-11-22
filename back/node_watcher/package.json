@@ -1,7 +1,9 @@
 {
   "name": "@substrate/node_watcher",
+  "author": "Parity Technologies <admin@parity.io>",
+  "license": "Apache-2.0",
   "version": "0.1.0",
-  "description": "Query node and store into Postgresql DB",
+  "description": "Query node and store into PostgreSQL DB",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
@@ -15,7 +17,5 @@
   "dependencies": {
     "@polkadot/api": "^0.97.0-beta.1"
   },
-  "keywords": [],
-  "author": "Parity Technologies <admin@parity.io>",
-  "license": "Apache-2.0"
+  "keywords": []
 }
