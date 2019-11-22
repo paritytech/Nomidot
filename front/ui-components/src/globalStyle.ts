@@ -38,7 +38,7 @@ export const substrateLightTheme = {
   neonBlue: '#0ed2f7',
   robinEggBlue: '#86fff9',
   eggShell: '#f2f2f2',
-  white: '#ffffff'
+  white: '#ffffff',
 };
 
 export const polkadotOfficialTheme = {
@@ -50,15 +50,16 @@ export const polkadotOfficialTheme = {
   neonBlue: '#0ed2f7',
   maroon: '#670D35',
   eggShell: '#f2f2f2',
-  white: '#ffffff'
-}
+  white: '#ffffff',
+};
 
-export const theme = {...substrateLightTheme, ...polkadotOfficialTheme};
+export const theme = { ...substrateLightTheme, ...polkadotOfficialTheme };
 
-export type Color = keyof typeof substrateLightTheme & keyof typeof polkadotOfficialTheme;
+export type Color = keyof typeof substrateLightTheme &
+  keyof typeof polkadotOfficialTheme;
 
 export type StyledProps = {
-  theme: typeof substrateLightTheme & typeof polkadotOfficialTheme,
-  substrateTheme: typeof substrateLightTheme,
-  polkadotTheme: typeof polkadotOfficialTheme
-}
+  theme: typeof substrateLightTheme & typeof polkadotOfficialTheme;
+  substrateTheme: typeof substrateLightTheme;
+  polkadotTheme: typeof polkadotOfficialTheme;
+};

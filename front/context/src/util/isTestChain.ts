@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 const TEST_CHAINS = ['Development', 'Local Testnet'] as const;
-type TestChain = typeof TEST_CHAINS[number]
+type TestChain = typeof TEST_CHAINS[number];
 
-export function isTestChain (chain?: string): chain is TestChain {
+export function isTestChain(chain?: string): chain is TestChain {
   if (!chain) {
     return false;
   }
 
-  return (TEST_CHAINS).includes(chain as TestChain);
+  return TEST_CHAINS.includes(chain as TestChain);
 }
