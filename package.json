@@ -15,7 +15,8 @@
   },
   "workspaces": {
     "packages": [
-      "front/*"
+      "front/*",
+      "back/*"
     ]
   },
   "devDependencies": {

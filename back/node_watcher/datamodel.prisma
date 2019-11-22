@@ -1,0 +1,52 @@
+type BlockNumber {
+  id: Int! @unique // the actual block number
+  authored_by: String! // public key of block author
+  start_datetime: DateTime! @unique
+  hash: Hash! @unique
+}
+
+type Rewards {
+  datetime: DateTime!
+  amount: Int!
+  authored_block: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
+  recipients: [String!]!
+}
+
+type Slashing {
+  block_number: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
+  datetime: DateTime!
+  reason: String!
+  amount: Int!
+}
+
+type Nominations {
+  validator_controller: String!
+  validator_stash: String!
+  nominator_controller: String!
+  nominator_stash: String!
+  session: Sessions! @relation(name: "NominationsAtSession", link: INLINE)
+  bonded: Int!
+}
+
+type Stake {
+  id: ID! @id
+  block_number: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
+  total_stake: Int!
+}
+
+type Validations {
+  start: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
+  validator_controller: String! // public key
+  validator_stash: String! // public key
+  validator_preferences: Int!
+}
+
+type Sessions {
+  start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
+  end: BlockNumber! @relation(name: "BlockNumberAtSessionEnd", link: INLINE)
+}
+
+type TotalIssuance {
+   id: ID! @id
+   amount: Int!
+}
