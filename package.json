@@ -7,9 +7,9 @@
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
     "clean": "./scripts/clean-build.sh",
-    "prelerna:publish": "lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
+    "prelerna:publish": "yarn clean && lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
     "lerna:publish": "lerna version --conventional-commits && lerna publish from-git",
-    "lint": "tsc --noEmit && eslint --ext tx,tsx .",
+    "lint": "tsc --noEmit && eslint --ext ts,tsx .",
     "start": "cd ./front/gatsby && gatsby develop",
     "storybook": "cd ./front/ui-components && yarn storybook"
   },
