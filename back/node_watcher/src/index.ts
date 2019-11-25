@@ -7,11 +7,37 @@ import { ApiRx, WsProvider } from '@polkadot/api';
 import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces';
 
 import { combineLatest, Subscription, Observable, of } from 'rxjs';
-import { first, mergeMap, switchMap, tap } from 'rxjs/operators';
-
-import { prisma } from '../generated/prisma-client';
+import { concatMap, first, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 
 const ENDPOINT = 'ws://127.0.0.1:9944';
+
+const registerMetadata = (api: ApiRx) => {
+  const metaDataSub = api.rpc.state.getMetadata();
+}
+
+const subscribeBlockNumber = (api: ApiRx): Observable<[AccountId, BlockNumber, Hash]> => {
+  const blockNumberSub: Observable<[AccountId, BlockNumber, Hash]> = combineLatest([
+    api.query.authorship.author(),
+    api.query.system.number(),
+  ])
+  .pipe(
+    mergeMap(([authored_by, block_number]) =>
+      combineLatest([
+        of(authored_by),
+        of(block_number),
+        api.query.system.blockHash(block_number)
+      ])
+    ),
+    tap(([authored_by, block_number, hash]) => {
+      console.log('authored by => ', authored_by.toString());
+      console.log('block number -> ', block_number.toBn());
+      console.log('block hash => ', hash.toHex());
+    })
+  );
+
+  return blockNumberSub;
+}
+
 
 async function main () {
   const provider = new WsProvider(ENDPOINT);
@@ -22,24 +48,10 @@ async function main () {
   })
 
   api.on('ready', () => {
-    api.queryMulti<[AccountId, BlockNumber]>([
-      api.query.authorship.author,
-      api.query.system.number,
-    ])
-    .pipe(
-      mergeMap(async ([authored_by, block_number]) => {
-        const block_hash = api.query.system.blockHash(block_number).pipe(first());
-        return [authored_by, block_number, block_hash]
-      }),
-      tap(([authored_by, block_number, block_hash]) => console.log(authored_by, block_number, block_hash))
-    )
-    .subscribe(async ([authored_by, block_number, block_hash]) => {
-      await prisma.createBlockNumber({
-        number: parseInt(block_number.toString()),
-        authored_by: authored_by.toString(),
-        start_datetime: new Date().toISOString(),
-        hash: block_hash.toString()
-      })
+    console.log('API is ready!');
+
+    subscribeBlockNumber(api).subscribe(async ([authored_by, block_number, block_hash]) => {
+      
     })
   });
 }

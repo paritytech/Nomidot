@@ -58,7 +58,7 @@ type TotalIssuance {
 
 type BlockNumber {
   id: Int! @unique @id
-  number: Int!
+  number: Int! @unique
   authored_by: String!
   start_datetime: DateTime! @unique
   hash: String! @unique
