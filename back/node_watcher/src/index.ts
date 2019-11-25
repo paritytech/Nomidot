@@ -38,7 +38,6 @@ const subscribeBlockNumber = (api: ApiRx): Observable<[AccountId, BlockNumber, H
   return blockNumberSub;
 }
 
-
 async function main () {
   const provider = new WsProvider(ENDPOINT);
   const api = new ApiRx({provider});
