@@ -3,7 +3,4 @@ datamodel: datamodel.prisma
 
 generate:
   - generator: typescript-client
-    output: ./back/generated/prisma-client/
-hooks:
-  post-deploy:
-    - npx nexus-prisma-generate --client ./back/generated/prisma-client --output ./back/generated/nexus-prisma
+    output: ./generated/prisma-client/

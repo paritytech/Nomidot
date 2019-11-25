@@ -4,18 +4,26 @@
   "license": "Apache-2.0",
   "version": "0.1.0",
   "description": "Query node and store into PostgreSQL DB",
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
-    "build": "tsc",
-    "start": "yarn build --watch",
+    "build": "prisma deploy && tsc --noEmit",
+    "start": "ts-node ./src/index.ts",
     "test": "echo skipped"
   },
   "dependencies": {
-    "@polkadot/api": "^0.97.0-beta.1"
+    "@polkadot/api": "^0.97.0-beta.1",
+    "prisma-client-lib": "^1.34.10",
+    "rxjs": "^6.5.3",
+    "symbol-observable": "^1.2.0",
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2"
   },
   "keywords": []
 }
