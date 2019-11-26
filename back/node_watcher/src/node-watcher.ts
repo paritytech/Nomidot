@@ -4,38 +4,20 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { logger } from '@polkadot/util';
-import { from } from 'rxjs';
 
-import NodeApi from './node-api';
-import PrismaClient from './prisma-api';
-import { NodeWatcherOptions } from './types';
+import { Task } from './types';
 
-const BLOCK_NUMBER_RANGE: Array<number> = new Array(Number.MAX_SAFE_INTEGER);
+const BLOCK_NUMBER_RANGE = Number.MAX_SAFE_INTEGER;
 
 const l = logger('node-watcher');
 
-class NodeWatcher {
-  private nodeApiInstance: NodeApi;
-  private prismaClient: PrismaClient;
-
-  constructor(api: ApiPromise, options: NodeWatcherOptions) {
-    this.nodeApiInstance = new NodeApi(api, options);
-    this.prismaClient = new PrismaClient();
-  }
-
-  public start() {
-    from(BLOCK_NUMBER_RANGE) // fixme: make range to max safe integer
-      .subscribe((number: number) => {
-        l.log(`writing block number: ${number}`);
-        this.readFromNodeAndWriteToPrisma(number);
-      });
-  }
-
-  public readFromNodeAndWriteToPrisma = async (blockNumber: number) => {
-    const blockData = await this.nodeApiInstance.read(blockNumber);
-
-    await this.prismaClient.write(blockData);
+export function nodeWatcher(tasks: Task<any>[], api: ApiPromise) {
+  for (let number = 0; number < BLOCK_NUMBER_RANGE; number++) {
+    tasks.forEach((task: Task<any>) => {
+      task.read(number, api)
+        .then((data) => {
+          task.write(data);
+        })
+    })
   }
 }
-
-export default NodeWatcher;

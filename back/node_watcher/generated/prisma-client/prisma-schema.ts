@@ -45,8 +45,8 @@ type BatchPayload {
 type BlockNumber {
   id: Int!
   number: Int!
-  authored_by: String!
-  start_datetime: DateTime!
+  authoredBy: String!
+  startDateTime: DateTime!
   hash: String!
 }
 
@@ -59,8 +59,8 @@ type BlockNumberConnection {
 input BlockNumberCreateInput {
   id: Int
   number: Int!
-  authored_by: String!
-  start_datetime: DateTime!
+  authoredBy: String!
+  startDateTime: DateTime!
   hash: String!
 }
 
@@ -79,10 +79,10 @@ enum BlockNumberOrderByInput {
   id_DESC
   number_ASC
   number_DESC
-  authored_by_ASC
-  authored_by_DESC
-  start_datetime_ASC
-  start_datetime_DESC
+  authoredBy_ASC
+  authoredBy_DESC
+  startDateTime_ASC
+  startDateTime_DESC
   hash_ASC
   hash_DESC
 }
@@ -90,8 +90,8 @@ enum BlockNumberOrderByInput {
 type BlockNumberPreviousValues {
   id: Int!
   number: Int!
-  authored_by: String!
-  start_datetime: DateTime!
+  authoredBy: String!
+  startDateTime: DateTime!
   hash: String!
 }
 
@@ -115,22 +115,22 @@ input BlockNumberSubscriptionWhereInput {
 
 input BlockNumberUpdateDataInput {
   number: Int
-  authored_by: String
-  start_datetime: DateTime
+  authoredBy: String
+  startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateInput {
   number: Int
-  authored_by: String
-  start_datetime: DateTime
+  authoredBy: String
+  startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateManyMutationInput {
   number: Int
-  authored_by: String
-  start_datetime: DateTime
+  authoredBy: String
+  startDateTime: DateTime
   hash: String
 }
 
@@ -163,28 +163,28 @@ input BlockNumberWhereInput {
   number_lte: Int
   number_gt: Int
   number_gte: Int
-  authored_by: String
-  authored_by_not: String
-  authored_by_in: [String!]
-  authored_by_not_in: [String!]
-  authored_by_lt: String
-  authored_by_lte: String
-  authored_by_gt: String
-  authored_by_gte: String
-  authored_by_contains: String
-  authored_by_not_contains: String
-  authored_by_starts_with: String
-  authored_by_not_starts_with: String
-  authored_by_ends_with: String
-  authored_by_not_ends_with: String
-  start_datetime: DateTime
-  start_datetime_not: DateTime
-  start_datetime_in: [DateTime!]
-  start_datetime_not_in: [DateTime!]
-  start_datetime_lt: DateTime
-  start_datetime_lte: DateTime
-  start_datetime_gt: DateTime
-  start_datetime_gte: DateTime
+  authoredBy: String
+  authoredBy_not: String
+  authoredBy_in: [String!]
+  authoredBy_not_in: [String!]
+  authoredBy_lt: String
+  authoredBy_lte: String
+  authoredBy_gt: String
+  authoredBy_gte: String
+  authoredBy_contains: String
+  authoredBy_not_contains: String
+  authoredBy_starts_with: String
+  authoredBy_not_starts_with: String
+  authoredBy_ends_with: String
+  authoredBy_not_ends_with: String
+  startDateTime: DateTime
+  startDateTime_not: DateTime
+  startDateTime_in: [DateTime!]
+  startDateTime_not_in: [DateTime!]
+  startDateTime_lt: DateTime
+  startDateTime_lte: DateTime
+  startDateTime_gt: DateTime
+  startDateTime_gte: DateTime
   hash: String
   hash_not: String
   hash_in: [String!]
@@ -206,7 +206,6 @@ input BlockNumberWhereInput {
 
 input BlockNumberWhereUniqueInput {
   id: Int
-  start_datetime: DateTime
   hash: String
 }
 
@@ -214,7 +213,7 @@ scalar DateTime
 
 type ImOnline {
   id: ID!
-  block_number: BlockNumber!
+  blockNumber: BlockNumber!
   sender: String!
 }
 
@@ -226,7 +225,7 @@ type ImOnlineConnection {
 
 input ImOnlineCreateInput {
   id: ID
-  block_number: BlockNumberCreateOneInput!
+  blockNumber: BlockNumberCreateOneInput!
   sender: String!
 }
 
@@ -266,7 +265,7 @@ input ImOnlineSubscriptionWhereInput {
 }
 
 input ImOnlineUpdateInput {
-  block_number: BlockNumberUpdateOneRequiredInput
+  blockNumber: BlockNumberUpdateOneRequiredInput
   sender: String
 }
 
@@ -289,7 +288,7 @@ input ImOnlineWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  block_number: BlockNumberWhereInput
+  blockNumber: BlockNumberWhereInput
   sender: String
   sender_not: String
   sender_in: [String!]
@@ -383,10 +382,10 @@ interface Node {
 
 type Nominations {
   id: ID!
-  validator_controller: String!
-  validator_stash: String!
-  nominator_controller: String!
-  nominator_stash: String!
+  validatorController: String!
+  validatorStash: String!
+  nominatorController: String!
+  nominatorStash: String!
   session: Sessions!
   bonded: Int!
 }
@@ -399,10 +398,10 @@ type NominationsConnection {
 
 input NominationsCreateInput {
   id: ID
-  validator_controller: String!
-  validator_stash: String!
-  nominator_controller: String!
-  nominator_stash: String!
+  validatorController: String!
+  validatorStash: String!
+  nominatorController: String!
+  nominatorStash: String!
   session: SessionsCreateOneInput!
   bonded: Int!
 }
@@ -415,24 +414,24 @@ type NominationsEdge {
 enum NominationsOrderByInput {
   id_ASC
   id_DESC
-  validator_controller_ASC
-  validator_controller_DESC
-  validator_stash_ASC
-  validator_stash_DESC
-  nominator_controller_ASC
-  nominator_controller_DESC
-  nominator_stash_ASC
-  nominator_stash_DESC
+  validatorController_ASC
+  validatorController_DESC
+  validatorStash_ASC
+  validatorStash_DESC
+  nominatorController_ASC
+  nominatorController_DESC
+  nominatorStash_ASC
+  nominatorStash_DESC
   bonded_ASC
   bonded_DESC
 }
 
 type NominationsPreviousValues {
   id: ID!
-  validator_controller: String!
-  validator_stash: String!
-  nominator_controller: String!
-  nominator_stash: String!
+  validatorController: String!
+  validatorStash: String!
+  nominatorController: String!
+  nominatorStash: String!
   bonded: Int!
 }
 
@@ -455,19 +454,19 @@ input NominationsSubscriptionWhereInput {
 }
 
 input NominationsUpdateInput {
-  validator_controller: String
-  validator_stash: String
-  nominator_controller: String
-  nominator_stash: String
+  validatorController: String
+  validatorStash: String
+  nominatorController: String
+  nominatorStash: String
   session: SessionsUpdateOneRequiredInput
   bonded: Int
 }
 
 input NominationsUpdateManyMutationInput {
-  validator_controller: String
-  validator_stash: String
-  nominator_controller: String
-  nominator_stash: String
+  validatorController: String
+  validatorStash: String
+  nominatorController: String
+  nominatorStash: String
   bonded: Int
 }
 
@@ -486,62 +485,62 @@ input NominationsWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  validator_controller: String
-  validator_controller_not: String
-  validator_controller_in: [String!]
-  validator_controller_not_in: [String!]
-  validator_controller_lt: String
-  validator_controller_lte: String
-  validator_controller_gt: String
-  validator_controller_gte: String
-  validator_controller_contains: String
-  validator_controller_not_contains: String
-  validator_controller_starts_with: String
-  validator_controller_not_starts_with: String
-  validator_controller_ends_with: String
-  validator_controller_not_ends_with: String
-  validator_stash: String
-  validator_stash_not: String
-  validator_stash_in: [String!]
-  validator_stash_not_in: [String!]
-  validator_stash_lt: String
-  validator_stash_lte: String
-  validator_stash_gt: String
-  validator_stash_gte: String
-  validator_stash_contains: String
-  validator_stash_not_contains: String
-  validator_stash_starts_with: String
-  validator_stash_not_starts_with: String
-  validator_stash_ends_with: String
-  validator_stash_not_ends_with: String
-  nominator_controller: String
-  nominator_controller_not: String
-  nominator_controller_in: [String!]
-  nominator_controller_not_in: [String!]
-  nominator_controller_lt: String
-  nominator_controller_lte: String
-  nominator_controller_gt: String
-  nominator_controller_gte: String
-  nominator_controller_contains: String
-  nominator_controller_not_contains: String
-  nominator_controller_starts_with: String
-  nominator_controller_not_starts_with: String
-  nominator_controller_ends_with: String
-  nominator_controller_not_ends_with: String
-  nominator_stash: String
-  nominator_stash_not: String
-  nominator_stash_in: [String!]
-  nominator_stash_not_in: [String!]
-  nominator_stash_lt: String
-  nominator_stash_lte: String
-  nominator_stash_gt: String
-  nominator_stash_gte: String
-  nominator_stash_contains: String
-  nominator_stash_not_contains: String
-  nominator_stash_starts_with: String
-  nominator_stash_not_starts_with: String
-  nominator_stash_ends_with: String
-  nominator_stash_not_ends_with: String
+  validatorController: String
+  validatorController_not: String
+  validatorController_in: [String!]
+  validatorController_not_in: [String!]
+  validatorController_lt: String
+  validatorController_lte: String
+  validatorController_gt: String
+  validatorController_gte: String
+  validatorController_contains: String
+  validatorController_not_contains: String
+  validatorController_starts_with: String
+  validatorController_not_starts_with: String
+  validatorController_ends_with: String
+  validatorController_not_ends_with: String
+  validatorStash: String
+  validatorStash_not: String
+  validatorStash_in: [String!]
+  validatorStash_not_in: [String!]
+  validatorStash_lt: String
+  validatorStash_lte: String
+  validatorStash_gt: String
+  validatorStash_gte: String
+  validatorStash_contains: String
+  validatorStash_not_contains: String
+  validatorStash_starts_with: String
+  validatorStash_not_starts_with: String
+  validatorStash_ends_with: String
+  validatorStash_not_ends_with: String
+  nominatorController: String
+  nominatorController_not: String
+  nominatorController_in: [String!]
+  nominatorController_not_in: [String!]
+  nominatorController_lt: String
+  nominatorController_lte: String
+  nominatorController_gt: String
+  nominatorController_gte: String
+  nominatorController_contains: String
+  nominatorController_not_contains: String
+  nominatorController_starts_with: String
+  nominatorController_not_starts_with: String
+  nominatorController_ends_with: String
+  nominatorController_not_ends_with: String
+  nominatorStash: String
+  nominatorStash_not: String
+  nominatorStash_in: [String!]
+  nominatorStash_not_in: [String!]
+  nominatorStash_lt: String
+  nominatorStash_lte: String
+  nominatorStash_gt: String
+  nominatorStash_gte: String
+  nominatorStash_contains: String
+  nominatorStash_not_contains: String
+  nominatorStash_starts_with: String
+  nominatorStash_not_starts_with: String
+  nominatorStash_ends_with: String
+  nominatorStash_not_ends_with: String
   session: SessionsWhereInput
   bonded: Int
   bonded_not: Int
@@ -600,9 +599,8 @@ type Query {
 
 type Rewards {
   id: ID!
-  datetime: DateTime!
   amount: Int!
-  authored_block: BlockNumber!
+  authoredBlock: BlockNumber!
   recipients: [String!]!
 }
 
@@ -614,9 +612,8 @@ type RewardsConnection {
 
 input RewardsCreateInput {
   id: ID
-  datetime: DateTime!
   amount: Int!
-  authored_block: BlockNumberCreateOneInput!
+  authoredBlock: BlockNumberCreateOneInput!
   recipients: RewardsCreaterecipientsInput
 }
 
@@ -632,15 +629,12 @@ type RewardsEdge {
 enum RewardsOrderByInput {
   id_ASC
   id_DESC
-  datetime_ASC
-  datetime_DESC
   amount_ASC
   amount_DESC
 }
 
 type RewardsPreviousValues {
   id: ID!
-  datetime: DateTime!
   amount: Int!
   recipients: [String!]!
 }
@@ -664,14 +658,12 @@ input RewardsSubscriptionWhereInput {
 }
 
 input RewardsUpdateInput {
-  datetime: DateTime
   amount: Int
-  authored_block: BlockNumberUpdateOneRequiredInput
+  authoredBlock: BlockNumberUpdateOneRequiredInput
   recipients: RewardsUpdaterecipientsInput
 }
 
 input RewardsUpdateManyMutationInput {
-  datetime: DateTime
   amount: Int
   recipients: RewardsUpdaterecipientsInput
 }
@@ -695,14 +687,6 @@ input RewardsWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  datetime: DateTime
-  datetime_not: DateTime
-  datetime_in: [DateTime!]
-  datetime_not_in: [DateTime!]
-  datetime_lt: DateTime
-  datetime_lte: DateTime
-  datetime_gt: DateTime
-  datetime_gte: DateTime
   amount: Int
   amount_not: Int
   amount_in: [Int!]
@@ -711,7 +695,7 @@ input RewardsWhereInput {
   amount_lte: Int
   amount_gt: Int
   amount_gte: Int
-  authored_block: BlockNumberWhereInput
+  authoredBlock: BlockNumberWhereInput
   AND: [RewardsWhereInput!]
   OR: [RewardsWhereInput!]
   NOT: [RewardsWhereInput!]
@@ -826,8 +810,7 @@ input SessionsWhereUniqueInput {
 
 type Slashing {
   id: ID!
-  block_number: BlockNumber!
-  datetime: DateTime!
+  blockNumber: BlockNumber!
   reason: String!
   amount: Int!
 }
@@ -840,8 +823,7 @@ type SlashingConnection {
 
 input SlashingCreateInput {
   id: ID
-  block_number: BlockNumberCreateOneInput!
-  datetime: DateTime!
+  blockNumber: BlockNumberCreateOneInput!
   reason: String!
   amount: Int!
 }
@@ -854,8 +836,6 @@ type SlashingEdge {
 enum SlashingOrderByInput {
   id_ASC
   id_DESC
-  datetime_ASC
-  datetime_DESC
   reason_ASC
   reason_DESC
   amount_ASC
@@ -864,7 +844,6 @@ enum SlashingOrderByInput {
 
 type SlashingPreviousValues {
   id: ID!
-  datetime: DateTime!
   reason: String!
   amount: Int!
 }
@@ -888,14 +867,12 @@ input SlashingSubscriptionWhereInput {
 }
 
 input SlashingUpdateInput {
-  block_number: BlockNumberUpdateOneRequiredInput
-  datetime: DateTime
+  blockNumber: BlockNumberUpdateOneRequiredInput
   reason: String
   amount: Int
 }
 
 input SlashingUpdateManyMutationInput {
-  datetime: DateTime
   reason: String
   amount: Int
 }
@@ -915,15 +892,7 @@ input SlashingWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  block_number: BlockNumberWhereInput
-  datetime: DateTime
-  datetime_not: DateTime
-  datetime_in: [DateTime!]
-  datetime_not_in: [DateTime!]
-  datetime_lt: DateTime
-  datetime_lte: DateTime
-  datetime_gt: DateTime
-  datetime_gte: DateTime
+  blockNumber: BlockNumberWhereInput
   reason: String
   reason_not: String
   reason_in: [String!]
@@ -957,8 +926,8 @@ input SlashingWhereUniqueInput {
 
 type Stake {
   id: ID!
-  block_number: BlockNumber!
-  total_stake: Int!
+  blockNumber: BlockNumber!
+  totalStake: Int!
 }
 
 type StakeConnection {
@@ -969,8 +938,8 @@ type StakeConnection {
 
 input StakeCreateInput {
   id: ID
-  block_number: BlockNumberCreateOneInput!
-  total_stake: Int!
+  blockNumber: BlockNumberCreateOneInput!
+  totalStake: Int!
 }
 
 type StakeEdge {
@@ -981,13 +950,13 @@ type StakeEdge {
 enum StakeOrderByInput {
   id_ASC
   id_DESC
-  total_stake_ASC
-  total_stake_DESC
+  totalStake_ASC
+  totalStake_DESC
 }
 
 type StakePreviousValues {
   id: ID!
-  total_stake: Int!
+  totalStake: Int!
 }
 
 type StakeSubscriptionPayload {
@@ -1009,12 +978,12 @@ input StakeSubscriptionWhereInput {
 }
 
 input StakeUpdateInput {
-  block_number: BlockNumberUpdateOneRequiredInput
-  total_stake: Int
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  totalStake: Int
 }
 
 input StakeUpdateManyMutationInput {
-  total_stake: Int
+  totalStake: Int
 }
 
 input StakeWhereInput {
@@ -1032,15 +1001,15 @@ input StakeWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  block_number: BlockNumberWhereInput
-  total_stake: Int
-  total_stake_not: Int
-  total_stake_in: [Int!]
-  total_stake_not_in: [Int!]
-  total_stake_lt: Int
-  total_stake_lte: Int
-  total_stake_gt: Int
-  total_stake_gte: Int
+  blockNumber: BlockNumberWhereInput
+  totalStake: Int
+  totalStake_not: Int
+  totalStake_in: [Int!]
+  totalStake_not_in: [Int!]
+  totalStake_lt: Int
+  totalStake_lte: Int
+  totalStake_gt: Int
+  totalStake_gte: Int
   AND: [StakeWhereInput!]
   OR: [StakeWhereInput!]
   NOT: [StakeWhereInput!]
@@ -1156,9 +1125,9 @@ input TotalIssuanceWhereUniqueInput {
 type Validations {
   id: ID!
   start: BlockNumber!
-  validator_controller: String!
-  validator_stash: String!
-  validator_preferences: Int!
+  validatorController: String!
+  validatorStash: String!
+  validatorPreferences: Int!
 }
 
 type ValidationsConnection {
@@ -1170,9 +1139,9 @@ type ValidationsConnection {
 input ValidationsCreateInput {
   id: ID
   start: BlockNumberCreateOneInput!
-  validator_controller: String!
-  validator_stash: String!
-  validator_preferences: Int!
+  validatorController: String!
+  validatorStash: String!
+  validatorPreferences: Int!
 }
 
 type ValidationsEdge {
@@ -1183,19 +1152,19 @@ type ValidationsEdge {
 enum ValidationsOrderByInput {
   id_ASC
   id_DESC
-  validator_controller_ASC
-  validator_controller_DESC
-  validator_stash_ASC
-  validator_stash_DESC
-  validator_preferences_ASC
-  validator_preferences_DESC
+  validatorController_ASC
+  validatorController_DESC
+  validatorStash_ASC
+  validatorStash_DESC
+  validatorPreferences_ASC
+  validatorPreferences_DESC
 }
 
 type ValidationsPreviousValues {
   id: ID!
-  validator_controller: String!
-  validator_stash: String!
-  validator_preferences: Int!
+  validatorController: String!
+  validatorStash: String!
+  validatorPreferences: Int!
 }
 
 type ValidationsSubscriptionPayload {
@@ -1218,15 +1187,15 @@ input ValidationsSubscriptionWhereInput {
 
 input ValidationsUpdateInput {
   start: BlockNumberUpdateOneRequiredInput
-  validator_controller: String
-  validator_stash: String
-  validator_preferences: Int
+  validatorController: String
+  validatorStash: String
+  validatorPreferences: Int
 }
 
 input ValidationsUpdateManyMutationInput {
-  validator_controller: String
-  validator_stash: String
-  validator_preferences: Int
+  validatorController: String
+  validatorStash: String
+  validatorPreferences: Int
 }
 
 input ValidationsWhereInput {
@@ -1245,42 +1214,42 @@ input ValidationsWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   start: BlockNumberWhereInput
-  validator_controller: String
-  validator_controller_not: String
-  validator_controller_in: [String!]
-  validator_controller_not_in: [String!]
-  validator_controller_lt: String
-  validator_controller_lte: String
-  validator_controller_gt: String
-  validator_controller_gte: String
-  validator_controller_contains: String
-  validator_controller_not_contains: String
-  validator_controller_starts_with: String
-  validator_controller_not_starts_with: String
-  validator_controller_ends_with: String
-  validator_controller_not_ends_with: String
-  validator_stash: String
-  validator_stash_not: String
-  validator_stash_in: [String!]
-  validator_stash_not_in: [String!]
-  validator_stash_lt: String
-  validator_stash_lte: String
-  validator_stash_gt: String
-  validator_stash_gte: String
-  validator_stash_contains: String
-  validator_stash_not_contains: String
-  validator_stash_starts_with: String
-  validator_stash_not_starts_with: String
-  validator_stash_ends_with: String
-  validator_stash_not_ends_with: String
-  validator_preferences: Int
-  validator_preferences_not: Int
-  validator_preferences_in: [Int!]
-  validator_preferences_not_in: [Int!]
-  validator_preferences_lt: Int
-  validator_preferences_lte: Int
-  validator_preferences_gt: Int
-  validator_preferences_gte: Int
+  validatorController: String
+  validatorController_not: String
+  validatorController_in: [String!]
+  validatorController_not_in: [String!]
+  validatorController_lt: String
+  validatorController_lte: String
+  validatorController_gt: String
+  validatorController_gte: String
+  validatorController_contains: String
+  validatorController_not_contains: String
+  validatorController_starts_with: String
+  validatorController_not_starts_with: String
+  validatorController_ends_with: String
+  validatorController_not_ends_with: String
+  validatorStash: String
+  validatorStash_not: String
+  validatorStash_in: [String!]
+  validatorStash_not_in: [String!]
+  validatorStash_lt: String
+  validatorStash_lte: String
+  validatorStash_gt: String
+  validatorStash_gte: String
+  validatorStash_contains: String
+  validatorStash_not_contains: String
+  validatorStash_starts_with: String
+  validatorStash_not_starts_with: String
+  validatorStash_ends_with: String
+  validatorStash_not_ends_with: String
+  validatorPreferences: Int
+  validatorPreferences_not: Int
+  validatorPreferences_in: [Int!]
+  validatorPreferences_not_in: [Int!]
+  validatorPreferences_lt: Int
+  validatorPreferences_lte: Int
+  validatorPreferences_gt: Int
+  validatorPreferences_gte: Int
   AND: [ValidationsWhereInput!]
   OR: [ValidationsWhereInput!]
   NOT: [ValidationsWhereInput!]

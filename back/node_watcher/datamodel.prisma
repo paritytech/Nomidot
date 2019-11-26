@@ -1,48 +1,46 @@
 
 type ImOnline {
   id: ID! @id
-  block_number: BlockNumber! @relation(name: "ImOnlineAtBlockNumber", link: INLINE)
+  blockNumber: BlockNumber! @relation(name: "ImOnlineAtBlockNumber", link: INLINE)
   sender: String!
 }
 
 type Rewards {
   id: ID! @id
-  datetime: DateTime!
   amount: Int!
-  authored_block: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
+  authoredBlock: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
   recipients: [String!]! @scalarList(strategy: RELATION)
 }
 
 type Slashing {
   id: ID! @id
-  block_number: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
-  datetime: DateTime!
+  blockNumber: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
   reason: String!
   amount: Int!
 }
 
 type Nominations {
   id: ID! @id
-  validator_controller: String!
-  validator_stash: String!
-  nominator_controller: String!
-  nominator_stash: String!
+  validatorController: String!
+  validatorStash: String!
+  nominatorController: String!
+  nominatorStash: String!
   session: Sessions! @relation(name: "NominationsAtSession", link: INLINE)
   bonded: Int!
 }
 
 type Stake {
   id: ID! @id
-  block_number: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
-  total_stake: Int!
+  blockNumber: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
+  totalStake: Int!
 }
 
 type Validations {
   id: ID! @id
   start: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
-  validator_controller: String!
-  validator_stash: String!
-  validator_preferences: Int!
+  validatorController: String!
+  validatorStash: String!
+  validatorPreferences: Int!
 }
 
 type Sessions {
@@ -58,8 +56,8 @@ type TotalIssuance {
 
 type BlockNumber {
   id: Int! @unique @id
-  number: Int! @unique
-  authored_by: String!
-  start_datetime: DateTime! @unique
+  number: Int!
+  authoredBy: String!
+  startDateTime: DateTime!
   hash: String! @unique
 }

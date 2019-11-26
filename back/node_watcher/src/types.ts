@@ -1,20 +1,26 @@
 
-import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { ApiPromise } from '@polkadot/api';
+import { AccountId, BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 
-
-export interface BlockInfoFromNode {
-  authored_by: AccountId,
-  block_number: BlockNumber,
-  block_hash: Hash
+export interface BlockData {
+  [x: string]: any;
 }
 
-export interface NodeWatcherOptions {
-  [x: string]: (data: any) => Promise<any>; // FIXME any
+export interface NomidotBlock {
+  authoredBy: AccountId,
+  blockNumber: number
+  hash: Hash,
+  startDateTime: Moment
 }
 
 export interface PrismaEntry {
   table: PrismaTable,
-  data: any
+  data: BlockData
 }
 
 type PrismaTable = 'blockNumber' | 'imOnline' | 'rewards' | 'slashing' | 'nominations' | 'stake' | 'validations' | 'sessions' | 'totalIssuance'
+
+export interface Task<T> {
+  read(blockNumber: number, api: ApiPromise): Promise<T>;
+  write(value: T): Promise<void>
+}
