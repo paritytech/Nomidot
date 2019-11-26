@@ -7,7 +7,7 @@
 
 import './layout.css';
 
-import { Container } from '@substrate/ui-components/src';
+import { Container } from '@substrate/ui-components';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 

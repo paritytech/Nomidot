@@ -2,11 +2,16 @@
   "exclude": ["node_modules", "public", ".cache"],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
+    "baseUrl": ".",
     "declaration": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["dom", "esnext"],
+    "paths": {
+      "@substrate/context": ["front/context/src"],
+      "@substrate/ui-components": ["front/ui-components/src"]
+    },
     "skipLibCheck": true,
     "strict": true,
     "target": "es5"
