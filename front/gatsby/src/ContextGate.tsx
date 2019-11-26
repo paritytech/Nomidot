@@ -8,7 +8,7 @@ import {
   ApiContextProvider,
   StakingContextProvider,
   TxQueueContextProvider,
-} from '@substrate/context/src';
+} from '@substrate/context';
 import React from 'react';
 
 export function ContextGate({
