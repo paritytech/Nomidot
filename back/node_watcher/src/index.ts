@@ -3,29 +3,27 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import 'symbol-observable';
-import { ApiRx, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 
-import PrismaWriterQueue from './PrismaWriterQueue';
-import { subscribeBlockNumber } from './node-api';
+import NodeApi from './node-api';
+import NodeWatcher from './node-watcher';
+import { NodeWatcherOptions } from './types';
 
 const ENDPOINT = 'ws://127.0.0.1:9944';
 
 async function main () {
   const provider = new WsProvider(ENDPOINT);
-  const api = new ApiRx({provider});
-  const writerQueueRunner = new PrismaWriterQueue();
+  const api = await new ApiPromise({ provider });
 
-  api.on('connected', () => {
-    console.log('api connected');
+  const options: NodeWatcherOptions = {
+    'block': 
+  };
+
+  api.isReady.then(() => {
+    const nodeWatcher = new NodeWatcher(api, options);
+
+    nodeWatcher.start();
   })
-
-  api.on('ready', () => {
-    console.log('API is ready!');
-
-    subscribeBlockNumber(api).subscribe(async ([authored_by, block_number, block_hash]) => {
-      
-    })
-  });
 }
 
 main().catch(e => console.error(e))
