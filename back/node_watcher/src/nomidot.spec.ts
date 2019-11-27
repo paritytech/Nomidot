@@ -11,15 +11,15 @@ const parityKusama = 'wss://kusama-rpc.polkadot.io/';
 describe('Nomidot Tasks', () => {
   let api: ApiPromise;
 
-  beforeEach(async (done) => {
+  beforeEach(async done => {
     api = await ApiPromise.create({ provider: new WsProvider(parityKusama) });
 
     done();
-  })
+  });
 
   beforeAll((): void => {
     jest.setTimeout(15000);
-  })
+  });
 
   afterAll((): void => {
     jest.setTimeout(5000);
@@ -35,4 +35,4 @@ describe('Nomidot Tasks', () => {
     expect(result).toBeDefined();
     expect(result.authoredBy).toBeDefined();
   });
-})
+});

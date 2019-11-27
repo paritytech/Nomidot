@@ -9,13 +9,13 @@ import nomidotTasks from './nomidot-tasks';
 
 const ENDPOINT = 'ws://127.0.0.1:9944';
 
-async function main () {
+async function main() {
   const provider = new WsProvider(ENDPOINT);
-  const api = await new ApiPromise({ provider });;
+  const api = await new ApiPromise({ provider });
 
   api.isReady.then(() => {
     nodeWatcher([...nomidotTasks], api);
-  })
+  });
 }
 
-main().catch(e => console.error(e))
+main().catch(e => console.error(e));

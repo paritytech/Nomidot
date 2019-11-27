@@ -1,10 +1,14 @@
-
 import { ApiPromise } from '@polkadot/api';
-import { AccountId, BlockNumber, BabeAuthorityWeight, Hash, Moment } from '@polkadot/types/interfaces';
-import { UInt, Vec } from '@polkadot/types';
-import { ITuple } from '@polkadot/types/types';
-import { NomidotBlock, NomidotHeartBeat, Task } from './types';
+import { UInt } from '@polkadot/types';
+import {
+  AccountId,
+  BlockNumber,
+  Hash,
+  Moment,
+} from '@polkadot/types/interfaces';
+
 import { prisma } from '../generated/prisma-client';
+import { NomidotBlock, Task } from './types';
 
 const createBlockNumber: Task<NomidotBlock> = {
   read: async (number: number, api: ApiPromise): Promise<NomidotBlock> => {
@@ -17,27 +21,20 @@ const createBlockNumber: Task<NomidotBlock> = {
       authoredBy,
       blockNumber,
       hash,
-      startDateTime
+      startDateTime,
     };
-
-    console.log(`read all this stuff: ${JSON.stringify(result)}`);
 
     return result;
   },
   write: async (value: NomidotBlock) => {
     const { authoredBy, blockNumber, hash, startDateTime } = value;
 
-    const author = authoredBy.toHex();
-    const dt = new Date(startDateTime.toNumber() * 1000).toISOString();
-    const hashish = hash.toHex();
-    const number = parseInt(blockNumber.toString());
-    
     const blockNumberCreateInput = {
-      authoredBy: author,
-      number,
-      hash: hashish,
-      startDateTime: dt
-    }
+      authoredBy: authoredBy.toHex(),
+      number: parseInt(blockNumber.toString()),
+      hash: hash.toHex(),
+      startDateTime: new Date(startDateTime.toNumber() * 1000).toISOString(),
+    };
 
     console.log(`block number create input: ${blockNumberCreateInput}`);
 
@@ -46,13 +43,13 @@ const createBlockNumber: Task<NomidotBlock> = {
     } catch (e) {
       console.error(`something went wrong trying to write: ${e}`);
     }
-  }
-}
+  },
+};
 
 // const createImOnline: Task<any> = {
 //   read: async (blockNumber: number, api: ApiPromise): Promise<NomidotHeartBeat> => {
 //     const hash: Hash = await api.query.system.blockHash(blockNumber);
-    
+
 //     const currentEpochAuthorities: Vec<ITuple<[AccountId, BabeAuthorityWeight]>> = await api.query.babe.authorities();
 
 //     const justAuthorityIds = currentEpochAuthorities.map(item => item[0]);
@@ -76,9 +73,6 @@ const createBlockNumber: Task<NomidotBlock> = {
 //   }
 // }
 
-
-let nomidotTasks: Task<any>[] = [
-  createBlockNumber
-];
+const nomidotTasks: Task<any>[] = [createBlockNumber];
 
 export default nomidotTasks;

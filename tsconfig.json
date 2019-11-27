@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "public", ".cache"],
+  "exclude": ["node_modules", "public", ".cache", "prisma-client"],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",
@@ -10,11 +10,11 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@substrate/context": ["front/context/src"],
-      "@substrate/ui-components": ["front/ui-components/src"]
+      "@substrate/ui-components": ["front/ui-components/src"],
+      "@substrate/node-watcher": ["back/node-watcher/src"]
     },
     "skipLibCheck": true,
     "strict": true,
-    "target": "es5",
-    "types": ["jest", "node"]
+    "target": "es5"
   }
 }
