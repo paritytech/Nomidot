@@ -15,8 +15,14 @@ export function nodeWatcher(tasks: Task<any>[], api: ApiPromise): void {
   for (let number = 0; number < BLOCK_NUMBER_RANGE; number++) {
     tasks.forEach(async (task: Task<any>) => {
       const result = await task.read(number, api);
-      l.log(`Read all this stuff: ${result}`);
-      await task.write(result);
+
+      l.log(`task.read() yielded: ${result}`);
+
+      try {
+        await task.write(result);
+      } catch (e) {
+        l.error(e);
+      }
     });
   }
 }

@@ -8,7 +8,7 @@ import {
 } from '@polkadot/types/interfaces';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotBlock, Task } from './types';
+import { Nomidot, NomidotBlock, NomidotTotalIssuance, Task } from './types';
 
 const createBlockNumber: Task<NomidotBlock> = {
   read: async (number: number, api: ApiPromise): Promise<NomidotBlock> => {
@@ -38,13 +38,37 @@ const createBlockNumber: Task<NomidotBlock> = {
 
     console.log(`block number create input: ${blockNumberCreateInput}`);
 
-    try {
-      await prisma.createBlockNumber(blockNumberCreateInput);
-    } catch (e) {
-      console.error(`something went wrong trying to write: ${e}`);
-    }
+    await prisma.createBlockNumber(blockNumberCreateInput);
   },
 };
+
+const createTotalIssuance: Task<NomidotTotalIssuance> = {
+  read: async (number: number, api: ApiPromise): Promise<NomidotTotalIssuance> => {
+    const blockNumber: BlockNumber = new UInt(number) as BlockNumber;
+    const hash: Hash = await api.query.system.blockHash(blockNumber);
+
+    const amount = await api.query.balances.totalIssuance.at(hash);
+
+    return {
+      amount
+    }
+  },
+  write: async (value: NomidotTotalIssuance) => {
+    const totalIssuanceCreateInput = {
+      amount: value.amount.toNumber()
+    }
+    
+    await prisma.createTotalIssuance(totalIssuanceCreateInput);
+  }
+}
+
+const nomidotTasks: Task<Nomidot>[] = [
+  createBlockNumber,
+  createTotalIssuance
+];
+
+export default nomidotTasks;
+
 
 // const createImOnline: Task<any> = {
 //   read: async (blockNumber: number, api: ApiPromise): Promise<NomidotHeartBeat> => {
@@ -72,7 +96,3 @@ const createBlockNumber: Task<NomidotBlock> = {
 //     })
 //   }
 // }
-
-const nomidotTasks: Task<any>[] = [createBlockNumber];
-
-export default nomidotTasks;

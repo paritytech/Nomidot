@@ -1,6 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
 import {
   AccountId,
+  Balance,
   BlockNumber,
   Hash,
   Moment,
@@ -9,20 +10,6 @@ import {
 
 export interface BlockData {
   [x: string]: any;
-}
-
-export interface NomidotBlock {
-  authoredBy: AccountId;
-  blockNumber: BlockNumber;
-  hash: Hash;
-  startDateTime: Moment;
-}
-
-export interface NomidotHeartBeat {
-  blockNumber: BlockNumber;
-  isOnline: boolean;
-  sender: AccountId;
-  sessionId: SessionIndex;
 }
 
 export interface PrismaEntry {
@@ -45,3 +32,23 @@ export interface Task<T> {
   read(blockNumber: number, api: ApiPromise): Promise<T>;
   write(value: T): Promise<void>;
 }
+
+export interface NomidotBlock {
+  authoredBy: AccountId;
+  blockNumber: BlockNumber;
+  hash: Hash;
+  startDateTime: Moment;
+}
+
+export interface NomidotHeartBeat {
+  blockNumber: BlockNumber;
+  isOnline: boolean;
+  sender: AccountId;
+  sessionId: SessionIndex;
+}
+
+export interface NomidotTotalIssuance {
+  amount: Balance
+}
+
+export type Nomidot = NomidotBlock | NomidotHeartBeat | NomidotTotalIssuance;
