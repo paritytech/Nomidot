@@ -1,11 +1,12 @@
 
-type ImOnline {
+type HeartBeat {
   id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "ImOnlineAtBlockNumber", link: INLINE)
+  blockNumber: BlockNumber! @relation(name: "HeartBeatAtBlockNumber", link: INLINE)
+  isOnline: Boolean!
   sender: String!
 }
 
-type Rewards {
+type Reward {
   id: ID! @id
   amount: Int!
   authoredBlock: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
@@ -19,13 +20,13 @@ type Slashing {
   amount: Int!
 }
 
-type Nominations {
+type Nomination {
   id: ID! @id
   validatorController: String!
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  session: Sessions! @relation(name: "NominationsAtSession", link: INLINE)
+  session: Session! @relation(name: "NominationsAtSession", link: INLINE)
   bonded: Int!
 }
 
@@ -35,7 +36,7 @@ type Stake {
   totalStake: Int!
 }
 
-type Validations {
+type Validation {
   id: ID! @id
   start: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
   validatorController: String!
@@ -43,7 +44,7 @@ type Validations {
   validatorPreferences: Int!
 }
 
-type Sessions {
+type Session {
   id: ID! @id
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
   end: BlockNumber! @relation(name: "BlockNumberAtSessionEnd", link: INLINE)

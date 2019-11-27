@@ -1,6 +1,6 @@
 
 import { ApiPromise } from '@polkadot/api';
-import { AccountId, BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber, Hash, Moment, SessionIndex } from '@polkadot/types/interfaces';
 
 export interface BlockData {
   [x: string]: any;
@@ -8,9 +8,16 @@ export interface BlockData {
 
 export interface NomidotBlock {
   authoredBy: AccountId,
-  blockNumber: number
+  blockNumber: BlockNumber
   hash: Hash,
   startDateTime: Moment
+}
+
+export interface NomidotHeartBeat {
+  blockNumber: BlockNumber,
+  isOnline: boolean,
+  sender: AccountId,
+  sessionId: SessionIndex
 }
 
 export interface PrismaEntry {

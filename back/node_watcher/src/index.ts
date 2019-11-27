@@ -5,7 +5,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 import { nodeWatcher } from './node-watcher';
-import nomidotTasks from './nomidot-watcher';
+import nomidotTasks from './nomidot-tasks';
 
 const ENDPOINT = 'ws://127.0.0.1:9944';
 

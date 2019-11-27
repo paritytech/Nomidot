@@ -12,12 +12,7 @@ const BLOCK_NUMBER_RANGE = Number.MAX_SAFE_INTEGER;
 const l = logger('node-watcher');
 
 export function nodeWatcher(tasks: Task<any>[], api: ApiPromise) {
-  for (let number = 0; number < BLOCK_NUMBER_RANGE; number++) {
-    tasks.forEach((task: Task<any>) => {
-      task.read(number, api)
-        .then((data) => {
-          task.write(data);
-        })
-    })
-  }
+  // for (let number = 0; number < BLOCK_NUMBER_RANGE; number++) {
+    tasks[0].read(40, api).then(result => tasks[0].write(result));
+  // }
 }

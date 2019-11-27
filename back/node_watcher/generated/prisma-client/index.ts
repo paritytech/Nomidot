@@ -17,14 +17,14 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   blockNumber: (where?: BlockNumberWhereInput) => Promise<boolean>;
-  imOnline: (where?: ImOnlineWhereInput) => Promise<boolean>;
-  nominations: (where?: NominationsWhereInput) => Promise<boolean>;
-  rewards: (where?: RewardsWhereInput) => Promise<boolean>;
-  sessions: (where?: SessionsWhereInput) => Promise<boolean>;
+  heartBeat: (where?: HeartBeatWhereInput) => Promise<boolean>;
+  nomination: (where?: NominationWhereInput) => Promise<boolean>;
+  reward: (where?: RewardWhereInput) => Promise<boolean>;
+  session: (where?: SessionWhereInput) => Promise<boolean>;
   slashing: (where?: SlashingWhereInput) => Promise<boolean>;
   stake: (where?: StakeWhereInput) => Promise<boolean>;
   totalIssuance: (where?: TotalIssuanceWhereInput) => Promise<boolean>;
-  validations: (where?: ValidationsWhereInput) => Promise<boolean>;
+  validation: (where?: ValidationWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -67,84 +67,82 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BlockNumberConnectionPromise;
-  imOnline: (where: ImOnlineWhereUniqueInput) => ImOnlineNullablePromise;
-  imOnlines: (args?: {
-    where?: ImOnlineWhereInput;
-    orderBy?: ImOnlineOrderByInput;
+  heartBeat: (where: HeartBeatWhereUniqueInput) => HeartBeatNullablePromise;
+  heartBeats: (args?: {
+    where?: HeartBeatWhereInput;
+    orderBy?: HeartBeatOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<ImOnline>;
-  imOnlinesConnection: (args?: {
-    where?: ImOnlineWhereInput;
-    orderBy?: ImOnlineOrderByInput;
+  }) => FragmentableArray<HeartBeat>;
+  heartBeatsConnection: (args?: {
+    where?: HeartBeatWhereInput;
+    orderBy?: HeartBeatOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => ImOnlineConnectionPromise;
-  nominations: (
-    where: NominationsWhereUniqueInput
-  ) => NominationsNullablePromise;
-  nominationses: (args?: {
-    where?: NominationsWhereInput;
-    orderBy?: NominationsOrderByInput;
+  }) => HeartBeatConnectionPromise;
+  nomination: (where: NominationWhereUniqueInput) => NominationNullablePromise;
+  nominations: (args?: {
+    where?: NominationWhereInput;
+    orderBy?: NominationOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Nominations>;
-  nominationsesConnection: (args?: {
-    where?: NominationsWhereInput;
-    orderBy?: NominationsOrderByInput;
+  }) => FragmentableArray<Nomination>;
+  nominationsConnection: (args?: {
+    where?: NominationWhereInput;
+    orderBy?: NominationOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => NominationsConnectionPromise;
-  rewards: (where: RewardsWhereUniqueInput) => RewardsNullablePromise;
-  rewardses: (args?: {
-    where?: RewardsWhereInput;
-    orderBy?: RewardsOrderByInput;
+  }) => NominationConnectionPromise;
+  reward: (where: RewardWhereUniqueInput) => RewardNullablePromise;
+  rewards: (args?: {
+    where?: RewardWhereInput;
+    orderBy?: RewardOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Rewards>;
-  rewardsesConnection: (args?: {
-    where?: RewardsWhereInput;
-    orderBy?: RewardsOrderByInput;
+  }) => FragmentableArray<Reward>;
+  rewardsConnection: (args?: {
+    where?: RewardWhereInput;
+    orderBy?: RewardOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => RewardsConnectionPromise;
-  sessions: (where: SessionsWhereUniqueInput) => SessionsNullablePromise;
-  sessionses: (args?: {
-    where?: SessionsWhereInput;
-    orderBy?: SessionsOrderByInput;
+  }) => RewardConnectionPromise;
+  session: (where: SessionWhereUniqueInput) => SessionNullablePromise;
+  sessions: (args?: {
+    where?: SessionWhereInput;
+    orderBy?: SessionOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Sessions>;
-  sessionsesConnection: (args?: {
-    where?: SessionsWhereInput;
-    orderBy?: SessionsOrderByInput;
+  }) => FragmentableArray<Session>;
+  sessionsConnection: (args?: {
+    where?: SessionWhereInput;
+    orderBy?: SessionOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => SessionsConnectionPromise;
+  }) => SessionConnectionPromise;
   slashing: (where: SlashingWhereUniqueInput) => SlashingNullablePromise;
   slashings: (args?: {
     where?: SlashingWhereInput;
@@ -204,27 +202,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => TotalIssuanceConnectionPromise;
-  validations: (
-    where: ValidationsWhereUniqueInput
-  ) => ValidationsNullablePromise;
-  validationses: (args?: {
-    where?: ValidationsWhereInput;
-    orderBy?: ValidationsOrderByInput;
+  validation: (where: ValidationWhereUniqueInput) => ValidationNullablePromise;
+  validations: (args?: {
+    where?: ValidationWhereInput;
+    orderBy?: ValidationOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Validations>;
-  validationsesConnection: (args?: {
-    where?: ValidationsWhereInput;
-    orderBy?: ValidationsOrderByInput;
+  }) => FragmentableArray<Validation>;
+  validationsConnection: (args?: {
+    where?: ValidationWhereInput;
+    orderBy?: ValidationOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => ValidationsConnectionPromise;
+  }) => ValidationConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -249,68 +245,66 @@ export interface Prisma {
   deleteManyBlockNumbers: (
     where?: BlockNumberWhereInput
   ) => BatchPayloadPromise;
-  createImOnline: (data: ImOnlineCreateInput) => ImOnlinePromise;
-  updateImOnline: (args: {
-    data: ImOnlineUpdateInput;
-    where: ImOnlineWhereUniqueInput;
-  }) => ImOnlinePromise;
-  updateManyImOnlines: (args: {
-    data: ImOnlineUpdateManyMutationInput;
-    where?: ImOnlineWhereInput;
+  createHeartBeat: (data: HeartBeatCreateInput) => HeartBeatPromise;
+  updateHeartBeat: (args: {
+    data: HeartBeatUpdateInput;
+    where: HeartBeatWhereUniqueInput;
+  }) => HeartBeatPromise;
+  updateManyHeartBeats: (args: {
+    data: HeartBeatUpdateManyMutationInput;
+    where?: HeartBeatWhereInput;
   }) => BatchPayloadPromise;
-  upsertImOnline: (args: {
-    where: ImOnlineWhereUniqueInput;
-    create: ImOnlineCreateInput;
-    update: ImOnlineUpdateInput;
-  }) => ImOnlinePromise;
-  deleteImOnline: (where: ImOnlineWhereUniqueInput) => ImOnlinePromise;
-  deleteManyImOnlines: (where?: ImOnlineWhereInput) => BatchPayloadPromise;
-  createNominations: (data: NominationsCreateInput) => NominationsPromise;
-  updateNominations: (args: {
-    data: NominationsUpdateInput;
-    where: NominationsWhereUniqueInput;
-  }) => NominationsPromise;
-  updateManyNominationses: (args: {
-    data: NominationsUpdateManyMutationInput;
-    where?: NominationsWhereInput;
+  upsertHeartBeat: (args: {
+    where: HeartBeatWhereUniqueInput;
+    create: HeartBeatCreateInput;
+    update: HeartBeatUpdateInput;
+  }) => HeartBeatPromise;
+  deleteHeartBeat: (where: HeartBeatWhereUniqueInput) => HeartBeatPromise;
+  deleteManyHeartBeats: (where?: HeartBeatWhereInput) => BatchPayloadPromise;
+  createNomination: (data: NominationCreateInput) => NominationPromise;
+  updateNomination: (args: {
+    data: NominationUpdateInput;
+    where: NominationWhereUniqueInput;
+  }) => NominationPromise;
+  updateManyNominations: (args: {
+    data: NominationUpdateManyMutationInput;
+    where?: NominationWhereInput;
   }) => BatchPayloadPromise;
-  upsertNominations: (args: {
-    where: NominationsWhereUniqueInput;
-    create: NominationsCreateInput;
-    update: NominationsUpdateInput;
-  }) => NominationsPromise;
-  deleteNominations: (where: NominationsWhereUniqueInput) => NominationsPromise;
-  deleteManyNominationses: (
-    where?: NominationsWhereInput
-  ) => BatchPayloadPromise;
-  createRewards: (data: RewardsCreateInput) => RewardsPromise;
-  updateRewards: (args: {
-    data: RewardsUpdateInput;
-    where: RewardsWhereUniqueInput;
-  }) => RewardsPromise;
-  updateManyRewardses: (args: {
-    data: RewardsUpdateManyMutationInput;
-    where?: RewardsWhereInput;
+  upsertNomination: (args: {
+    where: NominationWhereUniqueInput;
+    create: NominationCreateInput;
+    update: NominationUpdateInput;
+  }) => NominationPromise;
+  deleteNomination: (where: NominationWhereUniqueInput) => NominationPromise;
+  deleteManyNominations: (where?: NominationWhereInput) => BatchPayloadPromise;
+  createReward: (data: RewardCreateInput) => RewardPromise;
+  updateReward: (args: {
+    data: RewardUpdateInput;
+    where: RewardWhereUniqueInput;
+  }) => RewardPromise;
+  updateManyRewards: (args: {
+    data: RewardUpdateManyMutationInput;
+    where?: RewardWhereInput;
   }) => BatchPayloadPromise;
-  upsertRewards: (args: {
-    where: RewardsWhereUniqueInput;
-    create: RewardsCreateInput;
-    update: RewardsUpdateInput;
-  }) => RewardsPromise;
-  deleteRewards: (where: RewardsWhereUniqueInput) => RewardsPromise;
-  deleteManyRewardses: (where?: RewardsWhereInput) => BatchPayloadPromise;
-  createSessions: (data: SessionsCreateInput) => SessionsPromise;
-  updateSessions: (args: {
-    data: SessionsUpdateInput;
-    where: SessionsWhereUniqueInput;
-  }) => SessionsPromise;
-  upsertSessions: (args: {
-    where: SessionsWhereUniqueInput;
-    create: SessionsCreateInput;
-    update: SessionsUpdateInput;
-  }) => SessionsPromise;
-  deleteSessions: (where: SessionsWhereUniqueInput) => SessionsPromise;
-  deleteManySessionses: (where?: SessionsWhereInput) => BatchPayloadPromise;
+  upsertReward: (args: {
+    where: RewardWhereUniqueInput;
+    create: RewardCreateInput;
+    update: RewardUpdateInput;
+  }) => RewardPromise;
+  deleteReward: (where: RewardWhereUniqueInput) => RewardPromise;
+  deleteManyRewards: (where?: RewardWhereInput) => BatchPayloadPromise;
+  createSession: (data: SessionCreateInput) => SessionPromise;
+  updateSession: (args: {
+    data: SessionUpdateInput;
+    where: SessionWhereUniqueInput;
+  }) => SessionPromise;
+  upsertSession: (args: {
+    where: SessionWhereUniqueInput;
+    create: SessionCreateInput;
+    update: SessionUpdateInput;
+  }) => SessionPromise;
+  deleteSession: (where: SessionWhereUniqueInput) => SessionPromise;
+  deleteManySessions: (where?: SessionWhereInput) => BatchPayloadPromise;
   createSlashing: (data: SlashingCreateInput) => SlashingPromise;
   updateSlashing: (args: {
     data: SlashingUpdateInput;
@@ -363,24 +357,22 @@ export interface Prisma {
   deleteManyTotalIssuances: (
     where?: TotalIssuanceWhereInput
   ) => BatchPayloadPromise;
-  createValidations: (data: ValidationsCreateInput) => ValidationsPromise;
-  updateValidations: (args: {
-    data: ValidationsUpdateInput;
-    where: ValidationsWhereUniqueInput;
-  }) => ValidationsPromise;
-  updateManyValidationses: (args: {
-    data: ValidationsUpdateManyMutationInput;
-    where?: ValidationsWhereInput;
+  createValidation: (data: ValidationCreateInput) => ValidationPromise;
+  updateValidation: (args: {
+    data: ValidationUpdateInput;
+    where: ValidationWhereUniqueInput;
+  }) => ValidationPromise;
+  updateManyValidations: (args: {
+    data: ValidationUpdateManyMutationInput;
+    where?: ValidationWhereInput;
   }) => BatchPayloadPromise;
-  upsertValidations: (args: {
-    where: ValidationsWhereUniqueInput;
-    create: ValidationsCreateInput;
-    update: ValidationsUpdateInput;
-  }) => ValidationsPromise;
-  deleteValidations: (where: ValidationsWhereUniqueInput) => ValidationsPromise;
-  deleteManyValidationses: (
-    where?: ValidationsWhereInput
-  ) => BatchPayloadPromise;
+  upsertValidation: (args: {
+    where: ValidationWhereUniqueInput;
+    create: ValidationCreateInput;
+    update: ValidationUpdateInput;
+  }) => ValidationPromise;
+  deleteValidation: (where: ValidationWhereUniqueInput) => ValidationPromise;
+  deleteManyValidations: (where?: ValidationWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -393,18 +385,18 @@ export interface Subscription {
   blockNumber: (
     where?: BlockNumberSubscriptionWhereInput
   ) => BlockNumberSubscriptionPayloadSubscription;
-  imOnline: (
-    where?: ImOnlineSubscriptionWhereInput
-  ) => ImOnlineSubscriptionPayloadSubscription;
-  nominations: (
-    where?: NominationsSubscriptionWhereInput
-  ) => NominationsSubscriptionPayloadSubscription;
-  rewards: (
-    where?: RewardsSubscriptionWhereInput
-  ) => RewardsSubscriptionPayloadSubscription;
-  sessions: (
-    where?: SessionsSubscriptionWhereInput
-  ) => SessionsSubscriptionPayloadSubscription;
+  heartBeat: (
+    where?: HeartBeatSubscriptionWhereInput
+  ) => HeartBeatSubscriptionPayloadSubscription;
+  nomination: (
+    where?: NominationSubscriptionWhereInput
+  ) => NominationSubscriptionPayloadSubscription;
+  reward: (
+    where?: RewardSubscriptionWhereInput
+  ) => RewardSubscriptionPayloadSubscription;
+  session: (
+    where?: SessionSubscriptionWhereInput
+  ) => SessionSubscriptionPayloadSubscription;
   slashing: (
     where?: SlashingSubscriptionWhereInput
   ) => SlashingSubscriptionPayloadSubscription;
@@ -414,9 +406,9 @@ export interface Subscription {
   totalIssuance: (
     where?: TotalIssuanceSubscriptionWhereInput
   ) => TotalIssuanceSubscriptionPayloadSubscription;
-  validations: (
-    where?: ValidationsSubscriptionWhereInput
-  ) => ValidationsSubscriptionPayloadSubscription;
+  validation: (
+    where?: ValidationSubscriptionWhereInput
+  ) => ValidationSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -437,13 +429,15 @@ export type SlashingOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type ImOnlineOrderByInput =
+export type HeartBeatOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "isOnline_ASC"
+  | "isOnline_DESC"
   | "sender_ASC"
   | "sender_DESC";
 
-export type NominationsOrderByInput =
+export type NominationOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "validatorController_ASC"
@@ -457,15 +451,15 @@ export type NominationsOrderByInput =
   | "bonded_ASC"
   | "bonded_DESC";
 
-export type RewardsOrderByInput =
+export type RewardOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "amount_ASC"
   | "amount_DESC";
 
-export type SessionsOrderByInput = "id_ASC" | "id_DESC";
+export type SessionOrderByInput = "id_ASC" | "id_DESC";
 
-export type ValidationsOrderByInput =
+export type ValidationOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "validatorController_ASC"
@@ -499,14 +493,15 @@ export type TotalIssuanceOrderByInput =
   | "amount_ASC"
   | "amount_DESC";
 
-export interface SessionsUpdateInput {
+export interface SessionUpdateInput {
   start?: Maybe<BlockNumberUpdateOneRequiredInput>;
   end?: Maybe<BlockNumberUpdateOneRequiredInput>;
 }
 
-export interface ImOnlineCreateInput {
+export interface HeartBeatCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
+  isOnline: Boolean;
   sender: String;
 }
 
@@ -530,22 +525,22 @@ export type BlockNumberWhereUniqueInput = AtLeastOne<{
   hash?: Maybe<String>;
 }>;
 
-export interface RewardsCreaterecipientsInput {
+export interface RewardCreaterecipientsInput {
   set?: Maybe<String[] | String>;
 }
 
-export type ImOnlineWhereUniqueInput = AtLeastOne<{
+export type HeartBeatWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface RewardsCreateInput {
+export interface RewardCreateInput {
   id?: Maybe<ID_Input>;
   amount: Int;
   authoredBlock: BlockNumberCreateOneInput;
-  recipients?: Maybe<RewardsCreaterecipientsInput>;
+  recipients?: Maybe<RewardCreaterecipientsInput>;
 }
 
-export interface ImOnlineWhereInput {
+export interface HeartBeatWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -561,6 +556,8 @@ export interface ImOnlineWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   blockNumber?: Maybe<BlockNumberWhereInput>;
+  isOnline?: Maybe<Boolean>;
+  isOnline_not?: Maybe<Boolean>;
   sender?: Maybe<String>;
   sender_not?: Maybe<String>;
   sender_in?: Maybe<String[] | String>;
@@ -575,12 +572,12 @@ export interface ImOnlineWhereInput {
   sender_not_starts_with?: Maybe<String>;
   sender_ends_with?: Maybe<String>;
   sender_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ImOnlineWhereInput[] | ImOnlineWhereInput>;
-  OR?: Maybe<ImOnlineWhereInput[] | ImOnlineWhereInput>;
-  NOT?: Maybe<ImOnlineWhereInput[] | ImOnlineWhereInput>;
+  AND?: Maybe<HeartBeatWhereInput[] | HeartBeatWhereInput>;
+  OR?: Maybe<HeartBeatWhereInput[] | HeartBeatWhereInput>;
+  NOT?: Maybe<HeartBeatWhereInput[] | HeartBeatWhereInput>;
 }
 
-export interface NominationsUpdateManyMutationInput {
+export interface NominationUpdateManyMutationInput {
   validatorController?: Maybe<String>;
   validatorStash?: Maybe<String>;
   nominatorController?: Maybe<String>;
@@ -588,7 +585,7 @@ export interface NominationsUpdateManyMutationInput {
   bonded?: Maybe<Int>;
 }
 
-export interface ValidationsUpdateManyMutationInput {
+export interface ValidationUpdateManyMutationInput {
   validatorController?: Maybe<String>;
   validatorStash?: Maybe<String>;
   validatorPreferences?: Maybe<Int>;
@@ -598,7 +595,7 @@ export type StakeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface ValidationsCreateInput {
+export interface ValidationCreateInput {
   id?: Maybe<ID_Input>;
   start: BlockNumberCreateOneInput;
   validatorController: String;
@@ -606,9 +603,9 @@ export interface ValidationsCreateInput {
   validatorPreferences: Int;
 }
 
-export interface SessionsUpsertNestedInput {
-  update: SessionsUpdateDataInput;
-  create: SessionsCreateInput;
+export interface SessionUpsertNestedInput {
+  update: SessionUpdateDataInput;
+  create: SessionCreateInput;
 }
 
 export interface TotalIssuanceUpdateManyMutationInput {
@@ -644,7 +641,7 @@ export interface StakeWhereInput {
   NOT?: Maybe<StakeWhereInput[] | StakeWhereInput>;
 }
 
-export interface NominationsWhereInput {
+export interface NominationWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -715,7 +712,7 @@ export interface NominationsWhereInput {
   nominatorStash_not_starts_with?: Maybe<String>;
   nominatorStash_ends_with?: Maybe<String>;
   nominatorStash_not_ends_with?: Maybe<String>;
-  session?: Maybe<SessionsWhereInput>;
+  session?: Maybe<SessionWhereInput>;
   bonded?: Maybe<Int>;
   bonded_not?: Maybe<Int>;
   bonded_in?: Maybe<Int[] | Int>;
@@ -724,9 +721,9 @@ export interface NominationsWhereInput {
   bonded_lte?: Maybe<Int>;
   bonded_gt?: Maybe<Int>;
   bonded_gte?: Maybe<Int>;
-  AND?: Maybe<NominationsWhereInput[] | NominationsWhereInput>;
-  OR?: Maybe<NominationsWhereInput[] | NominationsWhereInput>;
-  NOT?: Maybe<NominationsWhereInput[] | NominationsWhereInput>;
+  AND?: Maybe<NominationWhereInput[] | NominationWhereInput>;
+  OR?: Maybe<NominationWhereInput[] | NominationWhereInput>;
+  NOT?: Maybe<NominationWhereInput[] | NominationWhereInput>;
 }
 
 export interface BlockNumberWhereInput {
@@ -787,24 +784,24 @@ export interface BlockNumberWhereInput {
   NOT?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
 }
 
-export interface NominationsSubscriptionWhereInput {
+export interface NominationSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<NominationsWhereInput>;
+  node?: Maybe<NominationWhereInput>;
   AND?: Maybe<
-    NominationsSubscriptionWhereInput[] | NominationsSubscriptionWhereInput
+    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
   >;
   OR?: Maybe<
-    NominationsSubscriptionWhereInput[] | NominationsSubscriptionWhereInput
+    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
   >;
   NOT?: Maybe<
-    NominationsSubscriptionWhereInput[] | NominationsSubscriptionWhereInput
+    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
   >;
 }
 
-export interface SessionsUpdateDataInput {
+export interface SessionUpdateDataInput {
   start?: Maybe<BlockNumberUpdateOneRequiredInput>;
   end?: Maybe<BlockNumberUpdateOneRequiredInput>;
 }
@@ -813,27 +810,27 @@ export interface StakeUpdateManyMutationInput {
   totalStake?: Maybe<Int>;
 }
 
-export interface SessionsUpdateOneRequiredInput {
-  create?: Maybe<SessionsCreateInput>;
-  update?: Maybe<SessionsUpdateDataInput>;
-  upsert?: Maybe<SessionsUpsertNestedInput>;
-  connect?: Maybe<SessionsWhereUniqueInput>;
+export interface SessionUpdateOneRequiredInput {
+  create?: Maybe<SessionCreateInput>;
+  update?: Maybe<SessionUpdateDataInput>;
+  upsert?: Maybe<SessionUpsertNestedInput>;
+  connect?: Maybe<SessionWhereUniqueInput>;
 }
 
-export type RewardsWhereUniqueInput = AtLeastOne<{
+export type RewardWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface NominationsUpdateInput {
+export interface NominationUpdateInput {
   validatorController?: Maybe<String>;
   validatorStash?: Maybe<String>;
   nominatorController?: Maybe<String>;
   nominatorStash?: Maybe<String>;
-  session?: Maybe<SessionsUpdateOneRequiredInput>;
+  session?: Maybe<SessionUpdateOneRequiredInput>;
   bonded?: Maybe<Int>;
 }
 
-export interface RewardsWhereInput {
+export interface RewardWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -857,9 +854,9 @@ export interface RewardsWhereInput {
   amount_gt?: Maybe<Int>;
   amount_gte?: Maybe<Int>;
   authoredBlock?: Maybe<BlockNumberWhereInput>;
-  AND?: Maybe<RewardsWhereInput[] | RewardsWhereInput>;
-  OR?: Maybe<RewardsWhereInput[] | RewardsWhereInput>;
-  NOT?: Maybe<RewardsWhereInput[] | RewardsWhereInput>;
+  AND?: Maybe<RewardWhereInput[] | RewardWhereInput>;
+  OR?: Maybe<RewardWhereInput[] | RewardWhereInput>;
+  NOT?: Maybe<RewardWhereInput[] | RewardWhereInput>;
 }
 
 export type TotalIssuanceWhereUniqueInput = AtLeastOne<{
@@ -871,7 +868,7 @@ export interface SlashingUpdateManyMutationInput {
   amount?: Maybe<Int>;
 }
 
-export interface SessionsCreateInput {
+export interface SessionCreateInput {
   id?: Maybe<ID_Input>;
   start: BlockNumberCreateOneInput;
   end: BlockNumberCreateOneInput;
@@ -912,19 +909,15 @@ export interface TotalIssuanceWhereInput {
   NOT?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
 }
 
-export interface SessionsSubscriptionWhereInput {
+export interface SessionSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<SessionsWhereInput>;
-  AND?: Maybe<
-    SessionsSubscriptionWhereInput[] | SessionsSubscriptionWhereInput
-  >;
-  OR?: Maybe<SessionsSubscriptionWhereInput[] | SessionsSubscriptionWhereInput>;
-  NOT?: Maybe<
-    SessionsSubscriptionWhereInput[] | SessionsSubscriptionWhereInput
-  >;
+  node?: Maybe<SessionWhereInput>;
+  AND?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+  OR?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+  NOT?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
 }
 
 export interface StakeSubscriptionWhereInput {
@@ -938,27 +931,27 @@ export interface StakeSubscriptionWhereInput {
   NOT?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
 }
 
-export interface RewardsUpdateManyMutationInput {
+export interface RewardUpdateManyMutationInput {
   amount?: Maybe<Int>;
-  recipients?: Maybe<RewardsUpdaterecipientsInput>;
+  recipients?: Maybe<RewardUpdaterecipientsInput>;
 }
 
-export interface SessionsCreateOneInput {
-  create?: Maybe<SessionsCreateInput>;
-  connect?: Maybe<SessionsWhereUniqueInput>;
+export interface SessionCreateOneInput {
+  create?: Maybe<SessionCreateInput>;
+  connect?: Maybe<SessionWhereUniqueInput>;
 }
 
 export type SlashingWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface NominationsCreateInput {
+export interface NominationCreateInput {
   id?: Maybe<ID_Input>;
   validatorController: String;
   validatorStash: String;
   nominatorController: String;
   nominatorStash: String;
-  session: SessionsCreateOneInput;
+  session: SessionCreateOneInput;
   bonded: Int;
 }
 
@@ -1005,30 +998,33 @@ export interface SlashingWhereInput {
   NOT?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
 }
 
-export interface ImOnlineUpdateManyMutationInput {
+export interface HeartBeatUpdateManyMutationInput {
+  isOnline?: Maybe<Boolean>;
   sender?: Maybe<String>;
 }
 
-export interface ImOnlineSubscriptionWhereInput {
+export interface HeartBeatSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ImOnlineWhereInput>;
+  node?: Maybe<HeartBeatWhereInput>;
   AND?: Maybe<
-    ImOnlineSubscriptionWhereInput[] | ImOnlineSubscriptionWhereInput
+    HeartBeatSubscriptionWhereInput[] | HeartBeatSubscriptionWhereInput
   >;
-  OR?: Maybe<ImOnlineSubscriptionWhereInput[] | ImOnlineSubscriptionWhereInput>;
+  OR?: Maybe<
+    HeartBeatSubscriptionWhereInput[] | HeartBeatSubscriptionWhereInput
+  >;
   NOT?: Maybe<
-    ImOnlineSubscriptionWhereInput[] | ImOnlineSubscriptionWhereInput
+    HeartBeatSubscriptionWhereInput[] | HeartBeatSubscriptionWhereInput
   >;
 }
 
-export type ValidationsWhereUniqueInput = AtLeastOne<{
+export type ValidationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export type NominationsWhereUniqueInput = AtLeastOne<{
+export type NominationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -1037,7 +1033,7 @@ export interface BlockNumberUpsertNestedInput {
   create: BlockNumberCreateInput;
 }
 
-export interface SessionsWhereInput {
+export interface SessionWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1054,12 +1050,12 @@ export interface SessionsWhereInput {
   id_not_ends_with?: Maybe<ID_Input>;
   start?: Maybe<BlockNumberWhereInput>;
   end?: Maybe<BlockNumberWhereInput>;
-  AND?: Maybe<SessionsWhereInput[] | SessionsWhereInput>;
-  OR?: Maybe<SessionsWhereInput[] | SessionsWhereInput>;
-  NOT?: Maybe<SessionsWhereInput[] | SessionsWhereInput>;
+  AND?: Maybe<SessionWhereInput[] | SessionWhereInput>;
+  OR?: Maybe<SessionWhereInput[] | SessionWhereInput>;
+  NOT?: Maybe<SessionWhereInput[] | SessionWhereInput>;
 }
 
-export interface ValidationsWhereInput {
+export interface ValidationWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1111,9 +1107,9 @@ export interface ValidationsWhereInput {
   validatorPreferences_lte?: Maybe<Int>;
   validatorPreferences_gt?: Maybe<Int>;
   validatorPreferences_gte?: Maybe<Int>;
-  AND?: Maybe<ValidationsWhereInput[] | ValidationsWhereInput>;
-  OR?: Maybe<ValidationsWhereInput[] | ValidationsWhereInput>;
-  NOT?: Maybe<ValidationsWhereInput[] | ValidationsWhereInput>;
+  AND?: Maybe<ValidationWhereInput[] | ValidationWhereInput>;
+  OR?: Maybe<ValidationWhereInput[] | ValidationWhereInput>;
+  NOT?: Maybe<ValidationWhereInput[] | ValidationWhereInput>;
 }
 
 export interface StakeUpdateInput {
@@ -1138,15 +1134,15 @@ export interface TotalIssuanceSubscriptionWhereInput {
   >;
 }
 
-export interface RewardsSubscriptionWhereInput {
+export interface RewardSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<RewardsWhereInput>;
-  AND?: Maybe<RewardsSubscriptionWhereInput[] | RewardsSubscriptionWhereInput>;
-  OR?: Maybe<RewardsSubscriptionWhereInput[] | RewardsSubscriptionWhereInput>;
-  NOT?: Maybe<RewardsSubscriptionWhereInput[] | RewardsSubscriptionWhereInput>;
+  node?: Maybe<RewardWhereInput>;
+  AND?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
+  OR?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
+  NOT?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
 }
 
 export interface BlockNumberUpdateDataInput {
@@ -1156,7 +1152,7 @@ export interface BlockNumberUpdateDataInput {
   hash?: Maybe<String>;
 }
 
-export type SessionsWhereUniqueInput = AtLeastOne<{
+export type SessionWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -1167,12 +1163,13 @@ export interface BlockNumberUpdateOneRequiredInput {
   connect?: Maybe<BlockNumberWhereUniqueInput>;
 }
 
-export interface RewardsUpdaterecipientsInput {
+export interface RewardUpdaterecipientsInput {
   set?: Maybe<String[] | String>;
 }
 
-export interface ImOnlineUpdateInput {
+export interface HeartBeatUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  isOnline?: Maybe<Boolean>;
   sender?: Maybe<String>;
 }
 
@@ -1241,33 +1238,33 @@ export interface TotalIssuanceCreateInput {
   amount: Int;
 }
 
-export interface ValidationsUpdateInput {
+export interface ValidationUpdateInput {
   start?: Maybe<BlockNumberUpdateOneRequiredInput>;
   validatorController?: Maybe<String>;
   validatorStash?: Maybe<String>;
   validatorPreferences?: Maybe<Int>;
 }
 
-export interface RewardsUpdateInput {
+export interface RewardUpdateInput {
   amount?: Maybe<Int>;
   authoredBlock?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  recipients?: Maybe<RewardsUpdaterecipientsInput>;
+  recipients?: Maybe<RewardUpdaterecipientsInput>;
 }
 
-export interface ValidationsSubscriptionWhereInput {
+export interface ValidationSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ValidationsWhereInput>;
+  node?: Maybe<ValidationWhereInput>;
   AND?: Maybe<
-    ValidationsSubscriptionWhereInput[] | ValidationsSubscriptionWhereInput
+    ValidationSubscriptionWhereInput[] | ValidationSubscriptionWhereInput
   >;
   OR?: Maybe<
-    ValidationsSubscriptionWhereInput[] | ValidationsSubscriptionWhereInput
+    ValidationSubscriptionWhereInput[] | ValidationSubscriptionWhereInput
   >;
   NOT?: Maybe<
-    ValidationsSubscriptionWhereInput[] | ValidationsSubscriptionWhereInput
+    ValidationSubscriptionWhereInput[] | ValidationSubscriptionWhereInput
   >;
 }
 
@@ -1275,47 +1272,47 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface AggregateValidations {
+export interface AggregateValidation {
   count: Int;
 }
 
-export interface AggregateValidationsPromise
-  extends Promise<AggregateValidations>,
+export interface AggregateValidationPromise
+  extends Promise<AggregateValidation>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateValidationsSubscription
-  extends Promise<AsyncIterator<AggregateValidations>>,
+export interface AggregateValidationSubscription
+  extends Promise<AsyncIterator<AggregateValidation>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface AggregateImOnline {
+export interface AggregateHeartBeat {
   count: Int;
 }
 
-export interface AggregateImOnlinePromise
-  extends Promise<AggregateImOnline>,
+export interface AggregateHeartBeatPromise
+  extends Promise<AggregateHeartBeat>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateImOnlineSubscription
-  extends Promise<AsyncIterator<AggregateImOnline>>,
+export interface AggregateHeartBeatSubscription
+  extends Promise<AsyncIterator<AggregateHeartBeat>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface ValidationsPreviousValues {
+export interface ValidationPreviousValues {
   id: ID_Output;
   validatorController: String;
   validatorStash: String;
   validatorPreferences: Int;
 }
 
-export interface ValidationsPreviousValuesPromise
-  extends Promise<ValidationsPreviousValues>,
+export interface ValidationPreviousValuesPromise
+  extends Promise<ValidationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   validatorController: () => Promise<String>;
@@ -1323,8 +1320,8 @@ export interface ValidationsPreviousValuesPromise
   validatorPreferences: () => Promise<Int>;
 }
 
-export interface ValidationsPreviousValuesSubscription
-  extends Promise<AsyncIterator<ValidationsPreviousValues>>,
+export interface ValidationPreviousValuesSubscription
+  extends Promise<AsyncIterator<ValidationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   validatorController: () => Promise<AsyncIterator<String>>;
@@ -1332,7 +1329,7 @@ export interface ValidationsPreviousValuesSubscription
   validatorPreferences: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Nominations {
+export interface Nomination {
   id: ID_Output;
   validatorController: String;
   validatorStash: String;
@@ -1341,37 +1338,37 @@ export interface Nominations {
   bonded: Int;
 }
 
-export interface NominationsPromise extends Promise<Nominations>, Fragmentable {
+export interface NominationPromise extends Promise<Nomination>, Fragmentable {
   id: () => Promise<ID_Output>;
   validatorController: () => Promise<String>;
   validatorStash: () => Promise<String>;
   nominatorController: () => Promise<String>;
   nominatorStash: () => Promise<String>;
-  session: <T = SessionsPromise>() => T;
+  session: <T = SessionPromise>() => T;
   bonded: () => Promise<Int>;
 }
 
-export interface NominationsSubscription
-  extends Promise<AsyncIterator<Nominations>>,
+export interface NominationSubscription
+  extends Promise<AsyncIterator<Nomination>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   validatorController: () => Promise<AsyncIterator<String>>;
   validatorStash: () => Promise<AsyncIterator<String>>;
   nominatorController: () => Promise<AsyncIterator<String>>;
   nominatorStash: () => Promise<AsyncIterator<String>>;
-  session: <T = SessionsSubscription>() => T;
+  session: <T = SessionSubscription>() => T;
   bonded: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface NominationsNullablePromise
-  extends Promise<Nominations | null>,
+export interface NominationNullablePromise
+  extends Promise<Nomination | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   validatorController: () => Promise<String>;
   validatorStash: () => Promise<String>;
   nominatorController: () => Promise<String>;
   nominatorStash: () => Promise<String>;
-  session: <T = SessionsPromise>() => T;
+  session: <T = SessionPromise>() => T;
   bonded: () => Promise<Int>;
 }
 
@@ -1427,52 +1424,52 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface ImOnlineEdge {
-  node: ImOnline;
+export interface HeartBeatEdge {
+  node: HeartBeat;
   cursor: String;
 }
 
-export interface ImOnlineEdgePromise
-  extends Promise<ImOnlineEdge>,
+export interface HeartBeatEdgePromise
+  extends Promise<HeartBeatEdge>,
     Fragmentable {
-  node: <T = ImOnlinePromise>() => T;
+  node: <T = HeartBeatPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ImOnlineEdgeSubscription
-  extends Promise<AsyncIterator<ImOnlineEdge>>,
+export interface HeartBeatEdgeSubscription
+  extends Promise<AsyncIterator<HeartBeatEdge>>,
     Fragmentable {
-  node: <T = ImOnlineSubscription>() => T;
+  node: <T = HeartBeatSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ValidationsEdge {
-  node: Validations;
+export interface ValidationEdge {
+  node: Validation;
   cursor: String;
 }
 
-export interface ValidationsEdgePromise
-  extends Promise<ValidationsEdge>,
+export interface ValidationEdgePromise
+  extends Promise<ValidationEdge>,
     Fragmentable {
-  node: <T = ValidationsPromise>() => T;
+  node: <T = ValidationPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ValidationsEdgeSubscription
-  extends Promise<AsyncIterator<ValidationsEdge>>,
+export interface ValidationEdgeSubscription
+  extends Promise<AsyncIterator<ValidationEdge>>,
     Fragmentable {
-  node: <T = ValidationsSubscription>() => T;
+  node: <T = ValidationSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Validations {
+export interface Validation {
   id: ID_Output;
   validatorController: String;
   validatorStash: String;
   validatorPreferences: Int;
 }
 
-export interface ValidationsPromise extends Promise<Validations>, Fragmentable {
+export interface ValidationPromise extends Promise<Validation>, Fragmentable {
   id: () => Promise<ID_Output>;
   start: <T = BlockNumberPromise>() => T;
   validatorController: () => Promise<String>;
@@ -1480,8 +1477,8 @@ export interface ValidationsPromise extends Promise<Validations>, Fragmentable {
   validatorPreferences: () => Promise<Int>;
 }
 
-export interface ValidationsSubscription
-  extends Promise<AsyncIterator<Validations>>,
+export interface ValidationSubscription
+  extends Promise<AsyncIterator<Validation>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   start: <T = BlockNumberSubscription>() => T;
@@ -1490,8 +1487,8 @@ export interface ValidationsSubscription
   validatorPreferences: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface ValidationsNullablePromise
-  extends Promise<Validations | null>,
+export interface ValidationNullablePromise
+  extends Promise<Validation | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   start: <T = BlockNumberPromise>() => T;
@@ -1500,25 +1497,25 @@ export interface ValidationsNullablePromise
   validatorPreferences: () => Promise<Int>;
 }
 
-export interface ImOnlineConnection {
+export interface HeartBeatConnection {
   pageInfo: PageInfo;
-  edges: ImOnlineEdge[];
+  edges: HeartBeatEdge[];
 }
 
-export interface ImOnlineConnectionPromise
-  extends Promise<ImOnlineConnection>,
+export interface HeartBeatConnectionPromise
+  extends Promise<HeartBeatConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ImOnlineEdge>>() => T;
-  aggregate: <T = AggregateImOnlinePromise>() => T;
+  edges: <T = FragmentableArray<HeartBeatEdge>>() => T;
+  aggregate: <T = AggregateHeartBeatPromise>() => T;
 }
 
-export interface ImOnlineConnectionSubscription
-  extends Promise<AsyncIterator<ImOnlineConnection>>,
+export interface HeartBeatConnectionSubscription
+  extends Promise<AsyncIterator<HeartBeatConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ImOnlineEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateImOnlineSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<HeartBeatEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateHeartBeatSubscription>() => T;
 }
 
 export interface TotalIssuanceEdge {
@@ -1540,30 +1537,34 @@ export interface TotalIssuanceEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ImOnline {
+export interface HeartBeat {
   id: ID_Output;
+  isOnline: Boolean;
   sender: String;
 }
 
-export interface ImOnlinePromise extends Promise<ImOnline>, Fragmentable {
+export interface HeartBeatPromise extends Promise<HeartBeat>, Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
+  isOnline: () => Promise<Boolean>;
   sender: () => Promise<String>;
 }
 
-export interface ImOnlineSubscription
-  extends Promise<AsyncIterator<ImOnline>>,
+export interface HeartBeatSubscription
+  extends Promise<AsyncIterator<HeartBeat>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   blockNumber: <T = BlockNumberSubscription>() => T;
+  isOnline: () => Promise<AsyncIterator<Boolean>>;
   sender: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ImOnlineNullablePromise
-  extends Promise<ImOnline | null>,
+export interface HeartBeatNullablePromise
+  extends Promise<HeartBeat | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
+  isOnline: () => Promise<Boolean>;
   sender: () => Promise<String>;
 }
 
@@ -1593,29 +1594,29 @@ export interface TotalIssuanceNullablePromise
   amount: () => Promise<Int>;
 }
 
-export interface ValidationsSubscriptionPayload {
+export interface ValidationSubscriptionPayload {
   mutation: MutationType;
-  node: Validations;
+  node: Validation;
   updatedFields: String[];
-  previousValues: ValidationsPreviousValues;
+  previousValues: ValidationPreviousValues;
 }
 
-export interface ValidationsSubscriptionPayloadPromise
-  extends Promise<ValidationsSubscriptionPayload>,
+export interface ValidationSubscriptionPayloadPromise
+  extends Promise<ValidationSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = ValidationsPromise>() => T;
+  node: <T = ValidationPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = ValidationsPreviousValuesPromise>() => T;
+  previousValues: <T = ValidationPreviousValuesPromise>() => T;
 }
 
-export interface ValidationsSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ValidationsSubscriptionPayload>>,
+export interface ValidationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ValidationSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ValidationsSubscription>() => T;
+  node: <T = ValidationSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ValidationsPreviousValuesSubscription>() => T;
+  previousValues: <T = ValidationPreviousValuesSubscription>() => T;
 }
 
 export interface StakeEdge {
@@ -1781,81 +1782,82 @@ export interface SlashingNullablePromise
   amount: () => Promise<Int>;
 }
 
-export interface ImOnlineSubscriptionPayload {
+export interface HeartBeatSubscriptionPayload {
   mutation: MutationType;
-  node: ImOnline;
+  node: HeartBeat;
   updatedFields: String[];
-  previousValues: ImOnlinePreviousValues;
+  previousValues: HeartBeatPreviousValues;
 }
 
-export interface ImOnlineSubscriptionPayloadPromise
-  extends Promise<ImOnlineSubscriptionPayload>,
+export interface HeartBeatSubscriptionPayloadPromise
+  extends Promise<HeartBeatSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = ImOnlinePromise>() => T;
+  node: <T = HeartBeatPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = ImOnlinePreviousValuesPromise>() => T;
+  previousValues: <T = HeartBeatPreviousValuesPromise>() => T;
 }
 
-export interface ImOnlineSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ImOnlineSubscriptionPayload>>,
+export interface HeartBeatSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<HeartBeatSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ImOnlineSubscription>() => T;
+  node: <T = HeartBeatSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ImOnlinePreviousValuesSubscription>() => T;
+  previousValues: <T = HeartBeatPreviousValuesSubscription>() => T;
 }
 
-export interface SessionsEdge {
-  node: Sessions;
+export interface SessionEdge {
+  node: Session;
   cursor: String;
 }
 
-export interface SessionsEdgePromise
-  extends Promise<SessionsEdge>,
-    Fragmentable {
-  node: <T = SessionsPromise>() => T;
+export interface SessionEdgePromise extends Promise<SessionEdge>, Fragmentable {
+  node: <T = SessionPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface SessionsEdgeSubscription
-  extends Promise<AsyncIterator<SessionsEdge>>,
+export interface SessionEdgeSubscription
+  extends Promise<AsyncIterator<SessionEdge>>,
     Fragmentable {
-  node: <T = SessionsSubscription>() => T;
+  node: <T = SessionSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ImOnlinePreviousValues {
+export interface HeartBeatPreviousValues {
   id: ID_Output;
+  isOnline: Boolean;
   sender: String;
 }
 
-export interface ImOnlinePreviousValuesPromise
-  extends Promise<ImOnlinePreviousValues>,
+export interface HeartBeatPreviousValuesPromise
+  extends Promise<HeartBeatPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  isOnline: () => Promise<Boolean>;
   sender: () => Promise<String>;
 }
 
-export interface ImOnlinePreviousValuesSubscription
-  extends Promise<AsyncIterator<ImOnlinePreviousValues>>,
+export interface HeartBeatPreviousValuesSubscription
+  extends Promise<AsyncIterator<HeartBeatPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  isOnline: () => Promise<AsyncIterator<Boolean>>;
   sender: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateRewards {
+export interface AggregateReward {
   count: Int;
 }
 
-export interface AggregateRewardsPromise
-  extends Promise<AggregateRewards>,
+export interface AggregateRewardPromise
+  extends Promise<AggregateReward>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateRewardsSubscription
-  extends Promise<AsyncIterator<AggregateRewards>>,
+export interface AggregateRewardSubscription
+  extends Promise<AsyncIterator<AggregateReward>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1879,69 +1881,69 @@ export interface BlockNumberEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface RewardsConnection {
+export interface RewardConnection {
   pageInfo: PageInfo;
-  edges: RewardsEdge[];
+  edges: RewardEdge[];
 }
 
-export interface RewardsConnectionPromise
-  extends Promise<RewardsConnection>,
+export interface RewardConnectionPromise
+  extends Promise<RewardConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<RewardsEdge>>() => T;
-  aggregate: <T = AggregateRewardsPromise>() => T;
+  edges: <T = FragmentableArray<RewardEdge>>() => T;
+  aggregate: <T = AggregateRewardPromise>() => T;
 }
 
-export interface RewardsConnectionSubscription
-  extends Promise<AsyncIterator<RewardsConnection>>,
+export interface RewardConnectionSubscription
+  extends Promise<AsyncIterator<RewardConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<RewardsEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateRewardsSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RewardEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRewardSubscription>() => T;
 }
 
-export interface NominationsSubscriptionPayload {
+export interface NominationSubscriptionPayload {
   mutation: MutationType;
-  node: Nominations;
+  node: Nomination;
   updatedFields: String[];
-  previousValues: NominationsPreviousValues;
+  previousValues: NominationPreviousValues;
 }
 
-export interface NominationsSubscriptionPayloadPromise
-  extends Promise<NominationsSubscriptionPayload>,
+export interface NominationSubscriptionPayloadPromise
+  extends Promise<NominationSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = NominationsPromise>() => T;
+  node: <T = NominationPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = NominationsPreviousValuesPromise>() => T;
+  previousValues: <T = NominationPreviousValuesPromise>() => T;
 }
 
-export interface NominationsSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<NominationsSubscriptionPayload>>,
+export interface NominationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<NominationSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = NominationsSubscription>() => T;
+  node: <T = NominationSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = NominationsPreviousValuesSubscription>() => T;
+  previousValues: <T = NominationPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateNominations {
+export interface AggregateNomination {
   count: Int;
 }
 
-export interface AggregateNominationsPromise
-  extends Promise<AggregateNominations>,
+export interface AggregateNominationPromise
+  extends Promise<AggregateNomination>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateNominationsSubscription
-  extends Promise<AsyncIterator<AggregateNominations>>,
+export interface AggregateNominationSubscription
+  extends Promise<AsyncIterator<AggregateNomination>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface NominationsPreviousValues {
+export interface NominationPreviousValues {
   id: ID_Output;
   validatorController: String;
   validatorStash: String;
@@ -1950,8 +1952,8 @@ export interface NominationsPreviousValues {
   bonded: Int;
 }
 
-export interface NominationsPreviousValuesPromise
-  extends Promise<NominationsPreviousValues>,
+export interface NominationPreviousValuesPromise
+  extends Promise<NominationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   validatorController: () => Promise<String>;
@@ -1961,8 +1963,8 @@ export interface NominationsPreviousValuesPromise
   bonded: () => Promise<Int>;
 }
 
-export interface NominationsPreviousValuesSubscription
-  extends Promise<AsyncIterator<NominationsPreviousValues>>,
+export interface NominationPreviousValuesSubscription
+  extends Promise<AsyncIterator<NominationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   validatorController: () => Promise<AsyncIterator<String>>;
@@ -1972,25 +1974,25 @@ export interface NominationsPreviousValuesSubscription
   bonded: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface NominationsConnection {
+export interface NominationConnection {
   pageInfo: PageInfo;
-  edges: NominationsEdge[];
+  edges: NominationEdge[];
 }
 
-export interface NominationsConnectionPromise
-  extends Promise<NominationsConnection>,
+export interface NominationConnectionPromise
+  extends Promise<NominationConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<NominationsEdge>>() => T;
-  aggregate: <T = AggregateNominationsPromise>() => T;
+  edges: <T = FragmentableArray<NominationEdge>>() => T;
+  aggregate: <T = AggregateNominationPromise>() => T;
 }
 
-export interface NominationsConnectionSubscription
-  extends Promise<AsyncIterator<NominationsConnection>>,
+export interface NominationConnectionSubscription
+  extends Promise<AsyncIterator<NominationConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<NominationsEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateNominationsSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<NominationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateNominationSubscription>() => T;
 }
 
 export interface TotalIssuancePreviousValues {
@@ -2012,50 +2014,50 @@ export interface TotalIssuancePreviousValuesSubscription
   amount: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface ValidationsConnection {
+export interface ValidationConnection {
   pageInfo: PageInfo;
-  edges: ValidationsEdge[];
+  edges: ValidationEdge[];
 }
 
-export interface ValidationsConnectionPromise
-  extends Promise<ValidationsConnection>,
+export interface ValidationConnectionPromise
+  extends Promise<ValidationConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ValidationsEdge>>() => T;
-  aggregate: <T = AggregateValidationsPromise>() => T;
+  edges: <T = FragmentableArray<ValidationEdge>>() => T;
+  aggregate: <T = AggregateValidationPromise>() => T;
 }
 
-export interface ValidationsConnectionSubscription
-  extends Promise<AsyncIterator<ValidationsConnection>>,
+export interface ValidationConnectionSubscription
+  extends Promise<AsyncIterator<ValidationConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ValidationsEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateValidationsSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ValidationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateValidationSubscription>() => T;
 }
 
-export interface RewardsSubscriptionPayload {
+export interface RewardSubscriptionPayload {
   mutation: MutationType;
-  node: Rewards;
+  node: Reward;
   updatedFields: String[];
-  previousValues: RewardsPreviousValues;
+  previousValues: RewardPreviousValues;
 }
 
-export interface RewardsSubscriptionPayloadPromise
-  extends Promise<RewardsSubscriptionPayload>,
+export interface RewardSubscriptionPayloadPromise
+  extends Promise<RewardSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = RewardsPromise>() => T;
+  node: <T = RewardPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = RewardsPreviousValuesPromise>() => T;
+  previousValues: <T = RewardPreviousValuesPromise>() => T;
 }
 
-export interface RewardsSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<RewardsSubscriptionPayload>>,
+export interface RewardSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RewardSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = RewardsSubscription>() => T;
+  node: <T = RewardSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = RewardsPreviousValuesSubscription>() => T;
+  previousValues: <T = RewardPreviousValuesSubscription>() => T;
 }
 
 export interface TotalIssuanceConnection {
@@ -2079,22 +2081,22 @@ export interface TotalIssuanceConnectionSubscription
   aggregate: <T = AggregateTotalIssuanceSubscription>() => T;
 }
 
-export interface RewardsPreviousValues {
+export interface RewardPreviousValues {
   id: ID_Output;
   amount: Int;
   recipients: String[];
 }
 
-export interface RewardsPreviousValuesPromise
-  extends Promise<RewardsPreviousValues>,
+export interface RewardPreviousValuesPromise
+  extends Promise<RewardPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
   recipients: () => Promise<String[]>;
 }
 
-export interface RewardsPreviousValuesSubscription
-  extends Promise<AsyncIterator<RewardsPreviousValues>>,
+export interface RewardPreviousValuesSubscription
+  extends Promise<AsyncIterator<RewardPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   amount: () => Promise<AsyncIterator<Int>>;
@@ -2166,83 +2168,83 @@ export interface SlashingConnectionSubscription
   aggregate: <T = AggregateSlashingSubscription>() => T;
 }
 
-export interface SessionsSubscriptionPayload {
+export interface SessionSubscriptionPayload {
   mutation: MutationType;
-  node: Sessions;
+  node: Session;
   updatedFields: String[];
-  previousValues: SessionsPreviousValues;
+  previousValues: SessionPreviousValues;
 }
 
-export interface SessionsSubscriptionPayloadPromise
-  extends Promise<SessionsSubscriptionPayload>,
+export interface SessionSubscriptionPayloadPromise
+  extends Promise<SessionSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = SessionsPromise>() => T;
+  node: <T = SessionPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = SessionsPreviousValuesPromise>() => T;
+  previousValues: <T = SessionPreviousValuesPromise>() => T;
 }
 
-export interface SessionsSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<SessionsSubscriptionPayload>>,
+export interface SessionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SessionSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = SessionsSubscription>() => T;
+  node: <T = SessionSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = SessionsPreviousValuesSubscription>() => T;
+  previousValues: <T = SessionPreviousValuesSubscription>() => T;
 }
 
-export interface SessionsConnection {
+export interface SessionConnection {
   pageInfo: PageInfo;
-  edges: SessionsEdge[];
+  edges: SessionEdge[];
 }
 
-export interface SessionsConnectionPromise
-  extends Promise<SessionsConnection>,
+export interface SessionConnectionPromise
+  extends Promise<SessionConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SessionsEdge>>() => T;
-  aggregate: <T = AggregateSessionsPromise>() => T;
+  edges: <T = FragmentableArray<SessionEdge>>() => T;
+  aggregate: <T = AggregateSessionPromise>() => T;
 }
 
-export interface SessionsConnectionSubscription
-  extends Promise<AsyncIterator<SessionsConnection>>,
+export interface SessionConnectionSubscription
+  extends Promise<AsyncIterator<SessionConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SessionsEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSessionsSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SessionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSessionSubscription>() => T;
 }
 
-export interface SessionsPreviousValues {
+export interface SessionPreviousValues {
   id: ID_Output;
 }
 
-export interface SessionsPreviousValuesPromise
-  extends Promise<SessionsPreviousValues>,
+export interface SessionPreviousValuesPromise
+  extends Promise<SessionPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
 }
 
-export interface SessionsPreviousValuesSubscription
-  extends Promise<AsyncIterator<SessionsPreviousValues>>,
+export interface SessionPreviousValuesSubscription
+  extends Promise<AsyncIterator<SessionPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
 }
 
-export interface Rewards {
+export interface Reward {
   id: ID_Output;
   amount: Int;
   recipients: String[];
 }
 
-export interface RewardsPromise extends Promise<Rewards>, Fragmentable {
+export interface RewardPromise extends Promise<Reward>, Fragmentable {
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
   authoredBlock: <T = BlockNumberPromise>() => T;
   recipients: () => Promise<String[]>;
 }
 
-export interface RewardsSubscription
-  extends Promise<AsyncIterator<Rewards>>,
+export interface RewardSubscription
+  extends Promise<AsyncIterator<Reward>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   amount: () => Promise<AsyncIterator<Int>>;
@@ -2250,8 +2252,8 @@ export interface RewardsSubscription
   recipients: () => Promise<AsyncIterator<String[]>>;
 }
 
-export interface RewardsNullablePromise
-  extends Promise<Rewards | null>,
+export interface RewardNullablePromise
+  extends Promise<Reward | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
@@ -2280,26 +2282,26 @@ export interface BlockNumberConnectionSubscription
   aggregate: <T = AggregateBlockNumberSubscription>() => T;
 }
 
-export interface Sessions {
+export interface Session {
   id: ID_Output;
 }
 
-export interface SessionsPromise extends Promise<Sessions>, Fragmentable {
+export interface SessionPromise extends Promise<Session>, Fragmentable {
   id: () => Promise<ID_Output>;
   start: <T = BlockNumberPromise>() => T;
   end: <T = BlockNumberPromise>() => T;
 }
 
-export interface SessionsSubscription
-  extends Promise<AsyncIterator<Sessions>>,
+export interface SessionSubscription
+  extends Promise<AsyncIterator<Session>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   start: <T = BlockNumberSubscription>() => T;
   end: <T = BlockNumberSubscription>() => T;
 }
 
-export interface SessionsNullablePromise
-  extends Promise<Sessions | null>,
+export interface SessionNullablePromise
+  extends Promise<Session | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   start: <T = BlockNumberPromise>() => T;
@@ -2347,18 +2349,18 @@ export interface AggregateStakeSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface AggregateSessions {
+export interface AggregateSession {
   count: Int;
 }
 
-export interface AggregateSessionsPromise
-  extends Promise<AggregateSessions>,
+export interface AggregateSessionPromise
+  extends Promise<AggregateSession>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateSessionsSubscription
-  extends Promise<AsyncIterator<AggregateSessions>>,
+export interface AggregateSessionSubscription
+  extends Promise<AsyncIterator<AggregateSession>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2454,20 +2456,20 @@ export interface SlashingPreviousValuesSubscription
   amount: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface RewardsEdge {
-  node: Rewards;
+export interface RewardEdge {
+  node: Reward;
   cursor: String;
 }
 
-export interface RewardsEdgePromise extends Promise<RewardsEdge>, Fragmentable {
-  node: <T = RewardsPromise>() => T;
+export interface RewardEdgePromise extends Promise<RewardEdge>, Fragmentable {
+  node: <T = RewardPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface RewardsEdgeSubscription
-  extends Promise<AsyncIterator<RewardsEdge>>,
+export interface RewardEdgeSubscription
+  extends Promise<AsyncIterator<RewardEdge>>,
     Fragmentable {
-  node: <T = RewardsSubscription>() => T;
+  node: <T = RewardSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -2503,22 +2505,22 @@ export interface AggregateTotalIssuanceSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface NominationsEdge {
-  node: Nominations;
+export interface NominationEdge {
+  node: Nomination;
   cursor: String;
 }
 
-export interface NominationsEdgePromise
-  extends Promise<NominationsEdge>,
+export interface NominationEdgePromise
+  extends Promise<NominationEdge>,
     Fragmentable {
-  node: <T = NominationsPromise>() => T;
+  node: <T = NominationPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface NominationsEdgeSubscription
-  extends Promise<AsyncIterator<NominationsEdge>>,
+export interface NominationEdgeSubscription
+  extends Promise<AsyncIterator<NominationEdge>>,
     Fragmentable {
-  node: <T = NominationsSubscription>() => T;
+  node: <T = NominationSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -2561,11 +2563,11 @@ export type DateTimeOutput = string;
 
 export const models: Model[] = [
   {
-    name: "ImOnline",
+    name: "HeartBeat",
     embedded: false
   },
   {
-    name: "Rewards",
+    name: "Reward",
     embedded: false
   },
   {
@@ -2573,7 +2575,7 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "Nominations",
+    name: "Nomination",
     embedded: false
   },
   {
@@ -2581,11 +2583,11 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "Validations",
+    name: "Validation",
     embedded: false
   },
   {
-    name: "Sessions",
+    name: "Session",
     embedded: false
   },
   {

@@ -6,19 +6,19 @@ export const typeDefs = /* GraphQL */ `type AggregateBlockNumber {
   count: Int!
 }
 
-type AggregateImOnline {
+type AggregateHeartBeat {
   count: Int!
 }
 
-type AggregateNominations {
+type AggregateNomination {
   count: Int!
 }
 
-type AggregateRewards {
+type AggregateReward {
   count: Int!
 }
 
-type AggregateSessions {
+type AggregateSession {
   count: Int!
 }
 
@@ -34,7 +34,7 @@ type AggregateTotalIssuance {
   count: Int!
 }
 
-type AggregateValidations {
+type AggregateValidation {
   count: Int!
 }
 
@@ -211,69 +211,76 @@ input BlockNumberWhereUniqueInput {
 
 scalar DateTime
 
-type ImOnline {
+type HeartBeat {
   id: ID!
   blockNumber: BlockNumber!
+  isOnline: Boolean!
   sender: String!
 }
 
-type ImOnlineConnection {
+type HeartBeatConnection {
   pageInfo: PageInfo!
-  edges: [ImOnlineEdge]!
-  aggregate: AggregateImOnline!
+  edges: [HeartBeatEdge]!
+  aggregate: AggregateHeartBeat!
 }
 
-input ImOnlineCreateInput {
+input HeartBeatCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
+  isOnline: Boolean!
   sender: String!
 }
 
-type ImOnlineEdge {
-  node: ImOnline!
+type HeartBeatEdge {
+  node: HeartBeat!
   cursor: String!
 }
 
-enum ImOnlineOrderByInput {
+enum HeartBeatOrderByInput {
   id_ASC
   id_DESC
+  isOnline_ASC
+  isOnline_DESC
   sender_ASC
   sender_DESC
 }
 
-type ImOnlinePreviousValues {
+type HeartBeatPreviousValues {
   id: ID!
+  isOnline: Boolean!
   sender: String!
 }
 
-type ImOnlineSubscriptionPayload {
+type HeartBeatSubscriptionPayload {
   mutation: MutationType!
-  node: ImOnline
+  node: HeartBeat
   updatedFields: [String!]
-  previousValues: ImOnlinePreviousValues
+  previousValues: HeartBeatPreviousValues
 }
 
-input ImOnlineSubscriptionWhereInput {
+input HeartBeatSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: ImOnlineWhereInput
-  AND: [ImOnlineSubscriptionWhereInput!]
-  OR: [ImOnlineSubscriptionWhereInput!]
-  NOT: [ImOnlineSubscriptionWhereInput!]
+  node: HeartBeatWhereInput
+  AND: [HeartBeatSubscriptionWhereInput!]
+  OR: [HeartBeatSubscriptionWhereInput!]
+  NOT: [HeartBeatSubscriptionWhereInput!]
 }
 
-input ImOnlineUpdateInput {
+input HeartBeatUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
+  isOnline: Boolean
   sender: String
 }
 
-input ImOnlineUpdateManyMutationInput {
+input HeartBeatUpdateManyMutationInput {
+  isOnline: Boolean
   sender: String
 }
 
-input ImOnlineWhereInput {
+input HeartBeatWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -289,6 +296,8 @@ input ImOnlineWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   blockNumber: BlockNumberWhereInput
+  isOnline: Boolean
+  isOnline_not: Boolean
   sender: String
   sender_not: String
   sender_in: [String!]
@@ -303,12 +312,12 @@ input ImOnlineWhereInput {
   sender_not_starts_with: String
   sender_ends_with: String
   sender_not_ends_with: String
-  AND: [ImOnlineWhereInput!]
-  OR: [ImOnlineWhereInput!]
-  NOT: [ImOnlineWhereInput!]
+  AND: [HeartBeatWhereInput!]
+  OR: [HeartBeatWhereInput!]
+  NOT: [HeartBeatWhereInput!]
 }
 
-input ImOnlineWhereUniqueInput {
+input HeartBeatWhereUniqueInput {
   id: ID
 }
 
@@ -321,29 +330,29 @@ type Mutation {
   upsertBlockNumber(where: BlockNumberWhereUniqueInput!, create: BlockNumberCreateInput!, update: BlockNumberUpdateInput!): BlockNumber!
   deleteBlockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   deleteManyBlockNumbers(where: BlockNumberWhereInput): BatchPayload!
-  createImOnline(data: ImOnlineCreateInput!): ImOnline!
-  updateImOnline(data: ImOnlineUpdateInput!, where: ImOnlineWhereUniqueInput!): ImOnline
-  updateManyImOnlines(data: ImOnlineUpdateManyMutationInput!, where: ImOnlineWhereInput): BatchPayload!
-  upsertImOnline(where: ImOnlineWhereUniqueInput!, create: ImOnlineCreateInput!, update: ImOnlineUpdateInput!): ImOnline!
-  deleteImOnline(where: ImOnlineWhereUniqueInput!): ImOnline
-  deleteManyImOnlines(where: ImOnlineWhereInput): BatchPayload!
-  createNominations(data: NominationsCreateInput!): Nominations!
-  updateNominations(data: NominationsUpdateInput!, where: NominationsWhereUniqueInput!): Nominations
-  updateManyNominationses(data: NominationsUpdateManyMutationInput!, where: NominationsWhereInput): BatchPayload!
-  upsertNominations(where: NominationsWhereUniqueInput!, create: NominationsCreateInput!, update: NominationsUpdateInput!): Nominations!
-  deleteNominations(where: NominationsWhereUniqueInput!): Nominations
-  deleteManyNominationses(where: NominationsWhereInput): BatchPayload!
-  createRewards(data: RewardsCreateInput!): Rewards!
-  updateRewards(data: RewardsUpdateInput!, where: RewardsWhereUniqueInput!): Rewards
-  updateManyRewardses(data: RewardsUpdateManyMutationInput!, where: RewardsWhereInput): BatchPayload!
-  upsertRewards(where: RewardsWhereUniqueInput!, create: RewardsCreateInput!, update: RewardsUpdateInput!): Rewards!
-  deleteRewards(where: RewardsWhereUniqueInput!): Rewards
-  deleteManyRewardses(where: RewardsWhereInput): BatchPayload!
-  createSessions(data: SessionsCreateInput!): Sessions!
-  updateSessions(data: SessionsUpdateInput!, where: SessionsWhereUniqueInput!): Sessions
-  upsertSessions(where: SessionsWhereUniqueInput!, create: SessionsCreateInput!, update: SessionsUpdateInput!): Sessions!
-  deleteSessions(where: SessionsWhereUniqueInput!): Sessions
-  deleteManySessionses(where: SessionsWhereInput): BatchPayload!
+  createHeartBeat(data: HeartBeatCreateInput!): HeartBeat!
+  updateHeartBeat(data: HeartBeatUpdateInput!, where: HeartBeatWhereUniqueInput!): HeartBeat
+  updateManyHeartBeats(data: HeartBeatUpdateManyMutationInput!, where: HeartBeatWhereInput): BatchPayload!
+  upsertHeartBeat(where: HeartBeatWhereUniqueInput!, create: HeartBeatCreateInput!, update: HeartBeatUpdateInput!): HeartBeat!
+  deleteHeartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  deleteManyHeartBeats(where: HeartBeatWhereInput): BatchPayload!
+  createNomination(data: NominationCreateInput!): Nomination!
+  updateNomination(data: NominationUpdateInput!, where: NominationWhereUniqueInput!): Nomination
+  updateManyNominations(data: NominationUpdateManyMutationInput!, where: NominationWhereInput): BatchPayload!
+  upsertNomination(where: NominationWhereUniqueInput!, create: NominationCreateInput!, update: NominationUpdateInput!): Nomination!
+  deleteNomination(where: NominationWhereUniqueInput!): Nomination
+  deleteManyNominations(where: NominationWhereInput): BatchPayload!
+  createReward(data: RewardCreateInput!): Reward!
+  updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
+  updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
+  upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
+  deleteReward(where: RewardWhereUniqueInput!): Reward
+  deleteManyRewards(where: RewardWhereInput): BatchPayload!
+  createSession(data: SessionCreateInput!): Session!
+  updateSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
+  upsertSession(where: SessionWhereUniqueInput!, create: SessionCreateInput!, update: SessionUpdateInput!): Session!
+  deleteSession(where: SessionWhereUniqueInput!): Session
+  deleteManySessions(where: SessionWhereInput): BatchPayload!
   createSlashing(data: SlashingCreateInput!): Slashing!
   updateSlashing(data: SlashingUpdateInput!, where: SlashingWhereUniqueInput!): Slashing
   updateManySlashings(data: SlashingUpdateManyMutationInput!, where: SlashingWhereInput): BatchPayload!
@@ -362,12 +371,12 @@ type Mutation {
   upsertTotalIssuance(where: TotalIssuanceWhereUniqueInput!, create: TotalIssuanceCreateInput!, update: TotalIssuanceUpdateInput!): TotalIssuance!
   deleteTotalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
   deleteManyTotalIssuances(where: TotalIssuanceWhereInput): BatchPayload!
-  createValidations(data: ValidationsCreateInput!): Validations!
-  updateValidations(data: ValidationsUpdateInput!, where: ValidationsWhereUniqueInput!): Validations
-  updateManyValidationses(data: ValidationsUpdateManyMutationInput!, where: ValidationsWhereInput): BatchPayload!
-  upsertValidations(where: ValidationsWhereUniqueInput!, create: ValidationsCreateInput!, update: ValidationsUpdateInput!): Validations!
-  deleteValidations(where: ValidationsWhereUniqueInput!): Validations
-  deleteManyValidationses(where: ValidationsWhereInput): BatchPayload!
+  createValidation(data: ValidationCreateInput!): Validation!
+  updateValidation(data: ValidationUpdateInput!, where: ValidationWhereUniqueInput!): Validation
+  updateManyValidations(data: ValidationUpdateManyMutationInput!, where: ValidationWhereInput): BatchPayload!
+  upsertValidation(where: ValidationWhereUniqueInput!, create: ValidationCreateInput!, update: ValidationUpdateInput!): Validation!
+  deleteValidation(where: ValidationWhereUniqueInput!): Validation
+  deleteManyValidations(where: ValidationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -380,38 +389,38 @@ interface Node {
   id: ID!
 }
 
-type Nominations {
+type Nomination {
   id: ID!
   validatorController: String!
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  session: Sessions!
+  session: Session!
   bonded: Int!
 }
 
-type NominationsConnection {
+type NominationConnection {
   pageInfo: PageInfo!
-  edges: [NominationsEdge]!
-  aggregate: AggregateNominations!
+  edges: [NominationEdge]!
+  aggregate: AggregateNomination!
 }
 
-input NominationsCreateInput {
+input NominationCreateInput {
   id: ID
   validatorController: String!
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  session: SessionsCreateOneInput!
+  session: SessionCreateOneInput!
   bonded: Int!
 }
 
-type NominationsEdge {
-  node: Nominations!
+type NominationEdge {
+  node: Nomination!
   cursor: String!
 }
 
-enum NominationsOrderByInput {
+enum NominationOrderByInput {
   id_ASC
   id_DESC
   validatorController_ASC
@@ -426,7 +435,7 @@ enum NominationsOrderByInput {
   bonded_DESC
 }
 
-type NominationsPreviousValues {
+type NominationPreviousValues {
   id: ID!
   validatorController: String!
   validatorStash: String!
@@ -435,34 +444,34 @@ type NominationsPreviousValues {
   bonded: Int!
 }
 
-type NominationsSubscriptionPayload {
+type NominationSubscriptionPayload {
   mutation: MutationType!
-  node: Nominations
+  node: Nomination
   updatedFields: [String!]
-  previousValues: NominationsPreviousValues
+  previousValues: NominationPreviousValues
 }
 
-input NominationsSubscriptionWhereInput {
+input NominationSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: NominationsWhereInput
-  AND: [NominationsSubscriptionWhereInput!]
-  OR: [NominationsSubscriptionWhereInput!]
-  NOT: [NominationsSubscriptionWhereInput!]
+  node: NominationWhereInput
+  AND: [NominationSubscriptionWhereInput!]
+  OR: [NominationSubscriptionWhereInput!]
+  NOT: [NominationSubscriptionWhereInput!]
 }
 
-input NominationsUpdateInput {
+input NominationUpdateInput {
   validatorController: String
   validatorStash: String
   nominatorController: String
   nominatorStash: String
-  session: SessionsUpdateOneRequiredInput
+  session: SessionUpdateOneRequiredInput
   bonded: Int
 }
 
-input NominationsUpdateManyMutationInput {
+input NominationUpdateManyMutationInput {
   validatorController: String
   validatorStash: String
   nominatorController: String
@@ -470,7 +479,7 @@ input NominationsUpdateManyMutationInput {
   bonded: Int
 }
 
-input NominationsWhereInput {
+input NominationWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -541,7 +550,7 @@ input NominationsWhereInput {
   nominatorStash_not_starts_with: String
   nominatorStash_ends_with: String
   nominatorStash_not_ends_with: String
-  session: SessionsWhereInput
+  session: SessionWhereInput
   bonded: Int
   bonded_not: Int
   bonded_in: [Int!]
@@ -550,12 +559,12 @@ input NominationsWhereInput {
   bonded_lte: Int
   bonded_gt: Int
   bonded_gte: Int
-  AND: [NominationsWhereInput!]
-  OR: [NominationsWhereInput!]
-  NOT: [NominationsWhereInput!]
+  AND: [NominationWhereInput!]
+  OR: [NominationWhereInput!]
+  NOT: [NominationWhereInput!]
 }
 
-input NominationsWhereUniqueInput {
+input NominationWhereUniqueInput {
   id: ID
 }
 
@@ -570,18 +579,18 @@ type Query {
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
   blockNumbersConnection(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockNumberConnection!
-  imOnline(where: ImOnlineWhereUniqueInput!): ImOnline
-  imOnlines(where: ImOnlineWhereInput, orderBy: ImOnlineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ImOnline]!
-  imOnlinesConnection(where: ImOnlineWhereInput, orderBy: ImOnlineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ImOnlineConnection!
-  nominations(where: NominationsWhereUniqueInput!): Nominations
-  nominationses(where: NominationsWhereInput, orderBy: NominationsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nominations]!
-  nominationsesConnection(where: NominationsWhereInput, orderBy: NominationsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationsConnection!
-  rewards(where: RewardsWhereUniqueInput!): Rewards
-  rewardses(where: RewardsWhereInput, orderBy: RewardsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Rewards]!
-  rewardsesConnection(where: RewardsWhereInput, orderBy: RewardsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardsConnection!
-  sessions(where: SessionsWhereUniqueInput!): Sessions
-  sessionses(where: SessionsWhereInput, orderBy: SessionsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sessions]!
-  sessionsesConnection(where: SessionsWhereInput, orderBy: SessionsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SessionsConnection!
+  heartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  heartBeats(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HeartBeat]!
+  heartBeatsConnection(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeartBeatConnection!
+  nomination(where: NominationWhereUniqueInput!): Nomination
+  nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
+  nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
+  reward(where: RewardWhereUniqueInput!): Reward
+  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
+  rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
+  session(where: SessionWhereUniqueInput!): Session
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
+  sessionsConnection(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SessionConnection!
   slashing(where: SlashingWhereUniqueInput!): Slashing
   slashings(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Slashing]!
   slashingsConnection(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SlashingConnection!
@@ -591,88 +600,88 @@ type Query {
   totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
   totalIssuances(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TotalIssuance]!
   totalIssuancesConnection(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TotalIssuanceConnection!
-  validations(where: ValidationsWhereUniqueInput!): Validations
-  validationses(where: ValidationsWhereInput, orderBy: ValidationsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validations]!
-  validationsesConnection(where: ValidationsWhereInput, orderBy: ValidationsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidationsConnection!
+  validation(where: ValidationWhereUniqueInput!): Validation
+  validations(where: ValidationWhereInput, orderBy: ValidationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validation]!
+  validationsConnection(where: ValidationWhereInput, orderBy: ValidationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidationConnection!
   node(id: ID!): Node
 }
 
-type Rewards {
+type Reward {
   id: ID!
   amount: Int!
   authoredBlock: BlockNumber!
   recipients: [String!]!
 }
 
-type RewardsConnection {
+type RewardConnection {
   pageInfo: PageInfo!
-  edges: [RewardsEdge]!
-  aggregate: AggregateRewards!
+  edges: [RewardEdge]!
+  aggregate: AggregateReward!
 }
 
-input RewardsCreateInput {
+input RewardCreateInput {
   id: ID
   amount: Int!
   authoredBlock: BlockNumberCreateOneInput!
-  recipients: RewardsCreaterecipientsInput
+  recipients: RewardCreaterecipientsInput
 }
 
-input RewardsCreaterecipientsInput {
+input RewardCreaterecipientsInput {
   set: [String!]
 }
 
-type RewardsEdge {
-  node: Rewards!
+type RewardEdge {
+  node: Reward!
   cursor: String!
 }
 
-enum RewardsOrderByInput {
+enum RewardOrderByInput {
   id_ASC
   id_DESC
   amount_ASC
   amount_DESC
 }
 
-type RewardsPreviousValues {
+type RewardPreviousValues {
   id: ID!
   amount: Int!
   recipients: [String!]!
 }
 
-type RewardsSubscriptionPayload {
+type RewardSubscriptionPayload {
   mutation: MutationType!
-  node: Rewards
+  node: Reward
   updatedFields: [String!]
-  previousValues: RewardsPreviousValues
+  previousValues: RewardPreviousValues
 }
 
-input RewardsSubscriptionWhereInput {
+input RewardSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: RewardsWhereInput
-  AND: [RewardsSubscriptionWhereInput!]
-  OR: [RewardsSubscriptionWhereInput!]
-  NOT: [RewardsSubscriptionWhereInput!]
+  node: RewardWhereInput
+  AND: [RewardSubscriptionWhereInput!]
+  OR: [RewardSubscriptionWhereInput!]
+  NOT: [RewardSubscriptionWhereInput!]
 }
 
-input RewardsUpdateInput {
+input RewardUpdateInput {
   amount: Int
   authoredBlock: BlockNumberUpdateOneRequiredInput
-  recipients: RewardsUpdaterecipientsInput
+  recipients: RewardUpdaterecipientsInput
 }
 
-input RewardsUpdateManyMutationInput {
+input RewardUpdateManyMutationInput {
   amount: Int
-  recipients: RewardsUpdaterecipientsInput
+  recipients: RewardUpdaterecipientsInput
 }
 
-input RewardsUpdaterecipientsInput {
+input RewardUpdaterecipientsInput {
   set: [String!]
 }
 
-input RewardsWhereInput {
+input RewardWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -696,93 +705,93 @@ input RewardsWhereInput {
   amount_gt: Int
   amount_gte: Int
   authoredBlock: BlockNumberWhereInput
-  AND: [RewardsWhereInput!]
-  OR: [RewardsWhereInput!]
-  NOT: [RewardsWhereInput!]
+  AND: [RewardWhereInput!]
+  OR: [RewardWhereInput!]
+  NOT: [RewardWhereInput!]
 }
 
-input RewardsWhereUniqueInput {
+input RewardWhereUniqueInput {
   id: ID
 }
 
-type Sessions {
+type Session {
   id: ID!
   start: BlockNumber!
   end: BlockNumber!
 }
 
-type SessionsConnection {
+type SessionConnection {
   pageInfo: PageInfo!
-  edges: [SessionsEdge]!
-  aggregate: AggregateSessions!
+  edges: [SessionEdge]!
+  aggregate: AggregateSession!
 }
 
-input SessionsCreateInput {
+input SessionCreateInput {
   id: ID
   start: BlockNumberCreateOneInput!
   end: BlockNumberCreateOneInput!
 }
 
-input SessionsCreateOneInput {
-  create: SessionsCreateInput
-  connect: SessionsWhereUniqueInput
+input SessionCreateOneInput {
+  create: SessionCreateInput
+  connect: SessionWhereUniqueInput
 }
 
-type SessionsEdge {
-  node: Sessions!
+type SessionEdge {
+  node: Session!
   cursor: String!
 }
 
-enum SessionsOrderByInput {
+enum SessionOrderByInput {
   id_ASC
   id_DESC
 }
 
-type SessionsPreviousValues {
+type SessionPreviousValues {
   id: ID!
 }
 
-type SessionsSubscriptionPayload {
+type SessionSubscriptionPayload {
   mutation: MutationType!
-  node: Sessions
+  node: Session
   updatedFields: [String!]
-  previousValues: SessionsPreviousValues
+  previousValues: SessionPreviousValues
 }
 
-input SessionsSubscriptionWhereInput {
+input SessionSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: SessionsWhereInput
-  AND: [SessionsSubscriptionWhereInput!]
-  OR: [SessionsSubscriptionWhereInput!]
-  NOT: [SessionsSubscriptionWhereInput!]
+  node: SessionWhereInput
+  AND: [SessionSubscriptionWhereInput!]
+  OR: [SessionSubscriptionWhereInput!]
+  NOT: [SessionSubscriptionWhereInput!]
 }
 
-input SessionsUpdateDataInput {
+input SessionUpdateDataInput {
   start: BlockNumberUpdateOneRequiredInput
   end: BlockNumberUpdateOneRequiredInput
 }
 
-input SessionsUpdateInput {
+input SessionUpdateInput {
   start: BlockNumberUpdateOneRequiredInput
   end: BlockNumberUpdateOneRequiredInput
 }
 
-input SessionsUpdateOneRequiredInput {
-  create: SessionsCreateInput
-  update: SessionsUpdateDataInput
-  upsert: SessionsUpsertNestedInput
-  connect: SessionsWhereUniqueInput
+input SessionUpdateOneRequiredInput {
+  create: SessionCreateInput
+  update: SessionUpdateDataInput
+  upsert: SessionUpsertNestedInput
+  connect: SessionWhereUniqueInput
 }
 
-input SessionsUpsertNestedInput {
-  update: SessionsUpdateDataInput!
-  create: SessionsCreateInput!
+input SessionUpsertNestedInput {
+  update: SessionUpdateDataInput!
+  create: SessionCreateInput!
 }
 
-input SessionsWhereInput {
+input SessionWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -799,12 +808,12 @@ input SessionsWhereInput {
   id_not_ends_with: ID
   start: BlockNumberWhereInput
   end: BlockNumberWhereInput
-  AND: [SessionsWhereInput!]
-  OR: [SessionsWhereInput!]
-  NOT: [SessionsWhereInput!]
+  AND: [SessionWhereInput!]
+  OR: [SessionWhereInput!]
+  NOT: [SessionWhereInput!]
 }
 
-input SessionsWhereUniqueInput {
+input SessionWhereUniqueInput {
   id: ID
 }
 
@@ -1021,14 +1030,14 @@ input StakeWhereUniqueInput {
 
 type Subscription {
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
-  imOnline(where: ImOnlineSubscriptionWhereInput): ImOnlineSubscriptionPayload
-  nominations(where: NominationsSubscriptionWhereInput): NominationsSubscriptionPayload
-  rewards(where: RewardsSubscriptionWhereInput): RewardsSubscriptionPayload
-  sessions(where: SessionsSubscriptionWhereInput): SessionsSubscriptionPayload
+  heartBeat(where: HeartBeatSubscriptionWhereInput): HeartBeatSubscriptionPayload
+  nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
+  reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
+  session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
   slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload
   stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
   totalIssuance(where: TotalIssuanceSubscriptionWhereInput): TotalIssuanceSubscriptionPayload
-  validations(where: ValidationsSubscriptionWhereInput): ValidationsSubscriptionPayload
+  validation(where: ValidationSubscriptionWhereInput): ValidationSubscriptionPayload
 }
 
 type TotalIssuance {
@@ -1122,7 +1131,7 @@ input TotalIssuanceWhereUniqueInput {
   id: ID
 }
 
-type Validations {
+type Validation {
   id: ID!
   start: BlockNumber!
   validatorController: String!
@@ -1130,13 +1139,13 @@ type Validations {
   validatorPreferences: Int!
 }
 
-type ValidationsConnection {
+type ValidationConnection {
   pageInfo: PageInfo!
-  edges: [ValidationsEdge]!
-  aggregate: AggregateValidations!
+  edges: [ValidationEdge]!
+  aggregate: AggregateValidation!
 }
 
-input ValidationsCreateInput {
+input ValidationCreateInput {
   id: ID
   start: BlockNumberCreateOneInput!
   validatorController: String!
@@ -1144,12 +1153,12 @@ input ValidationsCreateInput {
   validatorPreferences: Int!
 }
 
-type ValidationsEdge {
-  node: Validations!
+type ValidationEdge {
+  node: Validation!
   cursor: String!
 }
 
-enum ValidationsOrderByInput {
+enum ValidationOrderByInput {
   id_ASC
   id_DESC
   validatorController_ASC
@@ -1160,45 +1169,45 @@ enum ValidationsOrderByInput {
   validatorPreferences_DESC
 }
 
-type ValidationsPreviousValues {
+type ValidationPreviousValues {
   id: ID!
   validatorController: String!
   validatorStash: String!
   validatorPreferences: Int!
 }
 
-type ValidationsSubscriptionPayload {
+type ValidationSubscriptionPayload {
   mutation: MutationType!
-  node: Validations
+  node: Validation
   updatedFields: [String!]
-  previousValues: ValidationsPreviousValues
+  previousValues: ValidationPreviousValues
 }
 
-input ValidationsSubscriptionWhereInput {
+input ValidationSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: ValidationsWhereInput
-  AND: [ValidationsSubscriptionWhereInput!]
-  OR: [ValidationsSubscriptionWhereInput!]
-  NOT: [ValidationsSubscriptionWhereInput!]
+  node: ValidationWhereInput
+  AND: [ValidationSubscriptionWhereInput!]
+  OR: [ValidationSubscriptionWhereInput!]
+  NOT: [ValidationSubscriptionWhereInput!]
 }
 
-input ValidationsUpdateInput {
+input ValidationUpdateInput {
   start: BlockNumberUpdateOneRequiredInput
   validatorController: String
   validatorStash: String
   validatorPreferences: Int
 }
 
-input ValidationsUpdateManyMutationInput {
+input ValidationUpdateManyMutationInput {
   validatorController: String
   validatorStash: String
   validatorPreferences: Int
 }
 
-input ValidationsWhereInput {
+input ValidationWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -1250,12 +1259,12 @@ input ValidationsWhereInput {
   validatorPreferences_lte: Int
   validatorPreferences_gt: Int
   validatorPreferences_gte: Int
-  AND: [ValidationsWhereInput!]
-  OR: [ValidationsWhereInput!]
-  NOT: [ValidationsWhereInput!]
+  AND: [ValidationWhereInput!]
+  OR: [ValidationWhereInput!]
+  NOT: [ValidationWhereInput!]
 }
 
-input ValidationsWhereUniqueInput {
+input ValidationWhereUniqueInput {
   id: ID
 }
 `
