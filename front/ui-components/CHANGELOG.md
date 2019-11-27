@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/yjkimjunior/Nomidot/compare/v0.2.3...v0.2.4) (2019-11-26)
+
+
+### Bug Fixes
+
+* Allow importing without src/ directory ([#26](https://github.com/yjkimjunior/Nomidot/issues/26)) ([175d1fd](https://github.com/yjkimjunior/Nomidot/commit/175d1fd0541191516f44986c23c5c0ae816015ec))
+
+
+
+
+
+## [0.2.3](https://github.com/yjkimjunior/Nomidot/compare/v0.2.2...v0.2.3) (2019-11-26)
+
+
+### Bug Fixes
+
+* Fix various little bugs ([#23](https://github.com/yjkimjunior/Nomidot/issues/23)) ([24969fc](https://github.com/yjkimjunior/Nomidot/commit/24969fc2fcd46456b94f4077859b9ae5632a24b4))
+
+
+
+
+
 ## [0.2.2](https://github.com/yjkimjunior/Nomidot/compare/v0.2.1...v0.2.2) (2019-11-21)
 
 

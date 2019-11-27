@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext } from '@substrate/context/src';
+import { AccountsContext } from '@substrate/context';
 import {
   AccountsList,
   Breadcrumbs,
@@ -11,7 +11,7 @@ import {
   Modal,
   polkadotOfficialTheme,
   Transition,
-} from '@substrate/ui-components/src';
+} from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
 const ONBOARDING_STEPS = ['stash', 'controller'];
@@ -19,8 +19,6 @@ const ONBOARDING_STEPS = ['stash', 'controller'];
 // eslint-disable-next-line
 export const Onboarding = (props: RouteComponentProps): React.ReactElement => {
   const { injectedAccounts } = useContext(AccountsContext);
-  // const [stash, setStash] = useState();
-  // const [controller, setController] = useState();
 
   return (
     <Transition animation='scale' duration={500} transitionOnMount visible>
