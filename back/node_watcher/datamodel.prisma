@@ -1,11 +1,3 @@
-
-type HeartBeat {
-  id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "HeartBeatAtBlockNumber", link: INLINE)
-  isOnline: Boolean!
-  sender: String!
-}
-
 type Reward {
   id: ID! @id
   amount: Int!
@@ -36,28 +28,36 @@ type Stake {
   totalStake: Int!
 }
 
-type Validation {
+type Validator {
   id: ID! @id
-  start: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
-  validatorController: String!
-  validatorStash: String!
-  validatorPreferences: Int!
+  blockNumber: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
+  controller: String!
+  stash: String!
+  preferences: String!
 }
 
 type Session {
-  id: ID! @id
+  id: Int! @id
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
   end: BlockNumber! @relation(name: "BlockNumberAtSessionEnd", link: INLINE)
 }
 
+type Era {
+  id: Int! @id
+  startDateTime: DateTime!
+  startSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
+  sessions: [Session!]! @relation(name: "EraSessions")
+  points: Int!
+}
+
 type TotalIssuance {
   id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
   amount: Int!
 }
 
 type BlockNumber {
-  id: Int! @unique @id
-  number: Int!
+  number: Int! @unique @id
   authoredBy: String!
   startDateTime: DateTime!
   hash: String! @unique

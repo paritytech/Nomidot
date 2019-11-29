@@ -6,6 +6,7 @@ import {
   Hash,
   Moment,
   SessionIndex,
+  ValidatorPrefs,
 } from '@polkadot/types/interfaces';
 
 export interface BlockData {
@@ -29,7 +30,7 @@ type PrismaTable =
   | 'totalIssuance';
 
 export interface Task<T> {
-  read(blockNumber: number, api: ApiPromise): Promise<T>;
+  read(blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<T>;
   write(value: T): Promise<void>;
 }
 
@@ -47,8 +48,30 @@ export interface NomidotHeartBeat {
   sessionId: SessionIndex;
 }
 
+export interface NomidotSession {
+  idx: SessionIndex,
+  start: BlockNumber,
+  end: BlockNumber
+}
+
+export interface NomidotSlashing {
+  blockNumber: BlockNumber,
+  reason: string,
+  amount: Balance,
+}
+
 export interface NomidotTotalIssuance {
+  blockNumber: BlockNumber,
   amount: Balance
 }
 
-export type Nomidot = NomidotBlock | NomidotHeartBeat | NomidotTotalIssuance;
+export interface NomidotValidator {
+  blockNumber: BlockNumber,
+  controller: AccountId,
+  stash: AccountId,
+  validatorPreferences: ValidatorPrefs
+}
+
+export type NomidotValidators = NomidotValidator[];
+
+export type Nomidot = NomidotBlock | NomidotHeartBeat | NomidotSession | NomidotTotalIssuance | NomidotValidators;

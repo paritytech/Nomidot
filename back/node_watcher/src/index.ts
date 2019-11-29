@@ -7,11 +7,11 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { nodeWatcher } from './node-watcher';
 import nomidotTasks from './nomidot-tasks';
 
-const ENDPOINT = 'ws://127.0.0.1:9944';
+const ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 
 async function main() {
   const provider = new WsProvider(ENDPOINT);
-  const api = await new ApiPromise({ provider });
+  const api = new ApiPromise({ provider });
 
   api.isReady.then(() => {
     nodeWatcher([...nomidotTasks], api);
