@@ -136,37 +136,6 @@ const createValidator: Task<NomidotValidator[]> = {
 }
 
 /*
-* ====== Table(ImOnline) =========
-*/
-
-// const createImOnline: Task<any> = {
-//   read: async (blockNumber: number, api: ApiPromise): Promise<NomidotHeartBeat> => {
-//     const hash: Hash = await api.query.system.blockHash(blockNumber);
-
-//     const currentEpochAuthorities: Vec<ITuple<[AccountId, BabeAuthorityWeight]>> = await api.query.babe.authorities();
-
-//     const justAuthorityIds = currentEpochAuthorities.map(item => item[0]);
-
-//     const derivedHeartBeats: DerivedHeartbeats = await api.derive.imOnline.receivedHeartbeats(justAuthorityIds);
-
-//     const result: NomidotHeartBeat = {
-//       blockNumber,
-
-//     }
-
-//     return result;
-
-//   },
-//   write: async (value: NomidotHeartBeat) => {
-//     await prisma.createHeartBeat({
-//       blockNumber: createBlockNumber.write(),
-//       isOnline: value.isOnline,
-//       sender: value.sender.toHex()
-//     })
-//   }
-// }
-
-/*
 *  ======= Table (Session) ======
 */
 const createSession: Task<NomidotSession> = {
@@ -295,6 +264,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
 const nomidotTasks: Task<Nomidot>[] = [
   createBlockNumber,
+  createImOnline,
   createEra,
   createSession,
   createSlashing,
