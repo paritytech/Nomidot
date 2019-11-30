@@ -2,23 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import {
+import createBlockNumber from './createBlockNumber';
+import createEra from './createEra';
+import createSession from './createSession';
+import createSlashing from './createSlashing';
+import createTotalIssuance from './createTotalIssuance';
+import createValidator from './createValidator';
+
+export {
   createBlockNumber,
   createEra,
   createSession,
   createSlashing,
   createTotalIssuance,
   createValidator,
-} from './tasks';
-import { NomidotTask } from './tasks/types';
-
-const nomidotTasks: NomidotTask[] = [
-  createBlockNumber,
-  createEra,
-  createSession,
-  createSlashing,
-  createTotalIssuance,
-  createValidator,
-];
-
-export default nomidotTasks;
+};

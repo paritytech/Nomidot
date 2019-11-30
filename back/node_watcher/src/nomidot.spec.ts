@@ -8,6 +8,7 @@ import nomidotTasks from './nomidot-tasks';
 
 const parityKusama = 'wss://kusama-rpc.polkadot.io/';
 
+// Just try all the Task I/O's for one or two blocks at each spec version bump.
 describe('Nomidot Tasks', () => {
   let api: ApiPromise;
 
@@ -25,14 +26,5 @@ describe('Nomidot Tasks', () => {
     jest.setTimeout(5000);
   });
 
-  it('should read a single task', async () => {
-    const task = nomidotTasks[0];
-    const blockNumber = await api.derive.chain.bestNumberFinalized();
-
-    const result = await task.read(blockNumber.toNumber(), api);
-    console.log(`result: ${result}`);
-
-    expect(result).toBeDefined();
-    expect(result.authoredBy).toBeDefined();
-  });
+  it('should read a single task', async () => {});
 });

@@ -3,5 +3,6 @@
     "outDir": "./lib"
   },
   "extends": "../../tsconfig",
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["generated/prisma-client"]
 }

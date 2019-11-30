@@ -2,13 +2,14 @@
 // Please don't change this file manually but run `prisma generate` to update it.
 // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-import { DocumentNode } from "graphql";
+import { DocumentNode } from 'graphql';
 import {
-  makePrismaClientClass,
   BaseClientOptions,
-  Model
-} from "prisma-client-lib";
-import { typeDefs } from "./prisma-schema";
+  makePrismaClientClass,
+  Model,
+} from 'prisma-client-lib';
+
+import { typeDefs } from './prisma-schema';
 
 export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
@@ -53,8 +54,8 @@ export interface Prisma {
     where?: BlockNumberWhereInput;
     orderBy?: BlockNumberOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<BlockNumber>;
@@ -62,8 +63,8 @@ export interface Prisma {
     where?: BlockNumberWhereInput;
     orderBy?: BlockNumberOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => BlockNumberConnectionPromise;
@@ -72,8 +73,8 @@ export interface Prisma {
     where?: EraWhereInput;
     orderBy?: EraOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Era>;
@@ -81,8 +82,8 @@ export interface Prisma {
     where?: EraWhereInput;
     orderBy?: EraOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => EraConnectionPromise;
@@ -91,8 +92,8 @@ export interface Prisma {
     where?: NominationWhereInput;
     orderBy?: NominationOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Nomination>;
@@ -100,8 +101,8 @@ export interface Prisma {
     where?: NominationWhereInput;
     orderBy?: NominationOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => NominationConnectionPromise;
@@ -110,8 +111,8 @@ export interface Prisma {
     where?: RewardWhereInput;
     orderBy?: RewardOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Reward>;
@@ -119,8 +120,8 @@ export interface Prisma {
     where?: RewardWhereInput;
     orderBy?: RewardOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => RewardConnectionPromise;
@@ -129,8 +130,8 @@ export interface Prisma {
     where?: SessionWhereInput;
     orderBy?: SessionOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Session>;
@@ -138,8 +139,8 @@ export interface Prisma {
     where?: SessionWhereInput;
     orderBy?: SessionOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => SessionConnectionPromise;
@@ -148,8 +149,8 @@ export interface Prisma {
     where?: SlashingWhereInput;
     orderBy?: SlashingOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Slashing>;
@@ -157,8 +158,8 @@ export interface Prisma {
     where?: SlashingWhereInput;
     orderBy?: SlashingOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => SlashingConnectionPromise;
@@ -167,8 +168,8 @@ export interface Prisma {
     where?: StakeWhereInput;
     orderBy?: StakeOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Stake>;
@@ -176,8 +177,8 @@ export interface Prisma {
     where?: StakeWhereInput;
     orderBy?: StakeOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => StakeConnectionPromise;
@@ -188,8 +189,8 @@ export interface Prisma {
     where?: TotalIssuanceWhereInput;
     orderBy?: TotalIssuanceOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<TotalIssuance>;
@@ -197,8 +198,8 @@ export interface Prisma {
     where?: TotalIssuanceWhereInput;
     orderBy?: TotalIssuanceOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => TotalIssuanceConnectionPromise;
@@ -207,8 +208,8 @@ export interface Prisma {
     where?: ValidatorWhereInput;
     orderBy?: ValidatorOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => FragmentableArray<Validator>;
@@ -216,8 +217,8 @@ export interface Prisma {
     where?: ValidatorWhereInput;
     orderBy?: ValidatorOrderByInput;
     skip?: Int;
-    after?: String;
-    before?: String;
+    after?: string;
+    before?: string;
     first?: Int;
     last?: Int;
   }) => ValidatorConnectionPromise;
@@ -420,74 +421,74 @@ export interface ClientConstructor<T> {
  */
 
 export type SlashingOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "reason_ASC"
-  | "reason_DESC"
-  | "amount_ASC"
-  | "amount_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'reason_ASC'
+  | 'reason_DESC'
+  | 'amount_ASC'
+  | 'amount_DESC';
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+export type MutationType = 'CREATED' | 'UPDATED' | 'DELETED';
 
 export type EraOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "totalPoints_ASC"
-  | "totalPoints_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'totalPoints_ASC'
+  | 'totalPoints_DESC';
 
 export type NominationOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "validatorController_ASC"
-  | "validatorController_DESC"
-  | "validatorStash_ASC"
-  | "validatorStash_DESC"
-  | "nominatorController_ASC"
-  | "nominatorController_DESC"
-  | "nominatorStash_ASC"
-  | "nominatorStash_DESC"
-  | "bonded_ASC"
-  | "bonded_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'validatorController_ASC'
+  | 'validatorController_DESC'
+  | 'validatorStash_ASC'
+  | 'validatorStash_DESC'
+  | 'nominatorController_ASC'
+  | 'nominatorController_DESC'
+  | 'nominatorStash_ASC'
+  | 'nominatorStash_DESC'
+  | 'bonded_ASC'
+  | 'bonded_DESC';
 
 export type RewardOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "amount_ASC"
-  | "amount_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'amount_ASC'
+  | 'amount_DESC';
 
-export type SessionOrderByInput = "id_ASC" | "id_DESC";
+export type SessionOrderByInput = 'id_ASC' | 'id_DESC';
 
 export type ValidatorOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "controller_ASC"
-  | "controller_DESC"
-  | "stash_ASC"
-  | "stash_DESC"
-  | "preferences_ASC"
-  | "preferences_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'controller_ASC'
+  | 'controller_DESC'
+  | 'stash_ASC'
+  | 'stash_DESC'
+  | 'preferences_ASC'
+  | 'preferences_DESC';
 
 export type BlockNumberOrderByInput =
-  | "number_ASC"
-  | "number_DESC"
-  | "authoredBy_ASC"
-  | "authoredBy_DESC"
-  | "startDateTime_ASC"
-  | "startDateTime_DESC"
-  | "hash_ASC"
-  | "hash_DESC";
+  | 'number_ASC'
+  | 'number_DESC'
+  | 'authoredBy_ASC'
+  | 'authoredBy_DESC'
+  | 'startDateTime_ASC'
+  | 'startDateTime_DESC'
+  | 'hash_ASC'
+  | 'hash_DESC';
 
 export type StakeOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "totalStake_ASC"
-  | "totalStake_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'totalStake_ASC'
+  | 'totalStake_DESC';
 
 export type TotalIssuanceOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "amount_ASC"
-  | "amount_DESC";
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'amount_ASC'
+  | 'amount_DESC';
 
 export interface RewardUpdateManyMutationInput {
   amount?: Maybe<Int>;
@@ -500,12 +501,12 @@ export interface SessionCreateOneInput {
 }
 
 export interface RewardCreaterecipientsInput {
-  set?: Maybe<String[] | String>;
+  set?: Maybe<string[] | string>;
 }
 
 export type BlockNumberWhereUniqueInput = AtLeastOne<{
   number: Maybe<Int>;
-  hash?: Maybe<String>;
+  hash?: Maybe<string>;
 }>;
 
 export interface RewardCreateInput {
@@ -520,10 +521,10 @@ export type EraWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface NominationUpdateManyMutationInput {
-  validatorController?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
+  validatorController?: Maybe<string>;
+  validatorStash?: Maybe<string>;
+  nominatorController?: Maybe<string>;
+  nominatorStash?: Maybe<string>;
   bonded?: Maybe<Int>;
 }
 
@@ -537,20 +538,20 @@ export interface EraWhereInput {
   id_gt?: Maybe<Int>;
   id_gte?: Maybe<Int>;
   eraStartSessionIndex?: Maybe<SessionWhereInput>;
-  totalPoints?: Maybe<String>;
-  totalPoints_not?: Maybe<String>;
-  totalPoints_in?: Maybe<String[] | String>;
-  totalPoints_not_in?: Maybe<String[] | String>;
-  totalPoints_lt?: Maybe<String>;
-  totalPoints_lte?: Maybe<String>;
-  totalPoints_gt?: Maybe<String>;
-  totalPoints_gte?: Maybe<String>;
-  totalPoints_contains?: Maybe<String>;
-  totalPoints_not_contains?: Maybe<String>;
-  totalPoints_starts_with?: Maybe<String>;
-  totalPoints_not_starts_with?: Maybe<String>;
-  totalPoints_ends_with?: Maybe<String>;
-  totalPoints_not_ends_with?: Maybe<String>;
+  totalPoints?: Maybe<string>;
+  totalPoints_not?: Maybe<string>;
+  totalPoints_in?: Maybe<string[] | string>;
+  totalPoints_not_in?: Maybe<string[] | string>;
+  totalPoints_lt?: Maybe<string>;
+  totalPoints_lte?: Maybe<string>;
+  totalPoints_gt?: Maybe<string>;
+  totalPoints_gte?: Maybe<string>;
+  totalPoints_contains?: Maybe<string>;
+  totalPoints_not_contains?: Maybe<string>;
+  totalPoints_starts_with?: Maybe<string>;
+  totalPoints_not_starts_with?: Maybe<string>;
+  totalPoints_ends_with?: Maybe<string>;
+  totalPoints_not_ends_with?: Maybe<string>;
   AND?: Maybe<EraWhereInput[] | EraWhereInput>;
   OR?: Maybe<EraWhereInput[] | EraWhereInput>;
   NOT?: Maybe<EraWhereInput[] | EraWhereInput>;
@@ -562,9 +563,9 @@ export type StakeWhereUniqueInput = AtLeastOne<{
 
 export interface EraSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<EraWhereInput>;
   AND?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
   OR?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
@@ -572,19 +573,19 @@ export interface EraSubscriptionWhereInput {
 }
 
 export interface NominationUpdateInput {
-  validatorController?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
+  validatorController?: Maybe<string>;
+  validatorStash?: Maybe<string>;
+  nominatorController?: Maybe<string>;
+  nominatorStash?: Maybe<string>;
   session?: Maybe<SessionUpdateOneRequiredInput>;
   bonded?: Maybe<Int>;
 }
 
 export interface ValidatorUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  controller?: Maybe<String>;
-  stash?: Maybe<String>;
-  preferences?: Maybe<String>;
+  controller?: Maybe<string>;
+  stash?: Maybe<string>;
+  preferences?: Maybe<string>;
 }
 
 export interface StakeWhereInput {
@@ -629,20 +630,20 @@ export interface BlockNumberWhereInput {
   number_lte?: Maybe<Int>;
   number_gt?: Maybe<Int>;
   number_gte?: Maybe<Int>;
-  authoredBy?: Maybe<String>;
-  authoredBy_not?: Maybe<String>;
-  authoredBy_in?: Maybe<String[] | String>;
-  authoredBy_not_in?: Maybe<String[] | String>;
-  authoredBy_lt?: Maybe<String>;
-  authoredBy_lte?: Maybe<String>;
-  authoredBy_gt?: Maybe<String>;
-  authoredBy_gte?: Maybe<String>;
-  authoredBy_contains?: Maybe<String>;
-  authoredBy_not_contains?: Maybe<String>;
-  authoredBy_starts_with?: Maybe<String>;
-  authoredBy_not_starts_with?: Maybe<String>;
-  authoredBy_ends_with?: Maybe<String>;
-  authoredBy_not_ends_with?: Maybe<String>;
+  authoredBy?: Maybe<string>;
+  authoredBy_not?: Maybe<string>;
+  authoredBy_in?: Maybe<string[] | string>;
+  authoredBy_not_in?: Maybe<string[] | string>;
+  authoredBy_lt?: Maybe<string>;
+  authoredBy_lte?: Maybe<string>;
+  authoredBy_gt?: Maybe<string>;
+  authoredBy_gte?: Maybe<string>;
+  authoredBy_contains?: Maybe<string>;
+  authoredBy_not_contains?: Maybe<string>;
+  authoredBy_starts_with?: Maybe<string>;
+  authoredBy_not_starts_with?: Maybe<string>;
+  authoredBy_ends_with?: Maybe<string>;
+  authoredBy_not_ends_with?: Maybe<string>;
   startDateTime?: Maybe<DateTimeInput>;
   startDateTime_not?: Maybe<DateTimeInput>;
   startDateTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -651,20 +652,20 @@ export interface BlockNumberWhereInput {
   startDateTime_lte?: Maybe<DateTimeInput>;
   startDateTime_gt?: Maybe<DateTimeInput>;
   startDateTime_gte?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
-  hash_not?: Maybe<String>;
-  hash_in?: Maybe<String[] | String>;
-  hash_not_in?: Maybe<String[] | String>;
-  hash_lt?: Maybe<String>;
-  hash_lte?: Maybe<String>;
-  hash_gt?: Maybe<String>;
-  hash_gte?: Maybe<String>;
-  hash_contains?: Maybe<String>;
-  hash_not_contains?: Maybe<String>;
-  hash_starts_with?: Maybe<String>;
-  hash_not_starts_with?: Maybe<String>;
-  hash_ends_with?: Maybe<String>;
-  hash_not_ends_with?: Maybe<String>;
+  hash?: Maybe<string>;
+  hash_not?: Maybe<string>;
+  hash_in?: Maybe<string[] | string>;
+  hash_not_in?: Maybe<string[] | string>;
+  hash_lt?: Maybe<string>;
+  hash_lte?: Maybe<string>;
+  hash_gt?: Maybe<string>;
+  hash_gte?: Maybe<string>;
+  hash_contains?: Maybe<string>;
+  hash_not_contains?: Maybe<string>;
+  hash_starts_with?: Maybe<string>;
+  hash_not_starts_with?: Maybe<string>;
+  hash_ends_with?: Maybe<string>;
+  hash_not_ends_with?: Maybe<string>;
   AND?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
   OR?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
   NOT?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
@@ -677,19 +678,19 @@ export interface TotalIssuanceUpdateInput {
 
 export interface NominationCreateInput {
   id?: Maybe<ID_Input>;
-  validatorController: String;
-  validatorStash: String;
-  nominatorController: String;
-  nominatorStash: String;
+  validatorController: string;
+  validatorStash: string;
+  nominatorController: string;
+  nominatorStash: string;
   session: SessionCreateOneInput;
   bonded: Int;
 }
 
 export interface NominationSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<NominationWhereInput>;
   AND?: Maybe<
     NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
@@ -703,7 +704,7 @@ export interface NominationSubscriptionWhereInput {
 }
 
 export interface EraUpdateManyMutationInput {
-  totalPoints?: Maybe<String>;
+  totalPoints?: Maybe<string>;
   individualPoints?: Maybe<EraUpdateindividualPointsInput>;
 }
 
@@ -712,7 +713,7 @@ export interface StakeUpdateManyMutationInput {
 }
 
 export interface EraUpdateindividualPointsInput {
-  set?: Maybe<String[] | String>;
+  set?: Maybe<string[] | string>;
 }
 
 export type RewardWhereUniqueInput = AtLeastOne<{
@@ -758,7 +759,7 @@ export interface SessionUpsertNestedInput {
 }
 
 export interface SlashingUpdateManyMutationInput {
-  reason?: Maybe<String>;
+  reason?: Maybe<string>;
   amount?: Maybe<Int>;
 }
 
@@ -794,15 +795,15 @@ export interface TotalIssuanceWhereInput {
 export interface SlashingCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  reason: String;
+  reason: string;
   amount: Int;
 }
 
 export interface StakeSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<StakeWhereInput>;
   AND?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
   OR?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
@@ -811,9 +812,9 @@ export interface StakeSubscriptionWhereInput {
 
 export interface SessionSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<SessionWhereInput>;
   AND?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
   OR?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
@@ -824,16 +825,16 @@ export interface BlockNumberUpdateOneInput {
   create?: Maybe<BlockNumberCreateInput>;
   update?: Maybe<BlockNumberUpdateDataInput>;
   upsert?: Maybe<BlockNumberUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
+  delete?: Maybe<boolean>;
+  disconnect?: Maybe<boolean>;
   connect?: Maybe<BlockNumberWhereUniqueInput>;
 }
 
 export interface ValidatorSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<ValidatorWhereInput>;
   AND?: Maybe<
     ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
@@ -856,9 +857,9 @@ export type SlashingWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface BlockNumberUpdateDataInput {
-  authoredBy?: Maybe<String>;
+  authoredBy?: Maybe<string>;
   startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
+  hash?: Maybe<string>;
 }
 
 export interface SlashingWhereInput {
@@ -877,20 +878,20 @@ export interface SlashingWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   blockNumber?: Maybe<BlockNumberWhereInput>;
-  reason?: Maybe<String>;
-  reason_not?: Maybe<String>;
-  reason_in?: Maybe<String[] | String>;
-  reason_not_in?: Maybe<String[] | String>;
-  reason_lt?: Maybe<String>;
-  reason_lte?: Maybe<String>;
-  reason_gt?: Maybe<String>;
-  reason_gte?: Maybe<String>;
-  reason_contains?: Maybe<String>;
-  reason_not_contains?: Maybe<String>;
-  reason_starts_with?: Maybe<String>;
-  reason_not_starts_with?: Maybe<String>;
-  reason_ends_with?: Maybe<String>;
-  reason_not_ends_with?: Maybe<String>;
+  reason?: Maybe<string>;
+  reason_not?: Maybe<string>;
+  reason_in?: Maybe<string[] | string>;
+  reason_not_in?: Maybe<string[] | string>;
+  reason_lt?: Maybe<string>;
+  reason_lte?: Maybe<string>;
+  reason_gt?: Maybe<string>;
+  reason_gte?: Maybe<string>;
+  reason_contains?: Maybe<string>;
+  reason_not_contains?: Maybe<string>;
+  reason_starts_with?: Maybe<string>;
+  reason_not_starts_with?: Maybe<string>;
+  reason_ends_with?: Maybe<string>;
+  reason_not_ends_with?: Maybe<string>;
   amount?: Maybe<Int>;
   amount_not?: Maybe<Int>;
   amount_in?: Maybe<Int[] | Int>;
@@ -910,9 +911,9 @@ export type ValidatorWhereUniqueInput = AtLeastOne<{
 
 export interface BlockNumberSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<BlockNumberWhereInput>;
   AND?: Maybe<
     BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
@@ -933,9 +934,9 @@ export interface BlockNumberUpdateOneRequiredInput {
 }
 
 export interface ValidatorUpdateManyMutationInput {
-  controller?: Maybe<String>;
-  stash?: Maybe<String>;
-  preferences?: Maybe<String>;
+  controller?: Maybe<string>;
+  stash?: Maybe<string>;
+  preferences?: Maybe<string>;
 }
 
 export interface ValidatorWhereInput {
@@ -954,48 +955,48 @@ export interface ValidatorWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   blockNumber?: Maybe<BlockNumberWhereInput>;
-  controller?: Maybe<String>;
-  controller_not?: Maybe<String>;
-  controller_in?: Maybe<String[] | String>;
-  controller_not_in?: Maybe<String[] | String>;
-  controller_lt?: Maybe<String>;
-  controller_lte?: Maybe<String>;
-  controller_gt?: Maybe<String>;
-  controller_gte?: Maybe<String>;
-  controller_contains?: Maybe<String>;
-  controller_not_contains?: Maybe<String>;
-  controller_starts_with?: Maybe<String>;
-  controller_not_starts_with?: Maybe<String>;
-  controller_ends_with?: Maybe<String>;
-  controller_not_ends_with?: Maybe<String>;
-  stash?: Maybe<String>;
-  stash_not?: Maybe<String>;
-  stash_in?: Maybe<String[] | String>;
-  stash_not_in?: Maybe<String[] | String>;
-  stash_lt?: Maybe<String>;
-  stash_lte?: Maybe<String>;
-  stash_gt?: Maybe<String>;
-  stash_gte?: Maybe<String>;
-  stash_contains?: Maybe<String>;
-  stash_not_contains?: Maybe<String>;
-  stash_starts_with?: Maybe<String>;
-  stash_not_starts_with?: Maybe<String>;
-  stash_ends_with?: Maybe<String>;
-  stash_not_ends_with?: Maybe<String>;
-  preferences?: Maybe<String>;
-  preferences_not?: Maybe<String>;
-  preferences_in?: Maybe<String[] | String>;
-  preferences_not_in?: Maybe<String[] | String>;
-  preferences_lt?: Maybe<String>;
-  preferences_lte?: Maybe<String>;
-  preferences_gt?: Maybe<String>;
-  preferences_gte?: Maybe<String>;
-  preferences_contains?: Maybe<String>;
-  preferences_not_contains?: Maybe<String>;
-  preferences_starts_with?: Maybe<String>;
-  preferences_not_starts_with?: Maybe<String>;
-  preferences_ends_with?: Maybe<String>;
-  preferences_not_ends_with?: Maybe<String>;
+  controller?: Maybe<string>;
+  controller_not?: Maybe<string>;
+  controller_in?: Maybe<string[] | string>;
+  controller_not_in?: Maybe<string[] | string>;
+  controller_lt?: Maybe<string>;
+  controller_lte?: Maybe<string>;
+  controller_gt?: Maybe<string>;
+  controller_gte?: Maybe<string>;
+  controller_contains?: Maybe<string>;
+  controller_not_contains?: Maybe<string>;
+  controller_starts_with?: Maybe<string>;
+  controller_not_starts_with?: Maybe<string>;
+  controller_ends_with?: Maybe<string>;
+  controller_not_ends_with?: Maybe<string>;
+  stash?: Maybe<string>;
+  stash_not?: Maybe<string>;
+  stash_in?: Maybe<string[] | string>;
+  stash_not_in?: Maybe<string[] | string>;
+  stash_lt?: Maybe<string>;
+  stash_lte?: Maybe<string>;
+  stash_gt?: Maybe<string>;
+  stash_gte?: Maybe<string>;
+  stash_contains?: Maybe<string>;
+  stash_not_contains?: Maybe<string>;
+  stash_starts_with?: Maybe<string>;
+  stash_not_starts_with?: Maybe<string>;
+  stash_ends_with?: Maybe<string>;
+  stash_not_ends_with?: Maybe<string>;
+  preferences?: Maybe<string>;
+  preferences_not?: Maybe<string>;
+  preferences_in?: Maybe<string[] | string>;
+  preferences_not_in?: Maybe<string[] | string>;
+  preferences_lt?: Maybe<string>;
+  preferences_lte?: Maybe<string>;
+  preferences_gt?: Maybe<string>;
+  preferences_gte?: Maybe<string>;
+  preferences_contains?: Maybe<string>;
+  preferences_not_contains?: Maybe<string>;
+  preferences_starts_with?: Maybe<string>;
+  preferences_not_starts_with?: Maybe<string>;
+  preferences_ends_with?: Maybe<string>;
+  preferences_not_ends_with?: Maybe<string>;
   AND?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
   OR?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
   NOT?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
@@ -1007,9 +1008,9 @@ export interface TotalIssuanceUpdateManyMutationInput {
 
 export interface TotalIssuanceSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<TotalIssuanceWhereInput>;
   AND?: Maybe<
     TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
@@ -1048,13 +1049,13 @@ export interface SessionUpdateOneRequiredInput {
 
 export interface SlashingUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  reason?: Maybe<String>;
+  reason?: Maybe<string>;
   amount?: Maybe<Int>;
 }
 
 export interface EraUpdateInput {
   eraStartSessionIndex?: Maybe<SessionUpdateOneRequiredInput>;
-  totalPoints?: Maybe<String>;
+  totalPoints?: Maybe<string>;
   individualPoints?: Maybe<EraUpdateindividualPointsInput>;
 }
 
@@ -1064,7 +1065,7 @@ export interface SessionUpdateInput {
 }
 
 export interface EraCreateindividualPointsInput {
-  set?: Maybe<String[] | String>;
+  set?: Maybe<string[] | string>;
 }
 
 export interface RewardUpdateInput {
@@ -1075,9 +1076,9 @@ export interface RewardUpdateInput {
 
 export interface BlockNumberCreateInput {
   number?: Maybe<Int>;
-  authoredBy: String;
+  authoredBy: string;
   startDateTime: DateTimeInput;
-  hash: String;
+  hash: string;
 }
 
 export interface SessionWhereInput {
@@ -1097,9 +1098,9 @@ export interface SessionWhereInput {
 }
 
 export interface BlockNumberUpdateInput {
-  authoredBy?: Maybe<String>;
+  authoredBy?: Maybe<string>;
   startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
+  hash?: Maybe<string>;
 }
 
 export interface NominationWhereInput {
@@ -1117,62 +1118,62 @@ export interface NominationWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  validatorController?: Maybe<String>;
-  validatorController_not?: Maybe<String>;
-  validatorController_in?: Maybe<String[] | String>;
-  validatorController_not_in?: Maybe<String[] | String>;
-  validatorController_lt?: Maybe<String>;
-  validatorController_lte?: Maybe<String>;
-  validatorController_gt?: Maybe<String>;
-  validatorController_gte?: Maybe<String>;
-  validatorController_contains?: Maybe<String>;
-  validatorController_not_contains?: Maybe<String>;
-  validatorController_starts_with?: Maybe<String>;
-  validatorController_not_starts_with?: Maybe<String>;
-  validatorController_ends_with?: Maybe<String>;
-  validatorController_not_ends_with?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  validatorStash_not?: Maybe<String>;
-  validatorStash_in?: Maybe<String[] | String>;
-  validatorStash_not_in?: Maybe<String[] | String>;
-  validatorStash_lt?: Maybe<String>;
-  validatorStash_lte?: Maybe<String>;
-  validatorStash_gt?: Maybe<String>;
-  validatorStash_gte?: Maybe<String>;
-  validatorStash_contains?: Maybe<String>;
-  validatorStash_not_contains?: Maybe<String>;
-  validatorStash_starts_with?: Maybe<String>;
-  validatorStash_not_starts_with?: Maybe<String>;
-  validatorStash_ends_with?: Maybe<String>;
-  validatorStash_not_ends_with?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorController_not?: Maybe<String>;
-  nominatorController_in?: Maybe<String[] | String>;
-  nominatorController_not_in?: Maybe<String[] | String>;
-  nominatorController_lt?: Maybe<String>;
-  nominatorController_lte?: Maybe<String>;
-  nominatorController_gt?: Maybe<String>;
-  nominatorController_gte?: Maybe<String>;
-  nominatorController_contains?: Maybe<String>;
-  nominatorController_not_contains?: Maybe<String>;
-  nominatorController_starts_with?: Maybe<String>;
-  nominatorController_not_starts_with?: Maybe<String>;
-  nominatorController_ends_with?: Maybe<String>;
-  nominatorController_not_ends_with?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
-  nominatorStash_not?: Maybe<String>;
-  nominatorStash_in?: Maybe<String[] | String>;
-  nominatorStash_not_in?: Maybe<String[] | String>;
-  nominatorStash_lt?: Maybe<String>;
-  nominatorStash_lte?: Maybe<String>;
-  nominatorStash_gt?: Maybe<String>;
-  nominatorStash_gte?: Maybe<String>;
-  nominatorStash_contains?: Maybe<String>;
-  nominatorStash_not_contains?: Maybe<String>;
-  nominatorStash_starts_with?: Maybe<String>;
-  nominatorStash_not_starts_with?: Maybe<String>;
-  nominatorStash_ends_with?: Maybe<String>;
-  nominatorStash_not_ends_with?: Maybe<String>;
+  validatorController?: Maybe<string>;
+  validatorController_not?: Maybe<string>;
+  validatorController_in?: Maybe<string[] | string>;
+  validatorController_not_in?: Maybe<string[] | string>;
+  validatorController_lt?: Maybe<string>;
+  validatorController_lte?: Maybe<string>;
+  validatorController_gt?: Maybe<string>;
+  validatorController_gte?: Maybe<string>;
+  validatorController_contains?: Maybe<string>;
+  validatorController_not_contains?: Maybe<string>;
+  validatorController_starts_with?: Maybe<string>;
+  validatorController_not_starts_with?: Maybe<string>;
+  validatorController_ends_with?: Maybe<string>;
+  validatorController_not_ends_with?: Maybe<string>;
+  validatorStash?: Maybe<string>;
+  validatorStash_not?: Maybe<string>;
+  validatorStash_in?: Maybe<string[] | string>;
+  validatorStash_not_in?: Maybe<string[] | string>;
+  validatorStash_lt?: Maybe<string>;
+  validatorStash_lte?: Maybe<string>;
+  validatorStash_gt?: Maybe<string>;
+  validatorStash_gte?: Maybe<string>;
+  validatorStash_contains?: Maybe<string>;
+  validatorStash_not_contains?: Maybe<string>;
+  validatorStash_starts_with?: Maybe<string>;
+  validatorStash_not_starts_with?: Maybe<string>;
+  validatorStash_ends_with?: Maybe<string>;
+  validatorStash_not_ends_with?: Maybe<string>;
+  nominatorController?: Maybe<string>;
+  nominatorController_not?: Maybe<string>;
+  nominatorController_in?: Maybe<string[] | string>;
+  nominatorController_not_in?: Maybe<string[] | string>;
+  nominatorController_lt?: Maybe<string>;
+  nominatorController_lte?: Maybe<string>;
+  nominatorController_gt?: Maybe<string>;
+  nominatorController_gte?: Maybe<string>;
+  nominatorController_contains?: Maybe<string>;
+  nominatorController_not_contains?: Maybe<string>;
+  nominatorController_starts_with?: Maybe<string>;
+  nominatorController_not_starts_with?: Maybe<string>;
+  nominatorController_ends_with?: Maybe<string>;
+  nominatorController_not_ends_with?: Maybe<string>;
+  nominatorStash?: Maybe<string>;
+  nominatorStash_not?: Maybe<string>;
+  nominatorStash_in?: Maybe<string[] | string>;
+  nominatorStash_not_in?: Maybe<string[] | string>;
+  nominatorStash_lt?: Maybe<string>;
+  nominatorStash_lte?: Maybe<string>;
+  nominatorStash_gt?: Maybe<string>;
+  nominatorStash_gte?: Maybe<string>;
+  nominatorStash_contains?: Maybe<string>;
+  nominatorStash_not_contains?: Maybe<string>;
+  nominatorStash_starts_with?: Maybe<string>;
+  nominatorStash_not_starts_with?: Maybe<string>;
+  nominatorStash_ends_with?: Maybe<string>;
+  nominatorStash_not_ends_with?: Maybe<string>;
   session?: Maybe<SessionWhereInput>;
   bonded?: Maybe<Int>;
   bonded_not?: Maybe<Int>;
@@ -1189,9 +1190,9 @@ export interface NominationWhereInput {
 
 export interface RewardSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<RewardWhereInput>;
   AND?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
   OR?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
@@ -1201,7 +1202,7 @@ export interface RewardSubscriptionWhereInput {
 export interface EraCreateInput {
   id?: Maybe<Int>;
   eraStartSessionIndex: SessionCreateOneInput;
-  totalPoints: String;
+  totalPoints: string;
   individualPoints?: Maybe<EraCreateindividualPointsInput>;
 }
 
@@ -1217,9 +1218,9 @@ export interface BlockNumberCreateOneInput {
 }
 
 export interface BlockNumberUpdateManyMutationInput {
-  authoredBy?: Maybe<String>;
+  authoredBy?: Maybe<string>;
   startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
+  hash?: Maybe<string>;
 }
 
 export type SessionWhereUniqueInput = AtLeastOne<{
@@ -1234,16 +1235,16 @@ export interface StakeUpdateInput {
 export interface ValidatorCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  controller: String;
-  stash: String;
-  preferences: String;
+  controller: string;
+  stash: string;
+  preferences: string;
 }
 
 export interface SlashingSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
+  updatedFields_contains?: Maybe<string>;
+  updatedFields_contains_every?: Maybe<string[] | string>;
+  updatedFields_contains_some?: Maybe<string[] | string>;
   node?: Maybe<SlashingWhereInput>;
   AND?: Maybe<
     SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
@@ -1255,7 +1256,7 @@ export interface SlashingSubscriptionWhereInput {
 }
 
 export interface RewardUpdaterecipientsInput {
-  set?: Maybe<String[] | String>;
+  set?: Maybe<string[] | string>;
 }
 
 export interface NodeNode {
@@ -1280,33 +1281,33 @@ export interface AggregateEraSubscription
 
 export interface ValidatorPreviousValues {
   id: ID_Output;
-  controller: String;
-  stash: String;
-  preferences: String;
+  controller: string;
+  stash: string;
+  preferences: string;
 }
 
 export interface ValidatorPreviousValuesPromise
   extends Promise<ValidatorPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  controller: () => Promise<String>;
-  stash: () => Promise<String>;
-  preferences: () => Promise<String>;
+  controller: () => Promise<string>;
+  stash: () => Promise<string>;
+  preferences: () => Promise<string>;
 }
 
 export interface ValidatorPreviousValuesSubscription
   extends Promise<AsyncIterator<ValidatorPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  controller: () => Promise<AsyncIterator<String>>;
-  stash: () => Promise<AsyncIterator<String>>;
-  preferences: () => Promise<AsyncIterator<String>>;
+  controller: () => Promise<AsyncIterator<string>>;
+  stash: () => Promise<AsyncIterator<string>>;
+  preferences: () => Promise<AsyncIterator<string>>;
 }
 
 export interface ValidatorSubscriptionPayload {
   mutation: MutationType;
   node: Validator;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: ValidatorPreviousValues;
 }
 
@@ -1315,7 +1316,7 @@ export interface ValidatorSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = ValidatorPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = ValidatorPreviousValuesPromise>() => T;
 }
 
@@ -1324,40 +1325,40 @@ export interface ValidatorSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = ValidatorSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = ValidatorPreviousValuesSubscription>() => T;
 }
 
 export interface BlockNumber {
   number: Int;
-  authoredBy: String;
+  authoredBy: string;
   startDateTime: DateTimeOutput;
-  hash: String;
+  hash: string;
 }
 
 export interface BlockNumberPromise extends Promise<BlockNumber>, Fragmentable {
   number: () => Promise<Int>;
-  authoredBy: () => Promise<String>;
+  authoredBy: () => Promise<string>;
   startDateTime: () => Promise<DateTimeOutput>;
-  hash: () => Promise<String>;
+  hash: () => Promise<string>;
 }
 
 export interface BlockNumberSubscription
   extends Promise<AsyncIterator<BlockNumber>>,
     Fragmentable {
   number: () => Promise<AsyncIterator<Int>>;
-  authoredBy: () => Promise<AsyncIterator<String>>;
+  authoredBy: () => Promise<AsyncIterator<string>>;
   startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  hash: () => Promise<AsyncIterator<String>>;
+  hash: () => Promise<AsyncIterator<string>>;
 }
 
 export interface BlockNumberNullablePromise
   extends Promise<BlockNumber | null>,
     Fragmentable {
   number: () => Promise<Int>;
-  authoredBy: () => Promise<String>;
+  authoredBy: () => Promise<string>;
   startDateTime: () => Promise<DateTimeOutput>;
-  hash: () => Promise<String>;
+  hash: () => Promise<string>;
 }
 
 export interface BatchPayload {
@@ -1378,19 +1379,19 @@ export interface BatchPayloadSubscription
 
 export interface EraEdge {
   node: Era;
-  cursor: String;
+  cursor: string;
 }
 
 export interface EraEdgePromise extends Promise<EraEdge>, Fragmentable {
   node: <T = EraPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface EraEdgeSubscription
   extends Promise<AsyncIterator<EraEdge>>,
     Fragmentable {
   node: <T = EraSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface AggregateValidator {
@@ -1516,15 +1517,15 @@ export interface TotalIssuanceConnectionSubscription
 
 export interface Era {
   id: Int;
-  totalPoints: String;
-  individualPoints: String[];
+  totalPoints: string;
+  individualPoints: string[];
 }
 
 export interface EraPromise extends Promise<Era>, Fragmentable {
   id: () => Promise<Int>;
   eraStartSessionIndex: <T = SessionPromise>() => T;
-  totalPoints: () => Promise<String>;
-  individualPoints: () => Promise<String[]>;
+  totalPoints: () => Promise<string>;
+  individualPoints: () => Promise<string[]>;
 }
 
 export interface EraSubscription
@@ -1532,15 +1533,15 @@ export interface EraSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<Int>>;
   eraStartSessionIndex: <T = SessionSubscription>() => T;
-  totalPoints: () => Promise<AsyncIterator<String>>;
-  individualPoints: () => Promise<AsyncIterator<String[]>>;
+  totalPoints: () => Promise<AsyncIterator<string>>;
+  individualPoints: () => Promise<AsyncIterator<string[]>>;
 }
 
 export interface EraNullablePromise extends Promise<Era | null>, Fragmentable {
   id: () => Promise<Int>;
   eraStartSessionIndex: <T = SessionPromise>() => T;
-  totalPoints: () => Promise<String>;
-  individualPoints: () => Promise<String[]>;
+  totalPoints: () => Promise<string>;
+  individualPoints: () => Promise<string[]>;
 }
 
 export interface AggregateStake {
@@ -1562,7 +1563,7 @@ export interface AggregateStakeSubscription
 export interface BlockNumberSubscriptionPayload {
   mutation: MutationType;
   node: BlockNumber;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: BlockNumberPreviousValues;
 }
 
@@ -1571,7 +1572,7 @@ export interface BlockNumberSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = BlockNumberPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = BlockNumberPreviousValuesPromise>() => T;
 }
 
@@ -1580,7 +1581,7 @@ export interface BlockNumberSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = BlockNumberSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = BlockNumberPreviousValuesSubscription>() => T;
 }
 
@@ -1607,27 +1608,27 @@ export interface StakeConnectionSubscription
 
 export interface BlockNumberPreviousValues {
   number: Int;
-  authoredBy: String;
+  authoredBy: string;
   startDateTime: DateTimeOutput;
-  hash: String;
+  hash: string;
 }
 
 export interface BlockNumberPreviousValuesPromise
   extends Promise<BlockNumberPreviousValues>,
     Fragmentable {
   number: () => Promise<Int>;
-  authoredBy: () => Promise<String>;
+  authoredBy: () => Promise<string>;
   startDateTime: () => Promise<DateTimeOutput>;
-  hash: () => Promise<String>;
+  hash: () => Promise<string>;
 }
 
 export interface BlockNumberPreviousValuesSubscription
   extends Promise<AsyncIterator<BlockNumberPreviousValues>>,
     Fragmentable {
   number: () => Promise<AsyncIterator<Int>>;
-  authoredBy: () => Promise<AsyncIterator<String>>;
+  authoredBy: () => Promise<AsyncIterator<string>>;
   startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  hash: () => Promise<AsyncIterator<String>>;
+  hash: () => Promise<AsyncIterator<string>>;
 }
 
 export interface AggregateSlashing {
@@ -1686,7 +1687,7 @@ export interface SlashingConnectionSubscription
 export interface EraSubscriptionPayload {
   mutation: MutationType;
   node: Era;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: EraPreviousValues;
 }
 
@@ -1695,7 +1696,7 @@ export interface EraSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = EraPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = EraPreviousValuesPromise>() => T;
 }
 
@@ -1704,7 +1705,7 @@ export interface EraSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = EraSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = EraPreviousValuesSubscription>() => T;
 }
 
@@ -1726,24 +1727,24 @@ export interface AggregateSessionSubscription
 
 export interface EraPreviousValues {
   id: Int;
-  totalPoints: String;
-  individualPoints: String[];
+  totalPoints: string;
+  individualPoints: string[];
 }
 
 export interface EraPreviousValuesPromise
   extends Promise<EraPreviousValues>,
     Fragmentable {
   id: () => Promise<Int>;
-  totalPoints: () => Promise<String>;
-  individualPoints: () => Promise<String[]>;
+  totalPoints: () => Promise<string>;
+  individualPoints: () => Promise<string[]>;
 }
 
 export interface EraPreviousValuesSubscription
   extends Promise<AsyncIterator<EraPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<Int>>;
-  totalPoints: () => Promise<AsyncIterator<String>>;
-  individualPoints: () => Promise<AsyncIterator<String[]>>;
+  totalPoints: () => Promise<AsyncIterator<string>>;
+  individualPoints: () => Promise<AsyncIterator<string[]>>;
 }
 
 export interface SessionConnection {
@@ -1769,44 +1770,44 @@ export interface SessionConnectionSubscription
 
 export interface BlockNumberEdge {
   node: BlockNumber;
-  cursor: String;
+  cursor: string;
 }
 
 export interface BlockNumberEdgePromise
   extends Promise<BlockNumberEdge>,
     Fragmentable {
   node: <T = BlockNumberPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface BlockNumberEdgeSubscription
   extends Promise<AsyncIterator<BlockNumberEdge>>,
     Fragmentable {
   node: <T = BlockNumberSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface RewardEdge {
   node: Reward;
-  cursor: String;
+  cursor: string;
 }
 
 export interface RewardEdgePromise extends Promise<RewardEdge>, Fragmentable {
   node: <T = RewardPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface RewardEdgeSubscription
   extends Promise<AsyncIterator<RewardEdge>>,
     Fragmentable {
   node: <T = RewardSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface NominationSubscriptionPayload {
   mutation: MutationType;
   node: Nomination;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: NominationPreviousValues;
 }
 
@@ -1815,7 +1816,7 @@ export interface NominationSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = NominationPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = NominationPreviousValuesPromise>() => T;
 }
 
@@ -1824,21 +1825,21 @@ export interface NominationSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = NominationSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = NominationPreviousValuesSubscription>() => T;
 }
 
 export interface Reward {
   id: ID_Output;
   amount: Int;
-  recipients: String[];
+  recipients: string[];
 }
 
 export interface RewardPromise extends Promise<Reward>, Fragmentable {
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
   authoredBlock: <T = BlockNumberPromise>() => T;
-  recipients: () => Promise<String[]>;
+  recipients: () => Promise<string[]>;
 }
 
 export interface RewardSubscription
@@ -1847,7 +1848,7 @@ export interface RewardSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   amount: () => Promise<AsyncIterator<Int>>;
   authoredBlock: <T = BlockNumberSubscription>() => T;
-  recipients: () => Promise<AsyncIterator<String[]>>;
+  recipients: () => Promise<AsyncIterator<string[]>>;
 }
 
 export interface RewardNullablePromise
@@ -1856,15 +1857,15 @@ export interface RewardNullablePromise
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
   authoredBlock: <T = BlockNumberPromise>() => T;
-  recipients: () => Promise<String[]>;
+  recipients: () => Promise<string[]>;
 }
 
 export interface NominationPreviousValues {
   id: ID_Output;
-  validatorController: String;
-  validatorStash: String;
-  nominatorController: String;
-  nominatorStash: String;
+  validatorController: string;
+  validatorStash: string;
+  nominatorController: string;
+  nominatorStash: string;
   bonded: Int;
 }
 
@@ -1872,10 +1873,10 @@ export interface NominationPreviousValuesPromise
   extends Promise<NominationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  validatorController: () => Promise<String>;
-  validatorStash: () => Promise<String>;
-  nominatorController: () => Promise<String>;
-  nominatorStash: () => Promise<String>;
+  validatorController: () => Promise<string>;
+  validatorStash: () => Promise<string>;
+  nominatorController: () => Promise<string>;
+  nominatorStash: () => Promise<string>;
   bonded: () => Promise<Int>;
 }
 
@@ -1883,30 +1884,30 @@ export interface NominationPreviousValuesSubscription
   extends Promise<AsyncIterator<NominationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  validatorController: () => Promise<AsyncIterator<String>>;
-  validatorStash: () => Promise<AsyncIterator<String>>;
-  nominatorController: () => Promise<AsyncIterator<String>>;
-  nominatorStash: () => Promise<AsyncIterator<String>>;
+  validatorController: () => Promise<AsyncIterator<string>>;
+  validatorStash: () => Promise<AsyncIterator<string>>;
+  nominatorController: () => Promise<AsyncIterator<string>>;
+  nominatorStash: () => Promise<AsyncIterator<string>>;
   bonded: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface NominationEdge {
   node: Nomination;
-  cursor: String;
+  cursor: string;
 }
 
 export interface NominationEdgePromise
   extends Promise<NominationEdge>,
     Fragmentable {
   node: <T = NominationPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface NominationEdgeSubscription
   extends Promise<AsyncIterator<NominationEdge>>,
     Fragmentable {
   node: <T = NominationSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface TotalIssuancePreviousValues {
@@ -1930,19 +1931,19 @@ export interface TotalIssuancePreviousValuesSubscription
 
 export interface Nomination {
   id: ID_Output;
-  validatorController: String;
-  validatorStash: String;
-  nominatorController: String;
-  nominatorStash: String;
+  validatorController: string;
+  validatorStash: string;
+  nominatorController: string;
+  nominatorStash: string;
   bonded: Int;
 }
 
 export interface NominationPromise extends Promise<Nomination>, Fragmentable {
   id: () => Promise<ID_Output>;
-  validatorController: () => Promise<String>;
-  validatorStash: () => Promise<String>;
-  nominatorController: () => Promise<String>;
-  nominatorStash: () => Promise<String>;
+  validatorController: () => Promise<string>;
+  validatorStash: () => Promise<string>;
+  nominatorController: () => Promise<string>;
+  nominatorStash: () => Promise<string>;
   session: <T = SessionPromise>() => T;
   bonded: () => Promise<Int>;
 }
@@ -1951,10 +1952,10 @@ export interface NominationSubscription
   extends Promise<AsyncIterator<Nomination>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  validatorController: () => Promise<AsyncIterator<String>>;
-  validatorStash: () => Promise<AsyncIterator<String>>;
-  nominatorController: () => Promise<AsyncIterator<String>>;
-  nominatorStash: () => Promise<AsyncIterator<String>>;
+  validatorController: () => Promise<AsyncIterator<string>>;
+  validatorStash: () => Promise<AsyncIterator<string>>;
+  nominatorController: () => Promise<AsyncIterator<string>>;
+  nominatorStash: () => Promise<AsyncIterator<string>>;
   session: <T = SessionSubscription>() => T;
   bonded: () => Promise<AsyncIterator<Int>>;
 }
@@ -1963,10 +1964,10 @@ export interface NominationNullablePromise
   extends Promise<Nomination | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  validatorController: () => Promise<String>;
-  validatorStash: () => Promise<String>;
-  nominatorController: () => Promise<String>;
-  nominatorStash: () => Promise<String>;
+  validatorController: () => Promise<string>;
+  validatorStash: () => Promise<string>;
+  nominatorController: () => Promise<string>;
+  nominatorStash: () => Promise<string>;
   session: <T = SessionPromise>() => T;
   bonded: () => Promise<Int>;
 }
@@ -1974,7 +1975,7 @@ export interface NominationNullablePromise
 export interface RewardSubscriptionPayload {
   mutation: MutationType;
   node: Reward;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: RewardPreviousValues;
 }
 
@@ -1983,7 +1984,7 @@ export interface RewardSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = RewardPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = RewardPreviousValuesPromise>() => T;
 }
 
@@ -1992,23 +1993,23 @@ export interface RewardSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = RewardSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = RewardPreviousValuesSubscription>() => T;
 }
 
 export interface Validator {
   id: ID_Output;
-  controller: String;
-  stash: String;
-  preferences: String;
+  controller: string;
+  stash: string;
+  preferences: string;
 }
 
 export interface ValidatorPromise extends Promise<Validator>, Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  controller: () => Promise<String>;
-  stash: () => Promise<String>;
-  preferences: () => Promise<String>;
+  controller: () => Promise<string>;
+  stash: () => Promise<string>;
+  preferences: () => Promise<string>;
 }
 
 export interface ValidatorSubscription
@@ -2016,9 +2017,9 @@ export interface ValidatorSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   blockNumber: <T = BlockNumberSubscription>() => T;
-  controller: () => Promise<AsyncIterator<String>>;
-  stash: () => Promise<AsyncIterator<String>>;
-  preferences: () => Promise<AsyncIterator<String>>;
+  controller: () => Promise<AsyncIterator<string>>;
+  stash: () => Promise<AsyncIterator<string>>;
+  preferences: () => Promise<AsyncIterator<string>>;
 }
 
 export interface ValidatorNullablePromise
@@ -2026,15 +2027,15 @@ export interface ValidatorNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  controller: () => Promise<String>;
-  stash: () => Promise<String>;
-  preferences: () => Promise<String>;
+  controller: () => Promise<string>;
+  stash: () => Promise<string>;
+  preferences: () => Promise<string>;
 }
 
 export interface RewardPreviousValues {
   id: ID_Output;
   amount: Int;
-  recipients: String[];
+  recipients: string[];
 }
 
 export interface RewardPreviousValuesPromise
@@ -2042,7 +2043,7 @@ export interface RewardPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
-  recipients: () => Promise<String[]>;
+  recipients: () => Promise<string[]>;
 }
 
 export interface RewardPreviousValuesSubscription
@@ -2050,7 +2051,7 @@ export interface RewardPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   amount: () => Promise<AsyncIterator<Int>>;
-  recipients: () => Promise<AsyncIterator<String[]>>;
+  recipients: () => Promise<AsyncIterator<string[]>>;
 }
 
 export interface TotalIssuance {
@@ -2083,26 +2084,26 @@ export interface TotalIssuanceNullablePromise
 }
 
 export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor?: string;
+  endCursor?: string;
 }
 
 export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
+  hasNextPage: () => Promise<boolean>;
+  hasPreviousPage: () => Promise<boolean>;
+  startCursor: () => Promise<string>;
+  endCursor: () => Promise<string>;
 }
 
 export interface PageInfoSubscription
   extends Promise<AsyncIterator<PageInfo>>,
     Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
+  hasNextPage: () => Promise<AsyncIterator<boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<boolean>>;
+  startCursor: () => Promise<AsyncIterator<string>>;
+  endCursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface Stake {
@@ -2135,7 +2136,7 @@ export interface StakeNullablePromise
 export interface SessionSubscriptionPayload {
   mutation: MutationType;
   node: Session;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: SessionPreviousValues;
 }
 
@@ -2144,7 +2145,7 @@ export interface SessionSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = SessionPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = SessionPreviousValuesPromise>() => T;
 }
 
@@ -2153,20 +2154,20 @@ export interface SessionSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = SessionSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = SessionPreviousValuesSubscription>() => T;
 }
 
 export interface Slashing {
   id: ID_Output;
-  reason: String;
+  reason: string;
   amount: Int;
 }
 
 export interface SlashingPromise extends Promise<Slashing>, Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  reason: () => Promise<String>;
+  reason: () => Promise<string>;
   amount: () => Promise<Int>;
 }
 
@@ -2175,7 +2176,7 @@ export interface SlashingSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   blockNumber: <T = BlockNumberSubscription>() => T;
-  reason: () => Promise<AsyncIterator<String>>;
+  reason: () => Promise<AsyncIterator<string>>;
   amount: () => Promise<AsyncIterator<Int>>;
 }
 
@@ -2184,7 +2185,7 @@ export interface SlashingNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  reason: () => Promise<String>;
+  reason: () => Promise<string>;
   amount: () => Promise<Int>;
 }
 
@@ -2260,7 +2261,7 @@ export interface AggregateNominationSubscription
 export interface SlashingSubscriptionPayload {
   mutation: MutationType;
   node: Slashing;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: SlashingPreviousValues;
 }
 
@@ -2269,7 +2270,7 @@ export interface SlashingSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = SlashingPromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = SlashingPreviousValuesPromise>() => T;
 }
 
@@ -2278,44 +2279,44 @@ export interface SlashingSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = SlashingSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = SlashingPreviousValuesSubscription>() => T;
 }
 
 export interface ValidatorEdge {
   node: Validator;
-  cursor: String;
+  cursor: string;
 }
 
 export interface ValidatorEdgePromise
   extends Promise<ValidatorEdge>,
     Fragmentable {
   node: <T = ValidatorPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface ValidatorEdgeSubscription
   extends Promise<AsyncIterator<ValidatorEdge>>,
     Fragmentable {
   node: <T = ValidatorSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface StakeEdge {
   node: Stake;
-  cursor: String;
+  cursor: string;
 }
 
 export interface StakeEdgePromise extends Promise<StakeEdge>, Fragmentable {
   node: <T = StakePromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface StakeEdgeSubscription
   extends Promise<AsyncIterator<StakeEdge>>,
     Fragmentable {
   node: <T = StakeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface StakePreviousValues {
@@ -2340,7 +2341,7 @@ export interface StakePreviousValuesSubscription
 export interface StakeSubscriptionPayload {
   mutation: MutationType;
   node: Stake;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: StakePreviousValues;
 }
 
@@ -2349,7 +2350,7 @@ export interface StakeSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = StakePromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = StakePreviousValuesPromise>() => T;
 }
 
@@ -2358,14 +2359,14 @@ export interface StakeSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = StakeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = StakePreviousValuesSubscription>() => T;
 }
 
 export interface TotalIssuanceSubscriptionPayload {
   mutation: MutationType;
   node: TotalIssuance;
-  updatedFields: String[];
+  updatedFields: string[];
   previousValues: TotalIssuancePreviousValues;
 }
 
@@ -2374,7 +2375,7 @@ export interface TotalIssuanceSubscriptionPayloadPromise
     Fragmentable {
   mutation: () => Promise<MutationType>;
   node: <T = TotalIssuancePromise>() => T;
-  updatedFields: () => Promise<String[]>;
+  updatedFields: () => Promise<string[]>;
   previousValues: <T = TotalIssuancePreviousValuesPromise>() => T;
 }
 
@@ -2383,13 +2384,13 @@ export interface TotalIssuanceSubscriptionPayloadSubscription
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = TotalIssuanceSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  updatedFields: () => Promise<AsyncIterator<string[]>>;
   previousValues: <T = TotalIssuancePreviousValuesSubscription>() => T;
 }
 
 export interface SlashingPreviousValues {
   id: ID_Output;
-  reason: String;
+  reason: string;
   amount: Int;
 }
 
@@ -2397,7 +2398,7 @@ export interface SlashingPreviousValuesPromise
   extends Promise<SlashingPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  reason: () => Promise<String>;
+  reason: () => Promise<string>;
   amount: () => Promise<Int>;
 }
 
@@ -2405,46 +2406,46 @@ export interface SlashingPreviousValuesSubscription
   extends Promise<AsyncIterator<SlashingPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  reason: () => Promise<AsyncIterator<String>>;
+  reason: () => Promise<AsyncIterator<string>>;
   amount: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface SlashingEdge {
   node: Slashing;
-  cursor: String;
+  cursor: string;
 }
 
 export interface SlashingEdgePromise
   extends Promise<SlashingEdge>,
     Fragmentable {
   node: <T = SlashingPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface SlashingEdgeSubscription
   extends Promise<AsyncIterator<SlashingEdge>>,
     Fragmentable {
   node: <T = SlashingSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface TotalIssuanceEdge {
   node: TotalIssuance;
-  cursor: String;
+  cursor: string;
 }
 
 export interface TotalIssuanceEdgePromise
   extends Promise<TotalIssuanceEdge>,
     Fragmentable {
   node: <T = TotalIssuancePromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface TotalIssuanceEdgeSubscription
   extends Promise<AsyncIterator<TotalIssuanceEdge>>,
     Fragmentable {
   node: <T = TotalIssuanceSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export interface NominationConnection {
@@ -2491,19 +2492,19 @@ export interface RewardConnectionSubscription
 
 export interface SessionEdge {
   node: Session;
-  cursor: String;
+  cursor: string;
 }
 
 export interface SessionEdgePromise extends Promise<SessionEdge>, Fragmentable {
   node: <T = SessionPromise>() => T;
-  cursor: () => Promise<String>;
+  cursor: () => Promise<string>;
 }
 
 export interface SessionEdgeSubscription
   extends Promise<AsyncIterator<SessionEdge>>,
     Fragmentable {
   node: <T = SessionSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<string>>;
 }
 
 export type Long = string;
@@ -2545,41 +2546,41 @@ export type DateTimeOutput = string;
 
 export const models: Model[] = [
   {
-    name: "Reward",
-    embedded: false
+    name: 'Reward',
+    embedded: false,
   },
   {
-    name: "Slashing",
-    embedded: false
+    name: 'Slashing',
+    embedded: false,
   },
   {
-    name: "Nomination",
-    embedded: false
+    name: 'Nomination',
+    embedded: false,
   },
   {
-    name: "Stake",
-    embedded: false
+    name: 'Stake',
+    embedded: false,
   },
   {
-    name: "Validator",
-    embedded: false
+    name: 'Validator',
+    embedded: false,
   },
   {
-    name: "Session",
-    embedded: false
+    name: 'Session',
+    embedded: false,
   },
   {
-    name: "Era",
-    embedded: false
+    name: 'Era',
+    embedded: false,
   },
   {
-    name: "TotalIssuance",
-    embedded: false
+    name: 'TotalIssuance',
+    embedded: false,
   },
   {
-    name: "BlockNumber",
-    embedded: false
-  }
+    name: 'BlockNumber',
+    embedded: false,
+  },
 ];
 
 /**
@@ -2589,6 +2590,6 @@ export const models: Model[] = [
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`
+  endpoint: `http://localhost:4466`,
 });
 export const prisma = new Prisma();
