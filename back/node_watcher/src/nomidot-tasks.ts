@@ -20,10 +20,10 @@ import { prisma } from '../generated/prisma-client';
 import {
   Nomidot,
   NomidotBlock,
+  NomidotEra,
   NomidotSession,
   NomidotTotalIssuance,
   NomidotValidator,
-  NomidotValidators,
   Task,
   NomidotSlashing
 } from './types';
@@ -91,11 +91,11 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
 /*
 *  ======= Table (Validator) ======
 */
-const createValidator: Task<NomidotValidators> = {
-  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotValidators> => {
+const createValidator: Task<NomidotValidator[]> = {
+  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotValidator[]> => {
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
     
-    let result: NomidotValidators = []
+    let result: NomidotValidator[] = []
     validators.forEach(async (validator) => {
       // bonded controller if validator is a stash
       const bonded: AccountId = await api.query.staking.bonded.at(blockHash, validator);
@@ -117,7 +117,7 @@ const createValidator: Task<NomidotValidators> = {
 
     return result;
   },
-  write: async(values: NomidotValidators) => {
+  write: async(values: NomidotValidator[]) => {
     values.forEach(async (validator: NomidotValidator) => {
       const { blockNumber, controller, stash, validatorPreferences } = validator;
       
@@ -136,58 +136,8 @@ const createValidator: Task<NomidotValidators> = {
 }
 
 /*
-*  ======= Table (Session) ======
+* ====== Table(ImOnline) =========
 */
-const createSession: Task<NomidotSession> = {
-  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotSession> => {
-    // FIXME?: as of now there is no way to .at() on a derive query so just do it yourself.
-
-    const sessionIndex = await api.query.staking.currentEraStartSessionIndex.at(blockHash);
-    const sessionLength = api.consts.babe.epochDuration;
-    const sessionsPerEra = api.consts.staking.sessionsPerEra;
-
-    return {
-      id: sessionIndex
-    }
-
-  },
-  write: async (value: NomidotSession) => {
-    const sessionCreateInput = {
-      id: value.sessionIndex.toNumber(),
-
-    }
-
-    await prisma.createSession(sessionCreateInput);
-  }
-}
-
-/*
-*  ======= Table (Slashing) ======
-*/
-const createSlashing: Task<NomidotSlashing> = {
-  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotSlashing> => {
-    const eventsAtBlock: Vec<EventRecord> = await api.query.system.events.at(blockHash);
-
-    // parse events for topic == Slashing
-
-    // get reason and amount
-  },
-  write: async (value: NomidotSlashing) => {
-
-  }
-}
-
-
-const nomidotTasks: Task<Nomidot>[] = [
-  createBlockNumber,
-  createSession,
-  createSlashing,
-  createTotalIssuance,
-  createValidator
-];
-
-export default nomidotTasks;
-
 
 // const createImOnline: Task<any> = {
 //   read: async (blockNumber: number, api: ApiPromise): Promise<NomidotHeartBeat> => {
@@ -215,3 +165,117 @@ export default nomidotTasks;
 //     })
 //   }
 // }
+
+/*
+*  ======= Table (Session) ======
+*/
+const createSession: Task<NomidotSession> = {
+  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotSession> => {
+    // check events for if a new session has happened.
+    // Question: is there a better way to do this?
+    const events = await api.query.system.events.at(blockHash);
+    const didNewSessionStart = events.filter(({ event }): boolean => (
+      event.section === 'system' && event.method === 'newSession'
+    )).length > 0;
+
+    const sessionIndex = await api.query.staking.currentEraStartSessionIndex.at(blockHash);
+    // const sessionLength = api.consts.babe.epochDuration;
+    // const sessionsPerEra = api.consts.staking.sessionsPerEra;
+
+    return {
+      idx: sessionIndex,
+      start: didNewSessionStart ? blockNumber : undefined,
+      end: undefined
+    }
+  },
+  write: async (value: NomidotSession) => {
+    const sessionCreateInput = {
+      id: value.sessionIndex.toNumber(),
+
+    }
+
+    await prisma.createSession(sessionCreateInput);
+  }
+}
+
+/*
+*  ======= Table (Era) ======
+*/
+const createEra: Task<NomidotEra> = {
+  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotEra> => {
+    const idx = await api.query.staking.currentEra.at(blockHash);
+    const currentIndex = await api.query.session.currentIndex.at(blockHash);
+    const points = await api.query.staking.currentEraPointsEarned.at(blockHash);
+
+    return {
+      idx,
+      points,
+      startSessionIndex: currentIndex
+    }
+  },
+  write: async (value: NomidotEra) => {
+    await prisma.createEra({
+      id: value.idx.toNumber(),
+      totalPoints: value.points.total.toHex(),
+      individualPoints: {
+        set: value.points.individual.map(points => points.toHex())
+      },
+      eraStartSessionIndex: {
+        connect: {
+          id: value.startSessionIndex.toNumber()
+        }
+      }
+    })
+  }
+}
+
+/*
+*  ======= Table (Slashing) ======
+*/
+const createSlashing: Task<NomidotSlashing[]> = {
+  read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotSlashing[]> => {
+    const eventsAtBlock: Vec<EventRecord> = await api.query.system.events.at(blockHash);
+
+    const slashEvents = eventsAtBlock.filter(({ event: { section, method } }) => {
+      section === 'staking' && method === 'slash'
+    });
+
+    let result: NomidotSlashing[] = [];
+
+    slashEvents.map(({ event: { data }}) => {
+      result.push({
+        blockNumber,
+        who: createType('AccountId', data[0].toString()),
+        amount: createType('Balance', data[1].toString())
+      })
+    })
+
+    return result;
+  },
+  write: async (value: NomidotSlashing[]) => {
+    value.forEach(async (slashEvent) => {
+      const { blockNumber, who, amount } = slashEvent;
+
+      await prisma.createSlashing({
+        blockNumber: {
+          connect: {
+            number: blockNumber.toNumber()
+          }
+        },
+        reason: who.toHex(),
+        amount: amount.toNumber()
+      })
+    })
+  }
+}
+
+
+const nomidotTasks: Task<Nomidot>[] = [
+  createBlockNumber,
+  createSession,
+  createSlashing,
+  createTotalIssuance,
+  createValidator
+];
+
+export default nomidotTasks;

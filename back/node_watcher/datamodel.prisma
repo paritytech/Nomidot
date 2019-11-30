@@ -44,10 +44,9 @@ type Session {
 
 type Era {
   id: Int! @id
-  startDateTime: DateTime!
-  startSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
-  sessions: [Session!]! @relation(name: "EraSessions")
-  points: Int!
+  eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
+  totalPoints: String!
+  individualPoints: [String!]! @scalarList(strategy: RELATION)
 }
 
 type TotalIssuance {

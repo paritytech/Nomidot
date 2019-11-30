@@ -3,10 +3,13 @@ import {
   AccountId,
   Balance,
   BlockNumber,
+  EraIndex,
   Hash,
   Moment,
   SessionIndex,
   ValidatorPrefs,
+  Index,
+  EraPoints,
 } from '@polkadot/types/interfaces';
 
 export interface BlockData {
@@ -41,6 +44,12 @@ export interface NomidotBlock {
   startDateTime: Moment;
 }
 
+export interface NomidotEra {
+  idx: EraIndex;
+  points: EraPoints;
+  startSessionIndex: Index;
+}
+
 export interface NomidotHeartBeat {
   blockNumber: BlockNumber;
   isOnline: boolean;
@@ -50,13 +59,13 @@ export interface NomidotHeartBeat {
 
 export interface NomidotSession {
   idx: SessionIndex,
-  start: BlockNumber,
-  end: BlockNumber
+  start?: BlockNumber,
+  end?: BlockNumber
 }
 
 export interface NomidotSlashing {
   blockNumber: BlockNumber,
-  reason: string,
+  who: AccountId,
   amount: Balance,
 }
 
@@ -72,6 +81,12 @@ export interface NomidotValidator {
   validatorPreferences: ValidatorPrefs
 }
 
-export type NomidotValidators = NomidotValidator[];
 
-export type Nomidot = NomidotBlock | NomidotHeartBeat | NomidotSession | NomidotTotalIssuance | NomidotValidators;
+export type Nomidot = 
+  NomidotBlock | 
+  NomidotEra | 
+  NomidotHeartBeat | 
+  NomidotSession | 
+  NomidotSlashing[] | 
+  NomidotTotalIssuance | 
+  NomidotValidator[];

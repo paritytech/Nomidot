@@ -197,10 +197,9 @@ scalar DateTime
 
 type Era {
   id: Int!
-  startDateTime: DateTime!
-  startSessionIndex: Session!
-  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session!]
-  points: Int!
+  eraStartSessionIndex: Session!
+  totalPoints: String!
+  individualPoints: [String!]!
 }
 
 type EraConnection {
@@ -209,12 +208,15 @@ type EraConnection {
   aggregate: AggregateEra!
 }
 
+input EraCreateindividualPointsInput {
+  set: [String!]
+}
+
 input EraCreateInput {
   id: Int
-  startDateTime: DateTime!
-  startSessionIndex: SessionCreateOneInput!
-  sessions: SessionCreateManyInput
-  points: Int!
+  eraStartSessionIndex: SessionCreateOneInput!
+  totalPoints: String!
+  individualPoints: EraCreateindividualPointsInput
 }
 
 type EraEdge {
@@ -225,16 +227,14 @@ type EraEdge {
 enum EraOrderByInput {
   id_ASC
   id_DESC
-  startDateTime_ASC
-  startDateTime_DESC
-  points_ASC
-  points_DESC
+  totalPoints_ASC
+  totalPoints_DESC
 }
 
 type EraPreviousValues {
   id: Int!
-  startDateTime: DateTime!
-  points: Int!
+  totalPoints: String!
+  individualPoints: [String!]!
 }
 
 type EraSubscriptionPayload {
@@ -255,16 +255,19 @@ input EraSubscriptionWhereInput {
   NOT: [EraSubscriptionWhereInput!]
 }
 
+input EraUpdateindividualPointsInput {
+  set: [String!]
+}
+
 input EraUpdateInput {
-  startDateTime: DateTime
-  startSessionIndex: SessionUpdateOneRequiredInput
-  sessions: SessionUpdateManyInput
-  points: Int
+  eraStartSessionIndex: SessionUpdateOneRequiredInput
+  totalPoints: String
+  individualPoints: EraUpdateindividualPointsInput
 }
 
 input EraUpdateManyMutationInput {
-  startDateTime: DateTime
-  points: Int
+  totalPoints: String
+  individualPoints: EraUpdateindividualPointsInput
 }
 
 input EraWhereInput {
@@ -276,26 +279,21 @@ input EraWhereInput {
   id_lte: Int
   id_gt: Int
   id_gte: Int
-  startDateTime: DateTime
-  startDateTime_not: DateTime
-  startDateTime_in: [DateTime!]
-  startDateTime_not_in: [DateTime!]
-  startDateTime_lt: DateTime
-  startDateTime_lte: DateTime
-  startDateTime_gt: DateTime
-  startDateTime_gte: DateTime
-  startSessionIndex: SessionWhereInput
-  sessions_every: SessionWhereInput
-  sessions_some: SessionWhereInput
-  sessions_none: SessionWhereInput
-  points: Int
-  points_not: Int
-  points_in: [Int!]
-  points_not_in: [Int!]
-  points_lt: Int
-  points_lte: Int
-  points_gt: Int
-  points_gte: Int
+  eraStartSessionIndex: SessionWhereInput
+  totalPoints: String
+  totalPoints_not: String
+  totalPoints_in: [String!]
+  totalPoints_not_in: [String!]
+  totalPoints_lt: String
+  totalPoints_lte: String
+  totalPoints_gt: String
+  totalPoints_gte: String
+  totalPoints_contains: String
+  totalPoints_not_contains: String
+  totalPoints_starts_with: String
+  totalPoints_not_starts_with: String
+  totalPoints_ends_with: String
+  totalPoints_not_ends_with: String
   AND: [EraWhereInput!]
   OR: [EraWhereInput!]
   NOT: [EraWhereInput!]
@@ -716,11 +714,6 @@ input SessionCreateInput {
   end: BlockNumberCreateOneInput!
 }
 
-input SessionCreateManyInput {
-  create: [SessionCreateInput!]
-  connect: [SessionWhereUniqueInput!]
-}
-
 input SessionCreateOneInput {
   create: SessionCreateInput
   connect: SessionWhereUniqueInput
@@ -738,20 +731,6 @@ enum SessionOrderByInput {
 
 type SessionPreviousValues {
   id: Int!
-}
-
-input SessionScalarWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
-  AND: [SessionScalarWhereInput!]
-  OR: [SessionScalarWhereInput!]
-  NOT: [SessionScalarWhereInput!]
 }
 
 type SessionSubscriptionPayload {
@@ -782,17 +761,6 @@ input SessionUpdateInput {
   end: BlockNumberUpdateOneRequiredInput
 }
 
-input SessionUpdateManyInput {
-  create: [SessionCreateInput!]
-  update: [SessionUpdateWithWhereUniqueNestedInput!]
-  upsert: [SessionUpsertWithWhereUniqueNestedInput!]
-  delete: [SessionWhereUniqueInput!]
-  connect: [SessionWhereUniqueInput!]
-  set: [SessionWhereUniqueInput!]
-  disconnect: [SessionWhereUniqueInput!]
-  deleteMany: [SessionScalarWhereInput!]
-}
-
 input SessionUpdateOneRequiredInput {
   create: SessionCreateInput
   update: SessionUpdateDataInput
@@ -800,18 +768,7 @@ input SessionUpdateOneRequiredInput {
   connect: SessionWhereUniqueInput
 }
 
-input SessionUpdateWithWhereUniqueNestedInput {
-  where: SessionWhereUniqueInput!
-  data: SessionUpdateDataInput!
-}
-
 input SessionUpsertNestedInput {
-  update: SessionUpdateDataInput!
-  create: SessionCreateInput!
-}
-
-input SessionUpsertWithWhereUniqueNestedInput {
-  where: SessionWhereUniqueInput!
   update: SessionUpdateDataInput!
   create: SessionCreateInput!
 }
