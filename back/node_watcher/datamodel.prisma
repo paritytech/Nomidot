@@ -39,7 +39,7 @@ type Validator {
 type Session {
   id: Int! @id
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
-  end: BlockNumber! @relation(name: "BlockNumberAtSessionEnd", link: INLINE)
+  end: BlockNumber @relation(name: "BlockNumberAtSessionEnd", link: INLINE)
 }
 
 type Era {

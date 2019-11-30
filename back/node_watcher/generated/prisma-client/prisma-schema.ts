@@ -126,6 +126,15 @@ input BlockNumberUpdateManyMutationInput {
   hash: String
 }
 
+input BlockNumberUpdateOneInput {
+  create: BlockNumberCreateInput
+  update: BlockNumberUpdateDataInput
+  upsert: BlockNumberUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: BlockNumberWhereUniqueInput
+}
+
 input BlockNumberUpdateOneRequiredInput {
   create: BlockNumberCreateInput
   update: BlockNumberUpdateDataInput
@@ -699,7 +708,7 @@ input RewardWhereUniqueInput {
 type Session {
   id: Int!
   start: BlockNumber!
-  end: BlockNumber!
+  end: BlockNumber
 }
 
 type SessionConnection {
@@ -711,7 +720,7 @@ type SessionConnection {
 input SessionCreateInput {
   id: Int
   start: BlockNumberCreateOneInput!
-  end: BlockNumberCreateOneInput!
+  end: BlockNumberCreateOneInput
 }
 
 input SessionCreateOneInput {
@@ -753,12 +762,12 @@ input SessionSubscriptionWhereInput {
 
 input SessionUpdateDataInput {
   start: BlockNumberUpdateOneRequiredInput
-  end: BlockNumberUpdateOneRequiredInput
+  end: BlockNumberUpdateOneInput
 }
 
 input SessionUpdateInput {
   start: BlockNumberUpdateOneRequiredInput
-  end: BlockNumberUpdateOneRequiredInput
+  end: BlockNumberUpdateOneInput
 }
 
 input SessionUpdateOneRequiredInput {

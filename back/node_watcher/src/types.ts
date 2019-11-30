@@ -58,9 +58,9 @@ export interface NomidotHeartBeat {
 }
 
 export interface NomidotSession {
+  didNewSessionStart: boolean,
   idx: SessionIndex,
-  start?: BlockNumber,
-  end?: BlockNumber
+  blockNumber: BlockNumber
 }
 
 export interface NomidotSlashing {

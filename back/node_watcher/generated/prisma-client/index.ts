@@ -489,31 +489,18 @@ export type TotalIssuanceOrderByInput =
   | "amount_ASC"
   | "amount_DESC";
 
-export interface SessionUpdateInput {
-  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  end?: Maybe<BlockNumberUpdateOneRequiredInput>;
+export interface RewardUpdateManyMutationInput {
+  amount?: Maybe<Int>;
+  recipients?: Maybe<RewardUpdaterecipientsInput>;
 }
 
-export interface EraCreateInput {
-  id?: Maybe<Int>;
-  eraStartSessionIndex: SessionCreateOneInput;
-  totalPoints: String;
-  individualPoints?: Maybe<EraCreateindividualPointsInput>;
+export interface SessionCreateOneInput {
+  create?: Maybe<SessionCreateInput>;
+  connect?: Maybe<SessionWhereUniqueInput>;
 }
 
-export interface SlashingSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<SlashingWhereInput>;
-  AND?: Maybe<
-    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
-  >;
-  OR?: Maybe<SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput>;
-  NOT?: Maybe<
-    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
-  >;
+export interface RewardCreaterecipientsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export type BlockNumberWhereUniqueInput = AtLeastOne<{
@@ -521,19 +508,23 @@ export type BlockNumberWhereUniqueInput = AtLeastOne<{
   hash?: Maybe<String>;
 }>;
 
-export interface RewardCreaterecipientsInput {
-  set?: Maybe<String[] | String>;
+export interface RewardCreateInput {
+  id?: Maybe<ID_Input>;
+  amount: Int;
+  authoredBlock: BlockNumberCreateOneInput;
+  recipients?: Maybe<RewardCreaterecipientsInput>;
 }
 
 export type EraWhereUniqueInput = AtLeastOne<{
   id: Maybe<Int>;
 }>;
 
-export interface RewardCreateInput {
-  id?: Maybe<ID_Input>;
-  amount: Int;
-  authoredBlock: BlockNumberCreateOneInput;
-  recipients?: Maybe<RewardCreaterecipientsInput>;
+export interface NominationUpdateManyMutationInput {
+  validatorController?: Maybe<String>;
+  validatorStash?: Maybe<String>;
+  nominatorController?: Maybe<String>;
+  nominatorStash?: Maybe<String>;
+  bonded?: Maybe<Int>;
 }
 
 export interface EraWhereInput {
@@ -565,13 +556,9 @@ export interface EraWhereInput {
   NOT?: Maybe<EraWhereInput[] | EraWhereInput>;
 }
 
-export interface NominationUpdateManyMutationInput {
-  validatorController?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
-  bonded?: Maybe<Int>;
-}
+export type StakeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface EraSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
@@ -584,17 +571,6 @@ export interface EraSubscriptionWhereInput {
   NOT?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
 }
 
-export type StakeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ValidatorUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  controller?: Maybe<String>;
-  stash?: Maybe<String>;
-  preferences?: Maybe<String>;
-}
-
 export interface NominationUpdateInput {
   validatorController?: Maybe<String>;
   validatorStash?: Maybe<String>;
@@ -604,9 +580,12 @@ export interface NominationUpdateInput {
   bonded?: Maybe<Int>;
 }
 
-export type NominationWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface ValidatorUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  controller?: Maybe<String>;
+  stash?: Maybe<String>;
+  preferences?: Maybe<String>;
+}
 
 export interface StakeWhereInput {
   id?: Maybe<ID_Input>;
@@ -637,10 +616,9 @@ export interface StakeWhereInput {
   NOT?: Maybe<StakeWhereInput[] | StakeWhereInput>;
 }
 
-export interface TotalIssuanceUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  amount?: Maybe<Int>;
-}
+export type NominationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface BlockNumberWhereInput {
   number?: Maybe<Int>;
@@ -692,6 +670,21 @@ export interface BlockNumberWhereInput {
   NOT?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
 }
 
+export interface TotalIssuanceUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  amount?: Maybe<Int>;
+}
+
+export interface NominationCreateInput {
+  id?: Maybe<ID_Input>;
+  validatorController: String;
+  validatorStash: String;
+  nominatorController: String;
+  nominatorStash: String;
+  session: SessionCreateOneInput;
+  bonded: Int;
+}
+
 export interface NominationSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -709,32 +702,26 @@ export interface NominationSubscriptionWhereInput {
   >;
 }
 
-export interface NominationCreateInput {
-  id?: Maybe<ID_Input>;
-  validatorController: String;
-  validatorStash: String;
-  nominatorController: String;
-  nominatorStash: String;
-  session: SessionCreateOneInput;
-  bonded: Int;
+export interface EraUpdateManyMutationInput {
+  totalPoints?: Maybe<String>;
+  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
 }
 
 export interface StakeUpdateManyMutationInput {
   totalStake?: Maybe<Int>;
 }
 
-export interface EraUpdateManyMutationInput {
-  totalPoints?: Maybe<String>;
-  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
+export interface EraUpdateindividualPointsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export type RewardWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface EraUpdateindividualPointsInput {
-  set?: Maybe<String[] | String>;
-}
+export type TotalIssuanceWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface RewardWhereInput {
   id?: Maybe<ID_Input>;
@@ -765,25 +752,14 @@ export interface RewardWhereInput {
   NOT?: Maybe<RewardWhereInput[] | RewardWhereInput>;
 }
 
-export type TotalIssuanceWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface SlashingUpdateManyMutationInput {
-  reason?: Maybe<String>;
-  amount?: Maybe<Int>;
-}
-
 export interface SessionUpsertNestedInput {
   update: SessionUpdateDataInput;
   create: SessionCreateInput;
 }
 
-export interface SlashingCreateInput {
-  id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
-  reason: String;
-  amount: Int;
+export interface SlashingUpdateManyMutationInput {
+  reason?: Maybe<String>;
+  amount?: Maybe<Int>;
 }
 
 export interface TotalIssuanceWhereInput {
@@ -815,15 +791,11 @@ export interface TotalIssuanceWhereInput {
   NOT?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
 }
 
-export interface SessionSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<SessionWhereInput>;
-  AND?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
-  OR?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
-  NOT?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+export interface SlashingCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  reason: String;
+  amount: Int;
 }
 
 export interface StakeSubscriptionWhereInput {
@@ -837,9 +809,41 @@ export interface StakeSubscriptionWhereInput {
   NOT?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
 }
 
-export interface RewardUpdateManyMutationInput {
-  amount?: Maybe<Int>;
-  recipients?: Maybe<RewardUpdaterecipientsInput>;
+export interface SessionSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SessionWhereInput>;
+  AND?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+  OR?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+  NOT?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+}
+
+export interface BlockNumberUpdateOneInput {
+  create?: Maybe<BlockNumberCreateInput>;
+  update?: Maybe<BlockNumberUpdateDataInput>;
+  upsert?: Maybe<BlockNumberUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<BlockNumberWhereUniqueInput>;
+}
+
+export interface ValidatorSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ValidatorWhereInput>;
+  AND?: Maybe<
+    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
+  >;
 }
 
 export interface BlockNumberUpsertNestedInput {
@@ -900,11 +904,180 @@ export interface SlashingWhereInput {
   NOT?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
 }
 
+export type ValidatorWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface BlockNumberSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BlockNumberWhereInput>;
+  AND?: Maybe<
+    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
+  >;
+}
+
 export interface BlockNumberUpdateOneRequiredInput {
   create?: Maybe<BlockNumberCreateInput>;
   update?: Maybe<BlockNumberUpdateDataInput>;
   upsert?: Maybe<BlockNumberUpsertNestedInput>;
   connect?: Maybe<BlockNumberWhereUniqueInput>;
+}
+
+export interface ValidatorUpdateManyMutationInput {
+  controller?: Maybe<String>;
+  stash?: Maybe<String>;
+  preferences?: Maybe<String>;
+}
+
+export interface ValidatorWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  controller?: Maybe<String>;
+  controller_not?: Maybe<String>;
+  controller_in?: Maybe<String[] | String>;
+  controller_not_in?: Maybe<String[] | String>;
+  controller_lt?: Maybe<String>;
+  controller_lte?: Maybe<String>;
+  controller_gt?: Maybe<String>;
+  controller_gte?: Maybe<String>;
+  controller_contains?: Maybe<String>;
+  controller_not_contains?: Maybe<String>;
+  controller_starts_with?: Maybe<String>;
+  controller_not_starts_with?: Maybe<String>;
+  controller_ends_with?: Maybe<String>;
+  controller_not_ends_with?: Maybe<String>;
+  stash?: Maybe<String>;
+  stash_not?: Maybe<String>;
+  stash_in?: Maybe<String[] | String>;
+  stash_not_in?: Maybe<String[] | String>;
+  stash_lt?: Maybe<String>;
+  stash_lte?: Maybe<String>;
+  stash_gt?: Maybe<String>;
+  stash_gte?: Maybe<String>;
+  stash_contains?: Maybe<String>;
+  stash_not_contains?: Maybe<String>;
+  stash_starts_with?: Maybe<String>;
+  stash_not_starts_with?: Maybe<String>;
+  stash_ends_with?: Maybe<String>;
+  stash_not_ends_with?: Maybe<String>;
+  preferences?: Maybe<String>;
+  preferences_not?: Maybe<String>;
+  preferences_in?: Maybe<String[] | String>;
+  preferences_not_in?: Maybe<String[] | String>;
+  preferences_lt?: Maybe<String>;
+  preferences_lte?: Maybe<String>;
+  preferences_gt?: Maybe<String>;
+  preferences_gte?: Maybe<String>;
+  preferences_contains?: Maybe<String>;
+  preferences_not_contains?: Maybe<String>;
+  preferences_starts_with?: Maybe<String>;
+  preferences_not_starts_with?: Maybe<String>;
+  preferences_ends_with?: Maybe<String>;
+  preferences_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+  OR?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+  NOT?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+}
+
+export interface TotalIssuanceUpdateManyMutationInput {
+  amount?: Maybe<Int>;
+}
+
+export interface TotalIssuanceSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<TotalIssuanceWhereInput>;
+  AND?: Maybe<
+    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+}
+
+export interface TotalIssuanceCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  amount: Int;
+}
+
+export interface SessionUpdateDataInput {
+  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  end?: Maybe<BlockNumberUpdateOneInput>;
+}
+
+export interface StakeCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  totalStake: Int;
+}
+
+export interface SessionUpdateOneRequiredInput {
+  create?: Maybe<SessionCreateInput>;
+  update?: Maybe<SessionUpdateDataInput>;
+  upsert?: Maybe<SessionUpsertNestedInput>;
+  connect?: Maybe<SessionWhereUniqueInput>;
+}
+
+export interface SlashingUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  reason?: Maybe<String>;
+  amount?: Maybe<Int>;
+}
+
+export interface EraUpdateInput {
+  eraStartSessionIndex?: Maybe<SessionUpdateOneRequiredInput>;
+  totalPoints?: Maybe<String>;
+  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
+}
+
+export interface SessionUpdateInput {
+  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  end?: Maybe<BlockNumberUpdateOneInput>;
+}
+
+export interface EraCreateindividualPointsInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface RewardUpdateInput {
+  amount?: Maybe<Int>;
+  authoredBlock?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  recipients?: Maybe<RewardUpdaterecipientsInput>;
+}
+
+export interface BlockNumberCreateInput {
+  number?: Maybe<Int>;
+  authoredBy: String;
+  startDateTime: DateTimeInput;
+  hash: String;
 }
 
 export interface SessionWhereInput {
@@ -923,21 +1096,10 @@ export interface SessionWhereInput {
   NOT?: Maybe<SessionWhereInput[] | SessionWhereInput>;
 }
 
-export type ValidatorWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ValidatorCreateInput {
-  id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
-  controller: String;
-  stash: String;
-  preferences: String;
-}
-
-export interface SessionUpdateDataInput {
-  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  end?: Maybe<BlockNumberUpdateOneRequiredInput>;
+export interface BlockNumberUpdateInput {
+  authoredBy?: Maybe<String>;
+  startDateTime?: Maybe<DateTimeInput>;
+  hash?: Maybe<String>;
 }
 
 export interface NominationWhereInput {
@@ -1025,91 +1187,6 @@ export interface NominationWhereInput {
   NOT?: Maybe<NominationWhereInput[] | NominationWhereInput>;
 }
 
-export interface ValidatorWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  blockNumber?: Maybe<BlockNumberWhereInput>;
-  controller?: Maybe<String>;
-  controller_not?: Maybe<String>;
-  controller_in?: Maybe<String[] | String>;
-  controller_not_in?: Maybe<String[] | String>;
-  controller_lt?: Maybe<String>;
-  controller_lte?: Maybe<String>;
-  controller_gt?: Maybe<String>;
-  controller_gte?: Maybe<String>;
-  controller_contains?: Maybe<String>;
-  controller_not_contains?: Maybe<String>;
-  controller_starts_with?: Maybe<String>;
-  controller_not_starts_with?: Maybe<String>;
-  controller_ends_with?: Maybe<String>;
-  controller_not_ends_with?: Maybe<String>;
-  stash?: Maybe<String>;
-  stash_not?: Maybe<String>;
-  stash_in?: Maybe<String[] | String>;
-  stash_not_in?: Maybe<String[] | String>;
-  stash_lt?: Maybe<String>;
-  stash_lte?: Maybe<String>;
-  stash_gt?: Maybe<String>;
-  stash_gte?: Maybe<String>;
-  stash_contains?: Maybe<String>;
-  stash_not_contains?: Maybe<String>;
-  stash_starts_with?: Maybe<String>;
-  stash_not_starts_with?: Maybe<String>;
-  stash_ends_with?: Maybe<String>;
-  stash_not_ends_with?: Maybe<String>;
-  preferences?: Maybe<String>;
-  preferences_not?: Maybe<String>;
-  preferences_in?: Maybe<String[] | String>;
-  preferences_not_in?: Maybe<String[] | String>;
-  preferences_lt?: Maybe<String>;
-  preferences_lte?: Maybe<String>;
-  preferences_gt?: Maybe<String>;
-  preferences_gte?: Maybe<String>;
-  preferences_contains?: Maybe<String>;
-  preferences_not_contains?: Maybe<String>;
-  preferences_starts_with?: Maybe<String>;
-  preferences_not_starts_with?: Maybe<String>;
-  preferences_ends_with?: Maybe<String>;
-  preferences_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
-  OR?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
-  NOT?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
-}
-
-export interface StakeUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  totalStake?: Maybe<Int>;
-}
-
-export interface TotalIssuanceSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<TotalIssuanceWhereInput>;
-  AND?: Maybe<
-    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
-  >;
-}
-
 export interface RewardSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -1121,96 +1198,22 @@ export interface RewardSubscriptionWhereInput {
   NOT?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
 }
 
-export interface SessionUpdateOneRequiredInput {
-  create?: Maybe<SessionCreateInput>;
-  update?: Maybe<SessionUpdateDataInput>;
-  upsert?: Maybe<SessionUpsertNestedInput>;
-  connect?: Maybe<SessionWhereUniqueInput>;
-}
-
-export type SessionWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
-}>;
-
-export interface EraUpdateInput {
-  eraStartSessionIndex?: Maybe<SessionUpdateOneRequiredInput>;
-  totalPoints?: Maybe<String>;
-  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
-}
-
-export interface RewardUpdaterecipientsInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface EraCreateindividualPointsInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface BlockNumberSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<BlockNumberWhereInput>;
-  AND?: Maybe<
-    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
-  >;
-}
-
-export interface BlockNumberCreateOneInput {
-  create?: Maybe<BlockNumberCreateInput>;
-  connect?: Maybe<BlockNumberWhereUniqueInput>;
-}
-
-export interface TotalIssuanceUpdateManyMutationInput {
-  amount?: Maybe<Int>;
-}
-
-export interface BlockNumberCreateInput {
-  number?: Maybe<Int>;
-  authoredBy: String;
-  startDateTime: DateTimeInput;
-  hash: String;
-}
-
-export interface StakeCreateInput {
-  id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
-  totalStake: Int;
-}
-
-export interface ValidatorSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ValidatorWhereInput>;
-  AND?: Maybe<
-    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
-  >;
-}
-
-export interface SessionCreateOneInput {
-  create?: Maybe<SessionCreateInput>;
-  connect?: Maybe<SessionWhereUniqueInput>;
+export interface EraCreateInput {
+  id?: Maybe<Int>;
+  eraStartSessionIndex: SessionCreateOneInput;
+  totalPoints: String;
+  individualPoints?: Maybe<EraCreateindividualPointsInput>;
 }
 
 export interface SessionCreateInput {
   id?: Maybe<Int>;
   start: BlockNumberCreateOneInput;
-  end: BlockNumberCreateOneInput;
+  end?: Maybe<BlockNumberCreateOneInput>;
+}
+
+export interface BlockNumberCreateOneInput {
+  create?: Maybe<BlockNumberCreateInput>;
+  connect?: Maybe<BlockNumberWhereUniqueInput>;
 }
 
 export interface BlockNumberUpdateManyMutationInput {
@@ -1219,34 +1222,40 @@ export interface BlockNumberUpdateManyMutationInput {
   hash?: Maybe<String>;
 }
 
-export interface BlockNumberUpdateInput {
-  authoredBy?: Maybe<String>;
-  startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
-}
+export type SessionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<Int>;
+}>;
 
-export interface RewardUpdateInput {
-  amount?: Maybe<Int>;
-  authoredBlock?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  recipients?: Maybe<RewardUpdaterecipientsInput>;
-}
-
-export interface SlashingUpdateInput {
+export interface StakeUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  reason?: Maybe<String>;
-  amount?: Maybe<Int>;
+  totalStake?: Maybe<Int>;
 }
 
-export interface TotalIssuanceCreateInput {
+export interface ValidatorCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  amount: Int;
+  controller: String;
+  stash: String;
+  preferences: String;
 }
 
-export interface ValidatorUpdateManyMutationInput {
-  controller?: Maybe<String>;
-  stash?: Maybe<String>;
-  preferences?: Maybe<String>;
+export interface SlashingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SlashingWhereInput>;
+  AND?: Maybe<
+    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
+  >;
+  OR?: Maybe<SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput>;
+  NOT?: Maybe<
+    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
+  >;
+}
+
+export interface RewardUpdaterecipientsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface NodeNode {

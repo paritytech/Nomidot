@@ -174,27 +174,48 @@ const createSession: Task<NomidotSession> = {
     // check events for if a new session has happened.
     // Question: is there a better way to do this?
     const events = await api.query.system.events.at(blockHash);
-    const didNewSessionStart = events.filter(({ event }): boolean => (
-      event.section === 'system' && event.method === 'newSession'
+    
+    const didNewSessionStart = events.filter(({ event: { method, section } }): boolean => (
+      section === 'system' && method === 'newSession'
     )).length > 0;
 
-    const sessionIndex = await api.query.staking.currentEraStartSessionIndex.at(blockHash);
-    // const sessionLength = api.consts.babe.epochDuration;
-    // const sessionsPerEra = api.consts.staking.sessionsPerEra;
+    const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
     return {
+      didNewSessionStart,
       idx: sessionIndex,
-      start: didNewSessionStart ? blockNumber : undefined,
-      end: undefined
+      blockNumber
     }
   },
   write: async (value: NomidotSession) => {
-    const sessionCreateInput = {
-      id: value.sessionIndex.toNumber(),
+    const { blockNumber, didNewSessionStart, idx } = value;
 
+    if (didNewSessionStart) {
+      await prisma.updateSession({
+        data: {
+          end: {
+            connect: {
+              number: blockNumber.toNumber()
+            }
+          }
+        },
+        where: {
+          id: idx.toNumber()
+        }
+      })
+    } else {
+      const sessionCreateInput = {
+        id: idx.toNumber(),
+        start: { 
+          connect: {
+            number: blockNumber.toNumber()
+          }
+        },
+        end: null
+      }
+  
+      await prisma.createSession(sessionCreateInput);
     }
-
-    await prisma.createSession(sessionCreateInput);
   }
 }
 
@@ -204,25 +225,27 @@ const createSession: Task<NomidotSession> = {
 const createEra: Task<NomidotEra> = {
   read: async (blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<NomidotEra> => {
     const idx = await api.query.staking.currentEra.at(blockHash);
-    const currentIndex = await api.query.session.currentIndex.at(blockHash);
     const points = await api.query.staking.currentEraPointsEarned.at(blockHash);
+    const currentEraStartSessionIndex = await api.query.staking.currentEraStartSessionIndex.at(blockHash);
 
     return {
       idx,
       points,
-      startSessionIndex: currentIndex
+      startSessionIndex: currentEraStartSessionIndex
     }
   },
   write: async (value: NomidotEra) => {
+    const { idx, points, startSessionIndex } = value;
+
     await prisma.createEra({
-      id: value.idx.toNumber(),
-      totalPoints: value.points.total.toHex(),
+      id: idx.toNumber(),
+      totalPoints: points.total.toHex(),
       individualPoints: {
-        set: value.points.individual.map(points => points.toHex())
+        set: points.individual.map(points => points.toHex())
       },
       eraStartSessionIndex: {
         connect: {
-          id: value.startSessionIndex.toNumber()
+          id: startSessionIndex.toNumber()
         }
       }
     })
@@ -272,6 +295,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
 const nomidotTasks: Task<Nomidot>[] = [
   createBlockNumber,
+  createEra,
   createSession,
   createSlashing,
   createTotalIssuance,
