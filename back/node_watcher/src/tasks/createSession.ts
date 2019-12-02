@@ -12,6 +12,7 @@ import { NomidotSession, Task } from './types';
  *  ======= Table (Session) ======
  */
 const createSession: Task<NomidotSession> = {
+  name: 'createSession',
   read: async (
     blockNumber: BlockNumber,
     blockHash: Hash,
@@ -43,20 +44,20 @@ const createSession: Task<NomidotSession> = {
         data: {
           end: {
             connect: {
-              number: blockNumber.toNumber(),
+              number: blockNumber.toString(),
             },
           },
         },
         where: {
-          id: idx.toNumber(),
+          idx: idx.toString(),
         },
       });
     } else {
       const sessionCreateInput = {
-        id: idx.toNumber(),
+        idx: idx.toString(),
         start: {
           connect: {
-            number: blockNumber.toNumber(),
+            number: blockNumber.toString(),
           },
         },
         end: null,

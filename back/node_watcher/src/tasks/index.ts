@@ -11,8 +11,8 @@ import createValidator from './createValidator';
 
 export {
   createBlockNumber,
-  createEra,
   createSession,
+  createEra,
   createSlashing,
   createTotalIssuance,
   createValidator,

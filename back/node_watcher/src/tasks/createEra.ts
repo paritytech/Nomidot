@@ -12,6 +12,7 @@ import { NomidotEra, Task } from './types';
  *  ======= Table (Era) ======
  */
 const createEra: Task<NomidotEra> = {
+  name: 'createEra',
   read: async (
     blockNumber: BlockNumber,
     blockHash: Hash,
@@ -32,18 +33,38 @@ const createEra: Task<NomidotEra> = {
   write: async (value: NomidotEra) => {
     const { idx, points, startSessionIndex } = value;
 
-    await prisma.createEra({
-      id: idx.toNumber(),
-      totalPoints: points.total.toHex(),
-      individualPoints: {
-        set: points.individual.map(points => points.toHex()),
-      },
-      eraStartSessionIndex: {
-        connect: {
-          id: startSessionIndex.toNumber(),
-        },
-      },
+    // check if record exists
+    const eraIndexAlreadyExists = await prisma.$exists.era({
+      idx: idx.toString()
     });
+
+    // update or create
+    if (eraIndexAlreadyExists) {
+      await prisma.updateEra({
+        data: {
+          individualPoints: {
+            set: points.individual.map(points => points.toHex())
+          },
+          totalPoints: points.total.toHex()
+        },
+        where: {
+          idx: idx.toString()
+        }
+      })
+    } else {
+      await prisma.createEra({
+        idx: idx.toString(),
+        totalPoints: points.total.toHex(),
+        individualPoints: {
+          set: points.individual.map(points => points.toHex()),
+        },
+        eraStartSessionIndex: {
+          connect: {
+            idx: startSessionIndex.toString(),
+          },
+        },
+      });
+    }
   },
 };
 

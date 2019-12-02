@@ -17,6 +17,7 @@ import {
 } from '@polkadot/types/interfaces';
 
 export interface Task<T> {
+  name: string,
   read(blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<T>;
   write(value: T): Promise<void>;
 }

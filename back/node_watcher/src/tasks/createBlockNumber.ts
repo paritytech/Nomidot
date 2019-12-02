@@ -3,16 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType, TypeRegistry } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 
-import { prisma } from '../../generated/prisma-client';
+import { prisma, BlockNumberCreateInput } from '../../generated/prisma-client';
 import { NomidotBlock, Task } from './types';
+import BN = require('bn.js');
+
+const l = logger('Task: BlockNumber');
 
 /*
  *  ======= Table (BlockNumber) ======
  */
 const createBlockNumber: Task<NomidotBlock> = {
+  name: 'createBlockNumber',
   read: async (
     blockNumber: BlockNumber,
     blockHash: Hash,
@@ -22,11 +27,7 @@ const createBlockNumber: Task<NomidotBlock> = {
       blockHash.toHex()
     );
 
-    console.log(author, number);
-
     const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);
-
-    console.log(startDateTime);
 
     const result: NomidotBlock = {
       authoredBy: createType(api.registry, 'AccountId', author),
@@ -41,16 +42,16 @@ const createBlockNumber: Task<NomidotBlock> = {
     const { authoredBy, blockNumber, hash, startDateTime } = value;
 
     const blockNumberCreateInput = {
-      authoredBy: authoredBy.toHex(),
-      number: blockNumber.toNumber(),
-      hash: hash.toHex(),
-      startDateTime: new Date(startDateTime.toNumber() * 1000).toISOString(),
-    };
+      number: blockNumber.toString(),
+      authoredBy: authoredBy.toString(),
+      startDateTime: new Date(startDateTime.mul(new BN(1000)).toNumber()).toISOString(),
+      hash: hash.toHex()
+    } as BlockNumberCreateInput;
 
-    console.log(`block number create input: ${JSON.stringify(blockNumberCreateInput)}`);
+    l.warn(`block number create input: ${JSON.stringify(blockNumberCreateInput)}`);
 
     await prisma.createBlockNumber(blockNumberCreateInput);
-  },
+  }
 };
 
 export default createBlockNumber;

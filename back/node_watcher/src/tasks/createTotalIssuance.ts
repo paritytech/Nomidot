@@ -12,6 +12,7 @@ import { NomidotTotalIssuance, Task } from './types';
  *  ======= Table (TotalIssuance) ======
  */
 const createTotalIssuance: Task<NomidotTotalIssuance> = {
+  name: 'createTotalIssuance',
   read: async (
     blockNumber: BlockNumber,
     blockHash: Hash,
@@ -26,10 +27,10 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
   },
   write: async (value: NomidotTotalIssuance) => {
     const totalIssuanceCreateInput = {
-      amount: value.amount.toNumber(),
+      amount: value.amount.toHex(),
       blockNumber: {
         connect: {
-          number: value.blockNumber.toNumber(),
+          number: value.blockNumber.toString(),
         },
       },
     };

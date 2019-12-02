@@ -43,7 +43,8 @@ type BatchPayload {
 }
 
 type BlockNumber {
-  number: Int!
+  id: ID!
+  number: String!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -56,7 +57,8 @@ type BlockNumberConnection {
 }
 
 input BlockNumberCreateInput {
-  number: Int
+  id: ID
+  number: String!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -73,6 +75,8 @@ type BlockNumberEdge {
 }
 
 enum BlockNumberOrderByInput {
+  id_ASC
+  id_DESC
   number_ASC
   number_DESC
   authoredBy_ASC
@@ -84,7 +88,8 @@ enum BlockNumberOrderByInput {
 }
 
 type BlockNumberPreviousValues {
-  number: Int!
+  id: ID!
+  number: String!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -109,18 +114,21 @@ input BlockNumberSubscriptionWhereInput {
 }
 
 input BlockNumberUpdateDataInput {
+  number: String
   authoredBy: String
   startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateInput {
+  number: String
   authoredBy: String
   startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateManyMutationInput {
+  number: String
   authoredBy: String
   startDateTime: DateTime
   hash: String
@@ -148,14 +156,34 @@ input BlockNumberUpsertNestedInput {
 }
 
 input BlockNumberWhereInput {
-  number: Int
-  number_not: Int
-  number_in: [Int!]
-  number_not_in: [Int!]
-  number_lt: Int
-  number_lte: Int
-  number_gt: Int
-  number_gte: Int
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  number: String
+  number_not: String
+  number_in: [String!]
+  number_not_in: [String!]
+  number_lt: String
+  number_lte: String
+  number_gt: String
+  number_gte: String
+  number_contains: String
+  number_not_contains: String
+  number_starts_with: String
+  number_not_starts_with: String
+  number_ends_with: String
+  number_not_ends_with: String
   authoredBy: String
   authoredBy_not: String
   authoredBy_in: [String!]
@@ -198,7 +226,8 @@ input BlockNumberWhereInput {
 }
 
 input BlockNumberWhereUniqueInput {
-  number: Int
+  id: ID
+  number: String
   hash: String
 }
 
@@ -206,6 +235,7 @@ scalar DateTime
 
 type Era {
   id: Int!
+  idx: String!
   eraStartSessionIndex: Session!
   totalPoints: String!
   individualPoints: [String!]!
@@ -223,6 +253,7 @@ input EraCreateindividualPointsInput {
 
 input EraCreateInput {
   id: Int
+  idx: String!
   eraStartSessionIndex: SessionCreateOneInput!
   totalPoints: String!
   individualPoints: EraCreateindividualPointsInput
@@ -236,12 +267,15 @@ type EraEdge {
 enum EraOrderByInput {
   id_ASC
   id_DESC
+  idx_ASC
+  idx_DESC
   totalPoints_ASC
   totalPoints_DESC
 }
 
 type EraPreviousValues {
   id: Int!
+  idx: String!
   totalPoints: String!
   individualPoints: [String!]!
 }
@@ -269,12 +303,14 @@ input EraUpdateindividualPointsInput {
 }
 
 input EraUpdateInput {
+  idx: String
   eraStartSessionIndex: SessionUpdateOneRequiredInput
   totalPoints: String
   individualPoints: EraUpdateindividualPointsInput
 }
 
 input EraUpdateManyMutationInput {
+  idx: String
   totalPoints: String
   individualPoints: EraUpdateindividualPointsInput
 }
@@ -288,6 +324,20 @@ input EraWhereInput {
   id_lte: Int
   id_gt: Int
   id_gte: Int
+  idx: String
+  idx_not: String
+  idx_in: [String!]
+  idx_not_in: [String!]
+  idx_lt: String
+  idx_lte: String
+  idx_gt: String
+  idx_gte: String
+  idx_contains: String
+  idx_not_contains: String
+  idx_starts_with: String
+  idx_not_starts_with: String
+  idx_ends_with: String
+  idx_not_ends_with: String
   eraStartSessionIndex: SessionWhereInput
   totalPoints: String
   totalPoints_not: String
@@ -310,6 +360,7 @@ input EraWhereInput {
 
 input EraWhereUniqueInput {
   id: Int
+  idx: String
 }
 
 scalar Long
@@ -341,6 +392,7 @@ type Mutation {
   deleteManyRewards(where: RewardWhereInput): BatchPayload!
   createSession(data: SessionCreateInput!): Session!
   updateSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
+  updateManySessions(data: SessionUpdateManyMutationInput!, where: SessionWhereInput): BatchPayload!
   upsertSession(where: SessionWhereUniqueInput!, create: SessionCreateInput!, update: SessionUpdateInput!): Session!
   deleteSession(where: SessionWhereUniqueInput!): Session
   deleteManySessions(where: SessionWhereInput): BatchPayload!
@@ -387,7 +439,7 @@ type Nomination {
   nominatorController: String!
   nominatorStash: String!
   session: Session!
-  bonded: Int!
+  bonded: String!
 }
 
 type NominationConnection {
@@ -403,7 +455,7 @@ input NominationCreateInput {
   nominatorController: String!
   nominatorStash: String!
   session: SessionCreateOneInput!
-  bonded: Int!
+  bonded: String!
 }
 
 type NominationEdge {
@@ -432,7 +484,7 @@ type NominationPreviousValues {
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  bonded: Int!
+  bonded: String!
 }
 
 type NominationSubscriptionPayload {
@@ -459,7 +511,7 @@ input NominationUpdateInput {
   nominatorController: String
   nominatorStash: String
   session: SessionUpdateOneRequiredInput
-  bonded: Int
+  bonded: String
 }
 
 input NominationUpdateManyMutationInput {
@@ -467,7 +519,7 @@ input NominationUpdateManyMutationInput {
   validatorStash: String
   nominatorController: String
   nominatorStash: String
-  bonded: Int
+  bonded: String
 }
 
 input NominationWhereInput {
@@ -542,14 +594,20 @@ input NominationWhereInput {
   nominatorStash_ends_with: String
   nominatorStash_not_ends_with: String
   session: SessionWhereInput
-  bonded: Int
-  bonded_not: Int
-  bonded_in: [Int!]
-  bonded_not_in: [Int!]
-  bonded_lt: Int
-  bonded_lte: Int
-  bonded_gt: Int
-  bonded_gte: Int
+  bonded: String
+  bonded_not: String
+  bonded_in: [String!]
+  bonded_not_in: [String!]
+  bonded_lt: String
+  bonded_lte: String
+  bonded_gt: String
+  bonded_gte: String
+  bonded_contains: String
+  bonded_not_contains: String
+  bonded_starts_with: String
+  bonded_not_starts_with: String
+  bonded_ends_with: String
+  bonded_not_ends_with: String
   AND: [NominationWhereInput!]
   OR: [NominationWhereInput!]
   NOT: [NominationWhereInput!]
@@ -599,7 +657,7 @@ type Query {
 
 type Reward {
   id: ID!
-  amount: Int!
+  amount: String!
   authoredBlock: BlockNumber!
   recipients: [String!]!
 }
@@ -612,7 +670,7 @@ type RewardConnection {
 
 input RewardCreateInput {
   id: ID
-  amount: Int!
+  amount: String!
   authoredBlock: BlockNumberCreateOneInput!
   recipients: RewardCreaterecipientsInput
 }
@@ -635,7 +693,7 @@ enum RewardOrderByInput {
 
 type RewardPreviousValues {
   id: ID!
-  amount: Int!
+  amount: String!
   recipients: [String!]!
 }
 
@@ -658,13 +716,13 @@ input RewardSubscriptionWhereInput {
 }
 
 input RewardUpdateInput {
-  amount: Int
+  amount: String
   authoredBlock: BlockNumberUpdateOneRequiredInput
   recipients: RewardUpdaterecipientsInput
 }
 
 input RewardUpdateManyMutationInput {
-  amount: Int
+  amount: String
   recipients: RewardUpdaterecipientsInput
 }
 
@@ -687,14 +745,20 @@ input RewardWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  amount: Int
-  amount_not: Int
-  amount_in: [Int!]
-  amount_not_in: [Int!]
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
+  amount: String
+  amount_not: String
+  amount_in: [String!]
+  amount_not_in: [String!]
+  amount_lt: String
+  amount_lte: String
+  amount_gt: String
+  amount_gte: String
+  amount_contains: String
+  amount_not_contains: String
+  amount_starts_with: String
+  amount_not_starts_with: String
+  amount_ends_with: String
+  amount_not_ends_with: String
   authoredBlock: BlockNumberWhereInput
   AND: [RewardWhereInput!]
   OR: [RewardWhereInput!]
@@ -707,6 +771,7 @@ input RewardWhereUniqueInput {
 
 type Session {
   id: Int!
+  idx: String!
   start: BlockNumber!
   end: BlockNumber
 }
@@ -719,6 +784,7 @@ type SessionConnection {
 
 input SessionCreateInput {
   id: Int
+  idx: String!
   start: BlockNumberCreateOneInput!
   end: BlockNumberCreateOneInput
 }
@@ -736,10 +802,13 @@ type SessionEdge {
 enum SessionOrderByInput {
   id_ASC
   id_DESC
+  idx_ASC
+  idx_DESC
 }
 
 type SessionPreviousValues {
   id: Int!
+  idx: String!
 }
 
 type SessionSubscriptionPayload {
@@ -761,13 +830,19 @@ input SessionSubscriptionWhereInput {
 }
 
 input SessionUpdateDataInput {
+  idx: String
   start: BlockNumberUpdateOneRequiredInput
   end: BlockNumberUpdateOneInput
 }
 
 input SessionUpdateInput {
+  idx: String
   start: BlockNumberUpdateOneRequiredInput
   end: BlockNumberUpdateOneInput
+}
+
+input SessionUpdateManyMutationInput {
+  idx: String
 }
 
 input SessionUpdateOneRequiredInput {
@@ -791,6 +866,20 @@ input SessionWhereInput {
   id_lte: Int
   id_gt: Int
   id_gte: Int
+  idx: String
+  idx_not: String
+  idx_in: [String!]
+  idx_not_in: [String!]
+  idx_lt: String
+  idx_lte: String
+  idx_gt: String
+  idx_gte: String
+  idx_contains: String
+  idx_not_contains: String
+  idx_starts_with: String
+  idx_not_starts_with: String
+  idx_ends_with: String
+  idx_not_ends_with: String
   start: BlockNumberWhereInput
   end: BlockNumberWhereInput
   AND: [SessionWhereInput!]
@@ -800,13 +889,14 @@ input SessionWhereInput {
 
 input SessionWhereUniqueInput {
   id: Int
+  idx: String
 }
 
 type Slashing {
   id: ID!
   blockNumber: BlockNumber!
   reason: String!
-  amount: Int!
+  amount: String!
 }
 
 type SlashingConnection {
@@ -819,7 +909,7 @@ input SlashingCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   reason: String!
-  amount: Int!
+  amount: String!
 }
 
 type SlashingEdge {
@@ -839,7 +929,7 @@ enum SlashingOrderByInput {
 type SlashingPreviousValues {
   id: ID!
   reason: String!
-  amount: Int!
+  amount: String!
 }
 
 type SlashingSubscriptionPayload {
@@ -863,12 +953,12 @@ input SlashingSubscriptionWhereInput {
 input SlashingUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   reason: String
-  amount: Int
+  amount: String
 }
 
 input SlashingUpdateManyMutationInput {
   reason: String
-  amount: Int
+  amount: String
 }
 
 input SlashingWhereInput {
@@ -901,14 +991,20 @@ input SlashingWhereInput {
   reason_not_starts_with: String
   reason_ends_with: String
   reason_not_ends_with: String
-  amount: Int
-  amount_not: Int
-  amount_in: [Int!]
-  amount_not_in: [Int!]
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
+  amount: String
+  amount_not: String
+  amount_in: [String!]
+  amount_not_in: [String!]
+  amount_lt: String
+  amount_lte: String
+  amount_gt: String
+  amount_gte: String
+  amount_contains: String
+  amount_not_contains: String
+  amount_starts_with: String
+  amount_not_starts_with: String
+  amount_ends_with: String
+  amount_not_ends_with: String
   AND: [SlashingWhereInput!]
   OR: [SlashingWhereInput!]
   NOT: [SlashingWhereInput!]
@@ -921,7 +1017,7 @@ input SlashingWhereUniqueInput {
 type Stake {
   id: ID!
   blockNumber: BlockNumber!
-  totalStake: Int!
+  totalStake: String!
 }
 
 type StakeConnection {
@@ -933,7 +1029,7 @@ type StakeConnection {
 input StakeCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  totalStake: Int!
+  totalStake: String!
 }
 
 type StakeEdge {
@@ -950,7 +1046,7 @@ enum StakeOrderByInput {
 
 type StakePreviousValues {
   id: ID!
-  totalStake: Int!
+  totalStake: String!
 }
 
 type StakeSubscriptionPayload {
@@ -973,11 +1069,11 @@ input StakeSubscriptionWhereInput {
 
 input StakeUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  totalStake: Int
+  totalStake: String
 }
 
 input StakeUpdateManyMutationInput {
-  totalStake: Int
+  totalStake: String
 }
 
 input StakeWhereInput {
@@ -996,14 +1092,20 @@ input StakeWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   blockNumber: BlockNumberWhereInput
-  totalStake: Int
-  totalStake_not: Int
-  totalStake_in: [Int!]
-  totalStake_not_in: [Int!]
-  totalStake_lt: Int
-  totalStake_lte: Int
-  totalStake_gt: Int
-  totalStake_gte: Int
+  totalStake: String
+  totalStake_not: String
+  totalStake_in: [String!]
+  totalStake_not_in: [String!]
+  totalStake_lt: String
+  totalStake_lte: String
+  totalStake_gt: String
+  totalStake_gte: String
+  totalStake_contains: String
+  totalStake_not_contains: String
+  totalStake_starts_with: String
+  totalStake_not_starts_with: String
+  totalStake_ends_with: String
+  totalStake_not_ends_with: String
   AND: [StakeWhereInput!]
   OR: [StakeWhereInput!]
   NOT: [StakeWhereInput!]
@@ -1028,7 +1130,7 @@ type Subscription {
 type TotalIssuance {
   id: ID!
   blockNumber: BlockNumber!
-  amount: Int!
+  amount: String!
 }
 
 type TotalIssuanceConnection {
@@ -1040,7 +1142,7 @@ type TotalIssuanceConnection {
 input TotalIssuanceCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  amount: Int!
+  amount: String!
 }
 
 type TotalIssuanceEdge {
@@ -1057,7 +1159,7 @@ enum TotalIssuanceOrderByInput {
 
 type TotalIssuancePreviousValues {
   id: ID!
-  amount: Int!
+  amount: String!
 }
 
 type TotalIssuanceSubscriptionPayload {
@@ -1080,11 +1182,11 @@ input TotalIssuanceSubscriptionWhereInput {
 
 input TotalIssuanceUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  amount: Int
+  amount: String
 }
 
 input TotalIssuanceUpdateManyMutationInput {
-  amount: Int
+  amount: String
 }
 
 input TotalIssuanceWhereInput {
@@ -1103,14 +1205,20 @@ input TotalIssuanceWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   blockNumber: BlockNumberWhereInput
-  amount: Int
-  amount_not: Int
-  amount_in: [Int!]
-  amount_not_in: [Int!]
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
+  amount: String
+  amount_not: String
+  amount_in: [String!]
+  amount_not_in: [String!]
+  amount_lt: String
+  amount_lte: String
+  amount_gt: String
+  amount_gte: String
+  amount_contains: String
+  amount_not_contains: String
+  amount_starts_with: String
+  amount_not_starts_with: String
+  amount_ends_with: String
+  amount_not_ends_with: String
   AND: [TotalIssuanceWhereInput!]
   OR: [TotalIssuanceWhereInput!]
   NOT: [TotalIssuanceWhereInput!]

@@ -18,6 +18,7 @@ import { NomidotValidator, Task } from './types';
  *  ======= Table (Validator) ======
  */
 const createValidator: Task<NomidotValidator[]> = {
+  name: 'createValidator',
   read: async (
     blockNumber: BlockNumber,
     blockHash: Hash,
@@ -67,7 +68,7 @@ const createValidator: Task<NomidotValidator[]> = {
       await prisma.createValidator({
         blockNumber: {
           connect: {
-            number: blockNumber.toNumber(),
+            number: blockNumber.toString(),
           },
         },
         controller: controller.toHex(),

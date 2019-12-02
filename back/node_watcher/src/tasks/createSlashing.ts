@@ -8,11 +8,13 @@ import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 
 import { prisma } from '../../generated/prisma-client';
 import { NomidotSlashing, Task } from './types';
+import createBlockNumber from './createBlockNumber';
 
 /*
  *  ======= Table (Slashing) ======
  */
 const createSlashing: Task<NomidotSlashing[]> = {
+  name: 'createSlashing',
   read: async (
     blockNumber: BlockNumber,
     blockHash: Hash,
@@ -41,17 +43,30 @@ const createSlashing: Task<NomidotSlashing[]> = {
     return result;
   },
   write: async (value: NomidotSlashing[]) => {
+    // there were no slashings
+    if (!value.length) {
+      await prisma.createSlashing({
+        blockNumber: {
+          connect: {
+            number: createBlockNumber.toString()
+          }
+        },
+        reason: '0x00',
+        amount: '0x00'
+      })
+    }
+
     value.forEach(async slashEvent => {
       const { blockNumber, who, amount } = slashEvent;
 
       await prisma.createSlashing({
         blockNumber: {
           connect: {
-            number: blockNumber.toNumber(),
+            number: blockNumber.toString(),
           },
         },
         reason: who.toHex(),
-        amount: amount.toNumber(),
+        amount: amount.toHex(),
       });
     });
   },

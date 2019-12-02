@@ -1,6 +1,29 @@
+type BlockNumber {
+  id: ID! @id
+  number: String! @unique
+  authoredBy: String!
+  startDateTime: DateTime!
+  hash: String! @unique
+}
+
+type Session {
+  id: Int! @id
+  idx: String! @unique
+  start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
+  end: BlockNumber @relation(name: "BlockNumberAtSessionEnd", link: INLINE)
+}
+
+type Era {
+  id: Int! @id
+  idx: String! @unique
+  eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
+  totalPoints: String!
+  individualPoints: [String!]! @scalarList(strategy: RELATION)
+}
+
 type Reward {
   id: ID! @id
-  amount: Int!
+  amount: String!
   authoredBlock: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
   recipients: [String!]! @scalarList(strategy: RELATION)
 }
@@ -9,7 +32,7 @@ type Slashing {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
   reason: String!
-  amount: Int!
+  amount: String!
 }
 
 type Nomination {
@@ -19,13 +42,13 @@ type Nomination {
   nominatorController: String!
   nominatorStash: String!
   session: Session! @relation(name: "NominationsAtSession", link: INLINE)
-  bonded: Int!
+  bonded: String!
 }
 
 type Stake {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
-  totalStake: Int!
+  totalStake: String!
 }
 
 type Validator {
@@ -36,28 +59,8 @@ type Validator {
   preferences: String!
 }
 
-type Session {
-  id: Int! @id
-  start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
-  end: BlockNumber @relation(name: "BlockNumberAtSessionEnd", link: INLINE)
-}
-
-type Era {
-  id: Int! @id
-  eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
-  totalPoints: String!
-  individualPoints: [String!]! @scalarList(strategy: RELATION)
-}
-
 type TotalIssuance {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
-  amount: Int!
-}
-
-type BlockNumber {
-  number: Int! @unique @id
-  authoredBy: String!
-  startDateTime: DateTime!
-  hash: String! @unique
+  amount: String!
 }
