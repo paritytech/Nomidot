@@ -19,7 +19,6 @@ const l = logger('Task: BlockNumber');
 const createBlockNumber: Task<NomidotBlock> = {
   name: 'createBlockNumber',
   read: async (
-    blockNumber: BlockNumber,
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotBlock> => {
@@ -31,15 +30,14 @@ const createBlockNumber: Task<NomidotBlock> = {
 
     const result: NomidotBlock = {
       authoredBy: createType(api.registry, 'AccountId', author),
-      blockNumber,
       hash: blockHash,
       startDateTime,
     };
 
     return result;
   },
-  write: async (value: NomidotBlock) => {
-    const { authoredBy, blockNumber, hash, startDateTime } = value;
+  write: async (blockNumber: BlockNumber, value: NomidotBlock) => {
+    const { authoredBy, hash, startDateTime } = value;
 
     const blockNumberCreateInput = {
       number: blockNumber.toString(),

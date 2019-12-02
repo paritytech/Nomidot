@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType, TypeRegistry, Vec } from '@polkadot/types';
+import { createType, Vec } from '@polkadot/types';
 import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 
 import { prisma } from '../../generated/prisma-client';
 import { NomidotSlashing, Task } from './types';
-import createBlockNumber from './createBlockNumber';
 
 /*
  *  ======= Table (Slashing) ======
@@ -16,7 +15,6 @@ import createBlockNumber from './createBlockNumber';
 const createSlashing: Task<NomidotSlashing[]> = {
   name: 'createSlashing',
   read: async (
-    blockNumber: BlockNumber,
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotSlashing[]> => {
@@ -29,12 +27,11 @@ const createSlashing: Task<NomidotSlashing[]> = {
         section === 'staking' && method === 'slash';
       }
     );
-
-    const result: NomidotSlashing[] = [];
-
+    
+    let result: NomidotSlashing[] = [];
+      
     slashEvents.map(({ event: { data } }) => {
       result.push({
-        blockNumber,
         who: createType(api.registry, 'AccountId', data[0].toString()),
         amount: createType(api.registry, 'Balance', data[1].toString()),
       });
@@ -42,13 +39,13 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
     return result;
   },
-  write: async (value: NomidotSlashing[]) => {
+  write: async (blockNumber: BlockNumber, value: NomidotSlashing[]) => {
     // there were no slashings
     if (!value.length) {
       await prisma.createSlashing({
         blockNumber: {
           connect: {
-            number: createBlockNumber.toString()
+            number: blockNumber.toString()
           }
         },
         reason: '0x00',
@@ -57,8 +54,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
     }
 
     value.forEach(async slashEvent => {
-      const { blockNumber, who, amount } = slashEvent;
-
+      const { who, amount } = slashEvent;
       await prisma.createSlashing({
         blockNumber: {
           connect: {

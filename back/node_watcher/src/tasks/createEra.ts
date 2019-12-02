@@ -14,7 +14,6 @@ import { NomidotEra, Task } from './types';
 const createEra: Task<NomidotEra> = {
   name: 'createEra',
   read: async (
-    blockNumber: BlockNumber,
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotEra> => {
@@ -30,7 +29,7 @@ const createEra: Task<NomidotEra> = {
       startSessionIndex: currentEraStartSessionIndex,
     };
   },
-  write: async (value: NomidotEra) => {
+  write: async (blockNumber: BlockNumber, value: NomidotEra) => {
     const { idx, points, startSessionIndex } = value;
 
     // check if record exists

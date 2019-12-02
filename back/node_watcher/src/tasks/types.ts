@@ -18,13 +18,12 @@ import {
 
 export interface Task<T> {
   name: string,
-  read(blockNumber: BlockNumber, blockHash: Hash, api: ApiPromise): Promise<T>;
-  write(value: T): Promise<void>;
+  read(blockHash: Hash, api: ApiPromise): Promise<T>;
+  write(blockNumber: BlockNumber, value: T): Promise<void>;
 }
 
 export interface NomidotBlock {
   authoredBy: AccountId;
-  blockNumber: BlockNumber;
   hash: Hash;
   startDateTime: Moment;
 }
@@ -36,7 +35,6 @@ export interface NomidotEra {
 }
 
 export interface NomidotHeartBeat {
-  blockNumber: BlockNumber;
   isOnline: boolean;
   sender: AccountId;
   sessionId: SessionIndex;
@@ -45,22 +43,18 @@ export interface NomidotHeartBeat {
 export interface NomidotSession {
   didNewSessionStart: boolean;
   idx: SessionIndex;
-  blockNumber: BlockNumber;
 }
 
 export interface NomidotSlashing {
-  blockNumber: BlockNumber;
   who: AccountId;
   amount: Balance;
 }
 
 export interface NomidotTotalIssuance {
-  blockNumber: BlockNumber;
   amount: Balance;
 }
 
 export interface NomidotValidator {
-  blockNumber: BlockNumber;
   controller: AccountId;
   stash: AccountId;
   validatorPreferences: ValidatorPrefs;

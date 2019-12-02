@@ -20,7 +20,6 @@ import { NomidotValidator, Task } from './types';
 const createValidator: Task<NomidotValidator[]> = {
   name: 'createValidator',
   read: async (
-    blockNumber: BlockNumber,
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotValidator[]> => {
@@ -47,7 +46,6 @@ const createValidator: Task<NomidotValidator[]> = {
       const controller = ledger.stash || validator;
 
       result.push({
-        blockNumber,
         controller,
         stash,
         validatorPreferences,
@@ -56,10 +54,9 @@ const createValidator: Task<NomidotValidator[]> = {
 
     return result;
   },
-  write: async (values: NomidotValidator[]) => {
+  write: async (blockNumber: BlockNumber, values: NomidotValidator[]) => {
     values.forEach(async (validator: NomidotValidator) => {
       const {
-        blockNumber,
         controller,
         stash,
         validatorPreferences,

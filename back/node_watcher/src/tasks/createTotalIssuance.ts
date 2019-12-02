@@ -14,23 +14,21 @@ import { NomidotTotalIssuance, Task } from './types';
 const createTotalIssuance: Task<NomidotTotalIssuance> = {
   name: 'createTotalIssuance',
   read: async (
-    blockNumber: BlockNumber,
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotTotalIssuance> => {
     const amount = await api.query.balances.totalIssuance.at(blockHash);
 
     return {
-      blockNumber,
       amount,
     };
   },
-  write: async (value: NomidotTotalIssuance) => {
+  write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {
     const totalIssuanceCreateInput = {
       amount: value.amount.toHex(),
       blockNumber: {
         connect: {
-          number: value.blockNumber.toString(),
+          number: blockNumber.toString(),
         },
       },
     };

@@ -14,7 +14,6 @@ import { NomidotSession, Task } from './types';
 const createSession: Task<NomidotSession> = {
   name: 'createSession',
   read: async (
-    blockNumber: BlockNumber,
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotSession> => {
@@ -32,12 +31,11 @@ const createSession: Task<NomidotSession> = {
 
     return {
       didNewSessionStart,
-      idx: sessionIndex,
-      blockNumber,
+      idx: sessionIndex
     };
   },
-  write: async (value: NomidotSession) => {
-    const { blockNumber, didNewSessionStart, idx } = value;
+  write: async (blockNumber: BlockNumber, value: NomidotSession) => {
+    const { didNewSessionStart, idx } = value;
 
     if (didNewSessionStart) {
       await prisma.updateSession({

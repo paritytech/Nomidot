@@ -21,7 +21,7 @@ function* blockIterator (start: number = 0, end: number = BLOCK_NUMBER_RANGE) {
 }
 
 export async function nodeWatcher(tasks: NomidotTask[], api: ApiPromise): Promise<void> {
-  const iter = blockIterator(0, 2);
+  const iter = blockIterator();
   let nextBlockNumber = iter.next();
   let currSpecVersion = new BN(0);
 
@@ -46,14 +46,13 @@ export async function nodeWatcher(tasks: NomidotTask[], api: ApiPromise): Promis
 
     // execute watcher tasks
     for await (let task of tasks) {
-      l.warn(`running task --- ${task.name}`);
+      l.warn(`Task --- ${task.name}`);
 
-      const result = await task.read(blockNumber, blockHash, api);
-
-      l.warn(`task.read() yielded: ${JSON.stringify(result)}`);
+      const result = await task.read(blockHash, api);
 
       try {
-        await task.write(result);
+        l.warn(`Writing: ${JSON.stringify(result)}`);
+        await task.write(blockNumber, result);
       } catch (e) {
         l.error(e);
       }
