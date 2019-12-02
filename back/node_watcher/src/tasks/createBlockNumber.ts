@@ -22,12 +22,14 @@ const createBlockNumber: Task<NomidotBlock> = {
       blockHash.toHex()
     );
 
+    console.log(author, number);
+
     const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);
 
-    const registry = new TypeRegistry();
+    console.log(startDateTime);
 
     const result: NomidotBlock = {
-      authoredBy: createType('AccountId', author),
+      authoredBy: createType(api.registry, 'AccountId', author),
       blockNumber,
       hash: blockHash,
       startDateTime,
@@ -45,7 +47,7 @@ const createBlockNumber: Task<NomidotBlock> = {
       startDateTime: new Date(startDateTime.toNumber() * 1000).toISOString(),
     };
 
-    console.log(`block number create input: ${blockNumberCreateInput}`);
+    console.log(`block number create input: ${JSON.stringify(blockNumberCreateInput)}`);
 
     await prisma.createBlockNumber(blockNumberCreateInput);
   },

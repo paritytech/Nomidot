@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType } from '@polkadot/types';
+import { createType, TypeRegistry } from '@polkadot/types';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
@@ -13,22 +13,38 @@ const BLOCK_NUMBER_RANGE = Number.MAX_SAFE_INTEGER;
 
 const l = logger('node-watcher');
 
-export function nodeWatcher(tasks: NomidotTask[], api: ApiPromise): void {
-  // N.B. This for loop is actually asynchronous since ES6: https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
-  for (let number = 0; number < BLOCK_NUMBER_RANGE; number++) {
-    tasks.forEach(async (task: NomidotTask) => {
-      const blockNumber: BlockNumber = createType('BlockNumber', number);
-      const blockHash: Hash = await api.query.system.blockHash(blockNumber);
+function* blockIterator (start: number = 0, end: number = BLOCK_NUMBER_RANGE) {
+  for (let i = start; i < end; i++) {
+    yield i;
+  }
+}
 
-      const result = await task.read(blockNumber, blockHash, api);
+export async function nodeWatcher(tasks: NomidotTask[], api: ApiPromise): Promise<void> {
+  const iter = blockIterator();
+  let nextBlockNumber = iter.next();
 
-      l.log(`task.read() yielded: ${result}`);
+  while(!nextBlockNumber.done) {
+    l.log(nextBlockNumber);
+    
+    await Promise.all(
+      tasks.map(async (task: NomidotTask) => {
+        const blockNumber: BlockNumber = createType(api.registry, 'BlockNumber', nextBlockNumber.value);
+        l.log(`block: ${blockNumber}`);
+        const blockHash: Hash = await api.query.system.blockHash(blockNumber.toNumber());
+        l.log(`hash: ${blockHash}`);
 
-      try {
-        await task.write(result);
-      } catch (e) {
-        l.error(e);
-      }
-    });
+        const result = await task.read(blockNumber, blockHash, api);
+
+        l.log(`task.read() yielded: ${JSON.stringify(result)}`);
+
+        try {
+          await task.write(result);
+        } catch (e) {
+          l.error(e);
+        }
+      })
+    )
+
+    nextBlockNumber = iter.next();
   }
 }

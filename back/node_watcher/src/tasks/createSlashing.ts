@@ -33,8 +33,8 @@ const createSlashing: Task<NomidotSlashing[]> = {
     slashEvents.map(({ event: { data } }) => {
       result.push({
         blockNumber,
-        who: createType('AccountId', data[0].toString()),
-        amount: createType('Balance', data[1].toString()),
+        who: createType(api.registry, 'AccountId', data[0].toString()),
+        amount: createType(api.registry, 'Balance', data[1].toString()),
       });
     });
 
