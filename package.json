@@ -12,7 +12,7 @@
     "lint": "tsc --noEmit && eslint --ext ts,tsx .",
     "start": "cd ./front/gatsby && gatsby develop",
     "storybook": "cd ./front/ui-components && yarn storybook",
-    "test": "jest --coverage --runInBand"
+    "test": "jest"
   },
   "workspaces": {
     "packages": [
@@ -22,14 +22,12 @@
   },
   "devDependencies": {
     "@polkadot/dev": "^0.31.1",
-    "@types/jest": "^24.0.23",
     "eslint-config-prettier": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-simple-import-sort": "^4.0.0",
-    "jest": "^24.9.0",
     "lerna": "^3.18.4",
     "prettier": "1.19.1",
-    "typescript": "^3.7.2"
+    "ts-jest": "^24.2.0"
   }
 }
