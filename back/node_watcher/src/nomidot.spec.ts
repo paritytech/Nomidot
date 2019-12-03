@@ -140,12 +140,18 @@ describe('Nomidot Tasks', () => {
         done();
       });
 
-      it.only('Task: Validator', async done => {
+      it('Task: Validator', async done => {
         const validatorTask = nomidotTasks[5] as Task<NomidotValidator[]>;
 
         validatorResult = await validatorTask.read(blockTenHash, api);
 
         expect(validatorResult).toBeDefined();
+        expect(validatorResult.length).toBe(6);
+        validatorResult.map(validator => {
+          expect(validator.stash).toBeUndefined();
+          expect(validator.controller).toBeUndefined();
+          expect(validator.validatorPreferences).toBeUndefined();
+        })
 
         done();
       });
@@ -169,7 +175,6 @@ describe('Nomidot Tasks', () => {
         expect(result).toBeDefined();
         expect(result!.number).toBe(10);
         expect(result!.hash).toBe(blockResult.hash.toHex());
-
         done();
       });
     });

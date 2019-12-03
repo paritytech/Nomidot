@@ -33,44 +33,49 @@ const createValidator: Task<NomidotValidator[]> = {
 
     const result = await Promise.all(
       validators.map(async (validator: ValidatorId) => {
-        l.warn(`Getting info about this guy: ${JSON.stringify(validator)}`);
+        try {
+          // bonded controller if validator is a stash
+          const bonded: AccountId = await api.query.staking.bonded.at(
+            blockHash,
+            validator
+          );
 
-        // bonded controller if validator is a stash
-        const bonded: AccountId = await api.query.staking.bonded.at(
-          blockHash,
-          validator
-        );
+          // staking ledger information if validator is a controller
+          const ledger: StakingLedger = await api.query.staking.ledger.at(
+            blockHash,
+            validator
+          );
 
-        // staking ledger information if validator is a controller
-        const ledger: StakingLedger = await api.query.staking.ledger.at(
-          blockHash,
-          validator
-        );
+          // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
 
-        // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
-
-        const validatorPreferences: ValidatorPrefs | undefined = bonded
+          const validatorPreferences: ValidatorPrefs = bonded
           ? await api.query.staking.validators.at(blockHash, bonded)
-          : ledger
-          ? await api.query.staking.validators.at(blockHash, ledger.stash)
-          : undefined;
+          : await api.query.staking.validators.at(blockHash, ledger.stash)
 
-        const stash = validatorPreferences
-          ? bonded.isEmpty
+          const stash = bonded.isEmpty
             ? ledger.stash
             : validator
-          : undefined;
-        const controller = validatorPreferences
-          ? ledger.stash || validator
-          : undefined;
 
-        const result = {
-          controller,
-          stash,
-          validatorPreferences,
-        };
+          const controller = ledger.stash || validator;
 
-        return result;
+          const result = {
+            controller,
+            stash,
+            validatorPreferences,
+          };
+  
+          return result;
+        } catch (e) {
+          // l.error(e);
+          
+          const result = {
+            controller: undefined,
+            stash: undefined,
+            validatorPreferences: undefined
+          }
+
+          return result;
+        }
       })
     );
 
