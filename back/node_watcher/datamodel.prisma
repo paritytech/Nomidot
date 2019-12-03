@@ -1,19 +1,21 @@
 
 type BlockNumber {
   id: ID! @id
-  number: Int! @sequence(name: "BlockNumbers", initialValue: 0, allocationSize: 10000)
+  number: Int! @unique
   authoredBy: String!
   startDateTime: DateTime!
   hash: String! @unique
 }
 
 type Session {
-  id: Int! @id(strategy: SEQUENCE) @sequence(name: "SessionIndices", initialValue: 0, allocationSize: 10000)
+  id: ID! @id
+  index: Int! @unique
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
 }
 
 type Era {
-  id: Int! @id(strategy: SEQUENCE) @sequence(name: "EraIndices", initialValue: 0, allocationSize: 10000)
+  id: ID! @id
+  index: Int! @unique
   eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
   totalPoints: String!
   individualPoints: [String!]! @scalarList(strategy: RELATION)

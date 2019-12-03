@@ -4,9 +4,12 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotTotalIssuance, Task } from './types';
+
+const l = logger('Task: TotalIssuance');
 
 /*
  *  ======= Table (TotalIssuance) ======
@@ -19,9 +22,13 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
   ): Promise<NomidotTotalIssuance> => {
     const amount = await api.query.balances.totalIssuance.at(blockHash);
 
-    return {
-      amount,
-    };
+    const result = {
+      amount
+    }
+
+    l.log(`Total Issuance: ${JSON.stringify(result)}`);
+
+    return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {
     const totalIssuanceCreateInput = {

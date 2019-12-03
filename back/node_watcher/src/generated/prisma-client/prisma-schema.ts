@@ -43,7 +43,8 @@ type BatchPayload {
 }
 
 type BlockNumber {
-  id: Int!
+  id: ID!
+  number: Int!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -56,6 +57,8 @@ type BlockNumberConnection {
 }
 
 input BlockNumberCreateInput {
+  id: ID
+  number: Int!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -74,6 +77,8 @@ type BlockNumberEdge {
 enum BlockNumberOrderByInput {
   id_ASC
   id_DESC
+  number_ASC
+  number_DESC
   authoredBy_ASC
   authoredBy_DESC
   startDateTime_ASC
@@ -83,7 +88,8 @@ enum BlockNumberOrderByInput {
 }
 
 type BlockNumberPreviousValues {
-  id: Int!
+  id: ID!
+  number: Int!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -108,18 +114,21 @@ input BlockNumberSubscriptionWhereInput {
 }
 
 input BlockNumberUpdateDataInput {
+  number: Int
   authoredBy: String
   startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateInput {
+  number: Int
   authoredBy: String
   startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateManyMutationInput {
+  number: Int
   authoredBy: String
   startDateTime: DateTime
   hash: String
@@ -138,14 +147,28 @@ input BlockNumberUpsertNestedInput {
 }
 
 input BlockNumberWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  number: Int
+  number_not: Int
+  number_in: [Int!]
+  number_not_in: [Int!]
+  number_lt: Int
+  number_lte: Int
+  number_gt: Int
+  number_gte: Int
   authoredBy: String
   authoredBy_not: String
   authoredBy_in: [String!]
@@ -188,14 +211,16 @@ input BlockNumberWhereInput {
 }
 
 input BlockNumberWhereUniqueInput {
-  id: Int
+  id: ID
+  number: Int
   hash: String
 }
 
 scalar DateTime
 
 type Era {
-  id: Int!
+  id: ID!
+  index: Int!
   eraStartSessionIndex: Session!
   totalPoints: String!
   individualPoints: [String!]!
@@ -212,6 +237,8 @@ input EraCreateindividualPointsInput {
 }
 
 input EraCreateInput {
+  id: ID
+  index: Int!
   eraStartSessionIndex: SessionCreateOneInput!
   totalPoints: String!
   individualPoints: EraCreateindividualPointsInput
@@ -225,12 +252,15 @@ type EraEdge {
 enum EraOrderByInput {
   id_ASC
   id_DESC
+  index_ASC
+  index_DESC
   totalPoints_ASC
   totalPoints_DESC
 }
 
 type EraPreviousValues {
-  id: Int!
+  id: ID!
+  index: Int!
   totalPoints: String!
   individualPoints: [String!]!
 }
@@ -258,25 +288,41 @@ input EraUpdateindividualPointsInput {
 }
 
 input EraUpdateInput {
+  index: Int
   eraStartSessionIndex: SessionUpdateOneRequiredInput
   totalPoints: String
   individualPoints: EraUpdateindividualPointsInput
 }
 
 input EraUpdateManyMutationInput {
+  index: Int
   totalPoints: String
   individualPoints: EraUpdateindividualPointsInput
 }
 
 input EraWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  index: Int
+  index_not: Int
+  index_in: [Int!]
+  index_not_in: [Int!]
+  index_lt: Int
+  index_lte: Int
+  index_gt: Int
+  index_gte: Int
   eraStartSessionIndex: SessionWhereInput
   totalPoints: String
   totalPoints_not: String
@@ -298,7 +344,8 @@ input EraWhereInput {
 }
 
 input EraWhereUniqueInput {
-  id: Int
+  id: ID
+  index: Int
 }
 
 scalar Long
@@ -330,6 +377,7 @@ type Mutation {
   deleteManyRewards(where: RewardWhereInput): BatchPayload!
   createSession(data: SessionCreateInput!): Session!
   updateSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
+  updateManySessions(data: SessionUpdateManyMutationInput!, where: SessionWhereInput): BatchPayload!
   upsertSession(where: SessionWhereUniqueInput!, create: SessionCreateInput!, update: SessionUpdateInput!): Session!
   deleteSession(where: SessionWhereUniqueInput!): Session
   deleteManySessions(where: SessionWhereInput): BatchPayload!
@@ -707,7 +755,8 @@ input RewardWhereUniqueInput {
 }
 
 type Session {
-  id: Int!
+  id: ID!
+  index: Int!
   start: BlockNumber!
 }
 
@@ -718,6 +767,8 @@ type SessionConnection {
 }
 
 input SessionCreateInput {
+  id: ID
+  index: Int!
   start: BlockNumberCreateOneInput!
 }
 
@@ -734,10 +785,13 @@ type SessionEdge {
 enum SessionOrderByInput {
   id_ASC
   id_DESC
+  index_ASC
+  index_DESC
 }
 
 type SessionPreviousValues {
-  id: Int!
+  id: ID!
+  index: Int!
 }
 
 type SessionSubscriptionPayload {
@@ -759,11 +813,17 @@ input SessionSubscriptionWhereInput {
 }
 
 input SessionUpdateDataInput {
+  index: Int
   start: BlockNumberUpdateOneRequiredInput
 }
 
 input SessionUpdateInput {
+  index: Int
   start: BlockNumberUpdateOneRequiredInput
+}
+
+input SessionUpdateManyMutationInput {
+  index: Int
 }
 
 input SessionUpdateOneRequiredInput {
@@ -779,14 +839,28 @@ input SessionUpsertNestedInput {
 }
 
 input SessionWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  index: Int
+  index_not: Int
+  index_in: [Int!]
+  index_not_in: [Int!]
+  index_lt: Int
+  index_lte: Int
+  index_gt: Int
+  index_gte: Int
   start: BlockNumberWhereInput
   AND: [SessionWhereInput!]
   OR: [SessionWhereInput!]
@@ -794,7 +868,8 @@ input SessionWhereInput {
 }
 
 input SessionWhereUniqueInput {
-  id: Int
+  id: ID
+  index: Int
 }
 
 type Slashing {

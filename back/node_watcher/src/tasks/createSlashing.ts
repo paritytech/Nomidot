@@ -5,9 +5,12 @@
 import { ApiPromise } from '@polkadot/api';
 import { createType, Vec } from '@polkadot/types';
 import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotSlashing, Task } from './types';
+
+const l = logger('Task: Slashing');
 
 /*
  *  ======= Table (Slashing) ======
@@ -35,6 +38,8 @@ const createSlashing: Task<NomidotSlashing[]> = {
         amount: createType(api.registry, 'Balance', data[1].toString()),
       });
     });
+
+    l.log(`Nomidot Slashing: ${JSON.stringify(result)}`);
 
     return result;
   },

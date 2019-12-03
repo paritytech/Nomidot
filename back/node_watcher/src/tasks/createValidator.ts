@@ -8,11 +8,15 @@ import {
   BlockNumber,
   Hash,
   StakingLedger,
+  ValidatorId,
   ValidatorPrefs,
 } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotValidator, Task } from './types';
+
+const l = logger('Task: Validator');
 
 /*
  *  ======= Table (Validator) ======
@@ -26,7 +30,7 @@ const createValidator: Task<NomidotValidator[]> = {
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
 
     return Promise.all(
-      validators.map(async validator => {
+      validators.map(async (validator: ValidatorId) => {
         // bonded controller if validator is a stash
         const bonded: AccountId = await api.query.staking.bonded.at(
           blockHash,
@@ -39,17 +43,21 @@ const createValidator: Task<NomidotValidator[]> = {
         );
 
         const validatorPreferences: ValidatorPrefs = bonded
-          ? await api.query.staking.validators(bonded)
-          : await api.query.staking.validators(ledger.stash);
+          ? await api.query.staking.validators.at(blockHash, bonded)
+          : await api.query.staking.validators.at(blockHash, ledger.stash);
 
         const stash = bonded.isEmpty ? ledger.stash : validator;
         const controller = ledger.stash || validator;
 
-        return {
+        const result = {
           controller,
           stash,
           validatorPreferences,
         };
+
+        l.log(`Nomidot Validator: ${JSON.stringify(result)}`);
+
+        return result;
       })
     );
   },
@@ -73,7 +81,7 @@ const createValidator: Task<NomidotValidator[]> = {
           await prisma.createValidator({
             blockNumber: {
               connect: {
-                id: blockNumber.toNumber(),
+                number: blockNumber.toNumber(),
               },
             },
             controller: controller.toHex(),

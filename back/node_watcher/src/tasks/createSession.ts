@@ -4,9 +4,12 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotSession, Task } from './types';
+
+const l = logger('Task: Session');
 
 /*
  *  ======= Table (Session) ======
@@ -24,19 +27,24 @@ const createSession: Task<NomidotSession> = {
 
     const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
-    return {
+    const result = {
       didNewSessionStart,
       idx: sessionIndex,
     };
+
+    l.log(`Nomidot Session: ${JSON.stringify(result)}`);
+
+    return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
     const { didNewSessionStart, idx } = value;
 
     if (didNewSessionStart) {
       await prisma.createSession({
+        index: idx.toNumber(),
         start: {
           connect: {
-            id: blockNumber.toNumber(),
+            number: blockNumber.toNumber(),
           },
         },
       });

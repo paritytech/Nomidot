@@ -4,9 +4,12 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotEra, Task } from './types';
+
+const l = logger('Task: Era');
 
 /*
  *  ======= Table (Era) ======
@@ -20,18 +23,22 @@ const createEra: Task<NomidotEra> = {
       blockHash
     );
 
-    return {
+    const result = {
       idx,
       points,
       startSessionIndex: currentEraStartSessionIndex,
     };
+
+    l.log(`NomidotEra: ${JSON.stringify(result)}`);
+
+    return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotEra) => {
     const { idx, points, startSessionIndex } = value;
 
     // check if record exists
     const eraIndexAlreadyExists = await prisma.$exists.era({
-      id: idx.toNumber(),
+      index: idx.toNumber(),
     });
 
     if (eraIndexAlreadyExists) {
@@ -43,18 +50,19 @@ const createEra: Task<NomidotEra> = {
           totalPoints: points.total.toHex(),
         },
         where: {
-          id: idx.toNumber(),
+          index: idx.toNumber(),
         },
       });
     } else {
       await prisma.createEra({
+        index: idx.toNumber(),
         totalPoints: points.total.toHex(),
         individualPoints: {
           set: points.individual.map(points => points.toHex()),
         },
         eraStartSessionIndex: {
           connect: {
-            id: startSessionIndex.toNumber(),
+            index: startSessionIndex.toNumber(),
           },
         },
       });
