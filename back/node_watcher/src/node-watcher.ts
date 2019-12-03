@@ -14,29 +14,41 @@ const BLOCK_NUMBER_RANGE = Number.MAX_SAFE_INTEGER;
 
 const l = logger('node-watcher');
 
-function* blockIterator (start: number = 0, end: number = BLOCK_NUMBER_RANGE) {
+function* blockIterator(
+  start = 0,
+  end: number = BLOCK_NUMBER_RANGE
+): Generator {
   for (let i = start; i < end; i++) {
     yield i;
   }
 }
 
-export async function nodeWatcher(tasks: NomidotTask[], api: ApiPromise): Promise<void> {
+export async function nodeWatcher(
+  tasks: NomidotTask[],
+  api: ApiPromise
+): Promise<void> {
   const iter = blockIterator();
   let nextBlockNumber = iter.next();
-  let currSpecVersion = new BN(0);
+  let currSpecVersion = new BN(-1);
 
-  while(!nextBlockNumber.done) {
+  while (!nextBlockNumber.done) {
     l.warn(nextBlockNumber);
 
-    const blockNumber: BlockNumber = createType(api.registry, 'BlockNumber', nextBlockNumber.value);
+    const blockNumber: BlockNumber = createType(
+      api.registry,
+      'BlockNumber',
+      nextBlockNumber.value
+    );
     l.warn(`block: ${blockNumber}`);
-    const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber.toNumber());
+    const blockHash: Hash = await api.rpc.chain.getBlockHash(
+      blockNumber.toNumber()
+    );
     l.warn(`hash: ${blockHash}`);
 
     // check spec version
     const runtimeVersion = await api.rpc.state.getRuntimeVersion();
     const specVersion = runtimeVersion.specVersion;
-    
+
     // if spec version was bumped, update metadata in api registry
     if (specVersion.gt(currSpecVersion)) {
       const rpcMeta = await api.rpc.state.getMetadata(blockHash);
@@ -45,7 +57,7 @@ export async function nodeWatcher(tasks: NomidotTask[], api: ApiPromise): Promis
     }
 
     // execute watcher tasks
-    for await (let task of tasks) {
+    for await (const task of tasks) {
       l.warn(`Task --- ${task.name}`);
 
       const result = await task.read(blockHash, api);

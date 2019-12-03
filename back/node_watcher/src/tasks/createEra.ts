@@ -13,10 +13,7 @@ import { NomidotEra, Task } from './types';
  */
 const createEra: Task<NomidotEra> = {
   name: 'createEra',
-  read: async (
-    blockHash: Hash,
-    api: ApiPromise
-  ): Promise<NomidotEra> => {
+  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotEra> => {
     const idx = await api.query.staking.currentEra.at(blockHash);
     const points = await api.query.staking.currentEraPointsEarned.at(blockHash);
     const currentEraStartSessionIndex = await api.query.staking.currentEraStartSessionIndex.at(
@@ -34,32 +31,31 @@ const createEra: Task<NomidotEra> = {
 
     // check if record exists
     const eraIndexAlreadyExists = await prisma.$exists.era({
-      idx: idx.toString()
+      index: idx.toNumber(),
     });
 
-    // update or create
     if (eraIndexAlreadyExists) {
       await prisma.updateEra({
         data: {
           individualPoints: {
-            set: points.individual.map(points => points.toHex())
+            set: points.individual.map(points => points.toHex()),
           },
-          totalPoints: points.total.toHex()
+          totalPoints: points.total.toHex(),
         },
         where: {
-          idx: idx.toString()
-        }
-      })
+          index: idx.toNumber(),
+        },
+      });
     } else {
       await prisma.createEra({
-        idx: idx.toString(),
+        index: idx.toNumber(),
         totalPoints: points.total.toHex(),
         individualPoints: {
           set: points.individual.map(points => points.toHex()),
         },
         eraStartSessionIndex: {
           connect: {
-            idx: startSessionIndex.toString(),
+            index: startSessionIndex.toNumber(),
           },
         },
       });

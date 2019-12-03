@@ -7,9 +7,8 @@ import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma, BlockNumberCreateInput } from '../../generated/prisma-client';
+import { prisma } from '../../generated/prisma-client';
 import { NomidotBlock, Task } from './types';
-import BN = require('bn.js');
 
 const l = logger('Task: BlockNumber');
 
@@ -18,13 +17,9 @@ const l = logger('Task: BlockNumber');
  */
 const createBlockNumber: Task<NomidotBlock> = {
   name: 'createBlockNumber',
-  read: async (
-    blockHash: Hash,
-    api: ApiPromise
-  ): Promise<NomidotBlock> => {
-    const [author, number] = await api.derive.chain.getHeader(
-      blockHash.toHex()
-    );
+  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotBlock> => {
+    // eslint-disable-next-line
+    const [author, _] = await api.derive.chain.getHeader(blockHash.toHex());
 
     const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);
 
@@ -34,22 +29,22 @@ const createBlockNumber: Task<NomidotBlock> = {
       startDateTime,
     };
 
+    l.log(`NomidotBlock: ${result}`);
+
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotBlock) => {
     const { authoredBy, hash, startDateTime } = value;
 
-    const blockNumberCreateInput = {
-      number: blockNumber.toString(),
+    const write = await prisma.createBlockNumber({
+      number: blockNumber.toNumber(),
       authoredBy: authoredBy.toString(),
-      startDateTime: new Date(startDateTime.mul(new BN(1000)).toNumber()).toISOString(),
-      hash: hash.toHex()
-    } as BlockNumberCreateInput;
+      startDateTime: new Date(startDateTime.toNumber() * 1000).toISOString(),
+      hash: hash.toHex(),
+    });
 
-    l.warn(`block number create input: ${JSON.stringify(blockNumberCreateInput)}`);
-
-    await prisma.createBlockNumber(blockNumberCreateInput);
-  }
+    l.log(`Prisma Block Number: ${write}`);
+  },
 };
 
 export default createBlockNumber;

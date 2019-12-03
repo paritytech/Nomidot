@@ -25,54 +25,64 @@ const createValidator: Task<NomidotValidator[]> = {
   ): Promise<NomidotValidator[]> => {
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
 
-    const result: NomidotValidator[] = [];
-    validators.forEach(async validator => {
-      // bonded controller if validator is a stash
-      const bonded: AccountId = await api.query.staking.bonded.at(
-        blockHash,
-        validator
-      );
-      // staking ledger information if validator is a controller
-      const ledger: StakingLedger = await api.query.staking.ledger.at(
-        blockHash,
-        validator
-      );
+    return Promise.all(
+      validators.map(async validator => {
+        // bonded controller if validator is a stash
+        const bonded: AccountId = await api.query.staking.bonded.at(
+          blockHash,
+          validator
+        );
+        // staking ledger information if validator is a controller
+        const ledger: StakingLedger = await api.query.staking.ledger.at(
+          blockHash,
+          validator
+        );
 
-      const validatorPreferences: ValidatorPrefs = bonded
-        ? await api.query.staking.validators(bonded)
-        : await api.query.staking.validators(ledger.stash);
+        const validatorPreferences: ValidatorPrefs = bonded
+          ? await api.query.staking.validators(bonded)
+          : await api.query.staking.validators(ledger.stash);
 
-      const stash = bonded.isEmpty ? ledger.stash : validator;
-      const controller = ledger.stash || validator;
+        const stash = bonded.isEmpty ? ledger.stash : validator;
+        const controller = ledger.stash || validator;
 
-      result.push({
-        controller,
-        stash,
-        validatorPreferences,
-      });
-    });
-
-    return result;
+        return {
+          controller,
+          stash,
+          validatorPreferences,
+        };
+      })
+    );
   },
   write: async (blockNumber: BlockNumber, values: NomidotValidator[]) => {
-    values.forEach(async (validator: NomidotValidator) => {
-      const {
-        controller,
-        stash,
-        validatorPreferences,
-      } = validator;
-
+    if (!values) {
       await prisma.createValidator({
         blockNumber: {
           connect: {
-            number: blockNumber.toString(),
+            number: blockNumber.toNumber(),
           },
         },
-        controller: controller.toHex(),
-        stash: stash.toHex(),
-        preferences: validatorPreferences.toHex(),
+        controller: '0x00',
+        stash: '0x00',
+        preferences: '0x00',
       });
-    });
+    } else {
+      await Promise.all(
+        values.map(async (validator: NomidotValidator) => {
+          const { controller, stash, validatorPreferences } = validator;
+
+          await prisma.createValidator({
+            blockNumber: {
+              connect: {
+                number: blockNumber.toNumber(),
+              },
+            },
+            controller: controller.toHex(),
+            stash: stash.toHex(),
+            preferences: validatorPreferences.toHex(),
+          });
+        })
+      );
+    }
   },
 };
 

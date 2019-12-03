@@ -13,12 +13,7 @@ import { NomidotSession, Task } from './types';
  */
 const createSession: Task<NomidotSession> = {
   name: 'createSession',
-  read: async (
-    blockHash: Hash,
-    api: ApiPromise
-  ): Promise<NomidotSession> => {
-    // check events for if a new session has happened.
-    // Question: is there a better way to do this?
+  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotSession> => {
     const events = await api.query.system.events.at(blockHash);
 
     const didNewSessionStart =
@@ -31,37 +26,21 @@ const createSession: Task<NomidotSession> = {
 
     return {
       didNewSessionStart,
-      idx: sessionIndex
+      idx: sessionIndex,
     };
   },
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
     const { didNewSessionStart, idx } = value;
 
     if (didNewSessionStart) {
-      await prisma.updateSession({
-        data: {
-          end: {
-            connect: {
-              number: blockNumber.toString(),
-            },
-          },
-        },
-        where: {
-          idx: idx.toString(),
-        },
-      });
-    } else {
-      const sessionCreateInput = {
-        idx: idx.toString(),
+      await prisma.createSession({
+        index: idx.toNumber(),
         start: {
           connect: {
-            number: blockNumber.toString(),
+            number: blockNumber.toNumber(),
           },
         },
-        end: null,
-      };
-
-      await prisma.createSession(sessionCreateInput);
+      });
     }
   },
 };

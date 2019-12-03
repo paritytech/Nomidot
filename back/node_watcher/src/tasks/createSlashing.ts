@@ -23,13 +23,12 @@ const createSlashing: Task<NomidotSlashing[]> = {
     );
 
     const slashEvents = eventsAtBlock.filter(
-      ({ event: { section, method } }) => {
-        section === 'staking' && method === 'slash';
-      }
+      ({ event: { section, method } }) =>
+        section === 'staking' && method === 'slash'
     );
-    
-    let result: NomidotSlashing[] = [];
-      
+
+    const result: NomidotSlashing[] = [];
+
     slashEvents.map(({ event: { data } }) => {
       result.push({
         who: createType(api.registry, 'AccountId', data[0].toString()),
@@ -45,26 +44,28 @@ const createSlashing: Task<NomidotSlashing[]> = {
       await prisma.createSlashing({
         blockNumber: {
           connect: {
-            number: blockNumber.toString()
-          }
-        },
-        reason: '0x00',
-        amount: '0x00'
-      })
-    }
-
-    value.forEach(async slashEvent => {
-      const { who, amount } = slashEvent;
-      await prisma.createSlashing({
-        blockNumber: {
-          connect: {
-            number: blockNumber.toString(),
+            number: blockNumber.toNumber(),
           },
         },
-        reason: who.toHex(),
-        amount: amount.toHex(),
+        reason: '0x00',
+        amount: '0x00',
       });
-    });
+    } else {
+      await Promise.all(
+        value.map(async slashEvent => {
+          const { who, amount } = slashEvent;
+          await prisma.createSlashing({
+            blockNumber: {
+              connect: {
+                number: blockNumber.toNumber(),
+              },
+            },
+            reason: who.toHex(),
+            amount: amount.toHex(),
+          });
+        })
+      );
+    }
   },
 };
 

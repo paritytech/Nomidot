@@ -7,7 +7,7 @@
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
     "clean": "./scripts/clean-build.sh",
-    "prelerna:publish": "yarn clean && lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components",
+    "prelerna:publish": "yarn clean && lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components --scope @substrate/node-watcher",
     "lerna:publish": "lerna version --conventional-commits && lerna publish from-git",
     "lint": "tsc --noEmit && eslint --ext ts,tsx .",
     "start": "cd ./front/gatsby && gatsby develop",
@@ -27,9 +27,9 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-simple-import-sort": "^4.0.0",
+    "jest": "^24.9.0",
     "lerna": "^3.18.4",
     "prettier": "1.19.1",
-    "ts-jest": "^24.2.0",
     "typescript": "^3.7.2"
   }
 }

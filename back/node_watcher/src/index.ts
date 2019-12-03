@@ -10,16 +10,19 @@ import nomidotTasks from './nomidot-tasks';
 
 const ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 
-async function main() {
+function main() {
   const provider = new WsProvider(ENDPOINT);
   const registry = new TypeRegistry();
+  // eslint-disable-next-line
   const api = new ApiPromise({ provider, registry });
 
-  api.isReady.then(() => {
-    nodeWatcher([...nomidotTasks], api).then(() => {
-      return;
+  api.isReady
+    .then(() => {
+      nodeWatcher([...nomidotTasks], api);
+    })
+    .catch(e => {
+      console.error(e);
     });
-  });
 }
 
-main().catch(e => console.error(e));
+main();
