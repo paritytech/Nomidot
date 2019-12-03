@@ -1,5 +1,7 @@
+
 type BlockNumber {
-  id: Int! @id(strategy: SEQUENCE) @sequence(name: "BlockNumbers", initialValue:1, allocationSize: 10000)
+  id: ID! @id
+  number: Int! @sequence(name: "BlockNumbers", initialValue: 0, allocationSize: 10000)
   authoredBy: String!
   startDateTime: DateTime!
   hash: String! @unique

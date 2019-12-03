@@ -31,7 +31,7 @@ async function incrementor(
   l.warn(`hash: ${blockHash}`);
 
   // check spec version
-  const runtimeVersion = await api.rpc.state.getRuntimeVersion();
+  const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockHash);
   const newSpecVersion = runtimeVersion.specVersion;
 
   // if spec version was bumped, update metadata in api registry
