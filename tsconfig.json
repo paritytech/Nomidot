@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "public", ".cache"],
+  "exclude": ["generated", "node_modules", "public", ".cache"],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",
@@ -10,8 +10,7 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@substrate/context": ["front/context/src"],
-      "@substrate/ui-components": ["front/ui-components/src"],
-      "@substrate/node-watcher": ["back/node-watcher/src"]
+      "@substrate/ui-components": ["front/ui-components/src"]
     },
     "skipLibCheck": true,
     "strict": true,

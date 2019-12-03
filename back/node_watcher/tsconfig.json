@@ -4,5 +4,5 @@
   },
   "extends": "../../tsconfig",
   "include": ["./src"],
-  "exclude": ["generated/prisma-client"]
+  "exclude": ["./generated"]
 }
