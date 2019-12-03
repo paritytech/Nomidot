@@ -8,12 +8,14 @@ import createSession from './createSession';
 import createSlashing from './createSlashing';
 import createTotalIssuance from './createTotalIssuance';
 import createValidator from './createValidator';
+import { NomidotTask } from './types';
 
-export {
+// N.B. Order of tasks matters here
+export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
   createEra,
   createSlashing,
   createTotalIssuance,
   createValidator,
-};
+];
