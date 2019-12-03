@@ -9,8 +9,8 @@ import { nomidotTasks } from './tasks';
 
 const l = logger('main');
 
-function main() {
-  nodeWatcher([nomidotTasks[0]]).catch(e => {
+function main(): void {
+  nodeWatcher(nomidotTasks).catch(e => {
     l.error(e);
     process.exit(1);
   });

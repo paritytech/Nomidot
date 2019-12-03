@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-// import { TypeRegistry } from '@polkadot/types';
 
 // import nomidotTasks from './nomidot-tasks';
 
@@ -16,14 +15,15 @@ describe('Nomidot Tasks', () => {
   beforeEach(
     async (done): Promise<void> => {
       api = await ApiPromise.create({ provider: new WsProvider(parityKusama) });
+
       done();
     }
   );
 
   it('should read a single task', async done => {
-    const intentions = await api.query.staking.validators();
+    const currentValidators = await api.query.session.validators();
 
-    console.error(JSON.parse(JSON.stringify(intentions)));
+    console.error(currentValidators.toJSON());
 
     done();
   });
