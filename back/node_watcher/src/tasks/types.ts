@@ -55,9 +55,9 @@ export interface NomidotTotalIssuance {
 }
 
 export interface NomidotValidator {
-  controller: AccountId;
-  stash: AccountId;
-  validatorPreferences: ValidatorPrefs;
+  controller?: AccountId;
+  stash?: AccountId;
+  validatorPreferences?: ValidatorPrefs;
 }
 
 export type Nomidot =

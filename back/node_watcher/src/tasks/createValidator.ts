@@ -29,44 +29,61 @@ const createValidator: Task<NomidotValidator[]> = {
   ): Promise<NomidotValidator[]> => {
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
 
-    return Promise.all(
+    l.log(`Validators: ${JSON.stringify(validators)}`);
+
+    const result = await Promise.all(
       validators.map(async (validator: ValidatorId) => {
+        l.warn(`Getting info about this guy: ${JSON.stringify(validator)}`);
+
         // bonded controller if validator is a stash
         const bonded: AccountId = await api.query.staking.bonded.at(
           blockHash,
           validator
         );
+        
         // staking ledger information if validator is a controller
         const ledger: StakingLedger = await api.query.staking.ledger.at(
           blockHash,
           validator
         );
 
-        const validatorPreferences: ValidatorPrefs = bonded
-          ? await api.query.staking.validators.at(blockHash, bonded)
-          : await api.query.staking.validators.at(blockHash, ledger.stash);
+        // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
 
-        const stash = bonded.isEmpty ? ledger.stash : validator;
-        const controller = ledger.stash || validator;
+        const validatorPreferences: ValidatorPrefs | undefined = bonded
+          ? await api.query.staking.validators.at(blockHash, bonded)
+          : ledger
+            ? await api.query.staking.validators.at(blockHash, ledger.stash)
+            : undefined
+
+        const stash = validatorPreferences
+          ? bonded.isEmpty
+            ? ledger.stash
+            : validator
+          : undefined;
+        const controller = validatorPreferences
+          ? ledger.stash || validator
+          : undefined;
 
         const result = {
           controller,
           stash,
-          validatorPreferences,
+          validatorPreferences
         };
-
-        l.log(`Nomidot Validator: ${JSON.stringify(result)}`);
 
         return result;
       })
     );
+    
+    l.log(`Nomidot Validators: ${JSON.stringify(result)}`);
+
+    return result;
   },
   write: async (blockNumber: BlockNumber, values: NomidotValidator[]) => {
     if (!values) {
       await prisma.createValidator({
         blockNumber: {
           connect: {
-            id: blockNumber.toNumber(),
+            number: blockNumber.toNumber(),
           },
         },
         controller: '0x00',
@@ -84,9 +101,9 @@ const createValidator: Task<NomidotValidator[]> = {
                 number: blockNumber.toNumber(),
               },
             },
-            controller: controller.toHex(),
-            stash: stash.toHex(),
-            preferences: validatorPreferences.toHex(),
+            controller: controller ? controller.toHex() : '0x00',
+            stash: stash ? stash.toHex() : '0x00',
+            preferences: validatorPreferences ? validatorPreferences.toHex() : '0x00',
           });
         })
       );
