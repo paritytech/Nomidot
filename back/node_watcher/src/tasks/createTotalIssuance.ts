@@ -23,8 +23,8 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
     const amount = await api.query.balances.totalIssuance.at(blockHash);
 
     const result = {
-      amount
-    }
+      amount,
+    };
 
     l.log(`Total Issuance: ${JSON.stringify(result)}`);
 

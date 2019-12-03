@@ -40,7 +40,7 @@ const createValidator: Task<NomidotValidator[]> = {
           blockHash,
           validator
         );
-        
+
         // staking ledger information if validator is a controller
         const ledger: StakingLedger = await api.query.staking.ledger.at(
           blockHash,
@@ -52,8 +52,8 @@ const createValidator: Task<NomidotValidator[]> = {
         const validatorPreferences: ValidatorPrefs | undefined = bonded
           ? await api.query.staking.validators.at(blockHash, bonded)
           : ledger
-            ? await api.query.staking.validators.at(blockHash, ledger.stash)
-            : undefined
+          ? await api.query.staking.validators.at(blockHash, ledger.stash)
+          : undefined;
 
         const stash = validatorPreferences
           ? bonded.isEmpty
@@ -67,13 +67,13 @@ const createValidator: Task<NomidotValidator[]> = {
         const result = {
           controller,
           stash,
-          validatorPreferences
+          validatorPreferences,
         };
 
         return result;
       })
     );
-    
+
     l.log(`Nomidot Validators: ${JSON.stringify(result)}`);
 
     return result;
@@ -103,7 +103,9 @@ const createValidator: Task<NomidotValidator[]> = {
             },
             controller: controller ? controller.toHex() : '0x00',
             stash: stash ? stash.toHex() : '0x00',
-            preferences: validatorPreferences ? validatorPreferences.toHex() : '0x00',
+            preferences: validatorPreferences
+              ? validatorPreferences.toHex()
+              : '0x00',
           });
         })
       );

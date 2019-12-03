@@ -7,7 +7,7 @@ import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma, BlockNumberCreateInput } from '../generated/prisma-client';
+import { BlockNumberCreateInput, prisma } from '../generated/prisma-client';
 import { NomidotBlock, Task } from './types';
 
 const l = logger('Task: BlockNumber');
