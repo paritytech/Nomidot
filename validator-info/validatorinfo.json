@@ -1,0 +1,16 @@
+[
+	{
+		"comment" : "Entries should be sorted alphabetically by `entity`. This entry is just an example and should remain at the top.",
+		"info" : {
+			"entity" : "SubZero Staking",
+			"validator_id" : "subzero_val_01",
+			"stash" : "Du4CUMqBkK83gS9fH42rwDoBsKWXfvcXp3EwJLfeaoXtK2D",
+			"description" : "The coolest validator company in town.",
+			"website" : "subzerostaking.com",
+			"email" : "icecold@subzerostaking.com",
+			"twitter" : "https://twitter.com/joepetrowski",
+			"github" : "https://github.com/joepetrowski"
+		},
+		"signature" : "0xa0098b5187b4b8f3e54b9e2b69da5ac3dd52931dca3c5f524a3282bd3f4567530511cb09c7744e7623b6806de7db96f19d5ef341079297b9a2f62819842cfc03"
+	}
+]
