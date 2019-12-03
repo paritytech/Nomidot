@@ -43,7 +43,7 @@ type BatchPayload {
 }
 
 type BlockNumber {
-  number: Int!
+  id: Int!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -56,7 +56,6 @@ type BlockNumberConnection {
 }
 
 input BlockNumberCreateInput {
-  number: Int
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -73,8 +72,8 @@ type BlockNumberEdge {
 }
 
 enum BlockNumberOrderByInput {
-  number_ASC
-  number_DESC
+  id_ASC
+  id_DESC
   authoredBy_ASC
   authoredBy_DESC
   startDateTime_ASC
@@ -84,7 +83,7 @@ enum BlockNumberOrderByInput {
 }
 
 type BlockNumberPreviousValues {
-  number: Int!
+  id: Int!
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
@@ -139,14 +138,14 @@ input BlockNumberUpsertNestedInput {
 }
 
 input BlockNumberWhereInput {
-  number: Int
-  number_not: Int
-  number_in: [Int!]
-  number_not_in: [Int!]
-  number_lt: Int
-  number_lte: Int
-  number_gt: Int
-  number_gte: Int
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   authoredBy: String
   authoredBy_not: String
   authoredBy_in: [String!]
@@ -189,14 +188,14 @@ input BlockNumberWhereInput {
 }
 
 input BlockNumberWhereUniqueInput {
-  number: Int
+  id: Int
   hash: String
 }
 
 scalar DateTime
 
 type Era {
-  index: Int!
+  id: Int!
   eraStartSessionIndex: Session!
   totalPoints: String!
   individualPoints: [String!]!
@@ -213,7 +212,6 @@ input EraCreateindividualPointsInput {
 }
 
 input EraCreateInput {
-  index: Int
   eraStartSessionIndex: SessionCreateOneInput!
   totalPoints: String!
   individualPoints: EraCreateindividualPointsInput
@@ -225,14 +223,14 @@ type EraEdge {
 }
 
 enum EraOrderByInput {
-  index_ASC
-  index_DESC
+  id_ASC
+  id_DESC
   totalPoints_ASC
   totalPoints_DESC
 }
 
 type EraPreviousValues {
-  index: Int!
+  id: Int!
   totalPoints: String!
   individualPoints: [String!]!
 }
@@ -271,14 +269,14 @@ input EraUpdateManyMutationInput {
 }
 
 input EraWhereInput {
-  index: Int
-  index_not: Int
-  index_in: [Int!]
-  index_not_in: [Int!]
-  index_lt: Int
-  index_lte: Int
-  index_gt: Int
-  index_gte: Int
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   eraStartSessionIndex: SessionWhereInput
   totalPoints: String
   totalPoints_not: String
@@ -300,7 +298,7 @@ input EraWhereInput {
 }
 
 input EraWhereUniqueInput {
-  index: Int
+  id: Int
 }
 
 scalar Long
@@ -709,7 +707,7 @@ input RewardWhereUniqueInput {
 }
 
 type Session {
-  index: Int!
+  id: Int!
   start: BlockNumber!
 }
 
@@ -720,7 +718,6 @@ type SessionConnection {
 }
 
 input SessionCreateInput {
-  index: Int
   start: BlockNumberCreateOneInput!
 }
 
@@ -735,12 +732,12 @@ type SessionEdge {
 }
 
 enum SessionOrderByInput {
-  index_ASC
-  index_DESC
+  id_ASC
+  id_DESC
 }
 
 type SessionPreviousValues {
-  index: Int!
+  id: Int!
 }
 
 type SessionSubscriptionPayload {
@@ -782,14 +779,14 @@ input SessionUpsertNestedInput {
 }
 
 input SessionWhereInput {
-  index: Int
-  index_not: Int
-  index_in: [Int!]
-  index_not_in: [Int!]
-  index_lt: Int
-  index_lte: Int
-  index_gt: Int
-  index_gte: Int
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   start: BlockNumberWhereInput
   AND: [SessionWhereInput!]
   OR: [SessionWhereInput!]
@@ -797,7 +794,7 @@ input SessionWhereInput {
 }
 
 input SessionWhereUniqueInput {
-  index: Int
+  id: Int
 }
 
 type Slashing {

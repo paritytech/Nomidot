@@ -1,17 +1,17 @@
 type BlockNumber {
-  number: Int! @serial @unique @id
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "BlockNumbers", initialValue:1, allocationSize: 10000)
   authoredBy: String!
   startDateTime: DateTime!
   hash: String! @unique
 }
 
 type Session {
-  index: Int! @serial @unique @id
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "SessionIndices", initialValue: 0, allocationSize: 10000)
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
 }
 
 type Era {
-  index: Int! @serial @unique @id
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "EraIndices", initialValue: 0, allocationSize: 10000)
   eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
   totalPoints: String!
   individualPoints: [String!]! @scalarList(strategy: RELATION)

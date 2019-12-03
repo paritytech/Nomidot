@@ -44,7 +44,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
       await prisma.createSlashing({
         blockNumber: {
           connect: {
-            number: blockNumber.toNumber(),
+            id: blockNumber.toNumber(),
           },
         },
         reason: '0x00',
@@ -57,7 +57,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
           await prisma.createSlashing({
             blockNumber: {
               connect: {
-                number: blockNumber.toNumber(),
+                id: blockNumber.toNumber(),
               },
             },
             reason: who.toHex(),

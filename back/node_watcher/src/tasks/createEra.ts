@@ -31,7 +31,7 @@ const createEra: Task<NomidotEra> = {
 
     // check if record exists
     const eraIndexAlreadyExists = await prisma.$exists.era({
-      index: idx.toNumber(),
+      id: idx.toNumber(),
     });
 
     if (eraIndexAlreadyExists) {
@@ -43,19 +43,18 @@ const createEra: Task<NomidotEra> = {
           totalPoints: points.total.toHex(),
         },
         where: {
-          index: idx.toNumber(),
+          id: idx.toNumber(),
         },
       });
     } else {
       await prisma.createEra({
-        index: idx.toNumber(),
         totalPoints: points.total.toHex(),
         individualPoints: {
           set: points.individual.map(points => points.toHex()),
         },
         eraStartSessionIndex: {
           connect: {
-            index: startSessionIndex.toNumber(),
+            id: startSessionIndex.toNumber(),
           },
         },
       });

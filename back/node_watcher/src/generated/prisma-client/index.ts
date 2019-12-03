@@ -430,8 +430,8 @@ export type SlashingOrderByInput =
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type EraOrderByInput =
-  | "index_ASC"
-  | "index_DESC"
+  | "id_ASC"
+  | "id_DESC"
   | "totalPoints_ASC"
   | "totalPoints_DESC";
 
@@ -455,7 +455,7 @@ export type RewardOrderByInput =
   | "amount_ASC"
   | "amount_DESC";
 
-export type SessionOrderByInput = "index_ASC" | "index_DESC";
+export type SessionOrderByInput = "id_ASC" | "id_DESC";
 
 export type ValidatorOrderByInput =
   | "id_ASC"
@@ -468,8 +468,8 @@ export type ValidatorOrderByInput =
   | "preferences_DESC";
 
 export type BlockNumberOrderByInput =
-  | "number_ASC"
-  | "number_DESC"
+  | "id_ASC"
+  | "id_DESC"
   | "authoredBy_ASC"
   | "authoredBy_DESC"
   | "startDateTime_ASC"
@@ -494,7 +494,6 @@ export interface SessionUpdateInput {
 }
 
 export interface EraCreateInput {
-  index?: Maybe<Int>;
   eraStartSessionIndex: SessionCreateOneInput;
   totalPoints: String;
   individualPoints?: Maybe<EraCreateindividualPointsInput>;
@@ -516,7 +515,7 @@ export interface SlashingSubscriptionWhereInput {
 }
 
 export type BlockNumberWhereUniqueInput = AtLeastOne<{
-  number: Maybe<Int>;
+  id: Maybe<Int>;
   hash?: Maybe<String>;
 }>;
 
@@ -525,7 +524,7 @@ export interface RewardCreaterecipientsInput {
 }
 
 export type EraWhereUniqueInput = AtLeastOne<{
-  index: Maybe<Int>;
+  id: Maybe<Int>;
 }>;
 
 export interface RewardCreateInput {
@@ -536,14 +535,14 @@ export interface RewardCreateInput {
 }
 
 export interface EraWhereInput {
-  index?: Maybe<Int>;
-  index_not?: Maybe<Int>;
-  index_in?: Maybe<Int[] | Int>;
-  index_not_in?: Maybe<Int[] | Int>;
-  index_lt?: Maybe<Int>;
-  index_lte?: Maybe<Int>;
-  index_gt?: Maybe<Int>;
-  index_gte?: Maybe<Int>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   eraStartSessionIndex?: Maybe<SessionWhereInput>;
   totalPoints?: Maybe<String>;
   totalPoints_not?: Maybe<String>;
@@ -648,14 +647,14 @@ export interface TotalIssuanceUpdateInput {
 }
 
 export interface BlockNumberWhereInput {
-  number?: Maybe<Int>;
-  number_not?: Maybe<Int>;
-  number_in?: Maybe<Int[] | Int>;
-  number_not_in?: Maybe<Int[] | Int>;
-  number_lt?: Maybe<Int>;
-  number_lte?: Maybe<Int>;
-  number_gt?: Maybe<Int>;
-  number_gte?: Maybe<Int>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   authoredBy?: Maybe<String>;
   authoredBy_not?: Maybe<String>;
   authoredBy_in?: Maybe<String[] | String>;
@@ -931,14 +930,14 @@ export interface BlockNumberUpdateOneRequiredInput {
 }
 
 export interface SessionWhereInput {
-  index?: Maybe<Int>;
-  index_not?: Maybe<Int>;
-  index_in?: Maybe<Int[] | Int>;
-  index_not_in?: Maybe<Int[] | Int>;
-  index_lt?: Maybe<Int>;
-  index_lte?: Maybe<Int>;
-  index_gt?: Maybe<Int>;
-  index_gte?: Maybe<Int>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   start?: Maybe<BlockNumberWhereInput>;
   AND?: Maybe<SessionWhereInput[] | SessionWhereInput>;
   OR?: Maybe<SessionWhereInput[] | SessionWhereInput>;
@@ -1156,7 +1155,7 @@ export interface SessionUpdateOneRequiredInput {
 }
 
 export type SessionWhereUniqueInput = AtLeastOne<{
-  index: Maybe<Int>;
+  id: Maybe<Int>;
 }>;
 
 export interface EraUpdateInput {
@@ -1200,7 +1199,6 @@ export interface TotalIssuanceUpdateManyMutationInput {
 }
 
 export interface BlockNumberCreateInput {
-  number?: Maybe<Int>;
   authoredBy: String;
   startDateTime: DateTimeInput;
   hash: String;
@@ -1235,7 +1233,6 @@ export interface SessionCreateOneInput {
 }
 
 export interface SessionCreateInput {
-  index?: Maybe<Int>;
   start: BlockNumberCreateOneInput;
 }
 
@@ -1346,14 +1343,14 @@ export interface ValidatorSubscriptionPayloadSubscription
 }
 
 export interface BlockNumber {
-  number: Int;
+  id: Int;
   authoredBy: String;
   startDateTime: DateTimeOutput;
   hash: String;
 }
 
 export interface BlockNumberPromise extends Promise<BlockNumber>, Fragmentable {
-  number: () => Promise<Int>;
+  id: () => Promise<Int>;
   authoredBy: () => Promise<String>;
   startDateTime: () => Promise<DateTimeOutput>;
   hash: () => Promise<String>;
@@ -1362,7 +1359,7 @@ export interface BlockNumberPromise extends Promise<BlockNumber>, Fragmentable {
 export interface BlockNumberSubscription
   extends Promise<AsyncIterator<BlockNumber>>,
     Fragmentable {
-  number: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<Int>>;
   authoredBy: () => Promise<AsyncIterator<String>>;
   startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   hash: () => Promise<AsyncIterator<String>>;
@@ -1371,7 +1368,7 @@ export interface BlockNumberSubscription
 export interface BlockNumberNullablePromise
   extends Promise<BlockNumber | null>,
     Fragmentable {
-  number: () => Promise<Int>;
+  id: () => Promise<Int>;
   authoredBy: () => Promise<String>;
   startDateTime: () => Promise<DateTimeOutput>;
   hash: () => Promise<String>;
@@ -1485,25 +1482,25 @@ export interface AggregateTotalIssuanceSubscription
 }
 
 export interface Session {
-  index: Int;
+  id: Int;
 }
 
 export interface SessionPromise extends Promise<Session>, Fragmentable {
-  index: () => Promise<Int>;
+  id: () => Promise<Int>;
   start: <T = BlockNumberPromise>() => T;
 }
 
 export interface SessionSubscription
   extends Promise<AsyncIterator<Session>>,
     Fragmentable {
-  index: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<Int>>;
   start: <T = BlockNumberSubscription>() => T;
 }
 
 export interface SessionNullablePromise
   extends Promise<Session | null>,
     Fragmentable {
-  index: () => Promise<Int>;
+  id: () => Promise<Int>;
   start: <T = BlockNumberPromise>() => T;
 }
 
@@ -1529,13 +1526,13 @@ export interface TotalIssuanceConnectionSubscription
 }
 
 export interface Era {
-  index: Int;
+  id: Int;
   totalPoints: String;
   individualPoints: String[];
 }
 
 export interface EraPromise extends Promise<Era>, Fragmentable {
-  index: () => Promise<Int>;
+  id: () => Promise<Int>;
   eraStartSessionIndex: <T = SessionPromise>() => T;
   totalPoints: () => Promise<String>;
   individualPoints: () => Promise<String[]>;
@@ -1544,14 +1541,14 @@ export interface EraPromise extends Promise<Era>, Fragmentable {
 export interface EraSubscription
   extends Promise<AsyncIterator<Era>>,
     Fragmentable {
-  index: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<Int>>;
   eraStartSessionIndex: <T = SessionSubscription>() => T;
   totalPoints: () => Promise<AsyncIterator<String>>;
   individualPoints: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface EraNullablePromise extends Promise<Era | null>, Fragmentable {
-  index: () => Promise<Int>;
+  id: () => Promise<Int>;
   eraStartSessionIndex: <T = SessionPromise>() => T;
   totalPoints: () => Promise<String>;
   individualPoints: () => Promise<String[]>;
@@ -1620,7 +1617,7 @@ export interface StakeConnectionSubscription
 }
 
 export interface BlockNumberPreviousValues {
-  number: Int;
+  id: Int;
   authoredBy: String;
   startDateTime: DateTimeOutput;
   hash: String;
@@ -1629,7 +1626,7 @@ export interface BlockNumberPreviousValues {
 export interface BlockNumberPreviousValuesPromise
   extends Promise<BlockNumberPreviousValues>,
     Fragmentable {
-  number: () => Promise<Int>;
+  id: () => Promise<Int>;
   authoredBy: () => Promise<String>;
   startDateTime: () => Promise<DateTimeOutput>;
   hash: () => Promise<String>;
@@ -1638,7 +1635,7 @@ export interface BlockNumberPreviousValuesPromise
 export interface BlockNumberPreviousValuesSubscription
   extends Promise<AsyncIterator<BlockNumberPreviousValues>>,
     Fragmentable {
-  number: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<Int>>;
   authoredBy: () => Promise<AsyncIterator<String>>;
   startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   hash: () => Promise<AsyncIterator<String>>;
@@ -1739,7 +1736,7 @@ export interface AggregateSessionSubscription
 }
 
 export interface EraPreviousValues {
-  index: Int;
+  id: Int;
   totalPoints: String;
   individualPoints: String[];
 }
@@ -1747,7 +1744,7 @@ export interface EraPreviousValues {
 export interface EraPreviousValuesPromise
   extends Promise<EraPreviousValues>,
     Fragmentable {
-  index: () => Promise<Int>;
+  id: () => Promise<Int>;
   totalPoints: () => Promise<String>;
   individualPoints: () => Promise<String[]>;
 }
@@ -1755,7 +1752,7 @@ export interface EraPreviousValuesPromise
 export interface EraPreviousValuesSubscription
   extends Promise<AsyncIterator<EraPreviousValues>>,
     Fragmentable {
-  index: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<Int>>;
   totalPoints: () => Promise<AsyncIterator<String>>;
   individualPoints: () => Promise<AsyncIterator<String[]>>;
 }
@@ -2203,19 +2200,19 @@ export interface SlashingNullablePromise
 }
 
 export interface SessionPreviousValues {
-  index: Int;
+  id: Int;
 }
 
 export interface SessionPreviousValuesPromise
   extends Promise<SessionPreviousValues>,
     Fragmentable {
-  index: () => Promise<Int>;
+  id: () => Promise<Int>;
 }
 
 export interface SessionPreviousValuesSubscription
   extends Promise<AsyncIterator<SessionPreviousValues>>,
     Fragmentable {
-  index: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AggregateReward {

@@ -58,7 +58,7 @@ const createValidator: Task<NomidotValidator[]> = {
       await prisma.createValidator({
         blockNumber: {
           connect: {
-            number: blockNumber.toNumber(),
+            id: blockNumber.toNumber(),
           },
         },
         controller: '0x00',
@@ -73,7 +73,7 @@ const createValidator: Task<NomidotValidator[]> = {
           await prisma.createValidator({
             blockNumber: {
               connect: {
-                number: blockNumber.toNumber(),
+                id: blockNumber.toNumber(),
               },
             },
             controller: controller.toHex(),

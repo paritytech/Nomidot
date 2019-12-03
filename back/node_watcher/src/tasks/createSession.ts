@@ -34,10 +34,9 @@ const createSession: Task<NomidotSession> = {
 
     if (didNewSessionStart) {
       await prisma.createSession({
-        index: idx.toNumber(),
         start: {
           connect: {
-            number: blockNumber.toNumber(),
+            id: blockNumber.toNumber(),
           },
         },
       });
