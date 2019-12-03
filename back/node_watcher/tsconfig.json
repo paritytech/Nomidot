@@ -3,6 +3,5 @@
     "outDir": "./lib"
   },
   "extends": "../../tsconfig",
-  "include": ["./src"],
-  "exclude": ["./generated"]
+  "include": ["./src"]
 }

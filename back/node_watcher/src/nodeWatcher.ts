@@ -2,33 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { u32 } from '@polkadot/types';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
-import { ApiPromise, WsProvider } from '@polkadot/api';
 
 import { NomidotTask } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 const l = logger('node-watcher');
-
-/**
- * A script that watches a node, and performs some tasks at each block
- *
- * @param tasks - The list of tasks the node-watcher should perform at each
- * block
- */
-export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
-  const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
-  const api = await ApiPromise.create({ provider });
-
-  const initialState = {
-    blockNumber: api.createType('BlockNumber', 0),
-    specVersion: api.createType('u32', -1),
-  };
-
-  return incrementor(initialState, tasks, api);
-}
 
 /**
  * Object to represent the current status of the incrementor
@@ -81,4 +63,22 @@ async function incrementor(
     tasks,
     api
   );
+}
+
+/**
+ * A script that watches a node, and performs some tasks at each block
+ *
+ * @param tasks - The list of tasks the node-watcher should perform at each
+ * block
+ */
+export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
+  const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
+  const api = await ApiPromise.create({ provider });
+
+  const initialState = {
+    blockNumber: api.createType('BlockNumber', 0),
+    specVersion: api.createType('u32', -1),
+  };
+
+  return incrementor(initialState, tasks, api);
 }
