@@ -42,7 +42,7 @@ First, it will ask you to select a key and unlock the account. Choose your Contr
 {"entity":"SubZero Staking","validator_id":"subzero_val_01","stash":"Du4CUMqBkK83gS9fH42rwDoBsKWXfvcXp3EwJLfeaoXtK2D","description":"The coolest validator company in town.","website":"subzerostaking.com","email":"icecold@subzerostaking.com","twitter":"https://twitter.com/joepetrowski","github":"https://github.com/joepetrowski"}
 ```
 
-![make-signature](../img/nomi-guide-02-enter-info.png)
+![make-signature](./images/nomi-guide-02-enter-info.png)
 
 When you click "Sign Message", it will return a signature:
 
@@ -52,7 +52,7 @@ When you click "Sign Message", it will return a signature:
 
 You can [verify](https://polkadot.js.org/apps/#/toolbox/verify) that this signature works:
 
-![verify-signature](../img/nomi-guide-03-verify-signature.png)
+![verify-signature](./images/nomi-guide-03-verify-signature.png)
 
 Add the signature to the `signature` field.
 
