@@ -18,8 +18,7 @@ const l = logger('Task: BlockNumber');
 const createBlockNumber: Task<NomidotBlock> = {
   name: 'createBlockNumber',
   read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotBlock> => {
-    // eslint-disable-next-line
-    const [author, _] = await api.derive.chain.getHeader(blockHash.toHex());
+    const [author] = await api.derive.chain.getHeader(blockHash.toHex());
 
     const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);
 
@@ -29,7 +28,7 @@ const createBlockNumber: Task<NomidotBlock> = {
       startDateTime,
     };
 
-    l.log(`NomidotBlock: ${result}`);
+    l.log(`NomidotBlock: ${JSON.stringify(result)}`);
 
     return result;
   },

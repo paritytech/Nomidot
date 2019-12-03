@@ -2,27 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { TypeRegistry } from '@polkadot/types';
+import { logger } from '@polkadot/util';
 
-import { nodeWatcher } from './node-watcher';
-import nomidotTasks from './nomidot-tasks';
+import { nodeWatcher } from './nodeWatcher';
+import { nomidotTasks } from './tasks';
 
-const ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
+const l = logger('main');
 
 function main() {
-  const provider = new WsProvider(ENDPOINT);
-  const registry = new TypeRegistry();
-  // eslint-disable-next-line
-  const api = new ApiPromise({ provider, registry });
-
-  api.isReady
-    .then(() => {
-      nodeWatcher([...nomidotTasks], api);
-    })
-    .catch(e => {
-      console.error(e);
-    });
+  nodeWatcher([nomidotTasks[0]]).catch(e => {
+    l.error(e);
+    process.exit(1);
+  });
 }
 
 main();
