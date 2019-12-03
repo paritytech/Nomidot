@@ -6,7 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { createType, Vec } from '@polkadot/types';
 import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 
-import { prisma } from '../../generated/prisma-client';
+import { prisma } from '../generated/prisma-client';
 import { NomidotSlashing, Task } from './types';
 
 /*

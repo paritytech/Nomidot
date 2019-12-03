@@ -18,7 +18,7 @@ function main() {
 
   api.isReady
     .then(() => {
-      nodeWatcher([...nomidotTasks], api);
+      nodeWatcher([nomidotTasks[0]], api);
     })
     .catch(e => {
       console.error(e);

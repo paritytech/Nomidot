@@ -11,7 +11,7 @@ import {
   ValidatorPrefs,
 } from '@polkadot/types/interfaces';
 
-import { prisma } from '../../generated/prisma-client';
+import { prisma } from '../generated/prisma-client';
 import { NomidotValidator, Task } from './types';
 
 /*

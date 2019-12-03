@@ -1,17 +1,17 @@
 type BlockNumber {
-  number: Int! @unique @id
+  number: Int! @serial @unique @id
   authoredBy: String!
   startDateTime: DateTime!
   hash: String! @unique
 }
 
 type Session {
-  index: Int! @unique @id
+  index: Int! @serial @unique @id
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
 }
 
 type Era {
-  index: Int! @unique @id
+  index: Int! @serial @unique @id
   eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
   totalPoints: String!
   individualPoints: [String!]! @scalarList(strategy: RELATION)

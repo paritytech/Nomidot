@@ -5,7 +5,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 
-import { prisma } from '../../generated/prisma-client';
+import { prisma } from '../generated/prisma-client';
 import { NomidotEra, Task } from './types';
 
 /*

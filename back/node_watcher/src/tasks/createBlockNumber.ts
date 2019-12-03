@@ -7,7 +7,7 @@ import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../../generated/prisma-client';
+import { prisma } from '../generated/prisma-client';
 import { NomidotBlock, Task } from './types';
 
 const l = logger('Task: BlockNumber');
@@ -29,7 +29,7 @@ const createBlockNumber: Task<NomidotBlock> = {
       startDateTime,
     };
 
-    l.log(`NomidotBlock: ${result}`);
+    l.log(`NomidotBlock: ${JSON.stringify(result)}`);
 
     return result;
   },
@@ -37,7 +37,6 @@ const createBlockNumber: Task<NomidotBlock> = {
     const { authoredBy, hash, startDateTime } = value;
 
     const write = await prisma.createBlockNumber({
-      number: blockNumber.toNumber(),
       authoredBy: authoredBy.toString(),
       startDateTime: new Date(startDateTime.toNumber() * 1000).toISOString(),
       hash: hash.toHex(),

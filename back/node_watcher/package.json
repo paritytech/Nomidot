@@ -7,14 +7,14 @@
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
     "build": "prisma deploy && tsc",
-    "start": "ts-node ./src/index.ts"
+    "start": "ts-node ./src/index.ts",
+    "test": "jest --testPathIgnorePatterns lib"
   },
   "dependencies": {
     "@polkadot/api": "^0.98.0-beta.1",
@@ -22,5 +22,14 @@
     "ts-node": "^8.5.2",
     "typescript": "^3.7.2"
   },
-  "keywords": ["Prisma", "Postgres", "Polkadot"]
+  "keywords": [
+    "Prisma",
+    "Postgres",
+    "Polkadot"
+  ],
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0"
+  }
 }
