@@ -65,7 +65,7 @@ describe('Nomidot Tasks Spec Version 1020', () => {
   });
 
   describe('Reads', () => {
-    it('Task: Block', async done => {
+    it.only('Task: Block', async done => {
       const blockTask = nomidotTasks[0] as Task<NomidotBlock>;
 
       blockResult = await blockTask.read(blockZeroHash, api);
@@ -120,7 +120,7 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       done();
     });
 
-    it('Task: TotalIssuance', async done => {
+    it.only('Task: TotalIssuance', async done => {
       const totalIssuanceTask = nomidotTasks[4] as Task<NomidotTotalIssuance>;
 
       totalIssuanceResult = await totalIssuanceTask.read(blockZeroHash, api);
@@ -155,8 +155,12 @@ describe('Nomidot Tasks Spec Version 1020', () => {
     });
   });
 
+  /*
+  *  ================================================================================================================================================================================================================================================
+  */
+
   describe('Writes', () => {
-    it('Task: Block', async done => {
+    it.only('Task: Block', async done => {
       const blockTask = nomidotTasks[0] as Task<NomidotBlock>;
 
       const itAlreadyExists = await prisma.$exists.blockNumber({
@@ -238,5 +242,70 @@ describe('Nomidot Tasks Spec Version 1020', () => {
 
       done();
     });
+
+    it('Task: Slashing', async done => {
+      const slashingTask = nomidotTasks[3] as Task<NomidotSlashing[]>;
+
+      await slashingTask.write(blockZero, slashingResult);
+
+      const result = await prisma.slashings({
+        where: {
+          blockNumber: {
+            number: blockZero.toNumber()
+          }
+        }
+      });
+
+      console.log(`Prisma Slashing: ${JSON.stringify(result)}`);
+
+      expect(result).toEqual([]);
+
+      done();
+    })
+
+    it('Task: TotalIssuance', async done => {
+      const totalIssuanceTask = nomidotTasks[4] as Task<NomidotTotalIssuance>;
+
+      await totalIssuanceTask.write(blockZero, totalIssuanceResult);
+
+      const result = await prisma.totalIssuances({
+        where: {
+          blockNumber: {
+            number: blockZero.toNumber()
+          }
+        }
+      })
+
+      console.log(`Prisma TotalIssuance: ${JSON.stringify(result)}`);
+
+      expect(result).toBeDefined();
+      result.map(entry => {
+        expect(entry!.amount.toString()).toBe('0x00000000000000002fa3ac910e80b000');
+      })
+
+      done();
+    })
+
+    it('Task: Validators', async done => {
+      const validatorsTask = nomidotTasks[5] as Task<NomidotValidator[]>;
+
+      await validatorsTask.write(blockZero, validatorResult);
+
+      const result = await prisma.validators({
+        where: {
+          blockNumber: {
+            number: blockZero.toNumber()
+          }
+        }
+      })
+
+      expect(result).toBeDefined();
+
+      result.map(entry => {
+        expect(entry!.controller).toBeDefined();
+        expect(entry!.stash).toBeDefined();
+        expect(entry!.preferences).toBeDefined();
+      })
+    })
   });
 });

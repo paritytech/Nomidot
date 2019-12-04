@@ -44,33 +44,20 @@ const createSlashing: Task<NomidotSlashing[]> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotSlashing[]) => {
-    // there were no slashings
-    if (!value.length) {
-      await prisma.createSlashing({
-        blockNumber: {
-          connect: {
-            id: blockNumber.toNumber(),
-          },
-        },
-        reason: '0x00',
-        amount: '0x00',
-      });
-    } else {
-      await Promise.all(
-        value.map(async slashEvent => {
-          const { who, amount } = slashEvent;
-          await prisma.createSlashing({
-            blockNumber: {
-              connect: {
-                id: blockNumber.toNumber(),
-              },
+    await Promise.all(
+      value.map(async slashEvent => {
+        const { who, amount } = slashEvent;
+        await prisma.createSlashing({
+          blockNumber: {
+            connect: {
+              number: blockNumber.toNumber(),
             },
-            reason: who.toHex(),
-            amount: amount.toHex(),
-          });
-        })
-      );
-    }
+          },
+          who: who.toHex(),
+          amount: amount.toHex(),
+        });
+      })
+    );
   },
 };
 

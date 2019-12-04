@@ -875,7 +875,7 @@ input SessionWhereUniqueInput {
 type Slashing {
   id: ID!
   blockNumber: BlockNumber!
-  reason: String!
+  who: String!
   amount: String!
 }
 
@@ -888,7 +888,7 @@ type SlashingConnection {
 input SlashingCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  reason: String!
+  who: String!
   amount: String!
 }
 
@@ -900,15 +900,15 @@ type SlashingEdge {
 enum SlashingOrderByInput {
   id_ASC
   id_DESC
-  reason_ASC
-  reason_DESC
+  who_ASC
+  who_DESC
   amount_ASC
   amount_DESC
 }
 
 type SlashingPreviousValues {
   id: ID!
-  reason: String!
+  who: String!
   amount: String!
 }
 
@@ -932,12 +932,12 @@ input SlashingSubscriptionWhereInput {
 
 input SlashingUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  reason: String
+  who: String
   amount: String
 }
 
 input SlashingUpdateManyMutationInput {
-  reason: String
+  who: String
   amount: String
 }
 
@@ -957,20 +957,20 @@ input SlashingWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   blockNumber: BlockNumberWhereInput
-  reason: String
-  reason_not: String
-  reason_in: [String!]
-  reason_not_in: [String!]
-  reason_lt: String
-  reason_lte: String
-  reason_gt: String
-  reason_gte: String
-  reason_contains: String
-  reason_not_contains: String
-  reason_starts_with: String
-  reason_not_starts_with: String
-  reason_ends_with: String
-  reason_not_ends_with: String
+  who: String
+  who_not: String
+  who_in: [String!]
+  who_not_in: [String!]
+  who_lt: String
+  who_lte: String
+  who_gt: String
+  who_gte: String
+  who_contains: String
+  who_not_contains: String
+  who_starts_with: String
+  who_not_starts_with: String
+  who_ends_with: String
+  who_not_ends_with: String
   amount: String
   amount_not: String
   amount_in: [String!]
@@ -992,6 +992,7 @@ input SlashingWhereInput {
 
 input SlashingWhereUniqueInput {
   id: ID
+  who: String
 }
 
 type Stake {

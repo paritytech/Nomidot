@@ -21,18 +21,32 @@ type Era {
   individualPoints: [String!]! @scalarList(strategy: RELATION)
 }
 
+type Slashing {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
+  who: String! @unique
+  amount: String!
+}
+
+type Validator {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
+  controller: String!
+  stash: String!
+  preferences: String!
+}
+
+type TotalIssuance {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
+  amount: String!
+}
+
 type Reward {
   id: ID! @id
   amount: String!
   authoredBlock: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
   recipients: [String!]! @scalarList(strategy: RELATION)
-}
-
-type Slashing {
-  id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
-  reason: String!
-  amount: String!
 }
 
 type Nomination {
@@ -49,18 +63,4 @@ type Stake {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
   totalStake: String!
-}
-
-type Validator {
-  id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
-  controller: String!
-  stash: String!
-  preferences: String!
-}
-
-type TotalIssuance {
-  id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
-  amount: String!
 }

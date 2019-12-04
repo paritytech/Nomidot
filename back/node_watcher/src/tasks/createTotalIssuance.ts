@@ -35,7 +35,7 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
       amount: value.amount.toHex(),
       blockNumber: {
         connect: {
-          id: blockNumber.toNumber(),
+          number: blockNumber.toNumber(),
         },
       },
     };

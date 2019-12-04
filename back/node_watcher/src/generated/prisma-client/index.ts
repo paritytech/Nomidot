@@ -484,8 +484,8 @@ export type ValidatorOrderByInput =
 export type SlashingOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "reason_ASC"
-  | "reason_DESC"
+  | "who_ASC"
+  | "who_DESC"
   | "amount_ASC"
   | "amount_DESC";
 
@@ -746,7 +746,7 @@ export interface EraUpdateindividualPointsInput {
 }
 
 export interface SlashingUpdateManyMutationInput {
-  reason?: Maybe<String>;
+  who?: Maybe<String>;
   amount?: Maybe<String>;
 }
 
@@ -788,7 +788,7 @@ export interface TotalIssuanceWhereInput {
 export interface SlashingCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  reason: String;
+  who: String;
   amount: String;
 }
 
@@ -843,6 +843,7 @@ export interface BlockNumberUpsertNestedInput {
 
 export type SlashingWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  who?: Maybe<String>;
 }>;
 
 export interface BlockNumberUpdateDataInput {
@@ -868,20 +869,20 @@ export interface SlashingWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   blockNumber?: Maybe<BlockNumberWhereInput>;
-  reason?: Maybe<String>;
-  reason_not?: Maybe<String>;
-  reason_in?: Maybe<String[] | String>;
-  reason_not_in?: Maybe<String[] | String>;
-  reason_lt?: Maybe<String>;
-  reason_lte?: Maybe<String>;
-  reason_gt?: Maybe<String>;
-  reason_gte?: Maybe<String>;
-  reason_contains?: Maybe<String>;
-  reason_not_contains?: Maybe<String>;
-  reason_starts_with?: Maybe<String>;
-  reason_not_starts_with?: Maybe<String>;
-  reason_ends_with?: Maybe<String>;
-  reason_not_ends_with?: Maybe<String>;
+  who?: Maybe<String>;
+  who_not?: Maybe<String>;
+  who_in?: Maybe<String[] | String>;
+  who_not_in?: Maybe<String[] | String>;
+  who_lt?: Maybe<String>;
+  who_lte?: Maybe<String>;
+  who_gt?: Maybe<String>;
+  who_gte?: Maybe<String>;
+  who_contains?: Maybe<String>;
+  who_not_contains?: Maybe<String>;
+  who_starts_with?: Maybe<String>;
+  who_not_starts_with?: Maybe<String>;
+  who_ends_with?: Maybe<String>;
+  who_not_ends_with?: Maybe<String>;
   amount?: Maybe<String>;
   amount_not?: Maybe<String>;
   amount_in?: Maybe<String[] | String>;
@@ -1050,7 +1051,7 @@ export interface SessionUpdateOneRequiredInput {
 
 export interface SlashingUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  reason?: Maybe<String>;
+  who?: Maybe<String>;
   amount?: Maybe<String>;
 }
 
@@ -2253,14 +2254,14 @@ export interface SessionSubscriptionPayloadSubscription
 
 export interface Slashing {
   id: ID_Output;
-  reason: String;
+  who: String;
   amount: String;
 }
 
 export interface SlashingPromise extends Promise<Slashing>, Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  reason: () => Promise<String>;
+  who: () => Promise<String>;
   amount: () => Promise<String>;
 }
 
@@ -2269,7 +2270,7 @@ export interface SlashingSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   blockNumber: <T = BlockNumberSubscription>() => T;
-  reason: () => Promise<AsyncIterator<String>>;
+  who: () => Promise<AsyncIterator<String>>;
   amount: () => Promise<AsyncIterator<String>>;
 }
 
@@ -2278,7 +2279,7 @@ export interface SlashingNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  reason: () => Promise<String>;
+  who: () => Promise<String>;
   amount: () => Promise<String>;
 }
 
@@ -2495,7 +2496,7 @@ export interface BlockNumberNullablePromise
 
 export interface SlashingPreviousValues {
   id: ID_Output;
-  reason: String;
+  who: String;
   amount: String;
 }
 
@@ -2503,7 +2504,7 @@ export interface SlashingPreviousValuesPromise
   extends Promise<SlashingPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  reason: () => Promise<String>;
+  who: () => Promise<String>;
   amount: () => Promise<String>;
 }
 
@@ -2511,7 +2512,7 @@ export interface SlashingPreviousValuesSubscription
   extends Promise<AsyncIterator<SlashingPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  reason: () => Promise<AsyncIterator<String>>;
+  who: () => Promise<AsyncIterator<String>>;
   amount: () => Promise<AsyncIterator<String>>;
 }
 
