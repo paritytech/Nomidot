@@ -53,7 +53,7 @@ const createEra: Task<NomidotEra> = {
           index: idx.toNumber(),
         },
       });
-    } else {
+    } else if (startSessionIndex.toNumber() > 0) { // only start writing after there's actually been a session.
       await prisma.createEra({
         index: idx.toNumber(),
         totalPoints: points.total.toHex(),
