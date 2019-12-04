@@ -37,7 +37,7 @@ const createBlockNumber: Task<NomidotBlock> = {
 
     const write = await prisma.createBlockNumber({
       number: blockNumber.toNumber(),
-      authoredBy: authoredBy.toHex(),
+      authoredBy: authoredBy.toString(),
       startDateTime: new Date(startDateTime.toNumber() * 1000).toISOString(),
       hash: hash.toHex(),
     } as BlockNumberCreateInput);

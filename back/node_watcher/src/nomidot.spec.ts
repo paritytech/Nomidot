@@ -67,8 +67,8 @@ describe('Nomidot Tasks', () => {
       done();
     });
 
-    describe.only('Reads', () => {
-      it('Task: Block', async done => {
+    describe('Reads', () => {
+      it.only('Task: Block', async done => {
         const blockTask = nomidotTasks[0] as Task<NomidotBlock>;
 
         blockResult = await blockTask.read(blockTenHash, api);
@@ -158,25 +158,41 @@ describe('Nomidot Tasks', () => {
     });
 
     describe('Writes', () => {
-      it('should write a block from spec v1020', async done => {
-        await prisma.createBlockNumber({
-          number: blockTen.toNumber(),
-          authoredBy: blockResult.authoredBy.toString(),
-          hash: blockResult.hash.toHex(),
-          startDateTime: new Date(
-            blockResult.startDateTime.toNumber() / 1000
-          ).toISOString(),
+      it.only('Task: Block', async done => {
+        const blockTask = nomidotTasks[0] as Task<NomidotBlock>;
+
+        const itAlreadyExists = await prisma.$exists.blockNumber({
+          hash: blockResult.hash.toHex()
         });
+
+        if (itAlreadyExists) {
+          await prisma.deleteBlockNumber({
+            hash: blockResult.hash.toHex()
+          })
+        }
+
+        await blockTask.write(blockTen, blockResult);
 
         const result = await prisma.blockNumber({
-          number: blockTen.toNumber(),
-        });
+          number: blockTen.toNumber()
+        })
+
+        console.log(`result from prisma: ${JSON.stringify(result)}`);
 
         expect(result).toBeDefined();
-        expect(result!.number).toBe(10);
-        expect(result!.hash).toBe(blockResult.hash.toHex());
+        expect(result!.authoredBy.toString()).toBe(blockResult.authoredBy.toString());
+
         done();
       });
+
+      // it('Task: Era', async done => {
+      //   await prisma.createEra({
+      //     index: eraResult.idx.toNumber(),
+      //     eraStartSessionIndex: {
+
+      //     }
+      //   })
+      // })
     });
   });
 
