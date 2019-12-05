@@ -19,12 +19,12 @@ const l = logger('Task: BlockNumber');
 const createBlockNumber: Task<NomidotBlock> = {
   name: 'createBlockNumber',
   read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotBlock> => {
-    const [author] = await api.derive.chain.getHeader(blockHash.toHex());
+    const [author] = await api.derive.chain.getHeader(blockHash);
 
     const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);
 
     const result: NomidotBlock = {
-      authoredBy: createType(api.registry, 'AccountId', author),
+      authoredBy: createType(api.registry, 'AccountId', author[1]),
       hash: blockHash,
       startDateTime,
     };
@@ -40,9 +40,7 @@ const createBlockNumber: Task<NomidotBlock> = {
     if (blockNumber.eq(1)) {
       await prisma.updateBlockNumber({
         data: {
-          startDateTime: new Date(
-            Math.floor(startDateTime.toNumber() / 1000.0)
-          ).toISOString(),
+          startDateTime: new Date(startDateTime.toNumber()).toISOString(),
         },
         where: {
           number: 0,
@@ -53,9 +51,7 @@ const createBlockNumber: Task<NomidotBlock> = {
     const write = await prisma.createBlockNumber({
       number: blockNumber.toNumber(),
       authoredBy: authoredBy.toString(),
-      startDateTime: new Date(
-        Math.floor(startDateTime.toNumber() / 1000.0)
-      ).toISOString(),
+      startDateTime: new Date(startDateTime.toNumber()).toISOString(),
       hash: hash.toHex(),
     } as BlockNumberCreateInput);
 

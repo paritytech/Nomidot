@@ -27,7 +27,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
     const slashEvents = eventsAtBlock.filter(
       ({ event: { section, method } }) =>
-        section === 'staking' && method === 'slash'
+        section === 'staking' && method === 'Slash'
     );
 
     const result: NomidotSlashing[] = [];

@@ -13,8 +13,8 @@ const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 const l = logger('node-watcher');
 
 async function incrementor(api: ApiPromise, tasks: NomidotTask[]): Promise<void> {
-  const blockIndex = 0;
-  const currentSpecVersion = api.createType('u32', -1);
+  let blockIndex = 95098;
+  let currentSpecVersion = api.createType('u32', -1);
 
   // get last known best finalized
   let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
@@ -55,6 +55,8 @@ async function incrementor(api: ApiPromise, tasks: NomidotTask[]): Promise<void>
         l.error(e);
       }
     }
+
+    blockIndex += 1;
   }
 }
 

@@ -21,8 +21,8 @@ const createSession: Task<NomidotSession> = {
 
     const didNewSessionStart =
       events.filter(
-        ({ event: { method, section } }): boolean =>
-          section === 'system' && method === 'newSession'
+        ({ event: { method, section } }) =>
+          section === 'session' && method === 'NewSession'
       ).length > 0;
 
     const sessionIndex = await api.query.session.currentIndex.at(blockHash);

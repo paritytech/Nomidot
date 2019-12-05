@@ -46,7 +46,7 @@ type BlockNumber {
   id: ID!
   number: Int!
   authoredBy: String!
-  startDateTime: String!
+  startDateTime: DateTime!
   hash: String!
 }
 
@@ -60,7 +60,7 @@ input BlockNumberCreateInput {
   id: ID
   number: Int!
   authoredBy: String!
-  startDateTime: String!
+  startDateTime: DateTime!
   hash: String!
 }
 
@@ -91,7 +91,7 @@ type BlockNumberPreviousValues {
   id: ID!
   number: Int!
   authoredBy: String!
-  startDateTime: String!
+  startDateTime: DateTime!
   hash: String!
 }
 
@@ -116,21 +116,21 @@ input BlockNumberSubscriptionWhereInput {
 input BlockNumberUpdateDataInput {
   number: Int
   authoredBy: String
-  startDateTime: String
+  startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateInput {
   number: Int
   authoredBy: String
-  startDateTime: String
+  startDateTime: DateTime
   hash: String
 }
 
 input BlockNumberUpdateManyMutationInput {
   number: Int
   authoredBy: String
-  startDateTime: String
+  startDateTime: DateTime
   hash: String
 }
 
@@ -183,20 +183,14 @@ input BlockNumberWhereInput {
   authoredBy_not_starts_with: String
   authoredBy_ends_with: String
   authoredBy_not_ends_with: String
-  startDateTime: String
-  startDateTime_not: String
-  startDateTime_in: [String!]
-  startDateTime_not_in: [String!]
-  startDateTime_lt: String
-  startDateTime_lte: String
-  startDateTime_gt: String
-  startDateTime_gte: String
-  startDateTime_contains: String
-  startDateTime_not_contains: String
-  startDateTime_starts_with: String
-  startDateTime_not_starts_with: String
-  startDateTime_ends_with: String
-  startDateTime_not_ends_with: String
+  startDateTime: DateTime
+  startDateTime_not: DateTime
+  startDateTime_in: [DateTime!]
+  startDateTime_not_in: [DateTime!]
+  startDateTime_lt: DateTime
+  startDateTime_lte: DateTime
+  startDateTime_gt: DateTime
+  startDateTime_gte: DateTime
   hash: String
   hash_not: String
   hash_in: [String!]
@@ -221,6 +215,8 @@ input BlockNumberWhereUniqueInput {
   number: Int
   hash: String
 }
+
+scalar DateTime
 
 type Era {
   id: ID!

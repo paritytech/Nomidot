@@ -3,7 +3,7 @@ type BlockNumber {
   id: ID! @id
   number: Int! @unique
   authoredBy: String!
-  startDateTime: String!
+  startDateTime: DateTime!
   hash: String! @unique
 }
 
