@@ -27,46 +27,32 @@ const createValidator: Task<NomidotValidator[]> = {
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotValidator[]> => {
+    const currentSessionIndex = await api.query.session.currentIndex.at(blockHash);
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
 
     l.log(`Validators: ${JSON.stringify(validators)}`);
 
     const result = await Promise.all(
       validators.map(async (validator: ValidatorId) => {
-        try {
-          // bonded controller if validator is a stash
-          const bonded: AccountId = await api.query.staking.bonded.at(
-            blockHash,
-            validator
-          );
+        // bonded controller if validator is a stash
+        const bonded: AccountId = await api.query.staking.bonded.at(
+          blockHash,
+          validator
+        );
 
-          // staking ledger information if validator is a controller
-          const ledger: StakingLedger = await api.query.staking.ledger.at(
-            blockHash,
-            validator
-          );
+        // staking ledger information if validator is a controller
+        const ledger: StakingLedger = await api.query.staking.ledger.at(
+          blockHash,
+          validator
+        );
 
-          // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
+        l.warn(`Bonded: ${bonded}`);
+        l.warn(`Ledger: ${ledger}`);
 
-          const validatorPreferences: ValidatorPrefs = bonded
-            ? await api.query.staking.validators.at(blockHash, bonded)
-            : await api.query.staking.validators.at(blockHash, ledger.stash);
-
-          const stash = bonded.isEmpty ? ledger.stash : validator;
-
-          const controller = ledger.stash || validator;
-
+        // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
+        if (!bonded && !ledger) {
           const result = {
-            controller,
-            stash,
-            validatorPreferences,
-          };
-
-          return result;
-        } catch (e) {
-          // l.error(e);
-
-          const result = {
+            currentSessionIndex,
             controller: validator,
             stash: validator,
             validatorPreferences: undefined,
@@ -74,6 +60,20 @@ const createValidator: Task<NomidotValidator[]> = {
 
           return result;
         }
+        
+        const stash = bonded.isEmpty ? ledger.stash : validator;
+        const controller = ledger.stash ? validator : bonded;
+
+        const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(blockHash, stash);
+
+        const result = {
+          currentSessionIndex,
+          controller,
+          stash,
+          validatorPreferences,
+        };
+
+        return result;
       })
     );
 
@@ -82,37 +82,24 @@ const createValidator: Task<NomidotValidator[]> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, values: NomidotValidator[]) => {
-    if (!values) {
-      await prisma.createValidator({
-        blockNumber: {
-          connect: {
-            number: blockNumber.toNumber(),
-          },
-        },
-        controller: '0x00',
-        stash: '0x00',
-        preferences: '0x00',
-      });
-    } else {
-      await Promise.all(
-        values.map(async (validator: NomidotValidator) => {
-          const { controller, stash, validatorPreferences } = validator;
+    await Promise.all(
+      values.map(async (validator: NomidotValidator) => {
+        const { currentSessionIndex, controller, stash, validatorPreferences } = validator;
 
-          await prisma.createValidator({
-            blockNumber: {
-              connect: {
-                number: blockNumber.toNumber(),
-              },
+        await prisma.createValidator({
+          session: {
+            connect: {
+              index: currentSessionIndex.toNumber(),
             },
-            controller: controller.toHex(),
-            stash: stash.toHex(),
-            preferences: validatorPreferences
-              ? validatorPreferences.toHex()
-              : '0x00',
-          });
-        })
-      );
-    }
+          },
+          controller: controller.toHex(),
+          stash: stash.toHex(),
+          preferences: validatorPreferences
+            ? validatorPreferences.toHex()
+            : '0x00',
+        });
+      })
+    );
   },
 };
 
