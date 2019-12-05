@@ -33,7 +33,7 @@ async function incrementor(
   tasks: NomidotTask[]
 ): Promise<void> {
   let blockIndex = 0;
-  const currentSpecVersion = api.createType('u32', -1);
+  let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 
   while (true) {
@@ -60,6 +60,7 @@ async function incrementor(
     if (newSpecVersion.gt(currentSpecVersion)) {
       l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
       const rpcMeta = await api.rpc.state.getMetadata(blockHash);
+      currentSpecVersion = newSpecVersion;
       api.registry.setMetadata(rpcMeta);
     }
 
