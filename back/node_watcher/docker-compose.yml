@@ -2,7 +2,6 @@ version: '3.7'
 services:
   main:
     build: ./
-    restart: always # main might start running even if prisma's server is not running, in which case we restart
   postgres:
     image: postgres:12.1
     restart: always
