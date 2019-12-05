@@ -15,7 +15,7 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 96105;
+  let blockIndex = 0;
   const currentSpecVersion = api.createType('u32', -1);
 
   // get last known best finalized
