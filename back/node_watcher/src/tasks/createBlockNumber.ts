@@ -6,7 +6,6 @@ import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
-import BN from 'bn.js';
 
 import { BlockNumberCreateInput, prisma } from '../generated/prisma-client';
 import { NomidotBlock, Task } from './types';

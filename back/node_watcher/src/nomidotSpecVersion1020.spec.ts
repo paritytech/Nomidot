@@ -146,7 +146,9 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       validatorResult.map((validator, i) => {
         expect(validator.stash).toBe(validatorResult[i].stash);
         expect(validator.controller).toBe(validatorResult[i].controller);
-        expect(validator.validatorPreferences).toBe(validatorResult[i].validatorPreferences);
+        expect(validator.validatorPreferences).toBe(
+          validatorResult[i].validatorPreferences
+        );
       });
 
       done();

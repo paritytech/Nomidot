@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { u32 } from '@polkadot/types';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
@@ -12,17 +11,20 @@ import { NomidotTask } from './tasks/types';
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 const l = logger('node-watcher');
 
-async function incrementor(api: ApiPromise, tasks: NomidotTask[]): Promise<void> {
+async function incrementor(
+  api: ApiPromise,
+  tasks: NomidotTask[]
+): Promise<void> {
   let blockIndex = 0;
-  let currentSpecVersion = api.createType('u32', -1);
+  const currentSpecVersion = api.createType('u32', -1);
 
   // get last known best finalized
-  let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
+  // let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
 
-  setInterval(async () => {
-    lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
-    l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
-  }, 5000)
+  // setInterval(async () => {
+  //   lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
+  //   l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
+  // }, 5000);
 
   while (true) {
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
@@ -30,24 +32,24 @@ async function incrementor(api: ApiPromise, tasks: NomidotTask[]): Promise<void>
 
     const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber);
     l.warn(`hash: ${blockHash}`);
-  
+
     // check spec version
     const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockHash);
     const newSpecVersion = runtimeVersion.specVersion;
-  
+
     // if spec version was bumped, update metadata in api registry
     if (newSpecVersion.gt(currentSpecVersion)) {
       l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
       const rpcMeta = await api.rpc.state.getMetadata(blockHash);
       api.registry.setMetadata(rpcMeta);
     }
-  
+
     // execute watcher tasks
     for await (const task of tasks) {
       l.warn(`Task --- ${task.name}`);
-  
+
       const result = await task.read(blockHash, api);
-  
+
       try {
         l.warn(`Writing: ${JSON.stringify(result)}`);
         await task.write(blockNumber, result);
