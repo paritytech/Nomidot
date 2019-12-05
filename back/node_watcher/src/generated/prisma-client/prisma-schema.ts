@@ -1211,7 +1211,7 @@ input TotalIssuanceWhereUniqueInput {
 
 type Validator {
   id: ID!
-  blockNumber: BlockNumber!
+  session: Session!
   controller: String!
   stash: String!
   preferences: String!
@@ -1225,7 +1225,7 @@ type ValidatorConnection {
 
 input ValidatorCreateInput {
   id: ID
-  blockNumber: BlockNumberCreateOneInput!
+  session: SessionCreateOneInput!
   controller: String!
   stash: String!
   preferences: String!
@@ -1273,7 +1273,7 @@ input ValidatorSubscriptionWhereInput {
 }
 
 input ValidatorUpdateInput {
-  blockNumber: BlockNumberUpdateOneRequiredInput
+  session: SessionUpdateOneRequiredInput
   controller: String
   stash: String
   preferences: String
@@ -1300,7 +1300,7 @@ input ValidatorWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  blockNumber: BlockNumberWhereInput
+  session: SessionWhereInput
   controller: String
   controller_not: String
   controller_in: [String!]

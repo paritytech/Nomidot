@@ -587,7 +587,7 @@ export interface NominationUpdateManyMutationInput {
 }
 
 export interface ValidatorUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  session?: Maybe<SessionUpdateOneRequiredInput>;
   controller?: Maybe<String>;
   stash?: Maybe<String>;
   preferences?: Maybe<String>;
@@ -956,7 +956,7 @@ export interface ValidatorWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  blockNumber?: Maybe<BlockNumberWhereInput>;
+  session?: Maybe<SessionWhereInput>;
   controller?: Maybe<String>;
   controller_not?: Maybe<String>;
   controller_in?: Maybe<String[] | String>;
@@ -1272,7 +1272,7 @@ export interface StakeUpdateInput {
 
 export interface ValidatorCreateInput {
   id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
+  session: SessionCreateOneInput;
   controller: String;
   stash: String;
   preferences: String;
@@ -2102,7 +2102,7 @@ export interface Validator {
 
 export interface ValidatorPromise extends Promise<Validator>, Fragmentable {
   id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
+  session: <T = SessionPromise>() => T;
   controller: () => Promise<String>;
   stash: () => Promise<String>;
   preferences: () => Promise<String>;
@@ -2112,7 +2112,7 @@ export interface ValidatorSubscription
   extends Promise<AsyncIterator<Validator>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  blockNumber: <T = BlockNumberSubscription>() => T;
+  session: <T = SessionSubscription>() => T;
   controller: () => Promise<AsyncIterator<String>>;
   stash: () => Promise<AsyncIterator<String>>;
   preferences: () => Promise<AsyncIterator<String>>;
@@ -2122,7 +2122,7 @@ export interface ValidatorNullablePromise
   extends Promise<Validator | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
+  session: <T = SessionPromise>() => T;
   controller: () => Promise<String>;
   stash: () => Promise<String>;
   preferences: () => Promise<String>;

@@ -58,6 +58,7 @@ export interface NomidotValidator {
   controller: AccountId;
   stash: AccountId;
   validatorPreferences?: ValidatorPrefs;
+  currentSessionIndex: SessionIndex;
 }
 
 export type Nomidot =

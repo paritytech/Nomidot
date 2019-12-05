@@ -30,7 +30,7 @@ type Slashing {
 
 type Validator {
   id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "ValidationsAtBlockNumber", link: INLINE)
+  session: Session! @relation(name: "ValidatorsAtSession", link: INLINE)
   controller: String!
   stash: String!
   preferences: String!
