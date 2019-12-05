@@ -1,1 +1,4 @@
 **/lib/*
+**/coverage/*
+**/generated/*
+**/node_modules/*
