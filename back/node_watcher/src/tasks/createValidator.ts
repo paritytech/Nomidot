@@ -63,8 +63,8 @@ const createValidator: Task<NomidotValidator[]> = {
           return result;
         }
 
-        const stash = bonded.isEmpty ? ledger.stash : validator;
-        const controller = ledger.stash ? validator : bonded;
+        const stash = !bonded ? ledger.stash : validator;
+        const controller = ledger && ledger.stash ? validator : bonded;
 
         const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(
           blockHash,
