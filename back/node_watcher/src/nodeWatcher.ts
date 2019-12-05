@@ -11,13 +11,20 @@ import { NomidotTask } from './tasks/types';
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 const l = logger('node-watcher');
 
-function waitFinalized(api: ApiPromise, lastKnownBestFinalized:number): Promise<number> {
-  return new Promise(async resolve => {
-    await api.derive.chain.bestNumberFinalized(best => {
-      if (best.toNumber() > lastKnownBestFinalized) {
-        resolve(best.toNumber());
-      }
-    });
+function waitFinalized(
+  api: ApiPromise,
+  lastKnownBestFinalized: number
+): Promise<number> {
+  return new Promise(resolve => {
+    async function wait(): Promise<void> {
+      await api.derive.chain.bestNumberFinalized(best => {
+        if (best.toNumber() > lastKnownBestFinalized) {
+          resolve(best.toNumber());
+        }
+      });
+    }
+
+    wait();
   });
 }
 
@@ -25,14 +32,14 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 96926;
+  let blockIndex = 0;
   const currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 
   while (true) {
     if (blockIndex > lastKnownBestFinalized) {
       lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
-      l.warn(`WAITING FINALIZED.`)
+      l.warn(`WAITING FINALIZED.`);
       continue;
     }
 

@@ -297,15 +297,15 @@ describe('Nomidot Tasks Spec Version 1020', () => {
 
       const result = await prisma.validators({
         where: {
-          blockNumber: {
-            number: blockZero.toNumber(),
+          session: {
+            index: validatorResult[0].currentSessionIndex.toNumber(),
           },
         },
       });
 
       expect(result).toBeDefined();
 
-      result.map(entry => {
+      result.map((entry: any) => {
         expect(entry.controller).toBeDefined();
         expect(entry.stash).toBeDefined();
         expect(entry.preferences).toBeDefined();

@@ -27,7 +27,9 @@ const createValidator: Task<NomidotValidator[]> = {
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotValidator[]> => {
-    const currentSessionIndex = await api.query.session.currentIndex.at(blockHash);
+    const currentSessionIndex = await api.query.session.currentIndex.at(
+      blockHash
+    );
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
 
     // l.log(`Validators: ${JSON.stringify(validators)}`);
@@ -48,7 +50,7 @@ const createValidator: Task<NomidotValidator[]> = {
 
         l.warn(`Bonded: ${bonded}`);
         l.warn(`Ledger: ${ledger}`);
-        
+
         // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
         if (!bonded && !ledger) {
           const result = {
@@ -60,11 +62,14 @@ const createValidator: Task<NomidotValidator[]> = {
 
           return result;
         }
-        
+
         const stash = bonded.isEmpty ? ledger.stash : validator;
         const controller = ledger.stash ? validator : bonded;
 
-        const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(blockHash, stash);
+        const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(
+          blockHash,
+          stash
+        );
 
         const result = {
           currentSessionIndex,
@@ -84,7 +89,12 @@ const createValidator: Task<NomidotValidator[]> = {
   write: async (blockNumber: BlockNumber, values: NomidotValidator[]) => {
     await Promise.all(
       values.map(async (validator: NomidotValidator) => {
-        const { currentSessionIndex, controller, stash, validatorPreferences } = validator;
+        const {
+          currentSessionIndex,
+          controller,
+          stash,
+          validatorPreferences,
+        } = validator;
 
         await prisma.createValidator({
           session: {
