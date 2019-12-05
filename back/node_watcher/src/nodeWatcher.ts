@@ -19,12 +19,20 @@ async function incrementor(
   const currentSpecVersion = api.createType('u32', -1);
 
   // get last known best finalized
-  // let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
+  let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
 
-  // setInterval(async () => {
-  //   lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
-  //   l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
-  // }, 5000);
+  setInterval(() => {
+    async function updateFinalized() {
+      lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
+      l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
+    }
+
+    updateFinalized();
+  }, 5000);
+
+  if (blockIndex > lastKnownBestFinalized.toNumber()) {
+    blockIndex = lastKnownBestFinalized.toNumber();
+  }
 
   while (true) {
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
