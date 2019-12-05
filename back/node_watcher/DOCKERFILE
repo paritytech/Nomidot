@@ -1,6 +1,0 @@
-FROM ubuntu:18.04
-
-COPY . /node_watcher
-RUN yarn
-RUN prisma deploy
-RUN yarn start
