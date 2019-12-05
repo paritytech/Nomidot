@@ -1,35 +1,32 @@
 {
   "name": "@substrate/node-watcher",
+  "version": "0.2.4",
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Apache-2.0",
-  "version": "0.2.4",
   "description": "Extract, Transform, Load Kusama/Polkadot history into a PostgreSQL DB",
   "files": [
     "lib"
+  ],
+  "keywords": [
+    "Prisma",
+    "Postgres",
+    "Polkadot"
   ],
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
-    "build": "prisma deploy && tsc",
-    "start": "ts-node ./src/index.ts",
-    "test": "jest --testPathIgnorePatterns lib"
+    "build": "tsc",
+    "start": "ts-node ./src/index.ts"
   },
   "dependencies": {
     "@polkadot/api": "^0.98.0-beta.1",
-    "prisma-client-lib": "^1.34.10",
-    "ts-node": "^8.5.2",
-    "typescript": "^3.7.2"
+    "prisma-client-lib": "^1.34.10"
   },
-  "keywords": [
-    "Prisma",
-    "Postgres",
-    "Polkadot"
-  ],
   "devDependencies": {
-    "@types/jest": "^24.0.23",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.2.0"
+    "prisma": "^1.34.10",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
   }
 }

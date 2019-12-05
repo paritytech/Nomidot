@@ -1,6 +1,11 @@
-FROM ubuntu:18.04
+FROM node:alpine3.10
 
-COPY . /node_watcher
+ENV PRISMA_ENDPOINT http://prisma:4466
+
+WORKDIR /node_watcher
+COPY . .
+
+# Install dependencies
 RUN yarn
-RUN prisma deploy
-RUN yarn start
+# Create the database schema
+CMD ["yarn", "prisma", "deploy"]
