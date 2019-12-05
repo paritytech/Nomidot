@@ -11,34 +11,30 @@ import { NomidotTask } from './tasks/types';
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 const l = logger('node-watcher');
 
+function waitFinalized(api: ApiPromise): Promise<number> {
+  return new Promise(resolve => {
+    api.derive.chain.bestNumberFinalized(best => {
+      resolve(best.toNumber());
+    });
+  });
+}
+
 async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 96269;
+  let blockIndex = 96790;
   const currentSpecVersion = api.createType('u32', -1);
-
-  // get last known best finalized
-  let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
-
-  setInterval(() => {
-    async function updateFinalized() {
-      lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
-      l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
-
-      if (blockIndex > lastKnownBestFinalized.toNumber()) {
-        blockIndex = lastKnownBestFinalized.toNumber();
-      }
-    }
-
-    updateFinalized();
-  }, 5000);
+  let lastKnownBestFinalized = await waitFinalized(api);
 
   while (true) {
-    if (blockIndex > lastKnownBestFinalized.toNumber()) {
-      blockIndex = lastKnownBestFinalized.toNumber();
+    if (blockIndex > lastKnownBestFinalized) {
+      lastKnownBestFinalized = await waitFinalized(api);
       continue;
     }
+
+    l.warn(`blockIndex: ${blockIndex}`);
+    l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
 
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
     l.warn(`block: ${blockNumber}`);
