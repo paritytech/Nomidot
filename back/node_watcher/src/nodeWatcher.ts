@@ -15,7 +15,7 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 0;
+  let blockIndex = 96105;
   const currentSpecVersion = api.createType('u32', -1);
 
   // get last known best finalized
@@ -25,16 +25,21 @@ async function incrementor(
     async function updateFinalized() {
       lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
       l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
+
+      if (blockIndex > lastKnownBestFinalized.toNumber()) {
+        blockIndex = lastKnownBestFinalized.toNumber();
+      }
     }
 
     updateFinalized();
   }, 5000);
 
-  if (blockIndex > lastKnownBestFinalized.toNumber()) {
-    blockIndex = lastKnownBestFinalized.toNumber();
-  }
-
   while (true) {
+    if (blockIndex > lastKnownBestFinalized.toNumber()) {
+      blockIndex = lastKnownBestFinalized.toNumber();
+      continue;
+    }
+
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
     l.warn(`block: ${blockNumber}`);
 
