@@ -49,12 +49,10 @@ const createValidator: Task<NomidotValidator[]> = {
           // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
 
           const validatorPreferences: ValidatorPrefs = bonded
-          ? await api.query.staking.validators.at(blockHash, bonded)
-          : await api.query.staking.validators.at(blockHash, ledger.stash)
+            ? await api.query.staking.validators.at(blockHash, bonded)
+            : await api.query.staking.validators.at(blockHash, ledger.stash);
 
-          const stash = bonded.isEmpty
-            ? ledger.stash
-            : validator
+          const stash = bonded.isEmpty ? ledger.stash : validator;
 
           const controller = ledger.stash || validator;
 
@@ -63,16 +61,16 @@ const createValidator: Task<NomidotValidator[]> = {
             stash,
             validatorPreferences,
           };
-  
+
           return result;
         } catch (e) {
           // l.error(e);
-          
+
           const result = {
-            controller: undefined,
-            stash: undefined,
-            validatorPreferences: undefined
-          }
+            controller: validator,
+            stash: validator,
+            validatorPreferences: undefined,
+          };
 
           return result;
         }
@@ -106,8 +104,8 @@ const createValidator: Task<NomidotValidator[]> = {
                 number: blockNumber.toNumber(),
               },
             },
-            controller: controller ? controller.toHex() : '0x00',
-            stash: stash ? stash.toHex() : '0x00',
+            controller: controller.toHex(),
+            stash: stash.toHex(),
             preferences: validatorPreferences
               ? validatorPreferences.toHex()
               : '0x00',

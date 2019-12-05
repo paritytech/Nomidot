@@ -6,8 +6,8 @@ import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
-
 import BN from 'bn.js';
+
 import { BlockNumberCreateInput, prisma } from '../generated/prisma-client';
 import { NomidotBlock, Task } from './types';
 
@@ -35,23 +35,27 @@ const createBlockNumber: Task<NomidotBlock> = {
   },
   write: async (blockNumber: BlockNumber, value: NomidotBlock) => {
     const { authoredBy, hash, startDateTime } = value;
-    
+
     // edge case
     if (blockNumber.eq(1)) {
       await prisma.updateBlockNumber({
-       data: {
-         startDateTime: new Date(Math.floor(startDateTime.toNumber()/1000.0)).toISOString()
-       },
-       where: {
-         number: 0
-       }
-      })
+        data: {
+          startDateTime: new Date(
+            Math.floor(startDateTime.toNumber() / 1000.0)
+          ).toISOString(),
+        },
+        where: {
+          number: 0,
+        },
+      });
     }
 
     const write = await prisma.createBlockNumber({
       number: blockNumber.toNumber(),
       authoredBy: authoredBy.toString(),
-      startDateTime: new Date(Math.floor(startDateTime.toNumber()/1000.0)).toISOString(),
+      startDateTime: new Date(
+        Math.floor(startDateTime.toNumber() / 1000.0)
+      ).toISOString(),
       hash: hash.toHex(),
     } as BlockNumberCreateInput);
 

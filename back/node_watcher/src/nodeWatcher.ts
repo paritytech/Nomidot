@@ -12,57 +12,50 @@ import { NomidotTask } from './tasks/types';
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 const l = logger('node-watcher');
 
-/**
- * Object to represent the current status of the incrementor
- */
-interface State {
-  blockNumber: BlockNumber;
-  specVersion: u32;
-}
+async function incrementor(api: ApiPromise, tasks: NomidotTask[]): Promise<void> {
+  const blockIndex = 0;
+  const currentSpecVersion = api.createType('u32', -1);
 
-async function incrementor(
-  current: State,
-  tasks: NomidotTask[],
-  api: ApiPromise
-): Promise<void> {
-  l.warn(`block: ${current.blockNumber}`);
+  // get last known best finalized
+  let lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
 
-  const blockHash: Hash = await api.rpc.chain.getBlockHash(current.blockNumber);
-  l.warn(`hash: ${blockHash}`);
+  setInterval(async () => {
+    lastKnownBestFinalized = await api.derive.chain.bestNumberFinalized();
+    l.warn(`last known best finalized: ${lastKnownBestFinalized}`);
+  }, 5000)
 
-  // check spec version
-  const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockHash);
-  const newSpecVersion = runtimeVersion.specVersion;
+  while (true) {
+    const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
+    l.warn(`block: ${blockNumber}`);
 
-  // if spec version was bumped, update metadata in api registry
-  if (newSpecVersion.gt(current.specVersion)) {
-    l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
-    const rpcMeta = await api.rpc.state.getMetadata(blockHash);
-    api.registry.setMetadata(rpcMeta);
-  }
-
-  // execute watcher tasks
-  for await (const task of tasks) {
-    l.warn(`Task --- ${task.name}`);
-
-    const result = await task.read(blockHash, api);
-
-    try {
-      l.warn(`Writing: ${JSON.stringify(result)}`);
-      await task.write(current.blockNumber, result);
-    } catch (e) {
-      l.error(e);
+    const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber);
+    l.warn(`hash: ${blockHash}`);
+  
+    // check spec version
+    const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockHash);
+    const newSpecVersion = runtimeVersion.specVersion;
+  
+    // if spec version was bumped, update metadata in api registry
+    if (newSpecVersion.gt(currentSpecVersion)) {
+      l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
+      const rpcMeta = await api.rpc.state.getMetadata(blockHash);
+      api.registry.setMetadata(rpcMeta);
+    }
+  
+    // execute watcher tasks
+    for await (const task of tasks) {
+      l.warn(`Task --- ${task.name}`);
+  
+      const result = await task.read(blockHash, api);
+  
+      try {
+        l.warn(`Writing: ${JSON.stringify(result)}`);
+        await task.write(blockNumber, result);
+      } catch (e) {
+        l.error(e);
+      }
     }
   }
-
-  return incrementor(
-    {
-      blockNumber: api.createType('BlockNumber', current.blockNumber.addn(1)),
-      specVersion: newSpecVersion,
-    },
-    tasks,
-    api
-  );
 }
 
 /**
@@ -75,10 +68,5 @@ export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
   const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
   const api = await ApiPromise.create({ provider });
 
-  const initialState = {
-    blockNumber: api.createType('BlockNumber', 0),
-    specVersion: api.createType('u32', -1),
-  };
-
-  return incrementor(initialState, tasks, api);
+  return incrementor(api, tasks);
 }

@@ -54,9 +54,7 @@ describe('Nomidot Tasks Spec Version 1020', () => {
   );
 
   it('should get spec version', async done => {
-    const runtimeVersion = await api.rpc.state.getRuntimeVersion(
-      blockZeroHash
-    );
+    const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockZeroHash);
     const specVersion = runtimeVersion.specVersion;
 
     expect(specVersion.toString()).toEqual('1020');
@@ -65,7 +63,7 @@ describe('Nomidot Tasks Spec Version 1020', () => {
   });
 
   describe('Reads', () => {
-    it.only('Task: Block', async done => {
+    it('Task: Block', async done => {
       const blockTask = nomidotTasks[0] as Task<NomidotBlock>;
 
       blockResult = await blockTask.read(blockZeroHash, api);
@@ -120,7 +118,7 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       done();
     });
 
-    it.only('Task: TotalIssuance', async done => {
+    it('Task: TotalIssuance', async done => {
       const totalIssuanceTask = nomidotTasks[4] as Task<NomidotTotalIssuance>;
 
       totalIssuanceResult = await totalIssuanceTask.read(blockZeroHash, api);
@@ -145,44 +143,46 @@ describe('Nomidot Tasks Spec Version 1020', () => {
 
       expect(validatorResult).toBeDefined();
       expect(validatorResult.length).toBe(6);
-      validatorResult.map(validator => {
-        expect(validator.stash).toBeUndefined();
-        expect(validator.controller).toBeUndefined();
-        expect(validator.validatorPreferences).toBeUndefined();
-      })
+      validatorResult.map((validator, i) => {
+        expect(validator.stash).toBe(validatorResult[i].stash);
+        expect(validator.controller).toBe(validatorResult[i].controller);
+        expect(validator.validatorPreferences).toBe(validatorResult[i].validatorPreferences);
+      });
 
       done();
     });
   });
 
   /*
-  *  ================================================================================================================================================================================================================================================
-  */
+   *  ================================================================================================================================================================================================================================================
+   */
 
   describe('Writes', () => {
-    it.only('Task: Block', async done => {
+    it('Task: Block', async done => {
       const blockTask = nomidotTasks[0] as Task<NomidotBlock>;
 
       const itAlreadyExists = await prisma.$exists.blockNumber({
-        hash: blockResult.hash.toHex()
+        hash: blockResult.hash.toHex(),
       });
 
       if (itAlreadyExists) {
         await prisma.deleteBlockNumber({
-          hash: blockResult.hash.toHex()
-        })
+          hash: blockResult.hash.toHex(),
+        });
       }
 
       await blockTask.write(blockZero, blockResult);
 
       const result = await prisma.blockNumber({
-        number: blockZero.toNumber()
-      })
+        number: blockZero.toNumber(),
+      });
 
       console.log(`Prisma Block Number: ${JSON.stringify(result)}`);
 
       expect(result).toBeDefined();
-      expect(result!.authoredBy.toString()).toBe(blockResult.authoredBy.toString());
+      expect(result!.authoredBy.toString()).toBe(
+        blockResult.authoredBy.toString()
+      );
       expect(result!.hash).toBe(blockResult.hash.toHex());
       // block zero had a block time of 0 seconds, so the timestamp here is 0, but is equivalent to that of block 1. It will get updated on block 1 task.
       expect(result!.startDateTime).toBe(new Date(0).toISOString());
@@ -195,19 +195,19 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       const sessionTask = nomidotTasks[1] as Task<NomidotSession>;
 
       const itAlreadyExists = await prisma.$exists.session({
-        index: sessionResult.idx.toNumber()
+        index: sessionResult.idx.toNumber(),
       });
 
       if (itAlreadyExists) {
         await prisma.deleteSession({
-          index: sessionResult.idx.toNumber()
+          index: sessionResult.idx.toNumber(),
         });
       }
 
       await sessionTask.write(blockZero, sessionResult);
 
       const result = await prisma.session({
-        index: sessionResult.idx.toNumber()
+        index: sessionResult.idx.toNumber(),
       });
 
       console.log(`Prisma Session: ${JSON.stringify(result)}`);
@@ -215,25 +215,25 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       expect(result).toBeDefined();
 
       done();
-    })
+    });
 
     it('Task: Era', async done => {
       const eraTask = nomidotTasks[2] as Task<NomidotEra>;
 
       const itAlreadyExists = await prisma.$exists.era({
-        index: eraResult.idx.toNumber()
+        index: eraResult.idx.toNumber(),
       });
 
       if (itAlreadyExists) {
         await prisma.deleteEra({
-          index: eraResult.idx.toNumber()
+          index: eraResult.idx.toNumber(),
         });
       }
 
       await eraTask.write(blockZero, eraResult);
 
       const result = await prisma.era({
-        index: eraResult.idx.toNumber()
+        index: eraResult.idx.toNumber(),
       });
 
       console.log(`Prisma Era: ${JSON.stringify(result)}`);
@@ -251,9 +251,9 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       const result = await prisma.slashings({
         where: {
           blockNumber: {
-            number: blockZero.toNumber()
-          }
-        }
+            number: blockZero.toNumber(),
+          },
+        },
       });
 
       console.log(`Prisma Slashing: ${JSON.stringify(result)}`);
@@ -261,7 +261,7 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       expect(result).toEqual([]);
 
       done();
-    })
+    });
 
     it('Task: TotalIssuance', async done => {
       const totalIssuanceTask = nomidotTasks[4] as Task<NomidotTotalIssuance>;
@@ -271,20 +271,22 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       const result = await prisma.totalIssuances({
         where: {
           blockNumber: {
-            number: blockZero.toNumber()
-          }
-        }
-      })
+            number: blockZero.toNumber(),
+          },
+        },
+      });
 
       console.log(`Prisma TotalIssuance: ${JSON.stringify(result)}`);
 
       expect(result).toBeDefined();
       result.map(entry => {
-        expect(entry!.amount.toString()).toBe('0x00000000000000002fa3ac910e80b000');
-      })
+        expect(entry.amount.toString()).toBe(
+          '0x00000000000000002fa3ac910e80b000'
+        );
+      });
 
       done();
-    })
+    });
 
     it('Task: Validators', async done => {
       const validatorsTask = nomidotTasks[5] as Task<NomidotValidator[]>;
@@ -294,18 +296,20 @@ describe('Nomidot Tasks Spec Version 1020', () => {
       const result = await prisma.validators({
         where: {
           blockNumber: {
-            number: blockZero.toNumber()
-          }
-        }
-      })
+            number: blockZero.toNumber(),
+          },
+        },
+      });
 
       expect(result).toBeDefined();
 
       result.map(entry => {
-        expect(entry!.controller).toBeDefined();
-        expect(entry!.stash).toBeDefined();
-        expect(entry!.preferences).toBeDefined();
-      })
-    })
+        expect(entry.controller).toBeDefined();
+        expect(entry.stash).toBeDefined();
+        expect(entry.preferences).toBeDefined();
+      });
+
+      done();
+    });
   });
 });
