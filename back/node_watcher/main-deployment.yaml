@@ -21,7 +21,7 @@ spec:
         io.kompose.service: main
     spec:
       containers:
-      - image: main
+      - image: eu.gcr.io/kusama-etl-261513/node_watcher_main@sha256:ac2aaa5658540579a26c92ec64862fdf8574b2e87dfe5685743052a8c7d7a30d
         name: main
         resources: {}
       restartPolicy: Always
