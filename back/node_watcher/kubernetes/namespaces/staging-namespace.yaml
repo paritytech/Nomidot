@@ -1,6 +1,6 @@
 kind: Namespace  
 apiVersion: v1  
 metadata:  
- name: nomidot-backend-staging  
+ name: nodewatcher-staging
  labels:  
-   name: nomidot-backend-staging
+   name: nodewatcher-staging
