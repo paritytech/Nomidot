@@ -1,6 +1,7 @@
 FROM node:alpine3.10
 
-ENV PRISMA_ENDPOINT http://prisma:4466
+# Set in k8s ConfigMap
+# ENV PRISMA_ENDPOINT http://prisma:4466
 
 WORKDIR /node_watcher
 COPY . .

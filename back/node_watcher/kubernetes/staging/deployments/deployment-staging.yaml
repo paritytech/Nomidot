@@ -33,7 +33,7 @@ spec:
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command: ["/cloud_sql_proxy",
-                    "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:5432",
+                    "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:5432",`
                     "-credential_file=/secrets/cloudsql/credentials.json"]
           volumeMounts:
             - name: csql-secrets-volume
