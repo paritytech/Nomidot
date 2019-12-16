@@ -14,4 +14,4 @@ COPY . .
 RUN yarn
 # Create the database schema
 # CMD ["/opt/bin/wait-for.sh", "prisma:4466", "--", "yarn", "prisma", "deploy"]
-CMD ["yarn", "primsa", "deploy"]
+CMD ["yarn", "prisma", "deploy"]

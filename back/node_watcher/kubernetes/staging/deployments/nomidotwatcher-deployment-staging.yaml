@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nomidotwatcher
+  namespace: nodewatcher-staging
+  labels:
+    stage: staging
+    name: nomidotwatcher
+    app: nomidotwatcher
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        stage: staging
+        name: nomidotwatcher
+        app: nomidotwatcher
+    spec:
+      containers:
+        - name: nomidotwatcher
+          image: eu.gcr.io/kusama-etl/nomidot_watcher@sha256:476df901e3e1b53db7e6cae0ce11dbb5db7016d966ff229fcadc10fbf4daa054
+        ports:
+          - name: nomidotwatcher
+            containerPort: 3000
