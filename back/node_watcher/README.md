@@ -19,3 +19,8 @@
   - Verify: `kubectl config view --minify | grep namespace:`
 4. Create deployment: `kubectl create -f path/to/deployment.yaml`
 5. Create service: `kubectl create -f path/to/service.yaml`
+6. Make a rolling update:
+  - Docker Tag the new image(s) `docker tag node_watcher_main eu.gcr.io/kusama-etl/node_watcher:v1.0`
+  - Get the current image name `kubectl describe pods ${pod_name}`
+  - Set new deployment image `kubectl set image ${current_image} ${new_image}`
+  - Confirm with `kubectl rollout status deployments/${new_image}`
