@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: nomidotwatcher
-          image: "eu.gcr.io/kusama-etl/nomidot_watcher@sha256:476df901e3e1b53db7e6cae0ce11dbb5db7016d966ff229fcadc10fbf4daa054"
+          image: eu.gcr.io/kusama-etl/nomidot_watcher@sha256:476df901e3e1b53db7e6cae0ce11dbb5db7016d966ff229fcadc10fbf4daa054
           ports:
             - name: nomidotwatcher
               containerPort: 3000
