@@ -15,5 +15,7 @@
 1. Mount secrets to nodewatcher pod's volume: `kubectl create -f path/to/secrets.yaml`
 2. Mount configmaps to cluster: `kubectl create -f path/to/configmaps.yaml`
 3. Create namespaces: `kubectl create -f path/to/namespace.yaml`
+  - Make sure you're in the appropriate namespace: `kubectl config set-context --current --namespace<namespace>`
+  - Verify: `kubectl config view --minify | grep namespace:`
 4. Create deployment: `kubectl create -f path/to/deployment.yaml`
 5. Create service: `kubectl create -f path/to/service.yaml`
