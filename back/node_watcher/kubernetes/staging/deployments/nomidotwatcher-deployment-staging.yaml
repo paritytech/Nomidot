@@ -27,3 +27,5 @@ spec:
           ports:
             - name: nomidotwatcher
               containerPort: 3000
+          env:
+            - name: PRISMA_ENDPOINT
