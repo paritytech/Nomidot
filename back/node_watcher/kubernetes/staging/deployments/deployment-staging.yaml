@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodewatcher
+  namespace: nodewatcher-staging
+  labels:
+    stage: staging
+    name: nodewatcher
+    app: nodewatcher
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        stage: staging
+        name: nodewatcher
+        app: nodewatcher
+    spec:
+      containers:
+        - name: prisma
+          image: prismagraphql/prisma:1.34
+          ports:
+            - name: prisma-4466
+              containerPort: 4466
+          env:
+            - name: PRISMA_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  name: prisma-configmap
+                  key: PRISMA_CONFIG
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command: ["/cloud_sql_proxy",
+                    "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]
+          volumeMounts:
+            - name: csql-secrets-volume
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: csql-secrets-volume
+          secret:
+            secretName: cloudsql-instance-credentials
