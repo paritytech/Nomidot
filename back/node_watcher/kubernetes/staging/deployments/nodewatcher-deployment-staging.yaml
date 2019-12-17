@@ -51,7 +51,6 @@ spec:
           volumeMounts:
             - name: prisma-secrets-volume
               mountPath: /secrets/prisma
-              readOnly: true
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command: ["/cloud_sql_proxy",
@@ -59,13 +58,12 @@ spec:
           "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:5432",
           "-credential_file=/secrets/cloudsql/credentials.json"]
           volumeMounts:
-            - name: csql-secrets-volume
+            - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
-              readOnly: true
       volumes:
-        - name: csql-secrets-volume
+        - name: cloudsql-instance-credentials
           secret:
-            secretName: cloudsql-db-credentials
+            secretName: cloudsql-instance-credentials
         - name: prisma-secrets-volume
           secret:
             secretName: prisma-config
