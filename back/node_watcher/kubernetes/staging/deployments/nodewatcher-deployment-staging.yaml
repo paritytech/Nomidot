@@ -30,9 +30,9 @@ spec:
           env:
             - name: PRISMA_CONFIG
               valueFrom:
-                configMapKeyRef:
-                  name: prisma-configmap
-                  key: PRISMA_CONFIG
+                secretKeyRef:
+                  name: nomidot-staging-db
+                  key: prismaconfig
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
