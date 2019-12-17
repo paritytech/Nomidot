@@ -13,5 +13,5 @@ spec:
     app: nodewatcher
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 4466
+      targetPort: 4466
