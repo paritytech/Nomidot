@@ -1,0 +1,6 @@
+kind: Namespace  
+apiVersion: v1  
+metadata:  
+ name: nodewatcher-staging
+ labels:  
+   name: nodewatcher-staging

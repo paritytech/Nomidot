@@ -1,3 +1,7 @@
+# K8s secrets
+**/**/cloudsql-secrets.yaml
+**/**/prisma-secrets.yaml
+
 # Generated outputs
 **/lib/
 
