@@ -24,10 +24,11 @@ The script itself lives in `nodeWatcher.ts`, and anyone can write their own `tas
 5. Create service: `kubectl create -f path/to/service.yaml`
 6. Get the nodewatcher deployment IP: `kubectl describe deployments nodewatcher` 
 7. Set `PRISMA_ENDPOINT` in `nomidotwatcher-deployment.yaml` to External IP from step 6.
+8. Allow traffic: `gcloud compute firewall-rules create allow-nodewatcher-nodeport --allow=tcp:31000`
 
 ### Make a rolling update:
   - Docker Tag the new image(s) `docker tag node_watcher_main eu.gcr.io/kusama-etl/node_watcher:v1.0`
   - Push it to container registry `docker push eu.gcr.io/kusama-etl/node_watcher:v1.0`
-  - Get the current image name `kubectl describe pods ${pod_name}`
+  - Get the current image name `kubectl describe pods ${POD_NAME}`
   - Set new deployment image `kubectl set image ${current_image} ${new_image}`
   - Confirm with `kubectl rollout status deployments/${new_image}`

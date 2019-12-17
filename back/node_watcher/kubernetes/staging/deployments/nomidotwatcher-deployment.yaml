@@ -26,4 +26,4 @@ spec:
           image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:0cc6968810e6a84b9f36e021f8fff92e9d1c0d7193baadc11503c25895936be6
           env:
             - name: PRISMA_ENDPOINT
-            - value: http://nodewatcher:4466
+              value: http://localhost:31000

@@ -49,7 +49,7 @@ spec:
                   name: cloudsql-db-credentials
                   key: dbname
           volumeMounts:
-            - name: prisma-secrets-volume
+            - name: prisma-config-secrets
               mountPath: /secrets/prisma
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
@@ -64,6 +64,6 @@ spec:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
-        - name: prisma-secrets-volume
+        - name: prisma-config-secrets
           secret:
-            secretName: prisma-config
+            secretName: prisma-config-secrets
