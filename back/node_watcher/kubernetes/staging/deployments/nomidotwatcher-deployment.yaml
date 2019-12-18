@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nomidotwatcher
+  namespace: nodewatcher-staging
+  labels:
+    stage: staging
+    name: nomidotwatcher
+    app: nomidotwatcher
+spec:
+  selector:
+    matchLabels:
+      app: nomidotwatcher
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        stage: staging
+        name: nomidotwatcher
+        app: nomidotwatcher
+    spec:
+      containers:
+        - name: nomidotwatcher
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:0cc6968810e6a84b9f36e021f8fff92e9d1c0d7193baadc11503c25895936be6
+          env:
+            - name: PRISMA_ENDPOINT
+              value: http://localhost:31000
