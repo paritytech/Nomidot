@@ -32,7 +32,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: prisma-config
-                  key: prismaconfig
+                  key: prisma-config
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
@@ -48,11 +48,8 @@ spec:
                 secretKeyRef:
                   name: cloudsql-db-credentials
                   key: dbname
-          volumeMounts:
-            - name: prisma-config-secrets
-              mountPath: /secrets/prisma
         - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          image: gcr.io/cloudsql-docker/gce-proxy:1.15
           command: ["/cloud_sql_proxy",
           "--dir=/cloudsql",
           "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:5432",
@@ -64,6 +61,3 @@ spec:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
-        - name: prisma-config-secrets
-          secret:
-            secretName: prisma-config-secrets
