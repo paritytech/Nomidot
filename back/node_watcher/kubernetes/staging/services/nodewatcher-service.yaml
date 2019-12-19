@@ -8,11 +8,10 @@ metadata:
     name: nodewatcher
     app: nodewatcher
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: nodewatcher
   ports:
     - protocol: TCP
       port: 4466
       targetPort: 4466
-      nodePort: 31000
