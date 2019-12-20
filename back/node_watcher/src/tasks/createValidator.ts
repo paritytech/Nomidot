@@ -11,6 +11,7 @@ import {
   ValidatorId,
   ValidatorPrefs,
 } from '@polkadot/types/interfaces';
+import { Option } from '@polkadot/types';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -37,13 +38,13 @@ const createValidator: Task<NomidotValidator[]> = {
     const result = await Promise.all(
       validators.map(async (validator: ValidatorId) => {
         // bonded controller if validator is a stash
-        const bonded: AccountId = await api.query.staking.bonded.at(
+        const bonded: Option<AccountId> = await api.query.staking.bonded.at(
           blockHash,
           validator
         );
 
         // staking ledger information if validator is a controller
-        const ledger: StakingLedger = await api.query.staking.ledger.at(
+        const ledger: Option<StakingLedger> = await api.query.staking.ledger.at(
           blockHash,
           validator
         );
@@ -52,7 +53,7 @@ const createValidator: Task<NomidotValidator[]> = {
         l.warn(`Ledger: ${ledger}`);
 
         // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
-        if (!bonded && !ledger) {
+        if (bonded.isNone && ledger.isNone) {
           const result = {
             currentSessionIndex,
             controller: validator,
@@ -63,8 +64,11 @@ const createValidator: Task<NomidotValidator[]> = {
           return result;
         }
 
-        const stash = !bonded ? ledger.stash : validator;
-        const controller = ledger && ledger.stash ? validator : bonded;
+        const stash = bonded.isNone
+          ? ledger.unwrap().stash
+          : validator;
+
+        const controller = ledger.isSome && ledger.unwrap().stash ? validator : bonded.unwrap();
 
         const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(
           blockHash,
