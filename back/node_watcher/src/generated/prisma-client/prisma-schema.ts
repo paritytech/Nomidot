@@ -48,7 +48,7 @@ type BlockNumber {
   authoredBy: String!
   startDateTime: DateTime!
   hash: String!
-}
+}``
 
 type BlockNumberConnection {
   pageInfo: PageInfo!
