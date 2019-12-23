@@ -1,0 +1,15 @@
+{
+  "name": "graphql-server",
+  "version": "1.0.0",
+  "description": "Graphql API for querying the DB",
+  "scripts": {
+    "start": "ts-node ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Parity Technologies",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "graphql-yoga": "^1.18.3",
+    "ts-node": "^8.5.4"
+  }
+}
