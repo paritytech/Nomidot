@@ -1,0 +1,66 @@
+
+type BlockNumber {
+  id: ID! @id
+  number: Int! @unique
+  authoredBy: String!
+  startDateTime: DateTime!
+  hash: String! @unique
+}
+
+type Session {
+  id: ID! @id
+  index: Int! @unique
+  start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
+}
+
+type Era {
+  id: ID! @id
+  index: Int! @unique
+  eraStartSessionIndex: Session! @relation(name: "EraStartSessionIndex", link: INLINE)
+  totalPoints: String!
+  individualPoints: [String!]! @scalarList(strategy: RELATION)
+}
+
+type Slashing {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "SlashingAtBlockNumber", link: INLINE)
+  who: String! @unique
+  amount: String!
+}
+
+type Validator {
+  id: ID! @id
+  session: Session! @relation(name: "ValidatorsAtSession", link: INLINE)
+  controller: String!
+  stash: String!
+  preferences: String!
+}
+
+type TotalIssuance {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
+  amount: String!
+}
+
+type Reward {
+  id: ID! @id
+  amount: String!
+  authoredBlock: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
+  recipients: [String!]! @scalarList(strategy: RELATION)
+}
+
+type Nomination {
+  id: ID! @id
+  validatorController: String!
+  validatorStash: String!
+  nominatorController: String!
+  nominatorStash: String!
+  session: Session! @relation(name: "NominationsAtSession", link: INLINE)
+  bonded: String!
+}
+
+type Stake {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
+  totalStake: String!
+}

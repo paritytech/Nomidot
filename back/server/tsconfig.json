@@ -1,16 +1,13 @@
 {
-  "exclude": ["generated/**/*", "**/generated/**/*", "node_modules", "public", ".cache"],
-  "include": ["./src"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "declaration": true,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "jsx": "react",
-    "lib": ["dom", "esnext"],
-    "outDir": "./lib",
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "es5"
+    "target": "es5",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "lib": [
+      "esnext", "dom"
+    ]
   }
 }

@@ -1,16 +1,17 @@
 {
-  "name": "graphql-server",
-  "version": "1.0.0",
-  "description": "Graphql API for querying the DB",
-  "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Parity Technologies",
+  "name": "server",
   "license": "Apache-2.0",
+  "version": "0.2.4",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
   "dependencies": {
-    "graphql-yoga": "^1.18.3",
-    "prisma-binding": "^2.3.16",
-    "ts-node": "^8.5.4"
+    "graphql-yoga": "1.18.3",
+    "prisma-client-lib": "1.34.10"
+  },
+  "devDependencies": {
+    "prisma": "1.34.10",
+    "ts-node": "7.0.1",
+    "typescript": "3.2.2"
   }
 }

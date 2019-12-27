@@ -1,11 +1,13 @@
 
-
 type Query {
   blockNumber(number: Int!): BlockNumber
-  blockNumbers(): [BlockNumber]!
+  blockNumbers: [BlockNumber!]!
 }
 
-# NO MUTATIONS ALLOWED ON NODE_WATCHER DB
-type Mutation {
-
+type BlockNumber {
+  id: ID!
+  number: Int!
+  authoredBy: String!
+  startDateTime: String!
+  hash: String!
 }
