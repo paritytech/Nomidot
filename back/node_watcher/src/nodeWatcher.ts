@@ -32,7 +32,7 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 0;
+  let blockIndex = 36428;
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 

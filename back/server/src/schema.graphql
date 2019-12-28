@@ -1,13 +1,19 @@
 
+# import * from './generated/prisma.graphql'
+
 type Query {
   blockNumber(number: Int!): BlockNumber
-  blockNumbers: [BlockNumber!]!
-}
-
-type BlockNumber {
-  id: ID!
-  number: Int!
-  authoredBy: String!
-  startDateTime: String!
-  hash: String!
+  blockNumbersAuthoredBy(authoredBy: String): [BlockNumber!]!
+  blockNumberAtHash(hash: String): BlockNumber!
+  eraAtIndex(index: Int!): Era
+  erasWhere(first: Int, orderBy: String, skip: Int): [Era]
+  nominationsWhere(filter: String): [Nomination!]!
+  sessionAtIndex(index: Int!): Session
+  sessionsWhere(first: Int, orderBy: String, skip: Int): [Session]
+  slashingsAtBlock(number: Int!): [Slashing]
+  slashingsWhere(first: Int, orderBy: String, skip: Int): [Slashing]
+  slashingsAtBlockWhere(number: Int!, first: Int, orderBy: String, skip: Int): [Slashing]
+  validatorsAtSession(index: Int!): [Validator]
+  validatorsWhere(controller: String, stash: String, first: Int, orderBy: String, skip: Int): [Validator]
+  validatorsAtSessionWhere(index: Int, first: Int, orderBy: String, skip: Int): [Validator]
 }
