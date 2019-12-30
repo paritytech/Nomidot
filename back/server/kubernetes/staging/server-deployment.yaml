@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: nomidot-server
-          image: eu.gcr.io/test-installations-222013/nomidot-server
+          image: eu.gcr.io/test-installations-222013/nomidot-server@sha256:0ed36d4ede2c4e343216ed23636daf104d5da67c2d1e3758970e4509a4b138f0
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.44.1.10:4466
