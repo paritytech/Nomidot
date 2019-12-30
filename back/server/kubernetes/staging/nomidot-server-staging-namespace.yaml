@@ -1,0 +1,6 @@
+kind: Namespace  
+apiVersion: v1  
+metadata:  
+ name: nomidot-server-staging
+ labels:  
+   name: nomidot-server-staging
