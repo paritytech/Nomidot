@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: nomidot-frontend
+  namespace: nomidot-frontend-staging
 spec:
   selector:
     matchLabels:
@@ -18,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nomidot-frontend
-        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:6487140db97b98f4c95e5ef32166782ca40e1243d2ca66d6dabe309068f4088b
+        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:24030800773012141b792f20a30c4c60e3d5b40f58f97fee14b9612249e78c9f
         lifecycle:
           preStop:
             exec:
