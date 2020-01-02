@@ -8,7 +8,8 @@
   "scripts": {
     "clean": "./scripts/clean-build.sh",
     "prelerna:publish": "yarn clean && lerna exec yarn build --stream --scope @substrate/context --scope @substrate/ui-components --scope @substrate/node-watcher",
-    "lerna:publish": "lerna version --conventional-commits && lerna publish from-git",
+    "lerna:bump": "lerna version --conventional-commits",
+    "lerna:publish": "lerna publish from-git",
     "lint": "tsc --noEmit && eslint --ext ts,tsx .",
     "start": "cd ./front/gatsby && gatsby develop",
     "storybook": "cd ./front/ui-components && yarn storybook",
