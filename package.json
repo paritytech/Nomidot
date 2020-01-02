@@ -21,6 +21,9 @@
       "back/*"
     ]
   },
+  "dependencies": {
+    "@polkadot/api": "0.100.0-beta.14"
+  },
   "devDependencies": {
     "@polkadot/dev": "^0.32.13",
     "eslint-config-prettier": "^6.6.0",
