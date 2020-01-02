@@ -33,11 +33,11 @@
     "@storybook/addon-knobs": "^5.2.5",
     "@storybook/addon-links": "^5.2.5",
     "@storybook/react": "^5.2.5",
-    "@substrate/context": "^0.3.1",
     "@types/react-color": "^3.0.1",
     "@types/webpack-env": "^1.14.0"
   },
   "peerDependencies": {
     "react": "^16.9"
-  }
+  },
+  "gitHead": "f2b70cd5c343a4e82083dec961328496a17b1e71"
 }
