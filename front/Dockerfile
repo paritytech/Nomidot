@@ -3,8 +3,13 @@ FROM node:alpine3.10
 WORKDIR /
 COPY . .
 
+WORKDIR /ui-components
 RUN yarn
 
-RUN chmod +x ./scripts/run-prod.sh
+WORKDIR /context
+RUN yarn
 
-CMD ["./scripts/run-prod.sh"]
+WORKDIR /gatsby
+RUN yarn
+
+CMD ["yarn", "start:prod"]

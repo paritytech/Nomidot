@@ -19,8 +19,4 @@ spec:
     spec:
       containers:
       - name: nomidot-frontend
-        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:24030800773012141b792f20a30c4c60e3d5b40f58f97fee14b9612249e78c9f
-        lifecycle:
-          preStop:
-            exec:
-              command: ["/usr/sbin/nginx","-s","quit"]
+        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:d5bd86633f2aa41a8cbbb0e46e634b03388a816ea55864cc0da853f4b3851eea
