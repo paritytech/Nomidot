@@ -1,0 +1,16 @@
+  
+#!/bin/bash
+# Copyright 2017-2019 @substrate/nomidot authors & contributors
+# This software may be modified and distributed under the terms
+# of the Apache-2.0 license. See the LICENSE file for details.
+
+set -e
+
+yarn
+
+cd gatsby
+
+yarn build
+yarn serve
+
+exit 0

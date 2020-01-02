@@ -27,3 +27,6 @@ spec:
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.44.1.10:4466
+          ports:
+            - name: http
+              containerPort: 80
