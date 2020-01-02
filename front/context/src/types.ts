@@ -5,13 +5,13 @@
 import {
   DerivedBalances,
   DerivedFees,
-  DerivedStaking,
+  DerivedStakingAccount,
 } from '@polkadot/api-derive/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { Balance, Index } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 
-export type AccountDerivedStakingMap = Record<string, DerivedStaking>;
+export type AccountDerivedStakingMap = Record<string, DerivedStakingAccount>;
 
 /**
  * Injected account from @polkadotjs/extension-dapp

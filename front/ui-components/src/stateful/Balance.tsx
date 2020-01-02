@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount } from '@polkadot/api-derive/types';
 import { ApiContext } from '@substrate/context';
 import React, { useContext, useEffect, useState } from 'react';
 import { combineLatest, of } from 'rxjs';
@@ -22,12 +22,12 @@ export function Balance(props: BalanceProps): React.ReactElement {
   const { address, detailed = false, ...rest } = props;
   const { api } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState<DerivedBalances>();
-  const [allStaking, setAllStaking] = useState<DerivedStaking>();
+  const [allStaking, setAllStaking] = useState<DerivedStakingAccount>();
 
   useEffect(() => {
     const balanceSub = combineLatest([
       api.derive.balances.all(address),
-      api.derive.staking.info(address),
+      api.derive.staking.account(address),
     ]).subscribe(([allBalances, allStaking]) => {
       setAllBalances(allBalances);
       setAllStaking(allStaking);
