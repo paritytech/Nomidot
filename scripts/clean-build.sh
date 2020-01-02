@@ -12,7 +12,7 @@ function clean_build () {
   echo ""
   echo "*** Cleaning build directory $ROOT/lib"
 
-  rimraf $ROOT/lib
+  rm -rf $ROOT/lib
 }
 
 function clean_cache () {
@@ -20,14 +20,14 @@ function clean_cache () {
 
   echo "*** Clearing Gatsby cache $ROOT/.cache"
 
-  rimraf $ROOT/.cache
+  rm -rf $ROOT/.cache
 }
 
 clean_cache "./front/gatsby"
 clean_build "."
 
 if [ -d "front" ]; then
-  PACKAGES=( $(ls -1d front/*) )
+  PACKAGES=( $(ls -1d front/ui-components), $(ls -1d front/context), $(ls -1d front/gatsby) )
 
   for PACKAGE in "${PACKAGES[@]}"; do
     clean_build "$PACKAGE"
