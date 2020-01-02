@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "@substrate/nomidot-gatsby",
   "version": "0.2.5",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Staking Portal for Polkadot",
