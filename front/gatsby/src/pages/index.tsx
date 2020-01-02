@@ -8,7 +8,7 @@ import React from 'react';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { ContextGate } from '../ContextGate';
-import { Onboarding } from './onboarding';
+import Onboarding from './onboarding';
 
 function IndexPage(): React.ReactElement {
   return (

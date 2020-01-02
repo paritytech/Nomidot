@@ -5,10 +5,12 @@
 import { Header } from '@substrate/ui-components';
 import React from 'react';
 
-export function HomePage(): React.ReactElement {
+const HomePage = (): React.ReactElement => {
   return (
     <>
       <Header />
     </>
   );
 }
+
+export default HomePage;
