@@ -11,11 +11,13 @@ import { take } from 'rxjs/operators';
 import { AccountsContext, ApiContext } from './index';
 import { AccountDerivedStakingMap, InjectedAccountExt } from './types';
 
+type DeriveControllers = [AccountId[], Option<AccountId>[]];
+
 export const StakingContext = createContext({
   accountStakingMap: {} as AccountDerivedStakingMap,
   allControllers: [] as AccountId[],
   allStashes: [] as AccountId[],
-  allStashesAndControllers: [[], []] as [AccountId[], Option<AccountId>[]],
+  allStashesAndControllers: [[], []] as DeriveControllers,
   derivedBalanceFees: {} as DerivedFees,
   onlyBondedAccounts: {} as AccountDerivedStakingMap,
 });
@@ -73,11 +75,11 @@ export function StakingContextProvider(props: Props): React.ReactElement {
     const controllersSub = api.derive.staking
       .controllers()
       .pipe(take(1))
-      .subscribe(allStashesAndControllers => {
+      .subscribe((allStashesAndControllers: DeriveControllers) => {
         setAllStashesAndControllers(allStashesAndControllers);
         const allControllers = allStashesAndControllers[1]
           .filter((optional: Option<AccountId>): boolean => optional.isSome)
-          .map((accountId): AccountId => accountId.unwrap());
+          .map((accountId: Option<AccountId>) => accountId.unwrap());
         const allStashes = allStashesAndControllers[0];
 
         setAllControllers(allControllers);
