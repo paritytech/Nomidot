@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedStakingAccount, DerivedFees } from '@polkadot/api-derive/types';
 import { Option } from '@polkadot/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import React, { createContext, useContext, useEffect, useState } from 'react';
@@ -47,9 +47,9 @@ export function StakingContextProvider(props: Props): React.ReactElement {
       const accounts: InjectedAccountExt[] = injectedAccounts;
       accounts.map(({ address }: InjectedAccountExt) => {
         const subscription = api.derive.staking
-          .info(address)
+          .account(address)
           .pipe(take(1))
-          .subscribe((derivedStaking: DerivedStaking) => {
+          .subscribe((derivedStaking: DerivedStakingAccount) => {
             const newAccountStakingMap = accountStakingMap;
             newAccountStakingMap[address] = derivedStaking;
 

@@ -1,6 +1,6 @@
 {
   "name": "gatsby-starter-default",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Staking Portal for Polkadot",
   "license": "Apache-2.0",

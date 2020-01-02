@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount, DerivedUnlocking } from '@polkadot/api-derive/types';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import React from 'react';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
@@ -18,7 +18,7 @@ import { FontSize, FontWeight } from './types';
 
 export type BalanceDisplayProps = {
   allBalances?: DerivedBalances;
-  allStaking?: DerivedStaking;
+  allStaking?: DerivedStakingAccount;
   detailed?: boolean;
   fontSize?: FontSize;
   fontWeight?: FontWeight;
@@ -62,7 +62,7 @@ export function BalanceDisplay(
   const renderUnlocking = (): React.ReactElement | null => {
     return allStaking && allStaking.unlocking ? (
       <>
-        {allStaking.unlocking.map(({ remainingBlocks, value }, index) => (
+        {allStaking.unlocking.map(({ remainingBlocks, value }: DerivedUnlocking, index: number) => (
           <div key={index}>
             <FadedText>Unbonded Amount: {formatBalance(value)}</FadedText>
             <FadedText>
