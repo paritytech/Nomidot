@@ -21,8 +21,8 @@ interface BalanceProps
 export function Balance(props: BalanceProps): React.ReactElement {
   const { address, detailed = false, ...rest } = props;
   const { api } = useContext(ApiContext);
-  const [allBalances, setAllBalances] = useState<DerivedBalances>();
-  const [allStaking, setAllStaking] = useState<DerivedStakingAccount>();
+  const [allBalances, setAllBalances] = useState();
+  const [allStaking, setAllStaking] = useState();
 
   useEffect(() => {
     const balanceSub = combineLatest([
