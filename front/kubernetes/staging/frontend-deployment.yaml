@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: nomidot-frontend
-        image: 
+        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:6487140db97b98f4c95e5ef32166782ca40e1243d2ca66d6dabe309068f4088b
         lifecycle:
           preStop:
             exec:

@@ -5,6 +5,7 @@ COPY . .
 
 RUN yarn
 
-RUN chmod +x run-prod.sh
+RUN chmod +x ./scripts/clean-build.sh
+RUN chmod +x ./scripts/run-prod.sh
 
-CMD ["./clean-build.sh", "./run-prod.sh"]
+CMD ["./scripts/clean-build.sh", "./scripts/run-prod.sh"]
