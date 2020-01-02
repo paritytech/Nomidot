@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
+
+
+### Bug Fixes
+
+* linting errors ([#51](https://github.com/yjkimjunior/Nomidot/issues/51)) ([15c30a6](https://github.com/yjkimjunior/Nomidot/commit/15c30a6814e9180feea9c695701ca58a2c2fce49))
+* package names and versions ([#52](https://github.com/yjkimjunior/Nomidot/issues/52)) ([402130f](https://github.com/yjkimjunior/Nomidot/commit/402130f75469d75224a7419b53c682e08764e1d4))
+* spec version ([#35](https://github.com/yjkimjunior/Nomidot/issues/35)) ([577a5dd](https://github.com/yjkimjunior/Nomidot/commit/577a5ddfa1fcec80249c9f2a050b897443034cdc))
+* Sync from tip ([#34](https://github.com/yjkimjunior/Nomidot/issues/34)) ([82d982b](https://github.com/yjkimjunior/Nomidot/commit/82d982b47dc33d52ff4be08de527219987a9e9a8))
+* validator thing ([#36](https://github.com/yjkimjunior/Nomidot/issues/36)) ([50e1444](https://github.com/yjkimjunior/Nomidot/commit/50e144479b6ecfe9e52f29714823bf460d7b3b00))
+
+
+### Features
+
+* deployment scripts for server ([#48](https://github.com/yjkimjunior/Nomidot/issues/48)) ([6a3e24c](https://github.com/yjkimjunior/Nomidot/commit/6a3e24c9997595fba61bb0e617b9a761e523a57a))
+* Prisma Server to watch a node ([#24](https://github.com/yjkimjunior/Nomidot/issues/24)) ([ded1fc3](https://github.com/yjkimjunior/Nomidot/commit/ded1fc3114200952d0aa12acc0b3bb6b42601960)), closes [#29](https://github.com/yjkimjunior/Nomidot/issues/29) [#30](https://github.com/yjkimjunior/Nomidot/issues/30) [#31](https://github.com/yjkimjunior/Nomidot/issues/31)
+
+
+
+
+
 ## [0.2.4](https://github.com/yjkimjunior/Nomidot/compare/v0.2.3...v0.2.4) (2019-11-26)
 
 

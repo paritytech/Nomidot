@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
+
+
+### Bug Fixes
+
+* linting errors ([#51](https://github.com/yjkimjunior/Nomidot/issues/51)) ([15c30a6](https://github.com/yjkimjunior/Nomidot/commit/15c30a6814e9180feea9c695701ca58a2c2fce49))
+* package names and versions ([#52](https://github.com/yjkimjunior/Nomidot/issues/52)) ([402130f](https://github.com/yjkimjunior/Nomidot/commit/402130f75469d75224a7419b53c682e08764e1d4))
+
+
+### Features
+
+* Prisma Server to watch a node ([#24](https://github.com/yjkimjunior/Nomidot/issues/24)) ([ded1fc3](https://github.com/yjkimjunior/Nomidot/commit/ded1fc3114200952d0aa12acc0b3bb6b42601960)), closes [#29](https://github.com/yjkimjunior/Nomidot/issues/29) [#30](https://github.com/yjkimjunior/Nomidot/issues/30) [#31](https://github.com/yjkimjunior/Nomidot/issues/31)
+
+
+
+
+
 ## [0.2.4](https://github.com/yjkimjunior/Nomidot/compare/v0.2.3...v0.2.4) (2019-11-26)
 
 
