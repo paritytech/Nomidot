@@ -165,13 +165,13 @@ export const StyledNavButton = styled.button<StyledNavButtonProps>`
         ? polkadotOfficialTheme.grey
         : props.negative
         ? polkadotOfficialTheme.grey
-        : polkadotOfficialTheme.white},
+        : polkadotOfficialTheme.neonBlue},
     ${(props): string =>
       props.disabled
         ? polkadotOfficialTheme.grey
         : props.negative
-        ? polkadotOfficialTheme.maroon
-        : polkadotOfficialTheme.hotPink}
+        ? polkadotOfficialTheme.lightBlue2
+        : polkadotOfficialTheme.lightBlue1}
   );
   border: none;
   border-radius: 15px;
@@ -189,8 +189,8 @@ export const StyledNavButton = styled.button<StyledNavButtonProps>`
 export const VoteNayButton = styled.button`
   background-image: linear-gradient(
     107deg,
-    ${polkadotOfficialTheme.lightBlue1},
-    ${polkadotOfficialTheme.neonBlue}
+    ${polkadotOfficialTheme.hotPink},
+    ${polkadotOfficialTheme.hotPink}
   );
   border: none;
   border-radius: 8px;
