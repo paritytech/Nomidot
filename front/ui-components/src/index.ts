@@ -60,4 +60,5 @@ export * from './TextArea';
 export * from './TxDetails';
 export * from './TxSummary';
 export * from './types';
+export * from './WalletCard';
 export * from './YayNay';
