@@ -20,21 +20,23 @@ interface BalanceProps
 
 export function Balance(props: BalanceProps): React.ReactElement {
   const { address, detailed = false, ...rest } = props;
-  const { api } = useContext(ApiContext);
+  const { api, isReady } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState();
   const [allStaking, setAllStaking] = useState();
 
   useEffect(() => {
-    const balanceSub = combineLatest([
-      api.derive.balances.all(address),
-      api.derive.staking.account(address),
-    ]).subscribe(([allBalances, allStaking]) => {
-      setAllBalances(allBalances);
-      setAllStaking(allStaking);
-    });
-
-    return (): void => balanceSub.unsubscribe();
-  }, [api, address]);
+    if (isReady) {
+      const balanceSub = combineLatest([
+        api.derive.balances.all(address),
+        api.derive.staking.account(address),
+      ]).subscribe(([allBalances, allStaking]) => {
+        setAllBalances(allBalances);
+        setAllStaking(allStaking);
+      });
+  
+      return (): void => balanceSub.unsubscribe();
+    }
+  }, [api, isReady, address]);
 
   const handleRedeem = (address: string): void => {
     // FIXME We're not unsubscring here, we should
