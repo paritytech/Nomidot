@@ -1,7 +1,7 @@
 {
   "name": "@substrate/nomidot-server",
   "license": "Apache-2.0",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "scripts": {
     "start": "ts-node src/index.ts"
   },
