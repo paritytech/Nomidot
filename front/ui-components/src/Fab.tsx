@@ -29,8 +29,8 @@ const SUIFab = styled(SUIButton)`
     box-shadow: '0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12)';
     border-radius: 50%;
     position: fixed;
-    bottom: 5rem;
-    right: 5rem;
+    bottom: 2rem;
+    right: 2rem;
   }
 `;
 
