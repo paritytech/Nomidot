@@ -146,7 +146,7 @@ export const StyledLinkButton = styled.button`
   align-items: space-between;
   background: none;
   border: none;
-  color: ${(props): string => props.color || polkadotOfficialTheme.hotPink};
+  color: ${(props): string => props.color || polkadotOfficialTheme.neonBlue};
   display: flex;
   font-size: ${FONT_SIZES.medium};
   font-weight: 300;
