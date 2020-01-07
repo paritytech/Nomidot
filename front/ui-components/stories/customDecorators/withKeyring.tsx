@@ -5,7 +5,7 @@
 import React from 'react';
 import { KeyringContext, KeyringContextProvider } from '@substrate/context';
 
-export const withApi = (
+export const withKeyring = (
   storyFn: () => React.ReactElement
 ): React.ReactElement => {
   return (

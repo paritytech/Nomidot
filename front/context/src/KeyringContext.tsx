@@ -1,11 +1,11 @@
-// Copyright 2018-2019 @paritytech/nomidot authors & contributors
+// Copyright 2018-2019 @paritytech/substrate-light-ui authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import keyring from '@polkadot/ui-keyring';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { KeyringOptions } from '@polkadot/ui-keyring/types';
-import { System } from '@substrate/context';
+import { System } from './ApiContext';
 import React, { useEffect, useState } from 'react';
 
 interface KeyringContext {
