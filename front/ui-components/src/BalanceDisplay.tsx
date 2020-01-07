@@ -7,7 +7,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import React from 'react';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
 
-import { Icon } from './index';
+import { Icon, Margin, WrapperDiv } from './index';
 import {
   DynamicSizeText,
   FadedText,
@@ -87,34 +87,35 @@ export function BalanceDisplay(
     const { availableBalance, lockedBalance, reservedBalance } = allBalances;
 
     return (
-      <React.Fragment>
-        <span>
-          <b>Available:</b>{' '}
-          <FadedText>{formatBalance(availableBalance)}</FadedText>
-        </span>
-        <span>
-          {allStaking && allStaking.redeemable && (
-            <Stacked>
-              <b>Redeemable:</b>
-              <FadedText>{formatBalance(allStaking.redeemable)}</FadedText>
-              {allStaking.redeemable.gtn(0) && renderRedeemButton()}
-            </Stacked>
-          )}
-        </span>
-        <span>
-          <b>Reserved:</b>
-          {reservedBalance && (
-            <FadedText>{formatBalance(reservedBalance)}</FadedText>
-          )}
-        </span>
-        <span>
-          <b>Locked:</b>
-          {lockedBalance && (
-            <FadedText>{formatBalance(lockedBalance)}</FadedText>
-          )}
-        </span>
-        {renderUnlocking()}
-      </React.Fragment>
+      <>
+        <hr />
+        <WrapperDiv width='90%' margin='0' padding='0'>
+          <StackedHorizontal justifyContent='space-between'>
+            <b>Available:</b>
+            {formatBalance(availableBalance)}
+          </StackedHorizontal>
+          <StackedHorizontal justifyContent='space-between'>
+            {allStaking && allStaking.redeemable && (
+              <>
+                <b>Redeemable:</b>
+                {formatBalance(allStaking.redeemable)}
+                {allStaking.redeemable.gtn(0) && renderRedeemButton()}
+              </>
+            )}
+          </StackedHorizontal>
+          <StackedHorizontal justifyContent='space-between'>
+            <b>Reserved:</b>
+            {reservedBalance && (
+              <FadedText>{formatBalance(reservedBalance)}</FadedText>
+            )}
+          </StackedHorizontal>
+          <StackedHorizontal justifyContent='space-between'>
+            <b>Locked:</b>
+            {lockedBalance && formatBalance(lockedBalance)}
+          </StackedHorizontal>
+          {renderUnlocking()}
+        </WrapperDiv>
+      </>
     );
   };
 
