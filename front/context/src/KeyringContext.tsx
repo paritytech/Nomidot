@@ -5,7 +5,7 @@
 import keyring from '@polkadot/ui-keyring';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { KeyringOptions } from '@polkadot/ui-keyring/types';
-import { System } from '@substrate/context';
+import { System } from './ApiContext';
 import React, { useEffect, useState } from 'react';
 
 interface KeyringContext {
