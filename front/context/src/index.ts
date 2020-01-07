@@ -5,6 +5,7 @@
 export * from './AccountsContext';
 export * from './AlertsContext';
 export * from './ApiContext';
+export * from './KeyringContext';
 export * from './StakingContext';
 export * from './TxQueueContext';
 export * from './types';
