@@ -118,7 +118,7 @@ export function BalanceDisplay(
   return (
     <>
       {allBalances ? (
-        <StackedHorizontal justifyContent='space-around' alignItems='center'>
+        <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
           <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
             <strong>Total Balance:</strong>{' '}
             {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
