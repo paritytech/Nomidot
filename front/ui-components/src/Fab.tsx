@@ -46,14 +46,12 @@ export function Fab(props: Props): React.ReactElement {
       {props.type === 'add' ? (
         <Icon
           name='add'
-          color='white'
           size='large'
           style={{ marginLeft: '8px' }}
         />
       ) : (
         <Icon
           name='send'
-          color='white'
           size='large'
           style={{ marginLeft: '3.9px' }}
         />
