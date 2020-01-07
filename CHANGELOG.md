@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.12](https://github.com/yjkimjunior/Nomidot/compare/v0.3.11...v0.3.12) (2020-01-07)
+
+
+### Bug Fixes
+
+* Input Address bug ([#72](https://github.com/yjkimjunior/Nomidot/issues/72)) ([01652b0](https://github.com/yjkimjunior/Nomidot/commit/01652b0dcc672b343287aaf3ca3e508943da9ba6))
+
+
+
+
+
 # [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
 
 
