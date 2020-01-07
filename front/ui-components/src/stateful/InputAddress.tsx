@@ -19,6 +19,7 @@ import styled from 'styled-components';
 
 import { MARGIN_SIZES } from '../constants';
 import { Margin } from '../Margin';
+import { WrapperDiv } from '../Shared.styles';
 
 type AddressType = 'accounts' | 'addresses';
 
@@ -47,8 +48,8 @@ function renderDropdownItemText(address: SingleAddress): React.ReactElement {
   return (
     <DropdownItemText>
       <strong>{address.json.meta.name}</strong>
-      <Margin as='span' right='small' />({address.json.address.substr(0, 3)}..
-      {address.json.address.slice(-3)})
+      <Margin as='span' right='small' />({address.json.address.substr(0, 8)}..
+      {address.json.address.slice(-8)})
     </DropdownItemText>
   );
 }
@@ -65,6 +66,7 @@ export function InputAddress(props: InputAddressProps): React.ReactElement {
       keyringAccounts.subject,
       keyringAddresses.subject,
     ]).subscribe(([acc, add]) => {
+
       setAccounts(acc);
       setAddresses(add);
     });
@@ -94,7 +96,7 @@ export function InputAddress(props: InputAddressProps): React.ReactElement {
   }
 
   return (
-    <>
+    <WrapperDiv>
       <IdentityIcon value={value} size={20} />
       <Margin right='small' />
       <Dropdown
@@ -116,6 +118,6 @@ export function InputAddress(props: InputAddressProps): React.ReactElement {
             Object.values(addresses).map(renderDropdownItem)}
         </Dropdown.Menu>
       </Dropdown>
-    </>
+    </WrapperDiv>
   );
 }
