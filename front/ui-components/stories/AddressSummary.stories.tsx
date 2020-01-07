@@ -11,19 +11,20 @@ import {
   OrientationType,
   SizeType,
 } from '../src/stateful/AddressSummary/types';
-import { withTheme } from './customDecorators';
+import { withApi, withTheme } from './customDecorators';
 
 const orientations: Array<OrientationType> = ['horizontal', 'vertical'];
 const sizes: Array<SizeType> = ['tiny', 'small', 'medium', 'large'];
 
 storiesOf('Address Sumary', module)
+  .addDecorator(withApi)
   .addDecorator(withKnobs)
   .addDecorator(withTheme)
   .add('summary', () => (
     <AddressSummary
       address={text(
         'address',
-        '5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk'
+        'ExuzF7kjvyUsk6TMH4MhKA4AE7DY6NCts4SDj9Q3HS1dP5W'
       )}
       name={text('name', 'Joe Schmoe')}
       orientation={select('orientation', orientations, orientations[0])}

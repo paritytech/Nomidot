@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { ApiContext, ApiContextProvider, ApiContextType } from '@substrate/context';
-import { Loading } from '@substrate/ui-components';
+import { Loading } from '../../src/index';
 
 export const withApi = (
   storyFn: () => React.ReactElement
@@ -12,14 +12,9 @@ export const withApi = (
   return (
     <ApiContextProvider loading={<Loading active>Connecting to the node...</Loading>}>
       <ApiContext.Consumer>
-        {({ api, isReady, system }: Partial<ApiContextType>): React.ReactElement | boolean | undefined => {
-          return (
-            api &&
-            isReady &&
-            system && storyFn()
-          )
-        }}
+        {({ api, isReady, system }: Partial<ApiContextType>): React.ReactElement | boolean | undefined => storyFn()}
       </ApiContext.Consumer>
     </ApiContextProvider>
   );
 };
+``

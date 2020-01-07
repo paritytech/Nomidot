@@ -16,7 +16,7 @@ storiesOf('Address Segment', module)
     <Address
       address={text(
         'address',
-        '5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk'
+        'ExuzF7kjvyUsk6TMH4MhKA4AE7DY6NCts4SDj9Q3HS1dP5W'
       )}
     />
   ));
