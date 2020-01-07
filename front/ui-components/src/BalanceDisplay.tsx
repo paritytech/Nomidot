@@ -13,6 +13,7 @@ import {
   FadedText,
   Stacked,
   StyledLinkButton,
+  StackedHorizontal,
 } from './Shared.styles';
 import { FontSize, FontWeight } from './types';
 
@@ -117,7 +118,7 @@ export function BalanceDisplay(
   return (
     <>
       {allBalances ? (
-        <React.Fragment>
+        <StackedHorizontal justifyContent='space-around' alignItems='center'>
           <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
             <strong>Total Balance:</strong>{' '}
             {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
@@ -125,7 +126,7 @@ export function BalanceDisplay(
           <FadedText>
             Transactions: {formatNumber(allBalances.accountNonce)}{' '}
           </FadedText>
-        </React.Fragment>
+        </StackedHorizontal>
       ) : (
         <Loader active inline />
       )}

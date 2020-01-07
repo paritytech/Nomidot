@@ -20,13 +20,13 @@
   "dependencies": {
     "@polkadot/react-identicon": "^0.47.1",
     "@types/recharts": "^1.1.16",
-    "@types/styled-components": "4.1.19",
+    "@types/styled-components": "4.4.1",
     "babel-loader": "^8.0.6",
     "react-dropzone": "10.1.3",
     "recharts": "^1.6.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
-    "styled-components": "4.4.0"
+    "styled-components": "4.4.1"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.2.5",
