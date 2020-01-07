@@ -15,7 +15,7 @@ import {
   StyledLinkButton,
   StackedHorizontal,
 } from './Shared.styles';
-import { FontSize, FontWeight } from './types';
+import { FontSize, FontWeight, OrientationType } from './types';
 
 export type BalanceDisplayProps = {
   allBalances?: DerivedBalances;
@@ -24,11 +24,13 @@ export type BalanceDisplayProps = {
   fontSize?: FontSize;
   fontWeight?: FontWeight;
   handleRedeem?: (address: string) => void;
+  orientation?: 'horizontal' | 'vertical';
 };
 
 const defaultProps = {
   detailed: false,
   fontSize: 'large' as FontSize,
+  orientation: 'vertical' as OrientationType,
 };
 
 // FIXME: https://github.com/paritytech/substrate-light-ui/issues/471
@@ -42,6 +44,7 @@ export function BalanceDisplay(
     fontSize,
     fontWeight,
     handleRedeem,
+    orientation
   } = props;
 
   const renderRedeemButton = (): React.ReactElement | null => {
@@ -117,19 +120,32 @@ export function BalanceDisplay(
 
   return (
     <>
-      {allBalances ? (
-        <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
-          <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
-            <strong>Total Balance:</strong>{' '}
-            {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
-          </DynamicSizeText>
-          <FadedText>
-            Transactions: {formatNumber(allBalances.accountNonce)}{' '}
-          </FadedText>
-        </StackedHorizontal>
-      ) : (
-        <Loader active inline />
-      )}
+      {allBalances ?
+        orientation === 'horizontal'
+          ? (
+            <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
+              <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+                <strong>Total Balance:</strong>{' '}
+                {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
+              </DynamicSizeText>
+              <FadedText>
+                Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+              </FadedText>
+            </StackedHorizontal>
+          )
+          : (
+            <Stacked justifyContent='space-around'>
+              <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+                <strong>Total Balance:</strong>{' '}
+                {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
+              </DynamicSizeText>
+              <FadedText>
+                Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+              </FadedText>
+            </Stacked>
+          )
+        : <Loader active inline />
+      }
       {detailed && allBalances && renderDetailedBalances()}
     </>
   );

@@ -16,10 +16,11 @@ interface BalanceProps
   > {
   address: string;
   detailed?: boolean;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 export function Balance(props: BalanceProps): React.ReactElement {
-  const { address, detailed = false, ...rest } = props;
+  const { address, detailed = false, orientation='horizontal', ...rest } = props;
   const { api, isReady } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState();
   const [allStaking, setAllStaking] = useState();
@@ -48,6 +49,7 @@ export function Balance(props: BalanceProps): React.ReactElement {
       allBalances={allBalances}
       allStaking={allStaking}
       detailed={detailed}
+      orientation={orientation}
       handleRedeem={handleRedeem}
       {...rest}
     />
