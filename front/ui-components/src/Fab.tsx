@@ -31,6 +31,7 @@ const SUIFab = styled(SUIButton)`
     position: fixed;
     bottom: 2rem;
     right: 2rem;
+    zIndex: 1000000;
   }
 `;
 
