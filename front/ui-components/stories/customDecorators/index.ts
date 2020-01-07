@@ -4,5 +4,6 @@
 
 import { withApi } from './withApi';
 import { withTheme } from './withTheme';
+import { withKeyring } from './withKeyring';
 
-export { withApi, withTheme };
+export { withApi, withKeyring, withTheme };
