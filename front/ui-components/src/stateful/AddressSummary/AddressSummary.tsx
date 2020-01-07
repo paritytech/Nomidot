@@ -100,6 +100,7 @@ function renderDetails(
     name = PLACEHOLDER_NAME,
     noBalance,
     noPlaceholderName,
+    orientation,
     size = 'medium',
     type,
     withShortAddress,
@@ -123,6 +124,7 @@ function renderDetails(
           <Balance
             address={address}
             detailed={detailed}
+            orientation={orientation}
             fontSize={FONT_SIZES[size] as FontSize}
           />
         )}
