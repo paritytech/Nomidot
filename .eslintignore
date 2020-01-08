@@ -1,5 +1,7 @@
-**/lib/*
+**/.cache/*
 **/coverage/*
 **/generated/*
+**/lib/*
 **/node_modules/*
+**/public/*
 back/server/**/*
