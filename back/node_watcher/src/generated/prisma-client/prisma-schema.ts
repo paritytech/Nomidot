@@ -622,7 +622,14 @@ type PageInfo {
 type Proposal {
   id: ID!
   blockNumber: BlockNumber!
-  nonce: Int!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalId: Int!
+  proposer: String!
+  section: String!
 }
 
 type ProposalConnection {
@@ -634,7 +641,14 @@ type ProposalConnection {
 input ProposalCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  nonce: Int!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalId: Int!
+  proposer: String!
+  section: String!
 }
 
 type ProposalEdge {
@@ -645,13 +659,34 @@ type ProposalEdge {
 enum ProposalOrderByInput {
   id_ASC
   id_DESC
-  nonce_ASC
-  nonce_DESC
+  depositAmount_ASC
+  depositAmount_DESC
+  hash_ASC
+  hash_DESC
+  metaDescription_ASC
+  metaDescription_DESC
+  method_ASC
+  method_DESC
+  proposal_ASC
+  proposal_DESC
+  proposalId_ASC
+  proposalId_DESC
+  proposer_ASC
+  proposer_DESC
+  section_ASC
+  section_DESC
 }
 
 type ProposalPreviousValues {
   id: ID!
-  nonce: Int!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalId: Int!
+  proposer: String!
+  section: String!
 }
 
 type ProposalSubscriptionPayload {
@@ -674,11 +709,25 @@ input ProposalSubscriptionWhereInput {
 
 input ProposalUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  nonce: Int
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: String
+  proposalId: Int
+  proposer: String
+  section: String
 }
 
 input ProposalUpdateManyMutationInput {
-  nonce: Int
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: String
+  proposalId: Int
+  proposer: String
+  section: String
 }
 
 input ProposalWhereInput {
@@ -697,14 +746,112 @@ input ProposalWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   blockNumber: BlockNumberWhereInput
-  nonce: Int
-  nonce_not: Int
-  nonce_in: [Int!]
-  nonce_not_in: [Int!]
-  nonce_lt: Int
-  nonce_lte: Int
-  nonce_gt: Int
-  nonce_gte: Int
+  depositAmount: String
+  depositAmount_not: String
+  depositAmount_in: [String!]
+  depositAmount_not_in: [String!]
+  depositAmount_lt: String
+  depositAmount_lte: String
+  depositAmount_gt: String
+  depositAmount_gte: String
+  depositAmount_contains: String
+  depositAmount_not_contains: String
+  depositAmount_starts_with: String
+  depositAmount_not_starts_with: String
+  depositAmount_ends_with: String
+  depositAmount_not_ends_with: String
+  hash: String
+  hash_not: String
+  hash_in: [String!]
+  hash_not_in: [String!]
+  hash_lt: String
+  hash_lte: String
+  hash_gt: String
+  hash_gte: String
+  hash_contains: String
+  hash_not_contains: String
+  hash_starts_with: String
+  hash_not_starts_with: String
+  hash_ends_with: String
+  hash_not_ends_with: String
+  metaDescription: String
+  metaDescription_not: String
+  metaDescription_in: [String!]
+  metaDescription_not_in: [String!]
+  metaDescription_lt: String
+  metaDescription_lte: String
+  metaDescription_gt: String
+  metaDescription_gte: String
+  metaDescription_contains: String
+  metaDescription_not_contains: String
+  metaDescription_starts_with: String
+  metaDescription_not_starts_with: String
+  metaDescription_ends_with: String
+  metaDescription_not_ends_with: String
+  method: String
+  method_not: String
+  method_in: [String!]
+  method_not_in: [String!]
+  method_lt: String
+  method_lte: String
+  method_gt: String
+  method_gte: String
+  method_contains: String
+  method_not_contains: String
+  method_starts_with: String
+  method_not_starts_with: String
+  method_ends_with: String
+  method_not_ends_with: String
+  proposal: String
+  proposal_not: String
+  proposal_in: [String!]
+  proposal_not_in: [String!]
+  proposal_lt: String
+  proposal_lte: String
+  proposal_gt: String
+  proposal_gte: String
+  proposal_contains: String
+  proposal_not_contains: String
+  proposal_starts_with: String
+  proposal_not_starts_with: String
+  proposal_ends_with: String
+  proposal_not_ends_with: String
+  proposalId: Int
+  proposalId_not: Int
+  proposalId_in: [Int!]
+  proposalId_not_in: [Int!]
+  proposalId_lt: Int
+  proposalId_lte: Int
+  proposalId_gt: Int
+  proposalId_gte: Int
+  proposer: String
+  proposer_not: String
+  proposer_in: [String!]
+  proposer_not_in: [String!]
+  proposer_lt: String
+  proposer_lte: String
+  proposer_gt: String
+  proposer_gte: String
+  proposer_contains: String
+  proposer_not_contains: String
+  proposer_starts_with: String
+  proposer_not_starts_with: String
+  proposer_ends_with: String
+  proposer_not_ends_with: String
+  section: String
+  section_not: String
+  section_in: [String!]
+  section_not_in: [String!]
+  section_lt: String
+  section_lte: String
+  section_gt: String
+  section_gte: String
+  section_contains: String
+  section_not_contains: String
+  section_starts_with: String
+  section_not_starts_with: String
+  section_ends_with: String
+  section_not_ends_with: String
   AND: [ProposalWhereInput!]
   OR: [ProposalWhereInput!]
   NOT: [ProposalWhereInput!]

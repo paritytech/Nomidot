@@ -68,5 +68,12 @@ type Stake {
 type Proposal {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "ProposalAtBlockNumber", link: INLINE)
-  nonce: Int!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalId: Int!
+  proposer: String!
+  section: String!
 }

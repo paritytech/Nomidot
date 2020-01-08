@@ -495,8 +495,22 @@ export type NominationOrderByInput =
 export type ProposalOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "nonce_ASC"
-  | "nonce_DESC";
+  | "depositAmount_ASC"
+  | "depositAmount_DESC"
+  | "hash_ASC"
+  | "hash_DESC"
+  | "metaDescription_ASC"
+  | "metaDescription_DESC"
+  | "method_ASC"
+  | "method_DESC"
+  | "proposal_ASC"
+  | "proposal_DESC"
+  | "proposalId_ASC"
+  | "proposalId_DESC"
+  | "proposer_ASC"
+  | "proposer_DESC"
+  | "section_ASC"
+  | "section_DESC";
 
 export type RewardOrderByInput =
   | "id_ASC"
@@ -731,7 +745,14 @@ export interface EraWhereInput {
 }
 
 export interface ProposalUpdateManyMutationInput {
-  nonce?: Maybe<Int>;
+  depositAmount?: Maybe<String>;
+  hash?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  proposal?: Maybe<String>;
+  proposalId?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  section?: Maybe<String>;
 }
 
 export interface EraSubscriptionWhereInput {
@@ -747,7 +768,14 @@ export interface EraSubscriptionWhereInput {
 
 export interface ProposalUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  nonce?: Maybe<Int>;
+  depositAmount?: Maybe<String>;
+  hash?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  proposal?: Maybe<String>;
+  proposalId?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  section?: Maybe<String>;
 }
 
 export interface ValidatorUpdateInput {
@@ -760,7 +788,14 @@ export interface ValidatorUpdateInput {
 export interface ProposalCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  nonce: Int;
+  depositAmount: String;
+  hash: String;
+  metaDescription: String;
+  method: String;
+  proposal: String;
+  proposalId: Int;
+  proposer: String;
+  section: String;
 }
 
 export type NominationWhereUniqueInput = AtLeastOne<{
@@ -1378,14 +1413,112 @@ export interface ProposalWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   blockNumber?: Maybe<BlockNumberWhereInput>;
-  nonce?: Maybe<Int>;
-  nonce_not?: Maybe<Int>;
-  nonce_in?: Maybe<Int[] | Int>;
-  nonce_not_in?: Maybe<Int[] | Int>;
-  nonce_lt?: Maybe<Int>;
-  nonce_lte?: Maybe<Int>;
-  nonce_gt?: Maybe<Int>;
-  nonce_gte?: Maybe<Int>;
+  depositAmount?: Maybe<String>;
+  depositAmount_not?: Maybe<String>;
+  depositAmount_in?: Maybe<String[] | String>;
+  depositAmount_not_in?: Maybe<String[] | String>;
+  depositAmount_lt?: Maybe<String>;
+  depositAmount_lte?: Maybe<String>;
+  depositAmount_gt?: Maybe<String>;
+  depositAmount_gte?: Maybe<String>;
+  depositAmount_contains?: Maybe<String>;
+  depositAmount_not_contains?: Maybe<String>;
+  depositAmount_starts_with?: Maybe<String>;
+  depositAmount_not_starts_with?: Maybe<String>;
+  depositAmount_ends_with?: Maybe<String>;
+  depositAmount_not_ends_with?: Maybe<String>;
+  hash?: Maybe<String>;
+  hash_not?: Maybe<String>;
+  hash_in?: Maybe<String[] | String>;
+  hash_not_in?: Maybe<String[] | String>;
+  hash_lt?: Maybe<String>;
+  hash_lte?: Maybe<String>;
+  hash_gt?: Maybe<String>;
+  hash_gte?: Maybe<String>;
+  hash_contains?: Maybe<String>;
+  hash_not_contains?: Maybe<String>;
+  hash_starts_with?: Maybe<String>;
+  hash_not_starts_with?: Maybe<String>;
+  hash_ends_with?: Maybe<String>;
+  hash_not_ends_with?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  metaDescription_not?: Maybe<String>;
+  metaDescription_in?: Maybe<String[] | String>;
+  metaDescription_not_in?: Maybe<String[] | String>;
+  metaDescription_lt?: Maybe<String>;
+  metaDescription_lte?: Maybe<String>;
+  metaDescription_gt?: Maybe<String>;
+  metaDescription_gte?: Maybe<String>;
+  metaDescription_contains?: Maybe<String>;
+  metaDescription_not_contains?: Maybe<String>;
+  metaDescription_starts_with?: Maybe<String>;
+  metaDescription_not_starts_with?: Maybe<String>;
+  metaDescription_ends_with?: Maybe<String>;
+  metaDescription_not_ends_with?: Maybe<String>;
+  method?: Maybe<String>;
+  method_not?: Maybe<String>;
+  method_in?: Maybe<String[] | String>;
+  method_not_in?: Maybe<String[] | String>;
+  method_lt?: Maybe<String>;
+  method_lte?: Maybe<String>;
+  method_gt?: Maybe<String>;
+  method_gte?: Maybe<String>;
+  method_contains?: Maybe<String>;
+  method_not_contains?: Maybe<String>;
+  method_starts_with?: Maybe<String>;
+  method_not_starts_with?: Maybe<String>;
+  method_ends_with?: Maybe<String>;
+  method_not_ends_with?: Maybe<String>;
+  proposal?: Maybe<String>;
+  proposal_not?: Maybe<String>;
+  proposal_in?: Maybe<String[] | String>;
+  proposal_not_in?: Maybe<String[] | String>;
+  proposal_lt?: Maybe<String>;
+  proposal_lte?: Maybe<String>;
+  proposal_gt?: Maybe<String>;
+  proposal_gte?: Maybe<String>;
+  proposal_contains?: Maybe<String>;
+  proposal_not_contains?: Maybe<String>;
+  proposal_starts_with?: Maybe<String>;
+  proposal_not_starts_with?: Maybe<String>;
+  proposal_ends_with?: Maybe<String>;
+  proposal_not_ends_with?: Maybe<String>;
+  proposalId?: Maybe<Int>;
+  proposalId_not?: Maybe<Int>;
+  proposalId_in?: Maybe<Int[] | Int>;
+  proposalId_not_in?: Maybe<Int[] | Int>;
+  proposalId_lt?: Maybe<Int>;
+  proposalId_lte?: Maybe<Int>;
+  proposalId_gt?: Maybe<Int>;
+  proposalId_gte?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  proposer_not?: Maybe<String>;
+  proposer_in?: Maybe<String[] | String>;
+  proposer_not_in?: Maybe<String[] | String>;
+  proposer_lt?: Maybe<String>;
+  proposer_lte?: Maybe<String>;
+  proposer_gt?: Maybe<String>;
+  proposer_gte?: Maybe<String>;
+  proposer_contains?: Maybe<String>;
+  proposer_not_contains?: Maybe<String>;
+  proposer_starts_with?: Maybe<String>;
+  proposer_not_starts_with?: Maybe<String>;
+  proposer_ends_with?: Maybe<String>;
+  proposer_not_ends_with?: Maybe<String>;
+  section?: Maybe<String>;
+  section_not?: Maybe<String>;
+  section_in?: Maybe<String[] | String>;
+  section_not_in?: Maybe<String[] | String>;
+  section_lt?: Maybe<String>;
+  section_lte?: Maybe<String>;
+  section_gt?: Maybe<String>;
+  section_gte?: Maybe<String>;
+  section_contains?: Maybe<String>;
+  section_not_contains?: Maybe<String>;
+  section_starts_with?: Maybe<String>;
+  section_not_starts_with?: Maybe<String>;
+  section_ends_with?: Maybe<String>;
+  section_not_ends_with?: Maybe<String>;
   AND?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
   OR?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
   NOT?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
@@ -2155,13 +2288,27 @@ export interface ValidatorSubscriptionPayloadSubscription
 
 export interface Proposal {
   id: ID_Output;
-  nonce: Int;
+  depositAmount: String;
+  hash: String;
+  metaDescription: String;
+  method: String;
+  proposal: String;
+  proposalId: Int;
+  proposer: String;
+  section: String;
 }
 
 export interface ProposalPromise extends Promise<Proposal>, Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  nonce: () => Promise<Int>;
+  depositAmount: () => Promise<String>;
+  hash: () => Promise<String>;
+  metaDescription: () => Promise<String>;
+  method: () => Promise<String>;
+  proposal: () => Promise<String>;
+  proposalId: () => Promise<Int>;
+  proposer: () => Promise<String>;
+  section: () => Promise<String>;
 }
 
 export interface ProposalSubscription
@@ -2169,7 +2316,14 @@ export interface ProposalSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   blockNumber: <T = BlockNumberSubscription>() => T;
-  nonce: () => Promise<AsyncIterator<Int>>;
+  depositAmount: () => Promise<AsyncIterator<String>>;
+  hash: () => Promise<AsyncIterator<String>>;
+  metaDescription: () => Promise<AsyncIterator<String>>;
+  method: () => Promise<AsyncIterator<String>>;
+  proposal: () => Promise<AsyncIterator<String>>;
+  proposalId: () => Promise<AsyncIterator<Int>>;
+  proposer: () => Promise<AsyncIterator<String>>;
+  section: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProposalNullablePromise
@@ -2177,7 +2331,14 @@ export interface ProposalNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
-  nonce: () => Promise<Int>;
+  depositAmount: () => Promise<String>;
+  hash: () => Promise<String>;
+  metaDescription: () => Promise<String>;
+  method: () => Promise<String>;
+  proposal: () => Promise<String>;
+  proposalId: () => Promise<Int>;
+  proposer: () => Promise<String>;
+  section: () => Promise<String>;
 }
 
 export interface ProposalSubscriptionPayload {
@@ -2226,21 +2387,42 @@ export interface NominationEdgeSubscription
 
 export interface ProposalPreviousValues {
   id: ID_Output;
-  nonce: Int;
+  depositAmount: String;
+  hash: String;
+  metaDescription: String;
+  method: String;
+  proposal: String;
+  proposalId: Int;
+  proposer: String;
+  section: String;
 }
 
 export interface ProposalPreviousValuesPromise
   extends Promise<ProposalPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  nonce: () => Promise<Int>;
+  depositAmount: () => Promise<String>;
+  hash: () => Promise<String>;
+  metaDescription: () => Promise<String>;
+  method: () => Promise<String>;
+  proposal: () => Promise<String>;
+  proposalId: () => Promise<Int>;
+  proposer: () => Promise<String>;
+  section: () => Promise<String>;
 }
 
 export interface ProposalPreviousValuesSubscription
   extends Promise<AsyncIterator<ProposalPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  nonce: () => Promise<AsyncIterator<Int>>;
+  depositAmount: () => Promise<AsyncIterator<String>>;
+  hash: () => Promise<AsyncIterator<String>>;
+  metaDescription: () => Promise<AsyncIterator<String>>;
+  method: () => Promise<AsyncIterator<String>>;
+  proposal: () => Promise<AsyncIterator<String>>;
+  proposalId: () => Promise<AsyncIterator<Int>>;
+  proposer: () => Promise<AsyncIterator<String>>;
+  section: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ValidatorEdge {
