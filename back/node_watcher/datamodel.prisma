@@ -64,3 +64,9 @@ type Stake {
   blockNumber: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
   totalStake: String!
 }
+
+type Proposal {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "ProposalAtBlockNumber", link: INLINE)
+  nonce: Int!
+}
