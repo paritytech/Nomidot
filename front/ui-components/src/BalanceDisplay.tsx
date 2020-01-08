@@ -2,18 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStakingAccount, DerivedUnlocking } from '@polkadot/api-derive/types';
+import {
+  DerivedBalances,
+  DerivedStakingAccount,
+  DerivedUnlocking,
+} from '@polkadot/api-derive/types';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import React from 'react';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
 
-import { Icon, Margin, WrapperDiv } from './index';
+import { Icon, WrapperDiv } from './index';
 import {
   DynamicSizeText,
   FadedText,
   Stacked,
-  StyledLinkButton,
   StackedHorizontal,
+  StyledLinkButton,
 } from './Shared.styles';
 import { FontSize, FontWeight, OrientationType } from './types';
 
@@ -44,7 +48,7 @@ export function BalanceDisplay(
     fontSize,
     fontWeight,
     handleRedeem,
-    orientation
+    orientation,
   } = props;
 
   const renderRedeemButton = (): React.ReactElement | null => {
@@ -66,15 +70,17 @@ export function BalanceDisplay(
   const renderUnlocking = (): React.ReactElement | null => {
     return allStaking && allStaking.unlocking ? (
       <>
-        {allStaking.unlocking.map(({ remainingBlocks, value }: DerivedUnlocking, index: number) => (
-          <div key={index}>
-            <FadedText>Unbonded Amount: {formatBalance(value)}</FadedText>
-            <FadedText>
-              {' '}
-              Blocks remaining: {remainingBlocks.toNumber()}
-            </FadedText>
-          </div>
-        ))}
+        {allStaking.unlocking.map(
+          ({ remainingBlocks, value }: DerivedUnlocking, index: number) => (
+            <div key={index}>
+              <FadedText>Unbonded Amount: {formatBalance(value)}</FadedText>
+              <FadedText>
+                {' '}
+                Blocks remaining: {remainingBlocks.toNumber()}
+              </FadedText>
+            </div>
+          )
+        )}
       </>
     ) : null;
   };
@@ -121,32 +127,33 @@ export function BalanceDisplay(
 
   return (
     <>
-      {allBalances ?
-        orientation === 'horizontal'
-          ? (
-            <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
-              <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
-                <strong>Total Balance:</strong>{' '}
-                {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
-              </DynamicSizeText>
-              <FadedText>
-                Transactions: {formatNumber(allBalances.accountNonce)}{' '}
-              </FadedText>
-            </StackedHorizontal>
-          )
-          : (
-            <Stacked justifyContent='space-around'>
-              <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
-                <strong>Total Balance:</strong>{' '}
-                {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
-              </DynamicSizeText>
-              <FadedText>
-                Transactions: {formatNumber(allBalances.accountNonce)}{' '}
-              </FadedText>
-            </Stacked>
-          )
-        : <Loader active inline />
-      }
+      {allBalances ? (
+        orientation === 'horizontal' ? (
+          <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
+            <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+              <strong>Total Balance:</strong>{' '}
+              {allBalances.freeBalance &&
+                formatBalance(allBalances.freeBalance)}
+            </DynamicSizeText>
+            <FadedText>
+              Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+            </FadedText>
+          </StackedHorizontal>
+        ) : (
+          <Stacked justifyContent='space-around'>
+            <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+              <strong>Total Balance:</strong>{' '}
+              {allBalances.freeBalance &&
+                formatBalance(allBalances.freeBalance)}
+            </DynamicSizeText>
+            <FadedText>
+              Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+            </FadedText>
+          </Stacked>
+        )
+      ) : (
+        <Loader active inline />
+      )}
       {detailed && allBalances && renderDetailedBalances()}
     </>
   );

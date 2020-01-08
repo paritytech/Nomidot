@@ -26,6 +26,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         const {
           web3Accounts,
           web3Enable,
+          // Can we do `import { } from '@polkadot/extension-dapp'` on the top?
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
         } = require('@polkadot/extension-dapp');
         await web3Enable('nomidot');
         const [injectedAccounts] = await Promise.all([
@@ -46,8 +48,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
         setInjected(injectedAccounts);
       }
-      getInjected();
     };
+
+    getInjected();
   }, []);
 
   return (

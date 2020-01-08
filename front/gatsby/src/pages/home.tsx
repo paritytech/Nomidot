@@ -11,6 +11,6 @@ const HomePage = (): React.ReactElement => {
       <Header />
     </>
   );
-}
+};
 
 export default HomePage;

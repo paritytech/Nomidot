@@ -4,8 +4,7 @@
     "node_modules",
     "public",
     ".cache",
-    "back/server/**/*",
-    "front/gatsby/**/*"
+    "back/server/**/*"
   ],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {

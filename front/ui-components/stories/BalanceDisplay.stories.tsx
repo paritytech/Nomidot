@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { select, text, withKnobs, boolean } from '@storybook/addon-knobs';
+import { boolean, select, text, withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { WrapperDiv } from '../src/index';
+import { OrientationType } from '../src/stateful/AddressSummary/types';
 import { Balance } from '../src/stateful/Balance';
-import {
-  OrientationType
-} from '../src/stateful/AddressSummary/types';
 import { withApi, withTheme } from './customDecorators';
 
 const orientations: Array<OrientationType> = ['horizontal', 'vertical'];

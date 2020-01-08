@@ -5,8 +5,9 @@
 import keyring from '@polkadot/ui-keyring';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { KeyringOptions } from '@polkadot/ui-keyring/types';
-import { System } from './ApiContext';
 import React, { useEffect, useState } from 'react';
+
+import { System } from './ApiContext';
 
 interface KeyringContext {
   allAccounts?: string[];
@@ -27,7 +28,9 @@ export const KeyringContext = React.createContext({} as KeyringContext);
 // Just in case, we default to 42
 const DEFAULT_SS58_PREFIX = 42;
 
-export function KeyringContextProvider(props: KeyringContextProps): React.ReactElement {
+export function KeyringContextProvider(
+  props: KeyringContextProps
+): React.ReactElement {
   const { api, children, system } = props;
   const [keyringReady, setKeyringReady] = useState(false);
   const [allAccounts, setAllAccounts] = useState<string[] | undefined>();
@@ -36,7 +39,9 @@ export function KeyringContextProvider(props: KeyringContextProps): React.ReactE
     if (api && system) {
       keyring.loadAll({
         genesisHash: api.genesisHash,
-        ss58Format: system.properties.ss58Format.unwrapOr(api.createType('u32', DEFAULT_SS58_PREFIX)).toNumber(),
+        ss58Format: system.properties.ss58Format
+          .unwrapOr(api.createType('u32', DEFAULT_SS58_PREFIX))
+          .toNumber(),
         type: 'ed25519',
       } as KeyringOptions);
       const accountsSub = accountObservable.subject.subscribe(accounts => {

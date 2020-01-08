@@ -66,7 +66,6 @@ export function InputAddress(props: InputAddressProps): React.ReactElement {
       keyringAccounts.subject,
       keyringAddresses.subject,
     ]).subscribe(([acc, add]) => {
-
       setAccounts(acc);
       setAddresses(add);
     });
