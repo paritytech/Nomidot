@@ -20,7 +20,12 @@ interface BalanceProps
 }
 
 export function Balance(props: BalanceProps): React.ReactElement {
-  const { address, detailed = false, orientation='horizontal', ...rest } = props;
+  const {
+    address,
+    detailed = false,
+    orientation = 'horizontal',
+    ...rest
+  } = props;
   const { api, isReady } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState();
   const [allStaking, setAllStaking] = useState();
@@ -34,7 +39,7 @@ export function Balance(props: BalanceProps): React.ReactElement {
         setAllBalances(allBalances);
         setAllStaking(allStaking);
       });
-  
+
       return (): void => balanceSub.unsubscribe();
     }
   }, [api, isReady, address]);

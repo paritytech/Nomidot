@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
 import { KeyringContext, KeyringContextProvider } from '@substrate/context';
+import React from 'react';
 
 export const withKeyring = (
   storyFn: () => React.ReactElement
@@ -11,7 +11,9 @@ export const withKeyring = (
   return (
     <KeyringContextProvider>
       <KeyringContext.Consumer>
-        {({ defaultAccount }: any): React.ReactElement | boolean | undefined => storyFn()}
+        {({ defaultAccount }: any): React.ReactElement | boolean | undefined =>
+          storyFn()
+        }
       </KeyringContext.Consumer>
     </KeyringContextProvider>
   );

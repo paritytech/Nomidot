@@ -5,8 +5,8 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 
-import { prisma } from './generated/prisma-client';
-import { nomidotTasks } from './tasks';
+import { prisma } from '../src/generated/prisma-client';
+import { nomidotTasks } from '../src/tasks';
 import {
   NomidotBlock,
   NomidotEra,
@@ -15,7 +15,7 @@ import {
   NomidotTotalIssuance,
   NomidotValidator,
   Task,
-} from './tasks/types';
+} from '../src/tasks/types';
 
 const parityKusama = 'wss://kusama-rpc.polkadot.io/';
 

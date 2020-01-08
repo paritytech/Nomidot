@@ -1,5 +1,12 @@
 {
-  "exclude": ["generated/**/*", "**/generated/**/*", "node_modules", "public", ".cache"],
+  "exclude": [
+    "**/generated/**/*",
+    "node_modules",
+    "public",
+    ".cache",
+    "back/server/**/*",
+    "front/gatsby/**/*"
+  ],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",
