@@ -17,4 +17,9 @@ storiesOf('InputAddress', module)
   .addDecorator(withKeyring)
   .addDecorator(withKnobs)
   .addDecorator(withTheme)
-  .add('input address', () => <InputAddress onChangeAddress={action('onChange clicked')} value={text('address', SAMPLE_ACCOUNT)} />)
+  .add('input address', () => (
+    <InputAddress
+      onChangeAddress={action('onChange clicked')}
+      value={text('address', SAMPLE_ACCOUNT)}
+    />
+  ));
