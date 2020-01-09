@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiRx, WsProvider } from '@polkadot/api';
+import { ApiRx } from '@polkadot/api';
+import { WsProvider } from '@polkadot/rpc-provider';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ChainProperties, Health } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { combineLatest } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
@@ -53,12 +55,7 @@ const DISCONNECTED_STATE_PROPERTIES = {
   },
 };
 
-// Hardcode default to Kusama
-const WS_URL = 'wss://kusama-rpc.polkadot.io/';
-
 const l = logger('api-context');
-
-const api = new ApiRx({ provider: new WsProvider(WS_URL) });
 
 export const ApiContext: React.Context<ApiContextType> = React.createContext(
   {} as ApiContextType
@@ -67,14 +64,18 @@ export const ApiContext: React.Context<ApiContextType> = React.createContext(
 export interface ApiContextProviderProps {
   children?: React.ReactNode;
   loading?: React.ReactNode;
+  provider: ProviderInterface;
 }
 
 export function ApiContextProvider(
-  props: ApiContextProviderProps = { children: null, loading: null }
+  props: ApiContextProviderProps
 ): React.ReactElement {
-  const { children, loading } = props;
+  const { children = null, loading = null, provider } = props;
   const [state, setState] = useState<State>(DISCONNECTED_STATE_PROPERTIES);
   const { isReady, system } = state;
+
+  const apiRef = useRef(new ApiRx({ provider }));
+  const api = apiRef.current;
 
   useEffect(() => {
     // Block the UI when disconnected
@@ -98,7 +99,14 @@ export function ApiContextProvider(
         )
       )
       .subscribe(([chain, health, name, properties, version]) => {
-        l.log(`Api connected to ${WS_URL}`);
+        l.log(
+          `Api connected to ${
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore WsProvider.endpoint is private, but we still use it
+            // here, to have a nice log
+            provider instanceof WsProvider ? provider.endpoint : 'provider'
+          }`
+        );
         l.log(
           `Api ready, connected to chain "${chain}" with properties ${JSON.stringify(
             properties
@@ -116,12 +124,12 @@ export function ApiContextProvider(
           },
         });
       });
-  }, []);
+  }, [api.isConnected, api.isReady, api.rpc.system, provider]);
 
   return (
     <ApiContext.Provider
       value={{
-        api: api,
+        api,
         isReady,
         system,
       }}
