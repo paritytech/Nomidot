@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiRx } from '@polkadot/api';
+import { WsProvider } from '@polkadot/rpc-provider';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ChainProperties, Health } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
@@ -98,7 +99,14 @@ export function ApiContextProvider(
         )
       )
       .subscribe(([chain, health, name, properties, version]) => {
-        l.log(`Api connected to ${provider}`);
+        l.log(
+          `Api connected to ${
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore WsProvider.endpoint is private, but we still use it
+            // here, to have a nice log
+            provider instanceof WsProvider ? provider.endpoint : 'provider'
+          }`
+        );
         l.log(
           `Api ready, connected to chain "${chain}" with properties ${JSON.stringify(
             properties
