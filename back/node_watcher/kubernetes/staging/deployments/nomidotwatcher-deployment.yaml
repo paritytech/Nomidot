@@ -26,5 +26,5 @@ spec:
           image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:b8b7686dd8461a73fcccb7405734896e654812ccd1353e5313602b7de74534ee
           env:
             - name: PRISMA_ENDPOINT
-              value: http://10.44.1.10:4466
-          command: ["yarn", "start"]
+              value: http://10.0.9.43:4466
+          command: ["yarn", "start:prod"]
