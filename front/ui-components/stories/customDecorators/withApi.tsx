@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { WsProvider } from '@polkadot/rpc-provider';
 import { ApiContextProvider } from '@substrate/context';
 import React from 'react';
 
@@ -13,6 +14,7 @@ export const withApi = (
   return (
     <ApiContextProvider
       loading={<Loading active>Connecting to the node...</Loading>}
+      provider={new WsProvider('wss://kusama-rpc.polkadot.io/')}
     >
       {storyFn()}
     </ApiContextProvider>
