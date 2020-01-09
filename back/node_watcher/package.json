@@ -18,7 +18,8 @@
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node ./src/index.ts"
+    "start:dev": "ts-node ./src/index.ts",
+    "start:prod": "yarn build && NODE_ENV=production node ./lib/index.js"
   },
   "dependencies": {
     "prisma-client-lib": "^1.34.10"
