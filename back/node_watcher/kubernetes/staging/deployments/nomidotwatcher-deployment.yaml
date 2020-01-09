@@ -23,8 +23,8 @@ spec:
     spec:
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:08b855b3085759f548baec515bd91a0bb36a1f9d3252f1f10db4f5a365f77e06
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:3626cc17f31f777df9bc4f8cb7ce0713949559610e94a29f9fa46de53bfe26f8
           env:
             - name: PRISMA_ENDPOINT
-              value: http://10.44.1.10:4466
-          command: ["yarn", "start"]
+              value: http://10.0.9.43:4466
+          command: ["yarn", "start:prod"]
