@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
+
+
+### Features
+
+* Make ApiContext take a `provider` prop ([#84](https://github.com/yjkimjunior/Nomidot/issues/84)) ([a5bcfaa](https://github.com/yjkimjunior/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+
+
+
+
+
 ## [0.3.13](https://github.com/yjkimjunior/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
 
 **Note:** Version bump only for package @substrate/context

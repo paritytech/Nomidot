@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
+
+
+### Bug Fixes
+
+* back to tsnode ([86d3b91](https://github.com/yjkimjunior/Nomidot/commit/86d3b91710ed937474d079adf5a65bc1f1593656))
+
+
+
+
+
 ## [0.3.13](https://github.com/yjkimjunior/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
 
 
