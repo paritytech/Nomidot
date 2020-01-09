@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@polkadot/react-identicon": "^0.47.1",
+    "@substrate/context": "^0.3.13",
     "@types/recharts": "^1.1.16",
     "@types/styled-components": "^4.4.2",
     "babel-loader": "^8.0.6",
