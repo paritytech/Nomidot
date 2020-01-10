@@ -26,10 +26,6 @@ const createProposal: Task<NomidotProposal[]> = {
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotProposal[]> => {
-    // const eventsAtBlock: Vec<EventRecord> = await api.query.system.events.at(
-    //   blockHash
-    // );
-
     // Initial scrapping of all proposals.
     const publicProps = await api.query.democracy.publicProps.at(blockHash);
     // returns
@@ -37,78 +33,79 @@ const createProposal: Task<NomidotProposal[]> = {
 
     const results: NomidotProposal[] = [];
 
-    publicProps.map(
-      async ([idNumber, preImageHash, proposer]: [
-        PropIndex,
-        Hash,
-        AccountId
-      ]) => {
-        const proposalId = idNumber.toNumber();
-        const depositOf = await api.query.democracy.depositOf(proposalId);
-        const preImageRaw = await api.query.democracy.preimages(preImageHash);
-        const preImage = preImageRaw.unwrapOr(null);
+    await Promise.all(
+      publicProps.map(
+        async ([idNumber, preImageHash, proposer]: [
+          PropIndex,
+          Hash,
+          AccountId
+        ]) => {
+          const proposalId = idNumber.toNumber();
+          const depositOf = await api.query.democracy.depositOf(proposalId);
+          const preImageRaw = await api.query.democracy.preimages(preImageHash);
+          const preImage = preImageRaw.unwrapOr(null);
 
-        if (!preImage) return null;
+          if (!preImage) return null;
 
-        const depositInfo = depositOf.unwrapOr(null);
-        const depositAmount = depositInfo ? depositInfo[0] : undefined;
+          const depositInfo = depositOf.unwrapOr(null);
+          const depositAmount = depositInfo ? depositInfo[0] : undefined;
 
-        if (!depositAmount) return null;
+          if (!depositAmount) return null;
 
-        const proposal = createType(
-          api.registry,
-          'Proposal',
-          preImage[0].toU8a(true)
-        );
+          const proposal = createType(
+            api.registry,
+            'Proposal',
+            preImage[0].toU8a(true)
+          );
 
-        if (!proposal) return null;
+          if (!proposal) return null;
 
-        const { meta, method, section } = api.registry.findMetaCall(
-          proposal.callIndex
-        );
+          const { meta, method, section } = api.registry.findMetaCall(
+            proposal.callIndex
+          );
 
-        const params = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
-          name.toString()
-        );
-        const values = proposal.args;
+          const params = GenericCall.filterOrigin(
+            proposal.meta
+          ).map(({ name }) => name.toString());
+          const values = proposal.args;
 
-        const proposalArguments =
-          proposal.args &&
-          params &&
-          params.map((name, index) => {
-            return { name, value: values[index].toString() };
-          });
+          const proposalArguments =
+            proposal.args &&
+            params &&
+            params.map((name, index) => {
+              return { name, value: values[index].toString() };
+            });
 
-        const hash = proposal.hash;
+          const hash = proposal.hash;
 
-        const result = {
-          depositAmount,
-          hash: hash,
-          proposal,
-          proposalArguments,
-          proposalId,
-          proposer,
-          metaDescription: meta?.documentation.toString(),
-          method,
-          section,
-        };
+          const result = {
+            depositAmount,
+            hash: hash,
+            proposal,
+            proposalArguments,
+            proposalId,
+            proposer,
+            metaDescription: meta?.documentation.toString(),
+            method,
+            section,
+          };
 
-        // {
-        //   "depositAmount":11000000000000,
-        //   "hash":"0x31dbb7fec5d9f946354a2e9bae6581ab28f0448fc933c1bf3738d3011053d8cb",
-        //   "proposal":{"callIndex":"0x0001","args":{"_remark":"0x3333"}},
-        //   "proposalArguments":[{"name":"_remark","value":"0x3333"}],
-        //   "proposalId":0,
-        //   "proposer":"5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-        //   "metaDescription":"[ Make some on-chain remark.]",
-        //   "method":"remark",
-        //   "section":"system"
-        // }
+          // {
+          //   "depositAmount":11000000000000,
+          //   "hash":"0x31dbb7fec5d9f946354a2e9bae6581ab28f0448fc933c1bf3738d3011053d8cb",
+          //   "proposal":{"callIndex":"0x0001","args":{"_remark":"0x3333"}},
+          //   "proposalArguments":[{"name":"_remark","value":"0x3333"}],
+          //   "proposalId":0,
+          //   "proposer":"5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          //   "metaDescription":"[ Make some on-chain remark.]",
+          //   "method":"remark",
+          //   "section":"system"
+          // }
 
-        l.log(`Nomidot Proposals: ${JSON.stringify(result)}`);
-
-        results.push(result);
-      }
+          l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
+          results.push(result);
+        }
+      )
     );
 
     return results;
@@ -145,19 +142,6 @@ const createProposal: Task<NomidotProposal[]> = {
           method,
           section,
         });
-        // proposalArguments.map(
-        //   async ({ name, value }: NomidotProposalArgument) => {
-        //     await prisma.createProposalArgument({
-        //       name,
-        //       proposal: {
-        //         connect: {
-        //           id: currentProposal.id,
-        //         },
-        //       },
-        //       value,
-        //     });
-        //   }
-        // );
       })
     );
   },
