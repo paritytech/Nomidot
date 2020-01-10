@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType } from '@polkadot/types';
+import { createType, GenericCall } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
@@ -61,50 +61,49 @@ const createProposal: Task<NomidotProposal[]> = {
           preImage[0].toU8a(true)
         );
 
+        if (!proposal) return null;
+
         const { meta, method, section } = api.registry.findMetaCall(
           proposal.callIndex
         );
 
-        // const params = proposal
-        //   ? GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
-        //       name.toString()
-        //     )
-        //   : undefined;
-        // const values = proposal ? proposal.args : undefined;
+        const params = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
+          name.toString()
+        );
+        const values = proposal.args;
+
+        const proposalArguments =
+          proposal.args &&
+          params &&
+          params.map((name, index) => {
+            return { name, value: values[index].toString() };
+          });
+
         const hash = proposal.hash;
 
         const result = {
           depositAmount,
           hash: hash,
           proposal,
+          proposalArguments,
           proposalId,
           proposer,
           metaDescription: meta?.documentation.toString(),
           method,
           section,
-          // params,
-          // values,
         };
-        // proposer 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
-        // proposalId 0
-        // preImage [ '0x00010422',
-        //   '0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d',
-        //   '400000000',
-        //   '25' ]
-        // depositAmount 33000000000000
-        // meta.description [ Make some on-chain remark.]
-        // method remark
-        // section system
-        // params [ '_remark' ]
-        // values [ '0x22' ]
-        // hash 0xebf981b559c6f544825e8c135d58c6123387b669aa9e672211ead85074c2d66
 
-        // slashEvents.map(({ event: { data } }) => {
-        //   result.push({
-        //     who: createType(api.registry, 'AccountId', data[0].toString()),
-        //     amount: createType(api.registry, 'Balance', data[1].toString()),
-        //   });
-        // });
+        // {
+        //   "depositAmount":11000000000000,
+        //   "hash":"0x31dbb7fec5d9f946354a2e9bae6581ab28f0448fc933c1bf3738d3011053d8cb",
+        //   "proposal":{"callIndex":"0x0001","args":{"_remark":"0x3333"}},
+        //   "proposalArguments":[{"name":"_remark","value":"0x3333"}],
+        //   "proposalId":0,
+        //   "proposer":"5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        //   "metaDescription":"[ Make some on-chain remark.]",
+        //   "method":"remark",
+        //   "section":"system"
+        // }
 
         l.log(`Nomidot Proposals: ${JSON.stringify(result)}`);
 
@@ -121,6 +120,7 @@ const createProposal: Task<NomidotProposal[]> = {
           depositAmount,
           hash,
           proposal,
+          proposalArguments: pA,
           proposalId,
           proposer,
           metaDescription,
@@ -136,12 +136,28 @@ const createProposal: Task<NomidotProposal[]> = {
           depositAmount: depositAmount.toString(),
           hash: hash.toHex(),
           proposal: proposal.toHex(),
+          proposalArguments: {
+            create: pA,
+          },
           proposalId,
           proposer: proposer.toString(),
           metaDescription,
           method,
           section,
         });
+        // proposalArguments.map(
+        //   async ({ name, value }: NomidotProposalArgument) => {
+        //     await prisma.createProposalArgument({
+        //       name,
+        //       proposal: {
+        //         connect: {
+        //           id: currentProposal.id,
+        //         },
+        //       },
+        //       value,
+        //     });
+        //   }
+        // );
       })
     );
   },

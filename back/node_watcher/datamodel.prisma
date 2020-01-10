@@ -73,7 +73,15 @@ type Proposal {
   metaDescription: String!
   method: String!
   proposal: String!
+  proposalArguments: [ProposalArgument]! @relation(name: "ArgumentForProposal")
   proposalId: Int!
   proposer: String!
   section: String!
+}
+
+type ProposalArgument {
+  id: ID! @id
+  name: String!
+  proposal: Proposal! @relation(name: "ArgumentForProposal", link: INLINE)
+  value: String!
 }

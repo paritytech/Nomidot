@@ -79,10 +79,14 @@ export interface NomidotProposal {
   hash: Hash;
   metaDescription: string;
   method: string;
-  // params: string;
   proposal: Proposal;
+  proposalArguments: NomidotProposalArgument[];
   proposalId: number;
   proposer: AccountId;
   section: string;
-  // values: string;
+}
+
+export interface NomidotProposalArgument {
+  name: string;
+  value: string;
 }
