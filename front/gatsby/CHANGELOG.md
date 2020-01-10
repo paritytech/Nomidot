@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
+
+**Note:** Version bump only for package @substrate/nomidot-gatsby
+
+
+
+
+
+## [0.3.13](https://github.com/yjkimjunior/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
+
+**Note:** Version bump only for package @substrate/nomidot-gatsby
+
+
+
+
+
 # [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
 
 

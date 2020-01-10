@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
+
+
+### Bug Fixes
+
+* back to tsnode ([86d3b91](https://github.com/yjkimjunior/Nomidot/commit/86d3b91710ed937474d079adf5a65bc1f1593656))
+
+
+### Features
+
+* Make ApiContext take a `provider` prop ([#84](https://github.com/yjkimjunior/Nomidot/issues/84)) ([a5bcfaa](https://github.com/yjkimjunior/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+
+
+
+
+
+## [0.3.13](https://github.com/yjkimjunior/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
+
+
+### Bug Fixes
+
+* build and run the transpiled index.js for prod ([#81](https://github.com/yjkimjunior/Nomidot/issues/81)) ([2bfb1c6](https://github.com/yjkimjunior/Nomidot/commit/2bfb1c6ae0ef34eb7dd94637868da0ef6c9069e9))
+
+
+
+
+
+## [0.3.12](https://github.com/yjkimjunior/Nomidot/compare/v0.3.11...v0.3.12) (2020-01-07)
+
+
+### Bug Fixes
+
+* Input Address bug ([#72](https://github.com/yjkimjunior/Nomidot/issues/72)) ([01652b0](https://github.com/yjkimjunior/Nomidot/commit/01652b0dcc672b343287aaf3ca3e508943da9ba6))
+
+
+
+
+
 # [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
 
 

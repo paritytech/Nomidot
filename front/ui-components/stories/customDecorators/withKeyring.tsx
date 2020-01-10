@@ -2,15 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@substrate/ui-components';
+import { KeyringContextProvider } from '@substrate/context';
 import React from 'react';
 
-const HomePage = (): React.ReactElement => {
-  return (
-    <>
-      <Header />
-    </>
-  );
+export const withKeyring = (
+  storyFn: () => React.ReactElement
+): React.ReactElement => {
+  return <KeyringContextProvider>{storyFn()}</KeyringContextProvider>;
 };
-
-export default HomePage;

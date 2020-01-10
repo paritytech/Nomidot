@@ -8,11 +8,18 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { InputAddress } from '../src/stateful';
-import { withTheme } from './customDecorators';
+import { withApi, withKeyring, withTheme } from './customDecorators';
 
-const SAMPLE_ACCOUNT = 'GFqVXYJmj9NfN1asuwBHm9nFVMAEBDjdPDg9EKqVrrP47B3';
+const SAMPLE_ACCOUNT = 'ExuzF7kjvyUsk6TMH4MhKA4AE7DY6NCts4SDj9Q3HS1dP5W';
 
 storiesOf('InputAddress', module)
+  .addDecorator(withApi)
+  .addDecorator(withKeyring)
   .addDecorator(withKnobs)
   .addDecorator(withTheme)
-  .add('input address', () => <InputAddress onChangeAddress={action('onChange clicked')} value={text('address', SAMPLE_ACCOUNT)} />)
+  .add('input address', () => (
+    <InputAddress
+      onChangeAddress={action('onChange clicked')}
+      value={text('address', SAMPLE_ACCOUNT)}
+    />
+  ));

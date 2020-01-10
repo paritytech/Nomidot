@@ -2,20 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStakingAccount, DerivedUnlocking } from '@polkadot/api-derive/types';
+import {
+  DerivedBalances,
+  DerivedStakingAccount,
+  DerivedUnlocking,
+} from '@polkadot/api-derive/types';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import React from 'react';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
 
-import { Icon } from './index';
+import { Icon, WrapperDiv } from './index';
 import {
   DynamicSizeText,
   FadedText,
   Stacked,
-  StyledLinkButton,
   StackedHorizontal,
+  StyledLinkButton,
 } from './Shared.styles';
-import { FontSize, FontWeight } from './types';
+import { FontSize, FontWeight, OrientationType } from './types';
 
 export type BalanceDisplayProps = {
   allBalances?: DerivedBalances;
@@ -24,11 +28,13 @@ export type BalanceDisplayProps = {
   fontSize?: FontSize;
   fontWeight?: FontWeight;
   handleRedeem?: (address: string) => void;
+  orientation?: 'horizontal' | 'vertical';
 };
 
 const defaultProps = {
   detailed: false,
   fontSize: 'large' as FontSize,
+  orientation: 'vertical' as OrientationType,
 };
 
 // FIXME: https://github.com/paritytech/substrate-light-ui/issues/471
@@ -42,6 +48,7 @@ export function BalanceDisplay(
     fontSize,
     fontWeight,
     handleRedeem,
+    orientation,
   } = props;
 
   const renderRedeemButton = (): React.ReactElement | null => {
@@ -63,15 +70,17 @@ export function BalanceDisplay(
   const renderUnlocking = (): React.ReactElement | null => {
     return allStaking && allStaking.unlocking ? (
       <>
-        {allStaking.unlocking.map(({ remainingBlocks, value }: DerivedUnlocking, index: number) => (
-          <div key={index}>
-            <FadedText>Unbonded Amount: {formatBalance(value)}</FadedText>
-            <FadedText>
-              {' '}
-              Blocks remaining: {remainingBlocks.toNumber()}
-            </FadedText>
-          </div>
-        ))}
+        {allStaking.unlocking.map(
+          ({ remainingBlocks, value }: DerivedUnlocking, index: number) => (
+            <div key={index}>
+              <FadedText>Unbonded Amount: {formatBalance(value)}</FadedText>
+              <FadedText>
+                {' '}
+                Blocks remaining: {remainingBlocks.toNumber()}
+              </FadedText>
+            </div>
+          )
+        )}
       </>
     ) : null;
   };
@@ -84,49 +93,64 @@ export function BalanceDisplay(
     const { availableBalance, lockedBalance, reservedBalance } = allBalances;
 
     return (
-      <React.Fragment>
-        <span>
-          <b>Available:</b>{' '}
-          <FadedText>{formatBalance(availableBalance)}</FadedText>
-        </span>
-        <span>
-          {allStaking && allStaking.redeemable && (
-            <Stacked>
-              <b>Redeemable:</b>
-              <FadedText>{formatBalance(allStaking.redeemable)}</FadedText>
-              {allStaking.redeemable.gtn(0) && renderRedeemButton()}
-            </Stacked>
-          )}
-        </span>
-        <span>
-          <b>Reserved:</b>
-          {reservedBalance && (
-            <FadedText>{formatBalance(reservedBalance)}</FadedText>
-          )}
-        </span>
-        <span>
-          <b>Locked:</b>
-          {lockedBalance && (
-            <FadedText>{formatBalance(lockedBalance)}</FadedText>
-          )}
-        </span>
-        {renderUnlocking()}
-      </React.Fragment>
+      <>
+        <hr />
+        <WrapperDiv width='90%' margin='0' padding='0'>
+          <StackedHorizontal justifyContent='space-between'>
+            <b>Available:</b>
+            {formatBalance(availableBalance)}
+          </StackedHorizontal>
+          <StackedHorizontal justifyContent='space-between'>
+            {allStaking && allStaking.redeemable && (
+              <>
+                <b>Redeemable:</b>
+                {formatBalance(allStaking.redeemable)}
+                {allStaking.redeemable.gtn(0) && renderRedeemButton()}
+              </>
+            )}
+          </StackedHorizontal>
+          <StackedHorizontal justifyContent='space-between'>
+            <b>Reserved:</b>
+            {reservedBalance && (
+              <FadedText>{formatBalance(reservedBalance)}</FadedText>
+            )}
+          </StackedHorizontal>
+          <StackedHorizontal justifyContent='space-between'>
+            <b>Locked:</b>
+            {lockedBalance && formatBalance(lockedBalance)}
+          </StackedHorizontal>
+          {renderUnlocking()}
+        </WrapperDiv>
+      </>
     );
   };
 
   return (
     <>
       {allBalances ? (
-        <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
-          <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
-            <strong>Total Balance:</strong>{' '}
-            {allBalances.freeBalance && formatBalance(allBalances.freeBalance)}
-          </DynamicSizeText>
-          <FadedText>
-            Transactions: {formatNumber(allBalances.accountNonce)}{' '}
-          </FadedText>
-        </StackedHorizontal>
+        orientation === 'horizontal' ? (
+          <StackedHorizontal justifyContent='space-around' alignItems='stretch'>
+            <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+              <strong>Total Balance:</strong>{' '}
+              {allBalances.freeBalance &&
+                formatBalance(allBalances.freeBalance)}
+            </DynamicSizeText>
+            <FadedText>
+              Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+            </FadedText>
+          </StackedHorizontal>
+        ) : (
+          <Stacked justifyContent='space-around'>
+            <DynamicSizeText fontSize={fontSize} fontWeight={fontWeight}>
+              <strong>Total Balance:</strong>{' '}
+              {allBalances.freeBalance &&
+                formatBalance(allBalances.freeBalance)}
+            </DynamicSizeText>
+            <FadedText>
+              Transactions: {formatNumber(allBalances.accountNonce)}{' '}
+            </FadedText>
+          </Stacked>
+        )
       ) : (
         <Loader active inline />
       )}

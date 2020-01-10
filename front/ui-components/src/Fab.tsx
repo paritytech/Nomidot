@@ -31,6 +31,7 @@ const SUIFab = styled(SUIButton)`
     position: fixed;
     bottom: 2rem;
     right: 2rem;
+    z-index: 1000000;
   }
 `;
 
@@ -44,19 +45,9 @@ export function Fab(props: Props): React.ReactElement {
   return (
     <SUIFab {...props}>
       {props.type === 'add' ? (
-        <Icon
-          name='add'
-          color='white'
-          size='large'
-          style={{ marginLeft: '8px' }}
-        />
+        <Icon name='add' size='large' style={{ marginLeft: '8px' }} />
       ) : (
-        <Icon
-          name='send'
-          color='white'
-          size='large'
-          style={{ marginLeft: '3.9px' }}
-        />
+        <Icon name='send' size='large' style={{ marginLeft: '3.9px' }} />
       )}
     </SUIFab>
   );

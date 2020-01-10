@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { WsProvider } from '@polkadot/api';
 import {
   AccountsContextProvider,
   AlertsContextProvider,
@@ -10,6 +11,8 @@ import {
   TxQueueContextProvider,
 } from '@substrate/context';
 import React from 'react';
+
+const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 
 export function ContextGate({
   children,
@@ -20,7 +23,7 @@ export function ContextGate({
     <AlertsContextProvider>
       <AccountsContextProvider>
         <TxQueueContextProvider>
-          <ApiContextProvider>
+          <ApiContextProvider provider={new WsProvider(ARCHIVE_NODE_ENDPOINT)}>
             <StakingContextProvider>{children}</StakingContextProvider>
           </ApiContextProvider>
         </TxQueueContextProvider>
