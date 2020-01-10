@@ -12,6 +12,7 @@ import {
   Hash,
   Index,
   Moment,
+  Proposal,
   SessionIndex,
   ValidatorPrefs,
 } from '@polkadot/types/interfaces';
@@ -65,9 +66,27 @@ export type Nomidot =
   | NomidotBlock
   | NomidotEra
   | NomidotHeartBeat
+  | NomidotProposal[]
   | NomidotSession
   | NomidotSlashing[]
   | NomidotTotalIssuance
   | NomidotValidator[];
 
 export type NomidotTask = Task<Nomidot>;
+
+export interface NomidotProposal {
+  depositAmount: Balance;
+  hash: Hash;
+  metaDescription: string;
+  method: string;
+  proposal: Proposal;
+  proposalArguments: NomidotProposalArgument[];
+  proposalId: number;
+  proposer: AccountId;
+  section: string;
+}
+
+export interface NomidotProposalArgument {
+  name: string;
+  value: string;
+}
