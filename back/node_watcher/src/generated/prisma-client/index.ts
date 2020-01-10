@@ -841,6 +841,7 @@ export interface ProposalCreateWithoutProposalArgumentsInput {
 
 export type ProposalWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  proposalId?: Maybe<Int>;
 }>;
 
 export type TotalIssuanceWhereUniqueInput = AtLeastOne<{

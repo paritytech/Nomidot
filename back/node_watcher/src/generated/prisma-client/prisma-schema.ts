@@ -1136,6 +1136,7 @@ input ProposalWhereInput {
 
 input ProposalWhereUniqueInput {
   id: ID
+  proposalId: Int
 }
 
 type Query {

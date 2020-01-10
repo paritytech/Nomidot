@@ -74,7 +74,7 @@ type Proposal {
   method: String!
   proposal: String!
   proposalArguments: [ProposalArgument]! @relation(name: "ArgumentForProposal")
-  proposalId: Int!
+  proposalId: Int! @unique
   proposer: String!
   section: String!
 }
