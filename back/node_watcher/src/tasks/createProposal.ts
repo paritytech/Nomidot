@@ -41,16 +41,27 @@ const createProposal: Task<NomidotProposal[]> = {
           AccountId
         ]) => {
           const proposalId = idNumber.toNumber();
+          const proposalExists = await prisma.proposal({ proposalId });
+
+          // proposals should be unique
+          if (proposalExists) return null;
+
           const depositOf = await api.query.democracy.depositOf(proposalId);
           const preImageRaw = await api.query.democracy.preimages(preImageHash);
           const preImage = preImageRaw.unwrapOr(null);
 
-          if (!preImage) return null;
+          if (!preImage) {
+            l.log(`No pre-image found for the proposal id #${proposalId}`);
+            return null;
+          }
 
           const depositInfo = depositOf.unwrapOr(null);
           const depositAmount = depositInfo ? depositInfo[0] : undefined;
 
-          if (!depositAmount) return null;
+          if (!depositAmount) {
+            l.log(`No deposit amount found for the proposal id #${proposalId}`);
+            return null;
+          }
 
           const proposal = createType(
             api.registry,
@@ -58,7 +69,12 @@ const createProposal: Task<NomidotProposal[]> = {
             preImage[0].toU8a(true)
           );
 
-          if (!proposal) return null;
+          if (!proposal) {
+            l.log(
+              `No proposal found associated to the pre-image, proposal id #${proposalId}`
+            );
+            return null;
+          }
 
           const { meta, method, section } = api.registry.findMetaCall(
             proposal.callIndex

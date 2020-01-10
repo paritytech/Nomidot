@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
+import { Option } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
@@ -11,7 +12,6 @@ import {
   ValidatorId,
   ValidatorPrefs,
 } from '@polkadot/types/interfaces';
-import { Option } from '@polkadot/types';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -64,11 +64,10 @@ const createValidator: Task<NomidotValidator[]> = {
           return result;
         }
 
-        const stash = bonded.isNone
-          ? ledger.unwrap().stash
-          : validator;
+        const stash = bonded.isNone ? ledger.unwrap().stash : validator;
 
-        const controller = ledger.isSome && ledger.unwrap().stash ? validator : bonded.unwrap();
+        const controller =
+          ledger.isSome && ledger.unwrap().stash ? validator : bonded.unwrap();
 
         const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(
           blockHash,
