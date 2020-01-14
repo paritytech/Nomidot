@@ -630,7 +630,7 @@ type PageInfo {
 }
 
 type Proposal {
-  id: ID!
+  id: Int!
   blockNumber: BlockNumber!
   depositAmount: String!
   hash: String!
@@ -869,7 +869,6 @@ type ProposalConnection {
 }
 
 input ProposalCreateInput {
-  id: ID
   blockNumber: BlockNumberCreateOneInput!
   depositAmount: String!
   hash: String!
@@ -888,7 +887,6 @@ input ProposalCreateOneWithoutProposalArgumentsInput {
 }
 
 input ProposalCreateWithoutProposalArgumentsInput {
-  id: ID
   blockNumber: BlockNumberCreateOneInput!
   depositAmount: String!
   hash: String!
@@ -927,7 +925,7 @@ enum ProposalOrderByInput {
 }
 
 type ProposalPreviousValues {
-  id: ID!
+  id: Int!
   depositAmount: String!
   hash: String!
   metaDescription: String!
@@ -1005,20 +1003,14 @@ input ProposalUpsertWithoutProposalArgumentsInput {
 }
 
 input ProposalWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   blockNumber: BlockNumberWhereInput
   depositAmount: String
   depositAmount_not: String
@@ -1135,7 +1127,7 @@ input ProposalWhereInput {
 }
 
 input ProposalWhereUniqueInput {
-  id: ID
+  id: Int
   proposalId: Int
 }
 
