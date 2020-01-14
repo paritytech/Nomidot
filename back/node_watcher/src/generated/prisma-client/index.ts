@@ -827,7 +827,6 @@ export interface ProposalArgumentSubscriptionWhereInput {
 }
 
 export interface ProposalCreateWithoutProposalArgumentsInput {
-  id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   depositAmount: String;
   hash: String;
@@ -840,7 +839,7 @@ export interface ProposalCreateWithoutProposalArgumentsInput {
 }
 
 export type ProposalWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+  id: Maybe<Int>;
   proposalId?: Maybe<Int>;
 }>;
 
@@ -1548,7 +1547,6 @@ export interface ProposalSubscriptionWhereInput {
 }
 
 export interface ProposalCreateInput {
-  id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   depositAmount: String;
   hash: String;
@@ -1646,20 +1644,14 @@ export interface SessionUpsertNestedInput {
 }
 
 export interface ProposalWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   blockNumber?: Maybe<BlockNumberWhereInput>;
   depositAmount?: Maybe<String>;
   depositAmount_not?: Maybe<String>;
@@ -2475,7 +2467,7 @@ export interface SlashingConnectionSubscription
 }
 
 export interface Proposal {
-  id: ID_Output;
+  id: Int;
   depositAmount: String;
   hash: String;
   metaDescription: String;
@@ -2487,7 +2479,7 @@ export interface Proposal {
 }
 
 export interface ProposalPromise extends Promise<Proposal>, Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   blockNumber: <T = BlockNumberPromise>() => T;
   depositAmount: () => Promise<String>;
   hash: () => Promise<String>;
@@ -2511,7 +2503,7 @@ export interface ProposalPromise extends Promise<Proposal>, Fragmentable {
 export interface ProposalSubscription
   extends Promise<AsyncIterator<Proposal>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   blockNumber: <T = BlockNumberSubscription>() => T;
   depositAmount: () => Promise<AsyncIterator<String>>;
   hash: () => Promise<AsyncIterator<String>>;
@@ -2537,7 +2529,7 @@ export interface ProposalSubscription
 export interface ProposalNullablePromise
   extends Promise<Proposal | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   blockNumber: <T = BlockNumberPromise>() => T;
   depositAmount: () => Promise<String>;
   hash: () => Promise<String>;
@@ -2761,7 +2753,7 @@ export interface RewardNullablePromise
 }
 
 export interface ProposalPreviousValues {
-  id: ID_Output;
+  id: Int;
   depositAmount: String;
   hash: String;
   metaDescription: String;
@@ -2775,7 +2767,7 @@ export interface ProposalPreviousValues {
 export interface ProposalPreviousValuesPromise
   extends Promise<ProposalPreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   depositAmount: () => Promise<String>;
   hash: () => Promise<String>;
   metaDescription: () => Promise<String>;
@@ -2789,7 +2781,7 @@ export interface ProposalPreviousValuesPromise
 export interface ProposalPreviousValuesSubscription
   extends Promise<AsyncIterator<ProposalPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   depositAmount: () => Promise<AsyncIterator<String>>;
   hash: () => Promise<AsyncIterator<String>>;
   metaDescription: () => Promise<AsyncIterator<String>>;
