@@ -64,3 +64,24 @@ type Stake {
   blockNumber: BlockNumber! @relation(name: "StakeAtBlockNumber", link: INLINE)
   totalStake: String!
 }
+
+type Proposal {
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "PROPOSAL_SEQUENCE" initialValue:1 allocationSize:1)
+  blockNumber: BlockNumber! @relation(name: "ProposalAtBlockNumber", link: INLINE)
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalArguments: [ProposalArgument]! @relation(name: "ArgumentForProposal")
+  proposalId: Int! @unique
+  proposer: String!
+  section: String!
+}
+
+type ProposalArgument {
+  id: ID! @id
+  name: String!
+  proposal: Proposal! @relation(name: "ArgumentForProposal", link: INLINE)
+  value: String!
+}

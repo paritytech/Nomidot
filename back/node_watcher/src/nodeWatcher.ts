@@ -1,4 +1,4 @@
-// Copyright 2018-2019 @paritytech/nomidot authors & contributors
+// Copyright 2018-2020 @paritytech/nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,6 +9,8 @@ import { logger } from '@polkadot/util';
 import { NomidotTask } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
+// const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
+
 const l = logger('node-watcher');
 
 function waitFinalized(
