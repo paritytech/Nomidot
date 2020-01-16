@@ -25,8 +25,9 @@ The first version will include:
 * staker percentages over time (trends in staker allocations)
 
 ### 3. Mitigating the risk of getting caught in long unbonding periods.
-A potential point of churn if expectations are not communicated clearly and early, is the period of illiquidity for stakers during unbonding periods (as well as bonded periods of course). While there are teams like Chorus One working on liquid staking methods (https://blog.chorus.one/announcing-the-liquid-staking-working-group/), at the moment there are series of possible decisions that can lead users being entangled in a snare of long unbonding periods (during which they cannot access their funds).
+A potential point of churn if expectations are not communicated clearly and early, is the period of illiquidity for stakers during unbonding periods (as well as bonded periods of course). While there are teams like Chorus One working on liquid staking methods (https://blog.chorus.one/announcing-the-liquid-staking-working-group/), at the moment there a are series of possible decisions that can lead users being entangled in a snare of long unbonding periods (during which they cannot access their funds).
 
+Nomidot will take extra precautionary steps at the UI level to guide users away from potential pitfalls.
 
 ### Contributing
-Please see the Contributing Guidelines
+Please see the [Contributing Guidelines](./CONTRIBUTING.md)
