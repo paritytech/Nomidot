@@ -8,8 +8,8 @@ import { logger } from '@polkadot/util';
 
 import { NomidotTask } from './tasks/types';
 
-const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
-// const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
+// const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
+const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
 
 const l = logger('node-watcher');
 
@@ -34,7 +34,8 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 650180;
+  let blockIndex = 0;
+  // let blockIndex = 82190;
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 
@@ -45,14 +46,14 @@ async function incrementor(
       continue;
     }
 
-    l.warn(`blockIndex: ${blockIndex}`);
-    l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
+    // l.warn(`blockIndex: ${blockIndex}`);
+    // l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
 
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
     l.warn(`block: ${blockNumber}`);
 
     const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber);
-    l.warn(`hash: ${blockHash}`);
+    // l.warn(`hash: ${blockHash}`);
 
     // check spec version
     const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockHash);
@@ -60,7 +61,7 @@ async function incrementor(
 
     // if spec version was bumped, update metadata in api registry
     if (newSpecVersion.gt(currentSpecVersion)) {
-      l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
+      // l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
       const rpcMeta = await api.rpc.state.getMetadata(blockHash);
       currentSpecVersion = newSpecVersion;
       api.registry.setMetadata(rpcMeta);
@@ -68,12 +69,12 @@ async function incrementor(
 
     // execute watcher tasks
     for await (const task of tasks) {
-      l.warn(`Task --- ${task.name}`);
+      // l.warn(`Task --- ${task.name}`);
 
       const result = await task.read(blockHash, api);
 
       try {
-        l.warn(`Writing: ${JSON.stringify(result)}`);
+        // l.warn(`Writing: ${JSON.stringify(result)}`);
         await task.write(blockNumber, result);
       } catch (e) {
         l.error(e);

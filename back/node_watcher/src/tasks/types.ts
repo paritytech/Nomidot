@@ -67,6 +67,7 @@ export type Nomidot =
   | NomidotEra
   | NomidotHeartBeat
   | NomidotProposal[]
+  | NomidotProposalEvent[]
   | NomidotSession
   | NomidotSlashing[]
   | NomidotTotalIssuance
@@ -91,6 +92,13 @@ export interface NomidotProposalArgument {
   value: string;
 }
 
-export interface NomidotProposalStatus {
-  status: string;
+export interface NomidotProposalEvent {
+  method: string;
+  proposalId: number;
+  proposalEventArguments: NomidotProposalEventArgument[];
+}
+
+export interface NomidotProposalEventArgument {
+  data: string;
+  type: string;
 }

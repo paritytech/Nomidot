@@ -22,7 +22,11 @@ type AggregateProposalArgument {
   count: Int!
 }
 
-type AggregateProposalStatus {
+type AggregateProposalEvent {
+  count: Int!
+}
+
+type AggregateProposalEventArgument {
   count: Int!
 }
 
@@ -393,12 +397,18 @@ type Mutation {
   upsertProposalArgument(where: ProposalArgumentWhereUniqueInput!, create: ProposalArgumentCreateInput!, update: ProposalArgumentUpdateInput!): ProposalArgument!
   deleteProposalArgument(where: ProposalArgumentWhereUniqueInput!): ProposalArgument
   deleteManyProposalArguments(where: ProposalArgumentWhereInput): BatchPayload!
-  createProposalStatus(data: ProposalStatusCreateInput!): ProposalStatus!
-  updateProposalStatus(data: ProposalStatusUpdateInput!, where: ProposalStatusWhereUniqueInput!): ProposalStatus
-  updateManyProposalStatuses(data: ProposalStatusUpdateManyMutationInput!, where: ProposalStatusWhereInput): BatchPayload!
-  upsertProposalStatus(where: ProposalStatusWhereUniqueInput!, create: ProposalStatusCreateInput!, update: ProposalStatusUpdateInput!): ProposalStatus!
-  deleteProposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
-  deleteManyProposalStatuses(where: ProposalStatusWhereInput): BatchPayload!
+  createProposalEvent(data: ProposalEventCreateInput!): ProposalEvent!
+  updateProposalEvent(data: ProposalEventUpdateInput!, where: ProposalEventWhereUniqueInput!): ProposalEvent
+  updateManyProposalEvents(data: ProposalEventUpdateManyMutationInput!, where: ProposalEventWhereInput): BatchPayload!
+  upsertProposalEvent(where: ProposalEventWhereUniqueInput!, create: ProposalEventCreateInput!, update: ProposalEventUpdateInput!): ProposalEvent!
+  deleteProposalEvent(where: ProposalEventWhereUniqueInput!): ProposalEvent
+  deleteManyProposalEvents(where: ProposalEventWhereInput): BatchPayload!
+  createProposalEventArgument(data: ProposalEventArgumentCreateInput!): ProposalEventArgument!
+  updateProposalEventArgument(data: ProposalEventArgumentUpdateInput!, where: ProposalEventArgumentWhereUniqueInput!): ProposalEventArgument
+  updateManyProposalEventArguments(data: ProposalEventArgumentUpdateManyMutationInput!, where: ProposalEventArgumentWhereInput): BatchPayload!
+  upsertProposalEventArgument(where: ProposalEventArgumentWhereUniqueInput!, create: ProposalEventArgumentCreateInput!, update: ProposalEventArgumentUpdateInput!): ProposalEventArgument!
+  deleteProposalEventArgument(where: ProposalEventArgumentWhereUniqueInput!): ProposalEventArgument
+  deleteManyProposalEventArguments(where: ProposalEventArgumentWhereInput): BatchPayload!
   createReward(data: RewardCreateInput!): Reward!
   updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
   updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
@@ -648,6 +658,7 @@ type Proposal {
   method: String!
   proposal: String!
   proposalArguments(where: ProposalArgumentWhereInput, orderBy: ProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalArgument!]
+  proposalEvents(where: ProposalEventWhereInput, orderBy: ProposalEventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalEvent!]
   proposalId: Int!
   proposer: String!
   section: String!
@@ -886,6 +897,7 @@ input ProposalCreateInput {
   method: String!
   proposal: String!
   proposalArguments: ProposalArgumentCreateManyWithoutProposalInput
+  proposalEvents: ProposalEventCreateManyWithoutProposalInput
   proposalId: Int!
   proposer: String!
   section: String!
@@ -896,6 +908,11 @@ input ProposalCreateOneWithoutProposalArgumentsInput {
   connect: ProposalWhereUniqueInput
 }
 
+input ProposalCreateOneWithoutProposalEventsInput {
+  create: ProposalCreateWithoutProposalEventsInput
+  connect: ProposalWhereUniqueInput
+}
+
 input ProposalCreateWithoutProposalArgumentsInput {
   blockNumber: BlockNumberCreateOneInput!
   depositAmount: String!
@@ -903,6 +920,20 @@ input ProposalCreateWithoutProposalArgumentsInput {
   metaDescription: String!
   method: String!
   proposal: String!
+  proposalEvents: ProposalEventCreateManyWithoutProposalInput
+  proposalId: Int!
+  proposer: String!
+  section: String!
+}
+
+input ProposalCreateWithoutProposalEventsInput {
+  blockNumber: BlockNumberCreateOneInput!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalArguments: ProposalArgumentCreateManyWithoutProposalInput
   proposalId: Int!
   proposer: String!
   section: String!
@@ -911,6 +942,450 @@ input ProposalCreateWithoutProposalArgumentsInput {
 type ProposalEdge {
   node: Proposal!
   cursor: String!
+}
+
+type ProposalEvent {
+  id: ID!
+  blockNumber: BlockNumber!
+  method: String!
+  proposal: Proposal!
+  proposalEventArguments(where: ProposalEventArgumentWhereInput, orderBy: ProposalEventArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalEventArgument!]
+}
+
+type ProposalEventArgument {
+  id: ID!
+  data: String!
+  proposalEvent: ProposalEvent!
+  type: String!
+}
+
+type ProposalEventArgumentConnection {
+  pageInfo: PageInfo!
+  edges: [ProposalEventArgumentEdge]!
+  aggregate: AggregateProposalEventArgument!
+}
+
+input ProposalEventArgumentCreateInput {
+  id: ID
+  data: String!
+  proposalEvent: ProposalEventCreateOneWithoutProposalEventArgumentsInput!
+  type: String!
+}
+
+input ProposalEventArgumentCreateManyWithoutProposalEventInput {
+  create: [ProposalEventArgumentCreateWithoutProposalEventInput!]
+  connect: [ProposalEventArgumentWhereUniqueInput!]
+}
+
+input ProposalEventArgumentCreateWithoutProposalEventInput {
+  id: ID
+  data: String!
+  type: String!
+}
+
+type ProposalEventArgumentEdge {
+  node: ProposalEventArgument!
+  cursor: String!
+}
+
+enum ProposalEventArgumentOrderByInput {
+  id_ASC
+  id_DESC
+  data_ASC
+  data_DESC
+  type_ASC
+  type_DESC
+}
+
+type ProposalEventArgumentPreviousValues {
+  id: ID!
+  data: String!
+  type: String!
+}
+
+input ProposalEventArgumentScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  data: String
+  data_not: String
+  data_in: [String!]
+  data_not_in: [String!]
+  data_lt: String
+  data_lte: String
+  data_gt: String
+  data_gte: String
+  data_contains: String
+  data_not_contains: String
+  data_starts_with: String
+  data_not_starts_with: String
+  data_ends_with: String
+  data_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [ProposalEventArgumentScalarWhereInput!]
+  OR: [ProposalEventArgumentScalarWhereInput!]
+  NOT: [ProposalEventArgumentScalarWhereInput!]
+}
+
+type ProposalEventArgumentSubscriptionPayload {
+  mutation: MutationType!
+  node: ProposalEventArgument
+  updatedFields: [String!]
+  previousValues: ProposalEventArgumentPreviousValues
+}
+
+input ProposalEventArgumentSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProposalEventArgumentWhereInput
+  AND: [ProposalEventArgumentSubscriptionWhereInput!]
+  OR: [ProposalEventArgumentSubscriptionWhereInput!]
+  NOT: [ProposalEventArgumentSubscriptionWhereInput!]
+}
+
+input ProposalEventArgumentUpdateInput {
+  data: String
+  proposalEvent: ProposalEventUpdateOneRequiredWithoutProposalEventArgumentsInput
+  type: String
+}
+
+input ProposalEventArgumentUpdateManyDataInput {
+  data: String
+  type: String
+}
+
+input ProposalEventArgumentUpdateManyMutationInput {
+  data: String
+  type: String
+}
+
+input ProposalEventArgumentUpdateManyWithoutProposalEventInput {
+  create: [ProposalEventArgumentCreateWithoutProposalEventInput!]
+  delete: [ProposalEventArgumentWhereUniqueInput!]
+  connect: [ProposalEventArgumentWhereUniqueInput!]
+  set: [ProposalEventArgumentWhereUniqueInput!]
+  disconnect: [ProposalEventArgumentWhereUniqueInput!]
+  update: [ProposalEventArgumentUpdateWithWhereUniqueWithoutProposalEventInput!]
+  upsert: [ProposalEventArgumentUpsertWithWhereUniqueWithoutProposalEventInput!]
+  deleteMany: [ProposalEventArgumentScalarWhereInput!]
+  updateMany: [ProposalEventArgumentUpdateManyWithWhereNestedInput!]
+}
+
+input ProposalEventArgumentUpdateManyWithWhereNestedInput {
+  where: ProposalEventArgumentScalarWhereInput!
+  data: ProposalEventArgumentUpdateManyDataInput!
+}
+
+input ProposalEventArgumentUpdateWithoutProposalEventDataInput {
+  data: String
+  type: String
+}
+
+input ProposalEventArgumentUpdateWithWhereUniqueWithoutProposalEventInput {
+  where: ProposalEventArgumentWhereUniqueInput!
+  data: ProposalEventArgumentUpdateWithoutProposalEventDataInput!
+}
+
+input ProposalEventArgumentUpsertWithWhereUniqueWithoutProposalEventInput {
+  where: ProposalEventArgumentWhereUniqueInput!
+  update: ProposalEventArgumentUpdateWithoutProposalEventDataInput!
+  create: ProposalEventArgumentCreateWithoutProposalEventInput!
+}
+
+input ProposalEventArgumentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  data: String
+  data_not: String
+  data_in: [String!]
+  data_not_in: [String!]
+  data_lt: String
+  data_lte: String
+  data_gt: String
+  data_gte: String
+  data_contains: String
+  data_not_contains: String
+  data_starts_with: String
+  data_not_starts_with: String
+  data_ends_with: String
+  data_not_ends_with: String
+  proposalEvent: ProposalEventWhereInput
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [ProposalEventArgumentWhereInput!]
+  OR: [ProposalEventArgumentWhereInput!]
+  NOT: [ProposalEventArgumentWhereInput!]
+}
+
+input ProposalEventArgumentWhereUniqueInput {
+  id: ID
+}
+
+type ProposalEventConnection {
+  pageInfo: PageInfo!
+  edges: [ProposalEventEdge]!
+  aggregate: AggregateProposalEvent!
+}
+
+input ProposalEventCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  method: String!
+  proposal: ProposalCreateOneWithoutProposalEventsInput!
+  proposalEventArguments: ProposalEventArgumentCreateManyWithoutProposalEventInput
+}
+
+input ProposalEventCreateManyWithoutProposalInput {
+  create: [ProposalEventCreateWithoutProposalInput!]
+  connect: [ProposalEventWhereUniqueInput!]
+}
+
+input ProposalEventCreateOneWithoutProposalEventArgumentsInput {
+  create: ProposalEventCreateWithoutProposalEventArgumentsInput
+  connect: ProposalEventWhereUniqueInput
+}
+
+input ProposalEventCreateWithoutProposalEventArgumentsInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  method: String!
+  proposal: ProposalCreateOneWithoutProposalEventsInput!
+}
+
+input ProposalEventCreateWithoutProposalInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  method: String!
+  proposalEventArguments: ProposalEventArgumentCreateManyWithoutProposalEventInput
+}
+
+type ProposalEventEdge {
+  node: ProposalEvent!
+  cursor: String!
+}
+
+enum ProposalEventOrderByInput {
+  id_ASC
+  id_DESC
+  method_ASC
+  method_DESC
+}
+
+type ProposalEventPreviousValues {
+  id: ID!
+  method: String!
+}
+
+input ProposalEventScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  method: String
+  method_not: String
+  method_in: [String!]
+  method_not_in: [String!]
+  method_lt: String
+  method_lte: String
+  method_gt: String
+  method_gte: String
+  method_contains: String
+  method_not_contains: String
+  method_starts_with: String
+  method_not_starts_with: String
+  method_ends_with: String
+  method_not_ends_with: String
+  AND: [ProposalEventScalarWhereInput!]
+  OR: [ProposalEventScalarWhereInput!]
+  NOT: [ProposalEventScalarWhereInput!]
+}
+
+type ProposalEventSubscriptionPayload {
+  mutation: MutationType!
+  node: ProposalEvent
+  updatedFields: [String!]
+  previousValues: ProposalEventPreviousValues
+}
+
+input ProposalEventSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProposalEventWhereInput
+  AND: [ProposalEventSubscriptionWhereInput!]
+  OR: [ProposalEventSubscriptionWhereInput!]
+  NOT: [ProposalEventSubscriptionWhereInput!]
+}
+
+input ProposalEventUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  method: String
+  proposal: ProposalUpdateOneRequiredWithoutProposalEventsInput
+  proposalEventArguments: ProposalEventArgumentUpdateManyWithoutProposalEventInput
+}
+
+input ProposalEventUpdateManyDataInput {
+  method: String
+}
+
+input ProposalEventUpdateManyMutationInput {
+  method: String
+}
+
+input ProposalEventUpdateManyWithoutProposalInput {
+  create: [ProposalEventCreateWithoutProposalInput!]
+  delete: [ProposalEventWhereUniqueInput!]
+  connect: [ProposalEventWhereUniqueInput!]
+  set: [ProposalEventWhereUniqueInput!]
+  disconnect: [ProposalEventWhereUniqueInput!]
+  update: [ProposalEventUpdateWithWhereUniqueWithoutProposalInput!]
+  upsert: [ProposalEventUpsertWithWhereUniqueWithoutProposalInput!]
+  deleteMany: [ProposalEventScalarWhereInput!]
+  updateMany: [ProposalEventUpdateManyWithWhereNestedInput!]
+}
+
+input ProposalEventUpdateManyWithWhereNestedInput {
+  where: ProposalEventScalarWhereInput!
+  data: ProposalEventUpdateManyDataInput!
+}
+
+input ProposalEventUpdateOneRequiredWithoutProposalEventArgumentsInput {
+  create: ProposalEventCreateWithoutProposalEventArgumentsInput
+  update: ProposalEventUpdateWithoutProposalEventArgumentsDataInput
+  upsert: ProposalEventUpsertWithoutProposalEventArgumentsInput
+  connect: ProposalEventWhereUniqueInput
+}
+
+input ProposalEventUpdateWithoutProposalDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  method: String
+  proposalEventArguments: ProposalEventArgumentUpdateManyWithoutProposalEventInput
+}
+
+input ProposalEventUpdateWithoutProposalEventArgumentsDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  method: String
+  proposal: ProposalUpdateOneRequiredWithoutProposalEventsInput
+}
+
+input ProposalEventUpdateWithWhereUniqueWithoutProposalInput {
+  where: ProposalEventWhereUniqueInput!
+  data: ProposalEventUpdateWithoutProposalDataInput!
+}
+
+input ProposalEventUpsertWithoutProposalEventArgumentsInput {
+  update: ProposalEventUpdateWithoutProposalEventArgumentsDataInput!
+  create: ProposalEventCreateWithoutProposalEventArgumentsInput!
+}
+
+input ProposalEventUpsertWithWhereUniqueWithoutProposalInput {
+  where: ProposalEventWhereUniqueInput!
+  update: ProposalEventUpdateWithoutProposalDataInput!
+  create: ProposalEventCreateWithoutProposalInput!
+}
+
+input ProposalEventWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  method: String
+  method_not: String
+  method_in: [String!]
+  method_not_in: [String!]
+  method_lt: String
+  method_lte: String
+  method_gt: String
+  method_gte: String
+  method_contains: String
+  method_not_contains: String
+  method_starts_with: String
+  method_not_starts_with: String
+  method_ends_with: String
+  method_not_ends_with: String
+  proposal: ProposalWhereInput
+  proposalEventArguments_every: ProposalEventArgumentWhereInput
+  proposalEventArguments_some: ProposalEventArgumentWhereInput
+  proposalEventArguments_none: ProposalEventArgumentWhereInput
+  AND: [ProposalEventWhereInput!]
+  OR: [ProposalEventWhereInput!]
+  NOT: [ProposalEventWhereInput!]
+}
+
+input ProposalEventWhereUniqueInput {
+  id: ID
 }
 
 enum ProposalOrderByInput {
@@ -946,107 +1421,6 @@ type ProposalPreviousValues {
   section: String!
 }
 
-type ProposalStatus {
-  id: ID!
-  blockNumber: BlockNumber!
-  status: String!
-}
-
-type ProposalStatusConnection {
-  pageInfo: PageInfo!
-  edges: [ProposalStatusEdge]!
-  aggregate: AggregateProposalStatus!
-}
-
-input ProposalStatusCreateInput {
-  id: ID
-  blockNumber: BlockNumberCreateOneInput!
-  status: String!
-}
-
-type ProposalStatusEdge {
-  node: ProposalStatus!
-  cursor: String!
-}
-
-enum ProposalStatusOrderByInput {
-  id_ASC
-  id_DESC
-  status_ASC
-  status_DESC
-}
-
-type ProposalStatusPreviousValues {
-  id: ID!
-  status: String!
-}
-
-type ProposalStatusSubscriptionPayload {
-  mutation: MutationType!
-  node: ProposalStatus
-  updatedFields: [String!]
-  previousValues: ProposalStatusPreviousValues
-}
-
-input ProposalStatusSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: ProposalStatusWhereInput
-  AND: [ProposalStatusSubscriptionWhereInput!]
-  OR: [ProposalStatusSubscriptionWhereInput!]
-  NOT: [ProposalStatusSubscriptionWhereInput!]
-}
-
-input ProposalStatusUpdateInput {
-  blockNumber: BlockNumberUpdateOneRequiredInput
-  status: String
-}
-
-input ProposalStatusUpdateManyMutationInput {
-  status: String
-}
-
-input ProposalStatusWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  blockNumber: BlockNumberWhereInput
-  status: String
-  status_not: String
-  status_in: [String!]
-  status_not_in: [String!]
-  status_lt: String
-  status_lte: String
-  status_gt: String
-  status_gte: String
-  status_contains: String
-  status_not_contains: String
-  status_starts_with: String
-  status_not_starts_with: String
-  status_ends_with: String
-  status_not_ends_with: String
-  AND: [ProposalStatusWhereInput!]
-  OR: [ProposalStatusWhereInput!]
-  NOT: [ProposalStatusWhereInput!]
-}
-
-input ProposalStatusWhereUniqueInput {
-  id: ID
-}
-
 type ProposalSubscriptionPayload {
   mutation: MutationType!
   node: Proposal
@@ -1073,6 +1447,7 @@ input ProposalUpdateInput {
   method: String
   proposal: String
   proposalArguments: ProposalArgumentUpdateManyWithoutProposalInput
+  proposalEvents: ProposalEventUpdateManyWithoutProposalInput
   proposalId: Int
   proposer: String
   section: String
@@ -1096,6 +1471,13 @@ input ProposalUpdateOneRequiredWithoutProposalArgumentsInput {
   connect: ProposalWhereUniqueInput
 }
 
+input ProposalUpdateOneRequiredWithoutProposalEventsInput {
+  create: ProposalCreateWithoutProposalEventsInput
+  update: ProposalUpdateWithoutProposalEventsDataInput
+  upsert: ProposalUpsertWithoutProposalEventsInput
+  connect: ProposalWhereUniqueInput
+}
+
 input ProposalUpdateWithoutProposalArgumentsDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   depositAmount: String
@@ -1103,6 +1485,20 @@ input ProposalUpdateWithoutProposalArgumentsDataInput {
   metaDescription: String
   method: String
   proposal: String
+  proposalEvents: ProposalEventUpdateManyWithoutProposalInput
+  proposalId: Int
+  proposer: String
+  section: String
+}
+
+input ProposalUpdateWithoutProposalEventsDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: String
+  proposalArguments: ProposalArgumentUpdateManyWithoutProposalInput
   proposalId: Int
   proposer: String
   section: String
@@ -1111,6 +1507,11 @@ input ProposalUpdateWithoutProposalArgumentsDataInput {
 input ProposalUpsertWithoutProposalArgumentsInput {
   update: ProposalUpdateWithoutProposalArgumentsDataInput!
   create: ProposalCreateWithoutProposalArgumentsInput!
+}
+
+input ProposalUpsertWithoutProposalEventsInput {
+  update: ProposalUpdateWithoutProposalEventsDataInput!
+  create: ProposalCreateWithoutProposalEventsInput!
 }
 
 input ProposalWhereInput {
@@ -1196,6 +1597,9 @@ input ProposalWhereInput {
   proposalArguments_every: ProposalArgumentWhereInput
   proposalArguments_some: ProposalArgumentWhereInput
   proposalArguments_none: ProposalArgumentWhereInput
+  proposalEvents_every: ProposalEventWhereInput
+  proposalEvents_some: ProposalEventWhereInput
+  proposalEvents_none: ProposalEventWhereInput
   proposalId: Int
   proposalId_not: Int
   proposalId_in: [Int!]
@@ -1258,9 +1662,12 @@ type Query {
   proposalArgument(where: ProposalArgumentWhereUniqueInput!): ProposalArgument
   proposalArguments(where: ProposalArgumentWhereInput, orderBy: ProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalArgument]!
   proposalArgumentsConnection(where: ProposalArgumentWhereInput, orderBy: ProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalArgumentConnection!
-  proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
-  proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
-  proposalStatusesConnection(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalStatusConnection!
+  proposalEvent(where: ProposalEventWhereUniqueInput!): ProposalEvent
+  proposalEvents(where: ProposalEventWhereInput, orderBy: ProposalEventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalEvent]!
+  proposalEventsConnection(where: ProposalEventWhereInput, orderBy: ProposalEventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalEventConnection!
+  proposalEventArgument(where: ProposalEventArgumentWhereUniqueInput!): ProposalEventArgument
+  proposalEventArguments(where: ProposalEventArgumentWhereInput, orderBy: ProposalEventArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalEventArgument]!
+  proposalEventArgumentsConnection(where: ProposalEventArgumentWhereInput, orderBy: ProposalEventArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalEventArgumentConnection!
   reward(where: RewardWhereUniqueInput!): Reward
   rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
   rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
@@ -1744,7 +2151,8 @@ type Subscription {
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
   proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
   proposalArgument(where: ProposalArgumentSubscriptionWhereInput): ProposalArgumentSubscriptionPayload
-  proposalStatus(where: ProposalStatusSubscriptionWhereInput): ProposalStatusSubscriptionPayload
+  proposalEvent(where: ProposalEventSubscriptionWhereInput): ProposalEventSubscriptionPayload
+  proposalEventArgument(where: ProposalEventArgumentSubscriptionWhereInput): ProposalEventArgumentSubscriptionPayload
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
   slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload

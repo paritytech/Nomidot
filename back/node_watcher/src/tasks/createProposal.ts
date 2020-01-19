@@ -86,7 +86,7 @@ const createProposal: Task<NomidotProposal[]> = {
           const values = proposal.args;
 
           const proposalArguments =
-            proposal.args &&
+            values &&
             params &&
             params.map((name, index) => {
               return { name, value: values[index].toString() };

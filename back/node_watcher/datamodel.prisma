@@ -73,7 +73,8 @@ type Proposal {
   metaDescription: String!
   method: String!
   proposal: String!
-  proposalArguments: [ProposalArgument]! @relation(name: "ArgumentForProposal")
+  proposalArguments: [ProposalArgument]! @relation(name: "ArgumentsForProposal")
+  proposalEvents: [ProposalEvent]! @relation(name: "EventsForProposal")
   proposalId: Int! @unique
   proposer: String!
   section: String!
@@ -82,12 +83,21 @@ type Proposal {
 type ProposalArgument {
   id: ID! @id
   name: String!
-  proposal: Proposal! @relation(name: "ArgumentForProposal", link: INLINE)
+  proposal: Proposal! @relation(name: "ArgumentsForProposal", link: INLINE)
   value: String!
 }
 
-type ProposalStatus {
+type ProposalEvent {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "ProposalStatusAtBlockNumber", link: INLINE)
-  status: String!
+  method: String!
+  proposal: Proposal! @relation(name: "EventsForProposal", link: INLINE)
+  proposalEventArguments: [ProposalEventArgument]! @relation(name: "ArgumentsForProposalEvent")
+}
+
+type ProposalEventArgument {
+  id: ID! @id
+  data: String!
+  proposalEvent: ProposalEvent! @relation(name: "ArgumentsForProposalEvent", link: INLINE)
+  type: String!
 }
