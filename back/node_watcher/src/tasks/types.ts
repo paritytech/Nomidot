@@ -90,3 +90,7 @@ export interface NomidotProposalArgument {
   name: string;
   value: string;
 }
+
+export interface NomidotProposalStatus {
+  status: string;
+}

@@ -85,3 +85,9 @@ type ProposalArgument {
   proposal: Proposal! @relation(name: "ArgumentForProposal", link: INLINE)
   value: String!
 }
+
+type ProposalStatus {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "ProposalStatusAtBlockNumber", link: INLINE)
+  status: String!
+}

@@ -22,6 +22,10 @@ type AggregateProposalArgument {
   count: Int!
 }
 
+type AggregateProposalStatus {
+  count: Int!
+}
+
 type AggregateReward {
   count: Int!
 }
@@ -389,6 +393,12 @@ type Mutation {
   upsertProposalArgument(where: ProposalArgumentWhereUniqueInput!, create: ProposalArgumentCreateInput!, update: ProposalArgumentUpdateInput!): ProposalArgument!
   deleteProposalArgument(where: ProposalArgumentWhereUniqueInput!): ProposalArgument
   deleteManyProposalArguments(where: ProposalArgumentWhereInput): BatchPayload!
+  createProposalStatus(data: ProposalStatusCreateInput!): ProposalStatus!
+  updateProposalStatus(data: ProposalStatusUpdateInput!, where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  updateManyProposalStatuses(data: ProposalStatusUpdateManyMutationInput!, where: ProposalStatusWhereInput): BatchPayload!
+  upsertProposalStatus(where: ProposalStatusWhereUniqueInput!, create: ProposalStatusCreateInput!, update: ProposalStatusUpdateInput!): ProposalStatus!
+  deleteProposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  deleteManyProposalStatuses(where: ProposalStatusWhereInput): BatchPayload!
   createReward(data: RewardCreateInput!): Reward!
   updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
   updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
@@ -936,6 +946,107 @@ type ProposalPreviousValues {
   section: String!
 }
 
+type ProposalStatus {
+  id: ID!
+  blockNumber: BlockNumber!
+  status: String!
+}
+
+type ProposalStatusConnection {
+  pageInfo: PageInfo!
+  edges: [ProposalStatusEdge]!
+  aggregate: AggregateProposalStatus!
+}
+
+input ProposalStatusCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  status: String!
+}
+
+type ProposalStatusEdge {
+  node: ProposalStatus!
+  cursor: String!
+}
+
+enum ProposalStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type ProposalStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+type ProposalStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: ProposalStatus
+  updatedFields: [String!]
+  previousValues: ProposalStatusPreviousValues
+}
+
+input ProposalStatusSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProposalStatusWhereInput
+  AND: [ProposalStatusSubscriptionWhereInput!]
+  OR: [ProposalStatusSubscriptionWhereInput!]
+  NOT: [ProposalStatusSubscriptionWhereInput!]
+}
+
+input ProposalStatusUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  status: String
+}
+
+input ProposalStatusUpdateManyMutationInput {
+  status: String
+}
+
+input ProposalStatusWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [ProposalStatusWhereInput!]
+  OR: [ProposalStatusWhereInput!]
+  NOT: [ProposalStatusWhereInput!]
+}
+
+input ProposalStatusWhereUniqueInput {
+  id: ID
+}
+
 type ProposalSubscriptionPayload {
   mutation: MutationType!
   node: Proposal
@@ -1147,6 +1258,9 @@ type Query {
   proposalArgument(where: ProposalArgumentWhereUniqueInput!): ProposalArgument
   proposalArguments(where: ProposalArgumentWhereInput, orderBy: ProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalArgument]!
   proposalArgumentsConnection(where: ProposalArgumentWhereInput, orderBy: ProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalArgumentConnection!
+  proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
+  proposalStatusesConnection(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalStatusConnection!
   reward(where: RewardWhereUniqueInput!): Reward
   rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
   rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
@@ -1630,6 +1744,7 @@ type Subscription {
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
   proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
   proposalArgument(where: ProposalArgumentSubscriptionWhereInput): ProposalArgumentSubscriptionPayload
+  proposalStatus(where: ProposalStatusSubscriptionWhereInput): ProposalStatusSubscriptionPayload
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
   slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload
