@@ -46,8 +46,14 @@ const createProposal: Task<NomidotProposal[]> = {
           // proposals should be unique
           if (proposalExists) return null;
 
-          const depositOf = await api.query.democracy.depositOf(proposalId);
-          const preImageRaw = await api.query.democracy.preimages(preImageHash);
+          const depositOf = await api.query.democracy.depositOf.at(
+            blockHash,
+            proposalId
+          );
+          const preImageRaw = await api.query.democracy.preimages.at(
+            blockHash,
+            preImageHash
+          );
           const preImage = preImageRaw.unwrapOr(null);
 
           if (!preImage) {
