@@ -26,10 +26,10 @@ const createProposalEvent: Task<NomidotProposalEvent[]> = {
   ): Promise<NomidotProposalEvent[]> => {
     const events = await api.query.system.events.at(blockHash);
 
+
     const proposalEvents = events.filter(
       ({ event: { section, method } }) =>
-        section === 'democracy' &&
-        (method === ' Proposed' || method === 'Tabled')
+        section === 'democracy' && (method === 'Proposed' || method === 'Tabled')
     );
 
     const results: NomidotProposalEvent[] = [];
