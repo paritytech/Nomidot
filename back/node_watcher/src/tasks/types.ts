@@ -66,6 +66,7 @@ export type Nomidot =
   | NomidotBlock
   | NomidotEra
   | NomidotHeartBeat
+  | NomidotPreImage[]
   | NomidotProposal[]
   | NomidotSession
   | NomidotSlashing[]
@@ -88,5 +89,9 @@ export interface NomidotProposal {
 
 export interface NomidotProposalArgument {
   name: string;
+  value: string;
+}
+
+export interface NomidotPreImage {
   value: string;
 }
