@@ -69,7 +69,7 @@ type Proposal {
   id: Int! @id(strategy: SEQUENCE) @sequence(name: "PROPOSAL_SEQUENCE" initialValue:1 allocationSize:1)
   blockNumber: BlockNumber! @relation(name: "ProposalAtBlockNumber", link: INLINE)
   depositAmount: String!
-  hash: String!
+  hash: String! @unique
   metaDescription: String!
   method: String!
   proposal: String!
