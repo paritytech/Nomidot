@@ -4,7 +4,7 @@
 
 import createBlockNumber from './createBlockNumber';
 // import createEra from './createEra';
-import createPreImage from './createPreImage';
+import createPreimage from './createPreimage';
 // import createProposal from './createProposal';
 // import createSession from './createSession';
 // import createSlashing from './createSlashing';
@@ -21,5 +21,5 @@ export const nomidotTasks: NomidotTask[] = [
   // createTotalIssuance,
   // createValidator,
   // createProposal,
-  createPreImage,
+  createPreimage,
 ];

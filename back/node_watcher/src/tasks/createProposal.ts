@@ -35,7 +35,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
     await Promise.all(
       publicProps.map(
-        async ([idNumber, preImageHash, proposer]: [
+        async ([idNumber, preimageHash, proposer]: [
           PropIndex,
           Hash,
           AccountId
@@ -47,10 +47,10 @@ const createProposal: Task<NomidotProposal[]> = {
           if (proposalExists) return null;
 
           const depositOf = await api.query.democracy.depositOf(proposalId);
-          const preImageRaw = await api.query.democracy.preimages(preImageHash);
-          const preImage = preImageRaw.unwrapOr(null);
+          const preimageRaw = await api.query.democracy.preimages(preimageHash);
+          const preimage = preimageRaw.unwrapOr(null);
 
-          if (!preImage) {
+          if (!preimage) {
             l.log(`No pre-image found for the proposal id #${proposalId}`);
             return null;
           }
@@ -66,7 +66,7 @@ const createProposal: Task<NomidotProposal[]> = {
           const proposal = createType(
             api.registry,
             'Proposal',
-            preImage[0].toU8a(true)
+            preimage[0].toU8a(true)
           );
 
           if (!proposal) {

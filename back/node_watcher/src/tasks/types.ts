@@ -66,7 +66,7 @@ export type Nomidot =
   | NomidotBlock
   | NomidotEra
   | NomidotHeartBeat
-  | NomidotPreImage[]
+  | NomidotPreimage[]
   | NomidotProposal[]
   | NomidotSession
   | NomidotSlashing[]
@@ -92,6 +92,28 @@ export interface NomidotProposalArgument {
   value: string;
 }
 
-export interface NomidotPreImage {
-  value: string;
+export enum PreimageStatus {
+  NOTED = 'Noted',
+  REAPED = 'Reaped',
+  USED = 'Used',
+}
+
+export interface NomidotPreimage extends NomidotPreimageEvent {
+  preImageArguments: NomidotProposalArgument[];
+  metaDescription: string;
+  method: string;
+  section: string;
+  status: PreimageStatus;
+}
+
+export interface NomidotPreimageEvent {
+  hash: Hash;
+  author: AccountId;
+  depositAmount: Balance;
+}
+
+export interface NomidotPreimageRawEvent {
+  Hash?: Hash;
+  AccountId?: AccountId;
+  Balance?: Balance;
 }

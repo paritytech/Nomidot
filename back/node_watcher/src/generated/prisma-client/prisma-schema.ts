@@ -14,6 +14,18 @@ type AggregateNomination {
   count: Int!
 }
 
+type AggregatePreimage {
+  count: Int!
+}
+
+type AggregatePreimageArgument {
+  count: Int!
+}
+
+type AggregatePreimageStatus {
+  count: Int!
+}
+
 type AggregateProposal {
   count: Int!
 }
@@ -377,6 +389,24 @@ type Mutation {
   upsertNomination(where: NominationWhereUniqueInput!, create: NominationCreateInput!, update: NominationUpdateInput!): Nomination!
   deleteNomination(where: NominationWhereUniqueInput!): Nomination
   deleteManyNominations(where: NominationWhereInput): BatchPayload!
+  createPreimage(data: PreimageCreateInput!): Preimage!
+  updatePreimage(data: PreimageUpdateInput!, where: PreimageWhereUniqueInput!): Preimage
+  updateManyPreimages(data: PreimageUpdateManyMutationInput!, where: PreimageWhereInput): BatchPayload!
+  upsertPreimage(where: PreimageWhereUniqueInput!, create: PreimageCreateInput!, update: PreimageUpdateInput!): Preimage!
+  deletePreimage(where: PreimageWhereUniqueInput!): Preimage
+  deleteManyPreimages(where: PreimageWhereInput): BatchPayload!
+  createPreimageArgument(data: PreimageArgumentCreateInput!): PreimageArgument!
+  updatePreimageArgument(data: PreimageArgumentUpdateInput!, where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  updateManyPreimageArguments(data: PreimageArgumentUpdateManyMutationInput!, where: PreimageArgumentWhereInput): BatchPayload!
+  upsertPreimageArgument(where: PreimageArgumentWhereUniqueInput!, create: PreimageArgumentCreateInput!, update: PreimageArgumentUpdateInput!): PreimageArgument!
+  deletePreimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  deleteManyPreimageArguments(where: PreimageArgumentWhereInput): BatchPayload!
+  createPreimageStatus(data: PreimageStatusCreateInput!): PreimageStatus!
+  updatePreimageStatus(data: PreimageStatusUpdateInput!, where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  updateManyPreimageStatuses(data: PreimageStatusUpdateManyMutationInput!, where: PreimageStatusWhereInput): BatchPayload!
+  upsertPreimageStatus(where: PreimageStatusWhereUniqueInput!, create: PreimageStatusCreateInput!, update: PreimageStatusUpdateInput!): PreimageStatus!
+  deletePreimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  deleteManyPreimageStatuses(where: PreimageStatusWhereInput): BatchPayload!
   createProposal(data: ProposalCreateInput!): Proposal!
   updateProposal(data: ProposalUpdateInput!, where: ProposalWhereUniqueInput!): Proposal
   updateManyProposals(data: ProposalUpdateManyMutationInput!, where: ProposalWhereInput): BatchPayload!
@@ -629,6 +659,750 @@ type PageInfo {
   endCursor: String
 }
 
+type Preimage {
+  id: ID!
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: Proposal
+  preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument!]
+  preimageStatus(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus!]
+  section: String!
+}
+
+type PreimageArgument {
+  id: ID!
+  name: String!
+  preimage: Preimage!
+  value: String!
+}
+
+type PreimageArgumentConnection {
+  pageInfo: PageInfo!
+  edges: [PreimageArgumentEdge]!
+  aggregate: AggregatePreimageArgument!
+}
+
+input PreimageArgumentCreateInput {
+  id: ID
+  name: String!
+  preimage: PreimageCreateOneWithoutPreimageArgumentsInput!
+  value: String!
+}
+
+input PreimageArgumentCreateManyWithoutPreimageInput {
+  create: [PreimageArgumentCreateWithoutPreimageInput!]
+  connect: [PreimageArgumentWhereUniqueInput!]
+}
+
+input PreimageArgumentCreateWithoutPreimageInput {
+  id: ID
+  name: String!
+  value: String!
+}
+
+type PreimageArgumentEdge {
+  node: PreimageArgument!
+  cursor: String!
+}
+
+enum PreimageArgumentOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  value_ASC
+  value_DESC
+}
+
+type PreimageArgumentPreviousValues {
+  id: ID!
+  name: String!
+  value: String!
+}
+
+input PreimageArgumentScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  AND: [PreimageArgumentScalarWhereInput!]
+  OR: [PreimageArgumentScalarWhereInput!]
+  NOT: [PreimageArgumentScalarWhereInput!]
+}
+
+type PreimageArgumentSubscriptionPayload {
+  mutation: MutationType!
+  node: PreimageArgument
+  updatedFields: [String!]
+  previousValues: PreimageArgumentPreviousValues
+}
+
+input PreimageArgumentSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PreimageArgumentWhereInput
+  AND: [PreimageArgumentSubscriptionWhereInput!]
+  OR: [PreimageArgumentSubscriptionWhereInput!]
+  NOT: [PreimageArgumentSubscriptionWhereInput!]
+}
+
+input PreimageArgumentUpdateInput {
+  name: String
+  preimage: PreimageUpdateOneRequiredWithoutPreimageArgumentsInput
+  value: String
+}
+
+input PreimageArgumentUpdateManyDataInput {
+  name: String
+  value: String
+}
+
+input PreimageArgumentUpdateManyMutationInput {
+  name: String
+  value: String
+}
+
+input PreimageArgumentUpdateManyWithoutPreimageInput {
+  create: [PreimageArgumentCreateWithoutPreimageInput!]
+  delete: [PreimageArgumentWhereUniqueInput!]
+  connect: [PreimageArgumentWhereUniqueInput!]
+  set: [PreimageArgumentWhereUniqueInput!]
+  disconnect: [PreimageArgumentWhereUniqueInput!]
+  update: [PreimageArgumentUpdateWithWhereUniqueWithoutPreimageInput!]
+  upsert: [PreimageArgumentUpsertWithWhereUniqueWithoutPreimageInput!]
+  deleteMany: [PreimageArgumentScalarWhereInput!]
+  updateMany: [PreimageArgumentUpdateManyWithWhereNestedInput!]
+}
+
+input PreimageArgumentUpdateManyWithWhereNestedInput {
+  where: PreimageArgumentScalarWhereInput!
+  data: PreimageArgumentUpdateManyDataInput!
+}
+
+input PreimageArgumentUpdateWithoutPreimageDataInput {
+  name: String
+  value: String
+}
+
+input PreimageArgumentUpdateWithWhereUniqueWithoutPreimageInput {
+  where: PreimageArgumentWhereUniqueInput!
+  data: PreimageArgumentUpdateWithoutPreimageDataInput!
+}
+
+input PreimageArgumentUpsertWithWhereUniqueWithoutPreimageInput {
+  where: PreimageArgumentWhereUniqueInput!
+  update: PreimageArgumentUpdateWithoutPreimageDataInput!
+  create: PreimageArgumentCreateWithoutPreimageInput!
+}
+
+input PreimageArgumentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  preimage: PreimageWhereInput
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  AND: [PreimageArgumentWhereInput!]
+  OR: [PreimageArgumentWhereInput!]
+  NOT: [PreimageArgumentWhereInput!]
+}
+
+input PreimageArgumentWhereUniqueInput {
+  id: ID
+}
+
+type PreimageConnection {
+  pageInfo: PageInfo!
+  edges: [PreimageEdge]!
+  aggregate: AggregatePreimage!
+}
+
+input PreimageCreateInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  section: String!
+}
+
+input PreimageCreateOneWithoutPreimageArgumentsInput {
+  create: PreimageCreateWithoutPreimageArgumentsInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateOneWithoutPreimageStatusInput {
+  create: PreimageCreateWithoutPreimageStatusInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateOneWithoutProposalInput {
+  create: PreimageCreateWithoutProposalInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateWithoutPreimageArgumentsInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  section: String!
+}
+
+input PreimageCreateWithoutPreimageStatusInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  section: String!
+}
+
+input PreimageCreateWithoutProposalInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  section: String!
+}
+
+type PreimageEdge {
+  node: Preimage!
+  cursor: String!
+}
+
+enum PreimageOrderByInput {
+  id_ASC
+  id_DESC
+  author_ASC
+  author_DESC
+  depositAmount_ASC
+  depositAmount_DESC
+  hash_ASC
+  hash_DESC
+  metaDescription_ASC
+  metaDescription_DESC
+  method_ASC
+  method_DESC
+  section_ASC
+  section_DESC
+}
+
+type PreimagePreviousValues {
+  id: ID!
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+}
+
+type PreimageStatus {
+  id: ID!
+  blockNumber: BlockNumber!
+  preimage: Preimage!
+  status: String!
+}
+
+type PreimageStatusConnection {
+  pageInfo: PageInfo!
+  edges: [PreimageStatusEdge]!
+  aggregate: AggregatePreimageStatus!
+}
+
+input PreimageStatusCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  preimage: PreimageCreateOneWithoutPreimageStatusInput!
+  status: String!
+}
+
+input PreimageStatusCreateManyWithoutPreimageInput {
+  create: [PreimageStatusCreateWithoutPreimageInput!]
+  connect: [PreimageStatusWhereUniqueInput!]
+}
+
+input PreimageStatusCreateWithoutPreimageInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  status: String!
+}
+
+type PreimageStatusEdge {
+  node: PreimageStatus!
+  cursor: String!
+}
+
+enum PreimageStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type PreimageStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input PreimageStatusScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [PreimageStatusScalarWhereInput!]
+  OR: [PreimageStatusScalarWhereInput!]
+  NOT: [PreimageStatusScalarWhereInput!]
+}
+
+type PreimageStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: PreimageStatus
+  updatedFields: [String!]
+  previousValues: PreimageStatusPreviousValues
+}
+
+input PreimageStatusSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PreimageStatusWhereInput
+  AND: [PreimageStatusSubscriptionWhereInput!]
+  OR: [PreimageStatusSubscriptionWhereInput!]
+  NOT: [PreimageStatusSubscriptionWhereInput!]
+}
+
+input PreimageStatusUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  preimage: PreimageUpdateOneRequiredWithoutPreimageStatusInput
+  status: String
+}
+
+input PreimageStatusUpdateManyDataInput {
+  status: String
+}
+
+input PreimageStatusUpdateManyMutationInput {
+  status: String
+}
+
+input PreimageStatusUpdateManyWithoutPreimageInput {
+  create: [PreimageStatusCreateWithoutPreimageInput!]
+  delete: [PreimageStatusWhereUniqueInput!]
+  connect: [PreimageStatusWhereUniqueInput!]
+  set: [PreimageStatusWhereUniqueInput!]
+  disconnect: [PreimageStatusWhereUniqueInput!]
+  update: [PreimageStatusUpdateWithWhereUniqueWithoutPreimageInput!]
+  upsert: [PreimageStatusUpsertWithWhereUniqueWithoutPreimageInput!]
+  deleteMany: [PreimageStatusScalarWhereInput!]
+  updateMany: [PreimageStatusUpdateManyWithWhereNestedInput!]
+}
+
+input PreimageStatusUpdateManyWithWhereNestedInput {
+  where: PreimageStatusScalarWhereInput!
+  data: PreimageStatusUpdateManyDataInput!
+}
+
+input PreimageStatusUpdateWithoutPreimageDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  status: String
+}
+
+input PreimageStatusUpdateWithWhereUniqueWithoutPreimageInput {
+  where: PreimageStatusWhereUniqueInput!
+  data: PreimageStatusUpdateWithoutPreimageDataInput!
+}
+
+input PreimageStatusUpsertWithWhereUniqueWithoutPreimageInput {
+  where: PreimageStatusWhereUniqueInput!
+  update: PreimageStatusUpdateWithoutPreimageDataInput!
+  create: PreimageStatusCreateWithoutPreimageInput!
+}
+
+input PreimageStatusWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  preimage: PreimageWhereInput
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [PreimageStatusWhereInput!]
+  OR: [PreimageStatusWhereInput!]
+  NOT: [PreimageStatusWhereInput!]
+}
+
+input PreimageStatusWhereUniqueInput {
+  id: ID
+}
+
+type PreimageSubscriptionPayload {
+  mutation: MutationType!
+  node: Preimage
+  updatedFields: [String!]
+  previousValues: PreimagePreviousValues
+}
+
+input PreimageSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PreimageWhereInput
+  AND: [PreimageSubscriptionWhereInput!]
+  OR: [PreimageSubscriptionWhereInput!]
+  NOT: [PreimageSubscriptionWhereInput!]
+}
+
+input PreimageUpdateInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  section: String
+}
+
+input PreimageUpdateManyMutationInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+}
+
+input PreimageUpdateOneRequiredWithoutPreimageArgumentsInput {
+  create: PreimageCreateWithoutPreimageArgumentsInput
+  update: PreimageUpdateWithoutPreimageArgumentsDataInput
+  upsert: PreimageUpsertWithoutPreimageArgumentsInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageUpdateOneRequiredWithoutPreimageStatusInput {
+  create: PreimageCreateWithoutPreimageStatusInput
+  update: PreimageUpdateWithoutPreimageStatusDataInput
+  upsert: PreimageUpsertWithoutPreimageStatusInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageUpdateOneRequiredWithoutProposalInput {
+  create: PreimageCreateWithoutProposalInput
+  update: PreimageUpdateWithoutProposalDataInput
+  upsert: PreimageUpsertWithoutProposalInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageUpdateWithoutPreimageArgumentsDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  section: String
+}
+
+input PreimageUpdateWithoutPreimageStatusDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  section: String
+}
+
+input PreimageUpdateWithoutProposalDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  section: String
+}
+
+input PreimageUpsertWithoutPreimageArgumentsInput {
+  update: PreimageUpdateWithoutPreimageArgumentsDataInput!
+  create: PreimageCreateWithoutPreimageArgumentsInput!
+}
+
+input PreimageUpsertWithoutPreimageStatusInput {
+  update: PreimageUpdateWithoutPreimageStatusDataInput!
+  create: PreimageCreateWithoutPreimageStatusInput!
+}
+
+input PreimageUpsertWithoutProposalInput {
+  update: PreimageUpdateWithoutProposalDataInput!
+  create: PreimageCreateWithoutProposalInput!
+}
+
+input PreimageWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  author: String
+  author_not: String
+  author_in: [String!]
+  author_not_in: [String!]
+  author_lt: String
+  author_lte: String
+  author_gt: String
+  author_gte: String
+  author_contains: String
+  author_not_contains: String
+  author_starts_with: String
+  author_not_starts_with: String
+  author_ends_with: String
+  author_not_ends_with: String
+  depositAmount: String
+  depositAmount_not: String
+  depositAmount_in: [String!]
+  depositAmount_not_in: [String!]
+  depositAmount_lt: String
+  depositAmount_lte: String
+  depositAmount_gt: String
+  depositAmount_gte: String
+  depositAmount_contains: String
+  depositAmount_not_contains: String
+  depositAmount_starts_with: String
+  depositAmount_not_starts_with: String
+  depositAmount_ends_with: String
+  depositAmount_not_ends_with: String
+  hash: String
+  hash_not: String
+  hash_in: [String!]
+  hash_not_in: [String!]
+  hash_lt: String
+  hash_lte: String
+  hash_gt: String
+  hash_gte: String
+  hash_contains: String
+  hash_not_contains: String
+  hash_starts_with: String
+  hash_not_starts_with: String
+  hash_ends_with: String
+  hash_not_ends_with: String
+  metaDescription: String
+  metaDescription_not: String
+  metaDescription_in: [String!]
+  metaDescription_not_in: [String!]
+  metaDescription_lt: String
+  metaDescription_lte: String
+  metaDescription_gt: String
+  metaDescription_gte: String
+  metaDescription_contains: String
+  metaDescription_not_contains: String
+  metaDescription_starts_with: String
+  metaDescription_not_starts_with: String
+  metaDescription_ends_with: String
+  metaDescription_not_ends_with: String
+  method: String
+  method_not: String
+  method_in: [String!]
+  method_not_in: [String!]
+  method_lt: String
+  method_lte: String
+  method_gt: String
+  method_gte: String
+  method_contains: String
+  method_not_contains: String
+  method_starts_with: String
+  method_not_starts_with: String
+  method_ends_with: String
+  method_not_ends_with: String
+  proposal: ProposalWhereInput
+  preimageArguments_every: PreimageArgumentWhereInput
+  preimageArguments_some: PreimageArgumentWhereInput
+  preimageArguments_none: PreimageArgumentWhereInput
+  preimageStatus_every: PreimageStatusWhereInput
+  preimageStatus_some: PreimageStatusWhereInput
+  preimageStatus_none: PreimageStatusWhereInput
+  section: String
+  section_not: String
+  section_in: [String!]
+  section_not_in: [String!]
+  section_lt: String
+  section_lte: String
+  section_gt: String
+  section_gte: String
+  section_contains: String
+  section_not_contains: String
+  section_starts_with: String
+  section_not_starts_with: String
+  section_ends_with: String
+  section_not_ends_with: String
+  AND: [PreimageWhereInput!]
+  OR: [PreimageWhereInput!]
+  NOT: [PreimageWhereInput!]
+}
+
+input PreimageWhereUniqueInput {
+  id: ID
+}
+
 type Proposal {
   id: Int!
   blockNumber: BlockNumber!
@@ -636,6 +1410,7 @@ type Proposal {
   hash: String!
   metaDescription: String!
   method: String!
+  preimage: Preimage!
   proposal: String!
   proposalArguments(where: ProposalArgumentWhereInput, orderBy: ProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalArgument!]
   proposalId: Int!
@@ -874,6 +1649,7 @@ input ProposalCreateInput {
   hash: String!
   metaDescription: String!
   method: String!
+  preimage: PreimageCreateOneWithoutProposalInput!
   proposal: String!
   proposalArguments: ProposalArgumentCreateManyWithoutProposalInput
   proposalId: Int!
@@ -881,9 +1657,27 @@ input ProposalCreateInput {
   section: String!
 }
 
+input ProposalCreateOneWithoutPreimageInput {
+  create: ProposalCreateWithoutPreimageInput
+  connect: ProposalWhereUniqueInput
+}
+
 input ProposalCreateOneWithoutProposalArgumentsInput {
   create: ProposalCreateWithoutProposalArgumentsInput
   connect: ProposalWhereUniqueInput
+}
+
+input ProposalCreateWithoutPreimageInput {
+  blockNumber: BlockNumberCreateOneInput!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: String!
+  proposalArguments: ProposalArgumentCreateManyWithoutProposalInput
+  proposalId: Int!
+  proposer: String!
+  section: String!
 }
 
 input ProposalCreateWithoutProposalArgumentsInput {
@@ -892,6 +1686,7 @@ input ProposalCreateWithoutProposalArgumentsInput {
   hash: String!
   metaDescription: String!
   method: String!
+  preimage: PreimageCreateOneWithoutProposalInput!
   proposal: String!
   proposalId: Int!
   proposer: String!
@@ -960,6 +1755,7 @@ input ProposalUpdateInput {
   hash: String
   metaDescription: String
   method: String
+  preimage: PreimageUpdateOneRequiredWithoutProposalInput
   proposal: String
   proposalArguments: ProposalArgumentUpdateManyWithoutProposalInput
   proposalId: Int
@@ -985,16 +1781,44 @@ input ProposalUpdateOneRequiredWithoutProposalArgumentsInput {
   connect: ProposalWhereUniqueInput
 }
 
-input ProposalUpdateWithoutProposalArgumentsDataInput {
+input ProposalUpdateOneWithoutPreimageInput {
+  create: ProposalCreateWithoutPreimageInput
+  update: ProposalUpdateWithoutPreimageDataInput
+  upsert: ProposalUpsertWithoutPreimageInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ProposalWhereUniqueInput
+}
+
+input ProposalUpdateWithoutPreimageDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   depositAmount: String
   hash: String
   metaDescription: String
   method: String
   proposal: String
+  proposalArguments: ProposalArgumentUpdateManyWithoutProposalInput
   proposalId: Int
   proposer: String
   section: String
+}
+
+input ProposalUpdateWithoutProposalArgumentsDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  preimage: PreimageUpdateOneRequiredWithoutProposalInput
+  proposal: String
+  proposalId: Int
+  proposer: String
+  section: String
+}
+
+input ProposalUpsertWithoutPreimageInput {
+  update: ProposalUpdateWithoutPreimageDataInput!
+  create: ProposalCreateWithoutPreimageInput!
 }
 
 input ProposalUpsertWithoutProposalArgumentsInput {
@@ -1068,6 +1892,7 @@ input ProposalWhereInput {
   method_not_starts_with: String
   method_ends_with: String
   method_not_ends_with: String
+  preimage: PreimageWhereInput
   proposal: String
   proposal_not: String
   proposal_in: [String!]
@@ -1141,6 +1966,15 @@ type Query {
   nomination(where: NominationWhereUniqueInput!): Nomination
   nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
   nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
+  preimage(where: PreimageWhereUniqueInput!): Preimage
+  preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
+  preimagesConnection(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageConnection!
+  preimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument]!
+  preimageArgumentsConnection(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageArgumentConnection!
+  preimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  preimageStatuses(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus]!
+  preimageStatusesConnection(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageStatusConnection!
   proposal(where: ProposalWhereUniqueInput!): Proposal
   proposals(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Proposal]!
   proposalsConnection(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalConnection!
@@ -1628,6 +2462,9 @@ type Subscription {
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
   era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
+  preimage(where: PreimageSubscriptionWhereInput): PreimageSubscriptionPayload
+  preimageArgument(where: PreimageArgumentSubscriptionWhereInput): PreimageArgumentSubscriptionPayload
+  preimageStatus(where: PreimageStatusSubscriptionWhereInput): PreimageStatusSubscriptionPayload
   proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
   proposalArgument(where: ProposalArgumentSubscriptionWhereInput): ProposalArgumentSubscriptionPayload
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload

@@ -73,7 +73,7 @@ async function incrementor(
       const result = await task.read(blockHash, api);
 
       try {
-        // l.warn(`Writing: ${JSON.stringify(result)}`);
+        l.warn(`Writing: ${JSON.stringify(result)}`);
         await task.write(blockNumber, result);
       } catch (e) {
         l.error(e);
