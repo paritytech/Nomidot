@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "description": "Extract, Transform, Load Kusama/Polkadot history into a PostgreSQL DB",
   "engines": {
-    "node": "v13.6.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "lib"
