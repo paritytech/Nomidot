@@ -68,11 +68,6 @@ const createPreimage: Task<NomidotPreimage[]> = {
           author: preimageArgumentsRaw.AccountId,
         };
 
-        console.log(`method: ${event.method}, section: ${event.section}`);
-        console.log(
-          `PreimageEventArguments: ${JSON.stringify(preimageArguments)}`
-        );
-
         const preimageRaw = await api.query.democracy.preimages(
           preimageArguments.hash
         );
@@ -146,11 +141,9 @@ const createPreimage: Task<NomidotPreimage[]> = {
           status,
         } = prop;
 
-        if (!h) return;
-
         const proposals = await prisma.proposals({
-          where: { preimage: { hash: h.toString() } },
-          orderBy: 'id_DESC',
+          where: { preimageHash: h.toString() },
+          orderBy: 'proposalId_DESC',
         });
 
         const p = proposals[0];

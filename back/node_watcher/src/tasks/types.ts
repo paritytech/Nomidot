@@ -12,7 +12,6 @@ import {
   Hash,
   Index,
   Moment,
-  Proposal,
   SessionIndex,
   ValidatorPrefs,
 } from '@polkadot/types/interfaces';
@@ -75,19 +74,23 @@ export type Nomidot =
 
 export type NomidotTask = Task<Nomidot>;
 
-export interface NomidotProposal {
-  depositAmount: Balance;
-  hash: Hash;
-  metaDescription: string;
-  method: string;
-  proposal: Proposal;
-  proposalArguments: NomidotProposalArgument[];
-  proposalId: number;
-  proposer: AccountId;
-  section: string;
+export interface NomidotProposal extends NomidotProposalEvent {
+  author: AccountId;
+  preimageHash: Hash;
+  status: ProposalStatus;
 }
 
-export interface NomidotProposalArgument {
+export interface NomidotProposalEvent {
+  depositAmount: Balance;
+  proposalId: number;
+}
+
+export interface NomidotProposalRawEvent {
+  PropIndex?: number;
+  Balance?: Balance;
+}
+
+export interface NomidotArgument {
   name: string;
   value: string;
 }
@@ -98,8 +101,13 @@ export enum PreimageStatus {
   USED = 'Used',
 }
 
+export enum ProposalStatus {
+  PROPOSED = 'Proposed',
+  TABLED = 'Tabled',
+}
+
 export interface NomidotPreimage extends NomidotPreimageEvent {
-  preImageArguments: NomidotProposalArgument[];
+  preImageArguments: NomidotArgument[];
   metaDescription: string;
   method: string;
   section: string;

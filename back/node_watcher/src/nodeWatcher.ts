@@ -8,8 +8,8 @@ import { logger } from '@polkadot/util';
 
 import { NomidotTask } from './tasks/types';
 
-// const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
-const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
+const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
+// const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
 
 const l = logger('node-watcher');
 
@@ -34,7 +34,7 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 0;
+  let blockIndex = 92825;
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 

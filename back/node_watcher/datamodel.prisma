@@ -67,24 +67,19 @@ type Stake {
 
 type Proposal {
   id: Int! @id(strategy: SEQUENCE) @sequence(name: "PROPOSAL_SEQUENCE" initialValue:1 allocationSize:1)
-  blockNumber: BlockNumber! @relation(name: "ProposalAtBlockNumber", link: INLINE)
+  author: String!
   depositAmount: String!
-  hash: String!
-  metaDescription: String!
-  method: String!
-  preimage: Preimage! @relation(name: "PreimageForProposal")
-  proposal: String!
-  proposalArguments: [ProposalArgument]! @relation(name: "ArgumentForProposal")
+  preimage: Preimage @relation(name: "PreimageForProposal")
+  preimageHash: String!
   proposalId: Int! @unique
-  proposer: String!
-  section: String!
+  proposalStatus: ProposalStatus! @relation(name: "ProposalStatusFromProposal")
 }
 
-type ProposalArgument {
+type ProposalStatus {
   id: ID! @id
-  name: String!
-  proposal: Proposal! @relation(name: "ArgumentForProposal", link: INLINE)
-  value: String!
+  blockNumber: BlockNumber! @relation(name: "ProposalStatusAtBlockNumber", link: INLINE)
+  proposal: Proposal! @relation(name: "ProposalStatusFromProposal", link: INLINE)
+  status: String!
 }
 
 type Preimage {
@@ -96,14 +91,14 @@ type Preimage {
   method: String!
   proposal: Proposal @relation(name: "PreimageForProposal", link: INLINE)
   preimageArguments: [PreimageArgument]! @relation(name: "ArgumentForPreimage")
-  preimageStatus: [PreimageStatus]! @relation(name: "PreimagStatusFromPreimage")
+  preimageStatus: [PreimageStatus]! @relation(name: "PreimageStatusFromPreimage")
   section: String!
 }
 
 type PreimageStatus {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "PreimagStatusAtBlockNumber", link: INLINE)
-  preimage: Preimage! @relation(name: "PreimagStatusFromPreimage", link: INLINE)
+  preimage: Preimage! @relation(name: "PreimageStatusFromPreimage", link: INLINE)
   status: String!
 }
 
