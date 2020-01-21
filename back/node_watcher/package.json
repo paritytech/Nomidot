@@ -4,6 +4,9 @@
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Apache-2.0",
   "description": "Extract, Transform, Load Kusama/Polkadot history into a PostgreSQL DB",
+  "engines": {
+    "node": "v13.6.0"
+  },
   "files": [
     "lib"
   ],
