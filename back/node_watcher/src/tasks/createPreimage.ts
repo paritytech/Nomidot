@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType, GenericCall } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
@@ -27,8 +27,9 @@ const createPreimage: Task<NomidotPreimage[]> = {
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotPreimage[]> => {
+    console.log('--- 1');
     const events = await api.query.system.events.at(blockHash);
-
+    console.log('--- 2');
     const preimageEvents = events.filter(
       ({ event: { method, section } }) =>
         section === 'democracy' && method === 'PreimageNoted'
@@ -68,7 +69,8 @@ const createPreimage: Task<NomidotPreimage[]> = {
           author: preimageArgumentsRaw.AccountId,
         };
 
-        const preimageRaw = await api.query.democracy.preimages(
+        const preimageRaw = await api.query.democracy.preimages.at(
+          blockHash,
           preimageArguments.hash
         );
         const preimage = preimageRaw.unwrapOr(null);
@@ -80,18 +82,9 @@ const createPreimage: Task<NomidotPreimage[]> = {
           return null;
         }
 
-        const proposal = createType(
-          api.registry,
-          'Proposal',
-          preimage[0].toU8a(true)
-        );
+        console.log('----blaa');
 
-        if (!proposal) {
-          l.log(
-            `No proposal found associated to the pre-image hash ${preimageArguments.hash}`
-          );
-          return null;
-        }
+        const proposal = api.createType('Proposal', preimage[0].toU8a(true));
 
         const { meta, method, section } = api.registry.findMetaCall(
           proposal.callIndex

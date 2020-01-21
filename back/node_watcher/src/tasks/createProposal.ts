@@ -69,16 +69,16 @@ const createProposal: Task<NomidotProposal[]> = {
 
         const publicProps = await api.query.democracy.publicProps.at(blockHash);
 
-        const [PropIndex, Hash, AccountId] = publicProps.filter(
+        const [, preimageHash, author] = publicProps.filter(
           ([idNumber]: [PropIndex, Hash, AccountId]) =>
             idNumber.toNumber() === proposalArguments.proposalId
         )[0];
 
         const result: NomidotProposal = {
-          author: AccountId,
+          author,
           depositAmount: proposalArguments.depositAmount,
           proposalId: proposalArguments.proposalId,
-          preimageHash: Hash,
+          preimageHash,
           status: ProposalStatus.PROPOSED,
         };
 

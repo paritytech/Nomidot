@@ -3,23 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import createBlockNumber from './createBlockNumber';
-// import createEra from './createEra';
+import createEra from './createEra';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
-// import createSession from './createSession';
-// import createSlashing from './createSlashing';
-// import createTotalIssuance from './createTotalIssuance';
-// import createValidator from './createValidator';
+import createSession from './createSession';
+import createSlashing from './createSlashing';
+import createTotalIssuance from './createTotalIssuance';
+import createValidator from './createValidator';
 import { NomidotTask } from './types';
 
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
-  // createSession,
-  // createEra,
-  // createSlashing,
-  // createTotalIssuance,
-  // createValidator,
-  createProposal,
+  createSession,
+  createEra,
+  createSlashing,
+  createTotalIssuance,
+  createValidator,
   createPreimage,
+  createProposal,
 ];
