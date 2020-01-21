@@ -529,22 +529,6 @@ export type EraOrderByInput =
   | "totalPoints_ASC"
   | "totalPoints_DESC";
 
-export type SessionOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "index_ASC"
-  | "index_DESC";
-
-export type ValidatorOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "controller_ASC"
-  | "controller_DESC"
-  | "stash_ASC"
-  | "stash_DESC"
-  | "preferences_ASC"
-  | "preferences_DESC";
-
 export type NominationOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -593,13 +577,11 @@ export type RewardOrderByInput =
   | "amount_ASC"
   | "amount_DESC";
 
-export type TotalIssuanceOrderByInput =
+export type SessionOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "amount_ASC"
-  | "amount_DESC";
-
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+  | "index_ASC"
+  | "index_DESC";
 
 export type SlashingOrderByInput =
   | "id_ASC"
@@ -615,826 +597,29 @@ export type StakeOrderByInput =
   | "totalStake_ASC"
   | "totalStake_DESC";
 
-export interface EraCreateInput {
-  id?: Maybe<ID_Input>;
-  index: Int;
-  eraStartSessionIndex: SessionCreateOneInput;
-  totalPoints: String;
-  individualPoints?: Maybe<EraCreateindividualPointsInput>;
-}
+export type TotalIssuanceOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "amount_ASC"
+  | "amount_DESC";
+
+export type ValidatorOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "controller_ASC"
+  | "controller_DESC"
+  | "stash_ASC"
+  | "stash_DESC"
+  | "preferences_ASC"
+  | "preferences_DESC";
+
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type BlockNumberWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   number?: Maybe<Int>;
   hash?: Maybe<String>;
 }>;
-
-export interface RewardCreateInput {
-  id?: Maybe<ID_Input>;
-  amount: String;
-  authoredBlock: BlockNumberCreateOneInput;
-  recipients?: Maybe<RewardCreaterecipientsInput>;
-}
-
-export interface NominationUpdateManyMutationInput {
-  validatorController?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
-  bonded?: Maybe<String>;
-}
-
-export interface ProposalArgumentUpdateManyMutationInput {
-  name?: Maybe<String>;
-  value?: Maybe<String>;
-}
-
-export interface SessionUpdateDataInput {
-  index?: Maybe<Int>;
-  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
-}
-
-export type StakeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface SessionWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  index?: Maybe<Int>;
-  index_not?: Maybe<Int>;
-  index_in?: Maybe<Int[] | Int>;
-  index_not_in?: Maybe<Int[] | Int>;
-  index_lt?: Maybe<Int>;
-  index_lte?: Maybe<Int>;
-  index_gt?: Maybe<Int>;
-  index_gte?: Maybe<Int>;
-  start?: Maybe<BlockNumberWhereInput>;
-  AND?: Maybe<SessionWhereInput[] | SessionWhereInput>;
-  OR?: Maybe<SessionWhereInput[] | SessionWhereInput>;
-  NOT?: Maybe<SessionWhereInput[] | SessionWhereInput>;
-}
-
-export interface ProposalUpsertWithoutProposalArgumentsInput {
-  update: ProposalUpdateWithoutProposalArgumentsDataInput;
-  create: ProposalCreateWithoutProposalArgumentsInput;
-}
-
-export interface ValidatorSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ValidatorWhereInput>;
-  AND?: Maybe<
-    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
-  >;
-}
-
-export interface StakeWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  blockNumber?: Maybe<BlockNumberWhereInput>;
-  totalStake?: Maybe<String>;
-  totalStake_not?: Maybe<String>;
-  totalStake_in?: Maybe<String[] | String>;
-  totalStake_not_in?: Maybe<String[] | String>;
-  totalStake_lt?: Maybe<String>;
-  totalStake_lte?: Maybe<String>;
-  totalStake_gt?: Maybe<String>;
-  totalStake_gte?: Maybe<String>;
-  totalStake_contains?: Maybe<String>;
-  totalStake_not_contains?: Maybe<String>;
-  totalStake_starts_with?: Maybe<String>;
-  totalStake_not_starts_with?: Maybe<String>;
-  totalStake_ends_with?: Maybe<String>;
-  totalStake_not_ends_with?: Maybe<String>;
-  AND?: Maybe<StakeWhereInput[] | StakeWhereInput>;
-  OR?: Maybe<StakeWhereInput[] | StakeWhereInput>;
-  NOT?: Maybe<StakeWhereInput[] | StakeWhereInput>;
-}
-
-export interface StakeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<StakeWhereInput>;
-  AND?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
-  OR?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
-  NOT?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
-}
-
-export interface ProposalUpdateWithoutProposalArgumentsDataInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  depositAmount?: Maybe<String>;
-  hash?: Maybe<String>;
-  metaDescription?: Maybe<String>;
-  method?: Maybe<String>;
-  proposal?: Maybe<String>;
-  proposalId?: Maybe<Int>;
-  proposer?: Maybe<String>;
-  section?: Maybe<String>;
-}
-
-export interface SlashingSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<SlashingWhereInput>;
-  AND?: Maybe<
-    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
-  >;
-  OR?: Maybe<SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput>;
-  NOT?: Maybe<
-    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
-  >;
-}
-
-export interface ProposalUpdateOneRequiredWithoutProposalArgumentsInput {
-  create?: Maybe<ProposalCreateWithoutProposalArgumentsInput>;
-  update?: Maybe<ProposalUpdateWithoutProposalArgumentsDataInput>;
-  upsert?: Maybe<ProposalUpsertWithoutProposalArgumentsInput>;
-  connect?: Maybe<ProposalWhereUniqueInput>;
-}
-
-export interface SessionSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<SessionWhereInput>;
-  AND?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
-  OR?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
-  NOT?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
-}
-
-export interface ProposalArgumentUpdateInput {
-  name?: Maybe<String>;
-  proposal?: Maybe<ProposalUpdateOneRequiredWithoutProposalArgumentsInput>;
-  value?: Maybe<String>;
-}
-
-export interface ProposalArgumentSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ProposalArgumentWhereInput>;
-  AND?: Maybe<
-    | ProposalArgumentSubscriptionWhereInput[]
-    | ProposalArgumentSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | ProposalArgumentSubscriptionWhereInput[]
-    | ProposalArgumentSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | ProposalArgumentSubscriptionWhereInput[]
-    | ProposalArgumentSubscriptionWhereInput
-  >;
-}
-
-export interface ProposalCreateWithoutProposalArgumentsInput {
-  blockNumber: BlockNumberCreateOneInput;
-  depositAmount: String;
-  hash: String;
-  metaDescription: String;
-  method: String;
-  proposal: String;
-  proposalId: Int;
-  proposer: String;
-  section: String;
-}
-
-export type ProposalWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
-  proposalId?: Maybe<Int>;
-}>;
-
-export type TotalIssuanceWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ProposalArgumentWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  proposal?: Maybe<ProposalWhereInput>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ProposalArgumentWhereInput[] | ProposalArgumentWhereInput>;
-  OR?: Maybe<ProposalArgumentWhereInput[] | ProposalArgumentWhereInput>;
-  NOT?: Maybe<ProposalArgumentWhereInput[] | ProposalArgumentWhereInput>;
-}
-
-export interface ProposalCreateOneWithoutProposalArgumentsInput {
-  create?: Maybe<ProposalCreateWithoutProposalArgumentsInput>;
-  connect?: Maybe<ProposalWhereUniqueInput>;
-}
-
-export interface EraSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<EraWhereInput>;
-  AND?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
-  OR?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
-  NOT?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
-}
-
-export interface TotalIssuanceWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  blockNumber?: Maybe<BlockNumberWhereInput>;
-  amount?: Maybe<String>;
-  amount_not?: Maybe<String>;
-  amount_in?: Maybe<String[] | String>;
-  amount_not_in?: Maybe<String[] | String>;
-  amount_lt?: Maybe<String>;
-  amount_lte?: Maybe<String>;
-  amount_gt?: Maybe<String>;
-  amount_gte?: Maybe<String>;
-  amount_contains?: Maybe<String>;
-  amount_not_contains?: Maybe<String>;
-  amount_starts_with?: Maybe<String>;
-  amount_not_starts_with?: Maybe<String>;
-  amount_ends_with?: Maybe<String>;
-  amount_not_ends_with?: Maybe<String>;
-  AND?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
-  OR?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
-  NOT?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
-}
-
-export interface ValidatorUpdateManyMutationInput {
-  controller?: Maybe<String>;
-  stash?: Maybe<String>;
-  preferences?: Maybe<String>;
-}
-
-export interface ProposalArgumentCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  proposal: ProposalCreateOneWithoutProposalArgumentsInput;
-  value: String;
-}
-
-export interface ValidatorCreateInput {
-  id?: Maybe<ID_Input>;
-  session: SessionCreateOneInput;
-  controller: String;
-  stash: String;
-  preferences: String;
-}
-
-export interface ProposalUpdateManyMutationInput {
-  depositAmount?: Maybe<String>;
-  hash?: Maybe<String>;
-  metaDescription?: Maybe<String>;
-  method?: Maybe<String>;
-  proposal?: Maybe<String>;
-  proposalId?: Maybe<Int>;
-  proposer?: Maybe<String>;
-  section?: Maybe<String>;
-}
-
-export type ProposalArgumentWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ProposalArgumentUpdateManyDataInput {
-  name?: Maybe<String>;
-  value?: Maybe<String>;
-}
-
-export interface TotalIssuanceCreateInput {
-  id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
-  amount: String;
-}
-
-export interface ProposalArgumentUpdateManyWithWhereNestedInput {
-  where: ProposalArgumentScalarWhereInput;
-  data: ProposalArgumentUpdateManyDataInput;
-}
-
-export type RewardWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type ValidatorWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface RewardWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  amount?: Maybe<String>;
-  amount_not?: Maybe<String>;
-  amount_in?: Maybe<String[] | String>;
-  amount_not_in?: Maybe<String[] | String>;
-  amount_lt?: Maybe<String>;
-  amount_lte?: Maybe<String>;
-  amount_gt?: Maybe<String>;
-  amount_gte?: Maybe<String>;
-  amount_contains?: Maybe<String>;
-  amount_not_contains?: Maybe<String>;
-  amount_starts_with?: Maybe<String>;
-  amount_not_starts_with?: Maybe<String>;
-  amount_ends_with?: Maybe<String>;
-  amount_not_ends_with?: Maybe<String>;
-  authoredBlock?: Maybe<BlockNumberWhereInput>;
-  AND?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-  OR?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-  NOT?: Maybe<RewardWhereInput[] | RewardWhereInput>;
-}
-
-export interface ProposalArgumentScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  AND?: Maybe<
-    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
-  >;
-  OR?: Maybe<
-    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
-  >;
-  NOT?: Maybe<
-    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
-  >;
-}
-
-export interface SlashingUpdateManyMutationInput {
-  who?: Maybe<String>;
-  amount?: Maybe<String>;
-}
-
-export interface ValidatorWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  session?: Maybe<SessionWhereInput>;
-  controller?: Maybe<String>;
-  controller_not?: Maybe<String>;
-  controller_in?: Maybe<String[] | String>;
-  controller_not_in?: Maybe<String[] | String>;
-  controller_lt?: Maybe<String>;
-  controller_lte?: Maybe<String>;
-  controller_gt?: Maybe<String>;
-  controller_gte?: Maybe<String>;
-  controller_contains?: Maybe<String>;
-  controller_not_contains?: Maybe<String>;
-  controller_starts_with?: Maybe<String>;
-  controller_not_starts_with?: Maybe<String>;
-  controller_ends_with?: Maybe<String>;
-  controller_not_ends_with?: Maybe<String>;
-  stash?: Maybe<String>;
-  stash_not?: Maybe<String>;
-  stash_in?: Maybe<String[] | String>;
-  stash_not_in?: Maybe<String[] | String>;
-  stash_lt?: Maybe<String>;
-  stash_lte?: Maybe<String>;
-  stash_gt?: Maybe<String>;
-  stash_gte?: Maybe<String>;
-  stash_contains?: Maybe<String>;
-  stash_not_contains?: Maybe<String>;
-  stash_starts_with?: Maybe<String>;
-  stash_not_starts_with?: Maybe<String>;
-  stash_ends_with?: Maybe<String>;
-  stash_not_ends_with?: Maybe<String>;
-  preferences?: Maybe<String>;
-  preferences_not?: Maybe<String>;
-  preferences_in?: Maybe<String[] | String>;
-  preferences_not_in?: Maybe<String[] | String>;
-  preferences_lt?: Maybe<String>;
-  preferences_lte?: Maybe<String>;
-  preferences_gt?: Maybe<String>;
-  preferences_gte?: Maybe<String>;
-  preferences_contains?: Maybe<String>;
-  preferences_not_contains?: Maybe<String>;
-  preferences_starts_with?: Maybe<String>;
-  preferences_not_starts_with?: Maybe<String>;
-  preferences_ends_with?: Maybe<String>;
-  preferences_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
-  OR?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
-  NOT?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
-}
-
-export interface SlashingCreateInput {
-  id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
-  who: String;
-  amount: String;
-}
-
-export interface ProposalArgumentUpsertWithWhereUniqueWithoutProposalInput {
-  where: ProposalArgumentWhereUniqueInput;
-  update: ProposalArgumentUpdateWithoutProposalDataInput;
-  create: ProposalArgumentCreateWithoutProposalInput;
-}
-
-export interface SessionUpdateManyMutationInput {
-  index?: Maybe<Int>;
-}
-
-export interface ProposalArgumentUpdateWithoutProposalDataInput {
-  name?: Maybe<String>;
-  value?: Maybe<String>;
-}
-
-export interface RewardUpdateManyMutationInput {
-  amount?: Maybe<String>;
-  recipients?: Maybe<RewardUpdaterecipientsInput>;
-}
-
-export interface ProposalArgumentUpdateWithWhereUniqueWithoutProposalInput {
-  where: ProposalArgumentWhereUniqueInput;
-  data: ProposalArgumentUpdateWithoutProposalDataInput;
-}
-
-export type SlashingWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  who?: Maybe<String>;
-}>;
-
-export interface ProposalArgumentUpdateManyWithoutProposalInput {
-  create?: Maybe<
-    | ProposalArgumentCreateWithoutProposalInput[]
-    | ProposalArgumentCreateWithoutProposalInput
-  >;
-  delete?: Maybe<
-    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
-  >;
-  connect?: Maybe<
-    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
-  >;
-  set?: Maybe<
-    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
-  >;
-  disconnect?: Maybe<
-    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
-  >;
-  update?: Maybe<
-    | ProposalArgumentUpdateWithWhereUniqueWithoutProposalInput[]
-    | ProposalArgumentUpdateWithWhereUniqueWithoutProposalInput
-  >;
-  upsert?: Maybe<
-    | ProposalArgumentUpsertWithWhereUniqueWithoutProposalInput[]
-    | ProposalArgumentUpsertWithWhereUniqueWithoutProposalInput
-  >;
-  deleteMany?: Maybe<
-    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ProposalArgumentUpdateManyWithWhereNestedInput[]
-    | ProposalArgumentUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface SlashingWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  blockNumber?: Maybe<BlockNumberWhereInput>;
-  who?: Maybe<String>;
-  who_not?: Maybe<String>;
-  who_in?: Maybe<String[] | String>;
-  who_not_in?: Maybe<String[] | String>;
-  who_lt?: Maybe<String>;
-  who_lte?: Maybe<String>;
-  who_gt?: Maybe<String>;
-  who_gte?: Maybe<String>;
-  who_contains?: Maybe<String>;
-  who_not_contains?: Maybe<String>;
-  who_starts_with?: Maybe<String>;
-  who_not_starts_with?: Maybe<String>;
-  who_ends_with?: Maybe<String>;
-  who_not_ends_with?: Maybe<String>;
-  amount?: Maybe<String>;
-  amount_not?: Maybe<String>;
-  amount_in?: Maybe<String[] | String>;
-  amount_not_in?: Maybe<String[] | String>;
-  amount_lt?: Maybe<String>;
-  amount_lte?: Maybe<String>;
-  amount_gt?: Maybe<String>;
-  amount_gte?: Maybe<String>;
-  amount_contains?: Maybe<String>;
-  amount_not_contains?: Maybe<String>;
-  amount_starts_with?: Maybe<String>;
-  amount_not_starts_with?: Maybe<String>;
-  amount_ends_with?: Maybe<String>;
-  amount_not_ends_with?: Maybe<String>;
-  AND?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
-  OR?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
-  NOT?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
-}
-
-export interface RewardCreaterecipientsInput {
-  set?: Maybe<String[] | String>;
-}
-
-export type EraWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  index?: Maybe<Int>;
-}>;
-
-export interface BlockNumberCreateInput {
-  id?: Maybe<ID_Input>;
-  number: Int;
-  authoredBy: String;
-  startDateTime: DateTimeInput;
-  hash: String;
-}
-
-export type NominationWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface BlockNumberUpdateInput {
-  number?: Maybe<Int>;
-  authoredBy?: Maybe<String>;
-  startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
-}
-
-export interface RewardSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<RewardWhereInput>;
-  AND?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
-  OR?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
-  NOT?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
-}
-
-export interface BlockNumberUpdateManyMutationInput {
-  number?: Maybe<Int>;
-  authoredBy?: Maybe<String>;
-  startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
-}
-
-export interface NominationSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<NominationWhereInput>;
-  AND?: Maybe<
-    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
-  >;
-}
-
-export interface ProposalUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  depositAmount?: Maybe<String>;
-  hash?: Maybe<String>;
-  metaDescription?: Maybe<String>;
-  method?: Maybe<String>;
-  proposal?: Maybe<String>;
-  proposalArguments?: Maybe<ProposalArgumentUpdateManyWithoutProposalInput>;
-  proposalId?: Maybe<Int>;
-  proposer?: Maybe<String>;
-  section?: Maybe<String>;
-}
-
-export interface BlockNumberSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<BlockNumberWhereInput>;
-  AND?: Maybe<
-    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
-  >;
-}
-
-export interface ProposalArgumentCreateWithoutProposalInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  value: String;
-}
-
-export interface TotalIssuanceUpdateManyMutationInput {
-  amount?: Maybe<String>;
-}
-
-export interface ProposalArgumentCreateManyWithoutProposalInput {
-  create?: Maybe<
-    | ProposalArgumentCreateWithoutProposalInput[]
-    | ProposalArgumentCreateWithoutProposalInput
-  >;
-  connect?: Maybe<
-    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
-  >;
-}
-
-export interface StakeUpdateManyMutationInput {
-  totalStake?: Maybe<String>;
-}
-
-export interface SessionCreateOneInput {
-  create?: Maybe<SessionCreateInput>;
-  connect?: Maybe<SessionWhereUniqueInput>;
-}
-
-export interface StakeCreateInput {
-  id?: Maybe<ID_Input>;
-  blockNumber: BlockNumberCreateOneInput;
-  totalStake: String;
-}
-
-export interface SessionCreateInput {
-  id?: Maybe<ID_Input>;
-  index: Int;
-  start: BlockNumberCreateOneInput;
-}
-
-export type SessionWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  index?: Maybe<Int>;
-}>;
-
-export interface BlockNumberCreateOneInput {
-  create?: Maybe<BlockNumberCreateInput>;
-  connect?: Maybe<BlockNumberWhereUniqueInput>;
-}
-
-export interface RewardUpdaterecipientsInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface EraCreateindividualPointsInput {
-  set?: Maybe<String[] | String>;
-}
 
 export interface BlockNumberWhereInput {
   id?: Maybe<ID_Input>;
@@ -1500,100 +685,10 @@ export interface BlockNumberWhereInput {
   NOT?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
 }
 
-export interface EraUpdateInput {
+export type EraWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
   index?: Maybe<Int>;
-  eraStartSessionIndex?: Maybe<SessionUpdateOneRequiredInput>;
-  totalPoints?: Maybe<String>;
-  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
-}
-
-export interface TotalIssuanceSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<TotalIssuanceWhereInput>;
-  AND?: Maybe<
-    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
-  >;
-}
-
-export interface SessionUpdateOneRequiredInput {
-  create?: Maybe<SessionCreateInput>;
-  update?: Maybe<SessionUpdateDataInput>;
-  upsert?: Maybe<SessionUpsertNestedInput>;
-  connect?: Maybe<SessionWhereUniqueInput>;
-}
-
-export interface ProposalSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ProposalWhereInput>;
-  AND?: Maybe<
-    ProposalSubscriptionWhereInput[] | ProposalSubscriptionWhereInput
-  >;
-  OR?: Maybe<ProposalSubscriptionWhereInput[] | ProposalSubscriptionWhereInput>;
-  NOT?: Maybe<
-    ProposalSubscriptionWhereInput[] | ProposalSubscriptionWhereInput
-  >;
-}
-
-export interface ProposalCreateInput {
-  blockNumber: BlockNumberCreateOneInput;
-  depositAmount: String;
-  hash: String;
-  metaDescription: String;
-  method: String;
-  proposal: String;
-  proposalArguments?: Maybe<ProposalArgumentCreateManyWithoutProposalInput>;
-  proposalId: Int;
-  proposer: String;
-  section: String;
-}
-
-export interface ValidatorUpdateInput {
-  session?: Maybe<SessionUpdateOneRequiredInput>;
-  controller?: Maybe<String>;
-  stash?: Maybe<String>;
-  preferences?: Maybe<String>;
-}
-
-export interface BlockNumberUpdateOneRequiredInput {
-  create?: Maybe<BlockNumberCreateInput>;
-  update?: Maybe<BlockNumberUpdateDataInput>;
-  upsert?: Maybe<BlockNumberUpsertNestedInput>;
-  connect?: Maybe<BlockNumberWhereUniqueInput>;
-}
-
-export interface StakeUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  totalStake?: Maybe<String>;
-}
-
-export interface BlockNumberUpdateDataInput {
-  number?: Maybe<Int>;
-  authoredBy?: Maybe<String>;
-  startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
-}
-
-export interface SessionUpdateInput {
-  index?: Maybe<Int>;
-  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
-}
-
-export interface BlockNumberUpsertNestedInput {
-  update: BlockNumberUpdateDataInput;
-  create: BlockNumberCreateInput;
-}
+}>;
 
 export interface EraWhereInput {
   id?: Maybe<ID_Input>;
@@ -1638,9 +733,182 @@ export interface EraWhereInput {
   NOT?: Maybe<EraWhereInput[] | EraWhereInput>;
 }
 
-export interface SessionUpsertNestedInput {
-  update: SessionUpdateDataInput;
-  create: SessionCreateInput;
+export interface SessionWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  index?: Maybe<Int>;
+  index_not?: Maybe<Int>;
+  index_in?: Maybe<Int[] | Int>;
+  index_not_in?: Maybe<Int[] | Int>;
+  index_lt?: Maybe<Int>;
+  index_lte?: Maybe<Int>;
+  index_gt?: Maybe<Int>;
+  index_gte?: Maybe<Int>;
+  start?: Maybe<BlockNumberWhereInput>;
+  AND?: Maybe<SessionWhereInput[] | SessionWhereInput>;
+  OR?: Maybe<SessionWhereInput[] | SessionWhereInput>;
+  NOT?: Maybe<SessionWhereInput[] | SessionWhereInput>;
+}
+
+export type NominationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface NominationWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  validatorController?: Maybe<String>;
+  validatorController_not?: Maybe<String>;
+  validatorController_in?: Maybe<String[] | String>;
+  validatorController_not_in?: Maybe<String[] | String>;
+  validatorController_lt?: Maybe<String>;
+  validatorController_lte?: Maybe<String>;
+  validatorController_gt?: Maybe<String>;
+  validatorController_gte?: Maybe<String>;
+  validatorController_contains?: Maybe<String>;
+  validatorController_not_contains?: Maybe<String>;
+  validatorController_starts_with?: Maybe<String>;
+  validatorController_not_starts_with?: Maybe<String>;
+  validatorController_ends_with?: Maybe<String>;
+  validatorController_not_ends_with?: Maybe<String>;
+  validatorStash?: Maybe<String>;
+  validatorStash_not?: Maybe<String>;
+  validatorStash_in?: Maybe<String[] | String>;
+  validatorStash_not_in?: Maybe<String[] | String>;
+  validatorStash_lt?: Maybe<String>;
+  validatorStash_lte?: Maybe<String>;
+  validatorStash_gt?: Maybe<String>;
+  validatorStash_gte?: Maybe<String>;
+  validatorStash_contains?: Maybe<String>;
+  validatorStash_not_contains?: Maybe<String>;
+  validatorStash_starts_with?: Maybe<String>;
+  validatorStash_not_starts_with?: Maybe<String>;
+  validatorStash_ends_with?: Maybe<String>;
+  validatorStash_not_ends_with?: Maybe<String>;
+  nominatorController?: Maybe<String>;
+  nominatorController_not?: Maybe<String>;
+  nominatorController_in?: Maybe<String[] | String>;
+  nominatorController_not_in?: Maybe<String[] | String>;
+  nominatorController_lt?: Maybe<String>;
+  nominatorController_lte?: Maybe<String>;
+  nominatorController_gt?: Maybe<String>;
+  nominatorController_gte?: Maybe<String>;
+  nominatorController_contains?: Maybe<String>;
+  nominatorController_not_contains?: Maybe<String>;
+  nominatorController_starts_with?: Maybe<String>;
+  nominatorController_not_starts_with?: Maybe<String>;
+  nominatorController_ends_with?: Maybe<String>;
+  nominatorController_not_ends_with?: Maybe<String>;
+  nominatorStash?: Maybe<String>;
+  nominatorStash_not?: Maybe<String>;
+  nominatorStash_in?: Maybe<String[] | String>;
+  nominatorStash_not_in?: Maybe<String[] | String>;
+  nominatorStash_lt?: Maybe<String>;
+  nominatorStash_lte?: Maybe<String>;
+  nominatorStash_gt?: Maybe<String>;
+  nominatorStash_gte?: Maybe<String>;
+  nominatorStash_contains?: Maybe<String>;
+  nominatorStash_not_contains?: Maybe<String>;
+  nominatorStash_starts_with?: Maybe<String>;
+  nominatorStash_not_starts_with?: Maybe<String>;
+  nominatorStash_ends_with?: Maybe<String>;
+  nominatorStash_not_ends_with?: Maybe<String>;
+  session?: Maybe<SessionWhereInput>;
+  bonded?: Maybe<String>;
+  bonded_not?: Maybe<String>;
+  bonded_in?: Maybe<String[] | String>;
+  bonded_not_in?: Maybe<String[] | String>;
+  bonded_lt?: Maybe<String>;
+  bonded_lte?: Maybe<String>;
+  bonded_gt?: Maybe<String>;
+  bonded_gte?: Maybe<String>;
+  bonded_contains?: Maybe<String>;
+  bonded_not_contains?: Maybe<String>;
+  bonded_starts_with?: Maybe<String>;
+  bonded_not_starts_with?: Maybe<String>;
+  bonded_ends_with?: Maybe<String>;
+  bonded_not_ends_with?: Maybe<String>;
+  AND?: Maybe<NominationWhereInput[] | NominationWhereInput>;
+  OR?: Maybe<NominationWhereInput[] | NominationWhereInput>;
+  NOT?: Maybe<NominationWhereInput[] | NominationWhereInput>;
+}
+
+export type ProposalWhereUniqueInput = AtLeastOne<{
+  id: Maybe<Int>;
+  proposalId?: Maybe<Int>;
+}>;
+
+export interface ProposalArgumentWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  proposal?: Maybe<ProposalWhereInput>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ProposalArgumentWhereInput[] | ProposalArgumentWhereInput>;
+  OR?: Maybe<ProposalArgumentWhereInput[] | ProposalArgumentWhereInput>;
+  NOT?: Maybe<ProposalArgumentWhereInput[] | ProposalArgumentWhereInput>;
 }
 
 export interface ProposalWhereInput {
@@ -1767,41 +1035,15 @@ export interface ProposalWhereInput {
   NOT?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
 }
 
-export interface NominationUpdateInput {
-  validatorController?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
-  session?: Maybe<SessionUpdateOneRequiredInput>;
-  bonded?: Maybe<String>;
-}
+export type ProposalArgumentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface NominationCreateInput {
-  id?: Maybe<ID_Input>;
-  validatorController: String;
-  validatorStash: String;
-  nominatorController: String;
-  nominatorStash: String;
-  session: SessionCreateOneInput;
-  bonded: String;
-}
+export type RewardWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface EraUpdateManyMutationInput {
-  index?: Maybe<Int>;
-  totalPoints?: Maybe<String>;
-  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
-}
-
-export interface EraUpdateindividualPointsInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface TotalIssuanceUpdateInput {
-  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  amount?: Maybe<String>;
-}
-
-export interface NominationWhereInput {
+export interface RewardWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1816,80 +1058,595 @@ export interface NominationWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  validatorController?: Maybe<String>;
-  validatorController_not?: Maybe<String>;
-  validatorController_in?: Maybe<String[] | String>;
-  validatorController_not_in?: Maybe<String[] | String>;
-  validatorController_lt?: Maybe<String>;
-  validatorController_lte?: Maybe<String>;
-  validatorController_gt?: Maybe<String>;
-  validatorController_gte?: Maybe<String>;
-  validatorController_contains?: Maybe<String>;
-  validatorController_not_contains?: Maybe<String>;
-  validatorController_starts_with?: Maybe<String>;
-  validatorController_not_starts_with?: Maybe<String>;
-  validatorController_ends_with?: Maybe<String>;
-  validatorController_not_ends_with?: Maybe<String>;
-  validatorStash?: Maybe<String>;
-  validatorStash_not?: Maybe<String>;
-  validatorStash_in?: Maybe<String[] | String>;
-  validatorStash_not_in?: Maybe<String[] | String>;
-  validatorStash_lt?: Maybe<String>;
-  validatorStash_lte?: Maybe<String>;
-  validatorStash_gt?: Maybe<String>;
-  validatorStash_gte?: Maybe<String>;
-  validatorStash_contains?: Maybe<String>;
-  validatorStash_not_contains?: Maybe<String>;
-  validatorStash_starts_with?: Maybe<String>;
-  validatorStash_not_starts_with?: Maybe<String>;
-  validatorStash_ends_with?: Maybe<String>;
-  validatorStash_not_ends_with?: Maybe<String>;
-  nominatorController?: Maybe<String>;
-  nominatorController_not?: Maybe<String>;
-  nominatorController_in?: Maybe<String[] | String>;
-  nominatorController_not_in?: Maybe<String[] | String>;
-  nominatorController_lt?: Maybe<String>;
-  nominatorController_lte?: Maybe<String>;
-  nominatorController_gt?: Maybe<String>;
-  nominatorController_gte?: Maybe<String>;
-  nominatorController_contains?: Maybe<String>;
-  nominatorController_not_contains?: Maybe<String>;
-  nominatorController_starts_with?: Maybe<String>;
-  nominatorController_not_starts_with?: Maybe<String>;
-  nominatorController_ends_with?: Maybe<String>;
-  nominatorController_not_ends_with?: Maybe<String>;
-  nominatorStash?: Maybe<String>;
-  nominatorStash_not?: Maybe<String>;
-  nominatorStash_in?: Maybe<String[] | String>;
-  nominatorStash_not_in?: Maybe<String[] | String>;
-  nominatorStash_lt?: Maybe<String>;
-  nominatorStash_lte?: Maybe<String>;
-  nominatorStash_gt?: Maybe<String>;
-  nominatorStash_gte?: Maybe<String>;
-  nominatorStash_contains?: Maybe<String>;
-  nominatorStash_not_contains?: Maybe<String>;
-  nominatorStash_starts_with?: Maybe<String>;
-  nominatorStash_not_starts_with?: Maybe<String>;
-  nominatorStash_ends_with?: Maybe<String>;
-  nominatorStash_not_ends_with?: Maybe<String>;
+  amount?: Maybe<String>;
+  amount_not?: Maybe<String>;
+  amount_in?: Maybe<String[] | String>;
+  amount_not_in?: Maybe<String[] | String>;
+  amount_lt?: Maybe<String>;
+  amount_lte?: Maybe<String>;
+  amount_gt?: Maybe<String>;
+  amount_gte?: Maybe<String>;
+  amount_contains?: Maybe<String>;
+  amount_not_contains?: Maybe<String>;
+  amount_starts_with?: Maybe<String>;
+  amount_not_starts_with?: Maybe<String>;
+  amount_ends_with?: Maybe<String>;
+  amount_not_ends_with?: Maybe<String>;
+  authoredBlock?: Maybe<BlockNumberWhereInput>;
+  AND?: Maybe<RewardWhereInput[] | RewardWhereInput>;
+  OR?: Maybe<RewardWhereInput[] | RewardWhereInput>;
+  NOT?: Maybe<RewardWhereInput[] | RewardWhereInput>;
+}
+
+export type SessionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  index?: Maybe<Int>;
+}>;
+
+export type SlashingWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  who?: Maybe<String>;
+}>;
+
+export interface SlashingWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  who?: Maybe<String>;
+  who_not?: Maybe<String>;
+  who_in?: Maybe<String[] | String>;
+  who_not_in?: Maybe<String[] | String>;
+  who_lt?: Maybe<String>;
+  who_lte?: Maybe<String>;
+  who_gt?: Maybe<String>;
+  who_gte?: Maybe<String>;
+  who_contains?: Maybe<String>;
+  who_not_contains?: Maybe<String>;
+  who_starts_with?: Maybe<String>;
+  who_not_starts_with?: Maybe<String>;
+  who_ends_with?: Maybe<String>;
+  who_not_ends_with?: Maybe<String>;
+  amount?: Maybe<String>;
+  amount_not?: Maybe<String>;
+  amount_in?: Maybe<String[] | String>;
+  amount_not_in?: Maybe<String[] | String>;
+  amount_lt?: Maybe<String>;
+  amount_lte?: Maybe<String>;
+  amount_gt?: Maybe<String>;
+  amount_gte?: Maybe<String>;
+  amount_contains?: Maybe<String>;
+  amount_not_contains?: Maybe<String>;
+  amount_starts_with?: Maybe<String>;
+  amount_not_starts_with?: Maybe<String>;
+  amount_ends_with?: Maybe<String>;
+  amount_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
+  OR?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
+  NOT?: Maybe<SlashingWhereInput[] | SlashingWhereInput>;
+}
+
+export type StakeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface StakeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  totalStake?: Maybe<String>;
+  totalStake_not?: Maybe<String>;
+  totalStake_in?: Maybe<String[] | String>;
+  totalStake_not_in?: Maybe<String[] | String>;
+  totalStake_lt?: Maybe<String>;
+  totalStake_lte?: Maybe<String>;
+  totalStake_gt?: Maybe<String>;
+  totalStake_gte?: Maybe<String>;
+  totalStake_contains?: Maybe<String>;
+  totalStake_not_contains?: Maybe<String>;
+  totalStake_starts_with?: Maybe<String>;
+  totalStake_not_starts_with?: Maybe<String>;
+  totalStake_ends_with?: Maybe<String>;
+  totalStake_not_ends_with?: Maybe<String>;
+  AND?: Maybe<StakeWhereInput[] | StakeWhereInput>;
+  OR?: Maybe<StakeWhereInput[] | StakeWhereInput>;
+  NOT?: Maybe<StakeWhereInput[] | StakeWhereInput>;
+}
+
+export type TotalIssuanceWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface TotalIssuanceWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  amount?: Maybe<String>;
+  amount_not?: Maybe<String>;
+  amount_in?: Maybe<String[] | String>;
+  amount_not_in?: Maybe<String[] | String>;
+  amount_lt?: Maybe<String>;
+  amount_lte?: Maybe<String>;
+  amount_gt?: Maybe<String>;
+  amount_gte?: Maybe<String>;
+  amount_contains?: Maybe<String>;
+  amount_not_contains?: Maybe<String>;
+  amount_starts_with?: Maybe<String>;
+  amount_not_starts_with?: Maybe<String>;
+  amount_ends_with?: Maybe<String>;
+  amount_not_ends_with?: Maybe<String>;
+  AND?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
+  OR?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
+  NOT?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
+}
+
+export type ValidatorWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ValidatorWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
   session?: Maybe<SessionWhereInput>;
+  controller?: Maybe<String>;
+  controller_not?: Maybe<String>;
+  controller_in?: Maybe<String[] | String>;
+  controller_not_in?: Maybe<String[] | String>;
+  controller_lt?: Maybe<String>;
+  controller_lte?: Maybe<String>;
+  controller_gt?: Maybe<String>;
+  controller_gte?: Maybe<String>;
+  controller_contains?: Maybe<String>;
+  controller_not_contains?: Maybe<String>;
+  controller_starts_with?: Maybe<String>;
+  controller_not_starts_with?: Maybe<String>;
+  controller_ends_with?: Maybe<String>;
+  controller_not_ends_with?: Maybe<String>;
+  stash?: Maybe<String>;
+  stash_not?: Maybe<String>;
+  stash_in?: Maybe<String[] | String>;
+  stash_not_in?: Maybe<String[] | String>;
+  stash_lt?: Maybe<String>;
+  stash_lte?: Maybe<String>;
+  stash_gt?: Maybe<String>;
+  stash_gte?: Maybe<String>;
+  stash_contains?: Maybe<String>;
+  stash_not_contains?: Maybe<String>;
+  stash_starts_with?: Maybe<String>;
+  stash_not_starts_with?: Maybe<String>;
+  stash_ends_with?: Maybe<String>;
+  stash_not_ends_with?: Maybe<String>;
+  preferences?: Maybe<String>;
+  preferences_not?: Maybe<String>;
+  preferences_in?: Maybe<String[] | String>;
+  preferences_not_in?: Maybe<String[] | String>;
+  preferences_lt?: Maybe<String>;
+  preferences_lte?: Maybe<String>;
+  preferences_gt?: Maybe<String>;
+  preferences_gte?: Maybe<String>;
+  preferences_contains?: Maybe<String>;
+  preferences_not_contains?: Maybe<String>;
+  preferences_starts_with?: Maybe<String>;
+  preferences_not_starts_with?: Maybe<String>;
+  preferences_ends_with?: Maybe<String>;
+  preferences_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+  OR?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+  NOT?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+}
+
+export interface BlockNumberCreateInput {
+  id?: Maybe<ID_Input>;
+  number: Int;
+  authoredBy: String;
+  startDateTime: DateTimeInput;
+  hash: String;
+}
+
+export interface BlockNumberUpdateInput {
+  number?: Maybe<Int>;
+  authoredBy?: Maybe<String>;
+  startDateTime?: Maybe<DateTimeInput>;
+  hash?: Maybe<String>;
+}
+
+export interface BlockNumberUpdateManyMutationInput {
+  number?: Maybe<Int>;
+  authoredBy?: Maybe<String>;
+  startDateTime?: Maybe<DateTimeInput>;
+  hash?: Maybe<String>;
+}
+
+export interface EraCreateInput {
+  id?: Maybe<ID_Input>;
+  index: Int;
+  eraStartSessionIndex: SessionCreateOneInput;
+  totalPoints: String;
+  individualPoints?: Maybe<EraCreateindividualPointsInput>;
+}
+
+export interface SessionCreateOneInput {
+  create?: Maybe<SessionCreateInput>;
+  connect?: Maybe<SessionWhereUniqueInput>;
+}
+
+export interface SessionCreateInput {
+  id?: Maybe<ID_Input>;
+  index: Int;
+  start: BlockNumberCreateOneInput;
+}
+
+export interface BlockNumberCreateOneInput {
+  create?: Maybe<BlockNumberCreateInput>;
+  connect?: Maybe<BlockNumberWhereUniqueInput>;
+}
+
+export interface EraCreateindividualPointsInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface EraUpdateInput {
+  index?: Maybe<Int>;
+  eraStartSessionIndex?: Maybe<SessionUpdateOneRequiredInput>;
+  totalPoints?: Maybe<String>;
+  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
+}
+
+export interface SessionUpdateOneRequiredInput {
+  create?: Maybe<SessionCreateInput>;
+  update?: Maybe<SessionUpdateDataInput>;
+  upsert?: Maybe<SessionUpsertNestedInput>;
+  connect?: Maybe<SessionWhereUniqueInput>;
+}
+
+export interface SessionUpdateDataInput {
+  index?: Maybe<Int>;
+  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
+}
+
+export interface BlockNumberUpdateOneRequiredInput {
+  create?: Maybe<BlockNumberCreateInput>;
+  update?: Maybe<BlockNumberUpdateDataInput>;
+  upsert?: Maybe<BlockNumberUpsertNestedInput>;
+  connect?: Maybe<BlockNumberWhereUniqueInput>;
+}
+
+export interface BlockNumberUpdateDataInput {
+  number?: Maybe<Int>;
+  authoredBy?: Maybe<String>;
+  startDateTime?: Maybe<DateTimeInput>;
+  hash?: Maybe<String>;
+}
+
+export interface BlockNumberUpsertNestedInput {
+  update: BlockNumberUpdateDataInput;
+  create: BlockNumberCreateInput;
+}
+
+export interface SessionUpsertNestedInput {
+  update: SessionUpdateDataInput;
+  create: SessionCreateInput;
+}
+
+export interface EraUpdateindividualPointsInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface EraUpdateManyMutationInput {
+  index?: Maybe<Int>;
+  totalPoints?: Maybe<String>;
+  individualPoints?: Maybe<EraUpdateindividualPointsInput>;
+}
+
+export interface NominationCreateInput {
+  id?: Maybe<ID_Input>;
+  validatorController: String;
+  validatorStash: String;
+  nominatorController: String;
+  nominatorStash: String;
+  session: SessionCreateOneInput;
+  bonded: String;
+}
+
+export interface NominationUpdateInput {
+  validatorController?: Maybe<String>;
+  validatorStash?: Maybe<String>;
+  nominatorController?: Maybe<String>;
+  nominatorStash?: Maybe<String>;
+  session?: Maybe<SessionUpdateOneRequiredInput>;
   bonded?: Maybe<String>;
-  bonded_not?: Maybe<String>;
-  bonded_in?: Maybe<String[] | String>;
-  bonded_not_in?: Maybe<String[] | String>;
-  bonded_lt?: Maybe<String>;
-  bonded_lte?: Maybe<String>;
-  bonded_gt?: Maybe<String>;
-  bonded_gte?: Maybe<String>;
-  bonded_contains?: Maybe<String>;
-  bonded_not_contains?: Maybe<String>;
-  bonded_starts_with?: Maybe<String>;
-  bonded_not_starts_with?: Maybe<String>;
-  bonded_ends_with?: Maybe<String>;
-  bonded_not_ends_with?: Maybe<String>;
-  AND?: Maybe<NominationWhereInput[] | NominationWhereInput>;
-  OR?: Maybe<NominationWhereInput[] | NominationWhereInput>;
-  NOT?: Maybe<NominationWhereInput[] | NominationWhereInput>;
+}
+
+export interface NominationUpdateManyMutationInput {
+  validatorController?: Maybe<String>;
+  validatorStash?: Maybe<String>;
+  nominatorController?: Maybe<String>;
+  nominatorStash?: Maybe<String>;
+  bonded?: Maybe<String>;
+}
+
+export interface ProposalCreateInput {
+  blockNumber: BlockNumberCreateOneInput;
+  depositAmount: String;
+  hash: String;
+  metaDescription: String;
+  method: String;
+  proposal: String;
+  proposalArguments?: Maybe<ProposalArgumentCreateManyWithoutProposalInput>;
+  proposalId: Int;
+  proposer: String;
+  section: String;
+}
+
+export interface ProposalArgumentCreateManyWithoutProposalInput {
+  create?: Maybe<
+    | ProposalArgumentCreateWithoutProposalInput[]
+    | ProposalArgumentCreateWithoutProposalInput
+  >;
+  connect?: Maybe<
+    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
+  >;
+}
+
+export interface ProposalArgumentCreateWithoutProposalInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  value: String;
+}
+
+export interface ProposalUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  depositAmount?: Maybe<String>;
+  hash?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  proposal?: Maybe<String>;
+  proposalArguments?: Maybe<ProposalArgumentUpdateManyWithoutProposalInput>;
+  proposalId?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  section?: Maybe<String>;
+}
+
+export interface ProposalArgumentUpdateManyWithoutProposalInput {
+  create?: Maybe<
+    | ProposalArgumentCreateWithoutProposalInput[]
+    | ProposalArgumentCreateWithoutProposalInput
+  >;
+  delete?: Maybe<
+    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
+  >;
+  connect?: Maybe<
+    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
+  >;
+  set?: Maybe<
+    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    ProposalArgumentWhereUniqueInput[] | ProposalArgumentWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ProposalArgumentUpdateWithWhereUniqueWithoutProposalInput[]
+    | ProposalArgumentUpdateWithWhereUniqueWithoutProposalInput
+  >;
+  upsert?: Maybe<
+    | ProposalArgumentUpsertWithWhereUniqueWithoutProposalInput[]
+    | ProposalArgumentUpsertWithWhereUniqueWithoutProposalInput
+  >;
+  deleteMany?: Maybe<
+    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ProposalArgumentUpdateManyWithWhereNestedInput[]
+    | ProposalArgumentUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ProposalArgumentUpdateWithWhereUniqueWithoutProposalInput {
+  where: ProposalArgumentWhereUniqueInput;
+  data: ProposalArgumentUpdateWithoutProposalDataInput;
+}
+
+export interface ProposalArgumentUpdateWithoutProposalDataInput {
+  name?: Maybe<String>;
+  value?: Maybe<String>;
+}
+
+export interface ProposalArgumentUpsertWithWhereUniqueWithoutProposalInput {
+  where: ProposalArgumentWhereUniqueInput;
+  update: ProposalArgumentUpdateWithoutProposalDataInput;
+  create: ProposalArgumentCreateWithoutProposalInput;
+}
+
+export interface ProposalArgumentScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  AND?: Maybe<
+    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
+  >;
+  OR?: Maybe<
+    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
+  >;
+  NOT?: Maybe<
+    ProposalArgumentScalarWhereInput[] | ProposalArgumentScalarWhereInput
+  >;
+}
+
+export interface ProposalArgumentUpdateManyWithWhereNestedInput {
+  where: ProposalArgumentScalarWhereInput;
+  data: ProposalArgumentUpdateManyDataInput;
+}
+
+export interface ProposalArgumentUpdateManyDataInput {
+  name?: Maybe<String>;
+  value?: Maybe<String>;
+}
+
+export interface ProposalUpdateManyMutationInput {
+  depositAmount?: Maybe<String>;
+  hash?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  proposal?: Maybe<String>;
+  proposalId?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  section?: Maybe<String>;
+}
+
+export interface ProposalArgumentCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  proposal: ProposalCreateOneWithoutProposalArgumentsInput;
+  value: String;
+}
+
+export interface ProposalCreateOneWithoutProposalArgumentsInput {
+  create?: Maybe<ProposalCreateWithoutProposalArgumentsInput>;
+  connect?: Maybe<ProposalWhereUniqueInput>;
+}
+
+export interface ProposalCreateWithoutProposalArgumentsInput {
+  blockNumber: BlockNumberCreateOneInput;
+  depositAmount: String;
+  hash: String;
+  metaDescription: String;
+  method: String;
+  proposal: String;
+  proposalId: Int;
+  proposer: String;
+  section: String;
+}
+
+export interface ProposalArgumentUpdateInput {
+  name?: Maybe<String>;
+  proposal?: Maybe<ProposalUpdateOneRequiredWithoutProposalArgumentsInput>;
+  value?: Maybe<String>;
+}
+
+export interface ProposalUpdateOneRequiredWithoutProposalArgumentsInput {
+  create?: Maybe<ProposalCreateWithoutProposalArgumentsInput>;
+  update?: Maybe<ProposalUpdateWithoutProposalArgumentsDataInput>;
+  upsert?: Maybe<ProposalUpsertWithoutProposalArgumentsInput>;
+  connect?: Maybe<ProposalWhereUniqueInput>;
+}
+
+export interface ProposalUpdateWithoutProposalArgumentsDataInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  depositAmount?: Maybe<String>;
+  hash?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  proposal?: Maybe<String>;
+  proposalId?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  section?: Maybe<String>;
+}
+
+export interface ProposalUpsertWithoutProposalArgumentsInput {
+  update: ProposalUpdateWithoutProposalArgumentsDataInput;
+  create: ProposalCreateWithoutProposalArgumentsInput;
+}
+
+export interface ProposalArgumentUpdateManyMutationInput {
+  name?: Maybe<String>;
+  value?: Maybe<String>;
+}
+
+export interface RewardCreateInput {
+  id?: Maybe<ID_Input>;
+  amount: String;
+  authoredBlock: BlockNumberCreateOneInput;
+  recipients?: Maybe<RewardCreaterecipientsInput>;
+}
+
+export interface RewardCreaterecipientsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface RewardUpdateInput {
@@ -1898,58 +1655,372 @@ export interface RewardUpdateInput {
   recipients?: Maybe<RewardUpdaterecipientsInput>;
 }
 
+export interface RewardUpdaterecipientsInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface RewardUpdateManyMutationInput {
+  amount?: Maybe<String>;
+  recipients?: Maybe<RewardUpdaterecipientsInput>;
+}
+
+export interface SessionUpdateInput {
+  index?: Maybe<Int>;
+  start?: Maybe<BlockNumberUpdateOneRequiredInput>;
+}
+
+export interface SessionUpdateManyMutationInput {
+  index?: Maybe<Int>;
+}
+
+export interface SlashingCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  who: String;
+  amount: String;
+}
+
 export interface SlashingUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   who?: Maybe<String>;
   amount?: Maybe<String>;
 }
 
-export interface NodeNode {
-  id: ID_Output;
+export interface SlashingUpdateManyMutationInput {
+  who?: Maybe<String>;
+  amount?: Maybe<String>;
 }
 
-export interface ValidatorPreviousValues {
-  id: ID_Output;
+export interface StakeCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  totalStake: String;
+}
+
+export interface StakeUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  totalStake?: Maybe<String>;
+}
+
+export interface StakeUpdateManyMutationInput {
+  totalStake?: Maybe<String>;
+}
+
+export interface TotalIssuanceCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  amount: String;
+}
+
+export interface TotalIssuanceUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  amount?: Maybe<String>;
+}
+
+export interface TotalIssuanceUpdateManyMutationInput {
+  amount?: Maybe<String>;
+}
+
+export interface ValidatorCreateInput {
+  id?: Maybe<ID_Input>;
+  session: SessionCreateOneInput;
   controller: String;
   stash: String;
   preferences: String;
 }
 
-export interface ValidatorPreviousValuesPromise
-  extends Promise<ValidatorPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  controller: () => Promise<String>;
-  stash: () => Promise<String>;
-  preferences: () => Promise<String>;
+export interface ValidatorUpdateInput {
+  session?: Maybe<SessionUpdateOneRequiredInput>;
+  controller?: Maybe<String>;
+  stash?: Maybe<String>;
+  preferences?: Maybe<String>;
 }
 
-export interface ValidatorPreviousValuesSubscription
-  extends Promise<AsyncIterator<ValidatorPreviousValues>>,
+export interface ValidatorUpdateManyMutationInput {
+  controller?: Maybe<String>;
+  stash?: Maybe<String>;
+  preferences?: Maybe<String>;
+}
+
+export interface BlockNumberSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BlockNumberWhereInput>;
+  AND?: Maybe<
+    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    BlockNumberSubscriptionWhereInput[] | BlockNumberSubscriptionWhereInput
+  >;
+}
+
+export interface EraSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<EraWhereInput>;
+  AND?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
+  OR?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
+  NOT?: Maybe<EraSubscriptionWhereInput[] | EraSubscriptionWhereInput>;
+}
+
+export interface NominationSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<NominationWhereInput>;
+  AND?: Maybe<
+    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    NominationSubscriptionWhereInput[] | NominationSubscriptionWhereInput
+  >;
+}
+
+export interface ProposalSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ProposalWhereInput>;
+  AND?: Maybe<
+    ProposalSubscriptionWhereInput[] | ProposalSubscriptionWhereInput
+  >;
+  OR?: Maybe<ProposalSubscriptionWhereInput[] | ProposalSubscriptionWhereInput>;
+  NOT?: Maybe<
+    ProposalSubscriptionWhereInput[] | ProposalSubscriptionWhereInput
+  >;
+}
+
+export interface ProposalArgumentSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ProposalArgumentWhereInput>;
+  AND?: Maybe<
+    | ProposalArgumentSubscriptionWhereInput[]
+    | ProposalArgumentSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | ProposalArgumentSubscriptionWhereInput[]
+    | ProposalArgumentSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | ProposalArgumentSubscriptionWhereInput[]
+    | ProposalArgumentSubscriptionWhereInput
+  >;
+}
+
+export interface RewardSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<RewardWhereInput>;
+  AND?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
+  OR?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
+  NOT?: Maybe<RewardSubscriptionWhereInput[] | RewardSubscriptionWhereInput>;
+}
+
+export interface SessionSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SessionWhereInput>;
+  AND?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+  OR?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+  NOT?: Maybe<SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput>;
+}
+
+export interface SlashingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SlashingWhereInput>;
+  AND?: Maybe<
+    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
+  >;
+  OR?: Maybe<SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput>;
+  NOT?: Maybe<
+    SlashingSubscriptionWhereInput[] | SlashingSubscriptionWhereInput
+  >;
+}
+
+export interface StakeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<StakeWhereInput>;
+  AND?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
+  OR?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
+  NOT?: Maybe<StakeSubscriptionWhereInput[] | StakeSubscriptionWhereInput>;
+}
+
+export interface TotalIssuanceSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<TotalIssuanceWhereInput>;
+  AND?: Maybe<
+    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+}
+
+export interface ValidatorSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ValidatorWhereInput>;
+  AND?: Maybe<
+    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ValidatorSubscriptionWhereInput[] | ValidatorSubscriptionWhereInput
+  >;
+}
+
+export interface NodeNode {
+  id: ID_Output;
+}
+
+export interface BlockNumber {
+  id: ID_Output;
+  number: Int;
+  authoredBy: String;
+  startDateTime: DateTimeOutput;
+  hash: String;
+}
+
+export interface BlockNumberPromise extends Promise<BlockNumber>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  number: () => Promise<Int>;
+  authoredBy: () => Promise<String>;
+  startDateTime: () => Promise<DateTimeOutput>;
+  hash: () => Promise<String>;
+}
+
+export interface BlockNumberSubscription
+  extends Promise<AsyncIterator<BlockNumber>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  controller: () => Promise<AsyncIterator<String>>;
-  stash: () => Promise<AsyncIterator<String>>;
-  preferences: () => Promise<AsyncIterator<String>>;
+  number: () => Promise<AsyncIterator<Int>>;
+  authoredBy: () => Promise<AsyncIterator<String>>;
+  startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  hash: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ProposalEdge {
-  node: Proposal;
+export interface BlockNumberNullablePromise
+  extends Promise<BlockNumber | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  number: () => Promise<Int>;
+  authoredBy: () => Promise<String>;
+  startDateTime: () => Promise<DateTimeOutput>;
+  hash: () => Promise<String>;
+}
+
+export interface BlockNumberConnection {
+  pageInfo: PageInfo;
+  edges: BlockNumberEdge[];
+}
+
+export interface BlockNumberConnectionPromise
+  extends Promise<BlockNumberConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<BlockNumberEdge>>() => T;
+  aggregate: <T = AggregateBlockNumberPromise>() => T;
+}
+
+export interface BlockNumberConnectionSubscription
+  extends Promise<AsyncIterator<BlockNumberConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BlockNumberEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBlockNumberSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BlockNumberEdge {
+  node: BlockNumber;
   cursor: String;
 }
 
-export interface ProposalEdgePromise
-  extends Promise<ProposalEdge>,
+export interface BlockNumberEdgePromise
+  extends Promise<BlockNumberEdge>,
     Fragmentable {
-  node: <T = ProposalPromise>() => T;
+  node: <T = BlockNumberPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ProposalEdgeSubscription
-  extends Promise<AsyncIterator<ProposalEdge>>,
+export interface BlockNumberEdgeSubscription
+  extends Promise<AsyncIterator<BlockNumberEdge>>,
     Fragmentable {
-  node: <T = ProposalSubscription>() => T;
+  node: <T = BlockNumberSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateBlockNumber {
+  count: Int;
+}
+
+export interface AggregateBlockNumberPromise
+  extends Promise<AggregateBlockNumber>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBlockNumberSubscription
+  extends Promise<AsyncIterator<AggregateBlockNumber>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface Era {
@@ -1985,27 +2056,6 @@ export interface EraNullablePromise extends Promise<Era | null>, Fragmentable {
   individualPoints: () => Promise<String[]>;
 }
 
-export interface ProposalConnection {
-  pageInfo: PageInfo;
-  edges: ProposalEdge[];
-}
-
-export interface ProposalConnectionPromise
-  extends Promise<ProposalConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ProposalEdge>>() => T;
-  aggregate: <T = AggregateProposalPromise>() => T;
-}
-
-export interface ProposalConnectionSubscription
-  extends Promise<AsyncIterator<ProposalConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ProposalEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateProposalSubscription>() => T;
-}
-
 export interface Session {
   id: ID_Output;
   index: Int;
@@ -2033,331 +2083,6 @@ export interface SessionNullablePromise
   start: <T = BlockNumberPromise>() => T;
 }
 
-export interface TotalIssuancePreviousValues {
-  id: ID_Output;
-  amount: String;
-}
-
-export interface TotalIssuancePreviousValuesPromise
-  extends Promise<TotalIssuancePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<String>;
-}
-
-export interface TotalIssuancePreviousValuesSubscription
-  extends Promise<AsyncIterator<TotalIssuancePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<String>>;
-}
-
-export interface EraEdge {
-  node: Era;
-  cursor: String;
-}
-
-export interface EraEdgePromise extends Promise<EraEdge>, Fragmentable {
-  node: <T = EraPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface EraEdgeSubscription
-  extends Promise<AsyncIterator<EraEdge>>,
-    Fragmentable {
-  node: <T = EraSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface AggregateValidator {
-  count: Int;
-}
-
-export interface AggregateValidatorPromise
-  extends Promise<AggregateValidator>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateValidatorSubscription
-  extends Promise<AsyncIterator<AggregateValidator>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ValidatorEdge {
-  node: Validator;
-  cursor: String;
-}
-
-export interface ValidatorEdgePromise
-  extends Promise<ValidatorEdge>,
-    Fragmentable {
-  node: <T = ValidatorPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ValidatorEdgeSubscription
-  extends Promise<AsyncIterator<ValidatorEdge>>,
-    Fragmentable {
-  node: <T = ValidatorSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ValidatorSubscriptionPayload {
-  mutation: MutationType;
-  node: Validator;
-  updatedFields: String[];
-  previousValues: ValidatorPreviousValues;
-}
-
-export interface ValidatorSubscriptionPayloadPromise
-  extends Promise<ValidatorSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ValidatorPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ValidatorPreviousValuesPromise>() => T;
-}
-
-export interface ValidatorSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ValidatorSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ValidatorSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ValidatorPreviousValuesSubscription>() => T;
-}
-
-export interface ProposalArgument {
-  id: ID_Output;
-  name: String;
-  value: String;
-}
-
-export interface ProposalArgumentPromise
-  extends Promise<ProposalArgument>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  proposal: <T = ProposalPromise>() => T;
-  value: () => Promise<String>;
-}
-
-export interface ProposalArgumentSubscription
-  extends Promise<AsyncIterator<ProposalArgument>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  proposal: <T = ProposalSubscription>() => T;
-  value: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ProposalArgumentNullablePromise
-  extends Promise<ProposalArgument | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  proposal: <T = ProposalPromise>() => T;
-  value: () => Promise<String>;
-}
-
-export interface AggregateTotalIssuance {
-  count: Int;
-}
-
-export interface AggregateTotalIssuancePromise
-  extends Promise<AggregateTotalIssuance>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateTotalIssuanceSubscription
-  extends Promise<AsyncIterator<AggregateTotalIssuance>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface TotalIssuanceSubscriptionPayload {
-  mutation: MutationType;
-  node: TotalIssuance;
-  updatedFields: String[];
-  previousValues: TotalIssuancePreviousValues;
-}
-
-export interface TotalIssuanceSubscriptionPayloadPromise
-  extends Promise<TotalIssuanceSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TotalIssuancePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TotalIssuancePreviousValuesPromise>() => T;
-}
-
-export interface TotalIssuanceSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TotalIssuanceSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TotalIssuanceSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TotalIssuancePreviousValuesSubscription>() => T;
-}
-
-export interface TotalIssuanceConnection {
-  pageInfo: PageInfo;
-  edges: TotalIssuanceEdge[];
-}
-
-export interface TotalIssuanceConnectionPromise
-  extends Promise<TotalIssuanceConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<TotalIssuanceEdge>>() => T;
-  aggregate: <T = AggregateTotalIssuancePromise>() => T;
-}
-
-export interface TotalIssuanceConnectionSubscription
-  extends Promise<AsyncIterator<TotalIssuanceConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<TotalIssuanceEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateTotalIssuanceSubscription>() => T;
-}
-
-export interface BlockNumberSubscriptionPayload {
-  mutation: MutationType;
-  node: BlockNumber;
-  updatedFields: String[];
-  previousValues: BlockNumberPreviousValues;
-}
-
-export interface BlockNumberSubscriptionPayloadPromise
-  extends Promise<BlockNumberSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = BlockNumberPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = BlockNumberPreviousValuesPromise>() => T;
-}
-
-export interface BlockNumberSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<BlockNumberSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = BlockNumberSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = BlockNumberPreviousValuesSubscription>() => T;
-}
-
-export interface TotalIssuance {
-  id: ID_Output;
-  amount: String;
-}
-
-export interface TotalIssuancePromise
-  extends Promise<TotalIssuance>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
-  amount: () => Promise<String>;
-}
-
-export interface TotalIssuanceSubscription
-  extends Promise<AsyncIterator<TotalIssuance>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  blockNumber: <T = BlockNumberSubscription>() => T;
-  amount: () => Promise<AsyncIterator<String>>;
-}
-
-export interface TotalIssuanceNullablePromise
-  extends Promise<TotalIssuance | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
-  amount: () => Promise<String>;
-}
-
-export interface BlockNumberPreviousValues {
-  id: ID_Output;
-  number: Int;
-  authoredBy: String;
-  startDateTime: DateTimeOutput;
-  hash: String;
-}
-
-export interface BlockNumberPreviousValuesPromise
-  extends Promise<BlockNumberPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  number: () => Promise<Int>;
-  authoredBy: () => Promise<String>;
-  startDateTime: () => Promise<DateTimeOutput>;
-  hash: () => Promise<String>;
-}
-
-export interface BlockNumberPreviousValuesSubscription
-  extends Promise<AsyncIterator<BlockNumberPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  number: () => Promise<AsyncIterator<Int>>;
-  authoredBy: () => Promise<AsyncIterator<String>>;
-  startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  hash: () => Promise<AsyncIterator<String>>;
-}
-
-export interface StakeEdge {
-  node: Stake;
-  cursor: String;
-}
-
-export interface StakeEdgePromise extends Promise<StakeEdge>, Fragmentable {
-  node: <T = StakePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface StakeEdgeSubscription
-  extends Promise<AsyncIterator<StakeEdge>>,
-    Fragmentable {
-  node: <T = StakeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BlockNumberEdge {
-  node: BlockNumber;
-  cursor: String;
-}
-
-export interface BlockNumberEdgePromise
-  extends Promise<BlockNumberEdge>,
-    Fragmentable {
-  node: <T = BlockNumberPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface BlockNumberEdgeSubscription
-  extends Promise<AsyncIterator<BlockNumberEdge>>,
-    Fragmentable {
-  node: <T = BlockNumberSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
 export interface EraConnection {
   pageInfo: PageInfo;
   edges: EraEdge[];
@@ -2379,91 +2104,136 @@ export interface EraConnectionSubscription
   aggregate: <T = AggregateEraSubscription>() => T;
 }
 
-export interface EraSubscriptionPayload {
-  mutation: MutationType;
+export interface EraEdge {
   node: Era;
-  updatedFields: String[];
-  previousValues: EraPreviousValues;
+  cursor: String;
 }
 
-export interface EraSubscriptionPayloadPromise
-  extends Promise<EraSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
+export interface EraEdgePromise extends Promise<EraEdge>, Fragmentable {
   node: <T = EraPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = EraPreviousValuesPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface EraSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<EraSubscriptionPayload>>,
+export interface EraEdgeSubscription
+  extends Promise<AsyncIterator<EraEdge>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = EraSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = EraPreviousValuesSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateSlashing {
+export interface AggregateEra {
   count: Int;
 }
 
-export interface AggregateSlashingPromise
-  extends Promise<AggregateSlashing>,
+export interface AggregateEraPromise
+  extends Promise<AggregateEra>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateSlashingSubscription
-  extends Promise<AsyncIterator<AggregateSlashing>>,
+export interface AggregateEraSubscription
+  extends Promise<AsyncIterator<AggregateEra>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface EraPreviousValues {
+export interface Nomination {
   id: ID_Output;
-  index: Int;
-  totalPoints: String;
-  individualPoints: String[];
+  validatorController: String;
+  validatorStash: String;
+  nominatorController: String;
+  nominatorStash: String;
+  bonded: String;
 }
 
-export interface EraPreviousValuesPromise
-  extends Promise<EraPreviousValues>,
-    Fragmentable {
+export interface NominationPromise extends Promise<Nomination>, Fragmentable {
   id: () => Promise<ID_Output>;
-  index: () => Promise<Int>;
-  totalPoints: () => Promise<String>;
-  individualPoints: () => Promise<String[]>;
+  validatorController: () => Promise<String>;
+  validatorStash: () => Promise<String>;
+  nominatorController: () => Promise<String>;
+  nominatorStash: () => Promise<String>;
+  session: <T = SessionPromise>() => T;
+  bonded: () => Promise<String>;
 }
 
-export interface EraPreviousValuesSubscription
-  extends Promise<AsyncIterator<EraPreviousValues>>,
+export interface NominationSubscription
+  extends Promise<AsyncIterator<Nomination>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  index: () => Promise<AsyncIterator<Int>>;
-  totalPoints: () => Promise<AsyncIterator<String>>;
-  individualPoints: () => Promise<AsyncIterator<String[]>>;
+  validatorController: () => Promise<AsyncIterator<String>>;
+  validatorStash: () => Promise<AsyncIterator<String>>;
+  nominatorController: () => Promise<AsyncIterator<String>>;
+  nominatorStash: () => Promise<AsyncIterator<String>>;
+  session: <T = SessionSubscription>() => T;
+  bonded: () => Promise<AsyncIterator<String>>;
 }
 
-export interface SlashingConnection {
+export interface NominationNullablePromise
+  extends Promise<Nomination | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  validatorController: () => Promise<String>;
+  validatorStash: () => Promise<String>;
+  nominatorController: () => Promise<String>;
+  nominatorStash: () => Promise<String>;
+  session: <T = SessionPromise>() => T;
+  bonded: () => Promise<String>;
+}
+
+export interface NominationConnection {
   pageInfo: PageInfo;
-  edges: SlashingEdge[];
+  edges: NominationEdge[];
 }
 
-export interface SlashingConnectionPromise
-  extends Promise<SlashingConnection>,
+export interface NominationConnectionPromise
+  extends Promise<NominationConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SlashingEdge>>() => T;
-  aggregate: <T = AggregateSlashingPromise>() => T;
+  edges: <T = FragmentableArray<NominationEdge>>() => T;
+  aggregate: <T = AggregateNominationPromise>() => T;
 }
 
-export interface SlashingConnectionSubscription
-  extends Promise<AsyncIterator<SlashingConnection>>,
+export interface NominationConnectionSubscription
+  extends Promise<AsyncIterator<NominationConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SlashingEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSlashingSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<NominationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateNominationSubscription>() => T;
+}
+
+export interface NominationEdge {
+  node: Nomination;
+  cursor: String;
+}
+
+export interface NominationEdgePromise
+  extends Promise<NominationEdge>,
+    Fragmentable {
+  node: <T = NominationPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface NominationEdgeSubscription
+  extends Promise<AsyncIterator<NominationEdge>>,
+    Fragmentable {
+  node: <T = NominationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateNomination {
+  count: Int;
+}
+
+export interface AggregateNominationPromise
+  extends Promise<AggregateNomination>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateNominationSubscription
+  extends Promise<AsyncIterator<AggregateNomination>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface Proposal {
@@ -2550,6 +2320,274 @@ export interface ProposalNullablePromise
   section: () => Promise<String>;
 }
 
+export interface ProposalArgument {
+  id: ID_Output;
+  name: String;
+  value: String;
+}
+
+export interface ProposalArgumentPromise
+  extends Promise<ProposalArgument>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  proposal: <T = ProposalPromise>() => T;
+  value: () => Promise<String>;
+}
+
+export interface ProposalArgumentSubscription
+  extends Promise<AsyncIterator<ProposalArgument>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  proposal: <T = ProposalSubscription>() => T;
+  value: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ProposalArgumentNullablePromise
+  extends Promise<ProposalArgument | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  proposal: <T = ProposalPromise>() => T;
+  value: () => Promise<String>;
+}
+
+export interface ProposalConnection {
+  pageInfo: PageInfo;
+  edges: ProposalEdge[];
+}
+
+export interface ProposalConnectionPromise
+  extends Promise<ProposalConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ProposalEdge>>() => T;
+  aggregate: <T = AggregateProposalPromise>() => T;
+}
+
+export interface ProposalConnectionSubscription
+  extends Promise<AsyncIterator<ProposalConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ProposalEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateProposalSubscription>() => T;
+}
+
+export interface ProposalEdge {
+  node: Proposal;
+  cursor: String;
+}
+
+export interface ProposalEdgePromise
+  extends Promise<ProposalEdge>,
+    Fragmentable {
+  node: <T = ProposalPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ProposalEdgeSubscription
+  extends Promise<AsyncIterator<ProposalEdge>>,
+    Fragmentable {
+  node: <T = ProposalSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateProposal {
+  count: Int;
+}
+
+export interface AggregateProposalPromise
+  extends Promise<AggregateProposal>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateProposalSubscription
+  extends Promise<AsyncIterator<AggregateProposal>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ProposalArgumentConnection {
+  pageInfo: PageInfo;
+  edges: ProposalArgumentEdge[];
+}
+
+export interface ProposalArgumentConnectionPromise
+  extends Promise<ProposalArgumentConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ProposalArgumentEdge>>() => T;
+  aggregate: <T = AggregateProposalArgumentPromise>() => T;
+}
+
+export interface ProposalArgumentConnectionSubscription
+  extends Promise<AsyncIterator<ProposalArgumentConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ProposalArgumentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateProposalArgumentSubscription>() => T;
+}
+
+export interface ProposalArgumentEdge {
+  node: ProposalArgument;
+  cursor: String;
+}
+
+export interface ProposalArgumentEdgePromise
+  extends Promise<ProposalArgumentEdge>,
+    Fragmentable {
+  node: <T = ProposalArgumentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ProposalArgumentEdgeSubscription
+  extends Promise<AsyncIterator<ProposalArgumentEdge>>,
+    Fragmentable {
+  node: <T = ProposalArgumentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateProposalArgument {
+  count: Int;
+}
+
+export interface AggregateProposalArgumentPromise
+  extends Promise<AggregateProposalArgument>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateProposalArgumentSubscription
+  extends Promise<AsyncIterator<AggregateProposalArgument>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Reward {
+  id: ID_Output;
+  amount: String;
+  recipients: String[];
+}
+
+export interface RewardPromise extends Promise<Reward>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<String>;
+  authoredBlock: <T = BlockNumberPromise>() => T;
+  recipients: () => Promise<String[]>;
+}
+
+export interface RewardSubscription
+  extends Promise<AsyncIterator<Reward>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<String>>;
+  authoredBlock: <T = BlockNumberSubscription>() => T;
+  recipients: () => Promise<AsyncIterator<String[]>>;
+}
+
+export interface RewardNullablePromise
+  extends Promise<Reward | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<String>;
+  authoredBlock: <T = BlockNumberPromise>() => T;
+  recipients: () => Promise<String[]>;
+}
+
+export interface RewardConnection {
+  pageInfo: PageInfo;
+  edges: RewardEdge[];
+}
+
+export interface RewardConnectionPromise
+  extends Promise<RewardConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<RewardEdge>>() => T;
+  aggregate: <T = AggregateRewardPromise>() => T;
+}
+
+export interface RewardConnectionSubscription
+  extends Promise<AsyncIterator<RewardConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RewardEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRewardSubscription>() => T;
+}
+
+export interface RewardEdge {
+  node: Reward;
+  cursor: String;
+}
+
+export interface RewardEdgePromise extends Promise<RewardEdge>, Fragmentable {
+  node: <T = RewardPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface RewardEdgeSubscription
+  extends Promise<AsyncIterator<RewardEdge>>,
+    Fragmentable {
+  node: <T = RewardSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateReward {
+  count: Int;
+}
+
+export interface AggregateRewardPromise
+  extends Promise<AggregateReward>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateRewardSubscription
+  extends Promise<AsyncIterator<AggregateReward>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SessionConnection {
+  pageInfo: PageInfo;
+  edges: SessionEdge[];
+}
+
+export interface SessionConnectionPromise
+  extends Promise<SessionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SessionEdge>>() => T;
+  aggregate: <T = AggregateSessionPromise>() => T;
+}
+
+export interface SessionConnectionSubscription
+  extends Promise<AsyncIterator<SessionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SessionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSessionSubscription>() => T;
+}
+
+export interface SessionEdge {
+  node: Session;
+  cursor: String;
+}
+
+export interface SessionEdgePromise extends Promise<SessionEdge>, Fragmentable {
+  node: <T = SessionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SessionEdgeSubscription
+  extends Promise<AsyncIterator<SessionEdge>>,
+    Fragmentable {
+  node: <T = SessionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface AggregateSession {
   count: Int;
 }
@@ -2564,6 +2602,469 @@ export interface AggregateSessionSubscription
   extends Promise<AsyncIterator<AggregateSession>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Slashing {
+  id: ID_Output;
+  who: String;
+  amount: String;
+}
+
+export interface SlashingPromise extends Promise<Slashing>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  who: () => Promise<String>;
+  amount: () => Promise<String>;
+}
+
+export interface SlashingSubscription
+  extends Promise<AsyncIterator<Slashing>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  blockNumber: <T = BlockNumberSubscription>() => T;
+  who: () => Promise<AsyncIterator<String>>;
+  amount: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SlashingNullablePromise
+  extends Promise<Slashing | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  who: () => Promise<String>;
+  amount: () => Promise<String>;
+}
+
+export interface SlashingConnection {
+  pageInfo: PageInfo;
+  edges: SlashingEdge[];
+}
+
+export interface SlashingConnectionPromise
+  extends Promise<SlashingConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SlashingEdge>>() => T;
+  aggregate: <T = AggregateSlashingPromise>() => T;
+}
+
+export interface SlashingConnectionSubscription
+  extends Promise<AsyncIterator<SlashingConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SlashingEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSlashingSubscription>() => T;
+}
+
+export interface SlashingEdge {
+  node: Slashing;
+  cursor: String;
+}
+
+export interface SlashingEdgePromise
+  extends Promise<SlashingEdge>,
+    Fragmentable {
+  node: <T = SlashingPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SlashingEdgeSubscription
+  extends Promise<AsyncIterator<SlashingEdge>>,
+    Fragmentable {
+  node: <T = SlashingSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSlashing {
+  count: Int;
+}
+
+export interface AggregateSlashingPromise
+  extends Promise<AggregateSlashing>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSlashingSubscription
+  extends Promise<AsyncIterator<AggregateSlashing>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Stake {
+  id: ID_Output;
+  totalStake: String;
+}
+
+export interface StakePromise extends Promise<Stake>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  totalStake: () => Promise<String>;
+}
+
+export interface StakeSubscription
+  extends Promise<AsyncIterator<Stake>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  blockNumber: <T = BlockNumberSubscription>() => T;
+  totalStake: () => Promise<AsyncIterator<String>>;
+}
+
+export interface StakeNullablePromise
+  extends Promise<Stake | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  totalStake: () => Promise<String>;
+}
+
+export interface StakeConnection {
+  pageInfo: PageInfo;
+  edges: StakeEdge[];
+}
+
+export interface StakeConnectionPromise
+  extends Promise<StakeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<StakeEdge>>() => T;
+  aggregate: <T = AggregateStakePromise>() => T;
+}
+
+export interface StakeConnectionSubscription
+  extends Promise<AsyncIterator<StakeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<StakeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateStakeSubscription>() => T;
+}
+
+export interface StakeEdge {
+  node: Stake;
+  cursor: String;
+}
+
+export interface StakeEdgePromise extends Promise<StakeEdge>, Fragmentable {
+  node: <T = StakePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface StakeEdgeSubscription
+  extends Promise<AsyncIterator<StakeEdge>>,
+    Fragmentable {
+  node: <T = StakeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateStake {
+  count: Int;
+}
+
+export interface AggregateStakePromise
+  extends Promise<AggregateStake>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateStakeSubscription
+  extends Promise<AsyncIterator<AggregateStake>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface TotalIssuance {
+  id: ID_Output;
+  amount: String;
+}
+
+export interface TotalIssuancePromise
+  extends Promise<TotalIssuance>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  amount: () => Promise<String>;
+}
+
+export interface TotalIssuanceSubscription
+  extends Promise<AsyncIterator<TotalIssuance>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  blockNumber: <T = BlockNumberSubscription>() => T;
+  amount: () => Promise<AsyncIterator<String>>;
+}
+
+export interface TotalIssuanceNullablePromise
+  extends Promise<TotalIssuance | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  amount: () => Promise<String>;
+}
+
+export interface TotalIssuanceConnection {
+  pageInfo: PageInfo;
+  edges: TotalIssuanceEdge[];
+}
+
+export interface TotalIssuanceConnectionPromise
+  extends Promise<TotalIssuanceConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TotalIssuanceEdge>>() => T;
+  aggregate: <T = AggregateTotalIssuancePromise>() => T;
+}
+
+export interface TotalIssuanceConnectionSubscription
+  extends Promise<AsyncIterator<TotalIssuanceConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TotalIssuanceEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTotalIssuanceSubscription>() => T;
+}
+
+export interface TotalIssuanceEdge {
+  node: TotalIssuance;
+  cursor: String;
+}
+
+export interface TotalIssuanceEdgePromise
+  extends Promise<TotalIssuanceEdge>,
+    Fragmentable {
+  node: <T = TotalIssuancePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface TotalIssuanceEdgeSubscription
+  extends Promise<AsyncIterator<TotalIssuanceEdge>>,
+    Fragmentable {
+  node: <T = TotalIssuanceSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateTotalIssuance {
+  count: Int;
+}
+
+export interface AggregateTotalIssuancePromise
+  extends Promise<AggregateTotalIssuance>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTotalIssuanceSubscription
+  extends Promise<AsyncIterator<AggregateTotalIssuance>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Validator {
+  id: ID_Output;
+  controller: String;
+  stash: String;
+  preferences: String;
+}
+
+export interface ValidatorPromise extends Promise<Validator>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  session: <T = SessionPromise>() => T;
+  controller: () => Promise<String>;
+  stash: () => Promise<String>;
+  preferences: () => Promise<String>;
+}
+
+export interface ValidatorSubscription
+  extends Promise<AsyncIterator<Validator>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  session: <T = SessionSubscription>() => T;
+  controller: () => Promise<AsyncIterator<String>>;
+  stash: () => Promise<AsyncIterator<String>>;
+  preferences: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ValidatorNullablePromise
+  extends Promise<Validator | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  session: <T = SessionPromise>() => T;
+  controller: () => Promise<String>;
+  stash: () => Promise<String>;
+  preferences: () => Promise<String>;
+}
+
+export interface ValidatorConnection {
+  pageInfo: PageInfo;
+  edges: ValidatorEdge[];
+}
+
+export interface ValidatorConnectionPromise
+  extends Promise<ValidatorConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ValidatorEdge>>() => T;
+  aggregate: <T = AggregateValidatorPromise>() => T;
+}
+
+export interface ValidatorConnectionSubscription
+  extends Promise<AsyncIterator<ValidatorConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ValidatorEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateValidatorSubscription>() => T;
+}
+
+export interface ValidatorEdge {
+  node: Validator;
+  cursor: String;
+}
+
+export interface ValidatorEdgePromise
+  extends Promise<ValidatorEdge>,
+    Fragmentable {
+  node: <T = ValidatorPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ValidatorEdgeSubscription
+  extends Promise<AsyncIterator<ValidatorEdge>>,
+    Fragmentable {
+  node: <T = ValidatorSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateValidator {
+  count: Int;
+}
+
+export interface AggregateValidatorPromise
+  extends Promise<AggregateValidator>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateValidatorSubscription
+  extends Promise<AsyncIterator<AggregateValidator>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface BlockNumberSubscriptionPayload {
+  mutation: MutationType;
+  node: BlockNumber;
+  updatedFields: String[];
+  previousValues: BlockNumberPreviousValues;
+}
+
+export interface BlockNumberSubscriptionPayloadPromise
+  extends Promise<BlockNumberSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = BlockNumberPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = BlockNumberPreviousValuesPromise>() => T;
+}
+
+export interface BlockNumberSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<BlockNumberSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = BlockNumberSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = BlockNumberPreviousValuesSubscription>() => T;
+}
+
+export interface BlockNumberPreviousValues {
+  id: ID_Output;
+  number: Int;
+  authoredBy: String;
+  startDateTime: DateTimeOutput;
+  hash: String;
+}
+
+export interface BlockNumberPreviousValuesPromise
+  extends Promise<BlockNumberPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  number: () => Promise<Int>;
+  authoredBy: () => Promise<String>;
+  startDateTime: () => Promise<DateTimeOutput>;
+  hash: () => Promise<String>;
+}
+
+export interface BlockNumberPreviousValuesSubscription
+  extends Promise<AsyncIterator<BlockNumberPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  number: () => Promise<AsyncIterator<Int>>;
+  authoredBy: () => Promise<AsyncIterator<String>>;
+  startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  hash: () => Promise<AsyncIterator<String>>;
+}
+
+export interface EraSubscriptionPayload {
+  mutation: MutationType;
+  node: Era;
+  updatedFields: String[];
+  previousValues: EraPreviousValues;
+}
+
+export interface EraSubscriptionPayloadPromise
+  extends Promise<EraSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = EraPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EraPreviousValuesPromise>() => T;
+}
+
+export interface EraSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EraSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EraSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EraPreviousValuesSubscription>() => T;
+}
+
+export interface EraPreviousValues {
+  id: ID_Output;
+  index: Int;
+  totalPoints: String;
+  individualPoints: String[];
+}
+
+export interface EraPreviousValuesPromise
+  extends Promise<EraPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  index: () => Promise<Int>;
+  totalPoints: () => Promise<String>;
+  individualPoints: () => Promise<String[]>;
+}
+
+export interface EraPreviousValuesSubscription
+  extends Promise<AsyncIterator<EraPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  index: () => Promise<AsyncIterator<Int>>;
+  totalPoints: () => Promise<AsyncIterator<String>>;
+  individualPoints: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface NominationSubscriptionPayload {
@@ -2589,27 +3090,6 @@ export interface NominationSubscriptionPayloadSubscription
   node: <T = NominationSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = NominationPreviousValuesSubscription>() => T;
-}
-
-export interface SessionConnection {
-  pageInfo: PageInfo;
-  edges: SessionEdge[];
-}
-
-export interface SessionConnectionPromise
-  extends Promise<SessionConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SessionEdge>>() => T;
-  aggregate: <T = AggregateSessionPromise>() => T;
-}
-
-export interface SessionConnectionSubscription
-  extends Promise<AsyncIterator<SessionConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SessionEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSessionSubscription>() => T;
 }
 
 export interface NominationPreviousValues {
@@ -2643,59 +3123,6 @@ export interface NominationPreviousValuesSubscription
   bonded: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateReward {
-  count: Int;
-}
-
-export interface AggregateRewardPromise
-  extends Promise<AggregateReward>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateRewardSubscription
-  extends Promise<AsyncIterator<AggregateReward>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateNomination {
-  count: Int;
-}
-
-export interface AggregateNominationPromise
-  extends Promise<AggregateNomination>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateNominationSubscription
-  extends Promise<AsyncIterator<AggregateNomination>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface RewardConnection {
-  pageInfo: PageInfo;
-  edges: RewardEdge[];
-}
-
-export interface RewardConnectionPromise
-  extends Promise<RewardConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<RewardEdge>>() => T;
-  aggregate: <T = AggregateRewardPromise>() => T;
-}
-
-export interface RewardConnectionSubscription
-  extends Promise<AsyncIterator<RewardConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<RewardEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateRewardSubscription>() => T;
-}
-
 export interface ProposalSubscriptionPayload {
   mutation: MutationType;
   node: Proposal;
@@ -2719,37 +3146,6 @@ export interface ProposalSubscriptionPayloadSubscription
   node: <T = ProposalSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = ProposalPreviousValuesSubscription>() => T;
-}
-
-export interface Reward {
-  id: ID_Output;
-  amount: String;
-  recipients: String[];
-}
-
-export interface RewardPromise extends Promise<Reward>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<String>;
-  authoredBlock: <T = BlockNumberPromise>() => T;
-  recipients: () => Promise<String[]>;
-}
-
-export interface RewardSubscription
-  extends Promise<AsyncIterator<Reward>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<String>>;
-  authoredBlock: <T = BlockNumberSubscription>() => T;
-  recipients: () => Promise<AsyncIterator<String[]>>;
-}
-
-export interface RewardNullablePromise
-  extends Promise<Reward | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<String>;
-  authoredBlock: <T = BlockNumberPromise>() => T;
-  recipients: () => Promise<String[]>;
 }
 
 export interface ProposalPreviousValues {
@@ -2792,60 +3188,6 @@ export interface ProposalPreviousValuesSubscription
   section: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ProposalArgumentEdge {
-  node: ProposalArgument;
-  cursor: String;
-}
-
-export interface ProposalArgumentEdgePromise
-  extends Promise<ProposalArgumentEdge>,
-    Fragmentable {
-  node: <T = ProposalArgumentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ProposalArgumentEdgeSubscription
-  extends Promise<AsyncIterator<ProposalArgumentEdge>>,
-    Fragmentable {
-  node: <T = ProposalArgumentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface NominationEdge {
-  node: Nomination;
-  cursor: String;
-}
-
-export interface NominationEdgePromise
-  extends Promise<NominationEdge>,
-    Fragmentable {
-  node: <T = NominationPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface NominationEdgeSubscription
-  extends Promise<AsyncIterator<NominationEdge>>,
-    Fragmentable {
-  node: <T = NominationSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateProposal {
-  count: Int;
-}
-
-export interface AggregateProposalPromise
-  extends Promise<AggregateProposal>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateProposalSubscription
-  extends Promise<AsyncIterator<AggregateProposal>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface ProposalArgumentSubscriptionPayload {
   mutation: MutationType;
   node: ProposalArgument;
@@ -2871,41 +3213,6 @@ export interface ProposalArgumentSubscriptionPayloadSubscription
   previousValues: <T = ProposalArgumentPreviousValuesSubscription>() => T;
 }
 
-export interface Validator {
-  id: ID_Output;
-  controller: String;
-  stash: String;
-  preferences: String;
-}
-
-export interface ValidatorPromise extends Promise<Validator>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  session: <T = SessionPromise>() => T;
-  controller: () => Promise<String>;
-  stash: () => Promise<String>;
-  preferences: () => Promise<String>;
-}
-
-export interface ValidatorSubscription
-  extends Promise<AsyncIterator<Validator>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  session: <T = SessionSubscription>() => T;
-  controller: () => Promise<AsyncIterator<String>>;
-  stash: () => Promise<AsyncIterator<String>>;
-  preferences: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ValidatorNullablePromise
-  extends Promise<Validator | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  session: <T = SessionPromise>() => T;
-  controller: () => Promise<String>;
-  stash: () => Promise<String>;
-  preferences: () => Promise<String>;
-}
-
 export interface ProposalArgumentPreviousValues {
   id: ID_Output;
   name: String;
@@ -2926,84 +3233,6 @@ export interface ProposalArgumentPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   value: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BlockNumber {
-  id: ID_Output;
-  number: Int;
-  authoredBy: String;
-  startDateTime: DateTimeOutput;
-  hash: String;
-}
-
-export interface BlockNumberPromise extends Promise<BlockNumber>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  number: () => Promise<Int>;
-  authoredBy: () => Promise<String>;
-  startDateTime: () => Promise<DateTimeOutput>;
-  hash: () => Promise<String>;
-}
-
-export interface BlockNumberSubscription
-  extends Promise<AsyncIterator<BlockNumber>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  number: () => Promise<AsyncIterator<Int>>;
-  authoredBy: () => Promise<AsyncIterator<String>>;
-  startDateTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  hash: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BlockNumberNullablePromise
-  extends Promise<BlockNumber | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  number: () => Promise<Int>;
-  authoredBy: () => Promise<String>;
-  startDateTime: () => Promise<DateTimeOutput>;
-  hash: () => Promise<String>;
-}
-
-export interface NominationConnection {
-  pageInfo: PageInfo;
-  edges: NominationEdge[];
-}
-
-export interface NominationConnectionPromise
-  extends Promise<NominationConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<NominationEdge>>() => T;
-  aggregate: <T = AggregateNominationPromise>() => T;
-}
-
-export interface NominationConnectionSubscription
-  extends Promise<AsyncIterator<NominationConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<NominationEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateNominationSubscription>() => T;
-}
-
-export interface StakeConnection {
-  pageInfo: PageInfo;
-  edges: StakeEdge[];
-}
-
-export interface StakeConnectionPromise
-  extends Promise<StakeConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<StakeEdge>>() => T;
-  aggregate: <T = AggregateStakePromise>() => T;
-}
-
-export interface StakeConnectionSubscription
-  extends Promise<AsyncIterator<StakeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<StakeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateStakeSubscription>() => T;
 }
 
 export interface RewardSubscriptionPayload {
@@ -3031,25 +3260,6 @@ export interface RewardSubscriptionPayloadSubscription
   previousValues: <T = RewardPreviousValuesSubscription>() => T;
 }
 
-export interface SlashingEdge {
-  node: Slashing;
-  cursor: String;
-}
-
-export interface SlashingEdgePromise
-  extends Promise<SlashingEdge>,
-    Fragmentable {
-  node: <T = SlashingPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface SlashingEdgeSubscription
-  extends Promise<AsyncIterator<SlashingEdge>>,
-    Fragmentable {
-  node: <T = SlashingSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
 export interface RewardPreviousValues {
   id: ID_Output;
   amount: String;
@@ -3070,56 +3280,6 @@ export interface RewardPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   amount: () => Promise<AsyncIterator<String>>;
   recipients: () => Promise<AsyncIterator<String[]>>;
-}
-
-export interface SessionEdge {
-  node: Session;
-  cursor: String;
-}
-
-export interface SessionEdgePromise extends Promise<SessionEdge>, Fragmentable {
-  node: <T = SessionPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface SessionEdgeSubscription
-  extends Promise<AsyncIterator<SessionEdge>>,
-    Fragmentable {
-  node: <T = SessionSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateBlockNumber {
-  count: Int;
-}
-
-export interface AggregateBlockNumberPromise
-  extends Promise<AggregateBlockNumber>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateBlockNumberSubscription
-  extends Promise<AsyncIterator<AggregateBlockNumber>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface RewardEdge {
-  node: Reward;
-  cursor: String;
-}
-
-export interface RewardEdgePromise extends Promise<RewardEdge>, Fragmentable {
-  node: <T = RewardPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface RewardEdgeSubscription
-  extends Promise<AsyncIterator<RewardEdge>>,
-    Fragmentable {
-  node: <T = RewardSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface SessionSubscriptionPayload {
@@ -3147,22 +3307,6 @@ export interface SessionSubscriptionPayloadSubscription
   previousValues: <T = SessionPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateProposalArgument {
-  count: Int;
-}
-
-export interface AggregateProposalArgumentPromise
-  extends Promise<AggregateProposalArgument>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateProposalArgumentSubscription
-  extends Promise<AsyncIterator<AggregateProposalArgument>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface SessionPreviousValues {
   id: ID_Output;
   index: Int;
@@ -3180,86 +3324,6 @@ export interface SessionPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   index: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ValidatorConnection {
-  pageInfo: PageInfo;
-  edges: ValidatorEdge[];
-}
-
-export interface ValidatorConnectionPromise
-  extends Promise<ValidatorConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ValidatorEdge>>() => T;
-  aggregate: <T = AggregateValidatorPromise>() => T;
-}
-
-export interface ValidatorConnectionSubscription
-  extends Promise<AsyncIterator<ValidatorConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ValidatorEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateValidatorSubscription>() => T;
-}
-
-export interface Nomination {
-  id: ID_Output;
-  validatorController: String;
-  validatorStash: String;
-  nominatorController: String;
-  nominatorStash: String;
-  bonded: String;
-}
-
-export interface NominationPromise extends Promise<Nomination>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  validatorController: () => Promise<String>;
-  validatorStash: () => Promise<String>;
-  nominatorController: () => Promise<String>;
-  nominatorStash: () => Promise<String>;
-  session: <T = SessionPromise>() => T;
-  bonded: () => Promise<String>;
-}
-
-export interface NominationSubscription
-  extends Promise<AsyncIterator<Nomination>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  validatorController: () => Promise<AsyncIterator<String>>;
-  validatorStash: () => Promise<AsyncIterator<String>>;
-  nominatorController: () => Promise<AsyncIterator<String>>;
-  nominatorStash: () => Promise<AsyncIterator<String>>;
-  session: <T = SessionSubscription>() => T;
-  bonded: () => Promise<AsyncIterator<String>>;
-}
-
-export interface NominationNullablePromise
-  extends Promise<Nomination | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  validatorController: () => Promise<String>;
-  validatorStash: () => Promise<String>;
-  nominatorController: () => Promise<String>;
-  nominatorStash: () => Promise<String>;
-  session: <T = SessionPromise>() => T;
-  bonded: () => Promise<String>;
-}
-
-export interface AggregateStake {
-  count: Int;
-}
-
-export interface AggregateStakePromise
-  extends Promise<AggregateStake>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateStakeSubscription
-  extends Promise<AsyncIterator<AggregateStake>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface SlashingSubscriptionPayload {
@@ -3287,77 +3351,26 @@ export interface SlashingSubscriptionPayloadSubscription
   previousValues: <T = SlashingPreviousValuesSubscription>() => T;
 }
 
-export interface Slashing {
+export interface SlashingPreviousValues {
   id: ID_Output;
   who: String;
   amount: String;
 }
 
-export interface SlashingPromise extends Promise<Slashing>, Fragmentable {
+export interface SlashingPreviousValuesPromise
+  extends Promise<SlashingPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
   who: () => Promise<String>;
   amount: () => Promise<String>;
 }
 
-export interface SlashingSubscription
-  extends Promise<AsyncIterator<Slashing>>,
+export interface SlashingPreviousValuesSubscription
+  extends Promise<AsyncIterator<SlashingPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  blockNumber: <T = BlockNumberSubscription>() => T;
   who: () => Promise<AsyncIterator<String>>;
   amount: () => Promise<AsyncIterator<String>>;
-}
-
-export interface SlashingNullablePromise
-  extends Promise<Slashing | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
-  who: () => Promise<String>;
-  amount: () => Promise<String>;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface StakePreviousValues {
-  id: ID_Output;
-  totalStake: String;
-}
-
-export interface StakePreviousValuesPromise
-  extends Promise<StakePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  totalStake: () => Promise<String>;
-}
-
-export interface StakePreviousValuesSubscription
-  extends Promise<AsyncIterator<StakePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  totalStake: () => Promise<AsyncIterator<String>>;
 }
 
 export interface StakeSubscriptionPayload {
@@ -3385,138 +3398,129 @@ export interface StakeSubscriptionPayloadSubscription
   previousValues: <T = StakePreviousValuesSubscription>() => T;
 }
 
-export interface AggregateEra {
-  count: Int;
-}
-
-export interface AggregateEraPromise
-  extends Promise<AggregateEra>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateEraSubscription
-  extends Promise<AsyncIterator<AggregateEra>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface SlashingPreviousValues {
-  id: ID_Output;
-  who: String;
-  amount: String;
-}
-
-export interface SlashingPreviousValuesPromise
-  extends Promise<SlashingPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  who: () => Promise<String>;
-  amount: () => Promise<String>;
-}
-
-export interface SlashingPreviousValuesSubscription
-  extends Promise<AsyncIterator<SlashingPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  who: () => Promise<AsyncIterator<String>>;
-  amount: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ProposalArgumentConnection {
-  pageInfo: PageInfo;
-  edges: ProposalArgumentEdge[];
-}
-
-export interface ProposalArgumentConnectionPromise
-  extends Promise<ProposalArgumentConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ProposalArgumentEdge>>() => T;
-  aggregate: <T = AggregateProposalArgumentPromise>() => T;
-}
-
-export interface ProposalArgumentConnectionSubscription
-  extends Promise<AsyncIterator<ProposalArgumentConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ProposalArgumentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateProposalArgumentSubscription>() => T;
-}
-
-export interface BlockNumberConnection {
-  pageInfo: PageInfo;
-  edges: BlockNumberEdge[];
-}
-
-export interface BlockNumberConnectionPromise
-  extends Promise<BlockNumberConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<BlockNumberEdge>>() => T;
-  aggregate: <T = AggregateBlockNumberPromise>() => T;
-}
-
-export interface BlockNumberConnectionSubscription
-  extends Promise<AsyncIterator<BlockNumberConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<BlockNumberEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateBlockNumberSubscription>() => T;
-}
-
-export interface Stake {
+export interface StakePreviousValues {
   id: ID_Output;
   totalStake: String;
 }
 
-export interface StakePromise extends Promise<Stake>, Fragmentable {
+export interface StakePreviousValuesPromise
+  extends Promise<StakePreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
   totalStake: () => Promise<String>;
 }
 
-export interface StakeSubscription
-  extends Promise<AsyncIterator<Stake>>,
+export interface StakePreviousValuesSubscription
+  extends Promise<AsyncIterator<StakePreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  blockNumber: <T = BlockNumberSubscription>() => T;
   totalStake: () => Promise<AsyncIterator<String>>;
 }
 
-export interface StakeNullablePromise
-  extends Promise<Stake | null>,
+export interface TotalIssuanceSubscriptionPayload {
+  mutation: MutationType;
+  node: TotalIssuance;
+  updatedFields: String[];
+  previousValues: TotalIssuancePreviousValues;
+}
+
+export interface TotalIssuanceSubscriptionPayloadPromise
+  extends Promise<TotalIssuanceSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TotalIssuancePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TotalIssuancePreviousValuesPromise>() => T;
+}
+
+export interface TotalIssuanceSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TotalIssuanceSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TotalIssuanceSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TotalIssuancePreviousValuesSubscription>() => T;
+}
+
+export interface TotalIssuancePreviousValues {
+  id: ID_Output;
+  amount: String;
+}
+
+export interface TotalIssuancePreviousValuesPromise
+  extends Promise<TotalIssuancePreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  blockNumber: <T = BlockNumberPromise>() => T;
-  totalStake: () => Promise<String>;
+  amount: () => Promise<String>;
 }
 
-export interface TotalIssuanceEdge {
-  node: TotalIssuance;
-  cursor: String;
-}
-
-export interface TotalIssuanceEdgePromise
-  extends Promise<TotalIssuanceEdge>,
+export interface TotalIssuancePreviousValuesSubscription
+  extends Promise<AsyncIterator<TotalIssuancePreviousValues>>,
     Fragmentable {
-  node: <T = TotalIssuancePromise>() => T;
-  cursor: () => Promise<String>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<String>>;
 }
 
-export interface TotalIssuanceEdgeSubscription
-  extends Promise<AsyncIterator<TotalIssuanceEdge>>,
+export interface ValidatorSubscriptionPayload {
+  mutation: MutationType;
+  node: Validator;
+  updatedFields: String[];
+  previousValues: ValidatorPreviousValues;
+}
+
+export interface ValidatorSubscriptionPayloadPromise
+  extends Promise<ValidatorSubscriptionPayload>,
     Fragmentable {
-  node: <T = TotalIssuanceSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  mutation: () => Promise<MutationType>;
+  node: <T = ValidatorPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ValidatorPreviousValuesPromise>() => T;
+}
+
+export interface ValidatorSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ValidatorSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ValidatorSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ValidatorPreviousValuesSubscription>() => T;
+}
+
+export interface ValidatorPreviousValues {
+  id: ID_Output;
+  controller: String;
+  stash: String;
+  preferences: String;
+}
+
+export interface ValidatorPreviousValuesPromise
+  extends Promise<ValidatorPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  controller: () => Promise<String>;
+  stash: () => Promise<String>;
+  preferences: () => Promise<String>;
+}
+
+export interface ValidatorPreviousValuesSubscription
+  extends Promise<AsyncIterator<ValidatorPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  controller: () => Promise<AsyncIterator<String>>;
+  stash: () => Promise<AsyncIterator<String>>;
+  preferences: () => Promise<AsyncIterator<String>>;
 }
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
-export type Boolean = boolean;
+export type ID_Input = string | number;
+export type ID_Output = string;
 
-export type Long = string;
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -3534,15 +3538,11 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type ID_Input = string | number;
-export type ID_Output = string;
+export type Boolean = boolean;
 
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
+export type Long = string;
 
 /**
  * Model Metadata
