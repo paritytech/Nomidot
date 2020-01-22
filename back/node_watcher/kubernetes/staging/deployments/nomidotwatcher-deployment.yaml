@@ -27,7 +27,4 @@ spec:
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
-          lifecycle:
-            postStart:
-              exec:
-                command: ["yarn", "start"]
+          command: ["yarn", "start"]
