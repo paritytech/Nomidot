@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType, GenericCall } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
@@ -13,7 +12,14 @@ import {
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotProposal, Task } from './types';
+import {
+  NomidotProposal,
+  NomidotProposalEvent,
+  NomidotProposalRawEvent,
+  PreimageStatus,
+  ProposalStatus,
+  Task,
+} from './types';
 
 const l = logger('Task: Proposals');
 
@@ -26,108 +32,59 @@ const createProposal: Task<NomidotProposal[]> = {
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotProposal[]> => {
-    // Initial scrapping of all proposals.
-    const publicProps = await api.query.democracy.publicProps.at(blockHash);
-    // returns
-    // [[0,"0x8c50b176392b6e6ac8eeb643541f13beb02178801d2b134bfc4ab804764c09a1","5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"]]
+    const events = await api.query.system.events.at(blockHash);
+
+    const proposalEvents = events.filter(
+      ({ event: { method, section } }) =>
+        section === 'democracy' && method === 'Proposed'
+    );
 
     const results: NomidotProposal[] = [];
 
     await Promise.all(
-      publicProps.map(
-        async ([idNumber, preImageHash, proposer]: [
-          PropIndex,
-          Hash,
-          AccountId
-        ]) => {
-          const proposalId = idNumber.toNumber();
-          const proposalExists = await prisma.proposal({ proposalId });
+      proposalEvents.map(async ({ event: { data, typeDef } }) => {
+        const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
+          (prev, curr, index) => {
+            const type = typeDef[index].type;
 
-          // proposals should be unique
-          if (proposalExists) return null;
+            return {
+              ...prev,
+              [type]: curr.toString(),
+            };
+          },
+          {}
+        );
 
-          const depositOf = await api.query.democracy.depositOf.at(
-            blockHash,
-            proposalId
+        if (!proposalRawEvent.PropIndex || !proposalRawEvent.Balance) {
+          l.error(
+            `At least one of proposalArgumentRaw: PropIndex or Balance missing: ${proposalRawEvent.PropIndex}, ${proposalRawEvent.Balance}`
           );
-          const preImageRaw = await api.query.democracy.preimages.at(
-            blockHash,
-            preImageHash
-          );
-          const preImage = preImageRaw.unwrapOr(null);
-
-          if (!preImage) {
-            l.log(`No pre-image found for the proposal id #${proposalId}`);
-            return null;
-          }
-
-          const depositInfo = depositOf.unwrapOr(null);
-          const depositAmount = depositInfo ? depositInfo[0] : undefined;
-
-          if (!depositAmount) {
-            l.log(`No deposit amount found for the proposal id #${proposalId}`);
-            return null;
-          }
-
-          const proposal = createType(
-            api.registry,
-            'Proposal',
-            preImage[0].toU8a(true)
-          );
-
-          if (!proposal) {
-            l.log(
-              `No proposal found associated to the pre-image, proposal id #${proposalId}`
-            );
-            return null;
-          }
-
-          const { meta, method, section } = api.registry.findMetaCall(
-            proposal.callIndex
-          );
-
-          const params = GenericCall.filterOrigin(
-            proposal.meta
-          ).map(({ name }) => name.toString());
-          const values = proposal.args;
-
-          const proposalArguments =
-            proposal.args &&
-            params &&
-            params.map((name, index) => {
-              return { name, value: values[index].toString() };
-            });
-
-          const hash = proposal.hash;
-
-          const result = {
-            depositAmount,
-            hash: hash,
-            proposal,
-            proposalArguments,
-            proposalId,
-            proposer,
-            metaDescription: meta?.documentation.toString(),
-            method,
-            section,
-          };
-
-          // {
-          //   "depositAmount":11000000000000,
-          //   "hash":"0x31dbb7fec5d9f946354a2e9bae6581ab28f0448fc933c1bf3738d3011053d8cb",
-          //   "proposal":{"callIndex":"0x0001","args":{"_remark":"0x3333"}},
-          //   "proposalArguments":[{"name":"_remark","value":"0x3333"}],
-          //   "proposalId":0,
-          //   "proposer":"5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-          //   "metaDescription":"[ Make some on-chain remark.]",
-          //   "method":"remark",
-          //   "section":"system"
-          // }
-
-          l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
-          results.push(result);
+          return null;
         }
-      )
+
+        const proposalArguments: NomidotProposalEvent = {
+          depositAmount: proposalRawEvent.Balance,
+          proposalId: Number(proposalRawEvent.PropIndex),
+        };
+
+        const publicProps = await api.query.democracy.publicProps.at(blockHash);
+
+        const [, preimageHash, author] = publicProps.filter(
+          ([idNumber]: [PropIndex, Hash, AccountId]) =>
+            idNumber.toNumber() === proposalArguments.proposalId
+        )[0];
+
+        const result: NomidotProposal = {
+          author,
+          depositAmount: proposalArguments.depositAmount,
+          proposalId: proposalArguments.proposalId,
+          preimageHash,
+          status: ProposalStatus.PROPOSED,
+        };
+
+        l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
+        results.push(result);
+      })
     );
 
     return results;
@@ -136,33 +93,52 @@ const createProposal: Task<NomidotProposal[]> = {
     await Promise.all(
       value.map(async prop => {
         const {
+          author,
           depositAmount,
-          hash,
-          proposal,
-          proposalArguments: pA,
           proposalId,
-          proposer,
-          metaDescription,
-          method,
-          section,
+          preimageHash,
+          status,
         } = prop;
+
+        const preimages =
+          preimageHash &&
+          (await prisma.preimages({
+            where: { hash: preimageHash.toString() },
+          }));
+
+        // preimage aren't uniquely identified with their hash
+        // however, there can only be one preimage with the status "Noted"
+        // at a time
+        const p = preimages.length
+          ? preimages?.filter(async preimage => {
+              await prisma
+                .preimage({ id: preimage.id })
+                .preimageStatus({ where: { status: PreimageStatus.NOTED } });
+            })[0]
+          : undefined;
+
         await prisma.createProposal({
-          blockNumber: {
-            connect: {
-              number: blockNumber.toNumber(),
+          author: author.toString(),
+          depositAmount: depositAmount.toString(),
+          preimage: p
+            ? {
+                connect: {
+                  id: p?.id,
+                },
+              }
+            : undefined,
+          preimageHash: preimageHash.toString(),
+          proposalId: Number(proposalId),
+          proposalStatus: {
+            create: {
+              blockNumber: {
+                connect: {
+                  number: blockNumber.toNumber(),
+                },
+              },
+              status,
             },
           },
-          depositAmount: depositAmount.toString(),
-          hash: hash.toHex(),
-          proposal: proposal.toHex(),
-          proposalArguments: {
-            create: pA,
-          },
-          proposalId,
-          proposer: proposer.toString(),
-          metaDescription,
-          method,
-          section,
         });
       })
     );
