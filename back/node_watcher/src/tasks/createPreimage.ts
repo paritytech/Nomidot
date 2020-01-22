@@ -27,9 +27,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
     blockHash: Hash,
     api: ApiPromise
   ): Promise<NomidotPreimage[]> => {
-    console.log('--- 1');
     const events = await api.query.system.events.at(blockHash);
-    console.log('--- 2');
     const preimageEvents = events.filter(
       ({ event: { method, section } }) =>
         section === 'democracy' && method === 'PreimageNoted'
@@ -81,8 +79,6 @@ const createPreimage: Task<NomidotPreimage[]> = {
           );
           return null;
         }
-
-        console.log('----blaa');
 
         const proposal = api.createType('Proposal', preimage[0].toU8a(true));
 

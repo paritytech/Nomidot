@@ -111,7 +111,6 @@ const createProposal: Task<NomidotProposal[]> = {
         // at a time
         const p = preimages.length
           ? preimages?.filter(async preimage => {
-              console.log(`preImage ${preimage}`);
               await prisma
                 .preimage({ id: preimage.id })
                 .preimageStatus({ where: { status: PreimageStatus.NOTED } });
