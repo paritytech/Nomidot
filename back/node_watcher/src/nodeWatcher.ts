@@ -3,7 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { getChainTypes } from '@polkadot/api/base/typeInjector';
+import { ApiOptions } from '@polkadot/api/types';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { RegistryTypes } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 
 import { NomidotTask } from './tasks/types';
@@ -34,7 +37,7 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 0;
+  let blockIndex = 92873;
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 
@@ -64,7 +67,50 @@ async function incrementor(
       const rpcMeta = await api.rpc.state.getMetadata(blockHash);
       currentSpecVersion = newSpecVersion;
       api.registry.setMetadata(rpcMeta);
+
+      interface VersionedType {
+        minmax: [number?, number?]; // min (v >= min) and max (v <= max)
+        types: RegistryTypes;
+      }
+
+      const TYPES_KUSAMA_VERSIONED: VersionedType[] = [
+        {
+          minmax: [1019, 1031],
+          types: {
+            DispatchError: 'DispatchErrorTo198',
+            Keys: 'SessionKeys5',
+            SlashingSpans: 'SlashingSpansTo204',
+          },
+        },
+        {
+          minmax: [1032, 1042],
+          types: {
+            Keys: 'SessionKeys5',
+            SlashingSpans: 'SlashingSpansTo204',
+          },
+        },
+        {
+          minmax: [1043, undefined],
+          types: {
+            Keys: 'SessionKeys5',
+          },
+        },
+      ];
+
+      // based on the node spec & chain, inject specific type overrides
+      const chain = await api.rpc.system.chain();
+      const typesSpec: ApiOptions = {
+        [runtimeVersion.specName.toString()]: TYPES_KUSAMA_VERSIONED,
+      };
+      // api.registry.register(getChainTypes(chain, runtimeVersion));
+      api.registerTypes(getChainTypes(chain, runtimeVersion, {}, typesSpec));
     }
+
+    // based on the node spec & chain, inject specific type overrides
+    const chain = await api.rpc.system.chain();
+
+    api.registry.register(getChainTypes(chain, runtimeVersion));
+    // api.registerTypes(getChainTypes(chain, runtimeVersion));
 
     // execute watcher tasks
     for await (const task of tasks) {
