@@ -106,6 +106,14 @@ export enum ProposalStatus {
   TABLED = 'Tabled',
 }
 
+export enum ReferendumStatus {
+  CANCELLED = ' Cancelled',
+  EXECUTED = 'Executed',
+  NOTPASSED = 'NotPassed',
+  PASSED = 'Passed',
+  STARTED = 'Started',
+}
+
 export interface NomidotPreimage extends NomidotPreimageEvent {
   preImageArguments: NomidotArgument[];
   metaDescription: string;
