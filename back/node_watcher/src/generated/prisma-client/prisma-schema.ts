@@ -1412,7 +1412,7 @@ type Proposal {
   preimage: Preimage
   preimageHash: String!
   proposalId: Int!
-  proposalStatus: ProposalStatus!
+  proposalStatus(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus!]
 }
 
 type ProposalConnection {
@@ -1427,7 +1427,7 @@ input ProposalCreateInput {
   preimage: PreimageCreateOneWithoutProposalInput
   preimageHash: String!
   proposalId: Int!
-  proposalStatus: ProposalStatusCreateOneWithoutProposalInput!
+  proposalStatus: ProposalStatusCreateManyWithoutProposalInput
 }
 
 input ProposalCreateOneWithoutPreimageInput {
@@ -1445,7 +1445,7 @@ input ProposalCreateWithoutPreimageInput {
   depositAmount: String!
   preimageHash: String!
   proposalId: Int!
-  proposalStatus: ProposalStatusCreateOneWithoutProposalInput!
+  proposalStatus: ProposalStatusCreateManyWithoutProposalInput
 }
 
 input ProposalCreateWithoutProposalStatusInput {
@@ -1502,9 +1502,9 @@ input ProposalStatusCreateInput {
   status: String!
 }
 
-input ProposalStatusCreateOneWithoutProposalInput {
-  create: ProposalStatusCreateWithoutProposalInput
-  connect: ProposalStatusWhereUniqueInput
+input ProposalStatusCreateManyWithoutProposalInput {
+  create: [ProposalStatusCreateWithoutProposalInput!]
+  connect: [ProposalStatusWhereUniqueInput!]
 }
 
 input ProposalStatusCreateWithoutProposalInput {
@@ -1528,6 +1528,40 @@ enum ProposalStatusOrderByInput {
 type ProposalStatusPreviousValues {
   id: ID!
   status: String!
+}
+
+input ProposalStatusScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [ProposalStatusScalarWhereInput!]
+  OR: [ProposalStatusScalarWhereInput!]
+  NOT: [ProposalStatusScalarWhereInput!]
 }
 
 type ProposalStatusSubscriptionPayload {
@@ -1554,15 +1588,29 @@ input ProposalStatusUpdateInput {
   status: String
 }
 
+input ProposalStatusUpdateManyDataInput {
+  status: String
+}
+
 input ProposalStatusUpdateManyMutationInput {
   status: String
 }
 
-input ProposalStatusUpdateOneRequiredWithoutProposalInput {
-  create: ProposalStatusCreateWithoutProposalInput
-  update: ProposalStatusUpdateWithoutProposalDataInput
-  upsert: ProposalStatusUpsertWithoutProposalInput
-  connect: ProposalStatusWhereUniqueInput
+input ProposalStatusUpdateManyWithoutProposalInput {
+  create: [ProposalStatusCreateWithoutProposalInput!]
+  delete: [ProposalStatusWhereUniqueInput!]
+  connect: [ProposalStatusWhereUniqueInput!]
+  set: [ProposalStatusWhereUniqueInput!]
+  disconnect: [ProposalStatusWhereUniqueInput!]
+  update: [ProposalStatusUpdateWithWhereUniqueWithoutProposalInput!]
+  upsert: [ProposalStatusUpsertWithWhereUniqueWithoutProposalInput!]
+  deleteMany: [ProposalStatusScalarWhereInput!]
+  updateMany: [ProposalStatusUpdateManyWithWhereNestedInput!]
+}
+
+input ProposalStatusUpdateManyWithWhereNestedInput {
+  where: ProposalStatusScalarWhereInput!
+  data: ProposalStatusUpdateManyDataInput!
 }
 
 input ProposalStatusUpdateWithoutProposalDataInput {
@@ -1570,7 +1618,13 @@ input ProposalStatusUpdateWithoutProposalDataInput {
   status: String
 }
 
-input ProposalStatusUpsertWithoutProposalInput {
+input ProposalStatusUpdateWithWhereUniqueWithoutProposalInput {
+  where: ProposalStatusWhereUniqueInput!
+  data: ProposalStatusUpdateWithoutProposalDataInput!
+}
+
+input ProposalStatusUpsertWithWhereUniqueWithoutProposalInput {
+  where: ProposalStatusWhereUniqueInput!
   update: ProposalStatusUpdateWithoutProposalDataInput!
   create: ProposalStatusCreateWithoutProposalInput!
 }
@@ -1639,7 +1693,7 @@ input ProposalUpdateInput {
   preimage: PreimageUpdateOneWithoutProposalInput
   preimageHash: String
   proposalId: Int
-  proposalStatus: ProposalStatusUpdateOneRequiredWithoutProposalInput
+  proposalStatus: ProposalStatusUpdateManyWithoutProposalInput
 }
 
 input ProposalUpdateManyMutationInput {
@@ -1670,7 +1724,7 @@ input ProposalUpdateWithoutPreimageDataInput {
   depositAmount: String
   preimageHash: String
   proposalId: Int
-  proposalStatus: ProposalStatusUpdateOneRequiredWithoutProposalInput
+  proposalStatus: ProposalStatusUpdateManyWithoutProposalInput
 }
 
 input ProposalUpdateWithoutProposalStatusDataInput {
@@ -1751,7 +1805,9 @@ input ProposalWhereInput {
   proposalId_lte: Int
   proposalId_gt: Int
   proposalId_gte: Int
-  proposalStatus: ProposalStatusWhereInput
+  proposalStatus_every: ProposalStatusWhereInput
+  proposalStatus_some: ProposalStatusWhereInput
+  proposalStatus_none: ProposalStatusWhereInput
   AND: [ProposalWhereInput!]
   OR: [ProposalWhereInput!]
   NOT: [ProposalWhereInput!]
