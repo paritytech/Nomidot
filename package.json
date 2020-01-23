@@ -6,7 +6,7 @@
   "private": true,
   "repository": "https://github.com/yjkimjunior/Nomidot",
   "scripts": {
-    "build": "yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/ui-components --scope @substrate/node-watcher",
+    "build":"yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/ui-components --scope @substrate/node-watcher",
     "clean": "rimraf front/**/lib back/**/lib front/**/.cache back/**/.cache",
     "lerna:bump": "lerna version --conventional-commits",
     "lerna:publish": "yarn build && lerna publish from-git",
@@ -22,7 +22,7 @@
     ]
   },
   "dependencies": {
-    "@polkadot/api": "1.0.0-beta.15"
+    "@polkadot/api": "^1.0.0-beta.15"
   },
   "devDependencies": {
     "@polkadot/dev": "^0.32.13",
