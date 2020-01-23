@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { getChainTypes } from '@polkadot/api/base/typeInjector';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { getChainTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
 import { NomidotTask } from './tasks/types';
