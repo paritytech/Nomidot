@@ -1949,6 +1949,7 @@ type Referendum {
   delay: Int!
   end: Int!
   preimage: Preimage
+  preimageHash: String!
   referendumId: Int!
   referendumStatus(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus!]
   voteThreshold: String!
@@ -1964,6 +1965,7 @@ input ReferendumCreateInput {
   delay: Int!
   end: Int!
   preimage: PreimageCreateOneWithoutReferendumInput
+  preimageHash: String!
   referendumId: Int!
   referendumStatus: ReferendumStatusCreateManyWithoutReferendumInput
   voteThreshold: String!
@@ -1982,6 +1984,7 @@ input ReferendumCreateOneWithoutReferendumStatusInput {
 input ReferendumCreateWithoutPreimageInput {
   delay: Int!
   end: Int!
+  preimageHash: String!
   referendumId: Int!
   referendumStatus: ReferendumStatusCreateManyWithoutReferendumInput
   voteThreshold: String!
@@ -1991,6 +1994,7 @@ input ReferendumCreateWithoutReferendumStatusInput {
   delay: Int!
   end: Int!
   preimage: PreimageCreateOneWithoutReferendumInput
+  preimageHash: String!
   referendumId: Int!
   voteThreshold: String!
 }
@@ -2007,6 +2011,8 @@ enum ReferendumOrderByInput {
   delay_DESC
   end_ASC
   end_DESC
+  preimageHash_ASC
+  preimageHash_DESC
   referendumId_ASC
   referendumId_DESC
   voteThreshold_ASC
@@ -2017,6 +2023,7 @@ type ReferendumPreviousValues {
   id: Int!
   delay: Int!
   end: Int!
+  preimageHash: String!
   referendumId: Int!
   voteThreshold: String!
 }
@@ -2230,6 +2237,7 @@ input ReferendumUpdateInput {
   delay: Int
   end: Int
   preimage: PreimageUpdateOneWithoutReferendumInput
+  preimageHash: String
   referendumId: Int
   referendumStatus: ReferendumStatusUpdateManyWithoutReferendumInput
   voteThreshold: String
@@ -2238,6 +2246,7 @@ input ReferendumUpdateInput {
 input ReferendumUpdateManyMutationInput {
   delay: Int
   end: Int
+  preimageHash: String
   referendumId: Int
   voteThreshold: String
 }
@@ -2261,6 +2270,7 @@ input ReferendumUpdateOneWithoutPreimageInput {
 input ReferendumUpdateWithoutPreimageDataInput {
   delay: Int
   end: Int
+  preimageHash: String
   referendumId: Int
   referendumStatus: ReferendumStatusUpdateManyWithoutReferendumInput
   voteThreshold: String
@@ -2270,6 +2280,7 @@ input ReferendumUpdateWithoutReferendumStatusDataInput {
   delay: Int
   end: Int
   preimage: PreimageUpdateOneWithoutReferendumInput
+  preimageHash: String
   referendumId: Int
   voteThreshold: String
 }
@@ -2310,6 +2321,20 @@ input ReferendumWhereInput {
   end_gt: Int
   end_gte: Int
   preimage: PreimageWhereInput
+  preimageHash: String
+  preimageHash_not: String
+  preimageHash_in: [String!]
+  preimageHash_not_in: [String!]
+  preimageHash_lt: String
+  preimageHash_lte: String
+  preimageHash_gt: String
+  preimageHash_gte: String
+  preimageHash_contains: String
+  preimageHash_not_contains: String
+  preimageHash_starts_with: String
+  preimageHash_not_starts_with: String
+  preimageHash_ends_with: String
+  preimageHash_not_ends_with: String
   referendumId: Int
   referendumId_not: Int
   referendumId_in: [Int!]

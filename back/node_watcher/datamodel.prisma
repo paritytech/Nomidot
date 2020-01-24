@@ -115,6 +115,7 @@ type Referendum {
   delay: Int!
   end: Int!
   preimage: Preimage @relation(name: "PreimageForReferendum")
+  preimageHash: String!
   referendumId: Int! @unique
   referendumStatus: [ReferendumStatus]! @relation(name: "ReferendumStatusFromReferendum")
   voteThreshold: String!

@@ -823,6 +823,8 @@ export type ReferendumOrderByInput =
   | "delay_DESC"
   | "end_ASC"
   | "end_DESC"
+  | "preimageHash_ASC"
+  | "preimageHash_DESC"
   | "referendumId_ASC"
   | "referendumId_DESC"
   | "voteThreshold_ASC"
@@ -1445,6 +1447,20 @@ export interface ReferendumWhereInput {
   end_gt?: Maybe<Int>;
   end_gte?: Maybe<Int>;
   preimage?: Maybe<PreimageWhereInput>;
+  preimageHash?: Maybe<String>;
+  preimageHash_not?: Maybe<String>;
+  preimageHash_in?: Maybe<String[] | String>;
+  preimageHash_not_in?: Maybe<String[] | String>;
+  preimageHash_lt?: Maybe<String>;
+  preimageHash_lte?: Maybe<String>;
+  preimageHash_gt?: Maybe<String>;
+  preimageHash_gte?: Maybe<String>;
+  preimageHash_contains?: Maybe<String>;
+  preimageHash_not_contains?: Maybe<String>;
+  preimageHash_starts_with?: Maybe<String>;
+  preimageHash_not_starts_with?: Maybe<String>;
+  preimageHash_ends_with?: Maybe<String>;
+  preimageHash_not_ends_with?: Maybe<String>;
   referendumId?: Maybe<Int>;
   referendumId_not?: Maybe<Int>;
   referendumId_in?: Maybe<Int[] | Int>;
@@ -1993,6 +2009,7 @@ export interface ReferendumCreateOneWithoutPreimageInput {
 export interface ReferendumCreateWithoutPreimageInput {
   delay: Int;
   end: Int;
+  preimageHash: String;
   referendumId: Int;
   referendumStatus?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
   voteThreshold: String;
@@ -2369,6 +2386,7 @@ export interface ReferendumUpdateOneWithoutPreimageInput {
 export interface ReferendumUpdateWithoutPreimageDataInput {
   delay?: Maybe<Int>;
   end?: Maybe<Int>;
+  preimageHash?: Maybe<String>;
   referendumId?: Maybe<Int>;
   referendumStatus?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
   voteThreshold?: Maybe<String>;
@@ -2729,6 +2747,7 @@ export interface ReferendumCreateInput {
   delay: Int;
   end: Int;
   preimage?: Maybe<PreimageCreateOneWithoutReferendumInput>;
+  preimageHash: String;
   referendumId: Int;
   referendumStatus?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
   voteThreshold: String;
@@ -2756,6 +2775,7 @@ export interface ReferendumUpdateInput {
   delay?: Maybe<Int>;
   end?: Maybe<Int>;
   preimage?: Maybe<PreimageUpdateOneWithoutReferendumInput>;
+  preimageHash?: Maybe<String>;
   referendumId?: Maybe<Int>;
   referendumStatus?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
   voteThreshold?: Maybe<String>;
@@ -2790,6 +2810,7 @@ export interface PreimageUpsertWithoutReferendumInput {
 export interface ReferendumUpdateManyMutationInput {
   delay?: Maybe<Int>;
   end?: Maybe<Int>;
+  preimageHash?: Maybe<String>;
   referendumId?: Maybe<Int>;
   voteThreshold?: Maybe<String>;
 }
@@ -2810,6 +2831,7 @@ export interface ReferendumCreateWithoutReferendumStatusInput {
   delay: Int;
   end: Int;
   preimage?: Maybe<PreimageCreateOneWithoutReferendumInput>;
+  preimageHash: String;
   referendumId: Int;
   voteThreshold: String;
 }
@@ -2831,6 +2853,7 @@ export interface ReferendumUpdateWithoutReferendumStatusDataInput {
   delay?: Maybe<Int>;
   end?: Maybe<Int>;
   preimage?: Maybe<PreimageUpdateOneWithoutReferendumInput>;
+  preimageHash?: Maybe<String>;
   referendumId?: Maybe<Int>;
   voteThreshold?: Maybe<String>;
 }
@@ -3811,6 +3834,7 @@ export interface Referendum {
   id: Int;
   delay: Int;
   end: Int;
+  preimageHash: String;
   referendumId: Int;
   voteThreshold: String;
 }
@@ -3820,6 +3844,7 @@ export interface ReferendumPromise extends Promise<Referendum>, Fragmentable {
   delay: () => Promise<Int>;
   end: () => Promise<Int>;
   preimage: <T = PreimagePromise>() => T;
+  preimageHash: () => Promise<String>;
   referendumId: () => Promise<Int>;
   referendumStatus: <T = FragmentableArray<ReferendumStatus>>(args?: {
     where?: ReferendumStatusWhereInput;
@@ -3840,6 +3865,7 @@ export interface ReferendumSubscription
   delay: () => Promise<AsyncIterator<Int>>;
   end: () => Promise<AsyncIterator<Int>>;
   preimage: <T = PreimageSubscription>() => T;
+  preimageHash: () => Promise<AsyncIterator<String>>;
   referendumId: () => Promise<AsyncIterator<Int>>;
   referendumStatus: <
     T = Promise<AsyncIterator<ReferendumStatusSubscription>>
@@ -3862,6 +3888,7 @@ export interface ReferendumNullablePromise
   delay: () => Promise<Int>;
   end: () => Promise<Int>;
   preimage: <T = PreimagePromise>() => T;
+  preimageHash: () => Promise<String>;
   referendumId: () => Promise<Int>;
   referendumStatus: <T = FragmentableArray<ReferendumStatus>>(args?: {
     where?: ReferendumStatusWhereInput;
@@ -5233,6 +5260,7 @@ export interface ReferendumPreviousValues {
   id: Int;
   delay: Int;
   end: Int;
+  preimageHash: String;
   referendumId: Int;
   voteThreshold: String;
 }
@@ -5243,6 +5271,7 @@ export interface ReferendumPreviousValuesPromise
   id: () => Promise<Int>;
   delay: () => Promise<Int>;
   end: () => Promise<Int>;
+  preimageHash: () => Promise<String>;
   referendumId: () => Promise<Int>;
   voteThreshold: () => Promise<String>;
 }
@@ -5253,6 +5282,7 @@ export interface ReferendumPreviousValuesSubscription
   id: () => Promise<AsyncIterator<Int>>;
   delay: () => Promise<AsyncIterator<Int>>;
   end: () => Promise<AsyncIterator<Int>>;
+  preimageHash: () => Promise<AsyncIterator<String>>;
   referendumId: () => Promise<AsyncIterator<Int>>;
   voteThreshold: () => Promise<AsyncIterator<String>>;
 }
