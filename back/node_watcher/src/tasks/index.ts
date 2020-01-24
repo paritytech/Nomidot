@@ -6,6 +6,7 @@ import createBlockNumber from './createBlockNumber';
 // import createEra from './createEra';
 // import createPreimage from './createPreimage';
 // import createProposal from './createProposal';
+// import createProposalStatus from './createProposalStatus';
 import createReferendum from './createReferendum';
 // import createSession from './createSession';
 // import createSlashing from './createSlashing';
@@ -23,5 +24,6 @@ export const nomidotTasks: NomidotTask[] = [
   // createValidator,
   // createPreimage,
   // createProposal,
+  // createProposalStatus,
   createReferendum,
 ];

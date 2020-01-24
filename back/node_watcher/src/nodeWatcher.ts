@@ -4,6 +4,7 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { getChainTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
 import { NomidotTask } from './tasks/types';
@@ -63,6 +64,11 @@ async function incrementor(
       l.warn(`bumped spec version to ${newSpecVersion}, fetching new metadata`);
       const rpcMeta = await api.rpc.state.getMetadata(blockHash);
       currentSpecVersion = newSpecVersion;
+
+      // based on the node spec & chain, inject specific type overrides
+      const chain = await api.rpc.system.chain();
+      api.registry.register(getChainTypes(chain, runtimeVersion));
+
       api.registry.setMetadata(rpcMeta);
     }
 

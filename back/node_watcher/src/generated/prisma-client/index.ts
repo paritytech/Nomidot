@@ -676,6 +676,12 @@ export type NominationOrderByInput =
   | "bonded_ASC"
   | "bonded_DESC";
 
+export type ProposalStatusOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "status_ASC"
+  | "status_DESC";
+
 export type PreimageArgumentOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -717,12 +723,6 @@ export type ProposalOrderByInput =
   | "preimageHash_DESC"
   | "proposalId_ASC"
   | "proposalId_DESC";
-
-export type ProposalStatusOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "status_ASC"
-  | "status_DESC";
 
 export type RewardOrderByInput =
   | "id_ASC"
@@ -1014,7 +1014,7 @@ export type PreimageWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface PreimageArgumentWhereInput {
+export interface ProposalStatusWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1029,38 +1029,93 @@ export interface PreimageArgumentWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  proposal?: Maybe<ProposalWhereInput>;
+  status?: Maybe<String>;
+  status_not?: Maybe<String>;
+  status_in?: Maybe<String[] | String>;
+  status_not_in?: Maybe<String[] | String>;
+  status_lt?: Maybe<String>;
+  status_lte?: Maybe<String>;
+  status_gt?: Maybe<String>;
+  status_gte?: Maybe<String>;
+  status_contains?: Maybe<String>;
+  status_not_contains?: Maybe<String>;
+  status_starts_with?: Maybe<String>;
+  status_not_starts_with?: Maybe<String>;
+  status_ends_with?: Maybe<String>;
+  status_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
+  OR?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
+  NOT?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
+}
+
+export interface ProposalWhereInput {
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
+  author?: Maybe<String>;
+  author_not?: Maybe<String>;
+  author_in?: Maybe<String[] | String>;
+  author_not_in?: Maybe<String[] | String>;
+  author_lt?: Maybe<String>;
+  author_lte?: Maybe<String>;
+  author_gt?: Maybe<String>;
+  author_gte?: Maybe<String>;
+  author_contains?: Maybe<String>;
+  author_not_contains?: Maybe<String>;
+  author_starts_with?: Maybe<String>;
+  author_not_starts_with?: Maybe<String>;
+  author_ends_with?: Maybe<String>;
+  author_not_ends_with?: Maybe<String>;
+  depositAmount?: Maybe<String>;
+  depositAmount_not?: Maybe<String>;
+  depositAmount_in?: Maybe<String[] | String>;
+  depositAmount_not_in?: Maybe<String[] | String>;
+  depositAmount_lt?: Maybe<String>;
+  depositAmount_lte?: Maybe<String>;
+  depositAmount_gt?: Maybe<String>;
+  depositAmount_gte?: Maybe<String>;
+  depositAmount_contains?: Maybe<String>;
+  depositAmount_not_contains?: Maybe<String>;
+  depositAmount_starts_with?: Maybe<String>;
+  depositAmount_not_starts_with?: Maybe<String>;
+  depositAmount_ends_with?: Maybe<String>;
+  depositAmount_not_ends_with?: Maybe<String>;
   preimage?: Maybe<PreimageWhereInput>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  AND?: Maybe<PreimageArgumentWhereInput[] | PreimageArgumentWhereInput>;
-  OR?: Maybe<PreimageArgumentWhereInput[] | PreimageArgumentWhereInput>;
-  NOT?: Maybe<PreimageArgumentWhereInput[] | PreimageArgumentWhereInput>;
+  preimageHash?: Maybe<String>;
+  preimageHash_not?: Maybe<String>;
+  preimageHash_in?: Maybe<String[] | String>;
+  preimageHash_not_in?: Maybe<String[] | String>;
+  preimageHash_lt?: Maybe<String>;
+  preimageHash_lte?: Maybe<String>;
+  preimageHash_gt?: Maybe<String>;
+  preimageHash_gte?: Maybe<String>;
+  preimageHash_contains?: Maybe<String>;
+  preimageHash_not_contains?: Maybe<String>;
+  preimageHash_starts_with?: Maybe<String>;
+  preimageHash_not_starts_with?: Maybe<String>;
+  preimageHash_ends_with?: Maybe<String>;
+  preimageHash_not_ends_with?: Maybe<String>;
+  proposalId?: Maybe<Int>;
+  proposalId_not?: Maybe<Int>;
+  proposalId_in?: Maybe<Int[] | Int>;
+  proposalId_not_in?: Maybe<Int[] | Int>;
+  proposalId_lt?: Maybe<Int>;
+  proposalId_lte?: Maybe<Int>;
+  proposalId_gt?: Maybe<Int>;
+  proposalId_gte?: Maybe<Int>;
+  proposalStatus_every?: Maybe<ProposalStatusWhereInput>;
+  proposalStatus_some?: Maybe<ProposalStatusWhereInput>;
+  proposalStatus_none?: Maybe<ProposalStatusWhereInput>;
+  AND?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
+  OR?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
+  NOT?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
 }
 
 export interface PreimageWhereInput {
@@ -1174,73 +1229,7 @@ export interface PreimageWhereInput {
   NOT?: Maybe<PreimageWhereInput[] | PreimageWhereInput>;
 }
 
-export interface ProposalWhereInput {
-  id?: Maybe<Int>;
-  id_not?: Maybe<Int>;
-  id_in?: Maybe<Int[] | Int>;
-  id_not_in?: Maybe<Int[] | Int>;
-  id_lt?: Maybe<Int>;
-  id_lte?: Maybe<Int>;
-  id_gt?: Maybe<Int>;
-  id_gte?: Maybe<Int>;
-  author?: Maybe<String>;
-  author_not?: Maybe<String>;
-  author_in?: Maybe<String[] | String>;
-  author_not_in?: Maybe<String[] | String>;
-  author_lt?: Maybe<String>;
-  author_lte?: Maybe<String>;
-  author_gt?: Maybe<String>;
-  author_gte?: Maybe<String>;
-  author_contains?: Maybe<String>;
-  author_not_contains?: Maybe<String>;
-  author_starts_with?: Maybe<String>;
-  author_not_starts_with?: Maybe<String>;
-  author_ends_with?: Maybe<String>;
-  author_not_ends_with?: Maybe<String>;
-  depositAmount?: Maybe<String>;
-  depositAmount_not?: Maybe<String>;
-  depositAmount_in?: Maybe<String[] | String>;
-  depositAmount_not_in?: Maybe<String[] | String>;
-  depositAmount_lt?: Maybe<String>;
-  depositAmount_lte?: Maybe<String>;
-  depositAmount_gt?: Maybe<String>;
-  depositAmount_gte?: Maybe<String>;
-  depositAmount_contains?: Maybe<String>;
-  depositAmount_not_contains?: Maybe<String>;
-  depositAmount_starts_with?: Maybe<String>;
-  depositAmount_not_starts_with?: Maybe<String>;
-  depositAmount_ends_with?: Maybe<String>;
-  depositAmount_not_ends_with?: Maybe<String>;
-  preimage?: Maybe<PreimageWhereInput>;
-  preimageHash?: Maybe<String>;
-  preimageHash_not?: Maybe<String>;
-  preimageHash_in?: Maybe<String[] | String>;
-  preimageHash_not_in?: Maybe<String[] | String>;
-  preimageHash_lt?: Maybe<String>;
-  preimageHash_lte?: Maybe<String>;
-  preimageHash_gt?: Maybe<String>;
-  preimageHash_gte?: Maybe<String>;
-  preimageHash_contains?: Maybe<String>;
-  preimageHash_not_contains?: Maybe<String>;
-  preimageHash_starts_with?: Maybe<String>;
-  preimageHash_not_starts_with?: Maybe<String>;
-  preimageHash_ends_with?: Maybe<String>;
-  preimageHash_not_ends_with?: Maybe<String>;
-  proposalId?: Maybe<Int>;
-  proposalId_not?: Maybe<Int>;
-  proposalId_in?: Maybe<Int[] | Int>;
-  proposalId_not_in?: Maybe<Int[] | Int>;
-  proposalId_lt?: Maybe<Int>;
-  proposalId_lte?: Maybe<Int>;
-  proposalId_gt?: Maybe<Int>;
-  proposalId_gte?: Maybe<Int>;
-  proposalStatus?: Maybe<ProposalStatusWhereInput>;
-  AND?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
-  OR?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
-  NOT?: Maybe<ProposalWhereInput[] | ProposalWhereInput>;
-}
-
-export interface ProposalStatusWhereInput {
+export interface PreimageArgumentWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1255,25 +1244,38 @@ export interface ProposalStatusWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  blockNumber?: Maybe<BlockNumberWhereInput>;
-  proposal?: Maybe<ProposalWhereInput>;
-  status?: Maybe<String>;
-  status_not?: Maybe<String>;
-  status_in?: Maybe<String[] | String>;
-  status_not_in?: Maybe<String[] | String>;
-  status_lt?: Maybe<String>;
-  status_lte?: Maybe<String>;
-  status_gt?: Maybe<String>;
-  status_gte?: Maybe<String>;
-  status_contains?: Maybe<String>;
-  status_not_contains?: Maybe<String>;
-  status_starts_with?: Maybe<String>;
-  status_not_starts_with?: Maybe<String>;
-  status_ends_with?: Maybe<String>;
-  status_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
-  OR?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
-  NOT?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  preimage?: Maybe<PreimageWhereInput>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PreimageArgumentWhereInput[] | PreimageArgumentWhereInput>;
+  OR?: Maybe<PreimageArgumentWhereInput[] | PreimageArgumentWhereInput>;
+  NOT?: Maybe<PreimageArgumentWhereInput[] | PreimageArgumentWhereInput>;
 }
 
 export interface PreimageStatusWhereInput {
@@ -1725,12 +1727,17 @@ export interface ProposalCreateWithoutPreimageInput {
   depositAmount: String;
   preimageHash: String;
   proposalId: Int;
-  proposalStatus: ProposalStatusCreateOneWithoutProposalInput;
+  proposalStatus?: Maybe<ProposalStatusCreateManyWithoutProposalInput>;
 }
 
-export interface ProposalStatusCreateOneWithoutProposalInput {
-  create?: Maybe<ProposalStatusCreateWithoutProposalInput>;
-  connect?: Maybe<ProposalStatusWhereUniqueInput>;
+export interface ProposalStatusCreateManyWithoutProposalInput {
+  create?: Maybe<
+    | ProposalStatusCreateWithoutProposalInput[]
+    | ProposalStatusCreateWithoutProposalInput
+  >;
+  connect?: Maybe<
+    ProposalStatusWhereUniqueInput[] | ProposalStatusWhereUniqueInput
+  >;
 }
 
 export interface ProposalStatusCreateWithoutProposalInput {
@@ -1797,14 +1804,46 @@ export interface ProposalUpdateWithoutPreimageDataInput {
   depositAmount?: Maybe<String>;
   preimageHash?: Maybe<String>;
   proposalId?: Maybe<Int>;
-  proposalStatus?: Maybe<ProposalStatusUpdateOneRequiredWithoutProposalInput>;
+  proposalStatus?: Maybe<ProposalStatusUpdateManyWithoutProposalInput>;
 }
 
-export interface ProposalStatusUpdateOneRequiredWithoutProposalInput {
-  create?: Maybe<ProposalStatusCreateWithoutProposalInput>;
-  update?: Maybe<ProposalStatusUpdateWithoutProposalDataInput>;
-  upsert?: Maybe<ProposalStatusUpsertWithoutProposalInput>;
-  connect?: Maybe<ProposalStatusWhereUniqueInput>;
+export interface ProposalStatusUpdateManyWithoutProposalInput {
+  create?: Maybe<
+    | ProposalStatusCreateWithoutProposalInput[]
+    | ProposalStatusCreateWithoutProposalInput
+  >;
+  delete?: Maybe<
+    ProposalStatusWhereUniqueInput[] | ProposalStatusWhereUniqueInput
+  >;
+  connect?: Maybe<
+    ProposalStatusWhereUniqueInput[] | ProposalStatusWhereUniqueInput
+  >;
+  set?: Maybe<
+    ProposalStatusWhereUniqueInput[] | ProposalStatusWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    ProposalStatusWhereUniqueInput[] | ProposalStatusWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ProposalStatusUpdateWithWhereUniqueWithoutProposalInput[]
+    | ProposalStatusUpdateWithWhereUniqueWithoutProposalInput
+  >;
+  upsert?: Maybe<
+    | ProposalStatusUpsertWithWhereUniqueWithoutProposalInput[]
+    | ProposalStatusUpsertWithWhereUniqueWithoutProposalInput
+  >;
+  deleteMany?: Maybe<
+    ProposalStatusScalarWhereInput[] | ProposalStatusScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ProposalStatusUpdateManyWithWhereNestedInput[]
+    | ProposalStatusUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ProposalStatusUpdateWithWhereUniqueWithoutProposalInput {
+  where: ProposalStatusWhereUniqueInput;
+  data: ProposalStatusUpdateWithoutProposalDataInput;
 }
 
 export interface ProposalStatusUpdateWithoutProposalDataInput {
@@ -1812,9 +1851,57 @@ export interface ProposalStatusUpdateWithoutProposalDataInput {
   status?: Maybe<String>;
 }
 
-export interface ProposalStatusUpsertWithoutProposalInput {
+export interface ProposalStatusUpsertWithWhereUniqueWithoutProposalInput {
+  where: ProposalStatusWhereUniqueInput;
   update: ProposalStatusUpdateWithoutProposalDataInput;
   create: ProposalStatusCreateWithoutProposalInput;
+}
+
+export interface ProposalStatusScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  status?: Maybe<String>;
+  status_not?: Maybe<String>;
+  status_in?: Maybe<String[] | String>;
+  status_not_in?: Maybe<String[] | String>;
+  status_lt?: Maybe<String>;
+  status_lte?: Maybe<String>;
+  status_gt?: Maybe<String>;
+  status_gte?: Maybe<String>;
+  status_contains?: Maybe<String>;
+  status_not_contains?: Maybe<String>;
+  status_starts_with?: Maybe<String>;
+  status_not_starts_with?: Maybe<String>;
+  status_ends_with?: Maybe<String>;
+  status_not_ends_with?: Maybe<String>;
+  AND?: Maybe<
+    ProposalStatusScalarWhereInput[] | ProposalStatusScalarWhereInput
+  >;
+  OR?: Maybe<ProposalStatusScalarWhereInput[] | ProposalStatusScalarWhereInput>;
+  NOT?: Maybe<
+    ProposalStatusScalarWhereInput[] | ProposalStatusScalarWhereInput
+  >;
+}
+
+export interface ProposalStatusUpdateManyWithWhereNestedInput {
+  where: ProposalStatusScalarWhereInput;
+  data: ProposalStatusUpdateManyDataInput;
+}
+
+export interface ProposalStatusUpdateManyDataInput {
+  status?: Maybe<String>;
 }
 
 export interface ProposalUpsertWithoutPreimageInput {
@@ -2163,7 +2250,7 @@ export interface ProposalCreateInput {
   preimage?: Maybe<PreimageCreateOneWithoutProposalInput>;
   preimageHash: String;
   proposalId: Int;
-  proposalStatus: ProposalStatusCreateOneWithoutProposalInput;
+  proposalStatus?: Maybe<ProposalStatusCreateManyWithoutProposalInput>;
 }
 
 export interface PreimageCreateOneWithoutProposalInput {
@@ -2189,7 +2276,7 @@ export interface ProposalUpdateInput {
   preimage?: Maybe<PreimageUpdateOneWithoutProposalInput>;
   preimageHash?: Maybe<String>;
   proposalId?: Maybe<Int>;
-  proposalStatus?: Maybe<ProposalStatusUpdateOneRequiredWithoutProposalInput>;
+  proposalStatus?: Maybe<ProposalStatusUpdateManyWithoutProposalInput>;
 }
 
 export interface PreimageUpdateOneWithoutProposalInput {
@@ -3047,7 +3134,15 @@ export interface ProposalPromise extends Promise<Proposal>, Fragmentable {
   preimage: <T = PreimagePromise>() => T;
   preimageHash: () => Promise<String>;
   proposalId: () => Promise<Int>;
-  proposalStatus: <T = ProposalStatusPromise>() => T;
+  proposalStatus: <T = FragmentableArray<ProposalStatus>>(args?: {
+    where?: ProposalStatusWhereInput;
+    orderBy?: ProposalStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ProposalSubscription
@@ -3059,7 +3154,17 @@ export interface ProposalSubscription
   preimage: <T = PreimageSubscription>() => T;
   preimageHash: () => Promise<AsyncIterator<String>>;
   proposalId: () => Promise<AsyncIterator<Int>>;
-  proposalStatus: <T = ProposalStatusSubscription>() => T;
+  proposalStatus: <
+    T = Promise<AsyncIterator<ProposalStatusSubscription>>
+  >(args?: {
+    where?: ProposalStatusWhereInput;
+    orderBy?: ProposalStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ProposalNullablePromise
@@ -3071,7 +3176,15 @@ export interface ProposalNullablePromise
   preimage: <T = PreimagePromise>() => T;
   preimageHash: () => Promise<String>;
   proposalId: () => Promise<Int>;
-  proposalStatus: <T = ProposalStatusPromise>() => T;
+  proposalStatus: <T = FragmentableArray<ProposalStatus>>(args?: {
+    where?: ProposalStatusWhereInput;
+    orderBy?: ProposalStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ProposalStatus {

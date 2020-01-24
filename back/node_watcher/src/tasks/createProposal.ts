@@ -36,7 +36,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
     const proposalEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === 'Proposed'
+        section === 'democracy' && method === ProposalStatus.PROPOSED
     );
 
     const results: NomidotProposal[] = [];

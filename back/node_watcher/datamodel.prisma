@@ -72,7 +72,7 @@ type Proposal {
   preimage: Preimage @relation(name: "PreimageForProposal")
   preimageHash: String!
   proposalId: Int! @unique
-  proposalStatus: ProposalStatus! @relation(name: "ProposalStatusFromProposal")
+  proposalStatus: [ProposalStatus]! @relation(name: "ProposalStatusFromProposal")
 }
 
 type ProposalStatus {

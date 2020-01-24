@@ -66,6 +66,7 @@ export type Nomidot =
   | NomidotEra
   | NomidotHeartBeat
   | NomidotPreimage[]
+  | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
   | NomidotSession
   | NomidotSlashing[]
@@ -132,4 +133,9 @@ export interface NomidotPreimageRawEvent {
   Hash?: Hash;
   AccountId?: AccountId;
   Balance?: Balance;
+}
+
+export interface NomidotProposalStatusUpdate {
+  proposalId: number;
+  status: ProposalStatus;
 }
