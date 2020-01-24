@@ -3,21 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  AccountId,
-  BlockNumber,
-  Hash,
-  PropIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, Hash, ReferendumInfo } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import {
-  NomidotProposal,
-  NomidotProposalEvent,
-  NomidotProposalRawEvent,
+  NomidotReferendum,
+  NomidotReferendumRawEvent,
   PreimageStatus,
-  ProposalStatus,
   ReferendumStatus,
   Task,
 } from './types';
@@ -27,24 +20,24 @@ const l = logger('Task: Referenda');
 /*
  *  ======= Table (Referendum) ======
  */
-const createProposal: Task<NomidotProposal[]> = {
-  name: 'createProposal',
+const createReferendum: Task<NomidotReferendum[]> = {
+  name: 'createReferendum',
   read: async (
     blockHash: Hash,
     api: ApiPromise
-  ): Promise<NomidotProposal[]> => {
+  ): Promise<NomidotReferendum[]> => {
     const events = await api.query.system.events.at(blockHash);
 
-    const proposalEvents = events.filter(
+    const referendumEvents = events.filter(
       ({ event: { method, section } }) =>
         section === 'democracy' && method === ReferendumStatus.STARTED
     );
 
-    const results: NomidotProposal[] = [];
+    const results: NomidotReferendum[] = [];
 
     await Promise.all(
-      proposalEvents.map(async ({ event: { data, typeDef } }) => {
-        const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
+      referendumEvents.map(async ({ event: { data, typeDef } }) => {
+        const referendumRawEvent: NomidotReferendumRawEvent = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
 
@@ -57,31 +50,37 @@ const createProposal: Task<NomidotProposal[]> = {
         );
         // Returns { ReferendumIndex: '0', VoteThreshold: 'Supermajorityapproval' }
 
-        if (!proposalRawEvent.PropIndex || !proposalRawEvent.Balance) {
+        if (
+          !referendumRawEvent.ReferendumIndex ||
+          !referendumRawEvent.VoteThreshold
+        ) {
           l.error(
-            `At least one of proposalArgumentRaw: PropIndex or Balance missing: ${proposalRawEvent.PropIndex}, ${proposalRawEvent.Balance}`
+            `At least one of the expected ReferendumIndex or VoteThreshold is missing in the event: ${referendumRawEvent.ReferendumIndex}, ${referendumRawEvent.VoteThreshold}`
           );
           return null;
         }
 
-        const proposalArguments: NomidotProposalEvent = {
-          depositAmount: proposalRawEvent.Balance,
-          proposalId: Number(proposalRawEvent.PropIndex),
-        };
+        const {
+          end,
+          proposalHash,
+          delay,
+        }: ReferendumInfo = (await api.query.democracy.referendumInfoOf.at(
+          blockHash
+        )) as ReferendumInfo;
+        // democracy.referendumInfoOf: Option<ReferendumInfo>
+        // {"end":180,"proposalHash":"0x6b41591e6cbb1c82eeb8370e29e09c4026450dc274869a333e6df95050d2b1cb","threshold":"supermajorityapproval","delay":60}
+        // !referendumRawEvent.end ||
+        // !referendumRawEvent.proposalHash ||
+        // !referendumRawEvent.threshold ||
+        // !referendumRawEvent.delay
 
-        const publicProps = await api.query.democracy.publicProps.at(blockHash);
-
-        const [, preimageHash, author] = publicProps.filter(
-          ([idNumber]: [PropIndex, Hash, AccountId]) =>
-            idNumber.toNumber() === proposalArguments.proposalId
-        )[0];
-
-        const result: NomidotProposal = {
-          author,
-          depositAmount: proposalArguments.depositAmount,
-          proposalId: proposalArguments.proposalId,
-          preimageHash,
-          status: ProposalStatus.PROPOSED,
+        const result: NomidotReferendum = {
+          delay,
+          end,
+          preimageHash: proposalHash,
+          referendumIndex: referendumRawEvent.ReferendumIndex,
+          status: ReferendumStatus.STARTED,
+          voteThreshold: referendumRawEvent.VoteThreshold,
         };
 
         l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
@@ -91,7 +90,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
     return results;
   },
-  write: async (blockNumber: BlockNumber, value: NomidotProposal[]) => {
+  write: async (blockNumber: BlockNumber, value: NomidotReferendum[]) => {
     await Promise.all(
       value.map(async prop => {
         const {
@@ -147,4 +146,4 @@ const createProposal: Task<NomidotProposal[]> = {
   },
 };
 
-export default createProposal;
+export default createReferendum;

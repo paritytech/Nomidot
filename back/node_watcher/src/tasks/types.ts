@@ -14,6 +14,7 @@ import {
   Moment,
   SessionIndex,
   ValidatorPrefs,
+  VoteThreshold,
 } from '@polkadot/types/interfaces';
 
 export interface Task<T> {
@@ -89,6 +90,20 @@ export interface NomidotProposalEvent {
 export interface NomidotProposalRawEvent {
   PropIndex?: number;
   Balance?: Balance;
+}
+
+export interface NomidotReferendum {
+  delay: BlockNumber;
+  end: BlockNumber;
+  preimageHash: Hash;
+  referendumIndex: number;
+  status: ReferendumStatus;
+  voteThreshold: VoteThreshold;
+}
+
+export interface NomidotReferendumRawEvent {
+  ReferendumIndex?: number;
+  VoteThreshold?: VoteThreshold;
 }
 
 export interface NomidotArgument {

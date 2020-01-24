@@ -34,6 +34,14 @@ type AggregateProposalStatus {
   count: Int!
 }
 
+type AggregateReferendum {
+  count: Int!
+}
+
+type AggregateReferendumStatus {
+  count: Int!
+}
+
 type AggregateReward {
   count: Int!
 }
@@ -419,6 +427,18 @@ type Mutation {
   upsertProposalStatus(where: ProposalStatusWhereUniqueInput!, create: ProposalStatusCreateInput!, update: ProposalStatusUpdateInput!): ProposalStatus!
   deleteProposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
   deleteManyProposalStatuses(where: ProposalStatusWhereInput): BatchPayload!
+  createReferendum(data: ReferendumCreateInput!): Referendum!
+  updateReferendum(data: ReferendumUpdateInput!, where: ReferendumWhereUniqueInput!): Referendum
+  updateManyReferendums(data: ReferendumUpdateManyMutationInput!, where: ReferendumWhereInput): BatchPayload!
+  upsertReferendum(where: ReferendumWhereUniqueInput!, create: ReferendumCreateInput!, update: ReferendumUpdateInput!): Referendum!
+  deleteReferendum(where: ReferendumWhereUniqueInput!): Referendum
+  deleteManyReferendums(where: ReferendumWhereInput): BatchPayload!
+  createReferendumStatus(data: ReferendumStatusCreateInput!): ReferendumStatus!
+  updateReferendumStatus(data: ReferendumStatusUpdateInput!, where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  updateManyReferendumStatuses(data: ReferendumStatusUpdateManyMutationInput!, where: ReferendumStatusWhereInput): BatchPayload!
+  upsertReferendumStatus(where: ReferendumStatusWhereUniqueInput!, create: ReferendumStatusCreateInput!, update: ReferendumStatusUpdateInput!): ReferendumStatus!
+  deleteReferendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  deleteManyReferendumStatuses(where: ReferendumStatusWhereInput): BatchPayload!
   createReward(data: RewardCreateInput!): Reward!
   updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
   updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
@@ -669,6 +689,7 @@ type Preimage {
   proposal: Proposal
   preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument!]
   preimageStatus(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus!]
+  referendum: Referendum
   section: String!
 }
 
@@ -907,6 +928,7 @@ input PreimageCreateInput {
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
   section: String!
 }
 
@@ -925,6 +947,11 @@ input PreimageCreateOneWithoutProposalInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageCreateOneWithoutReferendumInput {
+  create: PreimageCreateWithoutReferendumInput
+  connect: PreimageWhereUniqueInput
+}
+
 input PreimageCreateWithoutPreimageArgumentsInput {
   id: ID
   author: String!
@@ -934,6 +961,7 @@ input PreimageCreateWithoutPreimageArgumentsInput {
   method: String!
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
   section: String!
 }
 
@@ -946,6 +974,7 @@ input PreimageCreateWithoutPreimageStatusInput {
   method: String!
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
   section: String!
 }
 
@@ -956,6 +985,20 @@ input PreimageCreateWithoutProposalInput {
   hash: String!
   metaDescription: String!
   method: String!
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+  section: String!
+}
+
+input PreimageCreateWithoutReferendumInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   section: String!
@@ -1207,6 +1250,7 @@ input PreimageUpdateInput {
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
   section: String
 }
 
@@ -1242,6 +1286,15 @@ input PreimageUpdateOneWithoutProposalInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageUpdateOneWithoutReferendumInput {
+  create: PreimageCreateWithoutReferendumInput
+  update: PreimageUpdateWithoutReferendumDataInput
+  upsert: PreimageUpsertWithoutReferendumInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PreimageWhereUniqueInput
+}
+
 input PreimageUpdateWithoutPreimageArgumentsDataInput {
   author: String
   depositAmount: String
@@ -1250,6 +1303,7 @@ input PreimageUpdateWithoutPreimageArgumentsDataInput {
   method: String
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
   section: String
 }
 
@@ -1261,6 +1315,7 @@ input PreimageUpdateWithoutPreimageStatusDataInput {
   method: String
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
   section: String
 }
 
@@ -1270,6 +1325,19 @@ input PreimageUpdateWithoutProposalDataInput {
   hash: String
   metaDescription: String
   method: String
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+  section: String
+}
+
+input PreimageUpdateWithoutReferendumDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   section: String
@@ -1288,6 +1356,11 @@ input PreimageUpsertWithoutPreimageStatusInput {
 input PreimageUpsertWithoutProposalInput {
   update: PreimageUpdateWithoutProposalDataInput!
   create: PreimageCreateWithoutProposalInput!
+}
+
+input PreimageUpsertWithoutReferendumInput {
+  update: PreimageUpdateWithoutReferendumDataInput!
+  create: PreimageCreateWithoutReferendumInput!
 }
 
 input PreimageWhereInput {
@@ -1382,6 +1455,7 @@ input PreimageWhereInput {
   preimageStatus_every: PreimageStatusWhereInput
   preimageStatus_some: PreimageStatusWhereInput
   preimageStatus_none: PreimageStatusWhereInput
+  referendum: ReferendumWhereInput
   section: String
   section_not: String
   section_in: [String!]
@@ -1843,6 +1917,12 @@ type Query {
   proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
   proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
   proposalStatusesConnection(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalStatusConnection!
+  referendum(where: ReferendumWhereUniqueInput!): Referendum
+  referendums(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Referendum]!
+  referendumsConnection(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumConnection!
+  referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  referendumStatuses(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus]!
+  referendumStatusesConnection(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumStatusConnection!
   reward(where: RewardWhereUniqueInput!): Reward
   rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
   rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
@@ -1862,6 +1942,416 @@ type Query {
   validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
   validatorsConnection(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatorConnection!
   node(id: ID!): Node
+}
+
+type Referendum {
+  id: ID!
+  delay: Int!
+  end: Int!
+  preimage: Preimage
+  referendumId: Int!
+  status(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus!]
+  voteThreshold: String!
+}
+
+type ReferendumConnection {
+  pageInfo: PageInfo!
+  edges: [ReferendumEdge]!
+  aggregate: AggregateReferendum!
+}
+
+input ReferendumCreateInput {
+  id: ID
+  delay: Int!
+  end: Int!
+  preimage: PreimageCreateOneWithoutReferendumInput
+  referendumId: Int!
+  status: ReferendumStatusCreateManyWithoutReferendumInput
+  voteThreshold: String!
+}
+
+input ReferendumCreateOneWithoutPreimageInput {
+  create: ReferendumCreateWithoutPreimageInput
+  connect: ReferendumWhereUniqueInput
+}
+
+input ReferendumCreateOneWithoutStatusInput {
+  create: ReferendumCreateWithoutStatusInput
+  connect: ReferendumWhereUniqueInput
+}
+
+input ReferendumCreateWithoutPreimageInput {
+  id: ID
+  delay: Int!
+  end: Int!
+  referendumId: Int!
+  status: ReferendumStatusCreateManyWithoutReferendumInput
+  voteThreshold: String!
+}
+
+input ReferendumCreateWithoutStatusInput {
+  id: ID
+  delay: Int!
+  end: Int!
+  preimage: PreimageCreateOneWithoutReferendumInput
+  referendumId: Int!
+  voteThreshold: String!
+}
+
+type ReferendumEdge {
+  node: Referendum!
+  cursor: String!
+}
+
+enum ReferendumOrderByInput {
+  id_ASC
+  id_DESC
+  delay_ASC
+  delay_DESC
+  end_ASC
+  end_DESC
+  referendumId_ASC
+  referendumId_DESC
+  voteThreshold_ASC
+  voteThreshold_DESC
+}
+
+type ReferendumPreviousValues {
+  id: ID!
+  delay: Int!
+  end: Int!
+  referendumId: Int!
+  voteThreshold: String!
+}
+
+type ReferendumStatus {
+  id: ID!
+  blockNumber: BlockNumber!
+  referendum: Referendum!
+  status: String!
+}
+
+type ReferendumStatusConnection {
+  pageInfo: PageInfo!
+  edges: [ReferendumStatusEdge]!
+  aggregate: AggregateReferendumStatus!
+}
+
+input ReferendumStatusCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  referendum: ReferendumCreateOneWithoutStatusInput!
+  status: String!
+}
+
+input ReferendumStatusCreateManyWithoutReferendumInput {
+  create: [ReferendumStatusCreateWithoutReferendumInput!]
+  connect: [ReferendumStatusWhereUniqueInput!]
+}
+
+input ReferendumStatusCreateWithoutReferendumInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  status: String!
+}
+
+type ReferendumStatusEdge {
+  node: ReferendumStatus!
+  cursor: String!
+}
+
+enum ReferendumStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type ReferendumStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input ReferendumStatusScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [ReferendumStatusScalarWhereInput!]
+  OR: [ReferendumStatusScalarWhereInput!]
+  NOT: [ReferendumStatusScalarWhereInput!]
+}
+
+type ReferendumStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: ReferendumStatus
+  updatedFields: [String!]
+  previousValues: ReferendumStatusPreviousValues
+}
+
+input ReferendumStatusSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ReferendumStatusWhereInput
+  AND: [ReferendumStatusSubscriptionWhereInput!]
+  OR: [ReferendumStatusSubscriptionWhereInput!]
+  NOT: [ReferendumStatusSubscriptionWhereInput!]
+}
+
+input ReferendumStatusUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  referendum: ReferendumUpdateOneRequiredWithoutStatusInput
+  status: String
+}
+
+input ReferendumStatusUpdateManyDataInput {
+  status: String
+}
+
+input ReferendumStatusUpdateManyMutationInput {
+  status: String
+}
+
+input ReferendumStatusUpdateManyWithoutReferendumInput {
+  create: [ReferendumStatusCreateWithoutReferendumInput!]
+  delete: [ReferendumStatusWhereUniqueInput!]
+  connect: [ReferendumStatusWhereUniqueInput!]
+  set: [ReferendumStatusWhereUniqueInput!]
+  disconnect: [ReferendumStatusWhereUniqueInput!]
+  update: [ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput!]
+  upsert: [ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput!]
+  deleteMany: [ReferendumStatusScalarWhereInput!]
+  updateMany: [ReferendumStatusUpdateManyWithWhereNestedInput!]
+}
+
+input ReferendumStatusUpdateManyWithWhereNestedInput {
+  where: ReferendumStatusScalarWhereInput!
+  data: ReferendumStatusUpdateManyDataInput!
+}
+
+input ReferendumStatusUpdateWithoutReferendumDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  status: String
+}
+
+input ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput {
+  where: ReferendumStatusWhereUniqueInput!
+  data: ReferendumStatusUpdateWithoutReferendumDataInput!
+}
+
+input ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput {
+  where: ReferendumStatusWhereUniqueInput!
+  update: ReferendumStatusUpdateWithoutReferendumDataInput!
+  create: ReferendumStatusCreateWithoutReferendumInput!
+}
+
+input ReferendumStatusWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  referendum: ReferendumWhereInput
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [ReferendumStatusWhereInput!]
+  OR: [ReferendumStatusWhereInput!]
+  NOT: [ReferendumStatusWhereInput!]
+}
+
+input ReferendumStatusWhereUniqueInput {
+  id: ID
+}
+
+type ReferendumSubscriptionPayload {
+  mutation: MutationType!
+  node: Referendum
+  updatedFields: [String!]
+  previousValues: ReferendumPreviousValues
+}
+
+input ReferendumSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ReferendumWhereInput
+  AND: [ReferendumSubscriptionWhereInput!]
+  OR: [ReferendumSubscriptionWhereInput!]
+  NOT: [ReferendumSubscriptionWhereInput!]
+}
+
+input ReferendumUpdateInput {
+  delay: Int
+  end: Int
+  preimage: PreimageUpdateOneWithoutReferendumInput
+  referendumId: Int
+  status: ReferendumStatusUpdateManyWithoutReferendumInput
+  voteThreshold: String
+}
+
+input ReferendumUpdateManyMutationInput {
+  delay: Int
+  end: Int
+  referendumId: Int
+  voteThreshold: String
+}
+
+input ReferendumUpdateOneRequiredWithoutStatusInput {
+  create: ReferendumCreateWithoutStatusInput
+  update: ReferendumUpdateWithoutStatusDataInput
+  upsert: ReferendumUpsertWithoutStatusInput
+  connect: ReferendumWhereUniqueInput
+}
+
+input ReferendumUpdateOneWithoutPreimageInput {
+  create: ReferendumCreateWithoutPreimageInput
+  update: ReferendumUpdateWithoutPreimageDataInput
+  upsert: ReferendumUpsertWithoutPreimageInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ReferendumWhereUniqueInput
+}
+
+input ReferendumUpdateWithoutPreimageDataInput {
+  delay: Int
+  end: Int
+  referendumId: Int
+  status: ReferendumStatusUpdateManyWithoutReferendumInput
+  voteThreshold: String
+}
+
+input ReferendumUpdateWithoutStatusDataInput {
+  delay: Int
+  end: Int
+  preimage: PreimageUpdateOneWithoutReferendumInput
+  referendumId: Int
+  voteThreshold: String
+}
+
+input ReferendumUpsertWithoutPreimageInput {
+  update: ReferendumUpdateWithoutPreimageDataInput!
+  create: ReferendumCreateWithoutPreimageInput!
+}
+
+input ReferendumUpsertWithoutStatusInput {
+  update: ReferendumUpdateWithoutStatusDataInput!
+  create: ReferendumCreateWithoutStatusInput!
+}
+
+input ReferendumWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  delay: Int
+  delay_not: Int
+  delay_in: [Int!]
+  delay_not_in: [Int!]
+  delay_lt: Int
+  delay_lte: Int
+  delay_gt: Int
+  delay_gte: Int
+  end: Int
+  end_not: Int
+  end_in: [Int!]
+  end_not_in: [Int!]
+  end_lt: Int
+  end_lte: Int
+  end_gt: Int
+  end_gte: Int
+  preimage: PreimageWhereInput
+  referendumId: Int
+  referendumId_not: Int
+  referendumId_in: [Int!]
+  referendumId_not_in: [Int!]
+  referendumId_lt: Int
+  referendumId_lte: Int
+  referendumId_gt: Int
+  referendumId_gte: Int
+  status_every: ReferendumStatusWhereInput
+  status_some: ReferendumStatusWhereInput
+  status_none: ReferendumStatusWhereInput
+  voteThreshold: String
+  voteThreshold_not: String
+  voteThreshold_in: [String!]
+  voteThreshold_not_in: [String!]
+  voteThreshold_lt: String
+  voteThreshold_lte: String
+  voteThreshold_gt: String
+  voteThreshold_gte: String
+  voteThreshold_contains: String
+  voteThreshold_not_contains: String
+  voteThreshold_starts_with: String
+  voteThreshold_not_starts_with: String
+  voteThreshold_ends_with: String
+  voteThreshold_not_ends_with: String
+  AND: [ReferendumWhereInput!]
+  OR: [ReferendumWhereInput!]
+  NOT: [ReferendumWhereInput!]
+}
+
+input ReferendumWhereUniqueInput {
+  id: ID
+  referendumId: Int
 }
 
 type Reward {
@@ -2329,6 +2819,8 @@ type Subscription {
   preimageStatus(where: PreimageStatusSubscriptionWhereInput): PreimageStatusSubscriptionPayload
   proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
   proposalStatus(where: ProposalStatusSubscriptionWhereInput): ProposalStatusSubscriptionPayload
+  referendum(where: ReferendumSubscriptionWhereInput): ReferendumSubscriptionPayload
+  referendumStatus(where: ReferendumStatusSubscriptionWhereInput): ReferendumStatusSubscriptionPayload
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
   slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload

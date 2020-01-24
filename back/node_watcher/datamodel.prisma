@@ -92,6 +92,7 @@ type Preimage {
   proposal: Proposal @relation(name: "PreimageForProposal", link: INLINE)
   preimageArguments: [PreimageArgument]! @relation(name: "ArgumentForPreimage")
   preimageStatus: [PreimageStatus]! @relation(name: "PreimageStatusFromPreimage")
+  referendum: Referendum @relation(name: "PreimageForReferendum", link: INLINE)
   section: String!
 }
 
@@ -107,4 +108,21 @@ type PreimageArgument {
   name: String!
   preimage: Preimage! @relation(name: "ArgumentForPreimage", link: INLINE)
   value: String!
+}
+
+type Referendum {
+  id: ID! @id
+  delay: Int!
+  end: Int!
+  preimage: Preimage @relation(name: "PreimageForReferendum")
+  referendumId: Int! @unique
+  status: [ReferendumStatus]! @relation(name: "ReferendumStatusFromReferendum")
+  voteThreshold: String!
+}
+
+type ReferendumStatus {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "ReferendumStatusAtBlockNumber", link: INLINE)
+  referendum: Referendum! @relation(name: "ReferendumStatusFromReferendum", link: INLINE)
+  status: String!
 }
