@@ -149,11 +149,13 @@ const createPreimage: Task<NomidotPreimage[]> = {
           hash: h.toString(),
           metaDescription,
           method,
-          proposal: {
-            connect: {
-              id: p.id,
-            },
-          },
+          proposal: p
+            ? {
+                connect: {
+                  id: p.id,
+                },
+              }
+            : undefined,
           preimageArguments: {
             create: pA,
           },
@@ -167,11 +169,13 @@ const createPreimage: Task<NomidotPreimage[]> = {
               status,
             },
           },
-          referendum: {
-            connect: {
-              id: r.id,
-            },
-          },
+          referendum: r
+            ? {
+                connect: {
+                  id: r.id,
+                },
+              }
+            : undefined,
           section,
         });
       })
