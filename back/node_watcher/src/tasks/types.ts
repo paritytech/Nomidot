@@ -69,6 +69,7 @@ export type Nomidot =
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
+  | NomidotReferendum[]
   | NomidotSession
   | NomidotSlashing[]
   | NomidotTotalIssuance

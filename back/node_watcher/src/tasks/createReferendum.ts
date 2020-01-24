@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash, ReferendumInfo } from '@polkadot/types/interfaces';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -60,30 +60,31 @@ const createReferendum: Task<NomidotReferendum[]> = {
           return null;
         }
 
-        const {
-          end,
-          proposalHash,
-          delay,
-        }: ReferendumInfo = (await api.query.democracy.referendumInfoOf.at(
-          blockHash
-        )) as ReferendumInfo;
+        const referendumInfoRaw = await api.query.democracy.referendumInfoOf.at(
+          blockHash,
+          referendumRawEvent.ReferendumIndex
+        );
         // democracy.referendumInfoOf: Option<ReferendumInfo>
         // {"end":180,"proposalHash":"0x6b41591e6cbb1c82eeb8370e29e09c4026450dc274869a333e6df95050d2b1cb","threshold":"supermajorityapproval","delay":60}
-        // !referendumRawEvent.end ||
-        // !referendumRawEvent.proposalHash ||
-        // !referendumRawEvent.threshold ||
-        // !referendumRawEvent.delay
+
+        const referendumInfo = referendumInfoRaw.unwrapOr(undefined);
+        if (!referendumInfo) {
+          l.error(
+            `No ReferendumInfo found for ReferendumIndex: ${referendumRawEvent.ReferendumIndex}`
+          );
+          return null;
+        }
 
         const result: NomidotReferendum = {
-          delay,
-          end,
-          preimageHash: proposalHash,
+          delay: referendumInfo.delay,
+          end: referendumInfo.end,
+          preimageHash: referendumInfo.proposalHash,
           referendumIndex: referendumRawEvent.ReferendumIndex,
           status: ReferendumStatus.STARTED,
           voteThreshold: referendumRawEvent.VoteThreshold,
         };
 
-        l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
+        l.log(`Nomidot Referendum: ${JSON.stringify(result)}`);
         results.push(result);
       })
     );
@@ -94,11 +95,12 @@ const createReferendum: Task<NomidotReferendum[]> = {
     await Promise.all(
       value.map(async prop => {
         const {
-          author,
-          depositAmount,
-          proposalId,
+          delay,
+          end,
           preimageHash,
+          referendumIndex,
           status,
+          voteThreshold,
         } = prop;
 
         const preimages =
@@ -118,9 +120,9 @@ const createReferendum: Task<NomidotReferendum[]> = {
             })[0]
           : undefined;
 
-        await prisma.createProposal({
-          author: author.toString(),
-          depositAmount: depositAmount.toString(),
+        await prisma.createReferendum({
+          delay: delay.toNumber(),
+          end: end.toNumber(),
           preimage: p
             ? {
                 connect: {
@@ -128,9 +130,8 @@ const createReferendum: Task<NomidotReferendum[]> = {
                 },
               }
             : undefined,
-          preimageHash: preimageHash.toString(),
-          proposalId: Number(proposalId),
-          proposalStatus: {
+          referendumId: Number(referendumIndex),
+          referendumStatus: {
             create: {
               blockNumber: {
                 connect: {
@@ -140,6 +141,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
               status,
             },
           },
+          voteThreshold: voteThreshold.toString(),
         });
       })
     );

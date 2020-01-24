@@ -1420,20 +1420,14 @@ export interface PreimageStatusWhereInput {
 }
 
 export interface ReferendumWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   delay?: Maybe<Int>;
   delay_not?: Maybe<Int>;
   delay_in?: Maybe<Int[] | Int>;
@@ -1459,9 +1453,9 @@ export interface ReferendumWhereInput {
   referendumId_lte?: Maybe<Int>;
   referendumId_gt?: Maybe<Int>;
   referendumId_gte?: Maybe<Int>;
-  status_every?: Maybe<ReferendumStatusWhereInput>;
-  status_some?: Maybe<ReferendumStatusWhereInput>;
-  status_none?: Maybe<ReferendumStatusWhereInput>;
+  referendumStatus_every?: Maybe<ReferendumStatusWhereInput>;
+  referendumStatus_some?: Maybe<ReferendumStatusWhereInput>;
+  referendumStatus_none?: Maybe<ReferendumStatusWhereInput>;
   voteThreshold?: Maybe<String>;
   voteThreshold_not?: Maybe<String>;
   voteThreshold_in?: Maybe<String[] | String>;
@@ -1535,7 +1529,7 @@ export type ProposalStatusWhereUniqueInput = AtLeastOne<{
 }>;
 
 export type ReferendumWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+  id: Maybe<Int>;
   referendumId?: Maybe<Int>;
 }>;
 
@@ -1997,11 +1991,10 @@ export interface ReferendumCreateOneWithoutPreimageInput {
 }
 
 export interface ReferendumCreateWithoutPreimageInput {
-  id?: Maybe<ID_Input>;
   delay: Int;
   end: Int;
   referendumId: Int;
-  status?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
+  referendumStatus?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
   voteThreshold: String;
 }
 
@@ -2377,7 +2370,7 @@ export interface ReferendumUpdateWithoutPreimageDataInput {
   delay?: Maybe<Int>;
   end?: Maybe<Int>;
   referendumId?: Maybe<Int>;
-  status?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
+  referendumStatus?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
   voteThreshold?: Maybe<String>;
 }
 
@@ -2733,12 +2726,11 @@ export interface ProposalStatusUpdateManyMutationInput {
 }
 
 export interface ReferendumCreateInput {
-  id?: Maybe<ID_Input>;
   delay: Int;
   end: Int;
   preimage?: Maybe<PreimageCreateOneWithoutReferendumInput>;
   referendumId: Int;
-  status?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
+  referendumStatus?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
   voteThreshold: String;
 }
 
@@ -2765,7 +2757,7 @@ export interface ReferendumUpdateInput {
   end?: Maybe<Int>;
   preimage?: Maybe<PreimageUpdateOneWithoutReferendumInput>;
   referendumId?: Maybe<Int>;
-  status?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
+  referendumStatus?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
   voteThreshold?: Maybe<String>;
 }
 
@@ -2805,17 +2797,16 @@ export interface ReferendumUpdateManyMutationInput {
 export interface ReferendumStatusCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  referendum: ReferendumCreateOneWithoutStatusInput;
+  referendum: ReferendumCreateOneWithoutReferendumStatusInput;
   status: String;
 }
 
-export interface ReferendumCreateOneWithoutStatusInput {
-  create?: Maybe<ReferendumCreateWithoutStatusInput>;
+export interface ReferendumCreateOneWithoutReferendumStatusInput {
+  create?: Maybe<ReferendumCreateWithoutReferendumStatusInput>;
   connect?: Maybe<ReferendumWhereUniqueInput>;
 }
 
-export interface ReferendumCreateWithoutStatusInput {
-  id?: Maybe<ID_Input>;
+export interface ReferendumCreateWithoutReferendumStatusInput {
   delay: Int;
   end: Int;
   preimage?: Maybe<PreimageCreateOneWithoutReferendumInput>;
@@ -2825,18 +2816,18 @@ export interface ReferendumCreateWithoutStatusInput {
 
 export interface ReferendumStatusUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  referendum?: Maybe<ReferendumUpdateOneRequiredWithoutStatusInput>;
+  referendum?: Maybe<ReferendumUpdateOneRequiredWithoutReferendumStatusInput>;
   status?: Maybe<String>;
 }
 
-export interface ReferendumUpdateOneRequiredWithoutStatusInput {
-  create?: Maybe<ReferendumCreateWithoutStatusInput>;
-  update?: Maybe<ReferendumUpdateWithoutStatusDataInput>;
-  upsert?: Maybe<ReferendumUpsertWithoutStatusInput>;
+export interface ReferendumUpdateOneRequiredWithoutReferendumStatusInput {
+  create?: Maybe<ReferendumCreateWithoutReferendumStatusInput>;
+  update?: Maybe<ReferendumUpdateWithoutReferendumStatusDataInput>;
+  upsert?: Maybe<ReferendumUpsertWithoutReferendumStatusInput>;
   connect?: Maybe<ReferendumWhereUniqueInput>;
 }
 
-export interface ReferendumUpdateWithoutStatusDataInput {
+export interface ReferendumUpdateWithoutReferendumStatusDataInput {
   delay?: Maybe<Int>;
   end?: Maybe<Int>;
   preimage?: Maybe<PreimageUpdateOneWithoutReferendumInput>;
@@ -2844,9 +2835,9 @@ export interface ReferendumUpdateWithoutStatusDataInput {
   voteThreshold?: Maybe<String>;
 }
 
-export interface ReferendumUpsertWithoutStatusInput {
-  update: ReferendumUpdateWithoutStatusDataInput;
-  create: ReferendumCreateWithoutStatusInput;
+export interface ReferendumUpsertWithoutReferendumStatusInput {
+  update: ReferendumUpdateWithoutReferendumStatusDataInput;
+  create: ReferendumCreateWithoutReferendumStatusInput;
 }
 
 export interface ReferendumStatusUpdateManyMutationInput {
@@ -3817,7 +3808,7 @@ export interface PreimageStatusNullablePromise
 }
 
 export interface Referendum {
-  id: ID_Output;
+  id: Int;
   delay: Int;
   end: Int;
   referendumId: Int;
@@ -3825,12 +3816,12 @@ export interface Referendum {
 }
 
 export interface ReferendumPromise extends Promise<Referendum>, Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   delay: () => Promise<Int>;
   end: () => Promise<Int>;
   preimage: <T = PreimagePromise>() => T;
   referendumId: () => Promise<Int>;
-  status: <T = FragmentableArray<ReferendumStatus>>(args?: {
+  referendumStatus: <T = FragmentableArray<ReferendumStatus>>(args?: {
     where?: ReferendumStatusWhereInput;
     orderBy?: ReferendumStatusOrderByInput;
     skip?: Int;
@@ -3845,12 +3836,14 @@ export interface ReferendumPromise extends Promise<Referendum>, Fragmentable {
 export interface ReferendumSubscription
   extends Promise<AsyncIterator<Referendum>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   delay: () => Promise<AsyncIterator<Int>>;
   end: () => Promise<AsyncIterator<Int>>;
   preimage: <T = PreimageSubscription>() => T;
   referendumId: () => Promise<AsyncIterator<Int>>;
-  status: <T = Promise<AsyncIterator<ReferendumStatusSubscription>>>(args?: {
+  referendumStatus: <
+    T = Promise<AsyncIterator<ReferendumStatusSubscription>>
+  >(args?: {
     where?: ReferendumStatusWhereInput;
     orderBy?: ReferendumStatusOrderByInput;
     skip?: Int;
@@ -3865,12 +3858,12 @@ export interface ReferendumSubscription
 export interface ReferendumNullablePromise
   extends Promise<Referendum | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   delay: () => Promise<Int>;
   end: () => Promise<Int>;
   preimage: <T = PreimagePromise>() => T;
   referendumId: () => Promise<Int>;
-  status: <T = FragmentableArray<ReferendumStatus>>(args?: {
+  referendumStatus: <T = FragmentableArray<ReferendumStatus>>(args?: {
     where?: ReferendumStatusWhereInput;
     orderBy?: ReferendumStatusOrderByInput;
     skip?: Int;
@@ -5237,7 +5230,7 @@ export interface ReferendumSubscriptionPayloadSubscription
 }
 
 export interface ReferendumPreviousValues {
-  id: ID_Output;
+  id: Int;
   delay: Int;
   end: Int;
   referendumId: Int;
@@ -5247,7 +5240,7 @@ export interface ReferendumPreviousValues {
 export interface ReferendumPreviousValuesPromise
   extends Promise<ReferendumPreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   delay: () => Promise<Int>;
   end: () => Promise<Int>;
   referendumId: () => Promise<Int>;
@@ -5257,7 +5250,7 @@ export interface ReferendumPreviousValuesPromise
 export interface ReferendumPreviousValuesSubscription
   extends Promise<AsyncIterator<ReferendumPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   delay: () => Promise<AsyncIterator<Int>>;
   end: () => Promise<AsyncIterator<Int>>;
   referendumId: () => Promise<AsyncIterator<Int>>;

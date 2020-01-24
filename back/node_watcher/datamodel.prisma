@@ -111,12 +111,12 @@ type PreimageArgument {
 }
 
 type Referendum {
-  id: ID! @id
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "REFERENDUM_SEQUENCE" initialValue:1 allocationSize:1)
   delay: Int!
   end: Int!
   preimage: Preimage @relation(name: "PreimageForReferendum")
   referendumId: Int! @unique
-  status: [ReferendumStatus]! @relation(name: "ReferendumStatusFromReferendum")
+  referendumStatus: [ReferendumStatus]! @relation(name: "ReferendumStatusFromReferendum")
   voteThreshold: String!
 }
 

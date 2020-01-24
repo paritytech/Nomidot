@@ -1945,12 +1945,12 @@ type Query {
 }
 
 type Referendum {
-  id: ID!
+  id: Int!
   delay: Int!
   end: Int!
   preimage: Preimage
   referendumId: Int!
-  status(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus!]
+  referendumStatus(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus!]
   voteThreshold: String!
 }
 
@@ -1961,12 +1961,11 @@ type ReferendumConnection {
 }
 
 input ReferendumCreateInput {
-  id: ID
   delay: Int!
   end: Int!
   preimage: PreimageCreateOneWithoutReferendumInput
   referendumId: Int!
-  status: ReferendumStatusCreateManyWithoutReferendumInput
+  referendumStatus: ReferendumStatusCreateManyWithoutReferendumInput
   voteThreshold: String!
 }
 
@@ -1975,22 +1974,20 @@ input ReferendumCreateOneWithoutPreimageInput {
   connect: ReferendumWhereUniqueInput
 }
 
-input ReferendumCreateOneWithoutStatusInput {
-  create: ReferendumCreateWithoutStatusInput
+input ReferendumCreateOneWithoutReferendumStatusInput {
+  create: ReferendumCreateWithoutReferendumStatusInput
   connect: ReferendumWhereUniqueInput
 }
 
 input ReferendumCreateWithoutPreimageInput {
-  id: ID
   delay: Int!
   end: Int!
   referendumId: Int!
-  status: ReferendumStatusCreateManyWithoutReferendumInput
+  referendumStatus: ReferendumStatusCreateManyWithoutReferendumInput
   voteThreshold: String!
 }
 
-input ReferendumCreateWithoutStatusInput {
-  id: ID
+input ReferendumCreateWithoutReferendumStatusInput {
   delay: Int!
   end: Int!
   preimage: PreimageCreateOneWithoutReferendumInput
@@ -2017,7 +2014,7 @@ enum ReferendumOrderByInput {
 }
 
 type ReferendumPreviousValues {
-  id: ID!
+  id: Int!
   delay: Int!
   end: Int!
   referendumId: Int!
@@ -2040,7 +2037,7 @@ type ReferendumStatusConnection {
 input ReferendumStatusCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  referendum: ReferendumCreateOneWithoutStatusInput!
+  referendum: ReferendumCreateOneWithoutReferendumStatusInput!
   status: String!
 }
 
@@ -2126,7 +2123,7 @@ input ReferendumStatusSubscriptionWhereInput {
 
 input ReferendumStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  referendum: ReferendumUpdateOneRequiredWithoutStatusInput
+  referendum: ReferendumUpdateOneRequiredWithoutReferendumStatusInput
   status: String
 }
 
@@ -2234,7 +2231,7 @@ input ReferendumUpdateInput {
   end: Int
   preimage: PreimageUpdateOneWithoutReferendumInput
   referendumId: Int
-  status: ReferendumStatusUpdateManyWithoutReferendumInput
+  referendumStatus: ReferendumStatusUpdateManyWithoutReferendumInput
   voteThreshold: String
 }
 
@@ -2245,10 +2242,10 @@ input ReferendumUpdateManyMutationInput {
   voteThreshold: String
 }
 
-input ReferendumUpdateOneRequiredWithoutStatusInput {
-  create: ReferendumCreateWithoutStatusInput
-  update: ReferendumUpdateWithoutStatusDataInput
-  upsert: ReferendumUpsertWithoutStatusInput
+input ReferendumUpdateOneRequiredWithoutReferendumStatusInput {
+  create: ReferendumCreateWithoutReferendumStatusInput
+  update: ReferendumUpdateWithoutReferendumStatusDataInput
+  upsert: ReferendumUpsertWithoutReferendumStatusInput
   connect: ReferendumWhereUniqueInput
 }
 
@@ -2265,11 +2262,11 @@ input ReferendumUpdateWithoutPreimageDataInput {
   delay: Int
   end: Int
   referendumId: Int
-  status: ReferendumStatusUpdateManyWithoutReferendumInput
+  referendumStatus: ReferendumStatusUpdateManyWithoutReferendumInput
   voteThreshold: String
 }
 
-input ReferendumUpdateWithoutStatusDataInput {
+input ReferendumUpdateWithoutReferendumStatusDataInput {
   delay: Int
   end: Int
   preimage: PreimageUpdateOneWithoutReferendumInput
@@ -2282,26 +2279,20 @@ input ReferendumUpsertWithoutPreimageInput {
   create: ReferendumCreateWithoutPreimageInput!
 }
 
-input ReferendumUpsertWithoutStatusInput {
-  update: ReferendumUpdateWithoutStatusDataInput!
-  create: ReferendumCreateWithoutStatusInput!
+input ReferendumUpsertWithoutReferendumStatusInput {
+  update: ReferendumUpdateWithoutReferendumStatusDataInput!
+  create: ReferendumCreateWithoutReferendumStatusInput!
 }
 
 input ReferendumWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   delay: Int
   delay_not: Int
   delay_in: [Int!]
@@ -2327,9 +2318,9 @@ input ReferendumWhereInput {
   referendumId_lte: Int
   referendumId_gt: Int
   referendumId_gte: Int
-  status_every: ReferendumStatusWhereInput
-  status_some: ReferendumStatusWhereInput
-  status_none: ReferendumStatusWhereInput
+  referendumStatus_every: ReferendumStatusWhereInput
+  referendumStatus_some: ReferendumStatusWhereInput
+  referendumStatus_none: ReferendumStatusWhereInput
   voteThreshold: String
   voteThreshold_not: String
   voteThreshold_in: [String!]
@@ -2350,7 +2341,7 @@ input ReferendumWhereInput {
 }
 
 input ReferendumWhereUniqueInput {
-  id: ID
+  id: Int
   referendumId: Int
 }
 
