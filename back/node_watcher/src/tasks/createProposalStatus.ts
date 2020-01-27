@@ -5,12 +5,12 @@
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
+import { proposalStatus } from 'src/util/statuses';
 
 import { prisma } from '../generated/prisma-client';
 import {
   NomidotProposalRawEvent,
   NomidotProposalStatusUpdate,
-  ProposalStatus,
   Task,
 } from './types';
 
@@ -29,7 +29,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
     const proposalEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === ProposalStatus.TABLED
+        section === 'democracy' && method === proposalStatus.TABLED
     );
 
     const results: NomidotProposalStatusUpdate[] = [];
@@ -68,7 +68,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
         const result: NomidotProposalStatusUpdate = {
           proposalId: Number(proposalRawEvent.PropIndex),
-          status: ProposalStatus.TABLED,
+          status: proposalStatus.TABLED,
         };
 
         l.log(`Nomidot Proposal Status Update: ${JSON.stringify(result)}`);

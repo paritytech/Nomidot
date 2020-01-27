@@ -16,6 +16,11 @@ import {
   ValidatorPrefs,
   VoteThreshold,
 } from '@polkadot/types/interfaces';
+import {
+  preimageStatus,
+  proposalStatus,
+  referendumStatus,
+} from 'src/util/statuses';
 
 export interface Task<T> {
   name: string;
@@ -99,7 +104,7 @@ export interface NomidotReferendum {
   end: BlockNumber;
   preimageHash: Hash;
   referendumIndex: number;
-  status: string;
+  status: ReferendumStatus;
   voteThreshold: VoteThreshold;
 }
 
@@ -113,39 +118,11 @@ export interface NomidotArgument {
   value: string;
 }
 
-export enum PreimageStatus {
-  NOTED = 'Noted',
-  REAPED = 'Reaped',
-  USED = 'Used',
-}
+type ProposalStatus = typeof proposalStatus[keyof typeof proposalStatus];
 
-export enum ProposalStatus {
-  PROPOSED = 'Proposed',
-  TABLED = 'Tabled',
-}
+type PreimageStatus = typeof preimageStatus[keyof typeof preimageStatus];
 
-export const referendumStatus = {
-  CANCELLED: 'Cancelled',
-  EXECUTED: 'Executed',
-  NOTPASSED: 'NotPassed',
-  PASSED: 'Passed',
-  STARTED: 'Started',
-};
-
-// export type ReferendumStatus =
-//   | 'Cancelled'
-//   | 'Executed'
-//   | 'NotPassed'
-//   | 'Passed'
-//   | 'Started';
-
-// export enum ReferendumStatus {
-//   CANCELLED = 'Cancelled',
-//   EXECUTED = 'Executed',
-//   NOTPASSED = 'NotPassed',
-//   PASSED = 'Passed',
-//   STARTED = 'Started',
-// }
+type ReferendumStatus = typeof referendumStatus[keyof typeof referendumStatus];
 
 export interface NomidotPreimage extends NomidotPreimageEvent {
   preImageArguments: NomidotArgument[];

@@ -5,15 +5,10 @@
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
+import { preimageStatus, referendumStatus } from 'src/util/statuses';
 
 import { prisma } from '../generated/prisma-client';
-import {
-  NomidotReferendum,
-  NomidotReferendumRawEvent,
-  PreimageStatus,
-  referendumStatus,
-  Task,
-} from './types';
+import { NomidotReferendum, NomidotReferendumRawEvent, Task } from './types';
 
 const l = logger('Task: Referenda');
 
@@ -116,7 +111,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           ? preimages?.filter(async preimage => {
               await prisma
                 .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: PreimageStatus.NOTED } });
+                .preimageStatus({ where: { status: preimageStatus.NOTED } });
             })[0]
           : undefined;
 
