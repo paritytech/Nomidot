@@ -7,13 +7,8 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import {
-  NomidotReferendum,
-  NomidotReferendumRawEvent,
-  PreimageStatus,
-  ReferendumStatus,
-  Task,
-} from './types';
+import { preimageStatus, referendumStatus } from '../util/statuses';
+import { NomidotReferendum, NomidotReferendumRawEvent, Task } from './types';
 
 const l = logger('Task: Referenda');
 
@@ -30,7 +25,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
 
     const referendumEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === ReferendumStatus.STARTED
+        section === 'democracy' && method === referendumStatus.STARTED
     );
 
     const results: NomidotReferendum[] = [];
@@ -80,7 +75,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           end: referendumInfo.end,
           preimageHash: referendumInfo.proposalHash,
           referendumIndex: referendumRawEvent.ReferendumIndex,
-          status: ReferendumStatus.STARTED,
+          status: referendumStatus.STARTED,
           voteThreshold: referendumRawEvent.VoteThreshold,
         };
 
@@ -116,7 +111,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           ? preimages?.filter(async preimage => {
               await prisma
                 .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: PreimageStatus.NOTED } });
+                .preimageStatus({ where: { status: preimageStatus.NOTED } });
             })[0]
           : undefined;
 

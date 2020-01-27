@@ -7,10 +7,10 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { proposalStatus } from '../util/statuses';
 import {
   NomidotProposalRawEvent,
   NomidotProposalStatusUpdate,
-  ProposalStatus,
   Task,
 } from './types';
 
@@ -29,7 +29,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
     const proposalEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === ProposalStatus.TABLED
+        section === 'democracy' && method === proposalStatus.TABLED
     );
 
     const results: NomidotProposalStatusUpdate[] = [];
@@ -50,7 +50,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
         if (!proposalRawEvent.PropIndex) {
           l.error(
-            `Expected PropIndex not foung on the event: ${proposalRawEvent.PropIndex}`
+            `Expected PropIndex not found on the event: ${proposalRawEvent.PropIndex}`
           );
           return null;
         }
@@ -68,7 +68,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
         const result: NomidotProposalStatusUpdate = {
           proposalId: Number(proposalRawEvent.PropIndex),
-          status: ProposalStatus.TABLED,
+          status: proposalStatus.TABLED,
         };
 
         l.log(`Nomidot Proposal Status Update: ${JSON.stringify(result)}`);

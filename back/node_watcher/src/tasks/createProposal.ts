@@ -12,12 +12,11 @@ import {
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { preimageStatus, proposalStatus } from '../util/statuses';
 import {
   NomidotProposal,
   NomidotProposalEvent,
   NomidotProposalRawEvent,
-  PreimageStatus,
-  ProposalStatus,
   Task,
 } from './types';
 
@@ -36,7 +35,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
     const proposalEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === ProposalStatus.PROPOSED
+        section === 'democracy' && method === proposalStatus.PROPOSED
     );
 
     const results: NomidotProposal[] = [];
@@ -79,7 +78,7 @@ const createProposal: Task<NomidotProposal[]> = {
           depositAmount: proposalArguments.depositAmount,
           proposalId: proposalArguments.proposalId,
           preimageHash,
-          status: ProposalStatus.PROPOSED,
+          status: proposalStatus.PROPOSED,
         };
 
         l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
@@ -113,7 +112,7 @@ const createProposal: Task<NomidotProposal[]> = {
           ? preimages?.filter(async preimage => {
               await prisma
                 .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: PreimageStatus.NOTED } });
+                .preimageStatus({ where: { status: preimageStatus.NOTED } });
             })[0]
           : undefined;
 

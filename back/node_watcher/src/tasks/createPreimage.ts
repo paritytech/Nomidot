@@ -8,11 +8,11 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { preimageStatus } from '../util/statuses';
 import {
   NomidotPreimage,
   NomidotPreimageEvent,
   NomidotPreimageRawEvent,
-  PreimageStatus,
   Task,
 } from './types';
 
@@ -106,7 +106,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           method,
           preImageArguments,
           section,
-          status: PreimageStatus.NOTED,
+          status: preimageStatus.NOTED,
         };
 
         results.push(result);
