@@ -24,6 +24,8 @@ export interface Exists {
   preimageStatus: (where?: PreimageStatusWhereInput) => Promise<boolean>;
   proposal: (where?: ProposalWhereInput) => Promise<boolean>;
   proposalStatus: (where?: ProposalStatusWhereInput) => Promise<boolean>;
+  referendum: (where?: ReferendumWhereInput) => Promise<boolean>;
+  referendumStatus: (where?: ReferendumStatusWhereInput) => Promise<boolean>;
   reward: (where?: RewardWhereInput) => Promise<boolean>;
   session: (where?: SessionWhereInput) => Promise<boolean>;
   slashing: (where?: SlashingWhereInput) => Promise<boolean>;
@@ -211,6 +213,46 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => ProposalStatusConnectionPromise;
+  referendum: (where: ReferendumWhereUniqueInput) => ReferendumNullablePromise;
+  referendums: (args?: {
+    where?: ReferendumWhereInput;
+    orderBy?: ReferendumOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Referendum>;
+  referendumsConnection: (args?: {
+    where?: ReferendumWhereInput;
+    orderBy?: ReferendumOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ReferendumConnectionPromise;
+  referendumStatus: (
+    where: ReferendumStatusWhereUniqueInput
+  ) => ReferendumStatusNullablePromise;
+  referendumStatuses: (args?: {
+    where?: ReferendumStatusWhereInput;
+    orderBy?: ReferendumStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<ReferendumStatus>;
+  referendumStatusesConnection: (args?: {
+    where?: ReferendumStatusWhereInput;
+    orderBy?: ReferendumStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ReferendumStatusConnectionPromise;
   reward: (where: RewardWhereUniqueInput) => RewardNullablePromise;
   rewards: (args?: {
     where?: RewardWhereInput;
@@ -481,6 +523,44 @@ export interface Prisma {
   deleteManyProposalStatuses: (
     where?: ProposalStatusWhereInput
   ) => BatchPayloadPromise;
+  createReferendum: (data: ReferendumCreateInput) => ReferendumPromise;
+  updateReferendum: (args: {
+    data: ReferendumUpdateInput;
+    where: ReferendumWhereUniqueInput;
+  }) => ReferendumPromise;
+  updateManyReferendums: (args: {
+    data: ReferendumUpdateManyMutationInput;
+    where?: ReferendumWhereInput;
+  }) => BatchPayloadPromise;
+  upsertReferendum: (args: {
+    where: ReferendumWhereUniqueInput;
+    create: ReferendumCreateInput;
+    update: ReferendumUpdateInput;
+  }) => ReferendumPromise;
+  deleteReferendum: (where: ReferendumWhereUniqueInput) => ReferendumPromise;
+  deleteManyReferendums: (where?: ReferendumWhereInput) => BatchPayloadPromise;
+  createReferendumStatus: (
+    data: ReferendumStatusCreateInput
+  ) => ReferendumStatusPromise;
+  updateReferendumStatus: (args: {
+    data: ReferendumStatusUpdateInput;
+    where: ReferendumStatusWhereUniqueInput;
+  }) => ReferendumStatusPromise;
+  updateManyReferendumStatuses: (args: {
+    data: ReferendumStatusUpdateManyMutationInput;
+    where?: ReferendumStatusWhereInput;
+  }) => BatchPayloadPromise;
+  upsertReferendumStatus: (args: {
+    where: ReferendumStatusWhereUniqueInput;
+    create: ReferendumStatusCreateInput;
+    update: ReferendumStatusUpdateInput;
+  }) => ReferendumStatusPromise;
+  deleteReferendumStatus: (
+    where: ReferendumStatusWhereUniqueInput
+  ) => ReferendumStatusPromise;
+  deleteManyReferendumStatuses: (
+    where?: ReferendumStatusWhereInput
+  ) => BatchPayloadPromise;
   createReward: (data: RewardCreateInput) => RewardPromise;
   updateReward: (args: {
     data: RewardUpdateInput;
@@ -614,6 +694,12 @@ export interface Subscription {
   proposalStatus: (
     where?: ProposalStatusSubscriptionWhereInput
   ) => ProposalStatusSubscriptionPayloadSubscription;
+  referendum: (
+    where?: ReferendumSubscriptionWhereInput
+  ) => ReferendumSubscriptionPayloadSubscription;
+  referendumStatus: (
+    where?: ReferendumStatusSubscriptionWhereInput
+  ) => ReferendumStatusSubscriptionPayloadSubscription;
   reward: (
     where?: RewardSubscriptionWhereInput
   ) => RewardSubscriptionPayloadSubscription;
@@ -696,6 +782,12 @@ export type PreimageStatusOrderByInput =
   | "status_ASC"
   | "status_DESC";
 
+export type ReferendumStatusOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "status_ASC"
+  | "status_DESC";
+
 export type PreimageOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -723,6 +815,20 @@ export type ProposalOrderByInput =
   | "preimageHash_DESC"
   | "proposalId_ASC"
   | "proposalId_DESC";
+
+export type ReferendumOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "delay_ASC"
+  | "delay_DESC"
+  | "end_ASC"
+  | "end_DESC"
+  | "preimageHash_ASC"
+  | "preimageHash_DESC"
+  | "referendumId_ASC"
+  | "referendumId_DESC"
+  | "voteThreshold_ASC"
+  | "voteThreshold_DESC";
 
 export type RewardOrderByInput =
   | "id_ASC"
@@ -1210,6 +1316,7 @@ export interface PreimageWhereInput {
   preimageStatus_every?: Maybe<PreimageStatusWhereInput>;
   preimageStatus_some?: Maybe<PreimageStatusWhereInput>;
   preimageStatus_none?: Maybe<PreimageStatusWhereInput>;
+  referendum?: Maybe<ReferendumWhereInput>;
   section?: Maybe<String>;
   section_not?: Maybe<String>;
   section_in?: Maybe<String[] | String>;
@@ -1314,6 +1421,112 @@ export interface PreimageStatusWhereInput {
   NOT?: Maybe<PreimageStatusWhereInput[] | PreimageStatusWhereInput>;
 }
 
+export interface ReferendumWhereInput {
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
+  delay?: Maybe<Int>;
+  delay_not?: Maybe<Int>;
+  delay_in?: Maybe<Int[] | Int>;
+  delay_not_in?: Maybe<Int[] | Int>;
+  delay_lt?: Maybe<Int>;
+  delay_lte?: Maybe<Int>;
+  delay_gt?: Maybe<Int>;
+  delay_gte?: Maybe<Int>;
+  end?: Maybe<Int>;
+  end_not?: Maybe<Int>;
+  end_in?: Maybe<Int[] | Int>;
+  end_not_in?: Maybe<Int[] | Int>;
+  end_lt?: Maybe<Int>;
+  end_lte?: Maybe<Int>;
+  end_gt?: Maybe<Int>;
+  end_gte?: Maybe<Int>;
+  preimage?: Maybe<PreimageWhereInput>;
+  preimageHash?: Maybe<String>;
+  preimageHash_not?: Maybe<String>;
+  preimageHash_in?: Maybe<String[] | String>;
+  preimageHash_not_in?: Maybe<String[] | String>;
+  preimageHash_lt?: Maybe<String>;
+  preimageHash_lte?: Maybe<String>;
+  preimageHash_gt?: Maybe<String>;
+  preimageHash_gte?: Maybe<String>;
+  preimageHash_contains?: Maybe<String>;
+  preimageHash_not_contains?: Maybe<String>;
+  preimageHash_starts_with?: Maybe<String>;
+  preimageHash_not_starts_with?: Maybe<String>;
+  preimageHash_ends_with?: Maybe<String>;
+  preimageHash_not_ends_with?: Maybe<String>;
+  referendumId?: Maybe<Int>;
+  referendumId_not?: Maybe<Int>;
+  referendumId_in?: Maybe<Int[] | Int>;
+  referendumId_not_in?: Maybe<Int[] | Int>;
+  referendumId_lt?: Maybe<Int>;
+  referendumId_lte?: Maybe<Int>;
+  referendumId_gt?: Maybe<Int>;
+  referendumId_gte?: Maybe<Int>;
+  referendumStatus_every?: Maybe<ReferendumStatusWhereInput>;
+  referendumStatus_some?: Maybe<ReferendumStatusWhereInput>;
+  referendumStatus_none?: Maybe<ReferendumStatusWhereInput>;
+  voteThreshold?: Maybe<String>;
+  voteThreshold_not?: Maybe<String>;
+  voteThreshold_in?: Maybe<String[] | String>;
+  voteThreshold_not_in?: Maybe<String[] | String>;
+  voteThreshold_lt?: Maybe<String>;
+  voteThreshold_lte?: Maybe<String>;
+  voteThreshold_gt?: Maybe<String>;
+  voteThreshold_gte?: Maybe<String>;
+  voteThreshold_contains?: Maybe<String>;
+  voteThreshold_not_contains?: Maybe<String>;
+  voteThreshold_starts_with?: Maybe<String>;
+  voteThreshold_not_starts_with?: Maybe<String>;
+  voteThreshold_ends_with?: Maybe<String>;
+  voteThreshold_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ReferendumWhereInput[] | ReferendumWhereInput>;
+  OR?: Maybe<ReferendumWhereInput[] | ReferendumWhereInput>;
+  NOT?: Maybe<ReferendumWhereInput[] | ReferendumWhereInput>;
+}
+
+export interface ReferendumStatusWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  referendum?: Maybe<ReferendumWhereInput>;
+  status?: Maybe<String>;
+  status_not?: Maybe<String>;
+  status_in?: Maybe<String[] | String>;
+  status_not_in?: Maybe<String[] | String>;
+  status_lt?: Maybe<String>;
+  status_lte?: Maybe<String>;
+  status_gt?: Maybe<String>;
+  status_gte?: Maybe<String>;
+  status_contains?: Maybe<String>;
+  status_not_contains?: Maybe<String>;
+  status_starts_with?: Maybe<String>;
+  status_not_starts_with?: Maybe<String>;
+  status_ends_with?: Maybe<String>;
+  status_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
+  OR?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
+  NOT?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
+}
+
 export type PreimageArgumentWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1328,6 +1541,15 @@ export type ProposalWhereUniqueInput = AtLeastOne<{
 }>;
 
 export type ProposalStatusWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type ReferendumWhereUniqueInput = AtLeastOne<{
+  id: Maybe<Int>;
+  referendumId?: Maybe<Int>;
+}>;
+
+export type ReferendumStatusWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -1714,6 +1936,7 @@ export interface PreimageCreateInput {
   proposal?: Maybe<ProposalCreateOneWithoutPreimageInput>;
   preimageArguments?: Maybe<PreimageArgumentCreateManyWithoutPreimageInput>;
   preimageStatus?: Maybe<PreimageStatusCreateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumCreateOneWithoutPreimageInput>;
   section: String;
 }
 
@@ -1778,6 +2001,36 @@ export interface PreimageStatusCreateWithoutPreimageInput {
   status: String;
 }
 
+export interface ReferendumCreateOneWithoutPreimageInput {
+  create?: Maybe<ReferendumCreateWithoutPreimageInput>;
+  connect?: Maybe<ReferendumWhereUniqueInput>;
+}
+
+export interface ReferendumCreateWithoutPreimageInput {
+  delay: Int;
+  end: Int;
+  preimageHash: String;
+  referendumId: Int;
+  referendumStatus?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
+  voteThreshold: String;
+}
+
+export interface ReferendumStatusCreateManyWithoutReferendumInput {
+  create?: Maybe<
+    | ReferendumStatusCreateWithoutReferendumInput[]
+    | ReferendumStatusCreateWithoutReferendumInput
+  >;
+  connect?: Maybe<
+    ReferendumStatusWhereUniqueInput[] | ReferendumStatusWhereUniqueInput
+  >;
+}
+
+export interface ReferendumStatusCreateWithoutReferendumInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  status: String;
+}
+
 export interface PreimageUpdateInput {
   author?: Maybe<String>;
   depositAmount?: Maybe<String>;
@@ -1787,6 +2040,7 @@ export interface PreimageUpdateInput {
   proposal?: Maybe<ProposalUpdateOneWithoutPreimageInput>;
   preimageArguments?: Maybe<PreimageArgumentUpdateManyWithoutPreimageInput>;
   preimageStatus?: Maybe<PreimageStatusUpdateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumUpdateOneWithoutPreimageInput>;
   section?: Maybe<String>;
 }
 
@@ -2120,6 +2374,128 @@ export interface PreimageStatusUpdateManyDataInput {
   status?: Maybe<String>;
 }
 
+export interface ReferendumUpdateOneWithoutPreimageInput {
+  create?: Maybe<ReferendumCreateWithoutPreimageInput>;
+  update?: Maybe<ReferendumUpdateWithoutPreimageDataInput>;
+  upsert?: Maybe<ReferendumUpsertWithoutPreimageInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ReferendumWhereUniqueInput>;
+}
+
+export interface ReferendumUpdateWithoutPreimageDataInput {
+  delay?: Maybe<Int>;
+  end?: Maybe<Int>;
+  preimageHash?: Maybe<String>;
+  referendumId?: Maybe<Int>;
+  referendumStatus?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
+  voteThreshold?: Maybe<String>;
+}
+
+export interface ReferendumStatusUpdateManyWithoutReferendumInput {
+  create?: Maybe<
+    | ReferendumStatusCreateWithoutReferendumInput[]
+    | ReferendumStatusCreateWithoutReferendumInput
+  >;
+  delete?: Maybe<
+    ReferendumStatusWhereUniqueInput[] | ReferendumStatusWhereUniqueInput
+  >;
+  connect?: Maybe<
+    ReferendumStatusWhereUniqueInput[] | ReferendumStatusWhereUniqueInput
+  >;
+  set?: Maybe<
+    ReferendumStatusWhereUniqueInput[] | ReferendumStatusWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    ReferendumStatusWhereUniqueInput[] | ReferendumStatusWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput[]
+    | ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput
+  >;
+  upsert?: Maybe<
+    | ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput[]
+    | ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput
+  >;
+  deleteMany?: Maybe<
+    ReferendumStatusScalarWhereInput[] | ReferendumStatusScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ReferendumStatusUpdateManyWithWhereNestedInput[]
+    | ReferendumStatusUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput {
+  where: ReferendumStatusWhereUniqueInput;
+  data: ReferendumStatusUpdateWithoutReferendumDataInput;
+}
+
+export interface ReferendumStatusUpdateWithoutReferendumDataInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  status?: Maybe<String>;
+}
+
+export interface ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput {
+  where: ReferendumStatusWhereUniqueInput;
+  update: ReferendumStatusUpdateWithoutReferendumDataInput;
+  create: ReferendumStatusCreateWithoutReferendumInput;
+}
+
+export interface ReferendumStatusScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  status?: Maybe<String>;
+  status_not?: Maybe<String>;
+  status_in?: Maybe<String[] | String>;
+  status_not_in?: Maybe<String[] | String>;
+  status_lt?: Maybe<String>;
+  status_lte?: Maybe<String>;
+  status_gt?: Maybe<String>;
+  status_gte?: Maybe<String>;
+  status_contains?: Maybe<String>;
+  status_not_contains?: Maybe<String>;
+  status_starts_with?: Maybe<String>;
+  status_not_starts_with?: Maybe<String>;
+  status_ends_with?: Maybe<String>;
+  status_not_ends_with?: Maybe<String>;
+  AND?: Maybe<
+    ReferendumStatusScalarWhereInput[] | ReferendumStatusScalarWhereInput
+  >;
+  OR?: Maybe<
+    ReferendumStatusScalarWhereInput[] | ReferendumStatusScalarWhereInput
+  >;
+  NOT?: Maybe<
+    ReferendumStatusScalarWhereInput[] | ReferendumStatusScalarWhereInput
+  >;
+}
+
+export interface ReferendumStatusUpdateManyWithWhereNestedInput {
+  where: ReferendumStatusScalarWhereInput;
+  data: ReferendumStatusUpdateManyDataInput;
+}
+
+export interface ReferendumStatusUpdateManyDataInput {
+  status?: Maybe<String>;
+}
+
+export interface ReferendumUpsertWithoutPreimageInput {
+  update: ReferendumUpdateWithoutPreimageDataInput;
+  create: ReferendumCreateWithoutPreimageInput;
+}
+
 export interface PreimageUpdateManyMutationInput {
   author?: Maybe<String>;
   depositAmount?: Maybe<String>;
@@ -2150,6 +2526,7 @@ export interface PreimageCreateWithoutPreimageArgumentsInput {
   method: String;
   proposal?: Maybe<ProposalCreateOneWithoutPreimageInput>;
   preimageStatus?: Maybe<PreimageStatusCreateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumCreateOneWithoutPreimageInput>;
   section: String;
 }
 
@@ -2174,6 +2551,7 @@ export interface PreimageUpdateWithoutPreimageArgumentsDataInput {
   method?: Maybe<String>;
   proposal?: Maybe<ProposalUpdateOneWithoutPreimageInput>;
   preimageStatus?: Maybe<PreimageStatusUpdateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumUpdateOneWithoutPreimageInput>;
   section?: Maybe<String>;
 }
 
@@ -2208,6 +2586,7 @@ export interface PreimageCreateWithoutPreimageStatusInput {
   method: String;
   proposal?: Maybe<ProposalCreateOneWithoutPreimageInput>;
   preimageArguments?: Maybe<PreimageArgumentCreateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumCreateOneWithoutPreimageInput>;
   section: String;
 }
 
@@ -2232,6 +2611,7 @@ export interface PreimageUpdateWithoutPreimageStatusDataInput {
   method?: Maybe<String>;
   proposal?: Maybe<ProposalUpdateOneWithoutPreimageInput>;
   preimageArguments?: Maybe<PreimageArgumentUpdateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumUpdateOneWithoutPreimageInput>;
   section?: Maybe<String>;
 }
 
@@ -2267,6 +2647,7 @@ export interface PreimageCreateWithoutProposalInput {
   method: String;
   preimageArguments?: Maybe<PreimageArgumentCreateManyWithoutPreimageInput>;
   preimageStatus?: Maybe<PreimageStatusCreateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumCreateOneWithoutPreimageInput>;
   section: String;
 }
 
@@ -2296,6 +2677,7 @@ export interface PreimageUpdateWithoutProposalDataInput {
   method?: Maybe<String>;
   preimageArguments?: Maybe<PreimageArgumentUpdateManyWithoutPreimageInput>;
   preimageStatus?: Maybe<PreimageStatusUpdateManyWithoutPreimageInput>;
+  referendum?: Maybe<ReferendumUpdateOneWithoutPreimageInput>;
   section?: Maybe<String>;
 }
 
@@ -2358,6 +2740,130 @@ export interface ProposalUpsertWithoutProposalStatusInput {
 }
 
 export interface ProposalStatusUpdateManyMutationInput {
+  status?: Maybe<String>;
+}
+
+export interface ReferendumCreateInput {
+  delay: Int;
+  end: Int;
+  preimage?: Maybe<PreimageCreateOneWithoutReferendumInput>;
+  preimageHash: String;
+  referendumId: Int;
+  referendumStatus?: Maybe<ReferendumStatusCreateManyWithoutReferendumInput>;
+  voteThreshold: String;
+}
+
+export interface PreimageCreateOneWithoutReferendumInput {
+  create?: Maybe<PreimageCreateWithoutReferendumInput>;
+  connect?: Maybe<PreimageWhereUniqueInput>;
+}
+
+export interface PreimageCreateWithoutReferendumInput {
+  id?: Maybe<ID_Input>;
+  author: String;
+  depositAmount: String;
+  hash: String;
+  metaDescription: String;
+  method: String;
+  proposal?: Maybe<ProposalCreateOneWithoutPreimageInput>;
+  preimageArguments?: Maybe<PreimageArgumentCreateManyWithoutPreimageInput>;
+  preimageStatus?: Maybe<PreimageStatusCreateManyWithoutPreimageInput>;
+  section: String;
+}
+
+export interface ReferendumUpdateInput {
+  delay?: Maybe<Int>;
+  end?: Maybe<Int>;
+  preimage?: Maybe<PreimageUpdateOneWithoutReferendumInput>;
+  preimageHash?: Maybe<String>;
+  referendumId?: Maybe<Int>;
+  referendumStatus?: Maybe<ReferendumStatusUpdateManyWithoutReferendumInput>;
+  voteThreshold?: Maybe<String>;
+}
+
+export interface PreimageUpdateOneWithoutReferendumInput {
+  create?: Maybe<PreimageCreateWithoutReferendumInput>;
+  update?: Maybe<PreimageUpdateWithoutReferendumDataInput>;
+  upsert?: Maybe<PreimageUpsertWithoutReferendumInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<PreimageWhereUniqueInput>;
+}
+
+export interface PreimageUpdateWithoutReferendumDataInput {
+  author?: Maybe<String>;
+  depositAmount?: Maybe<String>;
+  hash?: Maybe<String>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  proposal?: Maybe<ProposalUpdateOneWithoutPreimageInput>;
+  preimageArguments?: Maybe<PreimageArgumentUpdateManyWithoutPreimageInput>;
+  preimageStatus?: Maybe<PreimageStatusUpdateManyWithoutPreimageInput>;
+  section?: Maybe<String>;
+}
+
+export interface PreimageUpsertWithoutReferendumInput {
+  update: PreimageUpdateWithoutReferendumDataInput;
+  create: PreimageCreateWithoutReferendumInput;
+}
+
+export interface ReferendumUpdateManyMutationInput {
+  delay?: Maybe<Int>;
+  end?: Maybe<Int>;
+  preimageHash?: Maybe<String>;
+  referendumId?: Maybe<Int>;
+  voteThreshold?: Maybe<String>;
+}
+
+export interface ReferendumStatusCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  referendum: ReferendumCreateOneWithoutReferendumStatusInput;
+  status: String;
+}
+
+export interface ReferendumCreateOneWithoutReferendumStatusInput {
+  create?: Maybe<ReferendumCreateWithoutReferendumStatusInput>;
+  connect?: Maybe<ReferendumWhereUniqueInput>;
+}
+
+export interface ReferendumCreateWithoutReferendumStatusInput {
+  delay: Int;
+  end: Int;
+  preimage?: Maybe<PreimageCreateOneWithoutReferendumInput>;
+  preimageHash: String;
+  referendumId: Int;
+  voteThreshold: String;
+}
+
+export interface ReferendumStatusUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  referendum?: Maybe<ReferendumUpdateOneRequiredWithoutReferendumStatusInput>;
+  status?: Maybe<String>;
+}
+
+export interface ReferendumUpdateOneRequiredWithoutReferendumStatusInput {
+  create?: Maybe<ReferendumCreateWithoutReferendumStatusInput>;
+  update?: Maybe<ReferendumUpdateWithoutReferendumStatusDataInput>;
+  upsert?: Maybe<ReferendumUpsertWithoutReferendumStatusInput>;
+  connect?: Maybe<ReferendumWhereUniqueInput>;
+}
+
+export interface ReferendumUpdateWithoutReferendumStatusDataInput {
+  delay?: Maybe<Int>;
+  end?: Maybe<Int>;
+  preimage?: Maybe<PreimageUpdateOneWithoutReferendumInput>;
+  preimageHash?: Maybe<String>;
+  referendumId?: Maybe<Int>;
+  voteThreshold?: Maybe<String>;
+}
+
+export interface ReferendumUpsertWithoutReferendumStatusInput {
+  update: ReferendumUpdateWithoutReferendumStatusDataInput;
+  create: ReferendumCreateWithoutReferendumStatusInput;
+}
+
+export interface ReferendumStatusUpdateManyMutationInput {
   status?: Maybe<String>;
 }
 
@@ -2597,6 +3103,43 @@ export interface ProposalStatusSubscriptionWhereInput {
   NOT?: Maybe<
     | ProposalStatusSubscriptionWhereInput[]
     | ProposalStatusSubscriptionWhereInput
+  >;
+}
+
+export interface ReferendumSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ReferendumWhereInput>;
+  AND?: Maybe<
+    ReferendumSubscriptionWhereInput[] | ReferendumSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ReferendumSubscriptionWhereInput[] | ReferendumSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ReferendumSubscriptionWhereInput[] | ReferendumSubscriptionWhereInput
+  >;
+}
+
+export interface ReferendumStatusSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ReferendumStatusWhereInput>;
+  AND?: Maybe<
+    | ReferendumStatusSubscriptionWhereInput[]
+    | ReferendumStatusSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | ReferendumStatusSubscriptionWhereInput[]
+    | ReferendumStatusSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | ReferendumStatusSubscriptionWhereInput[]
+    | ReferendumStatusSubscriptionWhereInput
   >;
 }
 
@@ -3050,6 +3593,7 @@ export interface PreimagePromise extends Promise<Preimage>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  referendum: <T = ReferendumPromise>() => T;
   section: () => Promise<String>;
 }
 
@@ -3085,6 +3629,7 @@ export interface PreimageSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  referendum: <T = ReferendumSubscription>() => T;
   section: () => Promise<AsyncIterator<String>>;
 }
 
@@ -3116,6 +3661,7 @@ export interface PreimageNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  referendum: <T = ReferendumPromise>() => T;
   section: () => Promise<String>;
 }
 
@@ -3281,6 +3827,110 @@ export interface PreimageStatusNullablePromise
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
   preimage: <T = PreimagePromise>() => T;
+  status: () => Promise<String>;
+}
+
+export interface Referendum {
+  id: Int;
+  delay: Int;
+  end: Int;
+  preimageHash: String;
+  referendumId: Int;
+  voteThreshold: String;
+}
+
+export interface ReferendumPromise extends Promise<Referendum>, Fragmentable {
+  id: () => Promise<Int>;
+  delay: () => Promise<Int>;
+  end: () => Promise<Int>;
+  preimage: <T = PreimagePromise>() => T;
+  preimageHash: () => Promise<String>;
+  referendumId: () => Promise<Int>;
+  referendumStatus: <T = FragmentableArray<ReferendumStatus>>(args?: {
+    where?: ReferendumStatusWhereInput;
+    orderBy?: ReferendumStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  voteThreshold: () => Promise<String>;
+}
+
+export interface ReferendumSubscription
+  extends Promise<AsyncIterator<Referendum>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<Int>>;
+  delay: () => Promise<AsyncIterator<Int>>;
+  end: () => Promise<AsyncIterator<Int>>;
+  preimage: <T = PreimageSubscription>() => T;
+  preimageHash: () => Promise<AsyncIterator<String>>;
+  referendumId: () => Promise<AsyncIterator<Int>>;
+  referendumStatus: <
+    T = Promise<AsyncIterator<ReferendumStatusSubscription>>
+  >(args?: {
+    where?: ReferendumStatusWhereInput;
+    orderBy?: ReferendumStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  voteThreshold: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReferendumNullablePromise
+  extends Promise<Referendum | null>,
+    Fragmentable {
+  id: () => Promise<Int>;
+  delay: () => Promise<Int>;
+  end: () => Promise<Int>;
+  preimage: <T = PreimagePromise>() => T;
+  preimageHash: () => Promise<String>;
+  referendumId: () => Promise<Int>;
+  referendumStatus: <T = FragmentableArray<ReferendumStatus>>(args?: {
+    where?: ReferendumStatusWhereInput;
+    orderBy?: ReferendumStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  voteThreshold: () => Promise<String>;
+}
+
+export interface ReferendumStatus {
+  id: ID_Output;
+  status: String;
+}
+
+export interface ReferendumStatusPromise
+  extends Promise<ReferendumStatus>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  referendum: <T = ReferendumPromise>() => T;
+  status: () => Promise<String>;
+}
+
+export interface ReferendumStatusSubscription
+  extends Promise<AsyncIterator<ReferendumStatus>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  blockNumber: <T = BlockNumberSubscription>() => T;
+  referendum: <T = ReferendumSubscription>() => T;
+  status: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReferendumStatusNullablePromise
+  extends Promise<ReferendumStatus | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  referendum: <T = ReferendumPromise>() => T;
   status: () => Promise<String>;
 }
 
@@ -3560,6 +4210,118 @@ export interface AggregateProposalStatusPromise
 
 export interface AggregateProposalStatusSubscription
   extends Promise<AsyncIterator<AggregateProposalStatus>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReferendumConnection {
+  pageInfo: PageInfo;
+  edges: ReferendumEdge[];
+}
+
+export interface ReferendumConnectionPromise
+  extends Promise<ReferendumConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReferendumEdge>>() => T;
+  aggregate: <T = AggregateReferendumPromise>() => T;
+}
+
+export interface ReferendumConnectionSubscription
+  extends Promise<AsyncIterator<ReferendumConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReferendumEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReferendumSubscription>() => T;
+}
+
+export interface ReferendumEdge {
+  node: Referendum;
+  cursor: String;
+}
+
+export interface ReferendumEdgePromise
+  extends Promise<ReferendumEdge>,
+    Fragmentable {
+  node: <T = ReferendumPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReferendumEdgeSubscription
+  extends Promise<AsyncIterator<ReferendumEdge>>,
+    Fragmentable {
+  node: <T = ReferendumSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateReferendum {
+  count: Int;
+}
+
+export interface AggregateReferendumPromise
+  extends Promise<AggregateReferendum>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReferendumSubscription
+  extends Promise<AsyncIterator<AggregateReferendum>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReferendumStatusConnection {
+  pageInfo: PageInfo;
+  edges: ReferendumStatusEdge[];
+}
+
+export interface ReferendumStatusConnectionPromise
+  extends Promise<ReferendumStatusConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReferendumStatusEdge>>() => T;
+  aggregate: <T = AggregateReferendumStatusPromise>() => T;
+}
+
+export interface ReferendumStatusConnectionSubscription
+  extends Promise<AsyncIterator<ReferendumStatusConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReferendumStatusEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReferendumStatusSubscription>() => T;
+}
+
+export interface ReferendumStatusEdge {
+  node: ReferendumStatus;
+  cursor: String;
+}
+
+export interface ReferendumStatusEdgePromise
+  extends Promise<ReferendumStatusEdge>,
+    Fragmentable {
+  node: <T = ReferendumStatusPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReferendumStatusEdgeSubscription
+  extends Promise<AsyncIterator<ReferendumStatusEdge>>,
+    Fragmentable {
+  node: <T = ReferendumStatusSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateReferendumStatus {
+  count: Int;
+}
+
+export interface AggregateReferendumStatusPromise
+  extends Promise<AggregateReferendumStatus>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReferendumStatusSubscription
+  extends Promise<AsyncIterator<AggregateReferendumStatus>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -4469,6 +5231,106 @@ export interface ProposalStatusPreviousValuesSubscription
   status: () => Promise<AsyncIterator<String>>;
 }
 
+export interface ReferendumSubscriptionPayload {
+  mutation: MutationType;
+  node: Referendum;
+  updatedFields: String[];
+  previousValues: ReferendumPreviousValues;
+}
+
+export interface ReferendumSubscriptionPayloadPromise
+  extends Promise<ReferendumSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReferendumPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReferendumPreviousValuesPromise>() => T;
+}
+
+export interface ReferendumSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReferendumSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReferendumSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReferendumPreviousValuesSubscription>() => T;
+}
+
+export interface ReferendumPreviousValues {
+  id: Int;
+  delay: Int;
+  end: Int;
+  preimageHash: String;
+  referendumId: Int;
+  voteThreshold: String;
+}
+
+export interface ReferendumPreviousValuesPromise
+  extends Promise<ReferendumPreviousValues>,
+    Fragmentable {
+  id: () => Promise<Int>;
+  delay: () => Promise<Int>;
+  end: () => Promise<Int>;
+  preimageHash: () => Promise<String>;
+  referendumId: () => Promise<Int>;
+  voteThreshold: () => Promise<String>;
+}
+
+export interface ReferendumPreviousValuesSubscription
+  extends Promise<AsyncIterator<ReferendumPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<Int>>;
+  delay: () => Promise<AsyncIterator<Int>>;
+  end: () => Promise<AsyncIterator<Int>>;
+  preimageHash: () => Promise<AsyncIterator<String>>;
+  referendumId: () => Promise<AsyncIterator<Int>>;
+  voteThreshold: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReferendumStatusSubscriptionPayload {
+  mutation: MutationType;
+  node: ReferendumStatus;
+  updatedFields: String[];
+  previousValues: ReferendumStatusPreviousValues;
+}
+
+export interface ReferendumStatusSubscriptionPayloadPromise
+  extends Promise<ReferendumStatusSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReferendumStatusPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReferendumStatusPreviousValuesPromise>() => T;
+}
+
+export interface ReferendumStatusSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReferendumStatusSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReferendumStatusSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReferendumStatusPreviousValuesSubscription>() => T;
+}
+
+export interface ReferendumStatusPreviousValues {
+  id: ID_Output;
+  status: String;
+}
+
+export interface ReferendumStatusPreviousValuesPromise
+  extends Promise<ReferendumStatusPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  status: () => Promise<String>;
+}
+
+export interface ReferendumStatusPreviousValuesSubscription
+  extends Promise<AsyncIterator<ReferendumStatusPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  status: () => Promise<AsyncIterator<String>>;
+}
+
 export interface RewardSubscriptionPayload {
   mutation: MutationType;
   node: Reward;
@@ -4837,6 +5699,14 @@ export const models: Model[] = [
   },
   {
     name: "PreimageArgument",
+    embedded: false
+  },
+  {
+    name: "Referendum",
+    embedded: false
+  },
+  {
+    name: "ReferendumStatus",
     embedded: false
   }
 ];

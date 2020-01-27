@@ -7,6 +7,7 @@ import createEra from './createEra';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
+import createReferendum from './createReferendum';
 import createSession from './createSession';
 import createSlashing from './createSlashing';
 import createTotalIssuance from './createTotalIssuance';
@@ -24,4 +25,5 @@ export const nomidotTasks: NomidotTask[] = [
   createPreimage,
   createProposal,
   createProposalStatus,
+  createReferendum,
 ];

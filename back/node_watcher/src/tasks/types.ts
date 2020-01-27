@@ -14,6 +14,7 @@ import {
   Moment,
   SessionIndex,
   ValidatorPrefs,
+  VoteThreshold,
 } from '@polkadot/types/interfaces';
 
 export interface Task<T> {
@@ -68,6 +69,7 @@ export type Nomidot =
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
+  | NomidotReferendum[]
   | NomidotSession
   | NomidotSlashing[]
   | NomidotTotalIssuance
@@ -91,6 +93,20 @@ export interface NomidotProposalRawEvent {
   Balance?: Balance;
 }
 
+export interface NomidotReferendum {
+  delay: BlockNumber;
+  end: BlockNumber;
+  preimageHash: Hash;
+  referendumIndex: number;
+  status: ReferendumStatus;
+  voteThreshold: VoteThreshold;
+}
+
+export interface NomidotReferendumRawEvent {
+  ReferendumIndex?: number;
+  VoteThreshold?: VoteThreshold;
+}
+
 export interface NomidotArgument {
   name: string;
   value: string;
@@ -105,6 +121,14 @@ export enum PreimageStatus {
 export enum ProposalStatus {
   PROPOSED = 'Proposed',
   TABLED = 'Tabled',
+}
+
+export enum ReferendumStatus {
+  CANCELLED = ' Cancelled',
+  EXECUTED = 'Executed',
+  NOTPASSED = 'NotPassed',
+  PASSED = 'Passed',
+  STARTED = 'Started',
 }
 
 export interface NomidotPreimage extends NomidotPreimageEvent {
