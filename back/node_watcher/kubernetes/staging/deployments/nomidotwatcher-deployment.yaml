@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:183f379f8b857b9789c2fe204361d652e5b132ef5dfe9f626c44539e72d7b1cd
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:73f32773eb4e397e9f4cc7028945750f8f1116c7e751179120300a18413797ee
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
