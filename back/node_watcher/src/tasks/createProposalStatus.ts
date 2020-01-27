@@ -50,7 +50,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
         if (!proposalRawEvent.PropIndex) {
           l.error(
-            `Expected PropIndex not foung on the event: ${proposalRawEvent.PropIndex}`
+            `Expected PropIndex not found on the event: ${proposalRawEvent.PropIndex}`
           );
           return null;
         }

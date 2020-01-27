@@ -8,6 +8,7 @@ import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
 import createReferendum from './createReferendum';
+import createReferendumStatus from './createReferendumStatus';
 import createSession from './createSession';
 import createSlashing from './createSlashing';
 import createTotalIssuance from './createTotalIssuance';
@@ -17,13 +18,14 @@ import { NomidotTask } from './types';
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
-  createSession,
-  createEra,
-  createSlashing,
-  createTotalIssuance,
-  createValidator,
-  createPreimage,
-  createProposal,
-  createProposalStatus,
+  // createSession,
+  // createEra,
+  // createSlashing,
+  // createTotalIssuance,
+  // createValidator,
+  // createPreimage,
+  // createProposal,
+  // createProposalStatus,
   createReferendum,
+  createReferendumStatus,
 ];

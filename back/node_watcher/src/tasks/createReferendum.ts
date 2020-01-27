@@ -11,7 +11,7 @@ import {
   NomidotReferendum,
   NomidotReferendumRawEvent,
   PreimageStatus,
-  ReferendumStatus,
+  referendumStatus,
   Task,
 } from './types';
 
@@ -30,7 +30,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
 
     const referendumEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === ReferendumStatus.STARTED
+        section === 'democracy' && method === referendumStatus.STARTED
     );
 
     const results: NomidotReferendum[] = [];
@@ -80,7 +80,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           end: referendumInfo.end,
           preimageHash: referendumInfo.proposalHash,
           referendumIndex: referendumRawEvent.ReferendumIndex,
-          status: ReferendumStatus.STARTED,
+          status: referendumStatus.STARTED,
           voteThreshold: referendumRawEvent.VoteThreshold,
         };
 

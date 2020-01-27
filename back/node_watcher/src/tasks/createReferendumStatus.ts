@@ -8,9 +8,9 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import {
-  NomidotProposalRawEvent,
-  NomidotProposalStatusUpdate,
-  ProposalStatus,
+  NomidotReferendumRawEvent,
+  NomidotReferendumStatusUpdate,
+  referendumStatus,
   Task,
 } from './types';
 
@@ -19,27 +19,31 @@ const l = logger('Task: Referendum Status Update');
 /*
  *  ======= Table (Proposal Status Update) ======
  */
-const createProposal: Task<NomidotProposalStatusUpdate[]> = {
+const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
   name: 'createProposalStatusUpdate',
   read: async (
     blockHash: Hash,
     api: ApiPromise
-  ): Promise<NomidotProposalStatusUpdate[]> => {
+  ): Promise<NomidotReferendumStatusUpdate[]> => {
     const events = await api.query.system.events.at(blockHash);
 
-    const proposalEvents = events.filter(
+    // The "Started" event is taken care of by the createReferendum
+    // task, so we need to filter it out.
+    const referendumEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === ProposalStatus.TABLED
+        section === 'democracy' &&
+        Object.values(referendumStatus)
+          .filter(status => status !== referendumStatus.STARTED)
+          .includes(method)
     );
 
-    const results: NomidotProposalStatusUpdate[] = [];
+    const results: NomidotReferendumStatusUpdate[] = [];
 
     await Promise.all(
-      proposalEvents.map(async ({ event: { data, typeDef } }) => {
-        const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
+      referendumEvents.map(async ({ event: { data, typeDef, method } }) => {
+        const referendumRawEvent: NomidotReferendumRawEvent = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
-
             return {
               ...prev,
               [type]: curr.toString(),
@@ -47,31 +51,29 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
           },
           {}
         );
-
-        if (!proposalRawEvent.PropIndex) {
+        if (!referendumRawEvent.ReferendumIndex) {
           l.error(
-            `Expected PropIndex not foung on the event: ${proposalRawEvent.PropIndex}`
+            `Expected ReferendumIndex not found on the event: ${referendumRawEvent.ReferendumIndex}`
           );
           return null;
         }
 
-        const relatedProposal = await prisma.proposal({
-          proposalId: Number(proposalRawEvent.PropIndex),
+        const relatedReferendum = await prisma.referendum({
+          referendumId: Number(referendumRawEvent.ReferendumIndex),
         });
 
-        if (!relatedProposal) {
+        if (!relatedReferendum) {
           l.error(
-            `No existing proposal found for Proposal id: ${proposalRawEvent.PropIndex}`
+            `No existing referendum found for referendum id: ${referendumRawEvent.ReferendumIndex}`
           );
           return null;
         }
 
-        const result: NomidotProposalStatusUpdate = {
-          proposalId: Number(proposalRawEvent.PropIndex),
-          status: ProposalStatus.TABLED,
+        const result: NomidotReferendumStatusUpdate = {
+          referendumId: Number(referendumRawEvent.ReferendumIndex),
+          status: method,
         };
-
-        l.log(`Nomidot Proposal Status Update: ${JSON.stringify(result)}`);
+        l.log(`Nomidot Referendum Status Update: ${JSON.stringify(result)}`);
         results.push(result);
       })
     );
@@ -80,21 +82,21 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
   },
   write: async (
     blockNumber: BlockNumber,
-    value: NomidotProposalStatusUpdate[]
+    value: NomidotReferendumStatusUpdate[]
   ) => {
     await Promise.all(
       value.map(async prop => {
-        const { proposalId: pId, status } = prop;
+        const { referendumId: rId, status } = prop;
 
-        await prisma.createProposalStatus({
+        await prisma.createReferendumStatus({
           blockNumber: {
             connect: {
               number: blockNumber.toNumber(),
             },
           },
-          proposal: {
+          referendum: {
             connect: {
-              proposalId: pId,
+              referendumId: rId,
             },
           },
           status,

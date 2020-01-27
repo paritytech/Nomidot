@@ -70,6 +70,7 @@ export type Nomidot =
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
   | NomidotReferendum[]
+  | NomidotReferendumStatusUpdate[]
   | NomidotSession
   | NomidotSlashing[]
   | NomidotTotalIssuance
@@ -98,7 +99,7 @@ export interface NomidotReferendum {
   end: BlockNumber;
   preimageHash: Hash;
   referendumIndex: number;
-  status: ReferendumStatus;
+  status: string;
   voteThreshold: VoteThreshold;
 }
 
@@ -123,13 +124,30 @@ export enum ProposalStatus {
   TABLED = 'Tabled',
 }
 
-export enum ReferendumStatus {
-  CANCELLED = ' Cancelled',
-  EXECUTED = 'Executed',
-  NOTPASSED = 'NotPassed',
-  PASSED = 'Passed',
-  STARTED = 'Started',
-}
+// FIXME See if there is a nice way use types for this ReferendumStatus
+
+// export type ReferendumStatus =
+//   | 'Cancelled'
+//   | 'Executed'
+//   | 'NotPassed'
+//   | 'Passed'
+//   | 'Started';
+
+export const referendumStatus = {
+  CANCELLED: 'Cancelled',
+  EXECUTED: 'Executed',
+  NOTPASSED: 'NotPassed',
+  PASSED: 'Passed',
+  STARTED: 'Started',
+};
+
+// export enum ReferendumStatus {
+//   CANCELLED = 'Cancelled',
+//   EXECUTED = 'Executed',
+//   NOTPASSED = 'NotPassed',
+//   PASSED = 'Passed',
+//   STARTED = 'Started',
+// }
 
 export interface NomidotPreimage extends NomidotPreimageEvent {
   preImageArguments: NomidotArgument[];
@@ -154,4 +172,9 @@ export interface NomidotPreimageRawEvent {
 export interface NomidotProposalStatusUpdate {
   proposalId: number;
   status: ProposalStatus;
+}
+
+export interface NomidotReferendumStatusUpdate {
+  referendumId: number;
+  status: string;
 }
