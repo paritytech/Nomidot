@@ -26,4 +26,6 @@ spec:
               value: http://10.0.9.43:4466
             - name: DEPLOYMENT_NUMBER
               value: 5
+            - name: TOTAL_DEPLOYMENTS
+              value: 5
           command: ["yarn", "start"]

@@ -12,8 +12,8 @@ import { NomidotTask } from './tasks/types';
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 // const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
 
-const START_FROM = parseInt(process.env.START_FROM || '0');
-const END_AT = parseInt(process.env.END_AT || '0');
+const DEPLOYMENT_NUMBER = process.env.DEPLOYMENT_NUMBER!;
+const TOTAL_DEPLOYMENTS = process.env.TOTAL_DEPLOYMENTS!;
 
 const l = logger('node-watcher');
 
@@ -38,10 +38,17 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = START_FROM;
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
-  let terminationCondition = END_AT ? blockIndex <= END_AT : true;
+
+  const isLastDep = DEPLOYMENT_NUMBER === TOTAL_DEPLOYMENTS;
+
+  // the block range this deployment is responsible for
+  const taskRange = lastKnownBestFinalized / parseInt(TOTAL_DEPLOYMENTS);
+  // the starting block for this range
+  let blockIndex = taskRange * parseInt(DEPLOYMENT_NUMBER);
+
+  const terminationCondition = isLastDep ? blockIndex <= blockIndex + taskRange : true;
 
   while (terminationCondition) {
     if (blockIndex > lastKnownBestFinalized) {
