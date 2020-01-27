@@ -5,9 +5,9 @@
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
-import { preimageStatus, referendumStatus } from 'src/util/statuses';
 
 import { prisma } from '../generated/prisma-client';
+import { preimageStatus, referendumStatus } from '../util/statuses';
 import { NomidotReferendum, NomidotReferendumRawEvent, Task } from './types';
 
 const l = logger('Task: Referenda');

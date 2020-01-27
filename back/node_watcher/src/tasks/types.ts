@@ -16,11 +16,12 @@ import {
   ValidatorPrefs,
   VoteThreshold,
 } from '@polkadot/types/interfaces';
+
 import {
   preimageStatus,
   proposalStatus,
   referendumStatus,
-} from 'src/util/statuses';
+} from '../util/statuses';
 
 export interface Task<T> {
   name: string;

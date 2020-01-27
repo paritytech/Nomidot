@@ -5,9 +5,9 @@
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
-import { referendumStatus } from 'src/util/statuses';
 
 import { prisma } from '../generated/prisma-client';
+import { referendumStatus } from '../util/statuses';
 import {
   NomidotReferendumRawEvent,
   NomidotReferendumStatusUpdate,
