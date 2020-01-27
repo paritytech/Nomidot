@@ -12,6 +12,9 @@ import { NomidotTask } from './tasks/types';
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
 // const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
 
+const START_FROM = parseInt(process.env.START_FROM || '0');
+const END_AT = parseInt(process.env.END_AT || '0');
+
 const l = logger('node-watcher');
 
 function waitFinalized(
@@ -35,11 +38,12 @@ async function incrementor(
   api: ApiPromise,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = 0;
+  let blockIndex = START_FROM;
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
+  let terminationCondition = END_AT ? blockIndex <= END_AT : true;
 
-  while (true) {
+  while (terminationCondition) {
     if (blockIndex > lastKnownBestFinalized) {
       lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
       l.warn(`WAITING FINALIZED.`);

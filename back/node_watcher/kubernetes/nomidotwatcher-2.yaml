@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nomidotwatcher2
+  namespace: nodewatcher-staging
+  labels:
+    stage: staging
+    name: nomidotwatcher2
+    app: nomidotwatcher2
+spec:
+  selector:
+    matchLabels:
+      app: nomidotwatcher2
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        stage: staging
+        name: nomidotwatcher2
+        app: nomidotwatcher2
+    spec:
+      containers:
+        - name: nomidotwatcher2
+          image: 
+          env:
+            - name: PRISMA_ENDPOINT
+              value: http://10.0.9.43:4466
+            - name: DEPLOYMENT_NUMBER
+              value: 2
+          command: ["yarn", "start"]
