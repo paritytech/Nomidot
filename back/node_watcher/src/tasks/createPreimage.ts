@@ -56,7 +56,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           !preimageArgumentsRaw.AccountId
         ) {
           l.error(
-            `At least one of preimageArgumentsRaw: Hash, Balance or AccountId missing. ${preimageArgumentsRaw.Hash}, ${preimageArgumentsRaw.Balance}, ${preimageArgumentsRaw.AccountId}`
+            `At least one of preimageArgumentsRaw: Hash, Balance or AccountId missing: ${preimageArgumentsRaw.Hash}, ${preimageArgumentsRaw.Balance}, ${preimageArgumentsRaw.AccountId}`
           );
           return null;
         }
@@ -102,7 +102,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           author: preimageArguments.author,
           depositAmount: preimageArguments.depositAmount,
           hash: preimageArguments.hash,
-          metaDescription: meta?.documentation.toString(),
+          metaDescription: meta.documentation.toString(),
           method,
           preImageArguments,
           section,
@@ -135,17 +135,29 @@ const createPreimage: Task<NomidotPreimage[]> = {
           orderBy: 'proposalId_DESC',
         });
 
+        const referenda = await prisma.referendums({
+          where: { preimageHash: h.toString() },
+          orderBy: 'referendumId_DESC',
+        });
+
         const p = proposals[0];
+        const r = referenda[0];
 
         await prisma.createPreimage({
           author: author.toString(),
-          depositAmount: depositAmount?.toString(),
+          depositAmount: depositAmount.toString(),
           hash: h.toString(),
+          metaDescription,
+          method,
+          proposal: p
+            ? {
+                connect: {
+                  id: p.id,
+                },
+              }
+            : undefined,
           preimageArguments: {
             create: pA,
-          },
-          proposal: {
-            connect: p,
           },
           preimageStatus: {
             create: {
@@ -157,8 +169,13 @@ const createPreimage: Task<NomidotPreimage[]> = {
               status,
             },
           },
-          metaDescription,
-          method,
+          referendum: r
+            ? {
+                connect: {
+                  id: r.id,
+                },
+              }
+            : undefined,
           section,
         });
       })

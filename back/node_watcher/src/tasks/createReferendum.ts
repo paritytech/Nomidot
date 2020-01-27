@@ -130,6 +130,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
                 },
               }
             : undefined,
+          preimageHash: preimageHash.toString(),
           referendumId: Number(referendumIndex),
           referendumStatus: {
             create: {
