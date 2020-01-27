@@ -124,15 +124,6 @@ export enum ProposalStatus {
   TABLED = 'Tabled',
 }
 
-// FIXME See if there is a nice way use types for this ReferendumStatus
-
-// export type ReferendumStatus =
-//   | 'Cancelled'
-//   | 'Executed'
-//   | 'NotPassed'
-//   | 'Passed'
-//   | 'Started';
-
 export const referendumStatus = {
   CANCELLED: 'Cancelled',
   EXECUTED: 'Executed',
@@ -140,6 +131,13 @@ export const referendumStatus = {
   PASSED: 'Passed',
   STARTED: 'Started',
 };
+
+// export type ReferendumStatus =
+//   | 'Cancelled'
+//   | 'Executed'
+//   | 'NotPassed'
+//   | 'Passed'
+//   | 'Started';
 
 // export enum ReferendumStatus {
 //   CANCELLED = 'Cancelled',
