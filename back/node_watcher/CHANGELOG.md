@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.15](https://github.com/yjkimjunior/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
+
+
+### Bug Fixes
+
+* image and k8 for recent fixes ([#110](https://github.com/yjkimjunior/Nomidot/issues/110)) ([a082533](https://github.com/yjkimjunior/Nomidot/commit/a0825330738f764e30fb418d2324e50c7a7ffdaf))
+* **node-watcher:** Override with chain types ([#104](https://github.com/yjkimjunior/Nomidot/issues/104)) ([ae0ff5d](https://github.com/yjkimjunior/Nomidot/commit/ae0ff5d282860c94cc369b3d0c3eb9047e2492e2))
+* docker ([#99](https://github.com/yjkimjunior/Nomidot/issues/99)) ([673a21b](https://github.com/yjkimjunior/Nomidot/commit/673a21b894b52a881e76cb92057266122bfa4cea))
+* k8s poststart hook, add back api to nodewatcher ([#102](https://github.com/yjkimjunior/Nomidot/issues/102)) ([dc5135e](https://github.com/yjkimjunior/Nomidot/commit/dc5135e95eb63fd4d8e1b451ff16f1dcb40ac056))
+
+
+### Features
+
+* Separate preimage from proposal ([#96](https://github.com/yjkimjunior/Nomidot/issues/96)) ([c285d3e](https://github.com/yjkimjunior/Nomidot/commit/c285d3edfd3e827707914106eb4fc093e6b6b094))
+* **node-watcher:** Create proposal and proposalArguments ([#86](https://github.com/yjkimjunior/Nomidot/issues/86)) ([7a20a09](https://github.com/yjkimjunior/Nomidot/commit/7a20a09748f4efbc21a4dfdf4baadfd6e60dba9f))
+
+
+
+
+
 ## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
 
 

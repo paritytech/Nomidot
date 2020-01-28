@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.15](https://github.com/yjkimjunior/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
+
+**Note:** Version bump only for package @substrate/ui-components
+
+
+
+
+
 ## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
 
 
