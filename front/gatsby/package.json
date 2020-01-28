@@ -5,7 +5,7 @@
   "description": "Staking Portal for Polkadot",
   "license": "Apache-2.0",
   "private": true,
-  "repository": "https://github.com/yjkimjunior/Nomidot",
+  "repository": "https://github.com/paritytech/Nomidot",
   "dependencies": {
     "@polkadot/extension-dapp": "^0.14.1",
     "@types/react-helmet": "^5.0.14",

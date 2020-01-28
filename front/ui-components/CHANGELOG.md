@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.3.15](https://github.com/yjkimjunior/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
+## [0.3.15](https://github.com/paritytech/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
 
 **Note:** Version bump only for package @substrate/ui-components
 
@@ -11,18 +11,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
+## [0.3.14](https://github.com/paritytech/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
 
 
 ### Features
 
-* Make ApiContext take a `provider` prop ([#84](https://github.com/yjkimjunior/Nomidot/issues/84)) ([a5bcfaa](https://github.com/yjkimjunior/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+* Make ApiContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
 
 
 
 
 
-## [0.3.13](https://github.com/yjkimjunior/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
+## [0.3.13](https://github.com/paritytech/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
 
 **Note:** Version bump only for package @substrate/ui-components
 
@@ -30,67 +30,67 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.3.12](https://github.com/yjkimjunior/Nomidot/compare/v0.3.11...v0.3.12) (2020-01-07)
+## [0.3.12](https://github.com/paritytech/Nomidot/compare/v0.3.11...v0.3.12) (2020-01-07)
 
 
 ### Bug Fixes
 
-* Input Address bug ([#72](https://github.com/yjkimjunior/Nomidot/issues/72)) ([01652b0](https://github.com/yjkimjunior/Nomidot/commit/01652b0dcc672b343287aaf3ca3e508943da9ba6))
+* Input Address bug ([#72](https://github.com/paritytech/Nomidot/issues/72)) ([01652b0](https://github.com/paritytech/Nomidot/commit/01652b0dcc672b343287aaf3ca3e508943da9ba6))
 
 
 
 
 
-# [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
+# [0.3.0](https://github.com/paritytech/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
 
 
 ### Bug Fixes
 
-* linting errors ([#51](https://github.com/yjkimjunior/Nomidot/issues/51)) ([15c30a6](https://github.com/yjkimjunior/Nomidot/commit/15c30a6814e9180feea9c695701ca58a2c2fce49))
+* linting errors ([#51](https://github.com/paritytech/Nomidot/issues/51)) ([15c30a6](https://github.com/paritytech/Nomidot/commit/15c30a6814e9180feea9c695701ca58a2c2fce49))
 
 
 ### Features
 
-* Prisma Server to watch a node ([#24](https://github.com/yjkimjunior/Nomidot/issues/24)) ([ded1fc3](https://github.com/yjkimjunior/Nomidot/commit/ded1fc3114200952d0aa12acc0b3bb6b42601960)), closes [#29](https://github.com/yjkimjunior/Nomidot/issues/29) [#30](https://github.com/yjkimjunior/Nomidot/issues/30) [#31](https://github.com/yjkimjunior/Nomidot/issues/31)
+* Prisma Server to watch a node ([#24](https://github.com/paritytech/Nomidot/issues/24)) ([ded1fc3](https://github.com/paritytech/Nomidot/commit/ded1fc3114200952d0aa12acc0b3bb6b42601960)), closes [#29](https://github.com/paritytech/Nomidot/issues/29) [#30](https://github.com/paritytech/Nomidot/issues/30) [#31](https://github.com/paritytech/Nomidot/issues/31)
 
 
 
 
 
-## [0.2.4](https://github.com/yjkimjunior/Nomidot/compare/v0.2.3...v0.2.4) (2019-11-26)
-
-
-### Bug Fixes
-
-* Allow importing without src/ directory ([#26](https://github.com/yjkimjunior/Nomidot/issues/26)) ([175d1fd](https://github.com/yjkimjunior/Nomidot/commit/175d1fd0541191516f44986c23c5c0ae816015ec))
-
-
-
-
-
-## [0.2.3](https://github.com/yjkimjunior/Nomidot/compare/v0.2.2...v0.2.3) (2019-11-26)
+## [0.2.4](https://github.com/paritytech/Nomidot/compare/v0.2.3...v0.2.4) (2019-11-26)
 
 
 ### Bug Fixes
 
-* Fix various little bugs ([#23](https://github.com/yjkimjunior/Nomidot/issues/23)) ([24969fc](https://github.com/yjkimjunior/Nomidot/commit/24969fc2fcd46456b94f4077859b9ae5632a24b4))
+* Allow importing without src/ directory ([#26](https://github.com/paritytech/Nomidot/issues/26)) ([175d1fd](https://github.com/paritytech/Nomidot/commit/175d1fd0541191516f44986c23c5c0ae816015ec))
 
 
 
 
 
-## [0.2.2](https://github.com/yjkimjunior/Nomidot/compare/v0.2.1...v0.2.2) (2019-11-21)
+## [0.2.3](https://github.com/paritytech/Nomidot/compare/v0.2.2...v0.2.3) (2019-11-26)
 
 
 ### Bug Fixes
 
-* Add forgotten Dropdown in ui-components ([#22](https://github.com/yjkimjunior/Nomidot/issues/22)) ([783300d](https://github.com/yjkimjunior/Nomidot/commit/783300dc0328683b457eedc068b635b608869911))
+* Fix various little bugs ([#23](https://github.com/paritytech/Nomidot/issues/23)) ([24969fc](https://github.com/paritytech/Nomidot/commit/24969fc2fcd46456b94f4077859b9ae5632a24b4))
 
 
 
 
 
-## [0.2.1](https://github.com/yjkimjunior/Nomidot/compare/v0.2.0...v0.2.1) (2019-11-20)
+## [0.2.2](https://github.com/paritytech/Nomidot/compare/v0.2.1...v0.2.2) (2019-11-21)
+
+
+### Bug Fixes
+
+* Add forgotten Dropdown in ui-components ([#22](https://github.com/paritytech/Nomidot/issues/22)) ([783300d](https://github.com/paritytech/Nomidot/commit/783300dc0328683b457eedc068b635b608869911))
+
+
+
+
+
+## [0.2.1](https://github.com/paritytech/Nomidot/compare/v0.2.0...v0.2.1) (2019-11-20)
 
 **Note:** Version bump only for package @substrate/ui-components
 
@@ -98,27 +98,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.2.0](https://github.com/yjkimjunior/Nomidot/compare/v0.1.5...v0.2.0) (2019-11-18)
+# [0.2.0](https://github.com/paritytech/Nomidot/compare/v0.1.5...v0.2.0) (2019-11-18)
 
 
 ### Bug Fixes
 
-* onboarding styles and other good stuff ([6c0dcea](https://github.com/yjkimjunior/Nomidot/commit/6c0dcea7f6f4e81d9398dc177176dbfe1f34545b))
-* remove keyring from context ([1234dac](https://github.com/yjkimjunior/Nomidot/commit/1234dac333971c6619b60e64b6a6a9b9f5b16b70))
-* split up contexts, move context gate to gatsby, drop keyring ([3f22b2a](https://github.com/yjkimjunior/Nomidot/commit/3f22b2a72c297f2a5e4cff3b9ba22b60bb9e9009))
+* onboarding styles and other good stuff ([6c0dcea](https://github.com/paritytech/Nomidot/commit/6c0dcea7f6f4e81d9398dc177176dbfe1f34545b))
+* remove keyring from context ([1234dac](https://github.com/paritytech/Nomidot/commit/1234dac333971c6619b60e64b6a6a9b9f5b16b70))
+* split up contexts, move context gate to gatsby, drop keyring ([3f22b2a](https://github.com/paritytech/Nomidot/commit/3f22b2a72c297f2a5e4cff3b9ba22b60bb9e9009))
 
 
 ### Features
 
-* gatsby routing ([5e2bfb5](https://github.com/yjkimjunior/Nomidot/commit/5e2bfb58a2ee517135f4210ef8523d453fb015f1))
-* get and format injected accounts ([ae5deae](https://github.com/yjkimjunior/Nomidot/commit/ae5deae12932b27e4358705f3b65a1acbc7d1b81))
+* gatsby routing ([5e2bfb5](https://github.com/paritytech/Nomidot/commit/5e2bfb58a2ee517135f4210ef8523d453fb015f1))
+* get and format injected accounts ([ae5deae](https://github.com/paritytech/Nomidot/commit/ae5deae12932b27e4358705f3b65a1acbc7d1b81))
 
 
 
 
 
 <a name="0.1.5"></a>
-## [0.1.5](https://github.com/yjkimjunior/Nomidot/compare/v0.1.3...v0.1.5) (2019-11-12)
+## [0.1.5](https://github.com/paritytech/Nomidot/compare/v0.1.3...v0.1.5) (2019-11-12)
 
 **Note:** Version bump only for package @substrate/ui-components
 
@@ -131,7 +131,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.3](https://github.com/yjkimjunior/Nomidot/compare/v0.1.2...v0.1.3) (2019-11-11)
+## [0.1.3](https://github.com/paritytech/Nomidot/compare/v0.1.2...v0.1.3) (2019-11-11)
 
 **Note:** Version bump only for package @substrate/ui-components
 
@@ -139,7 +139,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.1.2](https://github.com/yjkimjunior/Nomidot/compare/v0.1.1...v0.1.2) (2019-11-11)
+## [0.1.2](https://github.com/paritytech/Nomidot/compare/v0.1.1...v0.1.2) (2019-11-11)
 
 **Note:** Version bump only for package @substrate/ui-components
 
@@ -152,13 +152,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* types and lerna scripts ([e52f0fe](https://github.com/yjkimjunior/Nomidot/commit/e52f0feeb5d2a2a8008c34372af189bdda41cff4))
+* types and lerna scripts ([e52f0fe](https://github.com/paritytech/Nomidot/commit/e52f0feeb5d2a2a8008c34372af189bdda41cff4))
 
 
 ### Features
 
-* add ui-common, uic-omponents ([ff3480d](https://github.com/yjkimjunior/Nomidot/commit/ff3480d914329dbe9a44b6188095465fdec76137))
-* lerna ([4af1434](https://github.com/yjkimjunior/Nomidot/commit/4af14342de7c145c164640f17993f11c06244e2c))
+* add ui-common, uic-omponents ([ff3480d](https://github.com/paritytech/Nomidot/commit/ff3480d914329dbe9a44b6188095465fdec76137))
+* lerna ([4af1434](https://github.com/paritytech/Nomidot/commit/4af14342de7c145c164640f17993f11c06244e2c))
 
 
 

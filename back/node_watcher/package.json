@@ -18,7 +18,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/yjkimjunior/Nomidot",
+  "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
     "start": "ts-node ./src/index.ts"

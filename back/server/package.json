@@ -2,10 +2,10 @@
   "name": "@substrate/nomidot-server",
   "version": "0.3.15",
   "author": "Parity Technologies <admin@parity.io>",
-  "description": "UI components shared across Substrate Light UI",
+  "description": "Backend server for Nomidot",
   "license": "Apache-2.0",
   "private": true,
-  "repository": "https://github.com/yjkimjunior/Nomidot",
+  "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "start": "ts-node src/index.ts"
   },
