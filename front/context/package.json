@@ -11,7 +11,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/yjkimjunior/Nomidot",
+  "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
     "start": "yarn build --watch",
@@ -23,6 +23,5 @@
   },
   "peerDependencies": {
     "react": "^16.9"
-  },
-  "gitHead": "d1f2fda538cc3060c0b5bfe4f65b8b7bec7d2799"
+  }
 }

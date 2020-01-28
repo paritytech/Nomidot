@@ -3,29 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.3.15](https://github.com/yjkimjunior/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
+## [0.3.15](https://github.com/paritytech/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
 
 
 ### Features
 
-* **context:** Add HealthContext ([#114](https://github.com/yjkimjunior/Nomidot/issues/114)) ([0fd0f8a](https://github.com/yjkimjunior/Nomidot/commit/0fd0f8a2bf28d4e3f28f518472567bbc905ef0e7))
+* **context:** Add HealthContext ([#114](https://github.com/paritytech/Nomidot/issues/114)) ([0fd0f8a](https://github.com/paritytech/Nomidot/commit/0fd0f8a2bf28d4e3f28f518472567bbc905ef0e7))
 
 
 
 
 
-## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
+## [0.3.14](https://github.com/paritytech/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
 
 
 ### Features
 
-* Make ApiContext take a `provider` prop ([#84](https://github.com/yjkimjunior/Nomidot/issues/84)) ([a5bcfaa](https://github.com/yjkimjunior/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+* Make ApiContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
 
 
 
 
 
-## [0.3.13](https://github.com/yjkimjunior/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
+## [0.3.13](https://github.com/paritytech/Nomidot/compare/v0.3.12...v0.3.13) (2020-01-09)
 
 **Note:** Version bump only for package @substrate/context
 
@@ -33,34 +33,34 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.3.0](https://github.com/yjkimjunior/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
+# [0.3.0](https://github.com/paritytech/Nomidot/compare/v0.2.4...v0.3.0) (2020-01-02)
 
 
 ### Bug Fixes
 
-* linting errors ([#51](https://github.com/yjkimjunior/Nomidot/issues/51)) ([15c30a6](https://github.com/yjkimjunior/Nomidot/commit/15c30a6814e9180feea9c695701ca58a2c2fce49))
+* linting errors ([#51](https://github.com/paritytech/Nomidot/issues/51)) ([15c30a6](https://github.com/paritytech/Nomidot/commit/15c30a6814e9180feea9c695701ca58a2c2fce49))
 
 
 ### Features
 
-* Prisma Server to watch a node ([#24](https://github.com/yjkimjunior/Nomidot/issues/24)) ([ded1fc3](https://github.com/yjkimjunior/Nomidot/commit/ded1fc3114200952d0aa12acc0b3bb6b42601960)), closes [#29](https://github.com/yjkimjunior/Nomidot/issues/29) [#30](https://github.com/yjkimjunior/Nomidot/issues/30) [#31](https://github.com/yjkimjunior/Nomidot/issues/31)
+* Prisma Server to watch a node ([#24](https://github.com/paritytech/Nomidot/issues/24)) ([ded1fc3](https://github.com/paritytech/Nomidot/commit/ded1fc3114200952d0aa12acc0b3bb6b42601960)), closes [#29](https://github.com/paritytech/Nomidot/issues/29) [#30](https://github.com/paritytech/Nomidot/issues/30) [#31](https://github.com/paritytech/Nomidot/issues/31)
 
 
 
 
 
-## [0.2.3](https://github.com/yjkimjunior/Nomidot/compare/v0.2.2...v0.2.3) (2019-11-26)
+## [0.2.3](https://github.com/paritytech/Nomidot/compare/v0.2.2...v0.2.3) (2019-11-26)
 
 
 ### Bug Fixes
 
-* Fix various little bugs ([#23](https://github.com/yjkimjunior/Nomidot/issues/23)) ([24969fc](https://github.com/yjkimjunior/Nomidot/commit/24969fc2fcd46456b94f4077859b9ae5632a24b4))
+* Fix various little bugs ([#23](https://github.com/paritytech/Nomidot/issues/23)) ([24969fc](https://github.com/paritytech/Nomidot/commit/24969fc2fcd46456b94f4077859b9ae5632a24b4))
 
 
 
 
 
-## [0.2.1](https://github.com/yjkimjunior/Nomidot/compare/v0.2.0...v0.2.1) (2019-11-20)
+## [0.2.1](https://github.com/paritytech/Nomidot/compare/v0.2.0...v0.2.1) (2019-11-20)
 
 **Note:** Version bump only for package @substrate/context
 
@@ -68,27 +68,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.2.0](https://github.com/yjkimjunior/Nomidot/compare/v0.1.5...v0.2.0) (2019-11-18)
+# [0.2.0](https://github.com/paritytech/Nomidot/compare/v0.1.5...v0.2.0) (2019-11-18)
 
 
 ### Bug Fixes
 
-* move get injected into useeffect ([4781c80](https://github.com/yjkimjunior/Nomidot/commit/4781c804dc8b8702b62facf5476a5996e59bb8ae))
-* ready async ([27d1e72](https://github.com/yjkimjunior/Nomidot/commit/27d1e72f4e1fc8334ddfbbfbb940a8f59d9ad473))
-* remove keyring from context ([1234dac](https://github.com/yjkimjunior/Nomidot/commit/1234dac333971c6619b60e64b6a6a9b9f5b16b70))
-* split up contexts, move context gate to gatsby, drop keyring ([3f22b2a](https://github.com/yjkimjunior/Nomidot/commit/3f22b2a72c297f2a5e4cff3b9ba22b60bb9e9009))
+* move get injected into useeffect ([4781c80](https://github.com/paritytech/Nomidot/commit/4781c804dc8b8702b62facf5476a5996e59bb8ae))
+* ready async ([27d1e72](https://github.com/paritytech/Nomidot/commit/27d1e72f4e1fc8334ddfbbfbb940a8f59d9ad473))
+* remove keyring from context ([1234dac](https://github.com/paritytech/Nomidot/commit/1234dac333971c6619b60e64b6a6a9b9f5b16b70))
+* split up contexts, move context gate to gatsby, drop keyring ([3f22b2a](https://github.com/paritytech/Nomidot/commit/3f22b2a72c297f2a5e4cff3b9ba22b60bb9e9009))
 
 
 ### Features
 
-* get and format injected accounts ([ae5deae](https://github.com/yjkimjunior/Nomidot/commit/ae5deae12932b27e4358705f3b65a1acbc7d1b81))
+* get and format injected accounts ([ae5deae](https://github.com/paritytech/Nomidot/commit/ae5deae12932b27e4358705f3b65a1acbc7d1b81))
 
 
 
 
 
 <a name="0.1.5"></a>
-## [0.1.5](https://github.com/yjkimjunior/Nomidot/compare/v0.1.3...v0.1.5) (2019-11-12)
+## [0.1.5](https://github.com/paritytech/Nomidot/compare/v0.1.3...v0.1.5) (2019-11-12)
 
 **Note:** Version bump only for package @substrate/context
 
@@ -101,7 +101,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.3](https://github.com/yjkimjunior/Nomidot/compare/v0.1.2...v0.1.3) (2019-11-11)
+## [0.1.3](https://github.com/paritytech/Nomidot/compare/v0.1.2...v0.1.3) (2019-11-11)
 
 **Note:** Version bump only for package @substrate/context
 
@@ -109,7 +109,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.1.2](https://github.com/yjkimjunior/Nomidot/compare/v0.1.1...v0.1.2) (2019-11-11)
+## [0.1.2](https://github.com/paritytech/Nomidot/compare/v0.1.1...v0.1.2) (2019-11-11)
 
 **Note:** Version bump only for package @substrate/context
 
