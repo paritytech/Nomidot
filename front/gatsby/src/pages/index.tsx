@@ -8,7 +8,8 @@ import React from 'react';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { ContextGate } from '../ContextGate';
-import Onboarding from './onboarding';
+// import Onboarding from './onboarding';
+import ValidatorsList from '../components/validators';
 
 function IndexPage(): React.ReactElement {
   return (
@@ -20,7 +21,8 @@ function IndexPage(): React.ReactElement {
           isReady && (
             <Layout>
               <SEO title='Home' />
-              <Onboarding />
+              {/* <Onboarding /> */}
+              <ValidatorsList />
             </Layout>
           )
         }

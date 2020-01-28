@@ -7,12 +7,15 @@ import {
   AccountsContextProvider,
   AlertsContextProvider,
   ApiContextProvider,
-  StakingContextProvider,
-  TxQueueContextProvider,
+  HealthContextProvider,
+  TxQueueContextProvider
 } from '@substrate/context';
+import { Loading } from '@substrate/ui-components';
+import { HealthGate } from './HealthGate';
 import React from 'react';
 
 const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
+const wsProvider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
 export function ContextGate({
   children,
@@ -23,9 +26,13 @@ export function ContextGate({
     <AlertsContextProvider>
       <AccountsContextProvider>
         <TxQueueContextProvider>
-          <ApiContextProvider provider={new WsProvider(ARCHIVE_NODE_ENDPOINT)}>
-            <StakingContextProvider>{children}</StakingContextProvider>
-          </ApiContextProvider>
+          <HealthContextProvider provider={wsProvider}>
+            <HealthGate>
+              <ApiContextProvider loading={<Loading active>Initializing chain...</Loading>} provider={wsProvider}>
+                {children}
+              </ApiContextProvider>
+            </HealthGate>
+          </HealthContextProvider>
         </TxQueueContextProvider>
       </AccountsContextProvider>
     </AlertsContextProvider>

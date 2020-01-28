@@ -93,6 +93,7 @@ export function HealthContextProvider(
     let sub: Subscription | undefined;
 
     rpc.provider.on('connected', () => {
+      console.log('rpc conected');
       sub = combineLatest([
         rpc.system.health(),
         merge(
