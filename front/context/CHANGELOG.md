@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.15](https://github.com/yjkimjunior/Nomidot/compare/v0.3.14...v0.3.15) (2020-01-28)
+
+
+### Features
+
+* **context:** Add HealthContext ([#114](https://github.com/yjkimjunior/Nomidot/issues/114)) ([0fd0f8a](https://github.com/yjkimjunior/Nomidot/commit/0fd0f8a2bf28d4e3f28f518472567bbc905ef0e7))
+
+
+
+
+
 ## [0.3.14](https://github.com/yjkimjunior/Nomidot/compare/v0.3.13...v0.3.14) (2020-01-09)
 
 
