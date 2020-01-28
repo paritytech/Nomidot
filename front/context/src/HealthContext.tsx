@@ -35,7 +35,10 @@ export interface HealthContextType {
  * @param header - The latest header of the light node
  * @param health - The health of the light node
  */
-function getNodeStatus(header: Header | undefined, health: Health | undefined): HealthContextType {
+function getNodeStatus(
+  header: Header | undefined,
+  health: Health | undefined
+): HealthContextType {
   let best = 0;
   let isNodeConnected = false;
   let hasPeers = false;
@@ -62,14 +65,18 @@ function getNodeStatus(header: Header | undefined, health: Health | undefined): 
   };
 }
 
-export const HealthContext: React.Context<HealthContextType> = React.createContext({} as HealthContextType);
+export const HealthContext: React.Context<HealthContextType> = React.createContext(
+  {} as HealthContextType
+);
 
 export interface HealthContextProviderProps {
   children?: React.ReactNode;
   provider: ProviderInterface;
 }
 
-export function HealthContextProvider(props: HealthContextProviderProps): React.ReactElement {
+export function HealthContextProvider(
+  props: HealthContextProviderProps
+): React.ReactElement {
   const { children = null, provider } = props;
   const [status, setStatus] = useState<HealthContextType>({
     best: 0,
@@ -104,5 +111,7 @@ export function HealthContextProvider(props: HealthContextProviderProps): React.
     return (): void => sub && sub.unsubscribe();
   }, [rpc]);
 
-  return <HealthContext.Provider value={status}>{children}</HealthContext.Provider>;
+  return (
+    <HealthContext.Provider value={status}>{children}</HealthContext.Provider>
+  );
 }
