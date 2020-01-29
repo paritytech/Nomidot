@@ -40,6 +40,10 @@ const createProposal: Task<NomidotProposal[]> = {
 
     const results: NomidotProposal[] = [];
 
+    if (!proposalEvents.length) {
+      return results;
+    }
+
     await Promise.all(
       proposalEvents.map(async ({ event: { data, typeDef } }) => {
         const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
@@ -89,6 +93,10 @@ const createProposal: Task<NomidotProposal[]> = {
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotProposal[]) => {
+    if (!value.length) {
+      return
+    }
+
     await Promise.all(
       value.map(async prop => {
         const {
