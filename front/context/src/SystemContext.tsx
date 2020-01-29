@@ -83,11 +83,11 @@ export function SystemContextProvider(
           `Rpc connected to chain "${_chain}" with properties ${JSON.stringify(
             _properties
           )} via ${
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            // @ts-ignore WsProvider.endpoint is private, but we still use it
-            // here, to have a nice log
             provider instanceof WsProvider
-              ? provider.endpoint
+              ? // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                // @ts-ignore WsProvider.endpoint is private, but we still use it
+                // here, to have a nice log
+                provider.endpoint
               : provider.constructor.name
           }`
         );
