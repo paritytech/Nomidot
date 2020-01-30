@@ -3,8 +3,7 @@
     "**/generated/**/*",
     "node_modules",
     "public",
-    ".cache",
-    "back/server/**/*"
+    ".cache"
   ],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
