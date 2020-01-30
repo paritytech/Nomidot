@@ -10,7 +10,9 @@ import { Observable } from 'rxjs';
  *
  * @param provider - The provider to track
  */
-export function providerConnected(provider: ProviderInterface): Observable<boolean> {
+export function providerConnected(
+  provider: ProviderInterface
+): Observable<boolean> {
   return new Observable(subscriber => {
     if (provider.isConnected()) {
       subscriber.next(true);

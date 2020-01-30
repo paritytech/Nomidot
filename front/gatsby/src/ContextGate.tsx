@@ -7,7 +7,6 @@ import {
   AccountsContextProvider,
   AlertsContextProvider,
   ApiContextProvider,
-  StakingContextProvider,
   TxQueueContextProvider,
 } from '@substrate/context';
 import React from 'react';
@@ -24,7 +23,7 @@ export function ContextGate({
       <AccountsContextProvider>
         <TxQueueContextProvider>
           <ApiContextProvider provider={new WsProvider(ARCHIVE_NODE_ENDPOINT)}>
-            <StakingContextProvider>{children}</StakingContextProvider>
+            <>{children}</>
           </ApiContextProvider>
         </TxQueueContextProvider>
       </AccountsContextProvider>

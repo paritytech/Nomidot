@@ -15,9 +15,9 @@ function IndexPage(): React.ReactElement {
     <ContextGate>
       <ApiContext.Consumer>
         {({
-          isReady,
+          isApiReady,
         }: Partial<ApiContextType>): React.ReactElement | boolean | undefined =>
-          isReady && (
+          isApiReady && (
             <Layout>
               <SEO title='Home' />
               <Onboarding />

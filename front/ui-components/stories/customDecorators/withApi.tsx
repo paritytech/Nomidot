@@ -6,14 +6,11 @@ import { WsProvider } from '@polkadot/api';
 import { ApiContextProvider } from '@substrate/context';
 import React from 'react';
 
-import { Loading } from '../../src/index';
-
 export const withApi = (
   storyFn: () => React.ReactElement
 ): React.ReactElement => {
   return (
     <ApiContextProvider
-      loading={<Loading active>Connecting to the node...</Loading>}
       provider={new WsProvider('wss://kusama-rpc.polkadot.io/')}
     >
       {storyFn()}
