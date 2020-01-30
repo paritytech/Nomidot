@@ -1,4 +1,4 @@
-// Copyright 2018-2020 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2020 @paritytech/Nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,9 +15,9 @@ function IndexPage(): React.ReactElement {
     <ContextGate>
       <ApiContext.Consumer>
         {({
-          isReady,
+          isApiReady,
         }: Partial<ApiContextType>): React.ReactElement | boolean | undefined =>
-          isReady && (
+          isApiReady && (
             <Layout>
               <SEO title='Home' />
               <Onboarding />
