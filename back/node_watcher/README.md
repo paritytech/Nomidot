@@ -32,3 +32,27 @@ The script itself lives in `nodeWatcher.ts`, and anyone can write their own `tas
   - Get the current image name `kubectl describe pods ${POD_NAME}`
   - Set new deployment image `kubectl set image ${current_image} ${new_image}`
   - Confirm with `kubectl rollout status deployments/${new_image}`
+
+### PgAdmin into Cloudsql using Proxy
+
+##### Cloudsql Proxy
+  - Make sure Cloudsql Proxy is installed: `curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.amd64`
+  - Make it executable: `chmod +x cloud_sql_proxy`
+  - Locate the `credentials.json` file containing credentials to the service account.
+  - Start the proxy: `./cloud_sql_proxy -instances=test-installations-222013:europe-west1:kusama-etl=tcp:0.0.0.0:5432 -credential_file=./key.json`
+  - It should say something like:
+  ```
+    Listening on 127.0.0.1:5432 for test-installations-222013:europe-west1:kusama-etl
+    2020/01/30 17:05:37 Ready for new connections
+  ```
+
+##### PgAdmin
+  - Get pgadmin: https://hub.docker.com/r/dpage/pgadmin4/
+  - Run it: `docker run -p 80:80 -e PGADMIN_DEFAULT_EMAIL="name@parity.io" -e PGADMIN_DEFAULT_PASSWORD="****" -d dpage/pgadmin4`
+  - Navigate to `localhost:80` in a browser
+  - Login with the above credentials
+  - Click "New Server"
+  - In "Connection" tab, fill in the DB_NAME (e.g. nomidot-node-watcher), DB_USER (e.g. admin), and DB_PASS, as appropriate.
+  - Make sure `SSL mode` is set to `Disabled`. **n.b.** "Even though the sslmode parameter is set to disabled, the proxy does provide an encrypted connection."
+
+  - Click Connect.
