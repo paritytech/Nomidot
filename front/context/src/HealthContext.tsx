@@ -1,14 +1,17 @@
-// Copyright 2018-2020 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2020 @paritytech/Nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Rpc from '@polkadot/rpc-core';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { TypeRegistry } from '@polkadot/types';
 import { Header, Health } from '@polkadot/types/interfaces';
-import React, { useEffect, useRef, useState } from 'react';
-import { combineLatest, interval, merge, Subscription } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import React, { useContext, useEffect, useState } from 'react';
+
+import { SystemContext } from './SystemContext';
+
+/**
+ * Period, in ms, after which we consider we're syncing
+ */
+const SYNCING_THRESHOLD = 2000;
 
 export interface HealthContextType {
   /**
@@ -36,24 +39,20 @@ export interface HealthContextType {
  * @param health - The health of the light node
  */
 function getNodeStatus(
+  provider: ProviderInterface,
   header: Header | undefined,
   health: Health | undefined
-): HealthContextType {
+): Omit<HealthContextType, 'isSyncing'> {
   let best = 0;
   let isNodeConnected = false;
   let hasPeers = false;
-  let isSyncing = false;
 
-  if (health && header) {
+  if (provider.isConnected() && health && header) {
     isNodeConnected = true;
     best = header.number.toNumber();
 
     if (health.peers.gten(1)) {
       hasPeers = true;
-    }
-
-    if (health.isSyncing.isTrue) {
-      isSyncing = true;
     }
   }
 
@@ -61,7 +60,6 @@ function getNodeStatus(
     best,
     hasPeers,
     isNodeConnected,
-    isSyncing,
   };
 }
 
@@ -70,46 +68,45 @@ export const HealthContext: React.Context<HealthContextType> = React.createConte
 );
 
 export interface HealthContextProviderProps {
-  children?: React.ReactNode;
+  children?: React.ReactElement;
   provider: ProviderInterface;
 }
+
+// Track if we we're already syncing
+let wasSyncing = true;
 
 export function HealthContextProvider(
   props: HealthContextProviderProps
 ): React.ReactElement {
   const { children = null, provider } = props;
-  const [status, setStatus] = useState<HealthContextType>({
-    best: 0,
-    hasPeers: false,
-    isNodeConnected: false,
-    isSyncing: false,
-  });
+  const { header, health } = useContext(SystemContext);
+  const [isSyncing, setIsSyncing] = useState(true);
 
-  const registryRef = useRef(new TypeRegistry());
-  const rpcRef = useRef(new Rpc(registryRef.current, provider));
-  const rpc = rpcRef.current;
-
+  // We wait for 2 seconds, and if we've been syncing for 2 seconds, then we
+  // set isSyncing to true
   useEffect(() => {
-    let sub: Subscription | undefined;
+    let timer: number | undefined;
 
-    rpc.provider.on('connected', () => {
-      sub = combineLatest([
-        rpc.system.health(),
-        merge(
-          rpc.chain.subscribeNewHeads(),
-          // Header doesn't get updated when doing a major sync, so we also poll
-          interval(2000).pipe(switchMap(() => rpc.chain.getHeader()))
-        ),
-      ])
-        .pipe(
-          startWith([undefined, undefined]),
-          map(([health, header]) => getNodeStatus(header, health))
-        )
-        .subscribe(setStatus);
-    });
+    if (!wasSyncing && health.isSyncing.eq(true)) {
+      wasSyncing = true;
+      timer = setTimeout(() => {
+        setIsSyncing(true);
+      }, SYNCING_THRESHOLD);
+    } else if (wasSyncing && health.isSyncing.eq(false)) {
+      wasSyncing = false;
+      setIsSyncing(false);
+      timer && clearTimeout(timer);
+    }
 
-    return (): void => sub && sub.unsubscribe();
-  }, [rpc]);
+    return (): void => {
+      timer && clearTimeout(timer);
+    };
+  }, [health, setIsSyncing]);
+
+  const status = {
+    ...getNodeStatus(provider, header, health),
+    isSyncing,
+  };
 
   return (
     <HealthContext.Provider value={status}>{children}</HealthContext.Provider>

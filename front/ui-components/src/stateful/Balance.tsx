@@ -1,4 +1,4 @@
-// Copyright 2018-2020 @paritytech/substrate-light-ui authors & contributors
+// Copyright 2018-2020 @paritytech/Nomidot authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -26,12 +26,12 @@ export function Balance(props: BalanceProps): React.ReactElement {
     orientation = 'horizontal',
     ...rest
   } = props;
-  const { api, isReady } = useContext(ApiContext);
+  const { api, isApiReady } = useContext(ApiContext);
   const [allBalances, setAllBalances] = useState();
   const [allStaking, setAllStaking] = useState();
 
   useEffect(() => {
-    if (isReady) {
+    if (isApiReady) {
       const balanceSub = combineLatest([
         api.derive.balances.all(address),
         api.derive.staking.account(address),
@@ -42,7 +42,7 @@ export function Balance(props: BalanceProps): React.ReactElement {
 
       return (): void => balanceSub.unsubscribe();
     }
-  }, [api, isReady, address]);
+  }, [api, isApiReady, address]);
 
   const handleRedeem = (address: string): void => {
     // FIXME We're not unsubscring here, we should
