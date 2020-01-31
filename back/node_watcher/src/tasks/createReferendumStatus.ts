@@ -17,10 +17,10 @@ import {
 const l = logger('Task: Referendum Status Update');
 
 /*
- *  ======= Table (Proposal Status Update) ======
+ *  ======= Table (Referendum Status Update) ======
  */
 const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
-  name: 'createProposalStatusUpdate',
+  name: 'createReferendumStatusUpdate',
   read: async (
     blockHash: Hash,
     api: ApiPromise
@@ -38,6 +38,10 @@ const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
     );
 
     const results: NomidotReferendumStatusUpdate[] = [];
+
+    if (!referendumEvents) {
+      return results;
+    }
 
     await Promise.all(
       referendumEvents.map(async ({ event: { data, typeDef, method } }) => {
@@ -84,6 +88,10 @@ const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
     blockNumber: BlockNumber,
     value: NomidotReferendumStatusUpdate[]
   ) => {
+    if (!value || !value.length) {
+      return;
+    }
+
     await Promise.all(
       value.map(async prop => {
         const { referendumId: rId, status } = prop;

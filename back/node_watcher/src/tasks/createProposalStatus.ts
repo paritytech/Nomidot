@@ -34,14 +34,18 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
     const results: NomidotProposalStatusUpdate[] = [];
 
+    if (!proposalEvents) {
+      return results;
+    }
+
     await Promise.all(
       proposalEvents.map(async ({ event: { data, typeDef } }) => {
         const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
-          (prev, curr, index) => {
+          (result, curr, index) => {
             const type = typeDef[index].type;
 
             return {
-              ...prev,
+              ...result,
               [type]: curr.toString(),
             };
           },
@@ -82,6 +86,11 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
     blockNumber: BlockNumber,
     value: NomidotProposalStatusUpdate[]
   ) => {
+
+    if (!value || value.length) {
+      return;
+    }
+
     await Promise.all(
       value.map(async prop => {
         const { proposalId: pId, status } = prop;

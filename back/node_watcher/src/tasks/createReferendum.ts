@@ -87,6 +87,11 @@ const createReferendum: Task<NomidotReferendum[]> = {
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotReferendum[]) => {
+
+    if(!value) {
+      return;
+    }
+
     await Promise.all(
       value.map(async prop => {
         const {
@@ -98,22 +103,25 @@ const createReferendum: Task<NomidotReferendum[]> = {
           voteThreshold,
         } = prop;
 
-        const preimages =
-          preimageHash &&
-          (await prisma.preimages({
-            where: { hash: preimageHash.toString() },
-          }));
+        const preimages = await prisma.preimages({
+            where: {
+              hash: preimageHash.toString()
+            }
+          });
+        
+        l.log(`PREIMAGES ${preimages}`);
 
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const p = preimages.length
-          ? preimages?.filter(async preimage => {
-              await prisma
-                .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: preimageStatus.NOTED } });
-            })[0]
-          : undefined;
+        const p = 
+          preimages.length
+            ? preimages.filter(async preimage => {
+                await prisma
+                  .preimage({ id: preimage.id })
+                  .preimageStatus({ where: { status: preimageStatus.NOTED } });
+              })[0]
+            : undefined;
 
         await prisma.createReferendum({
           delay: delay.toNumber(),
