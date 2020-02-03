@@ -33,11 +33,20 @@ function waitFinalized(
 
 async function incrementor(
   api: ApiPromise,
+  provider: WsProvider,
   tasks: NomidotTask[]
 ): Promise<void> {
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
+
+  api.once('disconnected', async () => {
+    try {
+      api = await ApiPromise.create({ provider });
+    } catch (e) {
+      throw new Error(e + " --- " + blockIndex);
+    }
+  });
 
   while (true) {
     if (blockIndex > lastKnownBestFinalized) {
@@ -98,7 +107,7 @@ async function incrementor(
  */
 export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
   const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
-  const api = await ApiPromise.create({ provider });
+  let api = await ApiPromise.create({ provider });
 
-  return incrementor(api, tasks);
+  incrementor(api, provider, tasks);
 }
