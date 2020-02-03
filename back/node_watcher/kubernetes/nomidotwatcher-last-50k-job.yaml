@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nomidotwatcher-last-50k
+  namespace: nodewatcher-staging
+  labels:
+    stage: staging
+    name: nomidotwatcher
+    app: nomidotwatcher
+    job-name: nomidotwatcher-last-50k
+spec:
+  manualSelector: true
+  selector:
+    matchLabels:
+      stage: staging
+      name: nomidotwatcher
+      app: nomidotwatcher
+      job-name: nomidotwatcher-last-50k
+  template:
+    metadata:
+      labels:
+        stage: staging
+        name: nomidotwatcher
+        app: nomidotwatcher
+        job-name: nomidotwatcher-last-50k
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: nomidotwatcher
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:4a02b97ad78bb2bf00b289ec9273610c88fe334db23c901fecd2450c0c83efe1
+          imagePullPolicy: Always
+          env:
+            - name: PRISMA_ENDPOINT
+              value: http://10.0.9.43:4466
+            - name: START_FROM
+              value: '850000'
+          command: ["yarn", "start"]
+  backoffLimit: 4
