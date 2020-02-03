@@ -44,7 +44,7 @@ async function incrementor(
     try {
       api = await ApiPromise.create({ provider });
     } catch (e) {
-      throw new Error(e + " --- " + blockIndex);
+      throw new Error(e + ' --- ' + blockIndex);
     }
   });
 
@@ -107,7 +107,7 @@ async function incrementor(
  */
 export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
   const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
-  let api = await ApiPromise.create({ provider });
+  const api = await ApiPromise.create({ provider });
 
   incrementor(api, provider, tasks);
 }
