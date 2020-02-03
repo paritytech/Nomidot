@@ -74,7 +74,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           delay: referendumInfo.delay,
           end: referendumInfo.end,
           preimageHash: referendumInfo.proposalHash,
-          referendumIndex: referendumRawEvent.ReferendumIndex,
+          referendumIndex: parseInt(referendumRawEvent.ReferendumIndex),
           status: referendumStatus.STARTED,
           voteThreshold: referendumRawEvent.VoteThreshold,
         };
@@ -87,8 +87,12 @@ const createReferendum: Task<NomidotReferendum[]> = {
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotReferendum[]) => {
+    if (!value) {
+      return;
+    }
+
     await Promise.all(
-      value.map(async prop => {
+      value.map(async referendum => {
         const {
           delay,
           end,
@@ -96,37 +100,46 @@ const createReferendum: Task<NomidotReferendum[]> = {
           referendumIndex,
           status,
           voteThreshold,
-        } = prop;
+        } = referendum;
 
-        const preimages =
-          preimageHash &&
-          (await prisma.preimages({
-            where: { hash: preimageHash.toString() },
-          }));
+        const preimages = await prisma.preimages({
+          where: {
+            hash: preimageHash.toString(),
+          },
+        });
 
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const p = preimages.length
-          ? preimages?.filter(async preimage => {
-              await prisma
-                .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: preimageStatus.NOTED } });
+        const notedPreimage = preimages.length
+          ? preimages.filter(async preimage => {
+              await prisma.preimageStatuses({
+                where: {
+                  AND: [
+                    {
+                      id: preimage.id,
+                    },
+                    {
+                      status: preimageStatus.NOTED,
+                    },
+                  ],
+                },
+              });
             })[0]
           : undefined;
 
         await prisma.createReferendum({
           delay: delay.toNumber(),
           end: end.toNumber(),
-          preimage: p
+          preimage: notedPreimage
             ? {
                 connect: {
-                  id: p?.id,
+                  id: notedPreimage.id,
                 },
               }
             : undefined,
           preimageHash: preimageHash.toString(),
-          referendumId: Number(referendumIndex),
+          referendumId: referendumIndex,
           referendumStatus: {
             create: {
               blockNumber: {

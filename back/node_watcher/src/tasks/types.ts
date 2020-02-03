@@ -96,7 +96,7 @@ export interface NomidotProposalEvent {
 }
 
 export interface NomidotProposalRawEvent {
-  PropIndex?: number;
+  PropIndex?: string;
   Balance?: Balance;
 }
 
@@ -110,7 +110,7 @@ export interface NomidotReferendum {
 }
 
 export interface NomidotReferendumRawEvent {
-  ReferendumIndex?: number;
+  ReferendumIndex?: string;
   VoteThreshold?: VoteThreshold;
 }
 

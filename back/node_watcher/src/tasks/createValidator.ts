@@ -49,8 +49,8 @@ const createValidator: Task<NomidotValidator[]> = {
           validator
         );
 
-        l.warn(`Bonded: ${bonded}`);
-        l.warn(`Ledger: ${ledger}`);
+        // l.warn(`Bonded: ${bonded}`);
+        // l.warn(`Ledger: ${ledger}`);
 
         // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
         if (bonded.isNone && ledger.isNone) {

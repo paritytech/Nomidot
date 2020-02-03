@@ -17,10 +17,10 @@ import {
 const l = logger('Task: Referendum Status Update');
 
 /*
- *  ======= Table (Proposal Status Update) ======
+ *  ======= Table (Referendum Status Update) ======
  */
-const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
-  name: 'createProposalStatusUpdate',
+const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
+  name: 'createReferendumStatusUpdate',
   read: async (
     blockHash: Hash,
     api: ApiPromise
@@ -38,6 +38,10 @@ const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
     );
 
     const results: NomidotReferendumStatusUpdate[] = [];
+
+    if (!referendumEvents) {
+      return results;
+    }
 
     await Promise.all(
       referendumEvents.map(async ({ event: { data, typeDef, method } }) => {
@@ -59,18 +63,18 @@ const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
         }
 
         const relatedReferendum = await prisma.referendum({
-          referendumId: Number(referendumRawEvent.ReferendumIndex),
+          id: parseInt(referendumRawEvent.ReferendumIndex),
         });
 
         if (!relatedReferendum) {
           l.error(
             `No existing referendum found for referendum id: ${referendumRawEvent.ReferendumIndex}`
           );
-          return null;
+          return [];
         }
 
         const result: NomidotReferendumStatusUpdate = {
-          referendumId: Number(referendumRawEvent.ReferendumIndex),
+          referendumId: parseInt(referendumRawEvent.ReferendumIndex),
           status: method,
         };
         l.log(`Nomidot Referendum Status Update: ${JSON.stringify(result)}`);
@@ -84,26 +88,28 @@ const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
     blockNumber: BlockNumber,
     value: NomidotReferendumStatusUpdate[]
   ) => {
-    await Promise.all(
-      value.map(async prop => {
-        const { referendumId: rId, status } = prop;
+    if (value && value.length) {
+      await Promise.all(
+        value.map(async ref => {
+          const { referendumId, status } = ref;
 
-        await prisma.createReferendumStatus({
-          blockNumber: {
-            connect: {
-              number: blockNumber.toNumber(),
+          await prisma.createReferendumStatus({
+            blockNumber: {
+              connect: {
+                number: blockNumber.toNumber(),
+              },
             },
-          },
-          referendum: {
-            connect: {
-              referendumId: rId,
+            referendum: {
+              connect: {
+                referendumId,
+              },
             },
-          },
-          status,
-        });
-      })
-    );
+            status,
+          });
+        })
+      );
+    }
   },
 };
 
-export default createProposal;
+export default createReferendumStatus;
