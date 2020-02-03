@@ -62,10 +62,8 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
           return null;
         }
 
-        l.log(`referendum index: ${referendumRawEvent.ReferendumIndex} is type: ${typeof referendumRawEvent.ReferendumIndex}`);
-
         const relatedReferendum = await prisma.referendum({
-            referendumId: parseInt(referendumRawEvent.ReferendumIndex),
+            id: parseInt(referendumRawEvent.ReferendumIndex),
         });
 
         if (!relatedReferendum) {

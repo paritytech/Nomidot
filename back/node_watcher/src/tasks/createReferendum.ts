@@ -111,21 +111,31 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const p = preimages.length
+        const notedPreimage = preimages.length
           ? preimages.filter(async preimage => {
               await prisma
-                .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: preimageStatus.NOTED } });
+                .preimageStatuses({
+                  where: {
+                    AND: [
+                      {
+                        id: preimage.id
+                      },
+                      {
+                        status: preimageStatus.NOTED
+                      }
+                    ]
+                  }
+                });
             })[0]
           : undefined;
 
         await prisma.createReferendum({
           delay: delay.toNumber(),
           end: end.toNumber(),
-          preimage: p
+          preimage: notedPreimage
             ? {
                 connect: {
-                  id: p?.id,
+                  id: notedPreimage.id,
                 },
               }
             : undefined,
