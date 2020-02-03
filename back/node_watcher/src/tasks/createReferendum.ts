@@ -113,19 +113,18 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // at a time
         const notedPreimage = preimages.length
           ? preimages.filter(async preimage => {
-              await prisma
-                .preimageStatuses({
-                  where: {
-                    AND: [
-                      {
-                        id: preimage.id
-                      },
-                      {
-                        status: preimageStatus.NOTED
-                      }
-                    ]
-                  }
-                });
+              await prisma.preimageStatuses({
+                where: {
+                  AND: [
+                    {
+                      id: preimage.id,
+                    },
+                    {
+                      status: preimageStatus.NOTED,
+                    },
+                  ],
+                },
+              });
             })[0]
           : undefined;
 

@@ -60,7 +60,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
         }
 
         const relatedProposal = await prisma.proposal({
-          proposalId: Number(proposalRawEvent.PropIndex),
+          proposalId: parseInt(proposalRawEvent.PropIndex),
         });
 
         if (!relatedProposal) {

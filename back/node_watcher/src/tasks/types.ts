@@ -96,7 +96,7 @@ export interface NomidotProposalEvent {
 }
 
 export interface NomidotProposalRawEvent {
-  PropIndex?: number;
+  PropIndex?: string;
   Balance?: Balance;
 }
 

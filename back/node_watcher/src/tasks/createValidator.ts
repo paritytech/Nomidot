@@ -85,7 +85,7 @@ const createValidator: Task<NomidotValidator[]> = {
       })
     );
 
-    // l.log(`Nomidot Validators: ${JSON.stringify(result)}`);
+    l.log(`Nomidot Validators: ${JSON.stringify(result)}`);
 
     return result;
   },

@@ -63,7 +63,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
         const proposalArguments: NomidotProposalEvent = {
           depositAmount: proposalRawEvent.Balance,
-          proposalId: Number(proposalRawEvent.PropIndex),
+          proposalId: parseInt(proposalRawEvent.PropIndex),
         };
 
         const publicProps = await api.query.democracy.publicProps.at(blockHash);
@@ -99,35 +99,35 @@ const createProposal: Task<NomidotProposal[]> = {
           status,
         } = prop;
 
-        const preimages =
-          preimageHash &&
-          (await prisma.preimages({
-            where: { hash: preimageHash.toString() },
-          }));
+        const preimages = await prisma.preimages({
+          where: { hash: preimageHash.toString() },
+        });
 
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const p = preimages.length
-          ? preimages?.filter(async preimage => {
-              await prisma
-                .preimage({ id: preimage.id })
-                .preimageStatus({ where: { status: preimageStatus.NOTED } });
-            })[0]
-          : undefined;
+        const notedPreimage =
+          preimages.length &&
+          preimages.filter(async preimage => {
+            await prisma.preimageStatuses({
+              where: {
+                AND: [{ id: preimage.id }, { status: preimageStatus.NOTED }],
+              },
+            });
+          })[0];
 
         await prisma.createProposal({
           author: author.toString(),
           depositAmount: depositAmount.toString(),
-          preimage: p
+          preimage: notedPreimage
             ? {
                 connect: {
-                  id: p?.id,
+                  id: notedPreimage.id,
                 },
               }
             : undefined,
           preimageHash: preimageHash.toString(),
-          proposalId: Number(proposalId),
+          proposalId,
           proposalStatus: {
             create: {
               blockNumber: {
