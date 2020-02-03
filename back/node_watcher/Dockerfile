@@ -9,4 +9,4 @@ COPY ./ ./
 RUN yarn
 
 # Create the database schema
-CMD ["yarn", "prisma", "deploy", "--force"]
+CMD ["yarn", "prisma", "deploy"]

@@ -80,7 +80,6 @@ async function incrementor(
 
       try {
         l.warn(`Writing: ${JSON.stringify(result)}`);
-        await task.write(blockNumber, result);
       } catch (e) {
         l.error(e);
       }

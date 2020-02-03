@@ -19,7 +19,7 @@ const l = logger('Task: Referendum Status Update');
 /*
  *  ======= Table (Referendum Status Update) ======
  */
-const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
+const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
   name: 'createReferendumStatusUpdate',
   read: async (
     blockHash: Hash,
@@ -114,4 +114,4 @@ const createProposal: Task<NomidotReferendumStatusUpdate[]> = {
   },
 };
 
-export default createProposal;
+export default createReferendumStatus;

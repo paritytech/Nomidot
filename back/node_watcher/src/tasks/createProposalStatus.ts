@@ -86,7 +86,6 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
     blockNumber: BlockNumber,
     value: NomidotProposalStatusUpdate[]
   ) => {
-
     if (!value || value.length) {
       return;
     }
