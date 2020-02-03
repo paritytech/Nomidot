@@ -74,7 +74,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           delay: referendumInfo.delay,
           end: referendumInfo.end,
           preimageHash: referendumInfo.proposalHash,
-          referendumIndex: referendumRawEvent.ReferendumIndex,
+          referendumIndex: parseInt(referendumRawEvent.ReferendumIndex),
           status: referendumStatus.STARTED,
           voteThreshold: referendumRawEvent.VoteThreshold,
         };
@@ -92,7 +92,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
     }
 
     await Promise.all(
-      value.map(async prop => {
+      value.map(async referendum => {
         const {
           delay,
           end,
@@ -100,7 +100,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           referendumIndex,
           status,
           voteThreshold,
-        } = prop;
+        } = referendum;
 
         const preimages = await prisma.preimages({
           where: {
@@ -130,7 +130,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
               }
             : undefined,
           preimageHash: preimageHash.toString(),
-          referendumId: Number(referendumIndex),
+          referendumId: referendumIndex,
           referendumStatus: {
             create: {
               blockNumber: {

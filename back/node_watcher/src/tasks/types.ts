@@ -110,7 +110,7 @@ export interface NomidotReferendum {
 }
 
 export interface NomidotReferendumRawEvent {
-  ReferendumIndex?: number;
+  ReferendumIndex?: string;
   VoteThreshold?: VoteThreshold;
 }
 

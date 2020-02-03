@@ -62,19 +62,21 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
           return null;
         }
 
+        l.log(`referendum index: ${referendumRawEvent.ReferendumIndex} is type: ${typeof referendumRawEvent.ReferendumIndex}`);
+
         const relatedReferendum = await prisma.referendum({
-          referendumId: Number(referendumRawEvent.ReferendumIndex),
+            referendumId: parseInt(referendumRawEvent.ReferendumIndex),
         });
 
         if (!relatedReferendum) {
           l.error(
             `No existing referendum found for referendum id: ${referendumRawEvent.ReferendumIndex}`
           );
-          return null;
+          return [];
         }
 
         const result: NomidotReferendumStatusUpdate = {
-          referendumId: Number(referendumRawEvent.ReferendumIndex),
+          referendumId: parseInt(referendumRawEvent.ReferendumIndex),
           status: method,
         };
         l.log(`Nomidot Referendum Status Update: ${JSON.stringify(result)}`);
@@ -88,29 +90,27 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
     blockNumber: BlockNumber,
     value: NomidotReferendumStatusUpdate[]
   ) => {
-    if (!value || !value.length) {
-      return;
+    if (value && value.length) {
+      await Promise.all(
+        value.map(async ref => {
+          const { referendumId, status } = ref;
+
+          await prisma.createReferendumStatus({
+            blockNumber: {
+              connect: {
+                number: blockNumber.toNumber(),
+              },
+            },
+            referendum: {
+              connect: {
+                referendumId,
+              },
+            },
+            status,
+          });
+        })
+      );
     }
-
-    await Promise.all(
-      value.map(async prop => {
-        const { referendumId: rId, status } = prop;
-
-        await prisma.createReferendumStatus({
-          blockNumber: {
-            connect: {
-              number: blockNumber.toNumber(),
-            },
-          },
-          referendum: {
-            connect: {
-              referendumId: rId,
-            },
-          },
-          status,
-        });
-      })
-    );
   },
 };
 
