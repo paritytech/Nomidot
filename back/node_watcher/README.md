@@ -56,3 +56,13 @@ The script itself lives in `nodeWatcher.ts`, and anyone can write their own `tas
   - Make sure `SSL mode` is set to `Disabled`. **n.b.** "Even though the sslmode parameter is set to disabled, the proxy does provide an encrypted connection."
 
   - Click Connect.
+
+##### Port Forwarding
+It is also possible to forward our `localhost:4467` to our cluster port `:4466` with, port forwarding. This will allow us to go to open the GraphQl interface from our local machine.
+
+1. `kubectl get pods --namespace nomidotwatcher-staging`
+2. `kubectl port-forward --namespace nomidotwatcher-staging <the-pod-name> 4467:4466`
+
+Then just go to localhost:4467 in a browser and that will forward your requests to the cluster's 4466 port (where the deployed Prisma server lives).
+
+You can also deploy a new prisma schema by setting the PRISMA_ENDPOINT environment variable to be localhost:4467, and running prisma deploy, e.g. `PRISMA_ENDPOINT="http://127.0.0.1:4467" START_FROM="66647" yarn prisma deploy`
