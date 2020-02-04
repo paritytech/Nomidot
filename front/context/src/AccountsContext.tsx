@@ -3,12 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import {
+  InjectedAccountWithMeta,
+  InjectedExtension,
+} from '@polkadot/extension-inject/types';
 import React, { createContext, useState } from 'react';
 
 interface AccountsContext {
+  accounts: InjectedAccountWithMeta[];
+  readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
-  injectedAccounts: InjectedAccountWithMeta[];
+  isExtensionReady: boolean;
 }
 
 export const AccountsContext = createContext({} as AccountsContext);
@@ -24,21 +29,44 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-  const [injectedAccounts, setInjected] = useState<InjectedAccountWithMeta[]>(
-    []
-  );
+  const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [extension, setExtension] = useState<InjectedExtension>();
+  const [isReady, setIsReady] = useState(false);
 
   /**
    * Fetch accounts from the extension
    */
   async function fetchAccounts(): Promise<void> {
-    await web3Enable(originName);
+    const extensions = await web3Enable(originName);
 
-    setInjected(await web3Accounts());
+    if (!extensions.length) {
+      throw new Error(
+        'No extension found. Please install PolkadotJS extension.'
+      );
+    }
+
+    setExtension(extensions[0]);
+    setIsReady(true);
+    setAccounts(await web3Accounts());
   }
 
   return (
-    <AccountsContext.Provider value={{ fetchAccounts, injectedAccounts }}>
+    <AccountsContext.Provider
+      value={{
+        accounts,
+        get extension(): InjectedExtension {
+          if (!extension) {
+            throw new Error(
+              'Please use `extension` only after `isReady` is set to true'
+            );
+          }
+
+          return extension;
+        },
+        fetchAccounts,
+        isExtensionReady: isReady,
+      }}
+    >
       {children}
     </AccountsContext.Provider>
   );
