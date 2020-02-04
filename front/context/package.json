@@ -18,7 +18,7 @@
     "test": "echo skipped"
   },
   "dependencies": {
-    "@polkadot/ui-keyring": "^0.47.1",
+    "@polkadot/ui-keyring": "^0.48.1",
     "fp-ts": "1.18.1"
   },
   "peerDependencies": {

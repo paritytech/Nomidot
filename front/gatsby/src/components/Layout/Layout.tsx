@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import './Layout.module.css';
+
 import React from 'react';
 
-import { APP_TITLE } from '../util';
+import { Header } from './Header';
 
 interface Props {
   children: React.ReactNode;
@@ -12,11 +14,10 @@ interface Props {
 
 export function Layout({ children }: Props): React.ReactElement {
   return (
-    <div>
-      {children}
-      <footer>
-        {APP_TITLE}© {new Date().getFullYear()}.
-      </footer>
-    </div>
+    <>
+      <Header />
+
+      <main>{children}</main>
+    </>
   );
 }

@@ -5,7 +5,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { APP_DESCRIPTION, APP_TITLE } from '../util';
+import { APP_DESCRIPTION, APP_TITLE } from '../../util';
 
 type MetaProps = JSX.IntrinsicElements['meta'];
 
@@ -22,7 +22,7 @@ export interface SeoProps {
 }
 
 export function Seo(props: SeoProps): React.ReactElement {
-  const { meta, title } = props;
+  const { meta = [], title } = props;
 
   return (
     <Helmet
