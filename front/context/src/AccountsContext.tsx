@@ -57,7 +57,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         get extension(): InjectedExtension {
           if (!extension) {
             throw new Error(
-              'Please use `extension` only after `isReady` is set to true'
+              'Please use `extension` only after `isExtensionReady` is set to true'
             );
           }
 
