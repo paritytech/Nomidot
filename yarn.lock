@@ -3367,10 +3367,10 @@
     memoizee "^0.4.14"
     yargs "^15.1.0"
 
-"@polkadot/ui-keyring@^0.48.1":
-  version "0.48.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.48.1.tgz#06cdf2b4dcf232fa475c8ea018435747c9302d46"
-  integrity sha512-SMjbcRX8uSHO0u/BaHwkYaMm79OL3+ok9eNGlZoY71X7z02DcpDe9jRqMU2tPyJHl0BVmtMQeaEue7mKO/Ugvw==
+"@polkadot/ui-keyring@^0.49.0-beta.1":
+  version "0.49.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.49.0-beta.1.tgz#88e6f5e2324440b79640e7332878ac2d06d8deaa"
+  integrity sha512-1RErpSmH4UOTuyjgoem+UyDpSQ2ojm7XWa+h0ZCqVx1pX1uwBcG12m0ERNvaMMX+T+ATUxQRDR7M8lEg9KBenw==
   dependencies:
     "@babel/runtime" "^7.8.3"
     "@ledgerhq/hw-transport-u2f" "^5.7.0"
