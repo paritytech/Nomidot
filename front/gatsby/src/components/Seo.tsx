@@ -1,14 +1,18 @@
+// Copyright 2018-2020 @paritytech/Nomidot authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import pkgJson from '../../package.json';
+import { APP_DESCRIPTION, APP_TITLE } from '../util';
 
 type MetaProps = JSX.IntrinsicElements['meta'];
 
 const DEFAULT_META = [
   {
     name: 'description',
-    content: pkgJson.description,
+    content: APP_DESCRIPTION,
   },
 ];
 
@@ -27,7 +31,7 @@ export function Seo(props: SeoProps): React.ReactElement {
       }}
       meta={[...DEFAULT_META, ...meta]}
       title={title}
-      titleTemplate={`%s | ${pkgJson.name}`}
+      titleTemplate={`%s | ${APP_TITLE}`}
     />
   );
 }

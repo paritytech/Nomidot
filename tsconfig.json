@@ -8,6 +8,9 @@
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["dom", "esnext"],
+    "paths": {
+      "@substrate/context": ["front/context/src"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,

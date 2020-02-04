@@ -1,10 +1,5 @@
 /* eslint-disable */
 module.exports = {
-  siteMetadata: {
-    title: 'Nomidot',
-    description: 'Staking Portal for Polkadot',
-    author: '@paritytech',
-  },
   plugins: [
     'gatsby-plugin-react-helmet',
     {
