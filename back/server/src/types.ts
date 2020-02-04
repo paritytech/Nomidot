@@ -9,3 +9,5 @@ export interface Context {
   prisma: Prisma;
   pubsub: PubSub;
 }
+
+export type Selectors = Record<string, any>;
