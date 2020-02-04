@@ -17,3 +17,11 @@ type Query {
   validatorsWhere(controller: String, stash: String, first: Int, orderBy: String, skip: Int): [Validator]
   validatorsAtSessionWhere(index: Int, first: Int, orderBy: String, skip: Int): [Validator]
 }
+
+type Subscription {
+  chainBestBlockNumber: BlockNumberSubscriptionPayload!
+}
+
+type Mutation {
+  writeBlockNumber(number: Int!, hash: String!): BlockNumber!
+}
