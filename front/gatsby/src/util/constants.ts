@@ -5,16 +5,21 @@
 import pkgJson from '../../package.json';
 
 /**
- * Web app meta description
+ * App metadata description
  */
 export const APP_DESCRIPTION = pkgJson.description;
 
 /**
- * Web app meta slug
+ * App metadata slug
  */
 export const APP_SLUG = 'nomidot';
 
 /**
- * Web app meta title
+ * App metadata title
  */
 export const APP_TITLE = 'Nomidot';
+
+/**
+ * App metadata title
+ */
+export const APP_VERSION = pkgJson.version;
