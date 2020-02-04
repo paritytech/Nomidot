@@ -19,9 +19,10 @@ type Query {
 }
 
 type Subscription {
-  chainBestBlockNumber: BlockNumberSubscriptionPayload!
+  chainBestBlockNumber: BlockNumber
 }
 
+# FIXME: THIS IS ONLY FOR TESTING! MUST BE COMMENTED OUT BEFORE MERGE
 type Mutation {
   writeBlockNumber(number: Int!, hash: String!): BlockNumber!
 }
