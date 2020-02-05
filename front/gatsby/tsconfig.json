@@ -1,4 +1,10 @@
 {
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@substrate/context": ["front/context/src"]
+    }
+  },
   "extends": "../../tsconfig",
   "exclude": [".cache", "public"]
 }

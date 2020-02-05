@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.17](https://github.com/paritytech/Nomidot/compare/v0.3.16...v0.3.17) (2020-02-05)
+
+
+### Features
+
+* **gatsby:** Inject accounts into header ([#136](https://github.com/paritytech/Nomidot/issues/136)) ([b095c3c](https://github.com/paritytech/Nomidot/commit/b095c3c8eb77197da2eb672deee2f65ae55459c4))
+
+
+
+
+
 ## [0.3.16](https://github.com/paritytech/Nomidot/compare/v0.3.15...v0.3.16) (2020-01-30)
 
 **Note:** Version bump only for package @substrate/ui-components

@@ -14,17 +14,6 @@ import BN from 'bn.js';
 export type AccountDerivedStakingMap = Record<string, DerivedStakingAccount>;
 
 /**
- * Injected account from @polkadotjs/extension-dapp
- */
-export interface InjectedAccountExt {
-  address: string;
-  meta: {
-    name: string;
-    source: string;
-  };
-}
-
-/**
  * Form fields inputted by the user
  */
 export interface UserInputs {

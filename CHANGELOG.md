@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.17](https://github.com/paritytech/Nomidot/compare/v0.3.16...v0.3.17) (2020-02-05)
+
+
+### Bug Fixes
+
+*  [#125](https://github.com/paritytech/Nomidot/issues/125) - createReferendumStatus ([#126](https://github.com/paritytech/Nomidot/issues/126)) ([3640284](https://github.com/paritytech/Nomidot/commit/36402843a4d2192c2e2e4d1b3a1b06da59be2103))
+* [#126](https://github.com/paritytech/Nomidot/issues/126) fix: [#125](https://github.com/paritytech/Nomidot/issues/125) ([#137](https://github.com/paritytech/Nomidot/issues/137)) ([6166ef6](https://github.com/paritytech/Nomidot/commit/6166ef621b99b60f96c11be5a2bd19f53ffa7ab1))
+* **#77:** back/server eslint errors ([#124](https://github.com/paritytech/Nomidot/issues/124)) ([79538d7](https://github.com/paritytech/Nomidot/commit/79538d72be0b8c489f4af0a6a45cdb926eb89963)), closes [#77](https://github.com/paritytech/Nomidot/issues/77)
+* make nodewatcher sync again ([#121](https://github.com/paritytech/Nomidot/issues/121)) ([59b2069](https://github.com/paritytech/Nomidot/commit/59b2069e0348f6b942444c8bc6a178c59f5a9c9b))
+
+
+### Features
+
+* **gatsby:** Inject accounts into header ([#136](https://github.com/paritytech/Nomidot/issues/136)) ([b095c3c](https://github.com/paritytech/Nomidot/commit/b095c3c8eb77197da2eb672deee2f65ae55459c4))
+
+
+
+
+
 ## [0.3.16](https://github.com/paritytech/Nomidot/compare/v0.3.15...v0.3.16) (2020-01-30)
 
 **Note:** Version bump only for package nomidot

@@ -1,10 +1,5 @@
 {
-  "exclude": [
-    "**/generated/**/*",
-    "node_modules",
-    "public",
-    ".cache"
-  ],
+  "exclude": ["**/generated/**/*", "node_modules", "public", ".cache"],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",
@@ -13,6 +8,7 @@
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["dom", "esnext"],
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "es5"

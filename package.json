@@ -11,7 +11,7 @@
     "lerna:bump": "lerna version --conventional-commits",
     "lerna:publish": "yarn build && lerna publish from-git",
     "lint": "tsc --noEmit && eslint --ext js,ts,tsx .",
-    "start": "cd ./front/gatsby && gatsby develop",
+    "start": "cd ./front/gatsby && yarn start",
     "storybook": "cd ./front/ui-components && yarn storybook",
     "test": "echo No tests for now."
   },
@@ -25,7 +25,7 @@
     "@polkadot/api": "^1.0.0-beta.44"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.32.13",
+    "@polkadot/dev": "^0.33.3",
     "eslint-config-prettier": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react-hooks": "^2.3.0",
