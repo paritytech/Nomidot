@@ -31,4 +31,6 @@ Make sure to populate the nodewatcher db to some extent locally before trying ou
 #### How to query from the staging db
 1. Get the name of the running Prisma Server (nodewatcher-<pod-id>): `kubectl get pods`
 2. Forward the port: `kubectl port-forward <the-pod-name> 4467:4466`
-3. RUn `PRISMA_ENDPOINT=http://127.0.0.1:4467 yarn start`
+3. Run `PRISMA_ENDPOINT=http://127.0.0.1:4467 yarn start`
+
+* N.B. you can also go to `http://localhost:4467/_admin` to view the Prisma admin dashboard for the staging DB.

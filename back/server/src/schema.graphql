@@ -38,6 +38,11 @@ type Query {
 }
 
 type Subscription {
-  chainBestBlockNumber: BlockNumber
-  subscribeNewSession: Session
+  subscribeBlockNumbers: BlockNumber
+  subscribeEras: Era
+  subscribeNominations: Nomination
+  subscribeRewards: Reward
+  subscribeSessions: Session
+  subscribeSlashings: Slashing
+  subscribeValidators: Validator
 }
