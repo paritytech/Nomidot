@@ -1,13 +1,21 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+<<<<<<< HEAD
+  name: nomidotwatcher-88562
+=======
   name: nomidotwatcher-68407
+>>>>>>> e9b2256326cd6b4d87a21b947f2fa2dfd93a7752
   namespace: nodewatcher-staging
   labels:
     stage: staging
     name: nomidotwatcher
     app: nomidotwatcher
+<<<<<<< HEAD
+    job-name: nomidotwatcher-88562
+=======
     job-name: nomidotwatcher-68407
+>>>>>>> e9b2256326cd6b4d87a21b947f2fa2dfd93a7752
 spec:
   manualSelector: true
   selector:
@@ -15,14 +23,22 @@ spec:
       stage: staging
       name: nomidotwatcher
       app: nomidotwatcher
+<<<<<<< HEAD
+      job-name: nomidotwatcher-88562
+=======
       job-name: nomidotwatcher-68407
+>>>>>>> e9b2256326cd6b4d87a21b947f2fa2dfd93a7752
   template:
     metadata:
       labels:
         stage: staging
         name: nomidotwatcher
         app: nomidotwatcher
+<<<<<<< HEAD
+        job-name: nomidotwatcher-88562
+=======
         job-name: nomidotwatcher-68407
+>>>>>>> e9b2256326cd6b4d87a21b947f2fa2dfd93a7752
     spec:
       restartPolicy: Never
       containers:
@@ -33,6 +49,10 @@ spec:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
             - name: START_FROM
+<<<<<<< HEAD
+              value: '88562'
+=======
               value: '69035'
+>>>>>>> e9b2256326cd6b4d87a21b947f2fa2dfd93a7752
           command: ["yarn", "start"]
-  backoffLimit: 4
+  backoffLimit: 6
