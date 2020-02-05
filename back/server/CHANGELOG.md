@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.17](https://github.com/paritytech/Nomidot/compare/v0.3.16...v0.3.17) (2020-02-05)
+
+
+### Bug Fixes
+
+* **#77:** back/server eslint errors ([#124](https://github.com/paritytech/Nomidot/issues/124)) ([79538d7](https://github.com/paritytech/Nomidot/commit/79538d72be0b8c489f4af0a6a45cdb926eb89963)), closes [#77](https://github.com/paritytech/Nomidot/issues/77)
+
+
+
+
+
 ## [0.3.16](https://github.com/paritytech/Nomidot/compare/v0.3.15...v0.3.16) (2020-01-30)
 
 **Note:** Version bump only for package @substrate/nomidot-server

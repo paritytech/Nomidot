@@ -1,6 +1,6 @@
 {
   "name": "@substrate/nomidot-gatsby",
-  "version": "0.3.16",
+  "version": "0.3.17",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Staking Portal for Polkadot",
   "license": "Apache-2.0",
