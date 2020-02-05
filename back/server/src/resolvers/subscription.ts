@@ -4,11 +4,16 @@
 
 import {
   BlockNumberSubscription,
+  EraSubscription,
+  NominationSubscription,
+  RewardSubscription,
   SessionSubscription,
+  SlashingSubscription,
+  ValidatorSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
 
-const chainBestBlockNumber = {
+const subscribeBlockNumbers = {
   subscribe: (
     parent: any,
     { blockNumberSubscriptionWhereInput }: Selectors,
@@ -27,7 +32,64 @@ const chainBestBlockNumber = {
   },
 };
 
-const subscribeNewSession = {
+const subscribeEras = {
+  subscribe: (
+    parent: any,
+    { eraSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = EraSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .era({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...eraSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+}
+
+const subscribeNominations = {
+  subscribe: (
+    parent: any,
+    { nominationSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = NominationSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .nomination({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...nominationSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+}
+
+const subscribeRewards = {
+  subscribe: (
+    parent: any,
+    { rewardSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = RewardSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .reward({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...rewardSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+}
+
+const subscribeSessions = {
   subscribe: (
     parent: any,
     { sessionSubscriptionWhereInput }: Selectors,
@@ -46,7 +108,50 @@ const subscribeNewSession = {
   },
 };
 
+const subscribeSlashings = {
+  subscribe: (
+    parent: any,
+    { slashingSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = SlashingSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .slashing({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...slashingSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeValidators = {
+  subscribe: (
+    parent: any,
+    { validatorSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = ValidatorSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .validator({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...validatorSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
 export const Subscription = {
-  chainBestBlockNumber,
-  subscribeNewSession,
+  subscribeBlockNumbers,
+  subscribeEras,
+  subscribeNominations,
+  subscribeRewards,
+  subscribeSessions,
+  subscribeSlashings,
+  subscribeValidators
 };
