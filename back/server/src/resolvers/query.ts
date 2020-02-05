@@ -33,7 +33,7 @@ const Query = {
     { eraWhereInput, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
-    return prisma.blockNumbers({
+    return prisma.eras({
       where: eraWhereInput,
       orderBy,
       skip,
@@ -109,7 +109,7 @@ const Query = {
     { rewardsWhereInput, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
-    return prisma.slashings({
+    return prisma.rewards({
       where: rewardsWhereInput,
       orderBy,
       skip,
@@ -155,7 +155,7 @@ const Query = {
     }: Selectors,
     { prisma }: Context
   ) {
-    return prisma.validators({
+    return prisma.totalIssuances({
       where: totalIssuancesWhereInput,
       orderBy,
       skip,
