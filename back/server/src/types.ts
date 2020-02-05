@@ -7,3 +7,5 @@ import { Prisma } from './generated/prisma-client';
 export interface Context {
   prisma: Prisma;
 }
+
+export type Selectors = Record<string, any>;
