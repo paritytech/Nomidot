@@ -1,16 +1,16 @@
 import { Context } from '../types';
 
-const subscribeBestHead = (parent: any, args, context: Context, info) => {
+const subscribeBestHead = (parent: any, args: any, context: Context) => {
   return context.prisma.$subscribe.blockNumber(
     {
       mutation_in: ['CREATED']
     }
-  ).node()
+  )
 }
 
 const chainBestBlockNumber = {
   subscribe: subscribeBestHead,
-  resolve: (payload) => {
+  resolve: (payload: any) => {
     return payload
   }
 }
