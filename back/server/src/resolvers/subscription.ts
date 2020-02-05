@@ -49,7 +49,7 @@ const subscribeEras = {
   resolve: (payload: any) => {
     return payload;
   },
-}
+};
 
 const subscribeNominations = {
   subscribe: (
@@ -68,7 +68,7 @@ const subscribeNominations = {
   resolve: (payload: any) => {
     return payload;
   },
-}
+};
 
 const subscribeRewards = {
   subscribe: (
@@ -87,7 +87,7 @@ const subscribeRewards = {
   resolve: (payload: any) => {
     return payload;
   },
-}
+};
 
 const subscribeSessions = {
   subscribe: (
@@ -153,5 +153,5 @@ export const Subscription = {
   subscribeRewards,
   subscribeSessions,
   subscribeSlashings,
-  subscribeValidators
+  subscribeValidators,
 };
