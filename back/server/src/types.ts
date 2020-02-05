@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Prisma } from './generated/prisma-client';
-import { PubSub } from 'graphql-yoga';
+// import { PubSub } from 'graphql-yoga';
 
 export interface Context {
   prisma: Prisma;
-  pubsub: PubSub;
+  // pubsub: PubSub;
 }
 
 export type Selectors = Record<string, any>;

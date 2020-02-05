@@ -2,27 +2,27 @@
 # import * from './generated/prisma.graphql'
 
 type Query {
-  blockNumber(number: Int!): BlockNumber
-  blockNumbersAuthoredBy(authoredBy: String): [BlockNumber!]!
-  blockNumberAtHash(hash: String): BlockNumber!
-  eraAtIndex(index: Int!): Era
-  erasWhere(first: Int, orderBy: String, skip: Int): [Era]
-  nominationsWhere(filter: String): [Nomination!]!
-  sessionAtIndex(index: Int!): Session
-  sessionsWhere(first: Int, orderBy: String, skip: Int): [Session]
-  slashingsAtBlock(number: Int!): [Slashing]
-  slashingsWhere(first: Int, orderBy: String, skip: Int): [Slashing]
-  slashingsAtBlockWhere(number: Int!, first: Int, orderBy: String, skip: Int): [Slashing]
-  validatorsAtSession(index: Int!): [Validator]
-  validatorsWhere(controller: String, stash: String, first: Int, orderBy: String, skip: Int): [Validator]
-  validatorsAtSessionWhere(index: Int, first: Int, orderBy: String, skip: Int): [Validator]
+  eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
+  slashings(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Slashing]!
+  validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
+  totalIssuances(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TotalIssuance]!
+  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
+  nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
+  stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
+  blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
+
+  era(where: EraWhereUniqueInput!): Era
+  slashing(where: SlashingWhereUniqueInput!): Slashing
+  validator(where: ValidatorWhereUniqueInput!): Validator
+  totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
+  reward(where: RewardWhereUniqueInput!): Reward
+  nomination(where: NominationWhereUniqueInput!): Nomination
+  stake(where: StakeWhereUniqueInput!): Stake
+  blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
+  session(where: SessionWhereUniqueInput!): Session
 }
 
 type Subscription {
   chainBestBlockNumber: BlockNumber
-}
-
-# FIXME: THIS IS ONLY FOR TESTING! MUST BE COMMENTED OUT BEFORE MERGE
-type Mutation {
-  writeBlockNumber(number: Int!, hash: String!): BlockNumber!
 }
