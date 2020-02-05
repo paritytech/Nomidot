@@ -101,6 +101,33 @@ const Query = {
       last
     })
   },
+  blockNumber(parent: any, { blockNumberWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.blockNumber(blockNumberWhereUniqueInput);
+  },
+  era(parent: any, { eraWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.era(eraWhereUniqueInput);
+  },
+  nomination(parent: any, { nominationWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.nomination(nominationWhereUniqueInput);
+  },
+  reward(parent: any, { rewardWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.reward(rewardWhereUniqueInput);
+  },
+  session(parent: any, { sessionWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.session(sessionWhereUniqueInput);
+  },
+  slashing(parent: any, { slashingWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.slashing(slashingWhereUniqueInput);
+  },
+  stake(parent: any, { stakeWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.stake(stakeWhereUniqueInput);
+  },
+  totalIssuance(parent: any, { totalIssuanceWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.totalIssuance(totalIssuanceWhereUniqueInput);
+  },
+  validator(parent: any, { validatorWhereUniqueInput }: Selectors, { prisma }: Context) {
+    return prisma.validator(validatorWhereUniqueInput);
+  }
 }
 
 export {

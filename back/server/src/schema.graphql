@@ -12,15 +12,15 @@ type Query {
   blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
   sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
 
-  era(where: EraWhereUniqueInput!): Era
-  slashing(where: SlashingWhereUniqueInput!): Slashing
-  validator(where: ValidatorWhereUniqueInput!): Validator
-  totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
-  reward(where: RewardWhereUniqueInput!): Reward
-  nomination(where: NominationWhereUniqueInput!): Nomination
-  stake(where: StakeWhereUniqueInput!): Stake
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
+  era(where: EraWhereUniqueInput!): Era
+  nomination(where: NominationWhereUniqueInput!): Nomination
+  reward(where: RewardWhereUniqueInput!): Reward
   session(where: SessionWhereUniqueInput!): Session
+  slashing(where: SlashingWhereUniqueInput!): Slashing
+  stake(where: StakeWhereUniqueInput!): Stake
+  totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
+  validator(where: ValidatorWhereUniqueInput!): Validator
 }
 
 type Subscription {
