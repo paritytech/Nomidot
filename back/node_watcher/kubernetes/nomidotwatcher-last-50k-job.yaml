@@ -33,6 +33,6 @@ spec:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
             - name: START_FROM
-              value: '850000'
+              value: '900000'
           command: ["yarn", "start"]
-  backoffLimit: 4
+  backoffLimit: 6

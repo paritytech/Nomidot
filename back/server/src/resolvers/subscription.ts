@@ -2,18 +2,45 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumberSubscriptionPayloadSubscription } from '../generated/prisma-client'
-import { Context } from '../types';
-
-const subscribeBestHead = (parent: any, args: any, context: Context): BlockNumberSubscriptionPayloadSubscription => {
-  return context.prisma.$subscribe.blockNumber({
-    // @ts-ignore
-    mutation_in: ['CREATED'],
-  });
-};
+import {
+  BlockNumberSubscription,
+  SessionSubscription,
+} from '../generated/prisma-client';
+import { Context, Selectors } from '../types';
 
 const chainBestBlockNumber = {
-  subscribe: subscribeBestHead,
+  subscribe: (
+    parent: any,
+    { blockNumberSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = BlockNumberSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .blockNumber({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...blockNumberSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeNewSession = {
+  subscribe: (
+    parent: any,
+    { sessionSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = SessionSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .session({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...sessionSubscriptionWhereInput,
+      })
+      .node();
+  },
   resolve: (payload: any) => {
     return payload;
   },
@@ -21,4 +48,5 @@ const chainBestBlockNumber = {
 
 export const Subscription = {
   chainBestBlockNumber,
+  subscribeNewSession,
 };
