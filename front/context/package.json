@@ -1,6 +1,6 @@
 {
   "name": "@substrate/context",
-  "version": "0.3.17",
+  "version": "0.3.18",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Wrapper to connect React components to PolkadotJS Api",
   "files": [

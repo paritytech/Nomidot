@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.18](https://github.com/paritytech/Nomidot/compare/v0.3.17...v0.3.18) (2020-02-05)
+
+
+### Features
+
+* all server queries and chain header, new session subscription resolvers ([#138](https://github.com/paritytech/Nomidot/issues/138)) ([16dd1b8](https://github.com/paritytech/Nomidot/commit/16dd1b8086fa3e5d6a5279ebb0e9b6ebd33ec419))
+* subscription resolvers ([#140](https://github.com/paritytech/Nomidot/issues/140)) ([9136d41](https://github.com/paritytech/Nomidot/commit/9136d41c6b8d8af6792b4b542ea6a687b272e9e4)), closes [#106](https://github.com/paritytech/Nomidot/issues/106) [#129](https://github.com/paritytech/Nomidot/issues/129) [#133](https://github.com/paritytech/Nomidot/issues/133) [#126](https://github.com/paritytech/Nomidot/issues/126) [#125](https://github.com/paritytech/Nomidot/issues/125) [#137](https://github.com/paritytech/Nomidot/issues/137) [#136](https://github.com/paritytech/Nomidot/issues/136)
+
+
+
+
+
 ## [0.3.17](https://github.com/paritytech/Nomidot/compare/v0.3.16...v0.3.17) (2020-02-05)
 
 

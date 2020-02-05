@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.18](https://github.com/paritytech/Nomidot/compare/v0.3.17...v0.3.18) (2020-02-05)
+
+
+### Bug Fixes
+
+* **context:** Also poll on system.health ([#142](https://github.com/paritytech/Nomidot/issues/142)) ([5033189](https://github.com/paritytech/Nomidot/commit/50331893d0175dfbe940c22a4d66bbf7867541be))
+
+
+
+
+
 ## [0.3.17](https://github.com/paritytech/Nomidot/compare/v0.3.16...v0.3.17) (2020-02-05)
 
 
