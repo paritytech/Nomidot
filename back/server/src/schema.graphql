@@ -24,5 +24,6 @@ type Query {
 }
 
 type Subscription {
-  chainBestBlockNumber: BlockNumberSubscriptionPayload 
+  chainBestBlockNumber: BlockNumber
+  subscribeNewSession: Session
 }
