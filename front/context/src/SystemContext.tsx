@@ -12,12 +12,20 @@ import {
   Header,
   Health,
 } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useRef, useState } from 'react';
-import { combineLatest, interval, merge } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { combineLatest, interval, merge, MonoTypeOperatorFunction } from 'rxjs';
+import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
 
 import { providerConnected } from './util';
+
+/**
+ * Like distinctUntilChanged, but for Codecs
+ */
+function distinctCodecChanged<T extends Codec>(): MonoTypeOperatorFunction<T> {
+  return distinctUntilChanged<T>((x, y) => x.eq(y));
+}
 
 /**
  * System-wide meta-information about the chain (nothing from its state)
@@ -112,8 +120,11 @@ export function SystemContextProvider(
               rpc.chain.subscribeNewHeads(),
               // Header doesn't get updated when doing a major sync, so we also poll
               interval(2000).pipe(switchMap(() => rpc.chain.getHeader()))
+            ).pipe(distinctCodecChanged()),
+            interval(2000).pipe(
+              switchMap(() => rpc.system.health()),
+              distinctCodecChanged()
             ),
-            rpc.system.health(),
           ])
         )
       )
