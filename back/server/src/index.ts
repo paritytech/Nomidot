@@ -7,21 +7,10 @@ import { GraphQLServer } from 'graphql-yoga';
 import { prisma } from './generated/prisma-client';
 import { Query } from './resolvers/query';
 import { Subscription } from './resolvers/subscription';
-import { Context, Selectors } from './types';
 
 const resolvers = {
   Subscription,
-  Query,
-  Mutation: {
-    writeBlockNumber(parent, { hash, number }, context, info) {
-      return context.prisma.createBlockNumber({
-        number,
-        authoredBy: 'YJKIM',
-        startDateTime: new Date(Date.now()).toISOString(),
-        hash,
-      }, info);
-    }
-  }
+  Query
 };
 
 const server = new GraphQLServer({

@@ -2,89 +2,104 @@
 import { Context, Selectors } from '../types';
 
 const Query = {
-  blockNumber(parent: any, { number }: Selectors, context: Context) {
-    return context.prisma.blockNumber({ number });
-  },
-  blockNumberAtHash(parent: any, { hash }: Selectors, context: Context) {
-    return context.prisma.blockNumber({ hash });
-  },
-  blockNumbersAuthoredBy(
-    parent: any,
-    { authoredBy }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.blockNumbers({ where: { authoredBy } });
-  },
-  eraAtIndex(parent: any, { index }: Selectors, context: Context) {
-    return context.prisma.era({ index });
-  },
-  erasWhere(
-    parent: any,
-    { first, orderBy, skip }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.eras({ first, orderBy, skip });
-  },
-  nominationsWhere(parent: any, where: Selectors, context: Context) {
-    return context.prisma.nominations({ where });
-  },
-  sessionAtIndex(parent: any, { index }: Selectors, context: Context) {
-    return context.prisma.session({ index });
-  },
-  sessionsWhere(
-    parent: any,
-    { first, orderBy, skip }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.sessions({ first, orderBy, skip });
-  },
-  slashingsAtBlock(
-    parent: any,
-    { blockNumber }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.slashings({ where: { blockNumber } });
-  },
-  slashingsWhere(
-    parent: any,
-    { first, orderBy, skip }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.slashings({ first, orderBy, skip });
-  },
-  slashingsAtBlockWhere(
-    parent: any,
-    { blockNumber, first, orderBy, skip }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.slashings({
-      where: { blockNumber },
-      first,
+  blockNumbers(parent: any, { blockNumberWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.blockNumbers({
+      where: blockNumberWhereInput,
       orderBy,
       skip,
-    });
-  },
-  validatorsAtSession(parent: any, { session }: Selectors, context: Context) {
-    return context.prisma.validators({ where: { session } });
-  },
-  validatorsWhere(
-    parent: any,
-    { first, orderBy, skip }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.validators({ first, orderBy, skip });
-  },
-  validatorsAtSessionWhere(
-    parent: any,
-    { session, first, orderBy, skip }: Selectors,
-    context: Context
-  ) {
-    return context.prisma.validators({
-      where: { session },
+      after,
+      before,
       first,
+      last
+    })
+  },
+  eras(parent: any, { eraWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.blockNumbers({
+      where: eraWhereInput,
       orderBy,
-      skip
-    });
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  nominations(parent: any, { nominationsWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.nominations({
+      where: nominationsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  stakes(parent: any, { stakesWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.stakes({
+      where: stakesWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  sessions(parent: any, { sessionsWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.sessions({
+      where: sessionsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  rewards(parent: any, { rewardsWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.slashings({
+      where: rewardsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  slashings(parent: any, { slashingsWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.slashings({
+      where: slashingsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  totalIssuances(parent: any, { totalIssuancesWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.validators({
+      where: totalIssuancesWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
+  },
+  validators(parent: any, { validatorsWhereInput, orderBy, skip, after, before, first, last }: Selectors, { prisma }: Context) {
+    return prisma.validators({
+      where: validatorsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last
+    })
   },
 }
 

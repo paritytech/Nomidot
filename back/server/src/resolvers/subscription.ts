@@ -3,7 +3,7 @@ import { Context } from '../types';
 const subscribeBestHead = (parent: any, args, context: Context, info) => {
   return context.prisma.$subscribe.blockNumber(
     {
-      mutation_in: ['CREATED', 'UPDATED']
+      mutation_in: ['CREATED']
     }
   ).node()
 }
