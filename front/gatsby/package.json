@@ -11,14 +11,15 @@
     "@polkadot/extension-dapp": "^0.14.1",
     "@types/react-helmet": "^5.0.14",
     "apollo-boost": "^0.4.7",
+    "apollo-link-ws": "^1.0.19",
     "gatsby": "^2.18.17",
     "gatsby-plugin-manifest": "^2.2.34",
     "gatsby-plugin-react-helmet": "^3.1.18",
     "gatsby-plugin-typescript": "^2.1.23",
-    "graphql": "^14.6.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "subscriptions-transport-ws": "^0.9.16"
   },
   "scripts": {
     "build": "gatsby build",
