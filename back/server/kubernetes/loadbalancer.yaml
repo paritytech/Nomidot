@@ -13,5 +13,5 @@ spec:
     app: nomidot-server
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: http
+      port: 8000
+      targetPort: 8000
