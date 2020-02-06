@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nomidot-server
+  namespace: nomidot-server
+  labels:
+    stage: staging
+    name: nomidot-server
+    app: nomidot-server
+spec:
+  selector:
+    matchLabels:
+      app: nomidot-server
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        stage: staging
+        name: nomidot-server
+        app: nomidot-server
+    spec:
+      containers:
+        - name: nomidot-server
+          image: eu.gcr.io/test-installations-222013/nomidot_server@sha256:8f7cb5a9eeff909431cd195b606f9a662c289dcd4d842e2c86555906a03364d5
+          env:
+            - name: PRISMA_ENDPOINT
+              value: http://10.0.9.43:4466
+          ports:
+            - name: http
+              containerPort: 80
