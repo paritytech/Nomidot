@@ -3,35 +3,30 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import IdentityIcon from '@polkadot/react-identicon';
-import keyringAccounts from '@polkadot/ui-keyring/observable/accounts';
-import keyringAddresses from '@polkadot/ui-keyring/observable/addresses';
 import {
   SingleAddress,
   SubjectInfo,
 } from '@polkadot/ui-keyring/observable/types';
-import React, { useEffect, useState } from 'react';
-import { combineLatest } from 'rxjs';
+import React from 'react';
 import Dropdown, {
   DropdownProps,
 } from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
 import styled from 'styled-components';
 
-import { MARGIN_SIZES } from '../constants';
-import { Margin } from '../Margin';
-import { WrapperDiv } from '../Shared.styles';
+import { MARGIN_SIZES } from './constants';
+import { Margin } from './Margin';
+import { WrapperDiv } from './Shared.styles';
 
-type AddressType = 'accounts' | 'addresses';
+export type AddressType = 'accounts' | 'addresses';
 
 export interface InputAddressProps extends DropdownProps {
+  accounts?: SubjectInfo;
+  addresses?: SubjectInfo;
   onChangeAddress?: (address: string) => void;
   types?: AddressType[];
   value: string;
 }
-
-const DropdownItemText = styled.span`
-  margin-left: ${MARGIN_SIZES.small};
-`;
 
 /**
  * From the keyring, retrieve the `SingleAddress` from an `address` string
@@ -44,6 +39,15 @@ function getAddressFromString(
   return allAccounts[address] || allAddresses[address];
 }
 
+const DropdownItemText = styled.span`
+  margin-left: ${MARGIN_SIZES.small};
+`;
+
+const DropdownWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 function renderDropdownItemText(address: SingleAddress): React.ReactElement {
   return (
     <DropdownItemText>
@@ -55,23 +59,16 @@ function renderDropdownItemText(address: SingleAddress): React.ReactElement {
 }
 
 export function InputAddress(props: InputAddressProps): React.ReactElement {
-  const { onChangeAddress, types = ['accounts'], value, ...rest } = props;
-  const [accounts, setAccounts] = useState<SubjectInfo>({});
-  const [addresses, setAddresses] = useState<SubjectInfo>({});
+  const {
+    accounts = {},
+    addresses = {},
+    onChangeAddress,
+    types = ['accounts'],
+    value,
+    ...rest
+  } = props;
 
   const currentAddress = getAddressFromString(accounts, addresses, value);
-
-  useEffect(() => {
-    const subscription = combineLatest([
-      keyringAccounts.subject,
-      keyringAddresses.subject,
-    ]).subscribe(([acc, add]) => {
-      setAccounts(acc);
-      setAddresses(add);
-    });
-
-    return (): void => subscription.unsubscribe();
-  }, []);
 
   function handleChange(
     _event: React.MouseEvent<HTMLDivElement, Event>,
@@ -96,27 +93,31 @@ export function InputAddress(props: InputAddressProps): React.ReactElement {
 
   return (
     <WrapperDiv>
-      <IdentityIcon value={value} size={20} />
-      <Margin right='small' />
-      <Dropdown
-        labeled
-        text={currentAddress ? currentAddress.json.meta.name : 'Loading...'}
-        value={value}
-        {...rest}
-      >
-        <Dropdown.Menu>
-          {types.includes('accounts') && Object.keys(accounts).length > 0 && (
-            <Dropdown.Header>My accounts</Dropdown.Header>
-          )}
-          {types.includes('accounts') &&
-            Object.values(accounts).map(renderDropdownItem)}
-          {types.includes('addresses') && Object.keys(addresses).length > 0 && (
-            <Dropdown.Header>My addresses</Dropdown.Header>
-          )}
-          {types.includes('addresses') &&
-            Object.values(addresses).map(renderDropdownItem)}
-        </Dropdown.Menu>
-      </Dropdown>
+      Current Account:
+      <DropdownWrapper>
+        <IdentityIcon value={value} size={20} />
+        <Margin right='small' />
+        <Dropdown
+          labeled
+          text={currentAddress ? currentAddress.json.meta.name : 'Loading...'}
+          value={value}
+          {...rest}
+        >
+          <Dropdown.Menu>
+            {types.includes('accounts') && Object.keys(accounts).length > 0 && (
+              <Dropdown.Header>My accounts</Dropdown.Header>
+            )}
+            {types.includes('accounts') &&
+              Object.values(accounts).map(renderDropdownItem)}
+            {types.includes('addresses') &&
+              Object.keys(addresses).length > 0 && (
+                <Dropdown.Header>My addresses</Dropdown.Header>
+              )}
+            {types.includes('addresses') &&
+              Object.values(addresses).map(renderDropdownItem)}
+          </Dropdown.Menu>
+        </Dropdown>
+      </DropdownWrapper>
     </WrapperDiv>
   );
 }
