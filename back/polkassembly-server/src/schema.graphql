@@ -1,0 +1,42 @@
+
+# import * from './generated/prisma.graphql'
+
+type Query {
+  blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
+  eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
+  nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
+  preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
+  # preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument]!
+  # preimageStatuses(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus]!
+  # proposals(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Proposal]!
+  # proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
+  # referendums(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Referendum]!
+  # referendumStatuses(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus]!
+  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
+  stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
+  slashings(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Slashing]!
+  validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
+  totalIssuances(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TotalIssuance]!
+
+  blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
+  era(where: EraWhereUniqueInput!): Era
+  nomination(where: NominationWhereUniqueInput!): Nomination
+  # preimage(where: PreimageWhereUniqueInput!): Preimage
+  # preimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  # preimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  # proposal(where: ProposalWhereUniqueInput!): Proposal
+  # proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  # referendum(where: ReferendumWhereUniqueInput!): Referendum
+  # referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  reward(where: RewardWhereUniqueInput!): Reward
+  session(where: SessionWhereUniqueInput!): Session
+  slashing(where: SlashingWhereUniqueInput!): Slashing
+  stake(where: StakeWhereUniqueInput!): Stake
+  totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
+  validator(where: ValidatorWhereUniqueInput!): Validator
+}
+
+type Subscription {
+  subscribeProposal: Proposal
+}
