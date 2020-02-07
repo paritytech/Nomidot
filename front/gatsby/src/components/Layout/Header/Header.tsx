@@ -5,17 +5,28 @@
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { AccountsContext } from '@substrate/context';
 import gql from 'graphql-tag';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { APP_TITLE } from '../../../util';
 import styles from './Header.module.css';
 
-const BLOCKS_SUBSCRIPTION = gql`
-  {
-    subscribeBlockNumbers {
+const BLOCK_QUERY = gql`
+  query {
+    blockNumbers(last: 10) {
+      number
       authoredBy
       hash
-      number
+      startDateTime
+    }
+  }
+`;
+
+const BLOCKS_SUBSCRIPTION = gql`
+  {
+    subscription {
+      subscribeBlockNumbers {
+        number
+      }
     }
   }
 `
@@ -43,12 +54,35 @@ const BLOCKS_SUBSCRIPTION = gql`
 
 const BlockHeader = () => {
   const { loading, error, data } = useSubscription(BLOCKS_SUBSCRIPTION);
+  // const { subscribeToMore, ...result } = useQuery(BLOCK_QUERY);
 
-  console.log(data);
+  // useEffect(() => {
+  //   subscribeNewBlocks();
+  // }, [])
+
+  // const subscribeNewBlocks = () => {
+  //   subscribeToMore({
+  //     document: BLOCKS_SUBSCRIPTION,
+  //     updateQuery: (prev, { subscriptionData }) => {
+  //       if (!subscriptionData.data) return prev;
+  //       const { number, authoredBy, hash, startDateTime } = subscriptionData.data;
+
+  //       console.log(authoredBy, hash, number, startDateTime);
+
+  //       // return Object.assign({}, prev, {
+  //       //   entry: {
+  //       //     comments: [newFeedItem, ...prev.entry.comments]
+  //       //   }
+  //       // });
+  //     }
+  //   })
+  // }
+
+  console.log(data, error, loading);
 
   return (
     <div>
-      {data}
+      placholder
     </div>
   )
 }
