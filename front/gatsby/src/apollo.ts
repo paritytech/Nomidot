@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
@@ -39,7 +38,4 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-// eslint-disable-next-line react/prop-types
-export const wrapRootElement = ({element}) => (
-  <ApolloProvider client={client}>{element}</ApolloProvider>
-);
+export default client;

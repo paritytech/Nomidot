@@ -6,16 +6,19 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { AccountsContextProvider } from '@substrate/context';
 import React from 'react';
 
+import client from '../apollo';
 import { Layout, Seo } from '../components';
 import { APP_SLUG } from '../util';
 
 function IndexPage(): React.ReactElement {
   return (
-    <AccountsContextProvider originName={APP_SLUG}>
-      <Layout>
-        <Seo title='Home' />
-      </Layout>
-    </AccountsContextProvider>
+    <ApolloProvider client={client}>
+      <AccountsContextProvider originName={APP_SLUG}>
+        <Layout>
+          <Seo title='Home' />
+        </Layout>
+      </AccountsContextProvider>
+    </ApolloProvider>
   );
 }
 
