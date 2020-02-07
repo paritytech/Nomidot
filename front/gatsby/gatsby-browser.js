@@ -11,11 +11,11 @@ import { getMainDefinition } from 'apollo-utilities';
 import React from 'react';
 
 const httpLink = new HttpLink({
-  uri: process.env.NODE_ENV === 'production' ? 'https://34.76.106.193:4000' : 'http://localhost:4001', // use port forwarding in dev, use external ip in prod
+  uri: 'https://34.76.106.193:4000'
 });
 
 const wsLink = new WebSocketLink({
-  uri: process.env.NODE_ENV === 'production' ? 'wss://34.76.106.193:4000' : 'ws://localhost:4001',
+  uri: 'ws://34.76.106.193:4000',
   options: {
     reconnect: true
   }

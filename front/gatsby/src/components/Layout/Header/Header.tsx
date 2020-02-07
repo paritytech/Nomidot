@@ -2,87 +2,105 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useQuery, useSubscription } from '@apollo/react-hooks';
+import { useSubscription } from '@apollo/react-hooks';
 import { AccountsContext } from '@substrate/context';
 import gql from 'graphql-tag';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { APP_TITLE } from '../../../util';
 import styles from './Header.module.css';
 
-const BLOCK_QUERY = gql`
-  query {
-    blockNumbers(last: 10) {
-      number
+const BLOCKS_SUBSCRIPTION = gql`
+  subscription {
+    subscribeBlockNumbers {
       authoredBy
       hash
+      number
       startDateTime
     }
   }
 `;
 
-const BLOCKS_SUBSCRIPTION = gql`
-  {
-    subscription {
-      subscribeBlockNumbers {
-        number
-      }
+const ERAS_SUBSCRIPTION = gql`
+  subscription {
+    subscribeEras {
+      index
+      totalPoints
     }
   }
 `
 
-// const ERAS_SUBSCRIPTION = gql`
-//   {
-//     subscription subscribeEras {
-//       index
-//       totalPoints
-//     }
-//   }
-// `
+interface EraHead {
+  index: number,
+  totalPoints: number
+}
 
-// const EraHeader = () => {
-//   const { loading, error, data } = useSubscription(ERAS_SUBSCRIPTION);
+const EraHeader = () => {
+  const { loading, error, data } = useSubscription(ERAS_SUBSCRIPTION);
+  const [eraHead, setEraHead] = useState<EraHead>({} as EraHead);
 
-//   console.log(data);
+  useEffect(() => {
+    if (data) {
+      const { subscribeEras: { index, totalPoints } } = data;
 
-//   return (
-//     <div>
-//       {data}
-//     </div>
-//   );
-// }
+      setEraHead({
+        index,
+        totalPoints
+      });
+    }
 
-const BlockHeader = () => {
-  const { loading, error, data } = useSubscription(BLOCKS_SUBSCRIPTION);
-  // const { subscribeToMore, ...result } = useQuery(BLOCK_QUERY);
-
-  // useEffect(() => {
-  //   subscribeNewBlocks();
-  // }, [])
-
-  // const subscribeNewBlocks = () => {
-  //   subscribeToMore({
-  //     document: BLOCKS_SUBSCRIPTION,
-  //     updateQuery: (prev, { subscriptionData }) => {
-  //       if (!subscriptionData.data) return prev;
-  //       const { number, authoredBy, hash, startDateTime } = subscriptionData.data;
-
-  //       console.log(authoredBy, hash, number, startDateTime);
-
-  //       // return Object.assign({}, prev, {
-  //       //   entry: {
-  //       //     comments: [newFeedItem, ...prev.entry.comments]
-  //       //   }
-  //       // });
-  //     }
-  //   })
-  // }
-
-  console.log(data, error, loading);
+  }, [data]);
 
   return (
     <div>
-      placholder
+      {
+        eraHead
+          ? <> 
+            Current era: {eraHead.index}
+            Total Points: {eraHead.totalPoints}
+          </>
+          : null
+      }
+  
+    </div>
+  );
+}
+
+interface BlockHead {
+  authoredBy: string,
+  hash: string,
+  number: number,
+  startDateTime: string
+}
+
+const BlockHeader = () => {
+  const { loading, error, data } = useSubscription(BLOCKS_SUBSCRIPTION);
+  const [blockHead, setBlockHead] = useState<BlockHead>({} as BlockHead);
+
+  useEffect(() => {
+    if (data) {
+      const { subscribeBlockNumbers: { number, authoredBy, hash, startDateTime } } = data;
+
+      setBlockHead({
+        authoredBy,
+        hash,
+        number,
+        startDateTime
+      })
+    }
+  }, [data])
+
+  return (
+    <div>
+      {
+        blockHead
+          ? <>
+            Block #: {blockHead.number}
+            Authored By: {blockHead.authoredBy}
+            Hash: {blockHead.hash}
+          </>
+          : 'nohting to show...'
+      }
     </div>
   )
 }
@@ -101,7 +119,7 @@ export function Header(): React.ReactElement {
   return (
     <header className={styles.header}>
       <h2>{APP_TITLE}</h2>
-      {/* <EraHeader /> */}
+      <EraHeader />
       <BlockHeader />
       {accounts.length ? (
         <span>
