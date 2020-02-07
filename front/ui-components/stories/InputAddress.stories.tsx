@@ -7,18 +7,22 @@ import { text, withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { InputAddress } from '../src/stateful';
-import { withApi, withKeyring, withTheme } from './customDecorators';
+import { InputAddress } from '../src/InputAddress';
+import { withTheme } from './customDecorators';
 
 const SAMPLE_ACCOUNT = 'ExuzF7kjvyUsk6TMH4MhKA4AE7DY6NCts4SDj9Q3HS1dP5W';
 
 storiesOf('InputAddress', module)
-  .addDecorator(withApi)
-  .addDecorator(withKeyring)
   .addDecorator(withKnobs)
   .addDecorator(withTheme)
   .add('input address', () => (
     <InputAddress
+      accounts={{
+        [SAMPLE_ACCOUNT]: {
+          json: { address: SAMPLE_ACCOUNT, meta: {} },
+          option: { key: 'foo', name: 'bar', value: 'baz' },
+        },
+      }}
       onChangeAddress={action('onChange clicked')}
       value={text('address', SAMPLE_ACCOUNT)}
     />

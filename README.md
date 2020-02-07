@@ -4,19 +4,6 @@ Nominating on Polkadot/Kusama can be complicated. Nomidot is a dashboard for tho
 
 We do not hold any keys, however, so it is still the user's responsibility to keep safe custody of keys.
 
-## Get Started
-
-Run the following commands:
-
-```bash
-git clone https://github.com/paritytech/Nomidot
-cd Nomidot
-yarn install
-yarn start
-```
-
-The app will be running on http://localhost:8000.
-
 ## Potential Difficulties with Nominating
 
 1. Creating, and understanding the role of stash and controller keys.
@@ -50,3 +37,18 @@ Nomidot will take extra precautionary steps at the UI level to guide users away 
 ### Contributing
 
 Please see the [Contributing Guidelines](./CONTRIBUTING.md)
+
+Our design systems are based on the following components managed through Storybook: https://quirky-sammet-29ba03.netlify.com/?path=/docs/design-system-intro--page
+
+### Get Started
+
+Run the following commands:
+
+```bash
+git clone https://github.com/paritytech/Nomidot
+cd Nomidot
+yarn install
+yarn start
+```
+
+The app will be running on http://localhost:8000.
