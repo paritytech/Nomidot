@@ -3,8 +3,6 @@
 **/**/prisma-secrets.yaml
 
 # package-lock.json
-**/**/package-lock.json
-**/package-lock.json
 package-lock.json
 
 # Generated outputs
