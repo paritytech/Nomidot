@@ -14,18 +14,20 @@ import createSlashing from './createSlashing';
 import createTotalIssuance from './createTotalIssuance';
 import createValidator from './createValidator';
 import { NomidotTask } from './types';
+import createOfflineValidator from './createOfflineValidator';
 
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
-  createEra,
-  createSlashing,
-  createTotalIssuance,
-  createValidator,
-  createPreimage,
-  createProposal,
-  createProposalStatus,
-  createReferendum,
-  createReferendumStatus,
+  createOfflineValidator,
+  // createEra,
+  // createSlashing,
+  // createTotalIssuance,
+  // createValidator,
+  // createPreimage,
+  // createProposal,
+  // createProposalStatus,
+  // createReferendum,
+  // createReferendumStatus,
 ];

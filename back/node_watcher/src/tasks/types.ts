@@ -3,16 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
+import { Compact } from '@polkadot/types';
 import {
   AccountId,
   Balance,
   BlockNumber,
   EraIndex,
   EraPoints,
+  FullIdentification,
   Hash,
+  IdentificationTuple,
   Index,
+  IndividualExposure,
   Moment,
   SessionIndex,
+  ValidatorId,
   ValidatorPrefs,
   VoteThreshold,
 } from '@polkadot/types/interfaces';
@@ -42,9 +47,21 @@ export interface NomidotEra {
 }
 
 export interface NomidotHeartBeat {
-  isOnline: boolean;
-  sender: AccountId;
-  sessionId: SessionIndex;
+  authorityId: AccountId;
+  sessionIndex: SessionIndex;
+}
+
+export interface NomidotOfflineValidator {
+  sessionIndex: SessionIndex;
+  wasThereAnOffenceThisSession: boolean;
+  validatorId: ValidatorId;
+  total: Compact<Balance>
+  own: Compact<Balance>
+  others: IndividualExposure[]
+}
+
+export interface SomeOfflineEvent {
+  someOffline: Array<IdentificationTuple>
 }
 
 export interface NomidotSession {
@@ -71,7 +88,8 @@ export interface NomidotValidator {
 export type Nomidot =
   | NomidotBlock
   | NomidotEra
-  | NomidotHeartBeat
+  | NomidotOfflineValidator[]
+  | NomidotHeartBeat[]
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]

@@ -32,7 +32,7 @@ const createSession: Task<NomidotSession> = {
       idx: sessionIndex,
     };
 
-    l.log(`Nomidot Session: ${JSON.stringify(result)}`);
+    // l.log(`Nomidot Session: ${JSON.stringify(result)}`);
 
     return result;
   },
