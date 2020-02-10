@@ -3,8 +3,7 @@
     "baseUrl": "../..",
     "paths": {
       "@substrate/context": ["front/context/src"]
-    },
-    "typeRoots": ["./design-system.d.ts"]
+    }
   },
   "extends": "../../tsconfig",
   "exclude": [".cache", "public"],
