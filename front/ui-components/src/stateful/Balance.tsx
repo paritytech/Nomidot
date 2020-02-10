@@ -44,9 +44,9 @@ export function Balance(props: BalanceProps): React.ReactElement {
     }
   }, [api, isApiReady, address]);
 
-  const handleRedeem = (address: string): void => {
+  const handleRedeem = (): void => {
     // FIXME We're not unsubscring here, we should
-    of(api.tx.staking.withdrawUnbonded(address)).subscribe();
+    of(api.tx.staking.withdrawUnbonded()).subscribe();
   };
 
   return (
