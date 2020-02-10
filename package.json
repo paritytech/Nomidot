@@ -34,5 +34,8 @@
     "prettier": "1.19.1",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.5"
+  },
+  "resolutions": {
+    "kind-of": ">=6.0.3"
   }
 }
