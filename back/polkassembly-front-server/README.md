@@ -1,4 +1,4 @@
-### Nomidot Server
+### Polkassembly front server
 
 Provides a GraphQL API for querying the node_watcher and app DBs.
 
