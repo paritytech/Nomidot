@@ -48,5 +48,5 @@ const subscribeReferendum = {
 
 export const Subscription = {
   subscribeProposal,
-  subscribeReferendum
+  subscribeReferendum,
 };
