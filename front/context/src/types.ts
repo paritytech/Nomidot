@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import {
-  DerivedBalances,
+  DerivedBalancesAll,
   DerivedFees,
   DerivedStakingAccount,
 } from '@polkadot/api-derive/types';
@@ -27,9 +27,9 @@ export interface UserInputs {
  */
 export interface SubResults {
   accountNonce: Index;
-  currentBalance: DerivedBalances;
+  currentBalance: DerivedBalancesAll;
   fees: DerivedFees;
-  recipientBalance?: DerivedBalances;
+  recipientBalance?: DerivedBalancesAll;
 }
 
 export interface WithExtrinsic {

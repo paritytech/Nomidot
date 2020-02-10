@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import {
-  DerivedBalances,
+  DerivedBalancesAll,
   DerivedStakingAccount,
   DerivedUnlocking,
 } from '@polkadot/api-derive/types';
@@ -22,7 +22,7 @@ import {
 import { FontSize, FontWeight, OrientationType } from './types';
 
 export type BalanceDisplayProps = {
-  allBalances?: DerivedBalances;
+  allBalances?: DerivedBalancesAll;
   allStaking?: DerivedStakingAccount;
   detailed?: boolean;
   fontSize?: FontSize;
