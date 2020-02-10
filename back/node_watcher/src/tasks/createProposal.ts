@@ -48,22 +48,28 @@ const createProposal: Task<NomidotProposal[]> = {
 
             return {
               ...prev,
-              [type]: curr.toString(),
+              [type]: curr.toJSON(),
             };
           },
           {}
         );
-
-        if (!proposalRawEvent.PropIndex || !proposalRawEvent.Balance) {
+        if (!proposalRawEvent.PropIndex && proposalRawEvent.PropIndex !== 0) {
           l.error(
-            `At least one of proposalArgumentRaw: PropIndex or Balance missing: ${proposalRawEvent.PropIndex}, ${proposalRawEvent.Balance}`
+            `Expected PropIndex missing on the event: ${proposalRawEvent.PropIndex}`
+          );
+          return null;
+        }
+
+        if (!proposalRawEvent.Balance) {
+          l.error(
+            `Expected Balance missing on the event: ${proposalRawEvent.Balance}`
           );
           return null;
         }
 
         const proposalArguments: NomidotProposalEvent = {
           depositAmount: proposalRawEvent.Balance,
-          proposalId: parseInt(proposalRawEvent.PropIndex),
+          proposalId: proposalRawEvent.PropIndex,
         };
 
         const publicProps = await api.query.democracy.publicProps.at(blockHash);
