@@ -71,11 +71,10 @@ You can also deploy a new prisma schema by setting the PRISMA_ENDPOINT environme
 1. Make sure you're logged into gcloud with an account that has access to Container Registry. You can also push to Docker Hub but for the sake of having everything in one place, we'll keep it all in GCR.
 ![gcloud auth list](images/1.gcloudauthlist.png)
 2. Run `gcloud auth configure-docker`
-3. Check the last build image version
-![docker image list](images/2.dockerimagelist.png)
+3. Check the last build image version with `gcloud container images list --repository eu.gcr.io/test-installations-222013/nomidot_watcher`
 4. Making sure you're on the appropriate branch, build a new image. `docker build -t nomidot_watcher:v1.1.1 .`
 ![docker build...](images/3.dockerbuild.png)
-5. Tag that image in the appropraite format for GCR
+5. Tag that image in the appropraite format for GCR e.g `docker tag nomidot_watcher:v1.2.16 eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.16`
 ![docker tag](images/5.dockertag.png)
 6. Push that image
 ![docker push...](images/6.dockerpush.png)
