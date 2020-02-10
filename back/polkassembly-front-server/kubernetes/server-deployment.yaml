@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nomidot-server
-  namespace: nomidot-server
+  name: polkassembly-front-server
+  namespace: polkassembly-front-server
   labels:
     stage: staging
-    name: nomidot-server
-    app: nomidot-server
+    name: polkassembly-front-server
+    app: polkassembly-front-server
 spec:
   selector:
     matchLabels:
-      app: nomidot-server
+      app: polkassembly-front-server
   replicas: 1
   strategy:
     type: Recreate
@@ -18,11 +18,11 @@ spec:
     metadata:
       labels:
         stage: staging
-        name: nomidot-server
-        app: nomidot-server
+        name: polkassembly-front-server
+        app: polkassembly-front-server
     spec:
       containers:
-        - name: nomidot-server
+        - name: polkassembly-front-server
           image: eu.gcr.io/test-installations-222013/nomidot_server@sha256:8f7cb5a9eeff909431cd195b606f9a662c289dcd4d842e2c86555906a03364d5
           env:
             - name: PRISMA_ENDPOINT
