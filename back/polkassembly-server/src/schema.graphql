@@ -39,4 +39,5 @@ type Query {
 
 type Subscription {
   subscribeProposal: Proposal
+  subscribeReferendum: Referendum
 }
