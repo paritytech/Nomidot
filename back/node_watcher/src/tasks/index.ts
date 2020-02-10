@@ -4,6 +4,7 @@
 
 import createBlockNumber from './createBlockNumber';
 import createEra from './createEra';
+import createMotion from './createMotion';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
@@ -18,14 +19,15 @@ import { NomidotTask } from './types';
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
-  createSession,
-  createEra,
-  createSlashing,
-  createTotalIssuance,
-  createValidator,
+  // createSession,
+  // createEra,
+  // createSlashing,
+  // createTotalIssuance,
+  // createValidator,
   createPreimage,
-  createProposal,
-  createProposalStatus,
+  createMotion,
+  // createProposal,
+  // createProposalStatus,
   createReferendum,
   createReferendumStatus,
 ];

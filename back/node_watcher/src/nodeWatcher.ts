@@ -9,8 +9,8 @@ import { logger } from '@polkadot/util';
 
 import { NomidotTask } from './tasks/types';
 
-const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
-// const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
+// const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
+const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
 
 const l = logger('node-watcher');
 
@@ -36,7 +36,7 @@ async function incrementor(
   provider: WsProvider,
   tasks: NomidotTask[]
 ): Promise<void> {
-  let blockIndex = parseInt(process.env.START_FROM || '0');
+  let blockIndex = parseInt(process.env.START_FROM || '0'); // 926411 motioin	928092 referendum
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 
@@ -83,12 +83,12 @@ async function incrementor(
 
     // execute watcher tasks
     for await (const task of tasks) {
-      l.warn(`Task --- ${task.name}`);
+      // l.warn(`Task --- ${task.name}`);
 
       const result = await task.read(blockHash, api);
 
       try {
-        l.warn(`Writing: ${JSON.stringify(result)}`);
+        // l.warn(`Writing: ${JSON.stringify(result)}`);
         await task.write(blockNumber, result);
       } catch (e) {
         l.error(e);

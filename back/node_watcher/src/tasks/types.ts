@@ -18,6 +18,7 @@ import {
 } from '@polkadot/types/interfaces';
 
 import {
+  motionStatus,
   preimageStatus,
   proposalStatus,
   referendumStatus,
@@ -72,6 +73,7 @@ export type Nomidot =
   | NomidotBlock
   | NomidotEra
   | NomidotHeartBeat
+  | NomidotMotion[]
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
@@ -100,6 +102,24 @@ export interface NomidotProposalRawEvent {
   Balance?: Balance;
 }
 
+export interface NomidotMotion extends NomidotMotionEvent {
+  author: AccountId;
+  preimageHash: Hash;
+  status: ProposalStatus;
+}
+
+export interface NomidotMotionEvent {
+  depositAmount: Balance;
+  proposalId: number;
+}
+
+export interface NomidotMotionRawEvent {
+  ProposalIndex?: number;
+  AccountId?: AccountId;
+  Hash?: Hash;
+  MemberCount?: number;
+}
+
 export interface NomidotReferendum {
   delay: BlockNumber;
   end: BlockNumber;
@@ -118,6 +138,7 @@ export interface NomidotArgument {
   name: string;
   value: string;
 }
+type MotionlStatus = typeof motionStatus[keyof typeof motionStatus];
 
 type ProposalStatus = typeof proposalStatus[keyof typeof proposalStatus];
 
