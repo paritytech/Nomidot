@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { GraphQLServer } from 'graphql-yoga';
 import * as dotenv from 'dotenv';
+import { GraphQLServer } from 'graphql-yoga';
+
 import { prisma } from './generated/prisma-client';
 import { Query } from './resolvers/query';
 import { Subscription } from './resolvers/subscription';
@@ -27,8 +28,8 @@ const server = new GraphQLServer({
 });
 
 const options = {
-  port
-}
+  port,
+};
 
 server.start(options, ({ port }) =>
   console.log(
