@@ -6,6 +6,8 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { getChainTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
+import cluster from 'cluster';
+import os from 'os';
 
 import { NomidotTask } from './tasks/types';
 
@@ -48,11 +50,45 @@ async function incrementor(
     }
   });
 
+  const cpuCount = os.cpus().length;
+
+  const batch = Math.floor((lastKnownBestFinalized - blockIndex) / cpuCount);
+
+  let endAt = lastKnownBestFinalized;
+
+  if (cluster.isMaster) {
+    blockIndex = lastKnownBestFinalized;
+
+    l.warn(`master process start from block #${blockIndex}`);
+  }
+
+  if (cluster.isWorker) {
+    blockIndex = blockIndex + (cluster.worker.id - 1) * batch;
+    endAt = blockIndex + batch - 1;
+
+    if (cpuCount === cluster.worker.id) {
+      endAt = lastKnownBestFinalized;
+    }
+
+    l.warn(`worker ${cluster.worker.id} running #${blockIndex} to #${endAt}`);
+  }
+
   while (true) {
-    if (blockIndex > lastKnownBestFinalized) {
-      lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
-      l.warn(`WAITING FINALIZED.`);
-      continue;
+    if (cluster.isMaster) {
+      if (blockIndex > lastKnownBestFinalized) {
+        lastKnownBestFinalized = await waitFinalized(
+          api,
+          lastKnownBestFinalized
+        );
+        l.warn(`WAITING FINALIZED.`);
+        continue;
+      }
+    }
+
+    if (cluster.isWorker) {
+      if (blockIndex > endAt) {
+        return;
+      }
     }
 
     l.warn(`blockIndex: ${blockIndex}`);
