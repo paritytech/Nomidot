@@ -3,10 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { GraphQLServer } from 'graphql-yoga';
-
+import * as dotenv from 'dotenv';
 import { prisma } from './generated/prisma-client';
 import { Query } from './resolvers/query';
 import { Subscription } from './resolvers/subscription';
+
+dotenv.config();
+
+const port = process.env.PORT || 4010;
 
 const resolvers = {
   Subscription,
@@ -21,8 +25,13 @@ const server = new GraphQLServer({
     requireResolversForResolveType: false,
   },
 });
-server.start(() =>
+
+const options = {
+  port
+}
+
+server.start(options, ({ port }) =>
   console.log(
-    'Polkassembly chain-db front server running on http://localhost:4010'
+    `Polkassembly chain-db front server running on http://localhost:${port}`
   )
 );
