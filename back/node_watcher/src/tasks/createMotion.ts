@@ -3,22 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  AccountId,
-  BlockNumber,
-  Hash,
-  PropIndex,
-} from '@polkadot/types/interfaces';
+import { GenericCall } from '@polkadot/types';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { motionStatus, preimageStatus } from '../util/statuses';
-import {
-  NomidotMotion,
-  NomidotMotionEvent,
-  NomidotMotionRawEvent,
-  Task,
-} from './types';
+import { motionStatus } from '../util/statuses';
+import { NomidotMotion, NomidotMotionRawEvent, Task } from './types';
 
 const l = logger('Task: Motions');
 
@@ -32,14 +23,13 @@ const createMotion: Task<NomidotMotion[]> = {
 
     const motionEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'council' || section === 'democracy'
-      // && method === motionStatus.PROPOSED
+        section === 'council' && method === motionStatus.PROPOSED
     );
 
     const results: NomidotMotion[] = [];
 
     await Promise.all(
-      motionEvents.map(({ event: { data, method, typeDef } }) => {
+      motionEvents.map(async ({ event: { data, typeDef } }) => {
         const motionRawEvent: NomidotMotionRawEvent = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
@@ -51,51 +41,80 @@ const createMotion: Task<NomidotMotion[]> = {
           },
           {}
         );
-        console.log('event', method);
-        console.log('motionRawEvent', JSON.stringify(motionRawEvent, null, 4));
-        //   motionRawEvent {
-        //     "AccountId": "5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y",
-        //     "ProposalIndex": 0,
-        //     "Hash": "0x70d3993e2625d550bc752ded1d3fff18be9731f84925a27040fdb0562149b053",
-        //     "MemberCount": 2
-        // }
 
-        //   if (!motionRawEvent.PropIndex && motionRawEvent.PropIndex !== 0) {
-        //     l.error(
-        //       `Expected PropIndex missing on the event: ${motionRawEvent.PropIndex}`
-        //     );
-        //     return null;
-        //   }
+        if (
+          !motionRawEvent.ProposalIndex &&
+          motionRawEvent.ProposalIndex !== 0
+        ) {
+          l.error(
+            `Expected ProposalIndex missing on the event: ${motionRawEvent.ProposalIndex}`
+          );
+          return null;
+        }
 
-        //   if (!motionRawEvent.Balance) {
-        //     l.error(
-        //       `Expected Balance missing on the event: ${motionRawEvent.Balance}`
-        //     );
-        //     return null;
-        //   }
+        if (!motionRawEvent.AccountId) {
+          l.error(
+            `Expected AccountId missing on the event: ${motionRawEvent.AccountId}`
+          );
+          return null;
+        }
 
-        //   const motionArguments: NomidotMotionEvent = {
-        //     depositAmount: motionRawEvent.Balance,
-        //     motionId: motionRawEvent.PropIndex,
-        //   };
+        if (!motionRawEvent.Hash) {
+          l.error(`Expected Hash missing on the event: ${motionRawEvent.Hash}`);
+          return null;
+        }
 
-        //   const publicProps = await api.query.democracy.publicProps.at(blockHash);
+        if (!motionRawEvent.MemberCount) {
+          l.error(
+            `Expected MemberCount missing on the event: ${motionRawEvent.MemberCount}`
+          );
+          return null;
+        }
 
-        //   const [, preimageHash, author] = publicProps.filter(
-        //     ([idNumber]: [PropIndex, Hash, AccountId]) =>
-        //       idNumber.toNumber() === motionArguments.motionId
-        //   )[0];
+        const motionProposalRaw = await api.query.council.proposalOf.at(
+          blockHash,
+          motionRawEvent.Hash
+        );
 
-        //   const result: NomidotMotion = {
-        //     author,
-        //     depositAmount: motionArguments.depositAmount,
-        //     motionId: motionArguments.motionId,
-        //     preimageHash,
-        //     status: motionStatus.PROPOSED,
-        //   };
+        const motionProposal = motionProposalRaw.unwrapOr(null);
 
-        //   l.log(`Nomidot Motion: ${JSON.stringify(result)}`);
-        //   results.push(result);
+        if (!motionProposal) {
+          l.log(`No motionProposal found for the hash ${motionRawEvent.Hash}`);
+          return null;
+        }
+
+        const proposal = api.createType('Proposal', motionProposal.toU8a(true));
+
+        const { meta, method, section } = api.registry.findMetaCall(
+          proposal.callIndex
+        );
+
+        const params = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
+          name.toString()
+        );
+        const values = proposal.args;
+
+        const motionProposalArguments =
+          proposal.args &&
+          params &&
+          params.map((name, index) => {
+            return { name, value: values[index].toString() };
+          });
+
+        const result: NomidotMotion = {
+          author: motionRawEvent.AccountId,
+          memberCount: motionRawEvent.MemberCount,
+          metaDescription: meta.documentation.toString(),
+          method,
+          motionProposalHash: motionRawEvent.Hash,
+          motionProposalId: motionRawEvent.ProposalIndex,
+          motionProposalArguments,
+          section,
+          status: motionStatus.PROPOSED,
+        };
+
+        l.log(`Nomidot Motion: ${JSON.stringify(result)}`);
+        results.push(result);
       })
     );
 

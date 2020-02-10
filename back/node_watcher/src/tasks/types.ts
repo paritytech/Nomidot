@@ -102,15 +102,16 @@ export interface NomidotProposalRawEvent {
   Balance?: Balance;
 }
 
-export interface NomidotMotion extends NomidotMotionEvent {
+export interface NomidotMotion {
   author: AccountId;
-  preimageHash: Hash;
+  memberCount: number;
+  metaDescription: string;
+  method: string;
+  motionProposalArguments: NomidotArgument[];
+  motionProposalHash: Hash;
+  motionProposalId: number;
+  section: string;
   status: ProposalStatus;
-}
-
-export interface NomidotMotionEvent {
-  depositAmount: Balance;
-  proposalId: number;
 }
 
 export interface NomidotMotionRawEvent {
