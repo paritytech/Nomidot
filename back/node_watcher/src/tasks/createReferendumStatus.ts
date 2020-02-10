@@ -50,12 +50,16 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
             const type = typeDef[index].type;
             return {
               ...prev,
-              [type]: curr.toString(),
+              [type]: curr.toJSON(),
             };
           },
           {}
         );
-        if (!referendumRawEvent.ReferendumIndex) {
+
+        if (
+          !referendumRawEvent.ReferendumIndex &&
+          referendumRawEvent.ReferendumIndex !== 0
+        ) {
           l.error(
             `Expected ReferendumIndex not found on the event: ${referendumRawEvent.ReferendumIndex}`
           );
@@ -63,7 +67,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
         }
 
         const relatedReferendum = await prisma.referendum({
-          id: parseInt(referendumRawEvent.ReferendumIndex),
+          referendumId: referendumRawEvent.ReferendumIndex,
         });
 
         if (!relatedReferendum) {
@@ -74,7 +78,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
         }
 
         const result: NomidotReferendumStatusUpdate = {
-          referendumId: parseInt(referendumRawEvent.ReferendumIndex),
+          referendumId: referendumRawEvent.ReferendumIndex,
           status: method,
         };
         l.log(`Nomidot Referendum Status Update: ${JSON.stringify(result)}`);

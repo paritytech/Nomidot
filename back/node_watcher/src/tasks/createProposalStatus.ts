@@ -46,13 +46,13 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
             return {
               ...result,
-              [type]: curr.toString(),
+              [type]: curr.toJSON(),
             };
           },
           {}
         );
 
-        if (!proposalRawEvent.PropIndex) {
+        if (!proposalRawEvent.PropIndex && proposalRawEvent.PropIndex !== 0) {
           l.error(
             `Expected PropIndex not found on the event: ${proposalRawEvent.PropIndex}`
           );
@@ -60,7 +60,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
         }
 
         const relatedProposal = await prisma.proposal({
-          proposalId: parseInt(proposalRawEvent.PropIndex),
+          proposalId: proposalRawEvent.PropIndex,
         });
 
         if (!relatedProposal) {
@@ -71,7 +71,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
         }
 
         const result: NomidotProposalStatusUpdate = {
-          proposalId: Number(proposalRawEvent.PropIndex),
+          proposalId: proposalRawEvent.PropIndex,
           status: proposalStatus.TABLED,
         };
 
