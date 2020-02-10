@@ -72,19 +72,19 @@ You can also deploy a new prisma schema by setting the PRISMA_ENDPOINT environme
 ![gcloud auth list](images/1.gcloudauthlist.png)
 2. Run `gcloud auth configure-docker`
 3. Check the last build image version
-![docker image list](/images/2.dockerimagelist.png)
+![docker image list](images/2.dockerimagelist.png)
 4. Making sure you're on the appropriate branch, build a new image. `docker build -t nomidot_watcher:v1.1.1 .`
-![docker build...](/images/3.dockerbuild.png)
+![docker build...](images/3.dockerbuild.png)
 5. Tag that image in the appropraite format for GCR
-![docker tag](/images/5.dockertag.png)
+![docker tag](images/5.dockertag.png)
 6. Push that image
-![docker push...](/images/6.dockerpush.png)
+![docker push...](images/6.dockerpush.png)
 7. Copy the SHA256 hash
-![copy sha...](/images/7.copysha.png)
+![copy sha...](images/7.copysha.png)
 8. Paste it into the job config
-![paste sha...](/images/8.pastesha.png)
+![paste sha...](images/8.pastesha.png)
 9. Create the job `kubectl create -f /path/to/config.yaml`
-![k8 create job](/images/9.k8create.png)
+![k8 create job](images/9.k8create.png)
 10. Check it's running `kubectl get jobs`, `kubectl logs -l job-name={jobname} -n nodewatcher-staging`
-![k8 check job](/images/10.k8check.png)
+![k8 check job](images/10.k8check.png)
 11. Eventually delete the outdated job too `kubectl delete jobs old-job-name`
