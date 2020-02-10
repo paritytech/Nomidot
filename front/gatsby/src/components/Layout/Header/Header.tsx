@@ -28,82 +28,82 @@ const ERAS_SUBSCRIPTION = gql`
       totalPoints
     }
   }
-`
+`;
 
 interface EraHead {
-  index: number,
-  totalPoints: number
+  index: number;
+  totalPoints: number;
 }
 
 const EraHeader = () => {
-  const { loading, error, data } = useSubscription(ERAS_SUBSCRIPTION);
+  const { data } = useSubscription(ERAS_SUBSCRIPTION);
   const [eraHead, setEraHead] = useState<EraHead>({} as EraHead);
 
   useEffect(() => {
     if (data) {
-      const { subscribeEras: { index, totalPoints } } = data;
+      const {
+        subscribeEras: { index, totalPoints },
+      } = data;
 
       setEraHead({
         index,
-        totalPoints
+        totalPoints,
       });
     }
-
   }, [data]);
 
   return (
     <div>
-      {
-        eraHead
-          ? <> 
-            Current era: {eraHead.index}
-            Total Points: {eraHead.totalPoints}
-          </>
-          : null
-      }
-  
+      {eraHead ? (
+        <>
+          Current era: {eraHead.index}
+          Total Points: {eraHead.totalPoints}
+        </>
+      ) : null}
     </div>
   );
-}
+};
 
 interface BlockHead {
-  authoredBy: string,
-  hash: string,
-  number: number,
-  startDateTime: string
+  authoredBy: string;
+  hash: string;
+  number: number;
+  startDateTime: string;
 }
 
 const BlockHeader = () => {
-  const { loading, error, data } = useSubscription(BLOCKS_SUBSCRIPTION);
+  const { data } = useSubscription(BLOCKS_SUBSCRIPTION);
   const [blockHead, setBlockHead] = useState<BlockHead>({} as BlockHead);
 
   useEffect(() => {
     if (data) {
-      const { subscribeBlockNumbers: { number, authoredBy, hash, startDateTime } } = data;
+      const {
+        subscribeBlockNumbers: { number, authoredBy, hash, startDateTime },
+      } = data;
 
       setBlockHead({
         authoredBy,
         hash,
         number,
-        startDateTime
-      })
+        startDateTime,
+      });
     }
-  }, [data])
+  }, [data]);
 
   return (
     <div>
-      {
-        blockHead
-          ? <>
-            Block #: {blockHead.number}
-            Authored By: {blockHead.authoredBy}
-            Hash: {blockHead.hash}
-          </>
-          : 'nohting to show...'
-      }
+      {blockHead ? (
+        <>
+          Block #: {blockHead.number}
+          Authored By: {blockHead.authoredBy}
+          Hash: {blockHead.hash}
+        </>
+      ) : (
+        'nohting to show...'
+      )}
     </div>
-  )
-}
+  );
+};
 
 export function Header(): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);

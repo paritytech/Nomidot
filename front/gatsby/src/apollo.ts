@@ -7,17 +7,16 @@ import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
-import React from 'react';
 
 const httpLink = new HttpLink({
-  uri: 'https://34.76.106.193:4000'
+  uri: 'https://34.76.106.193:4000',
 });
 
 const wsLink = new WebSocketLink({
   uri: 'ws://34.76.106.193:4000',
   options: {
-    reconnect: true
-  }
+    reconnect: true,
+  },
 });
 
 const link = split(
@@ -30,12 +29,12 @@ const link = split(
     );
   },
   wsLink,
-  httpLink,
+  httpLink
 );
 
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache()
-})
+  cache: new InMemoryCache(),
+});
 
 export default client;
