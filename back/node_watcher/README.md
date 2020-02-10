@@ -69,7 +69,7 @@ You can also deploy a new prisma schema by setting the PRISMA_ENDPOINT environme
 
 ##### Updating Kubernetes Job
 1. Make sure you're logged into gcloud with an account that has access to Container Registry. You can also push to Docker Hub but for the sake of having everything in one place, we'll keep it all in GCR.
-![gcloud auth list](/images/1.gcloudauthlist.png)
+![gcloud auth list](back/node_watcher/images/1.gcloudauthlist.png)
 2. Run `gcloud auth configure-docker`
 3. Check the last build image version
 ![docker image list](/images/2.dockerimagelist.png)
