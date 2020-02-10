@@ -2,6 +2,9 @@
 **/**/cloudsql-secrets.yaml
 **/**/prisma-secrets.yaml
 
+# package-lock.json
+package-lock.json
+
 # Generated outputs
 **/lib/
 

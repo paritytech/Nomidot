@@ -38,7 +38,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
 
             return {
               ...prev,
-              [type]: curr.toString(),
+              [type]: curr.toJSON(),
             };
           },
           {}
@@ -46,11 +46,17 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // Returns { ReferendumIndex: '0', VoteThreshold: 'Supermajorityapproval' }
 
         if (
-          !referendumRawEvent.ReferendumIndex ||
-          !referendumRawEvent.VoteThreshold
+          !referendumRawEvent.ReferendumIndex &&
+          referendumRawEvent.ReferendumIndex !== 0
         ) {
           l.error(
-            `At least one of the expected ReferendumIndex or VoteThreshold is missing in the event: ${referendumRawEvent.ReferendumIndex}, ${referendumRawEvent.VoteThreshold}`
+            `Expected ReferendumIndex missing in the event: ${referendumRawEvent.ReferendumIndex}`
+          );
+          return null;
+        }
+        if (!referendumRawEvent.VoteThreshold) {
+          l.error(
+            `Expected VoteThreshold is missing in the event: ${referendumRawEvent.VoteThreshold}`
           );
           return null;
         }
@@ -74,7 +80,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           delay: referendumInfo.delay,
           end: referendumInfo.end,
           preimageHash: referendumInfo.proposalHash,
-          referendumIndex: parseInt(referendumRawEvent.ReferendumIndex),
+          referendumIndex: referendumRawEvent.ReferendumIndex,
           status: referendumStatus.STARTED,
           voteThreshold: referendumRawEvent.VoteThreshold,
         };
