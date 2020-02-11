@@ -53,7 +53,7 @@ type Validator {
 
 type TotalIssuance {
   id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
+  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE) @unique
   amount: String!
 }
 
@@ -67,12 +67,11 @@ type Reward {
 
 type Nomination {
   id: ID! @id
-  validatorController: String!
-  validatorStash: String!
+  validator: Validator! @relation(name: "ValidatorNomination", link: INLINE)
   nominatorController: String!
   nominatorStash: String!
   session: Session! @relation(name: "NominationsAtSession", link: INLINE)
-  bonded: String!
+  staked: String!
 }
 
 type Stake {

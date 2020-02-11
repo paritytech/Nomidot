@@ -19,6 +19,7 @@ import {
   ValidatorPrefs,
   VoteThreshold,
 } from '@polkadot/types/interfaces';
+import BN from 'bn.js';
 
 import {
   preimageStatus,
@@ -64,9 +65,22 @@ export interface NomidotReward {
   validatorReward: Balance; // all validators get rewarded by this amount
 }
 
+export interface NomidotNomination {
+  validatorController: AccountId;
+  validatorStash: AccountId;
+  nominatorController: AccountId;
+  nominatorStash: AccountId;
+  session: SessionIndex;
+  staked: Balance;
+}
+
 export interface NomidotSession {
   didNewSessionStart: boolean;
   idx: SessionIndex;
+}
+
+export interface NomidotStake {
+  totalStaked: Balance;
 }
 
 export interface NomidotSlashing {
@@ -98,6 +112,7 @@ export type Nomidot =
   | NomidotReward[]
   | NomidotSession
   | NomidotSlashing[]
+  | NomidotStake
   | NomidotTotalIssuance
   | NomidotValidator[];
 

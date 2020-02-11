@@ -8,6 +8,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotSession, Task } from './types';
+import { filterEvents } from '../util/filterEvents';
 
 const l = logger('Task: Session');
 
@@ -19,11 +20,7 @@ const createSession: Task<NomidotSession> = {
   read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotSession> => {
     const events = await api.query.system.events.at(blockHash);
 
-    const didNewSessionStart =
-      events.filter(
-        ({ event: { method, section } }) =>
-          section === 'session' && method === 'NewSession'
-      ).length > 0;
+    const didNewSessionStart = filterEvents(events, 'session', 'NewSession').length > 0;
 
     const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
@@ -32,7 +29,7 @@ const createSession: Task<NomidotSession> = {
       idx: sessionIndex,
     };
 
-    // l.log(`Nomidot Session: ${JSON.stringify(result)}`);
+    l.log(`Nomidot Session: ${JSON.stringify(result)}`);
 
     return result;
   },

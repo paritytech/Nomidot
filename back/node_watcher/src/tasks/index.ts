@@ -13,6 +13,7 @@ import createReferendumStatus from './createReferendumStatus';
 import createReward from './createReward';
 import createSession from './createSession';
 import createSlashing from './createSlashing';
+import createStake from './createStake';
 import createTotalIssuance from './createTotalIssuance';
 import createValidator from './createValidator';
 import { NomidotTask } from './types';
@@ -21,8 +22,9 @@ import { NomidotTask } from './types';
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
+  createStake
   // createOfflineValidator,
-  createReward,
+  // createReward,
   // createEra,
   // createSlashing,
   // createTotalIssuance,
