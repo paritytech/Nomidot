@@ -139,6 +139,7 @@ export interface NomidotArgument {
   name: string;
   value: string;
 }
+
 type MotionStatus = typeof motionStatus[keyof typeof motionStatus];
 
 type ProposalStatus = typeof proposalStatus[keyof typeof proposalStatus];

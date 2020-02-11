@@ -33,7 +33,7 @@ const createValidator: Task<NomidotValidator[]> = {
     );
     const validators = await api.query.session.validators.at(blockHash); // validators at this session
 
-    l.log(`Validators: ${JSON.stringify(validators)}`);
+    // l.log(`Validators: ${JSON.stringify(validators)}`);
 
     const result = await Promise.all(
       validators.map(async (validator: ValidatorId) => {
