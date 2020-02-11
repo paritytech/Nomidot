@@ -72,7 +72,7 @@ type Motion {
   metaDescription: String!
   method: String!
   motionProposalArguments: [MotionProposalArgument]! @relation(name: "ArgumentForMotionProposal")
-  motionProposalHash: String! 
+  motionProposalHash: String!
   motionProposalId: Int! @unique
   section: String!
   status: [MotionStatus]! @relation(name: "MotionStatusFromMotion")

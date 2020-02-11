@@ -142,6 +142,8 @@ export interface NomidotArgument {
 }
 type MotionStatus = typeof motionStatus[keyof typeof motionStatus];
 
+type MotionStatus = typeof motionStatus[keyof typeof motionStatus];
+
 type ProposalStatus = typeof proposalStatus[keyof typeof proposalStatus];
 
 type PreimageStatus = typeof preimageStatus[keyof typeof preimageStatus];
