@@ -67,19 +67,24 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
         // that is still active (hence not approved, disapproved..)
         const relatedMotions = await prisma.motions({
           where: {
-            motionProposalHash: motionRawEvent.Hash.toString(),
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            status_some: {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              status_not_in: [
-                motionStatus.VOTED,
-                motionStatus.APPROVED,
-                motionStatus.DISAPPROVED,
-                motionStatus.EXECUTED,
-              ],
-            },
+            AND: [
+              {
+                motionProposalHash: motionRawEvent.Hash.toString(),
+              },
+              {
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                status_every: {
+                  // eslint-disable-next-line @typescript-eslint/camelcase
+                  status_not_in: [
+                    motionStatus.VOTED,
+                    motionStatus.APPROVED,
+                    motionStatus.DISAPPROVED,
+                    motionStatus.EXECUTED,
+                  ],
+                },
+              },
+            ],
           },
-          orderBy: 'id_DESC',
         });
 
         const relatedMotion = relatedMotions[0];
