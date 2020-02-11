@@ -20,11 +20,11 @@ import { NomidotTask } from './types';
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
-  // createSession,
-  // createEra,
-  // createSlashing,
-  // createTotalIssuance,
-  // createValidator,
+  createSession,
+  createEra,
+  createSlashing,
+  createTotalIssuance,
+  createValidator,
   createPreimage,
   createMotion,
   createMotionStatus,
