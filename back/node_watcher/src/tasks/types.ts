@@ -74,6 +74,7 @@ export type Nomidot =
   | NomidotEra
   | NomidotHeartBeat
   | NomidotMotion[]
+  | NomidotMotionStatusUpdate[]
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
@@ -170,6 +171,11 @@ export interface NomidotPreimageRawEvent {
 export interface NomidotProposalStatusUpdate {
   proposalId: number;
   status: ProposalStatus;
+}
+
+export interface NomidotMotionStatusUpdate {
+  motionProposalId: number;
+  status: MotionStatus;
 }
 
 export interface NomidotReferendumStatusUpdate {
