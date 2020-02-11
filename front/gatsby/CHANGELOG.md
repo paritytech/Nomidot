@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.20](https://github.com/paritytech/Nomidot/compare/v0.3.19...v0.3.20) (2020-02-11)
+
+
+### Features
+
+* apollo client and provider ([#146](https://github.com/paritytech/Nomidot/issues/146)) ([47da1b9](https://github.com/paritytech/Nomidot/commit/47da1b9f01f04ca68cb80e731ad24fc4768753ea))
+
+
+
+
+
 ## [0.3.17](https://github.com/paritytech/Nomidot/compare/v0.3.16...v0.3.17) (2020-02-05)
 
 
