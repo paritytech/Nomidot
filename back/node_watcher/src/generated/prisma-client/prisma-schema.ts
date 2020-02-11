@@ -612,11 +612,12 @@ interface Node {
 
 type Nomination {
   id: ID!
-  validator: Validator!
+  validatorController: String!
+  validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
   session: Session!
-  staked: String!
+  stakedAmount: String!
 }
 
 type NominationConnection {
@@ -627,11 +628,12 @@ type NominationConnection {
 
 input NominationCreateInput {
   id: ID
-  validator: ValidatorCreateOneInput!
+  validatorController: String!
+  validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
   session: SessionCreateOneInput!
-  staked: String!
+  stakedAmount: String!
 }
 
 type NominationEdge {
@@ -642,19 +644,25 @@ type NominationEdge {
 enum NominationOrderByInput {
   id_ASC
   id_DESC
+  validatorController_ASC
+  validatorController_DESC
+  validatorStash_ASC
+  validatorStash_DESC
   nominatorController_ASC
   nominatorController_DESC
   nominatorStash_ASC
   nominatorStash_DESC
-  staked_ASC
-  staked_DESC
+  stakedAmount_ASC
+  stakedAmount_DESC
 }
 
 type NominationPreviousValues {
   id: ID!
+  validatorController: String!
+  validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  staked: String!
+  stakedAmount: String!
 }
 
 type NominationSubscriptionPayload {
@@ -676,17 +684,20 @@ input NominationSubscriptionWhereInput {
 }
 
 input NominationUpdateInput {
-  validator: ValidatorUpdateOneRequiredInput
+  validatorController: String
+  validatorStash: String
   nominatorController: String
   nominatorStash: String
   session: SessionUpdateOneRequiredInput
-  staked: String
+  stakedAmount: String
 }
 
 input NominationUpdateManyMutationInput {
+  validatorController: String
+  validatorStash: String
   nominatorController: String
   nominatorStash: String
-  staked: String
+  stakedAmount: String
 }
 
 input NominationWhereInput {
@@ -704,7 +715,34 @@ input NominationWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  validator: ValidatorWhereInput
+  validatorController: String
+  validatorController_not: String
+  validatorController_in: [String!]
+  validatorController_not_in: [String!]
+  validatorController_lt: String
+  validatorController_lte: String
+  validatorController_gt: String
+  validatorController_gte: String
+  validatorController_contains: String
+  validatorController_not_contains: String
+  validatorController_starts_with: String
+  validatorController_not_starts_with: String
+  validatorController_ends_with: String
+  validatorController_not_ends_with: String
+  validatorStash: String
+  validatorStash_not: String
+  validatorStash_in: [String!]
+  validatorStash_not_in: [String!]
+  validatorStash_lt: String
+  validatorStash_lte: String
+  validatorStash_gt: String
+  validatorStash_gte: String
+  validatorStash_contains: String
+  validatorStash_not_contains: String
+  validatorStash_starts_with: String
+  validatorStash_not_starts_with: String
+  validatorStash_ends_with: String
+  validatorStash_not_ends_with: String
   nominatorController: String
   nominatorController_not: String
   nominatorController_in: [String!]
@@ -734,20 +772,20 @@ input NominationWhereInput {
   nominatorStash_ends_with: String
   nominatorStash_not_ends_with: String
   session: SessionWhereInput
-  staked: String
-  staked_not: String
-  staked_in: [String!]
-  staked_not_in: [String!]
-  staked_lt: String
-  staked_lte: String
-  staked_gt: String
-  staked_gte: String
-  staked_contains: String
-  staked_not_contains: String
-  staked_starts_with: String
-  staked_not_starts_with: String
-  staked_ends_with: String
-  staked_not_ends_with: String
+  stakedAmount: String
+  stakedAmount_not: String
+  stakedAmount_in: [String!]
+  stakedAmount_not_in: [String!]
+  stakedAmount_lt: String
+  stakedAmount_lte: String
+  stakedAmount_gt: String
+  stakedAmount_gte: String
+  stakedAmount_contains: String
+  stakedAmount_not_contains: String
+  stakedAmount_starts_with: String
+  stakedAmount_not_starts_with: String
+  stakedAmount_ends_with: String
+  stakedAmount_not_ends_with: String
   AND: [NominationWhereInput!]
   OR: [NominationWhereInput!]
   NOT: [NominationWhereInput!]
@@ -3229,11 +3267,6 @@ input ValidatorCreateInput {
   preferences: String!
 }
 
-input ValidatorCreateOneInput {
-  create: ValidatorCreateInput
-  connect: ValidatorWhereUniqueInput
-}
-
 type ValidatorEdge {
   node: Validator!
   cursor: String!
@@ -3275,13 +3308,6 @@ input ValidatorSubscriptionWhereInput {
   NOT: [ValidatorSubscriptionWhereInput!]
 }
 
-input ValidatorUpdateDataInput {
-  session: SessionUpdateOneRequiredInput
-  controller: String
-  stash: String
-  preferences: String
-}
-
 input ValidatorUpdateInput {
   session: SessionUpdateOneRequiredInput
   controller: String
@@ -3293,18 +3319,6 @@ input ValidatorUpdateManyMutationInput {
   controller: String
   stash: String
   preferences: String
-}
-
-input ValidatorUpdateOneRequiredInput {
-  create: ValidatorCreateInput
-  update: ValidatorUpdateDataInput
-  upsert: ValidatorUpsertNestedInput
-  connect: ValidatorWhereUniqueInput
-}
-
-input ValidatorUpsertNestedInput {
-  update: ValidatorUpdateDataInput!
-  create: ValidatorCreateInput!
 }
 
 input ValidatorWhereInput {

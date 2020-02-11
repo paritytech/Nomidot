@@ -19,7 +19,6 @@ import {
   ValidatorPrefs,
   VoteThreshold,
 } from '@polkadot/types/interfaces';
-import BN from 'bn.js';
 
 import {
   preimageStatus,
@@ -71,7 +70,7 @@ export interface NomidotNomination {
   nominatorController: AccountId;
   nominatorStash: AccountId;
   session: SessionIndex;
-  staked: Balance;
+  stakedAmount: Compact<Balance>;
 }
 
 export interface NomidotSession {
@@ -104,6 +103,7 @@ export type Nomidot =
   | NomidotEra
   | NomidotOfflineValidator[]
   | NomidotHeartBeat[]
+  | NomidotNomination[]
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]

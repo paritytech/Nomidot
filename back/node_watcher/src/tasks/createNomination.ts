@@ -7,10 +7,10 @@ import { Option } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
+  Exposure,
   Hash,
   StakingLedger,
   ValidatorId,
-  ValidatorPrefs,
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
@@ -36,7 +36,9 @@ const createNomination: Task<NomidotNomination[]> = {
 
     // l.log(`Validators: ${JSON.stringify(validators)}`);
 
-    const result = await Promise.all(
+    const nomidotNomination: NomidotNomination[] = [];
+
+    await Promise.all(
       validators.map(async (validator: ValidatorId) => {
         // bonded controller if validator is a stash
         const bonded: Option<AccountId> = await api.query.staking.bonded.at(
@@ -49,72 +51,92 @@ const createNomination: Task<NomidotNomination[]> = {
           blockHash,
           validator
         );
-
-        // l.warn(`Bonded: ${bonded}`);
-        // l.warn(`Ledger: ${ledger}`);
-
+        
         // n.b. In the history of Kusama, there was a point when the Validator set was hard coded in, so during this period, they were actually not properly bonded, i.e. bonded and ledger were actually null.
         if (bonded.isNone && ledger.isNone) {
           const result = {
             currentSessionIndex,
-            controller: validator,
-            stash: validator,
-            validatorPreferences: undefined,
+            validatorController: validator,
+            validatorStash: validator,
+            nominatorController: null,
+            nominatorStash: null,
+            stakedAmount: null
           };
 
           return result;
         }
 
-        const stash = bonded.isNone ? ledger.unwrap().stash : validator;
+        const validatorStash = bonded.isNone ? ledger.unwrap().stash : validator;
 
-        const controller =
+        const validatorController =
           ledger.isSome && ledger.unwrap().stash ? validator : bonded.unwrap();
 
-        const validatorPreferences: ValidatorPrefs = await api.query.staking.validators.at(
-          blockHash,
-          stash
-        );
+        
+        const exposure: Exposure = await api.query.staking.stakers.at(blockHash, validatorStash);
 
-        const result = {
-          currentSessionIndex,
-          controller,
-          stash,
-          validatorPreferences,
-        };
+        await Promise.all(exposure.others.map(async individualExposure => {
+          const { who, value } = individualExposure;
 
-        return result;
+          // bonded controller if validator is a stash
+          const bonded: Option<AccountId> = await api.query.staking.bonded.at(
+            blockHash,
+            who
+          );
+
+          // staking ledger information if validator is a controller
+          const ledger: Option<StakingLedger> = await api.query.staking.ledger.at(
+            blockHash,
+            who
+          );
+
+          const nominatorStash = bonded.isNone ? ledger.unwrap().stash : validator;
+
+          const nominatorController =
+            ledger.isSome && ledger.unwrap().stash ? validator : bonded.unwrap();
+
+          nomidotNomination.push({
+            session: currentSessionIndex,
+            validatorController,
+            validatorStash,
+            nominatorStash,
+            nominatorController,
+            stakedAmount: value
+          } as NomidotNomination)
+        }))
       })
     );
 
-    l.log(`Nomidot Validators: ${JSON.stringify(result)}`);
+    l.log(`Nomidot Nomination: ${JSON.stringify(nomidotNomination)}`);
 
-    return result;
+    return nomidotNomination;
   },
-  write: async (blockNumber: BlockNumber, values: NomidotValidator[]) => {
+  write: async (blockNumber: BlockNumber, values: NomidotNomination[]) => {
     await Promise.all(
-      values.map(async (validator: NomidotValidator) => {
+      values.map(async (nomination: NomidotNomination) => {
         const {
-          currentSessionIndex,
-          controller,
-          stash,
-          validatorPreferences,
-        } = validator;
+          session,
+          validatorController,
+          validatorStash,
+          nominatorController,
+          nominatorStash,
+          stakedAmount
+        } = nomination;
 
-        await prisma.createValidator({
+        await prisma.createNomination({
           session: {
             connect: {
-              index: currentSessionIndex.toNumber(),
+              index: session.toNumber(),
             },
           },
-          controller: controller.toHex(),
-          stash: stash.toHex(),
-          preferences: validatorPreferences
-            ? validatorPreferences.toHex()
-            : '0x00',
+          validatorController: validatorController.toHex(),
+          validatorStash: validatorStash.toHex(),
+          nominatorController: nominatorController.toHex(),
+          nominatorStash: nominatorStash.toHex(),
+          stakedAmount: stakedAmount.toHex()
         });
       })
     );
   },
 };
 
-export default createValidator;
+export default createNomination;

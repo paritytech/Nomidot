@@ -67,11 +67,12 @@ type Reward {
 
 type Nomination {
   id: ID! @id
-  validator: Validator! @relation(name: "ValidatorNomination", link: INLINE)
+  validatorController: String!
+  validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
   session: Session! @relation(name: "NominationsAtSession", link: INLINE)
-  staked: String!
+  stakedAmount: String!
 }
 
 type Stake {

@@ -17,12 +17,15 @@ import createStake from './createStake';
 import createTotalIssuance from './createTotalIssuance';
 import createValidator from './createValidator';
 import { NomidotTask } from './types';
+import createNomination from './createNomination';
 
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
-  createStake
+  createValidator,
+  createNomination
+  // createStake
   // createOfflineValidator,
   // createReward,
   // createEra,
