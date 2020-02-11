@@ -66,7 +66,7 @@ type Stake {
 }
 
 type Motion {
-  id: Int! @id(strategy: SEQUENCE) @sequence(name: "PROPOSAL_SEQUENCE" initialValue:1 allocationSize:1)
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "MOTION_SEQUENCE" initialValue:1 allocationSize:1)
   author: String!
   memberCount: Int!
   metaDescription: String!

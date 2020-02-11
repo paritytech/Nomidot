@@ -118,7 +118,6 @@ const createMotion: Task<NomidotMotion[]> = {
       })
     );
 
-    console.log('-------results:', JSON.stringify(results, null, 4));
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotMotion[]) => {
