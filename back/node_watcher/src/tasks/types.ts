@@ -111,7 +111,7 @@ export interface NomidotMotion {
   motionProposalHash: Hash;
   motionProposalId: number;
   section: string;
-  status: ProposalStatus;
+  status: MotionStatus;
 }
 
 export interface NomidotMotionRawEvent {
@@ -139,7 +139,7 @@ export interface NomidotArgument {
   name: string;
   value: string;
 }
-type MotionlStatus = typeof motionStatus[keyof typeof motionStatus];
+type MotionStatus = typeof motionStatus[keyof typeof motionStatus];
 
 type ProposalStatus = typeof proposalStatus[keyof typeof proposalStatus];
 

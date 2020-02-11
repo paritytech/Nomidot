@@ -26,8 +26,8 @@ export const nomidotTasks: NomidotTask[] = [
   // createValidator,
   createPreimage,
   createMotion,
-  // createProposal,
-  // createProposalStatus,
+  createProposal,
+  createProposalStatus,
   createReferendum,
   createReferendumStatus,
 ];

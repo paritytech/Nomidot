@@ -49,26 +49,26 @@ const createMotion: Task<NomidotMotion[]> = {
           l.error(
             `Expected ProposalIndex missing on the event: ${motionRawEvent.ProposalIndex}`
           );
-          return null;
+          return;
         }
 
         if (!motionRawEvent.AccountId) {
           l.error(
             `Expected AccountId missing on the event: ${motionRawEvent.AccountId}`
           );
-          return null;
+          return;
         }
 
         if (!motionRawEvent.Hash) {
           l.error(`Expected Hash missing on the event: ${motionRawEvent.Hash}`);
-          return null;
+          return;
         }
 
         if (!motionRawEvent.MemberCount) {
           l.error(
             `Expected MemberCount missing on the event: ${motionRawEvent.MemberCount}`
           );
-          return null;
+          return;
         }
 
         const motionProposalRaw = await api.query.council.proposalOf.at(
@@ -80,10 +80,10 @@ const createMotion: Task<NomidotMotion[]> = {
 
         if (!motionProposal) {
           l.log(`No motionProposal found for the hash ${motionRawEvent.Hash}`);
-          return null;
+          return;
         }
 
-        const proposal = api.createType('Proposal', motionProposal.toU8a(true));
+        const proposal = api.createType('Proposal', motionProposal);
 
         const { meta, method, section } = api.registry.findMetaCall(
           proposal.callIndex
@@ -118,50 +118,46 @@ const createMotion: Task<NomidotMotion[]> = {
       })
     );
 
+    console.log('-------results:', JSON.stringify(results, null, 4));
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotMotion[]) => {
     await Promise.all(
       value.map(async prop => {
-        // const { author, depositAmount, preimageHash, status } = prop;
-        // const preimages = await prisma.preimages({
-        //   where: { hash: preimageHash.toString() },
-        // });
-        // // preimage aren't uniquely identified with their hash
-        // // however, there can only be one preimage with the status "Noted"
-        // // at a time
-        // const notedPreimage =
-        //   preimages.length &&
-        //   preimages.filter(async preimage => {
-        //     await prisma.preimageStatuses({
-        //       where: {
-        //         AND: [{ id: preimage.id }, { status: preimageStatus.NOTED }],
-        //       },
-        //     });
-        //   })[0];
-        // await prisma.createMotion({
-        //   author: author.toString(),
-        //   depositAmount: depositAmount.toString(),
-        //   preimage: notedPreimage
-        //     ? {
-        //         connect: {
-        //           id: notedPreimage.id,
-        //         },
-        //       }
-        //     : undefined,
-        //   preimageHash: preimageHash.toString(),
-        //   motionId,
-        //   motionStatus: {
-        //     create: {
-        //       blockNumber: {
-        //         connect: {
-        //           number: blockNumber.toNumber(),
-        //         },
-        //       },
-        //       status,
-        //     },
-        //   },
-        // });
+        const {
+          author,
+          memberCount,
+          metaDescription,
+          method,
+          motionProposalArguments: mPA,
+          motionProposalHash,
+          motionProposalId,
+          section,
+          status,
+        } = prop;
+
+        await prisma.createMotion({
+          author: author.toString(),
+          memberCount,
+          metaDescription,
+          method,
+          motionProposalArguments: {
+            create: mPA,
+          },
+          motionProposalHash: motionProposalHash.toString(),
+          motionProposalId,
+          section,
+          status: {
+            create: {
+              blockNumber: {
+                connect: {
+                  number: blockNumber.toNumber(),
+                },
+              },
+              status,
+            },
+          },
+        });
       })
     );
   },
