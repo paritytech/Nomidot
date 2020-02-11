@@ -89,13 +89,29 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
   };
 
   /**
+   * Clear the txQueue.
+   */
+  const clear = (): void => {
+    const msg: string[] = [];
+    txQueue.forEach(({ extrinsic: { method }, unsubscribe }) => {
+      msg.push(`${method.sectionName}.${method.methodName}`);
+      unsubscribe();
+    });
+    setTxQueue([]);
+    l.log('Cleared all extrinsics');
+    cancelObservable.next({
+      msg: `cleared the following extrinsic(s): ${msg.join(' ')}`,
+    });
+  };
+
+  /**
    * Unsubscribe the tx with id `extrinsicId`
    */
   const closeTxSubscription = (extrinsicId: number): void => {
     const tx = txQueue.find(tx => tx.id === extrinsicId);
     if (tx) {
       tx.unsubscribe();
-      setTxQueue(txQueue.splice(txQueue.indexOf(tx), 1));
+      clear(); // Clear all the txqueue once one if finalized
     }
   };
 
@@ -203,22 +219,6 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
       unsubscribe: () => {
         subscription.unsubscribe();
       },
-    });
-  };
-
-  /**
-   * Clear the txQueue.
-   */
-  const clear = (): void => {
-    const msg: string[] = [];
-    txQueue.forEach(({ extrinsic: { method }, unsubscribe }) => {
-      msg.push(`${method.sectionName}.${method.methodName}`);
-      unsubscribe();
-    });
-    setTxQueue([]);
-    l.log('Cleared all extrinsics');
-    cancelObservable.next({
-      msg: `cleared the following extrinsic(s): ${msg.join(' ')}`,
     });
   };
 
