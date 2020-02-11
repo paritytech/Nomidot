@@ -111,7 +111,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
     const tx = txQueue.find(tx => tx.id === extrinsicId);
     if (tx) {
       tx.unsubscribe();
-      clear(); // Clear all the txqueue once one if finalized
+      setTxQueue(txQueue.filter(tx => tx.id !== extrinsicId));
     }
   };
 
