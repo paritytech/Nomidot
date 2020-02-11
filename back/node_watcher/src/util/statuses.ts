@@ -20,3 +20,11 @@ export const referendumStatus = {
   PASSED: 'Passed',
   STARTED: 'Started',
 };
+
+export const motionStatus = {
+  EXECUTED: 'Executed',
+  APPROVED: 'Approved',
+  DISAPPROVED: 'Disapproved',
+  PROPOSED: 'Proposed',
+  VOTED: 'Voted',
+};
