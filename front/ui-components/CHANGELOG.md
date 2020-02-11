@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.20](https://github.com/paritytech/Nomidot/compare/v0.3.19...v0.3.20) (2020-02-11)
+
+
+### Bug Fixes
+
+* Remove useless stuff from context & ui-components ([#161](https://github.com/paritytech/Nomidot/issues/161)) ([99466a7](https://github.com/paritytech/Nomidot/commit/99466a7a7d012326d8d536f848ac31f75ed7812d))
+
+
+
+
+
 ## [0.3.19](https://github.com/paritytech/Nomidot/compare/v0.3.18...v0.3.19) (2020-02-06)
 
 

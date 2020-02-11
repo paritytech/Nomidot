@@ -93,7 +93,6 @@ export function InputAddress(props: InputAddressProps): React.ReactElement {
 
   return (
     <WrapperDiv>
-      Current Account:
       <DropdownWrapper>
         <IdentityIcon value={value} size={20} />
         <Margin right='small' />
