@@ -22,11 +22,10 @@ type HeartBeat {
 type OfflineValidator {
   id: ID! @id
   sessionIndex: Session! @relation(name: "OfflineValidatorAtSession", link: INLINE)
-  wasThereAnOffenceThisSession: Boolean!
   validatorId: String!
   total: String!
   own: String!
-  others: [String!]! @scalarList(strategy: RELATION)
+  others: [Json!]! @scalarList(strategy: RELATION)
 }
 
 type Era {

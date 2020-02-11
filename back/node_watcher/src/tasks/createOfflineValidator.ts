@@ -7,7 +7,7 @@ import { BlockNumber, EventRecord, FullIdentification, Hash, IdentificationTuple
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { SomeOfflineEvent, Task, NomidotOfflineValidator } from './types';
+import { Task, NomidotOfflineValidator } from './types';
 import { filterEvents } from '../util/filterEvents';
 
 const l = logger('Task: OfflineValidator');
@@ -22,9 +22,6 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
 
     // At the end of the session, these validators were found to be offline.
     const someOfflineEvents: EventRecord[] = filterEvents(events, 'imOnline', 'SomeOffline')
-
-    // At the end of the session, no offence was committed.
-    const allGoodEvents: EventRecord[] = filterEvents(events, 'imOnline', 'AllGood');
 
     let result: NomidotOfflineValidator[] = [];
 
@@ -41,7 +38,6 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
 
             result.push({
               sessionIndex,
-              wasThereAnOffenceThisSession: !!allGoodEvents.length,
               validatorId,
               total,
               own,
@@ -59,7 +55,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   write: async (blockNumber: BlockNumber, offlineValidators: NomidotOfflineValidator[]) => {
     await Promise.all(
       offlineValidators.map(async (offlineValidator: NomidotOfflineValidator) => {
-      const { sessionIndex, wasThereAnOffenceThisSession, validatorId, total, own, others } = offlineValidator;
+      const { sessionIndex, validatorId, total, own, others } = offlineValidator;
 
       await prisma.createOfflineValidator({
         sessionIndex: {
@@ -67,11 +63,17 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
             index: sessionIndex.toNumber()
           }
         },
-        wasThereAnOffenceThisSession,
         validatorId: validatorId.toString(),
         total: total.toHex(),
         own: own.toHex(),
-        others
+        others: {
+          set: others.map(other => {
+            return {
+              who: other.who.toHex(),
+              value: other.value.toHex()
+            }
+          })
+        }
       })
     })
   )}

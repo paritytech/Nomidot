@@ -53,15 +53,10 @@ export interface NomidotHeartBeat {
 
 export interface NomidotOfflineValidator {
   sessionIndex: SessionIndex;
-  wasThereAnOffenceThisSession: boolean;
   validatorId: ValidatorId;
   total: Compact<Balance>
   own: Compact<Balance>
   others: IndividualExposure[]
-}
-
-export interface SomeOfflineEvent {
-  someOffline: Array<IdentificationTuple>
 }
 
 export interface NomidotSession {

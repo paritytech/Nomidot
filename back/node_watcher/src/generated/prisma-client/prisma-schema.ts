@@ -485,6 +485,8 @@ input HeartBeatWhereUniqueInput {
   id: ID
 }
 
+scalar Json
+
 scalar Long
 
 type Mutation {
@@ -796,11 +798,10 @@ input NominationWhereUniqueInput {
 type OfflineValidator {
   id: ID!
   sessionIndex: Session!
-  wasThereAnOffenceThisSession: Boolean!
   validatorId: String!
   total: String!
   own: String!
-  others: [String!]!
+  others: [Json!]!
 }
 
 type OfflineValidatorConnection {
@@ -812,7 +813,6 @@ type OfflineValidatorConnection {
 input OfflineValidatorCreateInput {
   id: ID
   sessionIndex: SessionCreateOneInput!
-  wasThereAnOffenceThisSession: Boolean!
   validatorId: String!
   total: String!
   own: String!
@@ -820,7 +820,7 @@ input OfflineValidatorCreateInput {
 }
 
 input OfflineValidatorCreateothersInput {
-  set: [String!]
+  set: [Json!]
 }
 
 type OfflineValidatorEdge {
@@ -831,8 +831,6 @@ type OfflineValidatorEdge {
 enum OfflineValidatorOrderByInput {
   id_ASC
   id_DESC
-  wasThereAnOffenceThisSession_ASC
-  wasThereAnOffenceThisSession_DESC
   validatorId_ASC
   validatorId_DESC
   total_ASC
@@ -843,11 +841,10 @@ enum OfflineValidatorOrderByInput {
 
 type OfflineValidatorPreviousValues {
   id: ID!
-  wasThereAnOffenceThisSession: Boolean!
   validatorId: String!
   total: String!
   own: String!
-  others: [String!]!
+  others: [Json!]!
 }
 
 type OfflineValidatorSubscriptionPayload {
@@ -870,7 +867,6 @@ input OfflineValidatorSubscriptionWhereInput {
 
 input OfflineValidatorUpdateInput {
   sessionIndex: SessionUpdateOneRequiredInput
-  wasThereAnOffenceThisSession: Boolean
   validatorId: String
   total: String
   own: String
@@ -878,7 +874,6 @@ input OfflineValidatorUpdateInput {
 }
 
 input OfflineValidatorUpdateManyMutationInput {
-  wasThereAnOffenceThisSession: Boolean
   validatorId: String
   total: String
   own: String
@@ -886,7 +881,7 @@ input OfflineValidatorUpdateManyMutationInput {
 }
 
 input OfflineValidatorUpdateothersInput {
-  set: [String!]
+  set: [Json!]
 }
 
 input OfflineValidatorWhereInput {
@@ -905,8 +900,6 @@ input OfflineValidatorWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   sessionIndex: SessionWhereInput
-  wasThereAnOffenceThisSession: Boolean
-  wasThereAnOffenceThisSession_not: Boolean
   validatorId: String
   validatorId_not: String
   validatorId_in: [String!]
