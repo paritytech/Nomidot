@@ -81,6 +81,33 @@ type Stake {
   totalStake: String!
 }
 
+type Motion {
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "MOTION_SEQUENCE" initialValue:1 allocationSize:1)
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: [MotionProposalArgument]! @relation(name: "ArgumentForMotionProposal")
+  motionProposalHash: String!
+  motionProposalId: Int! @unique
+  section: String!
+  status: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
+}
+
+type MotionProposalArgument {
+  id: ID! @id
+  name: String!
+  motion: Motion! @relation(name: "ArgumentForMotionProposal", link: INLINE)
+  value: String!
+}
+
+type MotionStatus {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "MotionStatusAtBlockNumber", link: INLINE)
+  motion: Motion! @relation(name: "MotionStatusFromMotion", link: INLINE)
+  status: String!
+}
+
 type Proposal {
   id: Int! @id(strategy: SEQUENCE) @sequence(name: "PROPOSAL_SEQUENCE" initialValue:1 allocationSize:1)
   author: String!

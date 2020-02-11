@@ -5,6 +5,7 @@
 import createBlockNumber from './createBlockNumber';
 import createEra from './createEra';
 import createOfflineValidator from './createOfflineValidator';
+import createMotion from './createMotion';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
@@ -24,17 +25,23 @@ export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
   createValidator,
-  createNomination
-  // createStake
-  // createOfflineValidator,
-  // createReward,
-  // createEra,
-  // createSlashing,
-  // createTotalIssuance,
-  // createValidator,
-  // createPreimage,
-  // createProposal,
-  // createProposalStatus,
-  // createReferendum,
-  // createReferendumStatus,
+  createNomination,
+  createStake,
+  createOfflineValidator,
+  createReward,
+  createEra,
+  createSlashing,
+  createTotalIssuance,
+  createValidator,
+  createPreimage,
+  createProposal,
+  createProposalStatus,
+  createReferendum,
+  createReferendumStatus,
+  createPreimage,
+  createMotion,
+  createProposal,
+  createProposalStatus,
+  createReferendum,
+  createReferendumStatus,
 ];
