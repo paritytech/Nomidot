@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.20](https://github.com/paritytech/Nomidot/compare/v0.3.19...v0.3.20) (2020-02-11)
+
+
+### Bug Fixes
+
+* dont allow package-lock.json into git ([#152](https://github.com/paritytech/Nomidot/issues/152)) ([573ca95](https://github.com/paritytech/Nomidot/commit/573ca95b44d769def87952625b93d0308ee35cd6))
+* referendum statuses not updated ([#150](https://github.com/paritytech/Nomidot/issues/150)) ([acc3578](https://github.com/paritytech/Nomidot/commit/acc3578aec7602c0fc2cf3f00721dde57697c11d))
+
+
+### Features
+
+* apollo client and provider ([#146](https://github.com/paritytech/Nomidot/issues/146)) ([47da1b9](https://github.com/paritytech/Nomidot/commit/47da1b9f01f04ca68cb80e731ad24fc4768753ea))
+
+
+
+
+
 ## [0.3.18](https://github.com/paritytech/Nomidot/compare/v0.3.17...v0.3.18) (2020-02-05)
 
 
