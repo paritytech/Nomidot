@@ -5,4 +5,3 @@
 export * from './keyring';
 export * from './provider';
 export * from './ui';
-export * from './validate';
