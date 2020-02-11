@@ -7,8 +7,8 @@ import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { Task, NomidotHeartBeat, Nomidot } from './types';
 import { filterEvents } from '../util/filterEvents';
+import { NomidotHeartBeat, Task } from './types';
 
 const l = logger('Task: HeartBeat');
 
@@ -17,12 +17,19 @@ const l = logger('Task: HeartBeat');
  */
 const createHeartBeat: Task<NomidotHeartBeat[]> = {
   name: 'createHeartBeat',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotHeartBeat[]> => {
+  read: async (
+    blockHash: Hash,
+    api: ApiPromise
+  ): Promise<NomidotHeartBeat[]> => {
     const events = await api.query.system.events.at(blockHash);
 
-    const heartbeatEvents: EventRecord[] = filterEvents(events, 'imOnline', 'HeartbeatReceived');
+    const heartbeatEvents: EventRecord[] = filterEvents(
+      events,
+      'imOnline',
+      'HeartbeatReceived'
+    );
 
-    let result: NomidotHeartBeat[] = [];
+    const result: NomidotHeartBeat[] = [];
 
     if (heartbeatEvents) {
       const sessionIndex = await api.query.session.currentIndex.at(blockHash);
@@ -31,10 +38,10 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
         data.map(authorityId => {
           result.push({
             authorityId,
-            sessionIndex
-          } as NomidotHeartBeat)
-        })
-      })
+            sessionIndex,
+          } as NomidotHeartBeat);
+        });
+      });
     }
 
     l.log(`Heartbeat: ${JSON.stringify(result)}`);
@@ -42,16 +49,18 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, heartbeats: NomidotHeartBeat[]) => {
-    await Promise.all(heartbeats.map(async ({ authorityId, sessionIndex }) => {
-      await prisma.createHeartBeat({
-        sessionIndex: {
-          connect: {
-            index: sessionIndex.toNumber()
-          }
-        },
-        authorityId: authorityId.toString()
+    await Promise.all(
+      heartbeats.map(async ({ authorityId, sessionIndex }) => {
+        await prisma.createHeartBeat({
+          sessionIndex: {
+            connect: {
+              index: sessionIndex.toNumber(),
+            },
+          },
+          authorityId: authorityId.toString(),
+        });
       })
-    }))
+    );
   },
 };
 

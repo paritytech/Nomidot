@@ -3,12 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, EventRecord, FullIdentification, Hash, IdentificationTuple, ValidatorId } from '@polkadot/types/interfaces';
+import {
+  BlockNumber,
+  EventRecord,
+  FullIdentification,
+  Hash,
+  ValidatorId,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { Task, NomidotOfflineValidator } from './types';
 import { filterEvents } from '../util/filterEvents';
+import { NomidotOfflineValidator, Task } from './types';
 
 const l = logger('Task: OfflineValidator');
 
@@ -17,19 +23,26 @@ const l = logger('Task: OfflineValidator');
  */
 const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   name: 'createOfflineValidator',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotOfflineValidator[]> => {
+  read: async (
+    blockHash: Hash,
+    api: ApiPromise
+  ): Promise<NomidotOfflineValidator[]> => {
     const events = await api.query.system.events.at(blockHash);
 
     // At the end of the session, these validators were found to be offline.
-    const someOfflineEvents: EventRecord[] = filterEvents(events, 'imOnline', 'SomeOffline')
+    const someOfflineEvents: EventRecord[] = filterEvents(
+      events,
+      'imOnline',
+      'SomeOffline'
+    );
 
-    let result: NomidotOfflineValidator[] = [];
+    const result: NomidotOfflineValidator[] = [];
 
     if (someOfflineEvents && someOfflineEvents.length) {
       const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
       someOfflineEvents.map(({ event: { data } }) => {
-        data.map((idTuples) => {
+        data.map(idTuples => {
           // @ts-ignore
           idTuples.map(idTuple => {
             const validatorId: ValidatorId = idTuple[0];
@@ -41,42 +54,54 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
               validatorId,
               total,
               own,
-              others
-            } as NomidotOfflineValidator)
-          })
-        })
-      })
+              others,
+            } as NomidotOfflineValidator);
+          });
+        });
+      });
     }
 
     l.log(`Offline Validators : ${JSON.stringify(result)}`);
 
     return result;
   },
-  write: async (blockNumber: BlockNumber, offlineValidators: NomidotOfflineValidator[]) => {
+  write: async (
+    blockNumber: BlockNumber,
+    offlineValidators: NomidotOfflineValidator[]
+  ) => {
     await Promise.all(
-      offlineValidators.map(async (offlineValidator: NomidotOfflineValidator) => {
-      const { sessionIndex, validatorId, total, own, others } = offlineValidator;
+      offlineValidators.map(
+        async (offlineValidator: NomidotOfflineValidator) => {
+          const {
+            sessionIndex,
+            validatorId,
+            total,
+            own,
+            others,
+          } = offlineValidator;
 
-      await prisma.createOfflineValidator({
-        sessionIndex: {
-          connect: {
-            index: sessionIndex.toNumber()
-          }
-        },
-        validatorId: validatorId.toString(),
-        total: total.toHex(),
-        own: own.toHex(),
-        others: {
-          set: others.map(other => {
-            return {
-              who: other.who.toHex(),
-              value: other.value.toHex()
-            }
-          })
+          await prisma.createOfflineValidator({
+            sessionIndex: {
+              connect: {
+                index: sessionIndex.toNumber(),
+              },
+            },
+            validatorId: validatorId.toString(),
+            total: total.toHex(),
+            own: own.toHex(),
+            others: {
+              set: others.map(other => {
+                return {
+                  who: other.who.toHex(),
+                  value: other.value.toHex(),
+                };
+              }),
+            },
+          });
         }
-      })
-    })
-  )}
+      )
+    );
+  },
 };
 
 export default createOfflineValidator;

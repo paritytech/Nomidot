@@ -28,7 +28,7 @@ const createBlockNumber: Task<NomidotBlock> = {
       startDateTime,
     };
 
-    // l.log(`NomidotBlock: ${JSON.stringify(result)}`);
+    l.log(`NomidotBlock: ${JSON.stringify(result)}`);
 
     return result;
   },
@@ -54,7 +54,7 @@ const createBlockNumber: Task<NomidotBlock> = {
       hash: hash.toHex(),
     } as BlockNumberCreateInput);
 
-    // l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
+    l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
   },
 };
 

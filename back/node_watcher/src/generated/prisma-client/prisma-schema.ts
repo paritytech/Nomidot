@@ -2657,9 +2657,10 @@ input ReferendumWhereUniqueInput {
 
 type Reward {
   id: ID!
-  amount: String!
   authoredBlock: BlockNumber!
-  recipients: [String!]!
+  sessionIndex: Session!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardConnection {
@@ -2670,13 +2671,10 @@ type RewardConnection {
 
 input RewardCreateInput {
   id: ID
-  amount: String!
   authoredBlock: BlockNumberCreateOneInput!
-  recipients: RewardCreaterecipientsInput
-}
-
-input RewardCreaterecipientsInput {
-  set: [String!]
+  sessionIndex: SessionCreateOneInput!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardEdge {
@@ -2687,14 +2685,16 @@ type RewardEdge {
 enum RewardOrderByInput {
   id_ASC
   id_DESC
-  amount_ASC
-  amount_DESC
+  treasuryReward_ASC
+  treasuryReward_DESC
+  validatorReward_ASC
+  validatorReward_DESC
 }
 
 type RewardPreviousValues {
   id: ID!
-  amount: String!
-  recipients: [String!]!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardSubscriptionPayload {
@@ -2716,18 +2716,15 @@ input RewardSubscriptionWhereInput {
 }
 
 input RewardUpdateInput {
-  amount: String
   authoredBlock: BlockNumberUpdateOneRequiredInput
-  recipients: RewardUpdaterecipientsInput
+  sessionIndex: SessionUpdateOneRequiredInput
+  treasuryReward: String
+  validatorReward: String
 }
 
 input RewardUpdateManyMutationInput {
-  amount: String
-  recipients: RewardUpdaterecipientsInput
-}
-
-input RewardUpdaterecipientsInput {
-  set: [String!]
+  treasuryReward: String
+  validatorReward: String
 }
 
 input RewardWhereInput {
@@ -2745,21 +2742,36 @@ input RewardWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  amount: String
-  amount_not: String
-  amount_in: [String!]
-  amount_not_in: [String!]
-  amount_lt: String
-  amount_lte: String
-  amount_gt: String
-  amount_gte: String
-  amount_contains: String
-  amount_not_contains: String
-  amount_starts_with: String
-  amount_not_starts_with: String
-  amount_ends_with: String
-  amount_not_ends_with: String
   authoredBlock: BlockNumberWhereInput
+  sessionIndex: SessionWhereInput
+  treasuryReward: String
+  treasuryReward_not: String
+  treasuryReward_in: [String!]
+  treasuryReward_not_in: [String!]
+  treasuryReward_lt: String
+  treasuryReward_lte: String
+  treasuryReward_gt: String
+  treasuryReward_gte: String
+  treasuryReward_contains: String
+  treasuryReward_not_contains: String
+  treasuryReward_starts_with: String
+  treasuryReward_not_starts_with: String
+  treasuryReward_ends_with: String
+  treasuryReward_not_ends_with: String
+  validatorReward: String
+  validatorReward_not: String
+  validatorReward_in: [String!]
+  validatorReward_not_in: [String!]
+  validatorReward_lt: String
+  validatorReward_lte: String
+  validatorReward_gt: String
+  validatorReward_gte: String
+  validatorReward_contains: String
+  validatorReward_not_contains: String
+  validatorReward_starts_with: String
+  validatorReward_not_starts_with: String
+  validatorReward_ends_with: String
+  validatorReward_not_ends_with: String
   AND: [RewardWhereInput!]
   OR: [RewardWhereInput!]
   NOT: [RewardWhereInput!]

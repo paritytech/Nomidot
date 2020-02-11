@@ -10,9 +10,7 @@ import {
   BlockNumber,
   EraIndex,
   EraPoints,
-  FullIdentification,
   Hash,
-  IdentificationTuple,
   Index,
   IndividualExposure,
   Moment,
@@ -54,9 +52,16 @@ export interface NomidotHeartBeat {
 export interface NomidotOfflineValidator {
   sessionIndex: SessionIndex;
   validatorId: ValidatorId;
-  total: Compact<Balance>
-  own: Compact<Balance>
-  others: IndividualExposure[]
+  total: Compact<Balance>;
+  own: Compact<Balance>;
+  others: IndividualExposure[];
+}
+
+export interface NomidotReward {
+  authoredBlock: Hash;
+  sessionIndex: SessionIndex;
+  treasuryReward: Balance; // remainder goes to treasury
+  validatorReward: Balance; // all validators get rewarded by this amount
 }
 
 export interface NomidotSession {
@@ -90,6 +95,7 @@ export type Nomidot =
   | NomidotProposal[]
   | NomidotReferendum[]
   | NomidotReferendumStatusUpdate[]
+  | NomidotReward[]
   | NomidotSession
   | NomidotSlashing[]
   | NomidotTotalIssuance

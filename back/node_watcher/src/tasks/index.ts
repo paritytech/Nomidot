@@ -4,23 +4,25 @@
 
 import createBlockNumber from './createBlockNumber';
 import createEra from './createEra';
+import createOfflineValidator from './createOfflineValidator';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
 import createReferendum from './createReferendum';
 import createReferendumStatus from './createReferendumStatus';
+import createReward from './createReward';
 import createSession from './createSession';
 import createSlashing from './createSlashing';
 import createTotalIssuance from './createTotalIssuance';
 import createValidator from './createValidator';
 import { NomidotTask } from './types';
-import createOfflineValidator from './createOfflineValidator';
 
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
-  createOfflineValidator,
+  // createOfflineValidator,
+  createReward,
   // createEra,
   // createSlashing,
   // createTotalIssuance,
