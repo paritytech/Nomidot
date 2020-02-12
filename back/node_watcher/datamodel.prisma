@@ -90,6 +90,8 @@ type Motion {
   motionProposalArguments: [MotionProposalArgument]! @relation(name: "ArgumentForMotionProposal")
   motionProposalHash: String!
   motionProposalId: Int! @unique
+  preimage: Preimage @relation(name: "PreimageForMotion")
+  preimageHash: String
   section: String!
   status: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
 }
@@ -132,6 +134,7 @@ type Preimage {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: Motion @relation(name: "PreimageForMotion", link: INLINE)
   proposal: Proposal @relation(name: "PreimageForProposal", link: INLINE)
   preimageArguments: [PreimageArgument]! @relation(name: "ArgumentForPreimage")
   preimageStatus: [PreimageStatus]! @relation(name: "PreimageStatusFromPreimage")
