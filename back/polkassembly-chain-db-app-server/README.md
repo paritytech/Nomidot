@@ -34,3 +34,16 @@ Make sure to populate the nodewatcher db to some extent locally before trying ou
 3. Run `PRISMA_ENDPOINT=http://127.0.0.1:4467 yarn start`
 
 * N.B. you can also go to `http://localhost:4467/_admin` to view the Prisma admin dashboard for the staging DB.
+
+#### How to add/modify a query/mutation
+1. Make sure the chain-db is up to date with the latest queries on http://127.0.0.1:4466
+2. Grab the latest schema PRISMA_ENDPOINT=http://0.0.0.0:4466 graphql get-schema --project prisma
+3. Copy prisma data model from node_watcher to the prisma directory `cp ../node_watcher/datamodel.prisma ./prisma`
+4. Generate the new prisma filed `PRISMA_ENDPOINT=http://0.0.0.0:4466 yarn prisma deploy`
+5. Copy from `src/generated/prisma-client/prisma-schema.ts` the mutations/queries you want to add to src/schema.grapjql, e.g 
+```js
+  blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
+  blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
+```
+6. Manually add the resolvers in `src/resolvers`.
+7. Test your new query launching `PRISMA_ENDPOINT=http://0.0.0.0:4466 yarn start` and visiting http://127.0.0.1:4010

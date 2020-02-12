@@ -33,6 +33,6 @@ const options = {
 
 server.start(options, ({ port }) =>
   console.log(
-    `Polkassembly chain-db front server running on http://localhost:${port}`
+    `Polkassembly chain-db app server running on http://localhost:${port}`
   )
 );

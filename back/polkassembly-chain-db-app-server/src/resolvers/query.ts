@@ -5,6 +5,96 @@
 import { Context, Selectors } from '../types';
 
 const Query = {
+  motionStatus(
+    parent: any,
+    { MotionStatusWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motionStatus(MotionStatusWhereUniqueInput);
+  },
+
+  motionStatuses(
+    parent: any,
+    {
+      MotionStatusWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motionStatuses({
+      where: MotionStatusWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+
+  motionProposalArgument(
+    parent: any,
+    { MotionProposalArgumentWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motionProposalArgument(
+      MotionProposalArgumentWhereUniqueInput
+    );
+  },
+
+  motionProposalArguments(
+    parent: any,
+    {
+      MotionProposalArgumentWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motionProposalArguments({
+      where: MotionProposalArgumentWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+
+  motion(
+    parent: any,
+    { MotionWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motion(MotionWhereUniqueInput);
+  },
+
+  motions(
+    parent: any,
+    { MotionWhereInput, orderBy, skip, after, before, first, last }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motions({
+      where: MotionWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+
   blockNumber(
     parent: any,
     { blockNumberWhereUniqueInput }: Selectors,

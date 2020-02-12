@@ -10,6 +10,18 @@ type AggregateEra {
   count: Int!
 }
 
+type AggregateMotion {
+  count: Int!
+}
+
+type AggregateMotionProposalArgument {
+  count: Int!
+}
+
+type AggregateMotionStatus {
+  count: Int!
+}
+
 type AggregateNomination {
   count: Int!
 }
@@ -378,6 +390,785 @@ input EraWhereUniqueInput {
 
 scalar Long
 
+type Motion {
+  id: Int!
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument!]
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: Preimage
+  preimageHash: String
+  section: String!
+  status(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
+}
+
+type MotionConnection {
+  pageInfo: PageInfo!
+  edges: [MotionEdge]!
+  aggregate: AggregateMotion!
+}
+
+input MotionCreateInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
+  section: String!
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateOneWithoutMotionProposalArgumentsInput {
+  create: MotionCreateWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutStatusInput {
+  create: MotionCreateWithoutStatusInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateWithoutMotionProposalArgumentsInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
+  section: String!
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutPreimageInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutStatusInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
+  section: String!
+}
+
+type MotionEdge {
+  node: Motion!
+  cursor: String!
+}
+
+enum MotionOrderByInput {
+  id_ASC
+  id_DESC
+  author_ASC
+  author_DESC
+  memberCount_ASC
+  memberCount_DESC
+  metaDescription_ASC
+  metaDescription_DESC
+  method_ASC
+  method_DESC
+  motionProposalHash_ASC
+  motionProposalHash_DESC
+  motionProposalId_ASC
+  motionProposalId_DESC
+  preimageHash_ASC
+  preimageHash_DESC
+  section_ASC
+  section_DESC
+}
+
+type MotionPreviousValues {
+  id: Int!
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+}
+
+type MotionProposalArgument {
+  id: ID!
+  name: String!
+  motion: Motion!
+  value: String!
+}
+
+type MotionProposalArgumentConnection {
+  pageInfo: PageInfo!
+  edges: [MotionProposalArgumentEdge]!
+  aggregate: AggregateMotionProposalArgument!
+}
+
+input MotionProposalArgumentCreateInput {
+  id: ID
+  name: String!
+  motion: MotionCreateOneWithoutMotionProposalArgumentsInput!
+  value: String!
+}
+
+input MotionProposalArgumentCreateManyWithoutMotionInput {
+  create: [MotionProposalArgumentCreateWithoutMotionInput!]
+  connect: [MotionProposalArgumentWhereUniqueInput!]
+}
+
+input MotionProposalArgumentCreateWithoutMotionInput {
+  id: ID
+  name: String!
+  value: String!
+}
+
+type MotionProposalArgumentEdge {
+  node: MotionProposalArgument!
+  cursor: String!
+}
+
+enum MotionProposalArgumentOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  value_ASC
+  value_DESC
+}
+
+type MotionProposalArgumentPreviousValues {
+  id: ID!
+  name: String!
+  value: String!
+}
+
+input MotionProposalArgumentScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  AND: [MotionProposalArgumentScalarWhereInput!]
+  OR: [MotionProposalArgumentScalarWhereInput!]
+  NOT: [MotionProposalArgumentScalarWhereInput!]
+}
+
+type MotionProposalArgumentSubscriptionPayload {
+  mutation: MutationType!
+  node: MotionProposalArgument
+  updatedFields: [String!]
+  previousValues: MotionProposalArgumentPreviousValues
+}
+
+input MotionProposalArgumentSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MotionProposalArgumentWhereInput
+  AND: [MotionProposalArgumentSubscriptionWhereInput!]
+  OR: [MotionProposalArgumentSubscriptionWhereInput!]
+  NOT: [MotionProposalArgumentSubscriptionWhereInput!]
+}
+
+input MotionProposalArgumentUpdateInput {
+  name: String
+  motion: MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyDataInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyMutationInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyWithoutMotionInput {
+  create: [MotionProposalArgumentCreateWithoutMotionInput!]
+  delete: [MotionProposalArgumentWhereUniqueInput!]
+  connect: [MotionProposalArgumentWhereUniqueInput!]
+  set: [MotionProposalArgumentWhereUniqueInput!]
+  disconnect: [MotionProposalArgumentWhereUniqueInput!]
+  update: [MotionProposalArgumentUpdateWithWhereUniqueWithoutMotionInput!]
+  upsert: [MotionProposalArgumentUpsertWithWhereUniqueWithoutMotionInput!]
+  deleteMany: [MotionProposalArgumentScalarWhereInput!]
+  updateMany: [MotionProposalArgumentUpdateManyWithWhereNestedInput!]
+}
+
+input MotionProposalArgumentUpdateManyWithWhereNestedInput {
+  where: MotionProposalArgumentScalarWhereInput!
+  data: MotionProposalArgumentUpdateManyDataInput!
+}
+
+input MotionProposalArgumentUpdateWithoutMotionDataInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateWithWhereUniqueWithoutMotionInput {
+  where: MotionProposalArgumentWhereUniqueInput!
+  data: MotionProposalArgumentUpdateWithoutMotionDataInput!
+}
+
+input MotionProposalArgumentUpsertWithWhereUniqueWithoutMotionInput {
+  where: MotionProposalArgumentWhereUniqueInput!
+  update: MotionProposalArgumentUpdateWithoutMotionDataInput!
+  create: MotionProposalArgumentCreateWithoutMotionInput!
+}
+
+input MotionProposalArgumentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  motion: MotionWhereInput
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  AND: [MotionProposalArgumentWhereInput!]
+  OR: [MotionProposalArgumentWhereInput!]
+  NOT: [MotionProposalArgumentWhereInput!]
+}
+
+input MotionProposalArgumentWhereUniqueInput {
+  id: ID
+}
+
+type MotionStatus {
+  id: ID!
+  blockNumber: BlockNumber!
+  motion: Motion!
+  status: String!
+}
+
+type MotionStatusConnection {
+  pageInfo: PageInfo!
+  edges: [MotionStatusEdge]!
+  aggregate: AggregateMotionStatus!
+}
+
+input MotionStatusCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  motion: MotionCreateOneWithoutStatusInput!
+  status: String!
+}
+
+input MotionStatusCreateManyWithoutMotionInput {
+  create: [MotionStatusCreateWithoutMotionInput!]
+  connect: [MotionStatusWhereUniqueInput!]
+}
+
+input MotionStatusCreateWithoutMotionInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  status: String!
+}
+
+type MotionStatusEdge {
+  node: MotionStatus!
+  cursor: String!
+}
+
+enum MotionStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type MotionStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input MotionStatusScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [MotionStatusScalarWhereInput!]
+  OR: [MotionStatusScalarWhereInput!]
+  NOT: [MotionStatusScalarWhereInput!]
+}
+
+type MotionStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: MotionStatus
+  updatedFields: [String!]
+  previousValues: MotionStatusPreviousValues
+}
+
+input MotionStatusSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MotionStatusWhereInput
+  AND: [MotionStatusSubscriptionWhereInput!]
+  OR: [MotionStatusSubscriptionWhereInput!]
+  NOT: [MotionStatusSubscriptionWhereInput!]
+}
+
+input MotionStatusUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  motion: MotionUpdateOneRequiredWithoutStatusInput
+  status: String
+}
+
+input MotionStatusUpdateManyDataInput {
+  status: String
+}
+
+input MotionStatusUpdateManyMutationInput {
+  status: String
+}
+
+input MotionStatusUpdateManyWithoutMotionInput {
+  create: [MotionStatusCreateWithoutMotionInput!]
+  delete: [MotionStatusWhereUniqueInput!]
+  connect: [MotionStatusWhereUniqueInput!]
+  set: [MotionStatusWhereUniqueInput!]
+  disconnect: [MotionStatusWhereUniqueInput!]
+  update: [MotionStatusUpdateWithWhereUniqueWithoutMotionInput!]
+  upsert: [MotionStatusUpsertWithWhereUniqueWithoutMotionInput!]
+  deleteMany: [MotionStatusScalarWhereInput!]
+  updateMany: [MotionStatusUpdateManyWithWhereNestedInput!]
+}
+
+input MotionStatusUpdateManyWithWhereNestedInput {
+  where: MotionStatusScalarWhereInput!
+  data: MotionStatusUpdateManyDataInput!
+}
+
+input MotionStatusUpdateWithoutMotionDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  status: String
+}
+
+input MotionStatusUpdateWithWhereUniqueWithoutMotionInput {
+  where: MotionStatusWhereUniqueInput!
+  data: MotionStatusUpdateWithoutMotionDataInput!
+}
+
+input MotionStatusUpsertWithWhereUniqueWithoutMotionInput {
+  where: MotionStatusWhereUniqueInput!
+  update: MotionStatusUpdateWithoutMotionDataInput!
+  create: MotionStatusCreateWithoutMotionInput!
+}
+
+input MotionStatusWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  motion: MotionWhereInput
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [MotionStatusWhereInput!]
+  OR: [MotionStatusWhereInput!]
+  NOT: [MotionStatusWhereInput!]
+}
+
+input MotionStatusWhereUniqueInput {
+  id: ID
+}
+
+type MotionSubscriptionPayload {
+  mutation: MutationType!
+  node: Motion
+  updatedFields: [String!]
+  previousValues: MotionPreviousValues
+}
+
+input MotionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MotionWhereInput
+  AND: [MotionSubscriptionWhereInput!]
+  OR: [MotionSubscriptionWhereInput!]
+  NOT: [MotionSubscriptionWhereInput!]
+}
+
+input MotionUpdateInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
+  section: String
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateManyMutationInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+}
+
+input MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput {
+  create: MotionCreateWithoutMotionProposalArgumentsInput
+  update: MotionUpdateWithoutMotionProposalArgumentsDataInput
+  upsert: MotionUpsertWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionUpdateOneRequiredWithoutStatusInput {
+  create: MotionCreateWithoutStatusInput
+  update: MotionUpdateWithoutStatusDataInput
+  upsert: MotionUpsertWithoutStatusInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionUpdateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  update: MotionUpdateWithoutPreimageDataInput
+  upsert: MotionUpsertWithoutPreimageInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: MotionWhereUniqueInput
+}
+
+input MotionUpdateWithoutMotionProposalArgumentsDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
+  section: String
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutPreimageDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutStatusDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
+  section: String
+}
+
+input MotionUpsertWithoutMotionProposalArgumentsInput {
+  update: MotionUpdateWithoutMotionProposalArgumentsDataInput!
+  create: MotionCreateWithoutMotionProposalArgumentsInput!
+}
+
+input MotionUpsertWithoutPreimageInput {
+  update: MotionUpdateWithoutPreimageDataInput!
+  create: MotionCreateWithoutPreimageInput!
+}
+
+input MotionUpsertWithoutStatusInput {
+  update: MotionUpdateWithoutStatusDataInput!
+  create: MotionCreateWithoutStatusInput!
+}
+
+input MotionWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  author: String
+  author_not: String
+  author_in: [String!]
+  author_not_in: [String!]
+  author_lt: String
+  author_lte: String
+  author_gt: String
+  author_gte: String
+  author_contains: String
+  author_not_contains: String
+  author_starts_with: String
+  author_not_starts_with: String
+  author_ends_with: String
+  author_not_ends_with: String
+  memberCount: Int
+  memberCount_not: Int
+  memberCount_in: [Int!]
+  memberCount_not_in: [Int!]
+  memberCount_lt: Int
+  memberCount_lte: Int
+  memberCount_gt: Int
+  memberCount_gte: Int
+  metaDescription: String
+  metaDescription_not: String
+  metaDescription_in: [String!]
+  metaDescription_not_in: [String!]
+  metaDescription_lt: String
+  metaDescription_lte: String
+  metaDescription_gt: String
+  metaDescription_gte: String
+  metaDescription_contains: String
+  metaDescription_not_contains: String
+  metaDescription_starts_with: String
+  metaDescription_not_starts_with: String
+  metaDescription_ends_with: String
+  metaDescription_not_ends_with: String
+  method: String
+  method_not: String
+  method_in: [String!]
+  method_not_in: [String!]
+  method_lt: String
+  method_lte: String
+  method_gt: String
+  method_gte: String
+  method_contains: String
+  method_not_contains: String
+  method_starts_with: String
+  method_not_starts_with: String
+  method_ends_with: String
+  method_not_ends_with: String
+  motionProposalArguments_every: MotionProposalArgumentWhereInput
+  motionProposalArguments_some: MotionProposalArgumentWhereInput
+  motionProposalArguments_none: MotionProposalArgumentWhereInput
+  motionProposalHash: String
+  motionProposalHash_not: String
+  motionProposalHash_in: [String!]
+  motionProposalHash_not_in: [String!]
+  motionProposalHash_lt: String
+  motionProposalHash_lte: String
+  motionProposalHash_gt: String
+  motionProposalHash_gte: String
+  motionProposalHash_contains: String
+  motionProposalHash_not_contains: String
+  motionProposalHash_starts_with: String
+  motionProposalHash_not_starts_with: String
+  motionProposalHash_ends_with: String
+  motionProposalHash_not_ends_with: String
+  motionProposalId: Int
+  motionProposalId_not: Int
+  motionProposalId_in: [Int!]
+  motionProposalId_not_in: [Int!]
+  motionProposalId_lt: Int
+  motionProposalId_lte: Int
+  motionProposalId_gt: Int
+  motionProposalId_gte: Int
+  preimage: PreimageWhereInput
+  preimageHash: String
+  preimageHash_not: String
+  preimageHash_in: [String!]
+  preimageHash_not_in: [String!]
+  preimageHash_lt: String
+  preimageHash_lte: String
+  preimageHash_gt: String
+  preimageHash_gte: String
+  preimageHash_contains: String
+  preimageHash_not_contains: String
+  preimageHash_starts_with: String
+  preimageHash_not_starts_with: String
+  preimageHash_ends_with: String
+  preimageHash_not_ends_with: String
+  section: String
+  section_not: String
+  section_in: [String!]
+  section_not_in: [String!]
+  section_lt: String
+  section_lte: String
+  section_gt: String
+  section_gte: String
+  section_contains: String
+  section_not_contains: String
+  section_starts_with: String
+  section_not_starts_with: String
+  section_ends_with: String
+  section_not_ends_with: String
+  status_every: MotionStatusWhereInput
+  status_some: MotionStatusWhereInput
+  status_none: MotionStatusWhereInput
+  AND: [MotionWhereInput!]
+  OR: [MotionWhereInput!]
+  NOT: [MotionWhereInput!]
+}
+
+input MotionWhereUniqueInput {
+  id: Int
+  motionProposalId: Int
+}
+
 type Mutation {
   createBlockNumber(data: BlockNumberCreateInput!): BlockNumber!
   updateBlockNumber(data: BlockNumberUpdateInput!, where: BlockNumberWhereUniqueInput!): BlockNumber
@@ -391,6 +1182,24 @@ type Mutation {
   upsertEra(where: EraWhereUniqueInput!, create: EraCreateInput!, update: EraUpdateInput!): Era!
   deleteEra(where: EraWhereUniqueInput!): Era
   deleteManyEras(where: EraWhereInput): BatchPayload!
+  createMotion(data: MotionCreateInput!): Motion!
+  updateMotion(data: MotionUpdateInput!, where: MotionWhereUniqueInput!): Motion
+  updateManyMotions(data: MotionUpdateManyMutationInput!, where: MotionWhereInput): BatchPayload!
+  upsertMotion(where: MotionWhereUniqueInput!, create: MotionCreateInput!, update: MotionUpdateInput!): Motion!
+  deleteMotion(where: MotionWhereUniqueInput!): Motion
+  deleteManyMotions(where: MotionWhereInput): BatchPayload!
+  createMotionProposalArgument(data: MotionProposalArgumentCreateInput!): MotionProposalArgument!
+  updateMotionProposalArgument(data: MotionProposalArgumentUpdateInput!, where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  updateManyMotionProposalArguments(data: MotionProposalArgumentUpdateManyMutationInput!, where: MotionProposalArgumentWhereInput): BatchPayload!
+  upsertMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!, create: MotionProposalArgumentCreateInput!, update: MotionProposalArgumentUpdateInput!): MotionProposalArgument!
+  deleteMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  deleteManyMotionProposalArguments(where: MotionProposalArgumentWhereInput): BatchPayload!
+  createMotionStatus(data: MotionStatusCreateInput!): MotionStatus!
+  updateMotionStatus(data: MotionStatusUpdateInput!, where: MotionStatusWhereUniqueInput!): MotionStatus
+  updateManyMotionStatuses(data: MotionStatusUpdateManyMutationInput!, where: MotionStatusWhereInput): BatchPayload!
+  upsertMotionStatus(where: MotionStatusWhereUniqueInput!, create: MotionStatusCreateInput!, update: MotionStatusUpdateInput!): MotionStatus!
+  deleteMotionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
+  deleteManyMotionStatuses(where: MotionStatusWhereInput): BatchPayload!
   createNomination(data: NominationCreateInput!): Nomination!
   updateNomination(data: NominationUpdateInput!, where: NominationWhereUniqueInput!): Nomination
   updateManyNominations(data: NominationUpdateManyMutationInput!, where: NominationWhereInput): BatchPayload!
@@ -686,6 +1495,7 @@ type Preimage {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: Motion
   proposal: Proposal
   preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument!]
   preimageStatus(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus!]
@@ -925,11 +1735,17 @@ input PreimageCreateInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
   section: String!
+}
+
+input PreimageCreateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  connect: PreimageWhereUniqueInput
 }
 
 input PreimageCreateOneWithoutPreimageArgumentsInput {
@@ -952,6 +1768,20 @@ input PreimageCreateOneWithoutReferendumInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageCreateWithoutMotionInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+  section: String!
+}
+
 input PreimageCreateWithoutPreimageArgumentsInput {
   id: ID
   author: String!
@@ -959,6 +1789,7 @@ input PreimageCreateWithoutPreimageArgumentsInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -972,6 +1803,7 @@ input PreimageCreateWithoutPreimageStatusInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -985,6 +1817,7 @@ input PreimageCreateWithoutProposalInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -998,6 +1831,7 @@ input PreimageCreateWithoutReferendumInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
@@ -1247,6 +2081,7 @@ input PreimageUpdateInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
@@ -1277,6 +2112,15 @@ input PreimageUpdateOneRequiredWithoutPreimageStatusInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageUpdateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  update: PreimageUpdateWithoutMotionDataInput
+  upsert: PreimageUpsertWithoutMotionInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PreimageWhereUniqueInput
+}
+
 input PreimageUpdateOneWithoutProposalInput {
   create: PreimageCreateWithoutProposalInput
   update: PreimageUpdateWithoutProposalDataInput
@@ -1295,12 +2139,26 @@ input PreimageUpdateOneWithoutReferendumInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageUpdateWithoutMotionDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+  section: String
+}
+
 input PreimageUpdateWithoutPreimageArgumentsDataInput {
   author: String
   depositAmount: String
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -1313,6 +2171,7 @@ input PreimageUpdateWithoutPreimageStatusDataInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -1325,6 +2184,7 @@ input PreimageUpdateWithoutProposalDataInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -1337,10 +2197,16 @@ input PreimageUpdateWithoutReferendumDataInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   section: String
+}
+
+input PreimageUpsertWithoutMotionInput {
+  update: PreimageUpdateWithoutMotionDataInput!
+  create: PreimageCreateWithoutMotionInput!
 }
 
 input PreimageUpsertWithoutPreimageArgumentsInput {
@@ -1448,6 +2314,7 @@ input PreimageWhereInput {
   method_not_starts_with: String
   method_ends_with: String
   method_not_ends_with: String
+  motion: MotionWhereInput
   proposal: ProposalWhereInput
   preimageArguments_every: PreimageArgumentWhereInput
   preimageArguments_some: PreimageArgumentWhereInput
@@ -1899,6 +2766,15 @@ type Query {
   era(where: EraWhereUniqueInput!): Era
   eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
   erasConnection(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EraConnection!
+  motion(where: MotionWhereUniqueInput!): Motion
+  motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
+  motionsConnection(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionConnection!
+  motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
+  motionProposalArgumentsConnection(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionProposalArgumentConnection!
+  motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
+  motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
+  motionStatusesConnection(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionStatusConnection!
   nomination(where: NominationWhereUniqueInput!): Nomination
   nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
   nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
@@ -2829,6 +3705,9 @@ input StakeWhereUniqueInput {
 type Subscription {
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
   era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
+  motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
+  motionProposalArgument(where: MotionProposalArgumentSubscriptionWhereInput): MotionProposalArgumentSubscriptionPayload
+  motionStatus(where: MotionStatusSubscriptionWhereInput): MotionStatusSubscriptionPayload
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
   preimage(where: PreimageSubscriptionWhereInput): PreimageSubscriptionPayload
   preimageArgument(where: PreimageArgumentSubscriptionWhereInput): PreimageArgumentSubscriptionPayload
