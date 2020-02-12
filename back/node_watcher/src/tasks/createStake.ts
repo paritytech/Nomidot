@@ -28,10 +28,10 @@ const createStake: Task<NomidotStake> = {
         const bondTotal = stakers.total.unwrap();
         totalStaked = totalStaked.add(bondTotal);
       }
-    })
+    });
 
     const result = {
-      totalStaked: createType(api.registry, 'Balance', totalStaked)
+      totalStaked: createType(api.registry, 'Balance', totalStaked),
     };
 
     l.log(`Nomidot Stake: ${JSON.stringify(result)}`);
@@ -42,20 +42,20 @@ const createStake: Task<NomidotStake> = {
     // check if the stake has changed from the previous block
     const isPreviousBlockStakeTheSame = await prisma.$exists.stake({
       blockNumber: {
-        number: blockNumber.toNumber()
+        number: blockNumber.toNumber(),
       },
-      totalStake: value.totalStaked.toHex()
-    })
+      totalStake: value.totalStaked.toHex(),
+    });
 
     if (!isPreviousBlockStakeTheSame) {
       await prisma.createStake({
         blockNumber: {
           connect: {
-            number: blockNumber.toNumber() - 1
-          }
+            number: blockNumber.toNumber() - 1,
+          },
         },
-        totalStake: value.totalStaked.toHex()
-      })
+        totalStake: value.totalStaked.toHex(),
+      });
     } else {
       l.log('Stake did not change. Skipping...');
     }

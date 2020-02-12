@@ -10,6 +10,7 @@ import {
   BlockNumber,
   EraIndex,
   EraPoints,
+  EventRecord,
   Hash,
   Index,
   IndividualExposure,
@@ -110,7 +111,7 @@ export type Nomidot =
   | NomidotSession
   | NomidotSlashing[]
   | NomidotStake
-  | NomidotTotalIssuance
+  | NomidotTotalIssuance;
 
 export type NomidotTask = Task<Nomidot>;
 
@@ -128,6 +129,11 @@ export interface NomidotProposalEvent {
 export interface NomidotProposalRawEvent {
   PropIndex?: number;
   Balance?: Balance;
+}
+
+export interface NomidotRewardEvent extends EventRecord {
+  treasuryReward: Balance;
+  validatorReward: Balance;
 }
 
 export interface NomidotMotion {

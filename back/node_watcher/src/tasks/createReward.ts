@@ -7,8 +7,8 @@ import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotReward, Task } from './types';
 import { filterEvents } from '../util/filterEvents';
+import { NomidotReward, Task } from './types';
 
 const l = logger('Task: Reward');
 
@@ -17,13 +17,14 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: async (
-    blockHash: Hash,
-    api: ApiPromise
-  ): Promise<NomidotReward[]> => {
+  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotReward[]> => {
     const events = await api.query.system.events.at(blockHash);
 
-    const rewardEvents: EventRecord[] = filterEvents(events, 'staking', 'Reward');
+    const rewardEvents: EventRecord[] = filterEvents(
+      events,
+      'staking',
+      'Reward'
+    );
 
     const result: NomidotReward[] = [];
 
@@ -31,17 +32,14 @@ const createReward: Task<NomidotReward[]> = {
       const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
       rewardEvents.map(({ event: { data } }) => {
-        l.error(data);
-        // @ts-ignore
-        const treasuryReward: Balance = data[1];
-        // @ts-ignore
-        const validatorReward: Balance = data[0];
+        const treasuryReward = api.createType('Balance', data[1]);
+        const validatorReward = api.createType('Balance', data[0]);
 
         result.push({
           authoredBlock: blockHash,
           sessionIndex,
           treasuryReward,
-          validatorReward
+          validatorReward,
         } as NomidotReward);
       });
     }
@@ -52,22 +50,29 @@ const createReward: Task<NomidotReward[]> = {
   },
   write: async (blockNumber: BlockNumber, rewards: NomidotReward[]) => {
     await Promise.all(
-      rewards.map(async ({ authoredBlock, sessionIndex, treasuryReward, validatorReward }) => {
-        await prisma.createReward({
-          authoredBlock: {
-            connect: {
-              hash: authoredBlock.toHex()
-            }
-          },
-          sessionIndex: {
-            connect: {
-              index: sessionIndex.toNumber()
-            }
-          },
-          treasuryReward: treasuryReward.toHex(),
-          validatorReward: validatorReward.toHex()
-        })
-      })
+      rewards.map(
+        async ({
+          authoredBlock,
+          sessionIndex,
+          treasuryReward,
+          validatorReward,
+        }) => {
+          await prisma.createReward({
+            authoredBlock: {
+              connect: {
+                hash: authoredBlock.toHex(),
+              },
+            },
+            sessionIndex: {
+              connect: {
+                index: sessionIndex.toNumber(),
+              },
+            },
+            treasuryReward: treasuryReward.toHex(),
+            validatorReward: validatorReward.toHex(),
+          });
+        }
+      )
     );
   },
 };

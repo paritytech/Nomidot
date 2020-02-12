@@ -8,6 +8,7 @@ import {
   EventRecord,
   FullIdentification,
   Hash,
+  IdentificationTuple,
   ValidatorId,
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
@@ -41,10 +42,11 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
     if (someOfflineEvents && someOfflineEvents.length) {
       const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
-      someOfflineEvents.map(({ event: { data } }) => {
+      someOfflineEvents.map(({ event: { data } }: EventRecord) => {
         data.map(idTuples => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
           // @ts-ignore
-          idTuples.map(idTuple => {
+          idTuples.map((idTuple: IdentificationTuple) => {
             const validatorId: ValidatorId = idTuple[0];
             const fullId: FullIdentification = idTuple[1];
             const { total, own, others } = fullId;

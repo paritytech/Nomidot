@@ -4,8 +4,9 @@
 
 import createBlockNumber from './createBlockNumber';
 import createEra from './createEra';
-import createOfflineValidator from './createOfflineValidator';
 import createMotion from './createMotion';
+import createNominationAndValidators from './createNominationAndValidators';
+import createOfflineValidator from './createOfflineValidator';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
@@ -18,7 +19,6 @@ import createStake from './createStake';
 import createTotalIssuance from './createTotalIssuance';
 // import createValidator from './createValidator';
 import { NomidotTask } from './types';
-import createNominationAndValidators from './createNominationAndValidators';
 
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
