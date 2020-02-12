@@ -3,9 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export const preimageStatus = {
-  NOTED: 'Noted',
-  REAPED: 'Reaped',
-  USED: 'Used',
+  INVALID: 'PreimageUsed',
+  MISSING: 'PreimageMissing',
+  NOTED: 'PreimageNoted',
+  REAPED: 'PreimageReaped',
+  USED: 'PreimageUsed',
 };
 
 export const proposalStatus = {
@@ -19,4 +21,12 @@ export const referendumStatus = {
   NOTPASSED: 'NotPassed',
   PASSED: 'Passed',
   STARTED: 'Started',
+};
+
+export const motionStatus = {
+  EXECUTED: 'Executed',
+  APPROVED: 'Approved',
+  DISAPPROVED: 'Disapproved',
+  PROPOSED: 'Proposed',
+  VOTED: 'Voted',
 };

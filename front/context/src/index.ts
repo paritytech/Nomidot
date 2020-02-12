@@ -9,5 +9,4 @@ export * from './HealthContext';
 export * from './KeyringContext';
 export * from './SystemContext';
 export * from './TxQueueContext';
-export * from './types';
 export * from './util';
