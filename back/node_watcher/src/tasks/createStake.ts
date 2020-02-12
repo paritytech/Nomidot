@@ -25,17 +25,20 @@ const createStake: Task<NomidotStake> = {
 
     await Promise.all(
       currentElected.map(async stashId => {
-        const stakersForThisValidator = await api.query.staking.stakers.at(blockHash, stashId);
+        const stakersForThisValidator = await api.query.staking.stakers.at(
+          blockHash,
+          stashId
+        );
         stakersInfoForEachCurrentElectedValidator.push(stakersForThisValidator);
       })
-    )
+    );
 
     stakersInfoForEachCurrentElectedValidator.map(exposure => {
       if (exposure) {
         const bondTotal = exposure.total.unwrap();
         totalStaked = totalStaked.add(bondTotal);
       }
-    })
+    });
 
     const result = {
       totalStaked: createType(api.registry, 'Balance', totalStaked),

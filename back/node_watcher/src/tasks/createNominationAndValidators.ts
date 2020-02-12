@@ -24,7 +24,9 @@ const l = logger('Task: Nomination + Validators');
 /*
  *  ======= Table (Nomination and Validators) ======
  */
-const createNominationAndValidators: Task<Set<NomidotNominationAndValidators>> = {
+const createNominationAndValidators: Task<Set<
+  NomidotNominationAndValidators
+>> = {
   name: 'createNominationAndValidators',
   read: async (
     blockHash: Hash,
@@ -155,10 +157,8 @@ const createNominationAndValidators: Task<Set<NomidotNominationAndValidators>> =
         },
         controller: validatorController.toHex(),
         stash: validatorStash.toHex(),
-        preferences: validatorPreferences
-          ? validatorPreferences.toHex()
-          : '',
-      })
+        preferences: validatorPreferences ? validatorPreferences.toHex() : '',
+      });
 
       await prisma.createNomination({
         session: {
@@ -171,7 +171,7 @@ const createNominationAndValidators: Task<Set<NomidotNominationAndValidators>> =
         nominatorController: nominatorController.toHex(),
         nominatorStash: nominatorStash.toHex(),
         stakedAmount: stakedAmount.toHex(),
-      })
+      });
     }
   },
 };
