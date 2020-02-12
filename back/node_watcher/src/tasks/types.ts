@@ -74,6 +74,7 @@ export type Nomidot =
   | NomidotEra
   | NomidotHeartBeat
   | NomidotMotion[]
+  | NomidotMotionStatusUpdate[]
   | NomidotPreimage[]
   | NomidotProposalStatusUpdate[]
   | NomidotProposal[]
@@ -140,7 +141,6 @@ export interface NomidotArgument {
   name: string;
   value: string;
 }
-
 type MotionStatus = typeof motionStatus[keyof typeof motionStatus];
 
 type ProposalStatus = typeof proposalStatus[keyof typeof proposalStatus];
@@ -172,6 +172,11 @@ export interface NomidotPreimageRawEvent {
 export interface NomidotProposalStatusUpdate {
   proposalId: number;
   status: ProposalStatus;
+}
+
+export interface NomidotMotionStatusUpdate {
+  motionProposalId: number;
+  status: MotionStatus;
 }
 
 export interface NomidotReferendumStatusUpdate {

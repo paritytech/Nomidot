@@ -5,6 +5,7 @@
 import createBlockNumber from './createBlockNumber';
 import createEra from './createEra';
 import createMotion from './createMotion';
+import createMotionStatus from './createMotionStatus';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
@@ -26,6 +27,7 @@ export const nomidotTasks: NomidotTask[] = [
   createValidator,
   createPreimage,
   createMotion,
+  createMotionStatus,
   createProposal,
   createProposalStatus,
   createReferendum,
