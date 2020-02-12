@@ -30,7 +30,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
     const events = await api.query.system.events.at(blockHash);
     const preimageEvents = events.filter(
       ({ event: { method, section } }) =>
-        section === 'democracy' && method === 'PreimageNoted'
+        section === 'democracy' && method === preimageStatus.NOTED
     );
 
     const results: NomidotPreimage[] = [];
@@ -130,6 +130,11 @@ const createPreimage: Task<NomidotPreimage[]> = {
           status,
         } = prop;
 
+        const motion = await prisma.motions({
+          where: { preimageHash: h.toString() },
+          orderBy: 'motionProposalId_DESC',
+        });
+
         const proposals = await prisma.proposals({
           where: { preimageHash: h.toString() },
           orderBy: 'proposalId_DESC',
@@ -140,6 +145,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           orderBy: 'referendumId_DESC',
         });
 
+        const m = motion[0];
         const p = proposals[0];
         const r = referenda[0];
 
@@ -149,13 +155,20 @@ const createPreimage: Task<NomidotPreimage[]> = {
           hash: h.toString(),
           metaDescription,
           method,
+          motion: m
+            ? {
+                connect: {
+                  id: m.id,
+                },
+              }
+            : null,
           proposal: p
             ? {
                 connect: {
                   id: p.id,
                 },
               }
-            : undefined,
+            : null,
           preimageArguments: {
             create: pA,
           },
@@ -175,7 +188,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
                   id: r.id,
                 },
               }
-            : undefined,
+            : null,
           section,
         });
       })

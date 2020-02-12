@@ -110,6 +110,7 @@ export interface NomidotMotion {
   motionProposalArguments: NomidotArgument[];
   motionProposalHash: Hash;
   motionProposalId: number;
+  preimageHash: string | null;
   section: string;
   status: MotionStatus;
 }
