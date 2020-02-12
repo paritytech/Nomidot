@@ -399,6 +399,8 @@ type Motion {
   motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument!]
   motionProposalHash: String!
   motionProposalId: Int!
+  preimage: Preimage
+  preimageHash: String
   section: String!
   status(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
 }
@@ -417,12 +419,19 @@ input MotionCreateInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionProposalHash: String!
   motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
   section: String!
   status: MotionStatusCreateManyWithoutMotionInput
 }
 
 input MotionCreateOneWithoutMotionProposalArgumentsInput {
   create: MotionCreateWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
   connect: MotionWhereUniqueInput
 }
 
@@ -438,6 +447,21 @@ input MotionCreateWithoutMotionProposalArgumentsInput {
   method: String!
   motionProposalHash: String!
   motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
+  section: String!
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutPreimageInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
   section: String!
   status: MotionStatusCreateManyWithoutMotionInput
 }
@@ -450,6 +474,8 @@ input MotionCreateWithoutStatusInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionProposalHash: String!
   motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
   section: String!
 }
 
@@ -473,6 +499,8 @@ enum MotionOrderByInput {
   motionProposalHash_DESC
   motionProposalId_ASC
   motionProposalId_DESC
+  preimageHash_ASC
+  preimageHash_DESC
   section_ASC
   section_DESC
 }
@@ -485,6 +513,7 @@ type MotionPreviousValues {
   method: String!
   motionProposalHash: String!
   motionProposalId: Int!
+  preimageHash: String
   section: String!
 }
 
@@ -920,6 +949,8 @@ input MotionUpdateInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionProposalHash: String
   motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
   section: String
   status: MotionStatusUpdateManyWithoutMotionInput
 }
@@ -931,6 +962,7 @@ input MotionUpdateManyMutationInput {
   method: String
   motionProposalHash: String
   motionProposalId: Int
+  preimageHash: String
   section: String
 }
 
@@ -948,6 +980,15 @@ input MotionUpdateOneRequiredWithoutStatusInput {
   connect: MotionWhereUniqueInput
 }
 
+input MotionUpdateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  update: MotionUpdateWithoutPreimageDataInput
+  upsert: MotionUpsertWithoutPreimageInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: MotionWhereUniqueInput
+}
+
 input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   author: String
   memberCount: Int
@@ -955,6 +996,21 @@ input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   method: String
   motionProposalHash: String
   motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
+  section: String
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutPreimageDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
   section: String
   status: MotionStatusUpdateManyWithoutMotionInput
 }
@@ -967,12 +1023,19 @@ input MotionUpdateWithoutStatusDataInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionProposalHash: String
   motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
   section: String
 }
 
 input MotionUpsertWithoutMotionProposalArgumentsInput {
   update: MotionUpdateWithoutMotionProposalArgumentsDataInput!
   create: MotionCreateWithoutMotionProposalArgumentsInput!
+}
+
+input MotionUpsertWithoutPreimageInput {
+  update: MotionUpdateWithoutPreimageDataInput!
+  create: MotionCreateWithoutPreimageInput!
 }
 
 input MotionUpsertWithoutStatusInput {
@@ -1064,6 +1127,21 @@ input MotionWhereInput {
   motionProposalId_lte: Int
   motionProposalId_gt: Int
   motionProposalId_gte: Int
+  preimage: PreimageWhereInput
+  preimageHash: String
+  preimageHash_not: String
+  preimageHash_in: [String!]
+  preimageHash_not_in: [String!]
+  preimageHash_lt: String
+  preimageHash_lte: String
+  preimageHash_gt: String
+  preimageHash_gte: String
+  preimageHash_contains: String
+  preimageHash_not_contains: String
+  preimageHash_starts_with: String
+  preimageHash_not_starts_with: String
+  preimageHash_ends_with: String
+  preimageHash_not_ends_with: String
   section: String
   section_not: String
   section_in: [String!]
@@ -1417,6 +1495,7 @@ type Preimage {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: Motion
   proposal: Proposal
   preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument!]
   preimageStatus(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus!]
@@ -1656,11 +1735,17 @@ input PreimageCreateInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
   section: String!
+}
+
+input PreimageCreateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  connect: PreimageWhereUniqueInput
 }
 
 input PreimageCreateOneWithoutPreimageArgumentsInput {
@@ -1683,6 +1768,20 @@ input PreimageCreateOneWithoutReferendumInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageCreateWithoutMotionInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+  section: String!
+}
+
 input PreimageCreateWithoutPreimageArgumentsInput {
   id: ID
   author: String!
@@ -1690,6 +1789,7 @@ input PreimageCreateWithoutPreimageArgumentsInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -1703,6 +1803,7 @@ input PreimageCreateWithoutPreimageStatusInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -1716,6 +1817,7 @@ input PreimageCreateWithoutProposalInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -1729,6 +1831,7 @@ input PreimageCreateWithoutReferendumInput {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
@@ -1978,6 +2081,7 @@ input PreimageUpdateInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
@@ -2008,6 +2112,15 @@ input PreimageUpdateOneRequiredWithoutPreimageStatusInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageUpdateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  update: PreimageUpdateWithoutMotionDataInput
+  upsert: PreimageUpsertWithoutMotionInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PreimageWhereUniqueInput
+}
+
 input PreimageUpdateOneWithoutProposalInput {
   create: PreimageCreateWithoutProposalInput
   update: PreimageUpdateWithoutProposalDataInput
@@ -2026,12 +2139,26 @@ input PreimageUpdateOneWithoutReferendumInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageUpdateWithoutMotionDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+  section: String
+}
+
 input PreimageUpdateWithoutPreimageArgumentsDataInput {
   author: String
   depositAmount: String
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -2044,6 +2171,7 @@ input PreimageUpdateWithoutPreimageStatusDataInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -2056,6 +2184,7 @@ input PreimageUpdateWithoutProposalDataInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -2068,10 +2197,16 @@ input PreimageUpdateWithoutReferendumDataInput {
   hash: String
   metaDescription: String
   method: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   section: String
+}
+
+input PreimageUpsertWithoutMotionInput {
+  update: PreimageUpdateWithoutMotionDataInput!
+  create: PreimageCreateWithoutMotionInput!
 }
 
 input PreimageUpsertWithoutPreimageArgumentsInput {
@@ -2179,6 +2314,7 @@ input PreimageWhereInput {
   method_not_starts_with: String
   method_ends_with: String
   method_not_ends_with: String
+  motion: MotionWhereInput
   proposal: ProposalWhereInput
   preimageArguments_every: PreimageArgumentWhereInput
   preimageArguments_some: PreimageArgumentWhereInput
