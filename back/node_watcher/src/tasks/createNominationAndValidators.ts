@@ -24,16 +24,16 @@ const l = logger('Task: Nomination + Validators');
 /*
  *  ======= Table (Nomination and Validators) ======
  */
-const createNominationAndValidators: Task<NomidotNominationAndValidators[]> = {
+const createNominationAndValidators: Task<Set<NomidotNominationAndValidators>> = {
   name: 'createNominationAndValidators',
   read: async (
     blockHash: Hash,
     api: ApiPromise
-  ): Promise<NomidotNominationAndValidators[]> => {
+  ): Promise<Set<NomidotNominationAndValidators>> => {
     const events = await api.query.system.events.at(blockHash);
     const session = await api.query.session.currentIndex.at(blockHash);
 
-    const result: NomidotNominationAndValidators[] = [];
+    const result: Set<NomidotNominationAndValidators> = new Set();
 
     const didNewSessionStart =
       filterEvents(events, 'session', 'NewSession').length > 0;
@@ -113,7 +113,7 @@ const createNominationAndValidators: Task<NomidotNominationAndValidators[]> = {
               const nominatorController =
                 ledger.isSome && ledger.unwrap().stash ? who : bonded.unwrap();
 
-              result.push({
+              result.add({
                 nominatorStash,
                 nominatorController,
                 session,
@@ -126,8 +126,6 @@ const createNominationAndValidators: Task<NomidotNominationAndValidators[]> = {
           );
         })
       );
-
-      l.log(`Nomidot Nomination: ${JSON.stringify(result)}`);
     } else {
       l.log('Session did not change. Skipping....');
     }
@@ -136,47 +134,45 @@ const createNominationAndValidators: Task<NomidotNominationAndValidators[]> = {
   },
   write: async (
     blockNumber: BlockNumber,
-    values: NomidotNominationAndValidators[]
+    values: Set<NomidotNominationAndValidators>
   ) => {
-    await Promise.all(
-      values.map(async (nominationsAndValidators: NomidotNominationAndValidators) => {
-        const {
-          stakedAmount,
-          session,
-          nominatorController,
-          nominatorStash,
-          validatorController,
-          validatorStash,
-          validatorPreferences,
-        } = nominationsAndValidators;
+    for await (const nominationsAndValidators of values) {
+      const {
+        stakedAmount,
+        session,
+        nominatorController,
+        nominatorStash,
+        validatorController,
+        validatorStash,
+        validatorPreferences,
+      } = nominationsAndValidators;
 
-        await prisma.createValidator({
-          session: {
-            connect: {
-              index: session.toNumber(),
-            },
+      await prisma.createValidator({
+        session: {
+          connect: {
+            index: session.toNumber(),
           },
-          controller: validatorController.toHex(),
-          stash: validatorStash.toHex(),
-          preferences: validatorPreferences
-            ? validatorPreferences.toHex()
-            : '',
-        });
-
-        await prisma.createNomination({
-          session: {
-            connect: {
-              index: session.toNumber(),
-            },
-          },
-          validatorController: validatorController.toHex(),
-          validatorStash: validatorStash.toHex(),
-          nominatorController: nominatorController.toHex(),
-          nominatorStash: nominatorStash.toHex(),
-          stakedAmount: stakedAmount.toHex(),
-        });
+        },
+        controller: validatorController.toHex(),
+        stash: validatorStash.toHex(),
+        preferences: validatorPreferences
+          ? validatorPreferences.toHex()
+          : '',
       })
-    );
+
+      await prisma.createNomination({
+        session: {
+          connect: {
+            index: session.toNumber(),
+          },
+        },
+        validatorController: validatorController.toHex(),
+        validatorStash: validatorStash.toHex(),
+        nominatorController: nominatorController.toHex(),
+        nominatorStash: nominatorStash.toHex(),
+        stakedAmount: stakedAmount.toHex(),
+      })
+    }
   },
 };
 

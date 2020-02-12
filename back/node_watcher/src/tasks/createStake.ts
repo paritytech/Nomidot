@@ -20,7 +20,6 @@ const createStake: Task<NomidotStake> = {
   name: 'createStake',
   read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotStake> => {
     const currentElected = await api.query.staking.currentElected.at(blockHash);
-    l.error(`current elected: ${currentElected}`);
     const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
     let totalStaked = new BN(0);
 

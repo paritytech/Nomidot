@@ -99,7 +99,7 @@ export type Nomidot =
   | NomidotEra
   | NomidotOfflineValidator[]
   | NomidotHeartBeat[]
-  | NomidotNominationAndValidators[]
+  | Set<NomidotNominationAndValidators>
   | NomidotHeartBeat
   | NomidotMotion[]
   | NomidotPreimage[]
