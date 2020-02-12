@@ -1,11 +1,23 @@
 # source: http://0.0.0.0:4466
-# timestamp: Mon Feb 10 2020 13:07:05 GMT+0100 (Central European Standard Time)
+# timestamp: Wed Feb 12 2020 14:48:08 GMT+0100 (Central European Standard Time)
 
 type AggregateBlockNumber {
   count: Int!
 }
 
 type AggregateEra {
+  count: Int!
+}
+
+type AggregateMotion {
+  count: Int!
+}
+
+type AggregateMotionProposalArgument {
+  count: Int!
+}
+
+type AggregateMotionStatus {
   count: Int!
 }
 
@@ -621,6 +633,1349 @@ Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
+type Motion {
+  id: Int!
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument!]
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: Preimage
+  preimageHash: String
+  section: String!
+  status(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
+}
+
+"""A connection to a list of items."""
+type MotionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MotionEdge]!
+  aggregate: AggregateMotion!
+}
+
+input MotionCreateInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateOneWithoutMotionProposalArgumentsInput {
+  create: MotionCreateWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutStatusInput {
+  create: MotionCreateWithoutStatusInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateWithoutMotionProposalArgumentsInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  preimage: PreimageCreateOneWithoutMotionInput
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutPreimageInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutStatusInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
+}
+
+"""An edge in a connection."""
+type MotionEdge {
+  """The item at the end of the edge."""
+  node: Motion!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MotionOrderByInput {
+  id_ASC
+  id_DESC
+  author_ASC
+  author_DESC
+  memberCount_ASC
+  memberCount_DESC
+  metaDescription_ASC
+  metaDescription_DESC
+  method_ASC
+  method_DESC
+  motionProposalHash_ASC
+  motionProposalHash_DESC
+  motionProposalId_ASC
+  motionProposalId_DESC
+  preimageHash_ASC
+  preimageHash_DESC
+  section_ASC
+  section_DESC
+}
+
+type MotionPreviousValues {
+  id: Int!
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+}
+
+type MotionProposalArgument implements Node {
+  id: ID!
+  name: String!
+  motion: Motion!
+  value: String!
+}
+
+"""A connection to a list of items."""
+type MotionProposalArgumentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MotionProposalArgumentEdge]!
+  aggregate: AggregateMotionProposalArgument!
+}
+
+input MotionProposalArgumentCreateInput {
+  id: ID
+  name: String!
+  value: String!
+  motion: MotionCreateOneWithoutMotionProposalArgumentsInput!
+}
+
+input MotionProposalArgumentCreateManyWithoutMotionInput {
+  create: [MotionProposalArgumentCreateWithoutMotionInput!]
+  connect: [MotionProposalArgumentWhereUniqueInput!]
+}
+
+input MotionProposalArgumentCreateWithoutMotionInput {
+  id: ID
+  name: String!
+  value: String!
+}
+
+"""An edge in a connection."""
+type MotionProposalArgumentEdge {
+  """The item at the end of the edge."""
+  node: MotionProposalArgument!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MotionProposalArgumentOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  value_ASC
+  value_DESC
+}
+
+type MotionProposalArgumentPreviousValues {
+  id: ID!
+  name: String!
+  value: String!
+}
+
+input MotionProposalArgumentScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionProposalArgumentScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionProposalArgumentScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionProposalArgumentScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+}
+
+type MotionProposalArgumentSubscriptionPayload {
+  mutation: MutationType!
+  node: MotionProposalArgument
+  updatedFields: [String!]
+  previousValues: MotionProposalArgumentPreviousValues
+}
+
+input MotionProposalArgumentSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionProposalArgumentSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionProposalArgumentSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionProposalArgumentSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MotionProposalArgumentWhereInput
+}
+
+input MotionProposalArgumentUpdateInput {
+  name: String
+  value: String
+  motion: MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput
+}
+
+input MotionProposalArgumentUpdateManyDataInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyMutationInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyWithoutMotionInput {
+  create: [MotionProposalArgumentCreateWithoutMotionInput!]
+  connect: [MotionProposalArgumentWhereUniqueInput!]
+  set: [MotionProposalArgumentWhereUniqueInput!]
+  disconnect: [MotionProposalArgumentWhereUniqueInput!]
+  delete: [MotionProposalArgumentWhereUniqueInput!]
+  update: [MotionProposalArgumentUpdateWithWhereUniqueWithoutMotionInput!]
+  updateMany: [MotionProposalArgumentUpdateManyWithWhereNestedInput!]
+  deleteMany: [MotionProposalArgumentScalarWhereInput!]
+  upsert: [MotionProposalArgumentUpsertWithWhereUniqueWithoutMotionInput!]
+}
+
+input MotionProposalArgumentUpdateManyWithWhereNestedInput {
+  where: MotionProposalArgumentScalarWhereInput!
+  data: MotionProposalArgumentUpdateManyDataInput!
+}
+
+input MotionProposalArgumentUpdateWithoutMotionDataInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateWithWhereUniqueWithoutMotionInput {
+  where: MotionProposalArgumentWhereUniqueInput!
+  data: MotionProposalArgumentUpdateWithoutMotionDataInput!
+}
+
+input MotionProposalArgumentUpsertWithWhereUniqueWithoutMotionInput {
+  where: MotionProposalArgumentWhereUniqueInput!
+  update: MotionProposalArgumentUpdateWithoutMotionDataInput!
+  create: MotionProposalArgumentCreateWithoutMotionInput!
+}
+
+input MotionProposalArgumentWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionProposalArgumentWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionProposalArgumentWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionProposalArgumentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+  motion: MotionWhereInput
+}
+
+input MotionProposalArgumentWhereUniqueInput {
+  id: ID
+}
+
+type MotionStatus implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  motion: Motion!
+  status: String!
+}
+
+"""A connection to a list of items."""
+type MotionStatusConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MotionStatusEdge]!
+  aggregate: AggregateMotionStatus!
+}
+
+input MotionStatusCreateInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+  motion: MotionCreateOneWithoutStatusInput!
+}
+
+input MotionStatusCreateManyWithoutMotionInput {
+  create: [MotionStatusCreateWithoutMotionInput!]
+  connect: [MotionStatusWhereUniqueInput!]
+}
+
+input MotionStatusCreateWithoutMotionInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type MotionStatusEdge {
+  """The item at the end of the edge."""
+  node: MotionStatus!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MotionStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type MotionStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input MotionStatusScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionStatusScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionStatusScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionStatusScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+}
+
+type MotionStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: MotionStatus
+  updatedFields: [String!]
+  previousValues: MotionStatusPreviousValues
+}
+
+input MotionStatusSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionStatusSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionStatusSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionStatusSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MotionStatusWhereInput
+}
+
+input MotionStatusUpdateInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  motion: MotionUpdateOneRequiredWithoutStatusInput
+}
+
+input MotionStatusUpdateManyDataInput {
+  status: String
+}
+
+input MotionStatusUpdateManyMutationInput {
+  status: String
+}
+
+input MotionStatusUpdateManyWithoutMotionInput {
+  create: [MotionStatusCreateWithoutMotionInput!]
+  connect: [MotionStatusWhereUniqueInput!]
+  set: [MotionStatusWhereUniqueInput!]
+  disconnect: [MotionStatusWhereUniqueInput!]
+  delete: [MotionStatusWhereUniqueInput!]
+  update: [MotionStatusUpdateWithWhereUniqueWithoutMotionInput!]
+  updateMany: [MotionStatusUpdateManyWithWhereNestedInput!]
+  deleteMany: [MotionStatusScalarWhereInput!]
+  upsert: [MotionStatusUpsertWithWhereUniqueWithoutMotionInput!]
+}
+
+input MotionStatusUpdateManyWithWhereNestedInput {
+  where: MotionStatusScalarWhereInput!
+  data: MotionStatusUpdateManyDataInput!
+}
+
+input MotionStatusUpdateWithoutMotionDataInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input MotionStatusUpdateWithWhereUniqueWithoutMotionInput {
+  where: MotionStatusWhereUniqueInput!
+  data: MotionStatusUpdateWithoutMotionDataInput!
+}
+
+input MotionStatusUpsertWithWhereUniqueWithoutMotionInput {
+  where: MotionStatusWhereUniqueInput!
+  update: MotionStatusUpdateWithoutMotionDataInput!
+  create: MotionStatusCreateWithoutMotionInput!
+}
+
+input MotionStatusWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionStatusWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionStatusWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionStatusWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+  blockNumber: BlockNumberWhereInput
+  motion: MotionWhereInput
+}
+
+input MotionStatusWhereUniqueInput {
+  id: ID
+}
+
+type MotionSubscriptionPayload {
+  mutation: MutationType!
+  node: Motion
+  updatedFields: [String!]
+  previousValues: MotionPreviousValues
+}
+
+input MotionSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MotionWhereInput
+}
+
+input MotionUpdateInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateManyMutationInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+}
+
+input MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput {
+  create: MotionCreateWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+  update: MotionUpdateWithoutMotionProposalArgumentsDataInput
+  upsert: MotionUpsertWithoutMotionProposalArgumentsInput
+}
+
+input MotionUpdateOneRequiredWithoutStatusInput {
+  create: MotionCreateWithoutStatusInput
+  connect: MotionWhereUniqueInput
+  update: MotionUpdateWithoutStatusDataInput
+  upsert: MotionUpsertWithoutStatusInput
+}
+
+input MotionUpdateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  connect: MotionWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: MotionUpdateWithoutPreimageDataInput
+  upsert: MotionUpsertWithoutPreimageInput
+}
+
+input MotionUpdateWithoutMotionProposalArgumentsDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  preimage: PreimageUpdateOneWithoutMotionInput
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutPreimageDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutStatusDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
+}
+
+input MotionUpsertWithoutMotionProposalArgumentsInput {
+  update: MotionUpdateWithoutMotionProposalArgumentsDataInput!
+  create: MotionCreateWithoutMotionProposalArgumentsInput!
+}
+
+input MotionUpsertWithoutPreimageInput {
+  update: MotionUpdateWithoutPreimageDataInput!
+  create: MotionCreateWithoutPreimageInput!
+}
+
+input MotionUpsertWithoutStatusInput {
+  update: MotionUpdateWithoutStatusDataInput!
+  create: MotionCreateWithoutStatusInput!
+}
+
+input MotionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionWhereInput!]
+  id: Int
+
+  """All values that are not equal to given value."""
+  id_not: Int
+
+  """All values that are contained in given list."""
+  id_in: [Int!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [Int!]
+
+  """All values less than the given value."""
+  id_lt: Int
+
+  """All values less than or equal the given value."""
+  id_lte: Int
+
+  """All values greater than the given value."""
+  id_gt: Int
+
+  """All values greater than or equal the given value."""
+  id_gte: Int
+  author: String
+
+  """All values that are not equal to given value."""
+  author_not: String
+
+  """All values that are contained in given list."""
+  author_in: [String!]
+
+  """All values that are not contained in given list."""
+  author_not_in: [String!]
+
+  """All values less than the given value."""
+  author_lt: String
+
+  """All values less than or equal the given value."""
+  author_lte: String
+
+  """All values greater than the given value."""
+  author_gt: String
+
+  """All values greater than or equal the given value."""
+  author_gte: String
+
+  """All values containing the given string."""
+  author_contains: String
+
+  """All values not containing the given string."""
+  author_not_contains: String
+
+  """All values starting with the given string."""
+  author_starts_with: String
+
+  """All values not starting with the given string."""
+  author_not_starts_with: String
+
+  """All values ending with the given string."""
+  author_ends_with: String
+
+  """All values not ending with the given string."""
+  author_not_ends_with: String
+  memberCount: Int
+
+  """All values that are not equal to given value."""
+  memberCount_not: Int
+
+  """All values that are contained in given list."""
+  memberCount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  memberCount_not_in: [Int!]
+
+  """All values less than the given value."""
+  memberCount_lt: Int
+
+  """All values less than or equal the given value."""
+  memberCount_lte: Int
+
+  """All values greater than the given value."""
+  memberCount_gt: Int
+
+  """All values greater than or equal the given value."""
+  memberCount_gte: Int
+  metaDescription: String
+
+  """All values that are not equal to given value."""
+  metaDescription_not: String
+
+  """All values that are contained in given list."""
+  metaDescription_in: [String!]
+
+  """All values that are not contained in given list."""
+  metaDescription_not_in: [String!]
+
+  """All values less than the given value."""
+  metaDescription_lt: String
+
+  """All values less than or equal the given value."""
+  metaDescription_lte: String
+
+  """All values greater than the given value."""
+  metaDescription_gt: String
+
+  """All values greater than or equal the given value."""
+  metaDescription_gte: String
+
+  """All values containing the given string."""
+  metaDescription_contains: String
+
+  """All values not containing the given string."""
+  metaDescription_not_contains: String
+
+  """All values starting with the given string."""
+  metaDescription_starts_with: String
+
+  """All values not starting with the given string."""
+  metaDescription_not_starts_with: String
+
+  """All values ending with the given string."""
+  metaDescription_ends_with: String
+
+  """All values not ending with the given string."""
+  metaDescription_not_ends_with: String
+  method: String
+
+  """All values that are not equal to given value."""
+  method_not: String
+
+  """All values that are contained in given list."""
+  method_in: [String!]
+
+  """All values that are not contained in given list."""
+  method_not_in: [String!]
+
+  """All values less than the given value."""
+  method_lt: String
+
+  """All values less than or equal the given value."""
+  method_lte: String
+
+  """All values greater than the given value."""
+  method_gt: String
+
+  """All values greater than or equal the given value."""
+  method_gte: String
+
+  """All values containing the given string."""
+  method_contains: String
+
+  """All values not containing the given string."""
+  method_not_contains: String
+
+  """All values starting with the given string."""
+  method_starts_with: String
+
+  """All values not starting with the given string."""
+  method_not_starts_with: String
+
+  """All values ending with the given string."""
+  method_ends_with: String
+
+  """All values not ending with the given string."""
+  method_not_ends_with: String
+  motionProposalHash: String
+
+  """All values that are not equal to given value."""
+  motionProposalHash_not: String
+
+  """All values that are contained in given list."""
+  motionProposalHash_in: [String!]
+
+  """All values that are not contained in given list."""
+  motionProposalHash_not_in: [String!]
+
+  """All values less than the given value."""
+  motionProposalHash_lt: String
+
+  """All values less than or equal the given value."""
+  motionProposalHash_lte: String
+
+  """All values greater than the given value."""
+  motionProposalHash_gt: String
+
+  """All values greater than or equal the given value."""
+  motionProposalHash_gte: String
+
+  """All values containing the given string."""
+  motionProposalHash_contains: String
+
+  """All values not containing the given string."""
+  motionProposalHash_not_contains: String
+
+  """All values starting with the given string."""
+  motionProposalHash_starts_with: String
+
+  """All values not starting with the given string."""
+  motionProposalHash_not_starts_with: String
+
+  """All values ending with the given string."""
+  motionProposalHash_ends_with: String
+
+  """All values not ending with the given string."""
+  motionProposalHash_not_ends_with: String
+  motionProposalId: Int
+
+  """All values that are not equal to given value."""
+  motionProposalId_not: Int
+
+  """All values that are contained in given list."""
+  motionProposalId_in: [Int!]
+
+  """All values that are not contained in given list."""
+  motionProposalId_not_in: [Int!]
+
+  """All values less than the given value."""
+  motionProposalId_lt: Int
+
+  """All values less than or equal the given value."""
+  motionProposalId_lte: Int
+
+  """All values greater than the given value."""
+  motionProposalId_gt: Int
+
+  """All values greater than or equal the given value."""
+  motionProposalId_gte: Int
+  preimageHash: String
+
+  """All values that are not equal to given value."""
+  preimageHash_not: String
+
+  """All values that are contained in given list."""
+  preimageHash_in: [String!]
+
+  """All values that are not contained in given list."""
+  preimageHash_not_in: [String!]
+
+  """All values less than the given value."""
+  preimageHash_lt: String
+
+  """All values less than or equal the given value."""
+  preimageHash_lte: String
+
+  """All values greater than the given value."""
+  preimageHash_gt: String
+
+  """All values greater than or equal the given value."""
+  preimageHash_gte: String
+
+  """All values containing the given string."""
+  preimageHash_contains: String
+
+  """All values not containing the given string."""
+  preimageHash_not_contains: String
+
+  """All values starting with the given string."""
+  preimageHash_starts_with: String
+
+  """All values not starting with the given string."""
+  preimageHash_not_starts_with: String
+
+  """All values ending with the given string."""
+  preimageHash_ends_with: String
+
+  """All values not ending with the given string."""
+  preimageHash_not_ends_with: String
+  section: String
+
+  """All values that are not equal to given value."""
+  section_not: String
+
+  """All values that are contained in given list."""
+  section_in: [String!]
+
+  """All values that are not contained in given list."""
+  section_not_in: [String!]
+
+  """All values less than the given value."""
+  section_lt: String
+
+  """All values less than or equal the given value."""
+  section_lte: String
+
+  """All values greater than the given value."""
+  section_gt: String
+
+  """All values greater than or equal the given value."""
+  section_gte: String
+
+  """All values containing the given string."""
+  section_contains: String
+
+  """All values not containing the given string."""
+  section_not_contains: String
+
+  """All values starting with the given string."""
+  section_starts_with: String
+
+  """All values not starting with the given string."""
+  section_not_starts_with: String
+
+  """All values ending with the given string."""
+  section_ends_with: String
+
+  """All values not ending with the given string."""
+  section_not_ends_with: String
+  motionProposalArguments_every: MotionProposalArgumentWhereInput
+  motionProposalArguments_some: MotionProposalArgumentWhereInput
+  motionProposalArguments_none: MotionProposalArgumentWhereInput
+  preimage: PreimageWhereInput
+  status_every: MotionStatusWhereInput
+  status_some: MotionStatusWhereInput
+  status_none: MotionStatusWhereInput
+}
+
+input MotionWhereUniqueInput {
+  id: Int
+  motionProposalId: Int
+}
+
 type Mutation {
   createEra(data: EraCreateInput!): Era!
   createSlashing(data: SlashingCreateInput!): Slashing!
@@ -629,6 +1984,9 @@ type Mutation {
   createReward(data: RewardCreateInput!): Reward!
   createNomination(data: NominationCreateInput!): Nomination!
   createStake(data: StakeCreateInput!): Stake!
+  createMotion(data: MotionCreateInput!): Motion!
+  createMotionProposalArgument(data: MotionProposalArgumentCreateInput!): MotionProposalArgument!
+  createMotionStatus(data: MotionStatusCreateInput!): MotionStatus!
   createProposal(data: ProposalCreateInput!): Proposal!
   createProposalStatus(data: ProposalStatusCreateInput!): ProposalStatus!
   createPreimage(data: PreimageCreateInput!): Preimage!
@@ -645,6 +2003,9 @@ type Mutation {
   updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
   updateNomination(data: NominationUpdateInput!, where: NominationWhereUniqueInput!): Nomination
   updateStake(data: StakeUpdateInput!, where: StakeWhereUniqueInput!): Stake
+  updateMotion(data: MotionUpdateInput!, where: MotionWhereUniqueInput!): Motion
+  updateMotionProposalArgument(data: MotionProposalArgumentUpdateInput!, where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  updateMotionStatus(data: MotionStatusUpdateInput!, where: MotionStatusWhereUniqueInput!): MotionStatus
   updateProposal(data: ProposalUpdateInput!, where: ProposalWhereUniqueInput!): Proposal
   updateProposalStatus(data: ProposalStatusUpdateInput!, where: ProposalStatusWhereUniqueInput!): ProposalStatus
   updatePreimage(data: PreimageUpdateInput!, where: PreimageWhereUniqueInput!): Preimage
@@ -661,6 +2022,9 @@ type Mutation {
   deleteReward(where: RewardWhereUniqueInput!): Reward
   deleteNomination(where: NominationWhereUniqueInput!): Nomination
   deleteStake(where: StakeWhereUniqueInput!): Stake
+  deleteMotion(where: MotionWhereUniqueInput!): Motion
+  deleteMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  deleteMotionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
   deleteProposal(where: ProposalWhereUniqueInput!): Proposal
   deleteProposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
   deletePreimage(where: PreimageWhereUniqueInput!): Preimage
@@ -677,6 +2041,9 @@ type Mutation {
   upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
   upsertNomination(where: NominationWhereUniqueInput!, create: NominationCreateInput!, update: NominationUpdateInput!): Nomination!
   upsertStake(where: StakeWhereUniqueInput!, create: StakeCreateInput!, update: StakeUpdateInput!): Stake!
+  upsertMotion(where: MotionWhereUniqueInput!, create: MotionCreateInput!, update: MotionUpdateInput!): Motion!
+  upsertMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!, create: MotionProposalArgumentCreateInput!, update: MotionProposalArgumentUpdateInput!): MotionProposalArgument!
+  upsertMotionStatus(where: MotionStatusWhereUniqueInput!, create: MotionStatusCreateInput!, update: MotionStatusUpdateInput!): MotionStatus!
   upsertProposal(where: ProposalWhereUniqueInput!, create: ProposalCreateInput!, update: ProposalUpdateInput!): Proposal!
   upsertProposalStatus(where: ProposalStatusWhereUniqueInput!, create: ProposalStatusCreateInput!, update: ProposalStatusUpdateInput!): ProposalStatus!
   upsertPreimage(where: PreimageWhereUniqueInput!, create: PreimageCreateInput!, update: PreimageUpdateInput!): Preimage!
@@ -693,6 +2060,9 @@ type Mutation {
   updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
   updateManyNominations(data: NominationUpdateManyMutationInput!, where: NominationWhereInput): BatchPayload!
   updateManyStakes(data: StakeUpdateManyMutationInput!, where: StakeWhereInput): BatchPayload!
+  updateManyMotions(data: MotionUpdateManyMutationInput!, where: MotionWhereInput): BatchPayload!
+  updateManyMotionProposalArguments(data: MotionProposalArgumentUpdateManyMutationInput!, where: MotionProposalArgumentWhereInput): BatchPayload!
+  updateManyMotionStatuses(data: MotionStatusUpdateManyMutationInput!, where: MotionStatusWhereInput): BatchPayload!
   updateManyProposals(data: ProposalUpdateManyMutationInput!, where: ProposalWhereInput): BatchPayload!
   updateManyProposalStatuses(data: ProposalStatusUpdateManyMutationInput!, where: ProposalStatusWhereInput): BatchPayload!
   updateManyPreimages(data: PreimageUpdateManyMutationInput!, where: PreimageWhereInput): BatchPayload!
@@ -709,6 +2079,9 @@ type Mutation {
   deleteManyRewards(where: RewardWhereInput): BatchPayload!
   deleteManyNominations(where: NominationWhereInput): BatchPayload!
   deleteManyStakes(where: StakeWhereInput): BatchPayload!
+  deleteManyMotions(where: MotionWhereInput): BatchPayload!
+  deleteManyMotionProposalArguments(where: MotionProposalArgumentWhereInput): BatchPayload!
+  deleteManyMotionStatuses(where: MotionStatusWhereInput): BatchPayload!
   deleteManyProposals(where: ProposalWhereInput): BatchPayload!
   deleteManyProposalStatuses(where: ProposalStatusWhereInput): BatchPayload!
   deleteManyPreimages(where: PreimageWhereInput): BatchPayload!
@@ -1128,6 +2501,7 @@ type Preimage implements Node {
   hash: String!
   metaDescription: String!
   method: String!
+  motion: Motion
   proposal: Proposal
   preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument!]
   preimageStatus(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus!]
@@ -1565,10 +2939,16 @@ input PreimageCreateInput {
   metaDescription: String!
   method: String!
   section: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
+input PreimageCreateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  connect: PreimageWhereUniqueInput
 }
 
 input PreimageCreateOneWithoutPreimageArgumentsInput {
@@ -1591,6 +2971,20 @@ input PreimageCreateOneWithoutReferendumInput {
   connect: PreimageWhereUniqueInput
 }
 
+input PreimageCreateWithoutMotionInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
 input PreimageCreateWithoutPreimageArgumentsInput {
   id: ID
   author: String!
@@ -1599,6 +2993,7 @@ input PreimageCreateWithoutPreimageArgumentsInput {
   metaDescription: String!
   method: String!
   section: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -1612,6 +3007,7 @@ input PreimageCreateWithoutPreimageStatusInput {
   metaDescription: String!
   method: String!
   section: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -1625,6 +3021,7 @@ input PreimageCreateWithoutProposalInput {
   metaDescription: String!
   method: String!
   section: String!
+  motion: MotionCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
   referendum: ReferendumCreateOneWithoutPreimageInput
@@ -1638,6 +3035,7 @@ input PreimageCreateWithoutReferendumInput {
   metaDescription: String!
   method: String!
   section: String!
+  motion: MotionCreateOneWithoutPreimageInput
   proposal: ProposalCreateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
   preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
@@ -2051,6 +3449,7 @@ input PreimageUpdateInput {
   metaDescription: String
   method: String
   section: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
@@ -2080,6 +3479,15 @@ input PreimageUpdateOneRequiredWithoutPreimageStatusInput {
   upsert: PreimageUpsertWithoutPreimageStatusInput
 }
 
+input PreimageUpdateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  connect: PreimageWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PreimageUpdateWithoutMotionDataInput
+  upsert: PreimageUpsertWithoutMotionInput
+}
+
 input PreimageUpdateOneWithoutProposalInput {
   create: PreimageCreateWithoutProposalInput
   connect: PreimageWhereUniqueInput
@@ -2098,6 +3506,19 @@ input PreimageUpdateOneWithoutReferendumInput {
   upsert: PreimageUpsertWithoutReferendumInput
 }
 
+input PreimageUpdateWithoutMotionDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+}
+
 input PreimageUpdateWithoutPreimageArgumentsDataInput {
   author: String
   depositAmount: String
@@ -2105,6 +3526,7 @@ input PreimageUpdateWithoutPreimageArgumentsDataInput {
   metaDescription: String
   method: String
   section: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -2117,6 +3539,7 @@ input PreimageUpdateWithoutPreimageStatusDataInput {
   metaDescription: String
   method: String
   section: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -2129,6 +3552,7 @@ input PreimageUpdateWithoutProposalDataInput {
   metaDescription: String
   method: String
   section: String
+  motion: MotionUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
   referendum: ReferendumUpdateOneWithoutPreimageInput
@@ -2141,9 +3565,15 @@ input PreimageUpdateWithoutReferendumDataInput {
   metaDescription: String
   method: String
   section: String
+  motion: MotionUpdateOneWithoutPreimageInput
   proposal: ProposalUpdateOneWithoutPreimageInput
   preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
   preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+}
+
+input PreimageUpsertWithoutMotionInput {
+  update: PreimageUpdateWithoutMotionDataInput!
+  create: PreimageCreateWithoutMotionInput!
 }
 
 input PreimageUpsertWithoutPreimageArgumentsInput {
@@ -2455,6 +3885,7 @@ input PreimageWhereInput {
 
   """All values not ending with the given string."""
   section_not_ends_with: String
+  motion: MotionWhereInput
   proposal: ProposalWhereInput
   preimageArguments_every: PreimageArgumentWhereInput
   preimageArguments_some: PreimageArgumentWhereInput
@@ -3173,6 +4604,9 @@ type Query {
   rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
   nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
   stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
+  motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
+  motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
   proposals(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Proposal]!
   proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
   preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
@@ -3189,6 +4623,9 @@ type Query {
   reward(where: RewardWhereUniqueInput!): Reward
   nomination(where: NominationWhereUniqueInput!): Nomination
   stake(where: StakeWhereUniqueInput!): Stake
+  motion(where: MotionWhereUniqueInput!): Motion
+  motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
   proposal(where: ProposalWhereUniqueInput!): Proposal
   proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
   preimage(where: PreimageWhereUniqueInput!): Preimage
@@ -3205,6 +4642,9 @@ type Query {
   rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
   nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
   stakesConnection(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StakeConnection!
+  motionsConnection(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionConnection!
+  motionProposalArgumentsConnection(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionProposalArgumentConnection!
+  motionStatusesConnection(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionStatusConnection!
   proposalsConnection(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalConnection!
   proposalStatusesConnection(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalStatusConnection!
   preimagesConnection(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageConnection!
@@ -4743,6 +6183,9 @@ type Subscription {
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
   stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
+  motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
+  motionProposalArgument(where: MotionProposalArgumentSubscriptionWhereInput): MotionProposalArgumentSubscriptionPayload
+  motionStatus(where: MotionStatusSubscriptionWhereInput): MotionStatusSubscriptionPayload
   proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
   proposalStatus(where: ProposalStatusSubscriptionWhereInput): ProposalStatusSubscriptionPayload
   preimage(where: PreimageSubscriptionWhereInput): PreimageSubscriptionPayload
