@@ -1,0 +1,22 @@
+{
+  "name": "@substrate/polkassembly-server",
+  "version": "0.3.18",
+  "author": "Parity Technologies <admin@parity.io>",
+  "description": "Backend server for Polkassembly",
+  "license": "Apache-2.0",
+  "private": true,
+  "repository": "https://github.com/paritytech/Nomidot",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "graphql-yoga": "1.18.3",
+    "prisma-client-lib": "1.34.10"
+  },
+  "devDependencies": {
+    "prisma": "1.34.10",
+    "ts-node": "8.6.2",
+    "typescript": "3.7.5"
+  }
+}
