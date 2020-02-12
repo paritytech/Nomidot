@@ -111,7 +111,6 @@ export type Nomidot =
   | NomidotSlashing[]
   | NomidotStake
   | NomidotTotalIssuance
-  | NomidotValidator[];
 
 export type NomidotTask = Task<Nomidot>;
 
