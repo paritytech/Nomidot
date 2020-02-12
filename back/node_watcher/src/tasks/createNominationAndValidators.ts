@@ -139,7 +139,7 @@ const createNominationAndValidators: Task<NomidotNominationAndValidators[]> = {
     values: NomidotNominationAndValidators[]
   ) => {
     await Promise.all(
-      values.map(async (nomination: NomidotNominationAndValidators) => {
+      values.map(async (nominationsAndValidators: NomidotNominationAndValidators) => {
         const {
           stakedAmount,
           session,
@@ -148,34 +148,33 @@ const createNominationAndValidators: Task<NomidotNominationAndValidators[]> = {
           validatorController,
           validatorStash,
           validatorPreferences,
-        } = nomination;
+        } = nominationsAndValidators;
 
-        await Promise.all([
-          await prisma.createValidator({
-            session: {
-              connect: {
-                index: session.toNumber(),
-              },
+        await prisma.createValidator({
+          session: {
+            connect: {
+              index: session.toNumber(),
             },
-            controller: validatorController.toHex(),
-            stash: validatorStash.toHex(),
-            preferences: validatorPreferences
-              ? validatorPreferences.toHex()
-              : '',
-          }),
-          await prisma.createNomination({
-            session: {
-              connect: {
-                index: session.toNumber(),
-              },
+          },
+          controller: validatorController.toHex(),
+          stash: validatorStash.toHex(),
+          preferences: validatorPreferences
+            ? validatorPreferences.toHex()
+            : '',
+        });
+
+        await prisma.createNomination({
+          session: {
+            connect: {
+              index: session.toNumber(),
             },
-            validatorController: validatorController.toHex(),
-            validatorStash: validatorStash.toHex(),
-            nominatorController: nominatorController.toHex(),
-            nominatorStash: nominatorStash.toHex(),
-            stakedAmount: stakedAmount.toHex(),
-          }),
-        ]);
+          },
+          validatorController: validatorController.toHex(),
+          validatorStash: validatorStash.toHex(),
+          nominatorController: nominatorController.toHex(),
+          nominatorStash: nominatorStash.toHex(),
+          stakedAmount: stakedAmount.toHex(),
+        });
       })
     );
   },

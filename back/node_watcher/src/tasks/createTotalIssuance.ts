@@ -31,27 +31,14 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {
-    const isPreviousBlockIssuanceTheSame = await prisma.$exists.totalIssuance({
-      blockNumber: {
-        number: blockNumber.toNumber() - 1,
-      },
+    await prisma.createTotalIssuance({
       amount: value.amount.toHex(),
-    });
-
-    if (!isPreviousBlockIssuanceTheSame) {
-      const totalIssuanceCreateInput = {
-        amount: value.amount.toHex(),
-        blockNumber: {
-          connect: {
-            number: blockNumber.toNumber(),
-          },
+      blockNumber: {
+        connect: {
+          number: blockNumber.toNumber(),
         },
-      };
-
-      await prisma.createTotalIssuance(totalIssuanceCreateInput);
-    } else {
-      l.log('Total Issuance did not change. Skipping...');
-    }
+      },
+    });
   },
 };
 
