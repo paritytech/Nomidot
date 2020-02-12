@@ -65,13 +65,14 @@ export interface NomidotReward {
   validatorReward: Balance; // all validators get rewarded by this amount
 }
 
-export interface NomidotNomination {
-  validatorController: AccountId;
-  validatorStash: AccountId;
+export interface NomidotNominationAndValidators {
   nominatorController: AccountId;
   nominatorStash: AccountId;
   session: SessionIndex;
   stakedAmount: Compact<Balance>;
+  validatorController: AccountId;
+  validatorStash: AccountId;
+  validatorPreferences?: ValidatorPrefs;
 }
 
 export interface NomidotSession {
@@ -92,19 +93,12 @@ export interface NomidotTotalIssuance {
   amount: Balance;
 }
 
-export interface NomidotValidator {
-  controller: AccountId;
-  stash: AccountId;
-  validatorPreferences?: ValidatorPrefs;
-  currentSessionIndex: SessionIndex;
-}
-
 export type Nomidot =
   | NomidotBlock
   | NomidotEra
   | NomidotOfflineValidator[]
   | NomidotHeartBeat[]
-  | NomidotNomination[]
+  | NomidotNominationAndValidators[]
   | NomidotHeartBeat
   | NomidotMotion[]
   | NomidotPreimage[]

@@ -16,23 +16,23 @@ import createSession from './createSession';
 import createSlashing from './createSlashing';
 import createStake from './createStake';
 import createTotalIssuance from './createTotalIssuance';
-import createValidator from './createValidator';
+// import createValidator from './createValidator';
 import { NomidotTask } from './types';
-import createNomination from './createNomination';
+import createNominationAndValidators from './createNominationAndValidators';
 
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createSession,
-  createValidator,
-  createNomination,
+  // createNomination,
   createStake,
   createOfflineValidator,
   createReward,
   createEra,
   createSlashing,
   createTotalIssuance,
-  createValidator,
+  // createValidator,
+  createNominationAndValidators,
   createPreimage,
   createProposal,
   createProposalStatus,

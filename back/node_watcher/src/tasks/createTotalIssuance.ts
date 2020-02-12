@@ -31,13 +31,14 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {
-    const didTotalIssuanceChange = await prisma.totalIssuances({
-      where: {
-        amount_not: value.amount.toHex()
-      }
+    const isPreviousBlockIssuanceTheSame = await prisma.$exists.totalIssuance({
+      blockNumber: {
+        number: blockNumber.toNumber() - 1
+      },
+      amount: value.amount.toHex()
     });
 
-    if (!!didTotalIssuanceChange) {
+    if (!isPreviousBlockIssuanceTheSame) {
       const totalIssuanceCreateInput = {
         amount: value.amount.toHex(),
         blockNumber: {
