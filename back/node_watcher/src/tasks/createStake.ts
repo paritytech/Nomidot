@@ -39,14 +39,25 @@ const createStake: Task<NomidotStake> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotStake) => {
-    await prisma.createStake({
-      blockNumber: {
-        connect: {
-          number: blockNumber.toNumber()
-        }
+    // check if the stake has changed from the previous block
+    const didStakeChange = await prisma.stakes({
+      where: {
+        totalStake_not: value.totalStaked.toHex()
       },
-      totalStake: value.totalStaked.toHex()
     })
+
+    if (!!didStakeChange) {
+      await prisma.createStake({
+        blockNumber: {
+          connect: {
+            number: blockNumber.toNumber()
+          }
+        },
+        totalStake: value.totalStaked.toHex()
+      })
+    } else {
+      l.log('Stake did not change. Skipping...');
+    }
   },
 };
 

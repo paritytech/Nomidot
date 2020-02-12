@@ -70,7 +70,6 @@ const createNomination: Task<NomidotNomination[]> = {
 
         const validatorController =
           ledger.isSome && ledger.unwrap().stash ? validator : bonded.unwrap();
-
         
         const exposure: Exposure = await api.query.staking.stakers.at(blockHash, validatorStash);
 
