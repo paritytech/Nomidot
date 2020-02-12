@@ -8,8 +8,13 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { motionStatus } from '../util/statuses';
-import { NomidotMotion, NomidotMotionRawEvent, Task } from './types';
+import { motionStatus, preimageStatus } from '../util/statuses';
+import {
+  NomidotArgument,
+  NomidotMotion,
+  NomidotMotionRawEvent,
+  Task,
+} from './types';
 
 const l = logger('Task: Motions');
 
@@ -93,12 +98,21 @@ const createMotion: Task<NomidotMotion[]> = {
           name.toString()
         );
         const values = proposal.args;
+        let preimageHash: string | null = null;
 
-        const motionProposalArguments =
-          proposal.args &&
+        const motionProposalArguments: NomidotArgument[] = [];
+
+        proposal.args &&
           params &&
-          params.map((name, index) => {
-            return { name, value: values[index].toString() };
+          params.forEach((name, index) => {
+            motionProposalArguments.push({
+              name,
+              value: values[index].toString(),
+            });
+
+            if (name === 'proposal_hash') {
+              preimageHash = values[index].toString();
+            }
           });
 
         const result: NomidotMotion = {
@@ -109,6 +123,7 @@ const createMotion: Task<NomidotMotion[]> = {
           motionProposalHash: motionRawEvent.Hash,
           motionProposalId: motionRawEvent.ProposalIndex,
           motionProposalArguments,
+          preimageHash,
           section,
           status: motionStatus.PROPOSED,
         };
@@ -131,9 +146,29 @@ const createMotion: Task<NomidotMotion[]> = {
           motionProposalArguments: mPA,
           motionProposalHash,
           motionProposalId,
+          preimageHash,
           section,
           status,
         } = prop;
+
+        const preimages = preimageHash
+          ? await prisma.preimages({
+              where: { hash: preimageHash.toString() },
+            })
+          : null;
+
+        // preimage aren't uniquely identified with their hash
+        // however, there can only be one preimage with the status "Noted"
+        // at a time
+        const notedPreimage = preimages?.length
+          ? preimages.filter(async preimage => {
+              await prisma.preimageStatuses({
+                where: {
+                  AND: [{ id: preimage.id }, { status: preimageStatus.NOTED }],
+                },
+              });
+            })[0]
+          : null;
 
         await prisma.createMotion({
           author: author.toString(),
@@ -145,6 +180,14 @@ const createMotion: Task<NomidotMotion[]> = {
           },
           motionProposalHash: motionProposalHash.toString(),
           motionProposalId,
+          preimage: notedPreimage
+            ? {
+                connect: {
+                  id: notedPreimage.id,
+                },
+              }
+            : null,
+          preimageHash,
           section,
           status: {
             create: {
