@@ -26,10 +26,9 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   name: 'createOfflineValidator',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<NomidotOfflineValidator[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
     // At the end of the session, these validators were found to be offline.
     const someOfflineEvents: EventRecord[] = filterEvents(
       events,

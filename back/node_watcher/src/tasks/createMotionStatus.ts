@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -23,10 +23,9 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
   name: 'createMotionStatusUpdate',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<NomidotMotionStatusUpdate[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
     // Proposed is handled by createMotion task
     // Voted should be handled by a vote tracking tasks
     const motionEvents = events.filter(

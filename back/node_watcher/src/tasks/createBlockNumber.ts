@@ -4,7 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
-import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { BlockNumberCreateInput, prisma } from '../generated/prisma-client';
@@ -17,7 +17,7 @@ const l = logger('Task: BlockNumber');
  */
 const createBlockNumber: Task<NomidotBlock> = {
   name: 'createBlockNumber',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotBlock> => {
+  read: async (blockHash: Hash, events: EventRecord[], api: ApiPromise): Promise<NomidotBlock> => {
     const [author] = await api.derive.chain.getHeader(blockHash);
 
     const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);

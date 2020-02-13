@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -23,9 +23,9 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
   name: 'createReferendumStatusUpdate',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<NomidotReferendumStatusUpdate[]> => {
-    const events = await api.query.system.events.at(blockHash);
 
     // The "Started" event is taken care of by the createReferendum
     // task, so we need to filter it out.

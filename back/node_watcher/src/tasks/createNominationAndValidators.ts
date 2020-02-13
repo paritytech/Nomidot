@@ -8,6 +8,7 @@ import {
   AccountId,
   BlockNumber,
   Exposure,
+  EventRecord,
   Hash,
   StakingLedger,
   ValidatorId,
@@ -30,9 +31,9 @@ const createNominationAndValidators: Task<Set<
   name: 'createNominationAndValidators',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<Set<NomidotNominationAndValidators>> => {
-    const events = await api.query.system.events.at(blockHash);
     const session = await api.query.session.currentIndex.at(blockHash);
 
     const result: Set<NomidotNominationAndValidators> = new Set();

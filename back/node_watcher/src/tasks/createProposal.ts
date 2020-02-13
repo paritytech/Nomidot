@@ -6,6 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import {
   AccountId,
   BlockNumber,
+  EventRecord,
   Hash,
   PropIndex,
 } from '@polkadot/types/interfaces';
@@ -30,10 +31,9 @@ const createProposal: Task<NomidotProposal[]> = {
   name: 'createProposal',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<NomidotProposal[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
     const proposalEvents = filterEvents(events, 'democracy', proposalStatus.PROPOSED)
 
     const results: NomidotProposal[] = [];

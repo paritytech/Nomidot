@@ -20,13 +20,10 @@ const createSlashing: Task<NomidotSlashing[]> = {
   name: 'createSlashing',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<NomidotSlashing[]> => {
-    const eventsAtBlock: Vec<EventRecord> = await api.query.system.events.at(
-      blockHash
-    );
-
-    const slashEvents = filterEvents(eventsAtBlock, 'staking', 'Slash');
+    const slashEvents = filterEvents(events, 'staking', 'Slash');
 
     const result: NomidotSlashing[] = [];
 

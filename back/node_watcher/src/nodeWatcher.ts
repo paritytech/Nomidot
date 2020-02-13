@@ -81,11 +81,13 @@ async function incrementor(
       api.registry.setMetadata(rpcMeta);
     }
 
+    const events = await api.query.system.events.at(blockHash);
+
     // execute watcher tasks
     for await (const task of tasks) {
       l.warn(`Task --- ${task.name}`);
 
-      const result = await task.read(blockHash, api);
+      const result = await task.read(blockHash, events, api);
 
       try {
         l.warn(`Writing: ${JSON.stringify(result)}`);

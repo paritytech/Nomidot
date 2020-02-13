@@ -19,10 +19,9 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
   name: 'createHeartBeat',
   read: async (
     blockHash: Hash,
+    events: EventRecord[],
     api: ApiPromise
   ): Promise<NomidotHeartBeat[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
     const heartbeatEvents: EventRecord[] = filterEvents(
       events,
       'imOnline',

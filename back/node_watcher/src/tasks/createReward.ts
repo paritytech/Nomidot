@@ -17,9 +17,7 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotReward[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
+  read: async (blockHash: Hash, events: EventRecord[], api: ApiPromise): Promise<NomidotReward[]> => {
     const rewardEvents: EventRecord[] = filterEvents(
       events,
       'staking',
