@@ -21,7 +21,7 @@ const createSession: Task<NomidotSession> = {
     _blockHash: Hash,
     cached: Cached,
     _api: ApiPromise
-  ): NomidotSession => {
+  ): Promise<NomidotSession> => {
     const { events, sessionIndex } = cached;
 
     const didNewSessionStart =
@@ -34,7 +34,7 @@ const createSession: Task<NomidotSession> = {
 
     l.log(`Nomidot Session: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
     const { didNewSessionStart, idx } = value;

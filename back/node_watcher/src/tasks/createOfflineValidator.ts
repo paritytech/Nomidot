@@ -28,7 +28,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
     _blockHash: Hash,
     cached: Cached,
     _api: ApiPromise
-  ): NomidotOfflineValidator[] => {
+  ): Promise<NomidotOfflineValidator[]> => {
     const { events, sessionIndex } = cached;
     // At the end of the session, these validators were found to be offline.
     const someOfflineEvents: EventRecord[] = filterEvents(
@@ -63,7 +63,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
 
     l.log(`Offline Validators : ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (
     blockNumber: BlockNumber,
