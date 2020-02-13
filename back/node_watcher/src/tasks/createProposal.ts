@@ -6,10 +6,8 @@ import { ApiPromise } from '@polkadot/api';
 import {
   AccountId,
   BlockNumber,
-  EventRecord,
   Hash,
   PropIndex,
-  SessionIndex,
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
@@ -17,6 +15,7 @@ import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { preimageStatus, proposalStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotProposal,
   NomidotProposalEvent,
   NomidotProposalRawEvent,
@@ -32,10 +31,10 @@ const createProposal: Task<NomidotProposal[]> = {
   name: 'createProposal',
   read: async (
     blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    cached: Cached,
     api: ApiPromise
   ): Promise<NomidotProposal[]> => {
+    const { events } = cached;
     const proposalEvents = filterEvents(
       events,
       'democracy',

@@ -7,14 +7,13 @@ import { createType } from '@polkadot/types';
 import {
   BlockNumber,
   EventRecord,
-  Hash,
-  SessionIndex,
+  Hash
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotSlashing, Task } from './types';
+import { Cached, NomidotSlashing, Task } from './types';
 
 const l = logger('Task: Slashing');
 
@@ -25,10 +24,10 @@ const createSlashing: Task<NomidotSlashing[]> = {
   name: 'createSlashing',
   read: (
     _blockHash: Hash,
-    events: EventRecord[],
-    _sessionIndex: SessionIndex,
+    cached: Cached,
     api: ApiPromise
   ): NomidotSlashing[] => {
+    const { events } = cached;
     const slashEvents = filterEvents(events, 'staking', 'Slash');
 
     const result: NomidotSlashing[] = [];

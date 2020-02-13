@@ -6,14 +6,13 @@ import { ApiPromise } from '@polkadot/api';
 import {
   BlockNumber,
   EventRecord,
-  Hash,
-  SessionIndex,
+  Hash
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotReward, Task } from './types';
+import { Cached, NomidotReward, Task } from './types';
 
 const l = logger('Task: Reward');
 
@@ -22,12 +21,9 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: (
-    blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
-    api: ApiPromise
-  ): NomidotReward[] => {
+  read: (blockHash: Hash, cached: Cached, api: ApiPromise): NomidotReward[] => {
+    const { events, sessionIndex } = cached;
+
     const rewardEvents: EventRecord[] = filterEvents(
       events,
       'staking',

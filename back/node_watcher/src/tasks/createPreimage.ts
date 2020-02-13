@@ -4,18 +4,14 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { GenericCall } from '@polkadot/types';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash,
-  SessionIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { preimageStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotPreimage,
   NomidotPreimageEvent,
   NomidotPreimageRawEvent,
@@ -31,10 +27,11 @@ const createPreimage: Task<NomidotPreimage[]> = {
   name: 'createPreimage',
   read: async (
     blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    cached: Cached,
     api: ApiPromise
   ): Promise<NomidotPreimage[]> => {
+    const { events } = cached;
+
     const preimageEvents = filterEvents(
       events,
       'democracy',

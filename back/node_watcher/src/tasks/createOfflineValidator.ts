@@ -9,14 +9,13 @@ import {
   FullIdentification,
   Hash,
   IdentificationTuple,
-  SessionIndex,
   ValidatorId,
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotOfflineValidator, Task } from './types';
+import { Cached, NomidotOfflineValidator, Task } from './types';
 
 const l = logger('Task: OfflineValidator');
 
@@ -27,10 +26,10 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   name: 'createOfflineValidator',
   read: (
     _blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    cached: Cached,
     _api: ApiPromise
   ): NomidotOfflineValidator[] => {
+    const { events, sessionIndex } = cached;
     // At the end of the session, these validators were found to be offline.
     const someOfflineEvents: EventRecord[] = filterEvents(
       events,

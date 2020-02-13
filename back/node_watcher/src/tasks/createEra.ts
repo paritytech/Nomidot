@@ -3,16 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash,
-  SessionIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotEra, Task } from './types';
+import { Cached, NomidotEra, Task } from './types';
 
 const l = logger('Task: Era');
 
@@ -23,8 +18,7 @@ const createEra: Task<NomidotEra> = {
   name: 'createEra',
   read: async (
     blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotEra> => {
     const idx = await api.query.staking.currentEra.at(blockHash);

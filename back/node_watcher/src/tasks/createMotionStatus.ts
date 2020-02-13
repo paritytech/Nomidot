@@ -5,15 +5,14 @@
 import { ApiPromise } from '@polkadot/api';
 import {
   BlockNumber,
-  EventRecord,
-  Hash,
-  SessionIndex,
+  Hash
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { motionStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotMotionRawEvent,
   NomidotMotionStatusUpdate,
   Task,
@@ -28,10 +27,10 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
   name: 'createMotionStatusUpdate',
   read: async (
     _blockHash: Hash,
-    events: EventRecord[],
-    _sessionIndex: SessionIndex,
+    cached: Cached,
     _api: ApiPromise
   ): Promise<NomidotMotionStatusUpdate[]> => {
+    const { events } = cached;
     // Proposed is handled by createMotion task
     // Voted should be handled by a vote tracking tasks
     const motionEvents = events.filter(

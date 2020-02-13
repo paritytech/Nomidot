@@ -3,17 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash,
-  SessionIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotHeartBeat, Task } from './types';
+import { Cached, NomidotHeartBeat, Task } from './types';
 
 const l = logger('Task: HeartBeat');
 
@@ -24,10 +19,11 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
   name: 'createHeartBeat',
   read: (
     _blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    cached: Cached,
     _api: ApiPromise
   ): NomidotHeartBeat[] => {
+    const { events, sessionIndex } = cached;
+
     const heartbeatEvents: EventRecord[] = filterEvents(
       events,
       'imOnline',

@@ -3,18 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash,
-  SessionIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { proposalStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotProposalRawEvent,
   NomidotProposalStatusUpdate,
   Task,
@@ -29,10 +25,11 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
   name: 'createProposalStatusUpdate',
   read: async (
     _blockHash: Hash,
-    events: EventRecord[],
-    _sessionIndex: SessionIndex,
+    cached: Cached,
     _api: ApiPromise
   ): Promise<NomidotProposalStatusUpdate[]> => {
+    const { events } = cached;
+
     const proposalEvents = filterEvents(
       events,
       'democracy',

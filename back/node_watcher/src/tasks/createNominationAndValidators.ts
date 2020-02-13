@@ -7,10 +7,8 @@ import { Option } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
-  EventRecord,
   Exposure,
   Hash,
-  SessionIndex,
   StakingLedger,
   ValidatorId,
   ValidatorPrefs,
@@ -19,7 +17,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotNominationAndValidators, Task } from './types';
+import { Cached, NomidotNominationAndValidators, Task } from './types';
 
 const l = logger('Task: Nomination + Validators');
 
@@ -32,11 +30,11 @@ const createNominationAndValidators: Task<Set<
   name: 'createNominationAndValidators',
   read: async (
     blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    cached: Cached,
     api: ApiPromise
   ): Promise<Set<NomidotNominationAndValidators>> => {
     const result: Set<NomidotNominationAndValidators> = new Set();
+    const { events, sessionIndex } = cached;
 
     const didNewSessionStart =
       filterEvents(events, 'session', 'NewSession').length > 0;

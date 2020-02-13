@@ -4,18 +4,12 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
-import {
-  BlockNumber,
-  EventRecord,
-  Exposure,
-  Hash,
-  SessionIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, Exposure, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotStake, Task } from './types';
+import { Cached, NomidotStake, Task } from './types';
 
 const l = logger('Task: Stake');
 
@@ -26,8 +20,7 @@ const createStake: Task<NomidotStake> = {
   name: 'createStake',
   read: async (
     blockHash: Hash,
-    _events: EventRecord[],
-    _sessionIndex: SessionIndex,
+    _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotStake> => {
     const currentElected = await api.query.staking.currentElected.at(blockHash);

@@ -3,17 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash,
-  SessionIndex,
-} from '@polkadot/types/interfaces';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotSession, Task } from './types';
+import { Cached, NomidotSession, Task } from './types';
 
 const l = logger('Task: Session');
 
@@ -24,10 +19,11 @@ const createSession: Task<NomidotSession> = {
   name: 'createSession',
   read: (
     _blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    cached: Cached,
     _api: ApiPromise
   ): NomidotSession => {
+    const { events, sessionIndex } = cached;
+
     const didNewSessionStart =
       filterEvents(events, 'session', 'NewSession').length > 0;
 
