@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nomidot-server
-  namespace: nomidot-server
+  namespace: nomidot-staging
   labels:
     stage: staging
     name: nomidot-server
-    app: nomidot-server
+    app: nomidot-staging
 spec:
   selector:
     matchLabels:
