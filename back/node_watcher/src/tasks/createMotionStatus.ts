@@ -73,7 +73,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
               },
               {
                 // eslint-disable-next-line @typescript-eslint/camelcase
-                status_every: {
+                motionStatus_every: {
                   // eslint-disable-next-line @typescript-eslint/camelcase
                   status_not_in: [
                     motionStatus.VOTED,

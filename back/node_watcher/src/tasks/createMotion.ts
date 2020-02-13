@@ -189,7 +189,7 @@ const createMotion: Task<NomidotMotion[]> = {
             : null,
           preimageHash,
           section,
-          status: {
+          motionStatus: {
             create: {
               blockNumber: {
                 connect: {
