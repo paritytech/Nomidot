@@ -4,7 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { GenericCall } from '@polkadot/types';
-import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -24,7 +24,7 @@ const l = logger('Task: Motions');
  */
 const createMotion: Task<NomidotMotion[]> = {
   name: 'createMotion',
-  read: async (blockHash: Hash, events: EventRecord[], api: ApiPromise): Promise<NomidotMotion[]> => {
+  read: async (blockHash: Hash, events: EventRecord[], sessionIndex: SessionIndex, api: ApiPromise): Promise<NomidotMotion[]> => {
     const motionEvents = filterEvents(events, 'council', motionStatus.PROPOSED)
 
     const results: NomidotMotion[] = [];

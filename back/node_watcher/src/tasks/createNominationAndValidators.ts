@@ -10,6 +10,7 @@ import {
   Exposure,
   EventRecord,
   Hash,
+  SessionIndex,
   StakingLedger,
   ValidatorId,
   ValidatorPrefs,
@@ -32,10 +33,9 @@ const createNominationAndValidators: Task<Set<
   read: async (
     blockHash: Hash,
     events: EventRecord[],
+    sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<Set<NomidotNominationAndValidators>> => {
-    const session = await api.query.session.currentIndex.at(blockHash);
-
     const result: Set<NomidotNominationAndValidators> = new Set();
 
     const didNewSessionStart =
@@ -62,7 +62,7 @@ const createNominationAndValidators: Task<Set<
           if (bonded.isNone && ledger.isNone) {
             const result = {
               stakedAmount: null,
-              session,
+              session: sessionIndex,
               nominatorController: null,
               nominatorStash: null,
               validatorPreferences: null,
@@ -119,7 +119,7 @@ const createNominationAndValidators: Task<Set<
               result.add({
                 nominatorStash,
                 nominatorController,
-                session,
+                session: sessionIndex,
                 stakedAmount: value,
                 validatorController,
                 validatorStash,

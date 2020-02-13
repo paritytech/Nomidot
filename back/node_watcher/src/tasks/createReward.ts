@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -17,7 +17,7 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: async (blockHash: Hash, events: EventRecord[], api: ApiPromise): Promise<NomidotReward[]> => {
+  read: async (blockHash: Hash, events: EventRecord[], sessionIndex: SessionIndex, api: ApiPromise): Promise<NomidotReward[]> => {
     const rewardEvents: EventRecord[] = filterEvents(
       events,
       'staking',
@@ -27,8 +27,6 @@ const createReward: Task<NomidotReward[]> = {
     const result: NomidotReward[] = [];
 
     if (rewardEvents) {
-      const sessionIndex = await api.query.session.currentIndex.at(blockHash);
-
       rewardEvents.map(({ event: { data } }) => {
         const treasuryReward = api.createType('Balance', data[1]);
         const validatorReward = api.createType('Balance', data[0]);

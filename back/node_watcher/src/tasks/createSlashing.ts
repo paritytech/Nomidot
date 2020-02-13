@@ -4,7 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType, Vec } from '@polkadot/types';
-import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -21,6 +21,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
   read: async (
     blockHash: Hash,
     events: EventRecord[],
+    sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<NomidotSlashing[]> => {
     const slashEvents = filterEvents(events, 'staking', 'Slash');

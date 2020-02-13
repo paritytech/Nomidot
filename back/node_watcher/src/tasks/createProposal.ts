@@ -9,6 +9,7 @@ import {
   EventRecord,
   Hash,
   PropIndex,
+  SessionIndex
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
@@ -32,6 +33,7 @@ const createProposal: Task<NomidotProposal[]> = {
   read: async (
     blockHash: Hash,
     events: EventRecord[],
+    sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<NomidotProposal[]> => {
     const proposalEvents = filterEvents(events, 'democracy', proposalStatus.PROPOSED)

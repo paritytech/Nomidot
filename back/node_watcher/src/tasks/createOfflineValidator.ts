@@ -9,6 +9,7 @@ import {
   FullIdentification,
   Hash,
   IdentificationTuple,
+  SessionIndex,
   ValidatorId,
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
@@ -27,6 +28,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   read: async (
     blockHash: Hash,
     events: EventRecord[],
+    sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<NomidotOfflineValidator[]> => {
     // At the end of the session, these validators were found to be offline.
@@ -39,8 +41,6 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
     const result: NomidotOfflineValidator[] = [];
 
     if (someOfflineEvents && someOfflineEvents.length) {
-      const sessionIndex = await api.query.session.currentIndex.at(blockHash);
-
       someOfflineEvents.map(({ event: { data } }: EventRecord) => {
         data.map(idTuples => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
