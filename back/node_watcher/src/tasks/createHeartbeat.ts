@@ -8,7 +8,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotHeartBeat, Task } from './types';
+import { Cached, NomidotHeartBeat, Task } from './types';
 
 const l = logger('Task: HeartBeat');
 
@@ -17,11 +17,12 @@ const l = logger('Task: HeartBeat');
  */
 const createHeartBeat: Task<NomidotHeartBeat[]> = {
   name: 'createHeartBeat',
-  read: async (
-    blockHash: Hash,
-    api: ApiPromise
+  read: (
+    _blockHash: Hash,
+    cached: Cached,
+    _api: ApiPromise
   ): Promise<NomidotHeartBeat[]> => {
-    const events = await api.query.system.events.at(blockHash);
+    const { events, sessionIndex } = cached;
 
     const heartbeatEvents: EventRecord[] = filterEvents(
       events,
@@ -32,8 +33,6 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
     const result: NomidotHeartBeat[] = [];
 
     if (heartbeatEvents) {
-      const sessionIndex = await api.query.session.currentIndex.at(blockHash);
-
       heartbeatEvents.map(({ event: { data } }) => {
         data.map(authorityId => {
           result.push({
@@ -46,7 +45,7 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
 
     l.log(`Heartbeat: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, heartbeats: NomidotHeartBeat[]) => {
     await Promise.all(

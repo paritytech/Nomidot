@@ -30,8 +30,13 @@ import {
 
 export interface Task<T> {
   name: string;
-  read(blockHash: Hash, api: ApiPromise): Promise<T>;
+  read(blockHash: Hash, cached: Cached, api: ApiPromise): Promise<T>;
   write(blockNumber: BlockNumber, value: T): Promise<void>;
+}
+
+export interface Cached {
+  events: EventRecord[];
+  sessionIndex: SessionIndex;
 }
 
 export interface NomidotBlock {

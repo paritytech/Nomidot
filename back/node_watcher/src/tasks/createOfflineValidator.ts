@@ -15,7 +15,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotOfflineValidator, Task } from './types';
+import { Cached, NomidotOfflineValidator, Task } from './types';
 
 const l = logger('Task: OfflineValidator');
 
@@ -24,12 +24,12 @@ const l = logger('Task: OfflineValidator');
  */
 const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   name: 'createOfflineValidator',
-  read: async (
-    blockHash: Hash,
-    api: ApiPromise
+  read: (
+    _blockHash: Hash,
+    cached: Cached,
+    _api: ApiPromise
   ): Promise<NomidotOfflineValidator[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
+    const { events, sessionIndex } = cached;
     // At the end of the session, these validators were found to be offline.
     const someOfflineEvents: EventRecord[] = filterEvents(
       events,
@@ -40,8 +40,6 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
     const result: NomidotOfflineValidator[] = [];
 
     if (someOfflineEvents && someOfflineEvents.length) {
-      const sessionIndex = await api.query.session.currentIndex.at(blockHash);
-
       someOfflineEvents.map(({ event: { data } }: EventRecord) => {
         data.map(idTuples => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -65,7 +63,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
 
     l.log(`Offline Validators : ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (
     blockNumber: BlockNumber,

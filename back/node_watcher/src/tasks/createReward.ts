@@ -8,7 +8,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { NomidotReward, Task } from './types';
+import { Cached, NomidotReward, Task } from './types';
 
 const l = logger('Task: Reward');
 
@@ -17,8 +17,12 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotReward[]> => {
-    const events = await api.query.system.events.at(blockHash);
+  read: (
+    blockHash: Hash,
+    cached: Cached,
+    api: ApiPromise
+  ): Promise<NomidotReward[]> => {
+    const { events, sessionIndex } = cached;
 
     const rewardEvents: EventRecord[] = filterEvents(
       events,
@@ -29,8 +33,6 @@ const createReward: Task<NomidotReward[]> = {
     const result: NomidotReward[] = [];
 
     if (rewardEvents) {
-      const sessionIndex = await api.query.session.currentIndex.at(blockHash);
-
       rewardEvents.map(({ event: { data } }) => {
         const treasuryReward = api.createType('Balance', data[1]);
         const validatorReward = api.createType('Balance', data[0]);
@@ -46,9 +48,9 @@ const createReward: Task<NomidotReward[]> = {
 
     l.log(`Reward: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
-  write: async (blockNumber: BlockNumber, rewards: NomidotReward[]) => {
+  write: async (_blockNumber: BlockNumber, rewards: NomidotReward[]) => {
     await Promise.all(
       rewards.map(
         async ({

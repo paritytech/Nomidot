@@ -9,7 +9,7 @@ import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotStake, Task } from './types';
+import { Cached, NomidotStake, Task } from './types';
 
 const l = logger('Task: Stake');
 
@@ -18,7 +18,11 @@ const l = logger('Task: Stake');
  */
 const createStake: Task<NomidotStake> = {
   name: 'createStake',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotStake> => {
+  read: async (
+    blockHash: Hash,
+    _cached: Cached,
+    api: ApiPromise
+  ): Promise<NomidotStake> => {
     const currentElected = await api.query.staking.currentElected.at(blockHash);
     const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
     let totalStaked = new BN(0);

@@ -9,6 +9,7 @@ import { logger } from '@polkadot/util';
 import { prisma } from '../generated/prisma-client';
 import { referendumStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotReferendumRawEvent,
   NomidotReferendumStatusUpdate,
   Task,
@@ -22,10 +23,11 @@ const l = logger('Task: Referendum Status Update');
 const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
   name: 'createReferendumStatusUpdate',
   read: async (
-    blockHash: Hash,
-    api: ApiPromise
+    _blockHash: Hash,
+    cached: Cached,
+    _api: ApiPromise
   ): Promise<NomidotReferendumStatusUpdate[]> => {
-    const events = await api.query.system.events.at(blockHash);
+    const { events } = cached;
 
     // The "Started" event is taken care of by the createReferendum
     // task, so we need to filter it out.

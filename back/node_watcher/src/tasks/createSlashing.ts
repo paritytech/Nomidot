@@ -3,12 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType, Vec } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotSlashing, Task } from './types';
+import { filterEvents } from '../util/filterEvents';
+import { Cached, NomidotSlashing, Task } from './types';
 
 const l = logger('Task: Slashing');
 
@@ -17,22 +18,17 @@ const l = logger('Task: Slashing');
  */
 const createSlashing: Task<NomidotSlashing[]> = {
   name: 'createSlashing',
-  read: async (
-    blockHash: Hash,
+  read: (
+    _blockHash: Hash,
+    cached: Cached,
     api: ApiPromise
   ): Promise<NomidotSlashing[]> => {
-    const eventsAtBlock: Vec<EventRecord> = await api.query.system.events.at(
-      blockHash
-    );
-
-    const slashEvents = eventsAtBlock.filter(
-      ({ event: { section, method } }) =>
-        section === 'staking' && method === 'Slash'
-    );
+    const { events } = cached;
+    const slashEvents = filterEvents(events, 'staking', 'Slash');
 
     const result: NomidotSlashing[] = [];
 
-    slashEvents.map(({ event: { data } }) => {
+    slashEvents.map(({ event: { data } }: EventRecord) => {
       result.push({
         who: createType(api.registry, 'AccountId', data[0].toString()),
         amount: createType(api.registry, 'Balance', data[1].toString()),
@@ -41,7 +37,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
     l.log(`Nomidot Slashing: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSlashing[]) => {
     await Promise.all(
