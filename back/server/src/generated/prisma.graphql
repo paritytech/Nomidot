@@ -1,5 +1,5 @@
 # source: http://127.0.0.1:4466
-# timestamp: Fri Dec 27 2019 13:56:43 GMT+0100 (Central European Standard Time)
+# timestamp: Thu Feb 13 2020 16:42:02 GMT+0100 (Central European Standard Time)
 
 type AggregateBlockNumber {
   count: Int!
@@ -9,7 +9,55 @@ type AggregateEra {
   count: Int!
 }
 
+type AggregateHeartBeat {
+  count: Int!
+}
+
+type AggregateMotion {
+  count: Int!
+}
+
+type AggregateMotionProposalArgument {
+  count: Int!
+}
+
+type AggregateMotionStatus {
+  count: Int!
+}
+
 type AggregateNomination {
+  count: Int!
+}
+
+type AggregateOfflineValidator {
+  count: Int!
+}
+
+type AggregatePreimage {
+  count: Int!
+}
+
+type AggregatePreimageArgument {
+  count: Int!
+}
+
+type AggregatePreimageStatus {
+  count: Int!
+}
+
+type AggregateProposal {
+  count: Int!
+}
+
+type AggregateProposalStatus {
+  count: Int!
+}
+
+type AggregateReferendum {
+  count: Int!
+}
+
+type AggregateReferendumStatus {
   count: Int!
 }
 
@@ -584,6 +632,191 @@ input EraWhereUniqueInput {
   index: Int
 }
 
+type HeartBeat implements Node {
+  id: ID!
+  sessionIndex: Session!
+  authorityId: String!
+}
+
+"""A connection to a list of items."""
+type HeartBeatConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [HeartBeatEdge]!
+  aggregate: AggregateHeartBeat!
+}
+
+input HeartBeatCreateInput {
+  id: ID
+  authorityId: String!
+  sessionIndex: SessionCreateOneInput!
+}
+
+"""An edge in a connection."""
+type HeartBeatEdge {
+  """The item at the end of the edge."""
+  node: HeartBeat!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum HeartBeatOrderByInput {
+  id_ASC
+  id_DESC
+  authorityId_ASC
+  authorityId_DESC
+}
+
+type HeartBeatPreviousValues {
+  id: ID!
+  authorityId: String!
+}
+
+type HeartBeatSubscriptionPayload {
+  mutation: MutationType!
+  node: HeartBeat
+  updatedFields: [String!]
+  previousValues: HeartBeatPreviousValues
+}
+
+input HeartBeatSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [HeartBeatSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [HeartBeatSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [HeartBeatSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: HeartBeatWhereInput
+}
+
+input HeartBeatUpdateInput {
+  authorityId: String
+  sessionIndex: SessionUpdateOneRequiredInput
+}
+
+input HeartBeatUpdateManyMutationInput {
+  authorityId: String
+}
+
+input HeartBeatWhereInput {
+  """Logical AND on all given filters."""
+  AND: [HeartBeatWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [HeartBeatWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [HeartBeatWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  authorityId: String
+
+  """All values that are not equal to given value."""
+  authorityId_not: String
+
+  """All values that are contained in given list."""
+  authorityId_in: [String!]
+
+  """All values that are not contained in given list."""
+  authorityId_not_in: [String!]
+
+  """All values less than the given value."""
+  authorityId_lt: String
+
+  """All values less than or equal the given value."""
+  authorityId_lte: String
+
+  """All values greater than the given value."""
+  authorityId_gt: String
+
+  """All values greater than or equal the given value."""
+  authorityId_gte: String
+
+  """All values containing the given string."""
+  authorityId_contains: String
+
+  """All values not containing the given string."""
+  authorityId_not_contains: String
+
+  """All values starting with the given string."""
+  authorityId_starts_with: String
+
+  """All values not starting with the given string."""
+  authorityId_not_starts_with: String
+
+  """All values ending with the given string."""
+  authorityId_ends_with: String
+
+  """All values not ending with the given string."""
+  authorityId_not_ends_with: String
+  sessionIndex: SessionWhereInput
+}
+
+input HeartBeatWhereUniqueInput {
+  id: ID
+}
+
 """Raw JSON value"""
 scalar Json
 
@@ -593,7 +826,1352 @@ Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
+type Motion {
+  id: Int!
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument!]
+  motionProposalHash: String!
+  motionProposalId: Int!
+  motionStatus(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
+  preimage: Preimage
+  preimageHash: String
+  section: String!
+}
+
+"""A connection to a list of items."""
+type MotionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MotionEdge]!
+  aggregate: AggregateMotion!
+}
+
+input MotionCreateInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
+}
+
+input MotionCreateOneWithoutMotionProposalArgumentsInput {
+  create: MotionCreateWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutMotionStatusInput {
+  create: MotionCreateWithoutMotionStatusInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  connect: MotionWhereUniqueInput
+}
+
+input MotionCreateWithoutMotionProposalArgumentsInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
+}
+
+input MotionCreateWithoutMotionStatusInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
+}
+
+input MotionCreateWithoutPreimageInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
+}
+
+"""An edge in a connection."""
+type MotionEdge {
+  """The item at the end of the edge."""
+  node: Motion!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MotionOrderByInput {
+  id_ASC
+  id_DESC
+  author_ASC
+  author_DESC
+  memberCount_ASC
+  memberCount_DESC
+  metaDescription_ASC
+  metaDescription_DESC
+  method_ASC
+  method_DESC
+  motionProposalHash_ASC
+  motionProposalHash_DESC
+  motionProposalId_ASC
+  motionProposalId_DESC
+  preimageHash_ASC
+  preimageHash_DESC
+  section_ASC
+  section_DESC
+}
+
+type MotionPreviousValues {
+  id: Int!
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+}
+
+type MotionProposalArgument implements Node {
+  id: ID!
+  name: String!
+  motion: Motion!
+  value: String!
+}
+
+"""A connection to a list of items."""
+type MotionProposalArgumentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MotionProposalArgumentEdge]!
+  aggregate: AggregateMotionProposalArgument!
+}
+
+input MotionProposalArgumentCreateInput {
+  id: ID
+  name: String!
+  value: String!
+  motion: MotionCreateOneWithoutMotionProposalArgumentsInput!
+}
+
+input MotionProposalArgumentCreateManyWithoutMotionInput {
+  create: [MotionProposalArgumentCreateWithoutMotionInput!]
+  connect: [MotionProposalArgumentWhereUniqueInput!]
+}
+
+input MotionProposalArgumentCreateWithoutMotionInput {
+  id: ID
+  name: String!
+  value: String!
+}
+
+"""An edge in a connection."""
+type MotionProposalArgumentEdge {
+  """The item at the end of the edge."""
+  node: MotionProposalArgument!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MotionProposalArgumentOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  value_ASC
+  value_DESC
+}
+
+type MotionProposalArgumentPreviousValues {
+  id: ID!
+  name: String!
+  value: String!
+}
+
+input MotionProposalArgumentScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionProposalArgumentScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionProposalArgumentScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionProposalArgumentScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+}
+
+type MotionProposalArgumentSubscriptionPayload {
+  mutation: MutationType!
+  node: MotionProposalArgument
+  updatedFields: [String!]
+  previousValues: MotionProposalArgumentPreviousValues
+}
+
+input MotionProposalArgumentSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionProposalArgumentSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionProposalArgumentSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionProposalArgumentSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MotionProposalArgumentWhereInput
+}
+
+input MotionProposalArgumentUpdateInput {
+  name: String
+  value: String
+  motion: MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput
+}
+
+input MotionProposalArgumentUpdateManyDataInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyMutationInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateManyWithoutMotionInput {
+  create: [MotionProposalArgumentCreateWithoutMotionInput!]
+  connect: [MotionProposalArgumentWhereUniqueInput!]
+  set: [MotionProposalArgumentWhereUniqueInput!]
+  disconnect: [MotionProposalArgumentWhereUniqueInput!]
+  delete: [MotionProposalArgumentWhereUniqueInput!]
+  update: [MotionProposalArgumentUpdateWithWhereUniqueWithoutMotionInput!]
+  updateMany: [MotionProposalArgumentUpdateManyWithWhereNestedInput!]
+  deleteMany: [MotionProposalArgumentScalarWhereInput!]
+  upsert: [MotionProposalArgumentUpsertWithWhereUniqueWithoutMotionInput!]
+}
+
+input MotionProposalArgumentUpdateManyWithWhereNestedInput {
+  where: MotionProposalArgumentScalarWhereInput!
+  data: MotionProposalArgumentUpdateManyDataInput!
+}
+
+input MotionProposalArgumentUpdateWithoutMotionDataInput {
+  name: String
+  value: String
+}
+
+input MotionProposalArgumentUpdateWithWhereUniqueWithoutMotionInput {
+  where: MotionProposalArgumentWhereUniqueInput!
+  data: MotionProposalArgumentUpdateWithoutMotionDataInput!
+}
+
+input MotionProposalArgumentUpsertWithWhereUniqueWithoutMotionInput {
+  where: MotionProposalArgumentWhereUniqueInput!
+  update: MotionProposalArgumentUpdateWithoutMotionDataInput!
+  create: MotionProposalArgumentCreateWithoutMotionInput!
+}
+
+input MotionProposalArgumentWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionProposalArgumentWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionProposalArgumentWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionProposalArgumentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+  motion: MotionWhereInput
+}
+
+input MotionProposalArgumentWhereUniqueInput {
+  id: ID
+}
+
+type MotionStatus implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  motion: Motion!
+  status: String!
+}
+
+"""A connection to a list of items."""
+type MotionStatusConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MotionStatusEdge]!
+  aggregate: AggregateMotionStatus!
+}
+
+input MotionStatusCreateInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+  motion: MotionCreateOneWithoutMotionStatusInput!
+}
+
+input MotionStatusCreateManyWithoutMotionInput {
+  create: [MotionStatusCreateWithoutMotionInput!]
+  connect: [MotionStatusWhereUniqueInput!]
+}
+
+input MotionStatusCreateWithoutMotionInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type MotionStatusEdge {
+  """The item at the end of the edge."""
+  node: MotionStatus!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MotionStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type MotionStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input MotionStatusScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionStatusScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionStatusScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionStatusScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+}
+
+type MotionStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: MotionStatus
+  updatedFields: [String!]
+  previousValues: MotionStatusPreviousValues
+}
+
+input MotionStatusSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionStatusSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionStatusSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionStatusSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MotionStatusWhereInput
+}
+
+input MotionStatusUpdateInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  motion: MotionUpdateOneRequiredWithoutMotionStatusInput
+}
+
+input MotionStatusUpdateManyDataInput {
+  status: String
+}
+
+input MotionStatusUpdateManyMutationInput {
+  status: String
+}
+
+input MotionStatusUpdateManyWithoutMotionInput {
+  create: [MotionStatusCreateWithoutMotionInput!]
+  connect: [MotionStatusWhereUniqueInput!]
+  set: [MotionStatusWhereUniqueInput!]
+  disconnect: [MotionStatusWhereUniqueInput!]
+  delete: [MotionStatusWhereUniqueInput!]
+  update: [MotionStatusUpdateWithWhereUniqueWithoutMotionInput!]
+  updateMany: [MotionStatusUpdateManyWithWhereNestedInput!]
+  deleteMany: [MotionStatusScalarWhereInput!]
+  upsert: [MotionStatusUpsertWithWhereUniqueWithoutMotionInput!]
+}
+
+input MotionStatusUpdateManyWithWhereNestedInput {
+  where: MotionStatusScalarWhereInput!
+  data: MotionStatusUpdateManyDataInput!
+}
+
+input MotionStatusUpdateWithoutMotionDataInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input MotionStatusUpdateWithWhereUniqueWithoutMotionInput {
+  where: MotionStatusWhereUniqueInput!
+  data: MotionStatusUpdateWithoutMotionDataInput!
+}
+
+input MotionStatusUpsertWithWhereUniqueWithoutMotionInput {
+  where: MotionStatusWhereUniqueInput!
+  update: MotionStatusUpdateWithoutMotionDataInput!
+  create: MotionStatusCreateWithoutMotionInput!
+}
+
+input MotionStatusWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionStatusWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionStatusWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionStatusWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+  blockNumber: BlockNumberWhereInput
+  motion: MotionWhereInput
+}
+
+input MotionStatusWhereUniqueInput {
+  id: ID
+}
+
+type MotionSubscriptionPayload {
+  mutation: MutationType!
+  node: Motion
+  updatedFields: [String!]
+  previousValues: MotionPreviousValues
+}
+
+input MotionSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MotionWhereInput
+}
+
+input MotionUpdateInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
+}
+
+input MotionUpdateManyMutationInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+}
+
+input MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput {
+  create: MotionCreateWithoutMotionProposalArgumentsInput
+  connect: MotionWhereUniqueInput
+  update: MotionUpdateWithoutMotionProposalArgumentsDataInput
+  upsert: MotionUpsertWithoutMotionProposalArgumentsInput
+}
+
+input MotionUpdateOneRequiredWithoutMotionStatusInput {
+  create: MotionCreateWithoutMotionStatusInput
+  connect: MotionWhereUniqueInput
+  update: MotionUpdateWithoutMotionStatusDataInput
+  upsert: MotionUpsertWithoutMotionStatusInput
+}
+
+input MotionUpdateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
+  connect: MotionWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: MotionUpdateWithoutPreimageDataInput
+  upsert: MotionUpsertWithoutPreimageInput
+}
+
+input MotionUpdateWithoutMotionProposalArgumentsDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
+}
+
+input MotionUpdateWithoutMotionStatusDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
+}
+
+input MotionUpdateWithoutPreimageDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpsertWithoutMotionProposalArgumentsInput {
+  update: MotionUpdateWithoutMotionProposalArgumentsDataInput!
+  create: MotionCreateWithoutMotionProposalArgumentsInput!
+}
+
+input MotionUpsertWithoutMotionStatusInput {
+  update: MotionUpdateWithoutMotionStatusDataInput!
+  create: MotionCreateWithoutMotionStatusInput!
+}
+
+input MotionUpsertWithoutPreimageInput {
+  update: MotionUpdateWithoutPreimageDataInput!
+  create: MotionCreateWithoutPreimageInput!
+}
+
+input MotionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MotionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MotionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MotionWhereInput!]
+  id: Int
+
+  """All values that are not equal to given value."""
+  id_not: Int
+
+  """All values that are contained in given list."""
+  id_in: [Int!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [Int!]
+
+  """All values less than the given value."""
+  id_lt: Int
+
+  """All values less than or equal the given value."""
+  id_lte: Int
+
+  """All values greater than the given value."""
+  id_gt: Int
+
+  """All values greater than or equal the given value."""
+  id_gte: Int
+  author: String
+
+  """All values that are not equal to given value."""
+  author_not: String
+
+  """All values that are contained in given list."""
+  author_in: [String!]
+
+  """All values that are not contained in given list."""
+  author_not_in: [String!]
+
+  """All values less than the given value."""
+  author_lt: String
+
+  """All values less than or equal the given value."""
+  author_lte: String
+
+  """All values greater than the given value."""
+  author_gt: String
+
+  """All values greater than or equal the given value."""
+  author_gte: String
+
+  """All values containing the given string."""
+  author_contains: String
+
+  """All values not containing the given string."""
+  author_not_contains: String
+
+  """All values starting with the given string."""
+  author_starts_with: String
+
+  """All values not starting with the given string."""
+  author_not_starts_with: String
+
+  """All values ending with the given string."""
+  author_ends_with: String
+
+  """All values not ending with the given string."""
+  author_not_ends_with: String
+  memberCount: Int
+
+  """All values that are not equal to given value."""
+  memberCount_not: Int
+
+  """All values that are contained in given list."""
+  memberCount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  memberCount_not_in: [Int!]
+
+  """All values less than the given value."""
+  memberCount_lt: Int
+
+  """All values less than or equal the given value."""
+  memberCount_lte: Int
+
+  """All values greater than the given value."""
+  memberCount_gt: Int
+
+  """All values greater than or equal the given value."""
+  memberCount_gte: Int
+  metaDescription: String
+
+  """All values that are not equal to given value."""
+  metaDescription_not: String
+
+  """All values that are contained in given list."""
+  metaDescription_in: [String!]
+
+  """All values that are not contained in given list."""
+  metaDescription_not_in: [String!]
+
+  """All values less than the given value."""
+  metaDescription_lt: String
+
+  """All values less than or equal the given value."""
+  metaDescription_lte: String
+
+  """All values greater than the given value."""
+  metaDescription_gt: String
+
+  """All values greater than or equal the given value."""
+  metaDescription_gte: String
+
+  """All values containing the given string."""
+  metaDescription_contains: String
+
+  """All values not containing the given string."""
+  metaDescription_not_contains: String
+
+  """All values starting with the given string."""
+  metaDescription_starts_with: String
+
+  """All values not starting with the given string."""
+  metaDescription_not_starts_with: String
+
+  """All values ending with the given string."""
+  metaDescription_ends_with: String
+
+  """All values not ending with the given string."""
+  metaDescription_not_ends_with: String
+  method: String
+
+  """All values that are not equal to given value."""
+  method_not: String
+
+  """All values that are contained in given list."""
+  method_in: [String!]
+
+  """All values that are not contained in given list."""
+  method_not_in: [String!]
+
+  """All values less than the given value."""
+  method_lt: String
+
+  """All values less than or equal the given value."""
+  method_lte: String
+
+  """All values greater than the given value."""
+  method_gt: String
+
+  """All values greater than or equal the given value."""
+  method_gte: String
+
+  """All values containing the given string."""
+  method_contains: String
+
+  """All values not containing the given string."""
+  method_not_contains: String
+
+  """All values starting with the given string."""
+  method_starts_with: String
+
+  """All values not starting with the given string."""
+  method_not_starts_with: String
+
+  """All values ending with the given string."""
+  method_ends_with: String
+
+  """All values not ending with the given string."""
+  method_not_ends_with: String
+  motionProposalHash: String
+
+  """All values that are not equal to given value."""
+  motionProposalHash_not: String
+
+  """All values that are contained in given list."""
+  motionProposalHash_in: [String!]
+
+  """All values that are not contained in given list."""
+  motionProposalHash_not_in: [String!]
+
+  """All values less than the given value."""
+  motionProposalHash_lt: String
+
+  """All values less than or equal the given value."""
+  motionProposalHash_lte: String
+
+  """All values greater than the given value."""
+  motionProposalHash_gt: String
+
+  """All values greater than or equal the given value."""
+  motionProposalHash_gte: String
+
+  """All values containing the given string."""
+  motionProposalHash_contains: String
+
+  """All values not containing the given string."""
+  motionProposalHash_not_contains: String
+
+  """All values starting with the given string."""
+  motionProposalHash_starts_with: String
+
+  """All values not starting with the given string."""
+  motionProposalHash_not_starts_with: String
+
+  """All values ending with the given string."""
+  motionProposalHash_ends_with: String
+
+  """All values not ending with the given string."""
+  motionProposalHash_not_ends_with: String
+  motionProposalId: Int
+
+  """All values that are not equal to given value."""
+  motionProposalId_not: Int
+
+  """All values that are contained in given list."""
+  motionProposalId_in: [Int!]
+
+  """All values that are not contained in given list."""
+  motionProposalId_not_in: [Int!]
+
+  """All values less than the given value."""
+  motionProposalId_lt: Int
+
+  """All values less than or equal the given value."""
+  motionProposalId_lte: Int
+
+  """All values greater than the given value."""
+  motionProposalId_gt: Int
+
+  """All values greater than or equal the given value."""
+  motionProposalId_gte: Int
+  preimageHash: String
+
+  """All values that are not equal to given value."""
+  preimageHash_not: String
+
+  """All values that are contained in given list."""
+  preimageHash_in: [String!]
+
+  """All values that are not contained in given list."""
+  preimageHash_not_in: [String!]
+
+  """All values less than the given value."""
+  preimageHash_lt: String
+
+  """All values less than or equal the given value."""
+  preimageHash_lte: String
+
+  """All values greater than the given value."""
+  preimageHash_gt: String
+
+  """All values greater than or equal the given value."""
+  preimageHash_gte: String
+
+  """All values containing the given string."""
+  preimageHash_contains: String
+
+  """All values not containing the given string."""
+  preimageHash_not_contains: String
+
+  """All values starting with the given string."""
+  preimageHash_starts_with: String
+
+  """All values not starting with the given string."""
+  preimageHash_not_starts_with: String
+
+  """All values ending with the given string."""
+  preimageHash_ends_with: String
+
+  """All values not ending with the given string."""
+  preimageHash_not_ends_with: String
+  section: String
+
+  """All values that are not equal to given value."""
+  section_not: String
+
+  """All values that are contained in given list."""
+  section_in: [String!]
+
+  """All values that are not contained in given list."""
+  section_not_in: [String!]
+
+  """All values less than the given value."""
+  section_lt: String
+
+  """All values less than or equal the given value."""
+  section_lte: String
+
+  """All values greater than the given value."""
+  section_gt: String
+
+  """All values greater than or equal the given value."""
+  section_gte: String
+
+  """All values containing the given string."""
+  section_contains: String
+
+  """All values not containing the given string."""
+  section_not_contains: String
+
+  """All values starting with the given string."""
+  section_starts_with: String
+
+  """All values not starting with the given string."""
+  section_not_starts_with: String
+
+  """All values ending with the given string."""
+  section_ends_with: String
+
+  """All values not ending with the given string."""
+  section_not_ends_with: String
+  motionProposalArguments_every: MotionProposalArgumentWhereInput
+  motionProposalArguments_some: MotionProposalArgumentWhereInput
+  motionProposalArguments_none: MotionProposalArgumentWhereInput
+  motionStatus_every: MotionStatusWhereInput
+  motionStatus_some: MotionStatusWhereInput
+  motionStatus_none: MotionStatusWhereInput
+  preimage: PreimageWhereInput
+}
+
+input MotionWhereUniqueInput {
+  id: Int
+  motionProposalId: Int
+}
+
 type Mutation {
+  createHeartBeat(data: HeartBeatCreateInput!): HeartBeat!
+  createOfflineValidator(data: OfflineValidatorCreateInput!): OfflineValidator!
   createEra(data: EraCreateInput!): Era!
   createSlashing(data: SlashingCreateInput!): Slashing!
   createValidator(data: ValidatorCreateInput!): Validator!
@@ -601,8 +2179,20 @@ type Mutation {
   createReward(data: RewardCreateInput!): Reward!
   createNomination(data: NominationCreateInput!): Nomination!
   createStake(data: StakeCreateInput!): Stake!
+  createMotion(data: MotionCreateInput!): Motion!
+  createMotionProposalArgument(data: MotionProposalArgumentCreateInput!): MotionProposalArgument!
+  createMotionStatus(data: MotionStatusCreateInput!): MotionStatus!
+  createProposal(data: ProposalCreateInput!): Proposal!
+  createProposalStatus(data: ProposalStatusCreateInput!): ProposalStatus!
+  createPreimage(data: PreimageCreateInput!): Preimage!
+  createPreimageStatus(data: PreimageStatusCreateInput!): PreimageStatus!
+  createPreimageArgument(data: PreimageArgumentCreateInput!): PreimageArgument!
+  createReferendum(data: ReferendumCreateInput!): Referendum!
+  createReferendumStatus(data: ReferendumStatusCreateInput!): ReferendumStatus!
   createBlockNumber(data: BlockNumberCreateInput!): BlockNumber!
   createSession(data: SessionCreateInput!): Session!
+  updateHeartBeat(data: HeartBeatUpdateInput!, where: HeartBeatWhereUniqueInput!): HeartBeat
+  updateOfflineValidator(data: OfflineValidatorUpdateInput!, where: OfflineValidatorWhereUniqueInput!): OfflineValidator
   updateEra(data: EraUpdateInput!, where: EraWhereUniqueInput!): Era
   updateSlashing(data: SlashingUpdateInput!, where: SlashingWhereUniqueInput!): Slashing
   updateValidator(data: ValidatorUpdateInput!, where: ValidatorWhereUniqueInput!): Validator
@@ -610,8 +2200,20 @@ type Mutation {
   updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
   updateNomination(data: NominationUpdateInput!, where: NominationWhereUniqueInput!): Nomination
   updateStake(data: StakeUpdateInput!, where: StakeWhereUniqueInput!): Stake
+  updateMotion(data: MotionUpdateInput!, where: MotionWhereUniqueInput!): Motion
+  updateMotionProposalArgument(data: MotionProposalArgumentUpdateInput!, where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  updateMotionStatus(data: MotionStatusUpdateInput!, where: MotionStatusWhereUniqueInput!): MotionStatus
+  updateProposal(data: ProposalUpdateInput!, where: ProposalWhereUniqueInput!): Proposal
+  updateProposalStatus(data: ProposalStatusUpdateInput!, where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  updatePreimage(data: PreimageUpdateInput!, where: PreimageWhereUniqueInput!): Preimage
+  updatePreimageStatus(data: PreimageStatusUpdateInput!, where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  updatePreimageArgument(data: PreimageArgumentUpdateInput!, where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  updateReferendum(data: ReferendumUpdateInput!, where: ReferendumWhereUniqueInput!): Referendum
+  updateReferendumStatus(data: ReferendumStatusUpdateInput!, where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
   updateBlockNumber(data: BlockNumberUpdateInput!, where: BlockNumberWhereUniqueInput!): BlockNumber
   updateSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
+  deleteHeartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  deleteOfflineValidator(where: OfflineValidatorWhereUniqueInput!): OfflineValidator
   deleteEra(where: EraWhereUniqueInput!): Era
   deleteSlashing(where: SlashingWhereUniqueInput!): Slashing
   deleteValidator(where: ValidatorWhereUniqueInput!): Validator
@@ -619,8 +2221,20 @@ type Mutation {
   deleteReward(where: RewardWhereUniqueInput!): Reward
   deleteNomination(where: NominationWhereUniqueInput!): Nomination
   deleteStake(where: StakeWhereUniqueInput!): Stake
+  deleteMotion(where: MotionWhereUniqueInput!): Motion
+  deleteMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  deleteMotionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
+  deleteProposal(where: ProposalWhereUniqueInput!): Proposal
+  deleteProposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  deletePreimage(where: PreimageWhereUniqueInput!): Preimage
+  deletePreimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  deletePreimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  deleteReferendum(where: ReferendumWhereUniqueInput!): Referendum
+  deleteReferendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
   deleteBlockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   deleteSession(where: SessionWhereUniqueInput!): Session
+  upsertHeartBeat(where: HeartBeatWhereUniqueInput!, create: HeartBeatCreateInput!, update: HeartBeatUpdateInput!): HeartBeat!
+  upsertOfflineValidator(where: OfflineValidatorWhereUniqueInput!, create: OfflineValidatorCreateInput!, update: OfflineValidatorUpdateInput!): OfflineValidator!
   upsertEra(where: EraWhereUniqueInput!, create: EraCreateInput!, update: EraUpdateInput!): Era!
   upsertSlashing(where: SlashingWhereUniqueInput!, create: SlashingCreateInput!, update: SlashingUpdateInput!): Slashing!
   upsertValidator(where: ValidatorWhereUniqueInput!, create: ValidatorCreateInput!, update: ValidatorUpdateInput!): Validator!
@@ -628,8 +2242,20 @@ type Mutation {
   upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
   upsertNomination(where: NominationWhereUniqueInput!, create: NominationCreateInput!, update: NominationUpdateInput!): Nomination!
   upsertStake(where: StakeWhereUniqueInput!, create: StakeCreateInput!, update: StakeUpdateInput!): Stake!
+  upsertMotion(where: MotionWhereUniqueInput!, create: MotionCreateInput!, update: MotionUpdateInput!): Motion!
+  upsertMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!, create: MotionProposalArgumentCreateInput!, update: MotionProposalArgumentUpdateInput!): MotionProposalArgument!
+  upsertMotionStatus(where: MotionStatusWhereUniqueInput!, create: MotionStatusCreateInput!, update: MotionStatusUpdateInput!): MotionStatus!
+  upsertProposal(where: ProposalWhereUniqueInput!, create: ProposalCreateInput!, update: ProposalUpdateInput!): Proposal!
+  upsertProposalStatus(where: ProposalStatusWhereUniqueInput!, create: ProposalStatusCreateInput!, update: ProposalStatusUpdateInput!): ProposalStatus!
+  upsertPreimage(where: PreimageWhereUniqueInput!, create: PreimageCreateInput!, update: PreimageUpdateInput!): Preimage!
+  upsertPreimageStatus(where: PreimageStatusWhereUniqueInput!, create: PreimageStatusCreateInput!, update: PreimageStatusUpdateInput!): PreimageStatus!
+  upsertPreimageArgument(where: PreimageArgumentWhereUniqueInput!, create: PreimageArgumentCreateInput!, update: PreimageArgumentUpdateInput!): PreimageArgument!
+  upsertReferendum(where: ReferendumWhereUniqueInput!, create: ReferendumCreateInput!, update: ReferendumUpdateInput!): Referendum!
+  upsertReferendumStatus(where: ReferendumStatusWhereUniqueInput!, create: ReferendumStatusCreateInput!, update: ReferendumStatusUpdateInput!): ReferendumStatus!
   upsertBlockNumber(where: BlockNumberWhereUniqueInput!, create: BlockNumberCreateInput!, update: BlockNumberUpdateInput!): BlockNumber!
   upsertSession(where: SessionWhereUniqueInput!, create: SessionCreateInput!, update: SessionUpdateInput!): Session!
+  updateManyHeartBeats(data: HeartBeatUpdateManyMutationInput!, where: HeartBeatWhereInput): BatchPayload!
+  updateManyOfflineValidators(data: OfflineValidatorUpdateManyMutationInput!, where: OfflineValidatorWhereInput): BatchPayload!
   updateManyEras(data: EraUpdateManyMutationInput!, where: EraWhereInput): BatchPayload!
   updateManySlashings(data: SlashingUpdateManyMutationInput!, where: SlashingWhereInput): BatchPayload!
   updateManyValidators(data: ValidatorUpdateManyMutationInput!, where: ValidatorWhereInput): BatchPayload!
@@ -637,8 +2263,20 @@ type Mutation {
   updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
   updateManyNominations(data: NominationUpdateManyMutationInput!, where: NominationWhereInput): BatchPayload!
   updateManyStakes(data: StakeUpdateManyMutationInput!, where: StakeWhereInput): BatchPayload!
+  updateManyMotions(data: MotionUpdateManyMutationInput!, where: MotionWhereInput): BatchPayload!
+  updateManyMotionProposalArguments(data: MotionProposalArgumentUpdateManyMutationInput!, where: MotionProposalArgumentWhereInput): BatchPayload!
+  updateManyMotionStatuses(data: MotionStatusUpdateManyMutationInput!, where: MotionStatusWhereInput): BatchPayload!
+  updateManyProposals(data: ProposalUpdateManyMutationInput!, where: ProposalWhereInput): BatchPayload!
+  updateManyProposalStatuses(data: ProposalStatusUpdateManyMutationInput!, where: ProposalStatusWhereInput): BatchPayload!
+  updateManyPreimages(data: PreimageUpdateManyMutationInput!, where: PreimageWhereInput): BatchPayload!
+  updateManyPreimageStatuses(data: PreimageStatusUpdateManyMutationInput!, where: PreimageStatusWhereInput): BatchPayload!
+  updateManyPreimageArguments(data: PreimageArgumentUpdateManyMutationInput!, where: PreimageArgumentWhereInput): BatchPayload!
+  updateManyReferendums(data: ReferendumUpdateManyMutationInput!, where: ReferendumWhereInput): BatchPayload!
+  updateManyReferendumStatuses(data: ReferendumStatusUpdateManyMutationInput!, where: ReferendumStatusWhereInput): BatchPayload!
   updateManyBlockNumbers(data: BlockNumberUpdateManyMutationInput!, where: BlockNumberWhereInput): BatchPayload!
   updateManySessions(data: SessionUpdateManyMutationInput!, where: SessionWhereInput): BatchPayload!
+  deleteManyHeartBeats(where: HeartBeatWhereInput): BatchPayload!
+  deleteManyOfflineValidators(where: OfflineValidatorWhereInput): BatchPayload!
   deleteManyEras(where: EraWhereInput): BatchPayload!
   deleteManySlashings(where: SlashingWhereInput): BatchPayload!
   deleteManyValidators(where: ValidatorWhereInput): BatchPayload!
@@ -646,6 +2284,16 @@ type Mutation {
   deleteManyRewards(where: RewardWhereInput): BatchPayload!
   deleteManyNominations(where: NominationWhereInput): BatchPayload!
   deleteManyStakes(where: StakeWhereInput): BatchPayload!
+  deleteManyMotions(where: MotionWhereInput): BatchPayload!
+  deleteManyMotionProposalArguments(where: MotionProposalArgumentWhereInput): BatchPayload!
+  deleteManyMotionStatuses(where: MotionStatusWhereInput): BatchPayload!
+  deleteManyProposals(where: ProposalWhereInput): BatchPayload!
+  deleteManyProposalStatuses(where: ProposalStatusWhereInput): BatchPayload!
+  deleteManyPreimages(where: PreimageWhereInput): BatchPayload!
+  deleteManyPreimageStatuses(where: PreimageStatusWhereInput): BatchPayload!
+  deleteManyPreimageArguments(where: PreimageArgumentWhereInput): BatchPayload!
+  deleteManyReferendums(where: ReferendumWhereInput): BatchPayload!
+  deleteManyReferendumStatuses(where: ReferendumStatusWhereInput): BatchPayload!
   deleteManyBlockNumbers(where: BlockNumberWhereInput): BatchPayload!
   deleteManySessions(where: SessionWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
@@ -670,7 +2318,7 @@ type Nomination implements Node {
   nominatorController: String!
   nominatorStash: String!
   session: Session!
-  bonded: String!
+  stakedAmount: String!
 }
 
 """A connection to a list of items."""
@@ -689,7 +2337,7 @@ input NominationCreateInput {
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  bonded: String!
+  stakedAmount: String!
   session: SessionCreateOneInput!
 }
 
@@ -713,8 +2361,8 @@ enum NominationOrderByInput {
   nominatorController_DESC
   nominatorStash_ASC
   nominatorStash_DESC
-  bonded_ASC
-  bonded_DESC
+  stakedAmount_ASC
+  stakedAmount_DESC
 }
 
 type NominationPreviousValues {
@@ -723,7 +2371,7 @@ type NominationPreviousValues {
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  bonded: String!
+  stakedAmount: String!
 }
 
 type NominationSubscriptionPayload {
@@ -768,7 +2416,7 @@ input NominationUpdateInput {
   validatorStash: String
   nominatorController: String
   nominatorStash: String
-  bonded: String
+  stakedAmount: String
   session: SessionUpdateOneRequiredInput
 }
 
@@ -777,7 +2425,7 @@ input NominationUpdateManyMutationInput {
   validatorStash: String
   nominatorController: String
   nominatorStash: String
-  bonded: String
+  stakedAmount: String
 }
 
 input NominationWhereInput {
@@ -989,50 +2637,342 @@ input NominationWhereInput {
 
   """All values not ending with the given string."""
   nominatorStash_not_ends_with: String
-  bonded: String
+  stakedAmount: String
 
   """All values that are not equal to given value."""
-  bonded_not: String
+  stakedAmount_not: String
 
   """All values that are contained in given list."""
-  bonded_in: [String!]
+  stakedAmount_in: [String!]
 
   """All values that are not contained in given list."""
-  bonded_not_in: [String!]
+  stakedAmount_not_in: [String!]
 
   """All values less than the given value."""
-  bonded_lt: String
+  stakedAmount_lt: String
 
   """All values less than or equal the given value."""
-  bonded_lte: String
+  stakedAmount_lte: String
 
   """All values greater than the given value."""
-  bonded_gt: String
+  stakedAmount_gt: String
 
   """All values greater than or equal the given value."""
-  bonded_gte: String
+  stakedAmount_gte: String
 
   """All values containing the given string."""
-  bonded_contains: String
+  stakedAmount_contains: String
 
   """All values not containing the given string."""
-  bonded_not_contains: String
+  stakedAmount_not_contains: String
 
   """All values starting with the given string."""
-  bonded_starts_with: String
+  stakedAmount_starts_with: String
 
   """All values not starting with the given string."""
-  bonded_not_starts_with: String
+  stakedAmount_not_starts_with: String
 
   """All values ending with the given string."""
-  bonded_ends_with: String
+  stakedAmount_ends_with: String
 
   """All values not ending with the given string."""
-  bonded_not_ends_with: String
+  stakedAmount_not_ends_with: String
   session: SessionWhereInput
 }
 
 input NominationWhereUniqueInput {
+  id: ID
+}
+
+type OfflineValidator implements Node {
+  id: ID!
+  sessionIndex: Session!
+  validatorId: String!
+  total: String!
+  own: String!
+  others: [Json!]!
+}
+
+"""A connection to a list of items."""
+type OfflineValidatorConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [OfflineValidatorEdge]!
+  aggregate: AggregateOfflineValidator!
+}
+
+input OfflineValidatorCreateInput {
+  id: ID
+  validatorId: String!
+  total: String!
+  own: String!
+  others: OfflineValidatorCreateothersInput
+  sessionIndex: SessionCreateOneInput!
+}
+
+input OfflineValidatorCreateothersInput {
+  set: [Json!]
+}
+
+"""An edge in a connection."""
+type OfflineValidatorEdge {
+  """The item at the end of the edge."""
+  node: OfflineValidator!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum OfflineValidatorOrderByInput {
+  id_ASC
+  id_DESC
+  validatorId_ASC
+  validatorId_DESC
+  total_ASC
+  total_DESC
+  own_ASC
+  own_DESC
+}
+
+type OfflineValidatorPreviousValues {
+  id: ID!
+  validatorId: String!
+  total: String!
+  own: String!
+  others: [Json!]!
+}
+
+type OfflineValidatorSubscriptionPayload {
+  mutation: MutationType!
+  node: OfflineValidator
+  updatedFields: [String!]
+  previousValues: OfflineValidatorPreviousValues
+}
+
+input OfflineValidatorSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OfflineValidatorSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OfflineValidatorSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OfflineValidatorSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: OfflineValidatorWhereInput
+}
+
+input OfflineValidatorUpdateInput {
+  validatorId: String
+  total: String
+  own: String
+  others: OfflineValidatorUpdateothersInput
+  sessionIndex: SessionUpdateOneRequiredInput
+}
+
+input OfflineValidatorUpdateManyMutationInput {
+  validatorId: String
+  total: String
+  own: String
+  others: OfflineValidatorUpdateothersInput
+}
+
+input OfflineValidatorUpdateothersInput {
+  set: [Json!]
+}
+
+input OfflineValidatorWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OfflineValidatorWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OfflineValidatorWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OfflineValidatorWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  validatorId: String
+
+  """All values that are not equal to given value."""
+  validatorId_not: String
+
+  """All values that are contained in given list."""
+  validatorId_in: [String!]
+
+  """All values that are not contained in given list."""
+  validatorId_not_in: [String!]
+
+  """All values less than the given value."""
+  validatorId_lt: String
+
+  """All values less than or equal the given value."""
+  validatorId_lte: String
+
+  """All values greater than the given value."""
+  validatorId_gt: String
+
+  """All values greater than or equal the given value."""
+  validatorId_gte: String
+
+  """All values containing the given string."""
+  validatorId_contains: String
+
+  """All values not containing the given string."""
+  validatorId_not_contains: String
+
+  """All values starting with the given string."""
+  validatorId_starts_with: String
+
+  """All values not starting with the given string."""
+  validatorId_not_starts_with: String
+
+  """All values ending with the given string."""
+  validatorId_ends_with: String
+
+  """All values not ending with the given string."""
+  validatorId_not_ends_with: String
+  total: String
+
+  """All values that are not equal to given value."""
+  total_not: String
+
+  """All values that are contained in given list."""
+  total_in: [String!]
+
+  """All values that are not contained in given list."""
+  total_not_in: [String!]
+
+  """All values less than the given value."""
+  total_lt: String
+
+  """All values less than or equal the given value."""
+  total_lte: String
+
+  """All values greater than the given value."""
+  total_gt: String
+
+  """All values greater than or equal the given value."""
+  total_gte: String
+
+  """All values containing the given string."""
+  total_contains: String
+
+  """All values not containing the given string."""
+  total_not_contains: String
+
+  """All values starting with the given string."""
+  total_starts_with: String
+
+  """All values not starting with the given string."""
+  total_not_starts_with: String
+
+  """All values ending with the given string."""
+  total_ends_with: String
+
+  """All values not ending with the given string."""
+  total_not_ends_with: String
+  own: String
+
+  """All values that are not equal to given value."""
+  own_not: String
+
+  """All values that are contained in given list."""
+  own_in: [String!]
+
+  """All values that are not contained in given list."""
+  own_not_in: [String!]
+
+  """All values less than the given value."""
+  own_lt: String
+
+  """All values less than or equal the given value."""
+  own_lte: String
+
+  """All values greater than the given value."""
+  own_gt: String
+
+  """All values greater than or equal the given value."""
+  own_gte: String
+
+  """All values containing the given string."""
+  own_contains: String
+
+  """All values not containing the given string."""
+  own_not_contains: String
+
+  """All values starting with the given string."""
+  own_starts_with: String
+
+  """All values not starting with the given string."""
+  own_not_starts_with: String
+
+  """All values ending with the given string."""
+  own_ends_with: String
+
+  """All values not ending with the given string."""
+  own_not_ends_with: String
+  sessionIndex: SessionWhereInput
+}
+
+input OfflineValidatorWhereUniqueInput {
   id: ID
 }
 
@@ -1051,11 +2991,2111 @@ type PageInfo {
   endCursor: String
 }
 
+type Preimage implements Node {
+  id: ID!
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  motion: Motion
+  proposal: Proposal
+  preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument!]
+  preimageStatus(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus!]
+  referendum: Referendum
+  section: String!
+}
+
+type PreimageArgument implements Node {
+  id: ID!
+  name: String!
+  preimage: Preimage!
+  value: String!
+}
+
+"""A connection to a list of items."""
+type PreimageArgumentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PreimageArgumentEdge]!
+  aggregate: AggregatePreimageArgument!
+}
+
+input PreimageArgumentCreateInput {
+  id: ID
+  name: String!
+  value: String!
+  preimage: PreimageCreateOneWithoutPreimageArgumentsInput!
+}
+
+input PreimageArgumentCreateManyWithoutPreimageInput {
+  create: [PreimageArgumentCreateWithoutPreimageInput!]
+  connect: [PreimageArgumentWhereUniqueInput!]
+}
+
+input PreimageArgumentCreateWithoutPreimageInput {
+  id: ID
+  name: String!
+  value: String!
+}
+
+"""An edge in a connection."""
+type PreimageArgumentEdge {
+  """The item at the end of the edge."""
+  node: PreimageArgument!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PreimageArgumentOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  value_ASC
+  value_DESC
+}
+
+type PreimageArgumentPreviousValues {
+  id: ID!
+  name: String!
+  value: String!
+}
+
+input PreimageArgumentScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageArgumentScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageArgumentScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageArgumentScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+}
+
+type PreimageArgumentSubscriptionPayload {
+  mutation: MutationType!
+  node: PreimageArgument
+  updatedFields: [String!]
+  previousValues: PreimageArgumentPreviousValues
+}
+
+input PreimageArgumentSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageArgumentSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageArgumentSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageArgumentSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PreimageArgumentWhereInput
+}
+
+input PreimageArgumentUpdateInput {
+  name: String
+  value: String
+  preimage: PreimageUpdateOneRequiredWithoutPreimageArgumentsInput
+}
+
+input PreimageArgumentUpdateManyDataInput {
+  name: String
+  value: String
+}
+
+input PreimageArgumentUpdateManyMutationInput {
+  name: String
+  value: String
+}
+
+input PreimageArgumentUpdateManyWithoutPreimageInput {
+  create: [PreimageArgumentCreateWithoutPreimageInput!]
+  connect: [PreimageArgumentWhereUniqueInput!]
+  set: [PreimageArgumentWhereUniqueInput!]
+  disconnect: [PreimageArgumentWhereUniqueInput!]
+  delete: [PreimageArgumentWhereUniqueInput!]
+  update: [PreimageArgumentUpdateWithWhereUniqueWithoutPreimageInput!]
+  updateMany: [PreimageArgumentUpdateManyWithWhereNestedInput!]
+  deleteMany: [PreimageArgumentScalarWhereInput!]
+  upsert: [PreimageArgumentUpsertWithWhereUniqueWithoutPreimageInput!]
+}
+
+input PreimageArgumentUpdateManyWithWhereNestedInput {
+  where: PreimageArgumentScalarWhereInput!
+  data: PreimageArgumentUpdateManyDataInput!
+}
+
+input PreimageArgumentUpdateWithoutPreimageDataInput {
+  name: String
+  value: String
+}
+
+input PreimageArgumentUpdateWithWhereUniqueWithoutPreimageInput {
+  where: PreimageArgumentWhereUniqueInput!
+  data: PreimageArgumentUpdateWithoutPreimageDataInput!
+}
+
+input PreimageArgumentUpsertWithWhereUniqueWithoutPreimageInput {
+  where: PreimageArgumentWhereUniqueInput!
+  update: PreimageArgumentUpdateWithoutPreimageDataInput!
+  create: PreimageArgumentCreateWithoutPreimageInput!
+}
+
+input PreimageArgumentWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageArgumentWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageArgumentWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageArgumentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+  preimage: PreimageWhereInput
+}
+
+input PreimageArgumentWhereUniqueInput {
+  id: ID
+}
+
+"""A connection to a list of items."""
+type PreimageConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PreimageEdge]!
+  aggregate: AggregatePreimage!
+}
+
+input PreimageCreateInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  motion: MotionCreateOneWithoutPreimageInput
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
+input PreimageCreateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateOneWithoutPreimageArgumentsInput {
+  create: PreimageCreateWithoutPreimageArgumentsInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateOneWithoutPreimageStatusInput {
+  create: PreimageCreateWithoutPreimageStatusInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateOneWithoutProposalInput {
+  create: PreimageCreateWithoutProposalInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateOneWithoutReferendumInput {
+  create: PreimageCreateWithoutReferendumInput
+  connect: PreimageWhereUniqueInput
+}
+
+input PreimageCreateWithoutMotionInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
+input PreimageCreateWithoutPreimageArgumentsInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  motion: MotionCreateOneWithoutPreimageInput
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
+input PreimageCreateWithoutPreimageStatusInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  motion: MotionCreateOneWithoutPreimageInput
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
+input PreimageCreateWithoutProposalInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  motion: MotionCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+  referendum: ReferendumCreateOneWithoutPreimageInput
+}
+
+input PreimageCreateWithoutReferendumInput {
+  id: ID
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+  motion: MotionCreateOneWithoutPreimageInput
+  proposal: ProposalCreateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentCreateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusCreateManyWithoutPreimageInput
+}
+
+"""An edge in a connection."""
+type PreimageEdge {
+  """The item at the end of the edge."""
+  node: Preimage!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PreimageOrderByInput {
+  id_ASC
+  id_DESC
+  author_ASC
+  author_DESC
+  depositAmount_ASC
+  depositAmount_DESC
+  hash_ASC
+  hash_DESC
+  metaDescription_ASC
+  metaDescription_DESC
+  method_ASC
+  method_DESC
+  section_ASC
+  section_DESC
+}
+
+type PreimagePreviousValues {
+  id: ID!
+  author: String!
+  depositAmount: String!
+  hash: String!
+  metaDescription: String!
+  method: String!
+  section: String!
+}
+
+type PreimageStatus implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  preimage: Preimage!
+  status: String!
+}
+
+"""A connection to a list of items."""
+type PreimageStatusConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PreimageStatusEdge]!
+  aggregate: AggregatePreimageStatus!
+}
+
+input PreimageStatusCreateInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+  preimage: PreimageCreateOneWithoutPreimageStatusInput!
+}
+
+input PreimageStatusCreateManyWithoutPreimageInput {
+  create: [PreimageStatusCreateWithoutPreimageInput!]
+  connect: [PreimageStatusWhereUniqueInput!]
+}
+
+input PreimageStatusCreateWithoutPreimageInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type PreimageStatusEdge {
+  """The item at the end of the edge."""
+  node: PreimageStatus!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PreimageStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type PreimageStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input PreimageStatusScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageStatusScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageStatusScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageStatusScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+}
+
+type PreimageStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: PreimageStatus
+  updatedFields: [String!]
+  previousValues: PreimageStatusPreviousValues
+}
+
+input PreimageStatusSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageStatusSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageStatusSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageStatusSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PreimageStatusWhereInput
+}
+
+input PreimageStatusUpdateInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  preimage: PreimageUpdateOneRequiredWithoutPreimageStatusInput
+}
+
+input PreimageStatusUpdateManyDataInput {
+  status: String
+}
+
+input PreimageStatusUpdateManyMutationInput {
+  status: String
+}
+
+input PreimageStatusUpdateManyWithoutPreimageInput {
+  create: [PreimageStatusCreateWithoutPreimageInput!]
+  connect: [PreimageStatusWhereUniqueInput!]
+  set: [PreimageStatusWhereUniqueInput!]
+  disconnect: [PreimageStatusWhereUniqueInput!]
+  delete: [PreimageStatusWhereUniqueInput!]
+  update: [PreimageStatusUpdateWithWhereUniqueWithoutPreimageInput!]
+  updateMany: [PreimageStatusUpdateManyWithWhereNestedInput!]
+  deleteMany: [PreimageStatusScalarWhereInput!]
+  upsert: [PreimageStatusUpsertWithWhereUniqueWithoutPreimageInput!]
+}
+
+input PreimageStatusUpdateManyWithWhereNestedInput {
+  where: PreimageStatusScalarWhereInput!
+  data: PreimageStatusUpdateManyDataInput!
+}
+
+input PreimageStatusUpdateWithoutPreimageDataInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input PreimageStatusUpdateWithWhereUniqueWithoutPreimageInput {
+  where: PreimageStatusWhereUniqueInput!
+  data: PreimageStatusUpdateWithoutPreimageDataInput!
+}
+
+input PreimageStatusUpsertWithWhereUniqueWithoutPreimageInput {
+  where: PreimageStatusWhereUniqueInput!
+  update: PreimageStatusUpdateWithoutPreimageDataInput!
+  create: PreimageStatusCreateWithoutPreimageInput!
+}
+
+input PreimageStatusWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageStatusWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageStatusWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageStatusWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+  blockNumber: BlockNumberWhereInput
+  preimage: PreimageWhereInput
+}
+
+input PreimageStatusWhereUniqueInput {
+  id: ID
+}
+
+type PreimageSubscriptionPayload {
+  mutation: MutationType!
+  node: Preimage
+  updatedFields: [String!]
+  previousValues: PreimagePreviousValues
+}
+
+input PreimageSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PreimageWhereInput
+}
+
+input PreimageUpdateInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  motion: MotionUpdateOneWithoutPreimageInput
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+}
+
+input PreimageUpdateManyMutationInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+}
+
+input PreimageUpdateOneRequiredWithoutPreimageArgumentsInput {
+  create: PreimageCreateWithoutPreimageArgumentsInput
+  connect: PreimageWhereUniqueInput
+  update: PreimageUpdateWithoutPreimageArgumentsDataInput
+  upsert: PreimageUpsertWithoutPreimageArgumentsInput
+}
+
+input PreimageUpdateOneRequiredWithoutPreimageStatusInput {
+  create: PreimageCreateWithoutPreimageStatusInput
+  connect: PreimageWhereUniqueInput
+  update: PreimageUpdateWithoutPreimageStatusDataInput
+  upsert: PreimageUpsertWithoutPreimageStatusInput
+}
+
+input PreimageUpdateOneWithoutMotionInput {
+  create: PreimageCreateWithoutMotionInput
+  connect: PreimageWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PreimageUpdateWithoutMotionDataInput
+  upsert: PreimageUpsertWithoutMotionInput
+}
+
+input PreimageUpdateOneWithoutProposalInput {
+  create: PreimageCreateWithoutProposalInput
+  connect: PreimageWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PreimageUpdateWithoutProposalDataInput
+  upsert: PreimageUpsertWithoutProposalInput
+}
+
+input PreimageUpdateOneWithoutReferendumInput {
+  create: PreimageCreateWithoutReferendumInput
+  connect: PreimageWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PreimageUpdateWithoutReferendumDataInput
+  upsert: PreimageUpsertWithoutReferendumInput
+}
+
+input PreimageUpdateWithoutMotionDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+}
+
+input PreimageUpdateWithoutPreimageArgumentsDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  motion: MotionUpdateOneWithoutPreimageInput
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+}
+
+input PreimageUpdateWithoutPreimageStatusDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  motion: MotionUpdateOneWithoutPreimageInput
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+}
+
+input PreimageUpdateWithoutProposalDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  motion: MotionUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+  referendum: ReferendumUpdateOneWithoutPreimageInput
+}
+
+input PreimageUpdateWithoutReferendumDataInput {
+  author: String
+  depositAmount: String
+  hash: String
+  metaDescription: String
+  method: String
+  section: String
+  motion: MotionUpdateOneWithoutPreimageInput
+  proposal: ProposalUpdateOneWithoutPreimageInput
+  preimageArguments: PreimageArgumentUpdateManyWithoutPreimageInput
+  preimageStatus: PreimageStatusUpdateManyWithoutPreimageInput
+}
+
+input PreimageUpsertWithoutMotionInput {
+  update: PreimageUpdateWithoutMotionDataInput!
+  create: PreimageCreateWithoutMotionInput!
+}
+
+input PreimageUpsertWithoutPreimageArgumentsInput {
+  update: PreimageUpdateWithoutPreimageArgumentsDataInput!
+  create: PreimageCreateWithoutPreimageArgumentsInput!
+}
+
+input PreimageUpsertWithoutPreimageStatusInput {
+  update: PreimageUpdateWithoutPreimageStatusDataInput!
+  create: PreimageCreateWithoutPreimageStatusInput!
+}
+
+input PreimageUpsertWithoutProposalInput {
+  update: PreimageUpdateWithoutProposalDataInput!
+  create: PreimageCreateWithoutProposalInput!
+}
+
+input PreimageUpsertWithoutReferendumInput {
+  update: PreimageUpdateWithoutReferendumDataInput!
+  create: PreimageCreateWithoutReferendumInput!
+}
+
+input PreimageWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PreimageWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PreimageWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PreimageWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  author: String
+
+  """All values that are not equal to given value."""
+  author_not: String
+
+  """All values that are contained in given list."""
+  author_in: [String!]
+
+  """All values that are not contained in given list."""
+  author_not_in: [String!]
+
+  """All values less than the given value."""
+  author_lt: String
+
+  """All values less than or equal the given value."""
+  author_lte: String
+
+  """All values greater than the given value."""
+  author_gt: String
+
+  """All values greater than or equal the given value."""
+  author_gte: String
+
+  """All values containing the given string."""
+  author_contains: String
+
+  """All values not containing the given string."""
+  author_not_contains: String
+
+  """All values starting with the given string."""
+  author_starts_with: String
+
+  """All values not starting with the given string."""
+  author_not_starts_with: String
+
+  """All values ending with the given string."""
+  author_ends_with: String
+
+  """All values not ending with the given string."""
+  author_not_ends_with: String
+  depositAmount: String
+
+  """All values that are not equal to given value."""
+  depositAmount_not: String
+
+  """All values that are contained in given list."""
+  depositAmount_in: [String!]
+
+  """All values that are not contained in given list."""
+  depositAmount_not_in: [String!]
+
+  """All values less than the given value."""
+  depositAmount_lt: String
+
+  """All values less than or equal the given value."""
+  depositAmount_lte: String
+
+  """All values greater than the given value."""
+  depositAmount_gt: String
+
+  """All values greater than or equal the given value."""
+  depositAmount_gte: String
+
+  """All values containing the given string."""
+  depositAmount_contains: String
+
+  """All values not containing the given string."""
+  depositAmount_not_contains: String
+
+  """All values starting with the given string."""
+  depositAmount_starts_with: String
+
+  """All values not starting with the given string."""
+  depositAmount_not_starts_with: String
+
+  """All values ending with the given string."""
+  depositAmount_ends_with: String
+
+  """All values not ending with the given string."""
+  depositAmount_not_ends_with: String
+  hash: String
+
+  """All values that are not equal to given value."""
+  hash_not: String
+
+  """All values that are contained in given list."""
+  hash_in: [String!]
+
+  """All values that are not contained in given list."""
+  hash_not_in: [String!]
+
+  """All values less than the given value."""
+  hash_lt: String
+
+  """All values less than or equal the given value."""
+  hash_lte: String
+
+  """All values greater than the given value."""
+  hash_gt: String
+
+  """All values greater than or equal the given value."""
+  hash_gte: String
+
+  """All values containing the given string."""
+  hash_contains: String
+
+  """All values not containing the given string."""
+  hash_not_contains: String
+
+  """All values starting with the given string."""
+  hash_starts_with: String
+
+  """All values not starting with the given string."""
+  hash_not_starts_with: String
+
+  """All values ending with the given string."""
+  hash_ends_with: String
+
+  """All values not ending with the given string."""
+  hash_not_ends_with: String
+  metaDescription: String
+
+  """All values that are not equal to given value."""
+  metaDescription_not: String
+
+  """All values that are contained in given list."""
+  metaDescription_in: [String!]
+
+  """All values that are not contained in given list."""
+  metaDescription_not_in: [String!]
+
+  """All values less than the given value."""
+  metaDescription_lt: String
+
+  """All values less than or equal the given value."""
+  metaDescription_lte: String
+
+  """All values greater than the given value."""
+  metaDescription_gt: String
+
+  """All values greater than or equal the given value."""
+  metaDescription_gte: String
+
+  """All values containing the given string."""
+  metaDescription_contains: String
+
+  """All values not containing the given string."""
+  metaDescription_not_contains: String
+
+  """All values starting with the given string."""
+  metaDescription_starts_with: String
+
+  """All values not starting with the given string."""
+  metaDescription_not_starts_with: String
+
+  """All values ending with the given string."""
+  metaDescription_ends_with: String
+
+  """All values not ending with the given string."""
+  metaDescription_not_ends_with: String
+  method: String
+
+  """All values that are not equal to given value."""
+  method_not: String
+
+  """All values that are contained in given list."""
+  method_in: [String!]
+
+  """All values that are not contained in given list."""
+  method_not_in: [String!]
+
+  """All values less than the given value."""
+  method_lt: String
+
+  """All values less than or equal the given value."""
+  method_lte: String
+
+  """All values greater than the given value."""
+  method_gt: String
+
+  """All values greater than or equal the given value."""
+  method_gte: String
+
+  """All values containing the given string."""
+  method_contains: String
+
+  """All values not containing the given string."""
+  method_not_contains: String
+
+  """All values starting with the given string."""
+  method_starts_with: String
+
+  """All values not starting with the given string."""
+  method_not_starts_with: String
+
+  """All values ending with the given string."""
+  method_ends_with: String
+
+  """All values not ending with the given string."""
+  method_not_ends_with: String
+  section: String
+
+  """All values that are not equal to given value."""
+  section_not: String
+
+  """All values that are contained in given list."""
+  section_in: [String!]
+
+  """All values that are not contained in given list."""
+  section_not_in: [String!]
+
+  """All values less than the given value."""
+  section_lt: String
+
+  """All values less than or equal the given value."""
+  section_lte: String
+
+  """All values greater than the given value."""
+  section_gt: String
+
+  """All values greater than or equal the given value."""
+  section_gte: String
+
+  """All values containing the given string."""
+  section_contains: String
+
+  """All values not containing the given string."""
+  section_not_contains: String
+
+  """All values starting with the given string."""
+  section_starts_with: String
+
+  """All values not starting with the given string."""
+  section_not_starts_with: String
+
+  """All values ending with the given string."""
+  section_ends_with: String
+
+  """All values not ending with the given string."""
+  section_not_ends_with: String
+  motion: MotionWhereInput
+  proposal: ProposalWhereInput
+  preimageArguments_every: PreimageArgumentWhereInput
+  preimageArguments_some: PreimageArgumentWhereInput
+  preimageArguments_none: PreimageArgumentWhereInput
+  preimageStatus_every: PreimageStatusWhereInput
+  preimageStatus_some: PreimageStatusWhereInput
+  preimageStatus_none: PreimageStatusWhereInput
+  referendum: ReferendumWhereInput
+}
+
+input PreimageWhereUniqueInput {
+  id: ID
+}
+
 enum PrismaDatabase {
   default
 }
 
+type Proposal {
+  id: Int!
+  author: String!
+  depositAmount: String!
+  preimage: Preimage
+  preimageHash: String!
+  proposalId: Int!
+  proposalStatus(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus!]
+}
+
+"""A connection to a list of items."""
+type ProposalConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ProposalEdge]!
+  aggregate: AggregateProposal!
+}
+
+input ProposalCreateInput {
+  author: String!
+  depositAmount: String!
+  preimageHash: String!
+  proposalId: Int!
+  preimage: PreimageCreateOneWithoutProposalInput
+  proposalStatus: ProposalStatusCreateManyWithoutProposalInput
+}
+
+input ProposalCreateOneWithoutPreimageInput {
+  create: ProposalCreateWithoutPreimageInput
+  connect: ProposalWhereUniqueInput
+}
+
+input ProposalCreateOneWithoutProposalStatusInput {
+  create: ProposalCreateWithoutProposalStatusInput
+  connect: ProposalWhereUniqueInput
+}
+
+input ProposalCreateWithoutPreimageInput {
+  author: String!
+  depositAmount: String!
+  preimageHash: String!
+  proposalId: Int!
+  proposalStatus: ProposalStatusCreateManyWithoutProposalInput
+}
+
+input ProposalCreateWithoutProposalStatusInput {
+  author: String!
+  depositAmount: String!
+  preimageHash: String!
+  proposalId: Int!
+  preimage: PreimageCreateOneWithoutProposalInput
+}
+
+"""An edge in a connection."""
+type ProposalEdge {
+  """The item at the end of the edge."""
+  node: Proposal!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ProposalOrderByInput {
+  id_ASC
+  id_DESC
+  author_ASC
+  author_DESC
+  depositAmount_ASC
+  depositAmount_DESC
+  preimageHash_ASC
+  preimageHash_DESC
+  proposalId_ASC
+  proposalId_DESC
+}
+
+type ProposalPreviousValues {
+  id: Int!
+  author: String!
+  depositAmount: String!
+  preimageHash: String!
+  proposalId: Int!
+}
+
+type ProposalStatus implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  proposal: Proposal!
+  status: String!
+}
+
+"""A connection to a list of items."""
+type ProposalStatusConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ProposalStatusEdge]!
+  aggregate: AggregateProposalStatus!
+}
+
+input ProposalStatusCreateInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+  proposal: ProposalCreateOneWithoutProposalStatusInput!
+}
+
+input ProposalStatusCreateManyWithoutProposalInput {
+  create: [ProposalStatusCreateWithoutProposalInput!]
+  connect: [ProposalStatusWhereUniqueInput!]
+}
+
+input ProposalStatusCreateWithoutProposalInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type ProposalStatusEdge {
+  """The item at the end of the edge."""
+  node: ProposalStatus!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ProposalStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type ProposalStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input ProposalStatusScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProposalStatusScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProposalStatusScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProposalStatusScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+}
+
+type ProposalStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: ProposalStatus
+  updatedFields: [String!]
+  previousValues: ProposalStatusPreviousValues
+}
+
+input ProposalStatusSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProposalStatusSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProposalStatusSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProposalStatusSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ProposalStatusWhereInput
+}
+
+input ProposalStatusUpdateInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  proposal: ProposalUpdateOneRequiredWithoutProposalStatusInput
+}
+
+input ProposalStatusUpdateManyDataInput {
+  status: String
+}
+
+input ProposalStatusUpdateManyMutationInput {
+  status: String
+}
+
+input ProposalStatusUpdateManyWithoutProposalInput {
+  create: [ProposalStatusCreateWithoutProposalInput!]
+  connect: [ProposalStatusWhereUniqueInput!]
+  set: [ProposalStatusWhereUniqueInput!]
+  disconnect: [ProposalStatusWhereUniqueInput!]
+  delete: [ProposalStatusWhereUniqueInput!]
+  update: [ProposalStatusUpdateWithWhereUniqueWithoutProposalInput!]
+  updateMany: [ProposalStatusUpdateManyWithWhereNestedInput!]
+  deleteMany: [ProposalStatusScalarWhereInput!]
+  upsert: [ProposalStatusUpsertWithWhereUniqueWithoutProposalInput!]
+}
+
+input ProposalStatusUpdateManyWithWhereNestedInput {
+  where: ProposalStatusScalarWhereInput!
+  data: ProposalStatusUpdateManyDataInput!
+}
+
+input ProposalStatusUpdateWithoutProposalDataInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input ProposalStatusUpdateWithWhereUniqueWithoutProposalInput {
+  where: ProposalStatusWhereUniqueInput!
+  data: ProposalStatusUpdateWithoutProposalDataInput!
+}
+
+input ProposalStatusUpsertWithWhereUniqueWithoutProposalInput {
+  where: ProposalStatusWhereUniqueInput!
+  update: ProposalStatusUpdateWithoutProposalDataInput!
+  create: ProposalStatusCreateWithoutProposalInput!
+}
+
+input ProposalStatusWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProposalStatusWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProposalStatusWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProposalStatusWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+  blockNumber: BlockNumberWhereInput
+  proposal: ProposalWhereInput
+}
+
+input ProposalStatusWhereUniqueInput {
+  id: ID
+}
+
+type ProposalSubscriptionPayload {
+  mutation: MutationType!
+  node: Proposal
+  updatedFields: [String!]
+  previousValues: ProposalPreviousValues
+}
+
+input ProposalSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProposalSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProposalSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProposalSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ProposalWhereInput
+}
+
+input ProposalUpdateInput {
+  author: String
+  depositAmount: String
+  preimageHash: String
+  proposalId: Int
+  preimage: PreimageUpdateOneWithoutProposalInput
+  proposalStatus: ProposalStatusUpdateManyWithoutProposalInput
+}
+
+input ProposalUpdateManyMutationInput {
+  author: String
+  depositAmount: String
+  preimageHash: String
+  proposalId: Int
+}
+
+input ProposalUpdateOneRequiredWithoutProposalStatusInput {
+  create: ProposalCreateWithoutProposalStatusInput
+  connect: ProposalWhereUniqueInput
+  update: ProposalUpdateWithoutProposalStatusDataInput
+  upsert: ProposalUpsertWithoutProposalStatusInput
+}
+
+input ProposalUpdateOneWithoutPreimageInput {
+  create: ProposalCreateWithoutPreimageInput
+  connect: ProposalWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: ProposalUpdateWithoutPreimageDataInput
+  upsert: ProposalUpsertWithoutPreimageInput
+}
+
+input ProposalUpdateWithoutPreimageDataInput {
+  author: String
+  depositAmount: String
+  preimageHash: String
+  proposalId: Int
+  proposalStatus: ProposalStatusUpdateManyWithoutProposalInput
+}
+
+input ProposalUpdateWithoutProposalStatusDataInput {
+  author: String
+  depositAmount: String
+  preimageHash: String
+  proposalId: Int
+  preimage: PreimageUpdateOneWithoutProposalInput
+}
+
+input ProposalUpsertWithoutPreimageInput {
+  update: ProposalUpdateWithoutPreimageDataInput!
+  create: ProposalCreateWithoutPreimageInput!
+}
+
+input ProposalUpsertWithoutProposalStatusInput {
+  update: ProposalUpdateWithoutProposalStatusDataInput!
+  create: ProposalCreateWithoutProposalStatusInput!
+}
+
+input ProposalWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProposalWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProposalWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProposalWhereInput!]
+  id: Int
+
+  """All values that are not equal to given value."""
+  id_not: Int
+
+  """All values that are contained in given list."""
+  id_in: [Int!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [Int!]
+
+  """All values less than the given value."""
+  id_lt: Int
+
+  """All values less than or equal the given value."""
+  id_lte: Int
+
+  """All values greater than the given value."""
+  id_gt: Int
+
+  """All values greater than or equal the given value."""
+  id_gte: Int
+  author: String
+
+  """All values that are not equal to given value."""
+  author_not: String
+
+  """All values that are contained in given list."""
+  author_in: [String!]
+
+  """All values that are not contained in given list."""
+  author_not_in: [String!]
+
+  """All values less than the given value."""
+  author_lt: String
+
+  """All values less than or equal the given value."""
+  author_lte: String
+
+  """All values greater than the given value."""
+  author_gt: String
+
+  """All values greater than or equal the given value."""
+  author_gte: String
+
+  """All values containing the given string."""
+  author_contains: String
+
+  """All values not containing the given string."""
+  author_not_contains: String
+
+  """All values starting with the given string."""
+  author_starts_with: String
+
+  """All values not starting with the given string."""
+  author_not_starts_with: String
+
+  """All values ending with the given string."""
+  author_ends_with: String
+
+  """All values not ending with the given string."""
+  author_not_ends_with: String
+  depositAmount: String
+
+  """All values that are not equal to given value."""
+  depositAmount_not: String
+
+  """All values that are contained in given list."""
+  depositAmount_in: [String!]
+
+  """All values that are not contained in given list."""
+  depositAmount_not_in: [String!]
+
+  """All values less than the given value."""
+  depositAmount_lt: String
+
+  """All values less than or equal the given value."""
+  depositAmount_lte: String
+
+  """All values greater than the given value."""
+  depositAmount_gt: String
+
+  """All values greater than or equal the given value."""
+  depositAmount_gte: String
+
+  """All values containing the given string."""
+  depositAmount_contains: String
+
+  """All values not containing the given string."""
+  depositAmount_not_contains: String
+
+  """All values starting with the given string."""
+  depositAmount_starts_with: String
+
+  """All values not starting with the given string."""
+  depositAmount_not_starts_with: String
+
+  """All values ending with the given string."""
+  depositAmount_ends_with: String
+
+  """All values not ending with the given string."""
+  depositAmount_not_ends_with: String
+  preimageHash: String
+
+  """All values that are not equal to given value."""
+  preimageHash_not: String
+
+  """All values that are contained in given list."""
+  preimageHash_in: [String!]
+
+  """All values that are not contained in given list."""
+  preimageHash_not_in: [String!]
+
+  """All values less than the given value."""
+  preimageHash_lt: String
+
+  """All values less than or equal the given value."""
+  preimageHash_lte: String
+
+  """All values greater than the given value."""
+  preimageHash_gt: String
+
+  """All values greater than or equal the given value."""
+  preimageHash_gte: String
+
+  """All values containing the given string."""
+  preimageHash_contains: String
+
+  """All values not containing the given string."""
+  preimageHash_not_contains: String
+
+  """All values starting with the given string."""
+  preimageHash_starts_with: String
+
+  """All values not starting with the given string."""
+  preimageHash_not_starts_with: String
+
+  """All values ending with the given string."""
+  preimageHash_ends_with: String
+
+  """All values not ending with the given string."""
+  preimageHash_not_ends_with: String
+  proposalId: Int
+
+  """All values that are not equal to given value."""
+  proposalId_not: Int
+
+  """All values that are contained in given list."""
+  proposalId_in: [Int!]
+
+  """All values that are not contained in given list."""
+  proposalId_not_in: [Int!]
+
+  """All values less than the given value."""
+  proposalId_lt: Int
+
+  """All values less than or equal the given value."""
+  proposalId_lte: Int
+
+  """All values greater than the given value."""
+  proposalId_gt: Int
+
+  """All values greater than or equal the given value."""
+  proposalId_gte: Int
+  preimage: PreimageWhereInput
+  proposalStatus_every: ProposalStatusWhereInput
+  proposalStatus_some: ProposalStatusWhereInput
+  proposalStatus_none: ProposalStatusWhereInput
+}
+
+input ProposalWhereUniqueInput {
+  id: Int
+  proposalId: Int
+}
+
 type Query {
+  heartBeats(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HeartBeat]!
+  offlineValidators(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OfflineValidator]!
   eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
   slashings(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Slashing]!
   validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
@@ -1063,8 +5103,20 @@ type Query {
   rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
   nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
   stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
+  motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
+  motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
+  proposals(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Proposal]!
+  proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
+  preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
+  preimageStatuses(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus]!
+  preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument]!
+  referendums(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Referendum]!
+  referendumStatuses(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus]!
   blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
   sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
+  heartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  offlineValidator(where: OfflineValidatorWhereUniqueInput!): OfflineValidator
   era(where: EraWhereUniqueInput!): Era
   slashing(where: SlashingWhereUniqueInput!): Slashing
   validator(where: ValidatorWhereUniqueInput!): Validator
@@ -1072,8 +5124,20 @@ type Query {
   reward(where: RewardWhereUniqueInput!): Reward
   nomination(where: NominationWhereUniqueInput!): Nomination
   stake(where: StakeWhereUniqueInput!): Stake
+  motion(where: MotionWhereUniqueInput!): Motion
+  motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
+  proposal(where: ProposalWhereUniqueInput!): Proposal
+  proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
+  preimage(where: PreimageWhereUniqueInput!): Preimage
+  preimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
+  preimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
+  referendum(where: ReferendumWhereUniqueInput!): Referendum
+  referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   session(where: SessionWhereUniqueInput!): Session
+  heartBeatsConnection(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeartBeatConnection!
+  offlineValidatorsConnection(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfflineValidatorConnection!
   erasConnection(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EraConnection!
   slashingsConnection(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SlashingConnection!
   validatorsConnection(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatorConnection!
@@ -1081,6 +5145,16 @@ type Query {
   rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
   nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
   stakesConnection(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StakeConnection!
+  motionsConnection(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionConnection!
+  motionProposalArgumentsConnection(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionProposalArgumentConnection!
+  motionStatusesConnection(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionStatusConnection!
+  proposalsConnection(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalConnection!
+  proposalStatusesConnection(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalStatusConnection!
+  preimagesConnection(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageConnection!
+  preimageStatusesConnection(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageStatusConnection!
+  preimageArgumentsConnection(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageArgumentConnection!
+  referendumsConnection(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumConnection!
+  referendumStatusesConnection(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumStatusConnection!
   blockNumbersConnection(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockNumberConnection!
   sessionsConnection(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SessionConnection!
 
@@ -1091,11 +5165,719 @@ type Query {
   ): Node
 }
 
+type Referendum {
+  id: Int!
+  delay: Int!
+  end: Int!
+  preimage: Preimage
+  preimageHash: String!
+  referendumId: Int!
+  referendumStatus(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus!]
+  voteThreshold: String!
+}
+
+"""A connection to a list of items."""
+type ReferendumConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ReferendumEdge]!
+  aggregate: AggregateReferendum!
+}
+
+input ReferendumCreateInput {
+  delay: Int!
+  end: Int!
+  preimageHash: String!
+  referendumId: Int!
+  voteThreshold: String!
+  preimage: PreimageCreateOneWithoutReferendumInput
+  referendumStatus: ReferendumStatusCreateManyWithoutReferendumInput
+}
+
+input ReferendumCreateOneWithoutPreimageInput {
+  create: ReferendumCreateWithoutPreimageInput
+  connect: ReferendumWhereUniqueInput
+}
+
+input ReferendumCreateOneWithoutReferendumStatusInput {
+  create: ReferendumCreateWithoutReferendumStatusInput
+  connect: ReferendumWhereUniqueInput
+}
+
+input ReferendumCreateWithoutPreimageInput {
+  delay: Int!
+  end: Int!
+  preimageHash: String!
+  referendumId: Int!
+  voteThreshold: String!
+  referendumStatus: ReferendumStatusCreateManyWithoutReferendumInput
+}
+
+input ReferendumCreateWithoutReferendumStatusInput {
+  delay: Int!
+  end: Int!
+  preimageHash: String!
+  referendumId: Int!
+  voteThreshold: String!
+  preimage: PreimageCreateOneWithoutReferendumInput
+}
+
+"""An edge in a connection."""
+type ReferendumEdge {
+  """The item at the end of the edge."""
+  node: Referendum!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ReferendumOrderByInput {
+  id_ASC
+  id_DESC
+  delay_ASC
+  delay_DESC
+  end_ASC
+  end_DESC
+  preimageHash_ASC
+  preimageHash_DESC
+  referendumId_ASC
+  referendumId_DESC
+  voteThreshold_ASC
+  voteThreshold_DESC
+}
+
+type ReferendumPreviousValues {
+  id: Int!
+  delay: Int!
+  end: Int!
+  preimageHash: String!
+  referendumId: Int!
+  voteThreshold: String!
+}
+
+type ReferendumStatus implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  referendum: Referendum!
+  status: String!
+}
+
+"""A connection to a list of items."""
+type ReferendumStatusConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ReferendumStatusEdge]!
+  aggregate: AggregateReferendumStatus!
+}
+
+input ReferendumStatusCreateInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+  referendum: ReferendumCreateOneWithoutReferendumStatusInput!
+}
+
+input ReferendumStatusCreateManyWithoutReferendumInput {
+  create: [ReferendumStatusCreateWithoutReferendumInput!]
+  connect: [ReferendumStatusWhereUniqueInput!]
+}
+
+input ReferendumStatusCreateWithoutReferendumInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type ReferendumStatusEdge {
+  """The item at the end of the edge."""
+  node: ReferendumStatus!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ReferendumStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type ReferendumStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input ReferendumStatusScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReferendumStatusScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReferendumStatusScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReferendumStatusScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+}
+
+type ReferendumStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: ReferendumStatus
+  updatedFields: [String!]
+  previousValues: ReferendumStatusPreviousValues
+}
+
+input ReferendumStatusSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReferendumStatusSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReferendumStatusSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReferendumStatusSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ReferendumStatusWhereInput
+}
+
+input ReferendumStatusUpdateInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  referendum: ReferendumUpdateOneRequiredWithoutReferendumStatusInput
+}
+
+input ReferendumStatusUpdateManyDataInput {
+  status: String
+}
+
+input ReferendumStatusUpdateManyMutationInput {
+  status: String
+}
+
+input ReferendumStatusUpdateManyWithoutReferendumInput {
+  create: [ReferendumStatusCreateWithoutReferendumInput!]
+  connect: [ReferendumStatusWhereUniqueInput!]
+  set: [ReferendumStatusWhereUniqueInput!]
+  disconnect: [ReferendumStatusWhereUniqueInput!]
+  delete: [ReferendumStatusWhereUniqueInput!]
+  update: [ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput!]
+  updateMany: [ReferendumStatusUpdateManyWithWhereNestedInput!]
+  deleteMany: [ReferendumStatusScalarWhereInput!]
+  upsert: [ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput!]
+}
+
+input ReferendumStatusUpdateManyWithWhereNestedInput {
+  where: ReferendumStatusScalarWhereInput!
+  data: ReferendumStatusUpdateManyDataInput!
+}
+
+input ReferendumStatusUpdateWithoutReferendumDataInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput {
+  where: ReferendumStatusWhereUniqueInput!
+  data: ReferendumStatusUpdateWithoutReferendumDataInput!
+}
+
+input ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput {
+  where: ReferendumStatusWhereUniqueInput!
+  update: ReferendumStatusUpdateWithoutReferendumDataInput!
+  create: ReferendumStatusCreateWithoutReferendumInput!
+}
+
+input ReferendumStatusWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReferendumStatusWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReferendumStatusWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReferendumStatusWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+  blockNumber: BlockNumberWhereInput
+  referendum: ReferendumWhereInput
+}
+
+input ReferendumStatusWhereUniqueInput {
+  id: ID
+}
+
+type ReferendumSubscriptionPayload {
+  mutation: MutationType!
+  node: Referendum
+  updatedFields: [String!]
+  previousValues: ReferendumPreviousValues
+}
+
+input ReferendumSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReferendumSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReferendumSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReferendumSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ReferendumWhereInput
+}
+
+input ReferendumUpdateInput {
+  delay: Int
+  end: Int
+  preimageHash: String
+  referendumId: Int
+  voteThreshold: String
+  preimage: PreimageUpdateOneWithoutReferendumInput
+  referendumStatus: ReferendumStatusUpdateManyWithoutReferendumInput
+}
+
+input ReferendumUpdateManyMutationInput {
+  delay: Int
+  end: Int
+  preimageHash: String
+  referendumId: Int
+  voteThreshold: String
+}
+
+input ReferendumUpdateOneRequiredWithoutReferendumStatusInput {
+  create: ReferendumCreateWithoutReferendumStatusInput
+  connect: ReferendumWhereUniqueInput
+  update: ReferendumUpdateWithoutReferendumStatusDataInput
+  upsert: ReferendumUpsertWithoutReferendumStatusInput
+}
+
+input ReferendumUpdateOneWithoutPreimageInput {
+  create: ReferendumCreateWithoutPreimageInput
+  connect: ReferendumWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: ReferendumUpdateWithoutPreimageDataInput
+  upsert: ReferendumUpsertWithoutPreimageInput
+}
+
+input ReferendumUpdateWithoutPreimageDataInput {
+  delay: Int
+  end: Int
+  preimageHash: String
+  referendumId: Int
+  voteThreshold: String
+  referendumStatus: ReferendumStatusUpdateManyWithoutReferendumInput
+}
+
+input ReferendumUpdateWithoutReferendumStatusDataInput {
+  delay: Int
+  end: Int
+  preimageHash: String
+  referendumId: Int
+  voteThreshold: String
+  preimage: PreimageUpdateOneWithoutReferendumInput
+}
+
+input ReferendumUpsertWithoutPreimageInput {
+  update: ReferendumUpdateWithoutPreimageDataInput!
+  create: ReferendumCreateWithoutPreimageInput!
+}
+
+input ReferendumUpsertWithoutReferendumStatusInput {
+  update: ReferendumUpdateWithoutReferendumStatusDataInput!
+  create: ReferendumCreateWithoutReferendumStatusInput!
+}
+
+input ReferendumWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReferendumWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReferendumWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReferendumWhereInput!]
+  id: Int
+
+  """All values that are not equal to given value."""
+  id_not: Int
+
+  """All values that are contained in given list."""
+  id_in: [Int!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [Int!]
+
+  """All values less than the given value."""
+  id_lt: Int
+
+  """All values less than or equal the given value."""
+  id_lte: Int
+
+  """All values greater than the given value."""
+  id_gt: Int
+
+  """All values greater than or equal the given value."""
+  id_gte: Int
+  delay: Int
+
+  """All values that are not equal to given value."""
+  delay_not: Int
+
+  """All values that are contained in given list."""
+  delay_in: [Int!]
+
+  """All values that are not contained in given list."""
+  delay_not_in: [Int!]
+
+  """All values less than the given value."""
+  delay_lt: Int
+
+  """All values less than or equal the given value."""
+  delay_lte: Int
+
+  """All values greater than the given value."""
+  delay_gt: Int
+
+  """All values greater than or equal the given value."""
+  delay_gte: Int
+  end: Int
+
+  """All values that are not equal to given value."""
+  end_not: Int
+
+  """All values that are contained in given list."""
+  end_in: [Int!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [Int!]
+
+  """All values less than the given value."""
+  end_lt: Int
+
+  """All values less than or equal the given value."""
+  end_lte: Int
+
+  """All values greater than the given value."""
+  end_gt: Int
+
+  """All values greater than or equal the given value."""
+  end_gte: Int
+  preimageHash: String
+
+  """All values that are not equal to given value."""
+  preimageHash_not: String
+
+  """All values that are contained in given list."""
+  preimageHash_in: [String!]
+
+  """All values that are not contained in given list."""
+  preimageHash_not_in: [String!]
+
+  """All values less than the given value."""
+  preimageHash_lt: String
+
+  """All values less than or equal the given value."""
+  preimageHash_lte: String
+
+  """All values greater than the given value."""
+  preimageHash_gt: String
+
+  """All values greater than or equal the given value."""
+  preimageHash_gte: String
+
+  """All values containing the given string."""
+  preimageHash_contains: String
+
+  """All values not containing the given string."""
+  preimageHash_not_contains: String
+
+  """All values starting with the given string."""
+  preimageHash_starts_with: String
+
+  """All values not starting with the given string."""
+  preimageHash_not_starts_with: String
+
+  """All values ending with the given string."""
+  preimageHash_ends_with: String
+
+  """All values not ending with the given string."""
+  preimageHash_not_ends_with: String
+  referendumId: Int
+
+  """All values that are not equal to given value."""
+  referendumId_not: Int
+
+  """All values that are contained in given list."""
+  referendumId_in: [Int!]
+
+  """All values that are not contained in given list."""
+  referendumId_not_in: [Int!]
+
+  """All values less than the given value."""
+  referendumId_lt: Int
+
+  """All values less than or equal the given value."""
+  referendumId_lte: Int
+
+  """All values greater than the given value."""
+  referendumId_gt: Int
+
+  """All values greater than or equal the given value."""
+  referendumId_gte: Int
+  voteThreshold: String
+
+  """All values that are not equal to given value."""
+  voteThreshold_not: String
+
+  """All values that are contained in given list."""
+  voteThreshold_in: [String!]
+
+  """All values that are not contained in given list."""
+  voteThreshold_not_in: [String!]
+
+  """All values less than the given value."""
+  voteThreshold_lt: String
+
+  """All values less than or equal the given value."""
+  voteThreshold_lte: String
+
+  """All values greater than the given value."""
+  voteThreshold_gt: String
+
+  """All values greater than or equal the given value."""
+  voteThreshold_gte: String
+
+  """All values containing the given string."""
+  voteThreshold_contains: String
+
+  """All values not containing the given string."""
+  voteThreshold_not_contains: String
+
+  """All values starting with the given string."""
+  voteThreshold_starts_with: String
+
+  """All values not starting with the given string."""
+  voteThreshold_not_starts_with: String
+
+  """All values ending with the given string."""
+  voteThreshold_ends_with: String
+
+  """All values not ending with the given string."""
+  voteThreshold_not_ends_with: String
+  preimage: PreimageWhereInput
+  referendumStatus_every: ReferendumStatusWhereInput
+  referendumStatus_some: ReferendumStatusWhereInput
+  referendumStatus_none: ReferendumStatusWhereInput
+}
+
+input ReferendumWhereUniqueInput {
+  id: Int
+  referendumId: Int
+}
+
 type Reward implements Node {
   id: ID!
-  amount: String!
   authoredBlock: BlockNumber!
-  recipients: [String!]!
+  sessionIndex: Session!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 """A connection to a list of items."""
@@ -1110,13 +5892,10 @@ type RewardConnection {
 
 input RewardCreateInput {
   id: ID
-  amount: String!
-  recipients: RewardCreaterecipientsInput
+  treasuryReward: String!
+  validatorReward: String!
   authoredBlock: BlockNumberCreateOneInput!
-}
-
-input RewardCreaterecipientsInput {
-  set: [String!]
+  sessionIndex: SessionCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -1131,14 +5910,16 @@ type RewardEdge {
 enum RewardOrderByInput {
   id_ASC
   id_DESC
-  amount_ASC
-  amount_DESC
+  treasuryReward_ASC
+  treasuryReward_DESC
+  validatorReward_ASC
+  validatorReward_DESC
 }
 
 type RewardPreviousValues {
   id: ID!
-  amount: String!
-  recipients: [String!]!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardSubscriptionPayload {
@@ -1179,18 +5960,15 @@ input RewardSubscriptionWhereInput {
 }
 
 input RewardUpdateInput {
-  amount: String
-  recipients: RewardUpdaterecipientsInput
+  treasuryReward: String
+  validatorReward: String
   authoredBlock: BlockNumberUpdateOneRequiredInput
+  sessionIndex: SessionUpdateOneRequiredInput
 }
 
 input RewardUpdateManyMutationInput {
-  amount: String
-  recipients: RewardUpdaterecipientsInput
-}
-
-input RewardUpdaterecipientsInput {
-  set: [String!]
+  treasuryReward: String
+  validatorReward: String
 }
 
 input RewardWhereInput {
@@ -1242,47 +6020,88 @@ input RewardWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  amount: String
+  treasuryReward: String
 
   """All values that are not equal to given value."""
-  amount_not: String
+  treasuryReward_not: String
 
   """All values that are contained in given list."""
-  amount_in: [String!]
+  treasuryReward_in: [String!]
 
   """All values that are not contained in given list."""
-  amount_not_in: [String!]
+  treasuryReward_not_in: [String!]
 
   """All values less than the given value."""
-  amount_lt: String
+  treasuryReward_lt: String
 
   """All values less than or equal the given value."""
-  amount_lte: String
+  treasuryReward_lte: String
 
   """All values greater than the given value."""
-  amount_gt: String
+  treasuryReward_gt: String
 
   """All values greater than or equal the given value."""
-  amount_gte: String
+  treasuryReward_gte: String
 
   """All values containing the given string."""
-  amount_contains: String
+  treasuryReward_contains: String
 
   """All values not containing the given string."""
-  amount_not_contains: String
+  treasuryReward_not_contains: String
 
   """All values starting with the given string."""
-  amount_starts_with: String
+  treasuryReward_starts_with: String
 
   """All values not starting with the given string."""
-  amount_not_starts_with: String
+  treasuryReward_not_starts_with: String
 
   """All values ending with the given string."""
-  amount_ends_with: String
+  treasuryReward_ends_with: String
 
   """All values not ending with the given string."""
-  amount_not_ends_with: String
+  treasuryReward_not_ends_with: String
+  validatorReward: String
+
+  """All values that are not equal to given value."""
+  validatorReward_not: String
+
+  """All values that are contained in given list."""
+  validatorReward_in: [String!]
+
+  """All values that are not contained in given list."""
+  validatorReward_not_in: [String!]
+
+  """All values less than the given value."""
+  validatorReward_lt: String
+
+  """All values less than or equal the given value."""
+  validatorReward_lte: String
+
+  """All values greater than the given value."""
+  validatorReward_gt: String
+
+  """All values greater than or equal the given value."""
+  validatorReward_gte: String
+
+  """All values containing the given string."""
+  validatorReward_contains: String
+
+  """All values not containing the given string."""
+  validatorReward_not_contains: String
+
+  """All values starting with the given string."""
+  validatorReward_starts_with: String
+
+  """All values not starting with the given string."""
+  validatorReward_not_starts_with: String
+
+  """All values ending with the given string."""
+  validatorReward_ends_with: String
+
+  """All values not ending with the given string."""
+  validatorReward_not_ends_with: String
   authoredBlock: BlockNumberWhereInput
+  sessionIndex: SessionWhereInput
 }
 
 input RewardWhereUniqueInput {
@@ -1898,6 +6717,8 @@ input StakeWhereUniqueInput {
 }
 
 type Subscription {
+  heartBeat(where: HeartBeatSubscriptionWhereInput): HeartBeatSubscriptionPayload
+  offlineValidator(where: OfflineValidatorSubscriptionWhereInput): OfflineValidatorSubscriptionPayload
   era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
   slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload
   validator(where: ValidatorSubscriptionWhereInput): ValidatorSubscriptionPayload
@@ -1905,6 +6726,16 @@ type Subscription {
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
   stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
+  motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
+  motionProposalArgument(where: MotionProposalArgumentSubscriptionWhereInput): MotionProposalArgumentSubscriptionPayload
+  motionStatus(where: MotionStatusSubscriptionWhereInput): MotionStatusSubscriptionPayload
+  proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
+  proposalStatus(where: ProposalStatusSubscriptionWhereInput): ProposalStatusSubscriptionPayload
+  preimage(where: PreimageSubscriptionWhereInput): PreimageSubscriptionPayload
+  preimageStatus(where: PreimageStatusSubscriptionWhereInput): PreimageStatusSubscriptionPayload
+  preimageArgument(where: PreimageArgumentSubscriptionWhereInput): PreimageArgumentSubscriptionPayload
+  referendum(where: ReferendumSubscriptionWhereInput): ReferendumSubscriptionPayload
+  referendumStatus(where: ReferendumStatusSubscriptionWhereInput): ReferendumStatusSubscriptionPayload
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
   session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
 }
