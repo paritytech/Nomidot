@@ -36,11 +36,6 @@ export const nomidotTasks: NomidotTask[] = [
   createProposalStatus,
   createReferendum,
   createReferendumStatus,
-  createPreimage,
   createMotion,
   createMotionStatus,
-  createProposal,
-  createProposalStatus,
-  createReferendum,
-  createReferendumStatus,
 ];
