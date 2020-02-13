@@ -11,6 +11,16 @@ import { Subscription } from './resolvers/subscription';
 const resolvers = {
   Subscription,
   Query,
+  BlockNumber: {
+    number(parent) {
+      return prisma.blockNumber({ id: parent.id }).number()
+    }
+  },
+  TotalIssuance: {
+    blockNumber(parent) {
+      return prisma.totalIssuance({ id: parent.id }).blockNumber()
+    }
+  }
 };
 
 const server = new GraphQLServer({
