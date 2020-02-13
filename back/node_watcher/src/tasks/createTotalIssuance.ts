@@ -31,16 +31,14 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {
-    const totalIssuanceCreateInput = {
+    await prisma.createTotalIssuance({
       amount: value.amount.toHex(),
       blockNumber: {
         connect: {
           number: blockNumber.toNumber(),
         },
       },
-    };
-
-    await prisma.createTotalIssuance(totalIssuanceCreateInput);
+    });
   },
 };
 

@@ -10,6 +10,10 @@ type AggregateEra {
   count: Int!
 }
 
+type AggregateHeartBeat {
+  count: Int!
+}
+
 type AggregateMotion {
   count: Int!
 }
@@ -23,6 +27,10 @@ type AggregateMotionStatus {
 }
 
 type AggregateNomination {
+  count: Int!
+}
+
+type AggregateOfflineValidator {
   count: Int!
 }
 
@@ -387,6 +395,109 @@ input EraWhereUniqueInput {
   id: ID
   index: Int
 }
+
+type HeartBeat {
+  id: ID!
+  sessionIndex: Session!
+  authorityId: String!
+}
+
+type HeartBeatConnection {
+  pageInfo: PageInfo!
+  edges: [HeartBeatEdge]!
+  aggregate: AggregateHeartBeat!
+}
+
+input HeartBeatCreateInput {
+  id: ID
+  sessionIndex: SessionCreateOneInput!
+  authorityId: String!
+}
+
+type HeartBeatEdge {
+  node: HeartBeat!
+  cursor: String!
+}
+
+enum HeartBeatOrderByInput {
+  id_ASC
+  id_DESC
+  authorityId_ASC
+  authorityId_DESC
+}
+
+type HeartBeatPreviousValues {
+  id: ID!
+  authorityId: String!
+}
+
+type HeartBeatSubscriptionPayload {
+  mutation: MutationType!
+  node: HeartBeat
+  updatedFields: [String!]
+  previousValues: HeartBeatPreviousValues
+}
+
+input HeartBeatSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: HeartBeatWhereInput
+  AND: [HeartBeatSubscriptionWhereInput!]
+  OR: [HeartBeatSubscriptionWhereInput!]
+  NOT: [HeartBeatSubscriptionWhereInput!]
+}
+
+input HeartBeatUpdateInput {
+  sessionIndex: SessionUpdateOneRequiredInput
+  authorityId: String
+}
+
+input HeartBeatUpdateManyMutationInput {
+  authorityId: String
+}
+
+input HeartBeatWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  sessionIndex: SessionWhereInput
+  authorityId: String
+  authorityId_not: String
+  authorityId_in: [String!]
+  authorityId_not_in: [String!]
+  authorityId_lt: String
+  authorityId_lte: String
+  authorityId_gt: String
+  authorityId_gte: String
+  authorityId_contains: String
+  authorityId_not_contains: String
+  authorityId_starts_with: String
+  authorityId_not_starts_with: String
+  authorityId_ends_with: String
+  authorityId_not_ends_with: String
+  AND: [HeartBeatWhereInput!]
+  OR: [HeartBeatWhereInput!]
+  NOT: [HeartBeatWhereInput!]
+}
+
+input HeartBeatWhereUniqueInput {
+  id: ID
+}
+
+scalar Json
 
 scalar Long
 
@@ -1182,6 +1293,12 @@ type Mutation {
   upsertEra(where: EraWhereUniqueInput!, create: EraCreateInput!, update: EraUpdateInput!): Era!
   deleteEra(where: EraWhereUniqueInput!): Era
   deleteManyEras(where: EraWhereInput): BatchPayload!
+  createHeartBeat(data: HeartBeatCreateInput!): HeartBeat!
+  updateHeartBeat(data: HeartBeatUpdateInput!, where: HeartBeatWhereUniqueInput!): HeartBeat
+  updateManyHeartBeats(data: HeartBeatUpdateManyMutationInput!, where: HeartBeatWhereInput): BatchPayload!
+  upsertHeartBeat(where: HeartBeatWhereUniqueInput!, create: HeartBeatCreateInput!, update: HeartBeatUpdateInput!): HeartBeat!
+  deleteHeartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  deleteManyHeartBeats(where: HeartBeatWhereInput): BatchPayload!
   createMotion(data: MotionCreateInput!): Motion!
   updateMotion(data: MotionUpdateInput!, where: MotionWhereUniqueInput!): Motion
   updateManyMotions(data: MotionUpdateManyMutationInput!, where: MotionWhereInput): BatchPayload!
@@ -1206,6 +1323,12 @@ type Mutation {
   upsertNomination(where: NominationWhereUniqueInput!, create: NominationCreateInput!, update: NominationUpdateInput!): Nomination!
   deleteNomination(where: NominationWhereUniqueInput!): Nomination
   deleteManyNominations(where: NominationWhereInput): BatchPayload!
+  createOfflineValidator(data: OfflineValidatorCreateInput!): OfflineValidator!
+  updateOfflineValidator(data: OfflineValidatorUpdateInput!, where: OfflineValidatorWhereUniqueInput!): OfflineValidator
+  updateManyOfflineValidators(data: OfflineValidatorUpdateManyMutationInput!, where: OfflineValidatorWhereInput): BatchPayload!
+  upsertOfflineValidator(where: OfflineValidatorWhereUniqueInput!, create: OfflineValidatorCreateInput!, update: OfflineValidatorUpdateInput!): OfflineValidator!
+  deleteOfflineValidator(where: OfflineValidatorWhereUniqueInput!): OfflineValidator
+  deleteManyOfflineValidators(where: OfflineValidatorWhereInput): BatchPayload!
   createPreimage(data: PreimageCreateInput!): Preimage!
   updatePreimage(data: PreimageUpdateInput!, where: PreimageWhereUniqueInput!): Preimage
   updateManyPreimages(data: PreimageUpdateManyMutationInput!, where: PreimageWhereInput): BatchPayload!
@@ -1303,7 +1426,7 @@ type Nomination {
   nominatorController: String!
   nominatorStash: String!
   session: Session!
-  bonded: String!
+  stakedAmount: String!
 }
 
 type NominationConnection {
@@ -1319,7 +1442,7 @@ input NominationCreateInput {
   nominatorController: String!
   nominatorStash: String!
   session: SessionCreateOneInput!
-  bonded: String!
+  stakedAmount: String!
 }
 
 type NominationEdge {
@@ -1338,8 +1461,8 @@ enum NominationOrderByInput {
   nominatorController_DESC
   nominatorStash_ASC
   nominatorStash_DESC
-  bonded_ASC
-  bonded_DESC
+  stakedAmount_ASC
+  stakedAmount_DESC
 }
 
 type NominationPreviousValues {
@@ -1348,7 +1471,7 @@ type NominationPreviousValues {
   validatorStash: String!
   nominatorController: String!
   nominatorStash: String!
-  bonded: String!
+  stakedAmount: String!
 }
 
 type NominationSubscriptionPayload {
@@ -1375,7 +1498,7 @@ input NominationUpdateInput {
   nominatorController: String
   nominatorStash: String
   session: SessionUpdateOneRequiredInput
-  bonded: String
+  stakedAmount: String
 }
 
 input NominationUpdateManyMutationInput {
@@ -1383,7 +1506,7 @@ input NominationUpdateManyMutationInput {
   validatorStash: String
   nominatorController: String
   nominatorStash: String
-  bonded: String
+  stakedAmount: String
 }
 
 input NominationWhereInput {
@@ -1458,26 +1581,182 @@ input NominationWhereInput {
   nominatorStash_ends_with: String
   nominatorStash_not_ends_with: String
   session: SessionWhereInput
-  bonded: String
-  bonded_not: String
-  bonded_in: [String!]
-  bonded_not_in: [String!]
-  bonded_lt: String
-  bonded_lte: String
-  bonded_gt: String
-  bonded_gte: String
-  bonded_contains: String
-  bonded_not_contains: String
-  bonded_starts_with: String
-  bonded_not_starts_with: String
-  bonded_ends_with: String
-  bonded_not_ends_with: String
+  stakedAmount: String
+  stakedAmount_not: String
+  stakedAmount_in: [String!]
+  stakedAmount_not_in: [String!]
+  stakedAmount_lt: String
+  stakedAmount_lte: String
+  stakedAmount_gt: String
+  stakedAmount_gte: String
+  stakedAmount_contains: String
+  stakedAmount_not_contains: String
+  stakedAmount_starts_with: String
+  stakedAmount_not_starts_with: String
+  stakedAmount_ends_with: String
+  stakedAmount_not_ends_with: String
   AND: [NominationWhereInput!]
   OR: [NominationWhereInput!]
   NOT: [NominationWhereInput!]
 }
 
 input NominationWhereUniqueInput {
+  id: ID
+}
+
+type OfflineValidator {
+  id: ID!
+  sessionIndex: Session!
+  validatorId: String!
+  total: String!
+  own: String!
+  others: [Json!]!
+}
+
+type OfflineValidatorConnection {
+  pageInfo: PageInfo!
+  edges: [OfflineValidatorEdge]!
+  aggregate: AggregateOfflineValidator!
+}
+
+input OfflineValidatorCreateInput {
+  id: ID
+  sessionIndex: SessionCreateOneInput!
+  validatorId: String!
+  total: String!
+  own: String!
+  others: OfflineValidatorCreateothersInput
+}
+
+input OfflineValidatorCreateothersInput {
+  set: [Json!]
+}
+
+type OfflineValidatorEdge {
+  node: OfflineValidator!
+  cursor: String!
+}
+
+enum OfflineValidatorOrderByInput {
+  id_ASC
+  id_DESC
+  validatorId_ASC
+  validatorId_DESC
+  total_ASC
+  total_DESC
+  own_ASC
+  own_DESC
+}
+
+type OfflineValidatorPreviousValues {
+  id: ID!
+  validatorId: String!
+  total: String!
+  own: String!
+  others: [Json!]!
+}
+
+type OfflineValidatorSubscriptionPayload {
+  mutation: MutationType!
+  node: OfflineValidator
+  updatedFields: [String!]
+  previousValues: OfflineValidatorPreviousValues
+}
+
+input OfflineValidatorSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: OfflineValidatorWhereInput
+  AND: [OfflineValidatorSubscriptionWhereInput!]
+  OR: [OfflineValidatorSubscriptionWhereInput!]
+  NOT: [OfflineValidatorSubscriptionWhereInput!]
+}
+
+input OfflineValidatorUpdateInput {
+  sessionIndex: SessionUpdateOneRequiredInput
+  validatorId: String
+  total: String
+  own: String
+  others: OfflineValidatorUpdateothersInput
+}
+
+input OfflineValidatorUpdateManyMutationInput {
+  validatorId: String
+  total: String
+  own: String
+  others: OfflineValidatorUpdateothersInput
+}
+
+input OfflineValidatorUpdateothersInput {
+  set: [Json!]
+}
+
+input OfflineValidatorWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  sessionIndex: SessionWhereInput
+  validatorId: String
+  validatorId_not: String
+  validatorId_in: [String!]
+  validatorId_not_in: [String!]
+  validatorId_lt: String
+  validatorId_lte: String
+  validatorId_gt: String
+  validatorId_gte: String
+  validatorId_contains: String
+  validatorId_not_contains: String
+  validatorId_starts_with: String
+  validatorId_not_starts_with: String
+  validatorId_ends_with: String
+  validatorId_not_ends_with: String
+  total: String
+  total_not: String
+  total_in: [String!]
+  total_not_in: [String!]
+  total_lt: String
+  total_lte: String
+  total_gt: String
+  total_gte: String
+  total_contains: String
+  total_not_contains: String
+  total_starts_with: String
+  total_not_starts_with: String
+  total_ends_with: String
+  total_not_ends_with: String
+  own: String
+  own_not: String
+  own_in: [String!]
+  own_not_in: [String!]
+  own_lt: String
+  own_lte: String
+  own_gt: String
+  own_gte: String
+  own_contains: String
+  own_not_contains: String
+  own_starts_with: String
+  own_not_starts_with: String
+  own_ends_with: String
+  own_not_ends_with: String
+  AND: [OfflineValidatorWhereInput!]
+  OR: [OfflineValidatorWhereInput!]
+  NOT: [OfflineValidatorWhereInput!]
+}
+
+input OfflineValidatorWhereUniqueInput {
   id: ID
 }
 
@@ -2766,6 +3045,9 @@ type Query {
   era(where: EraWhereUniqueInput!): Era
   eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
   erasConnection(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EraConnection!
+  heartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  heartBeats(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HeartBeat]!
+  heartBeatsConnection(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeartBeatConnection!
   motion(where: MotionWhereUniqueInput!): Motion
   motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
   motionsConnection(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionConnection!
@@ -2778,6 +3060,9 @@ type Query {
   nomination(where: NominationWhereUniqueInput!): Nomination
   nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
   nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
+  offlineValidator(where: OfflineValidatorWhereUniqueInput!): OfflineValidator
+  offlineValidators(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OfflineValidator]!
+  offlineValidatorsConnection(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfflineValidatorConnection!
   preimage(where: PreimageWhereUniqueInput!): Preimage
   preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
   preimagesConnection(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageConnection!
@@ -3248,9 +3533,10 @@ input ReferendumWhereUniqueInput {
 
 type Reward {
   id: ID!
-  amount: String!
   authoredBlock: BlockNumber!
-  recipients: [String!]!
+  sessionIndex: Session!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardConnection {
@@ -3261,13 +3547,10 @@ type RewardConnection {
 
 input RewardCreateInput {
   id: ID
-  amount: String!
   authoredBlock: BlockNumberCreateOneInput!
-  recipients: RewardCreaterecipientsInput
-}
-
-input RewardCreaterecipientsInput {
-  set: [String!]
+  sessionIndex: SessionCreateOneInput!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardEdge {
@@ -3278,14 +3561,16 @@ type RewardEdge {
 enum RewardOrderByInput {
   id_ASC
   id_DESC
-  amount_ASC
-  amount_DESC
+  treasuryReward_ASC
+  treasuryReward_DESC
+  validatorReward_ASC
+  validatorReward_DESC
 }
 
 type RewardPreviousValues {
   id: ID!
-  amount: String!
-  recipients: [String!]!
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type RewardSubscriptionPayload {
@@ -3307,18 +3592,15 @@ input RewardSubscriptionWhereInput {
 }
 
 input RewardUpdateInput {
-  amount: String
   authoredBlock: BlockNumberUpdateOneRequiredInput
-  recipients: RewardUpdaterecipientsInput
+  sessionIndex: SessionUpdateOneRequiredInput
+  treasuryReward: String
+  validatorReward: String
 }
 
 input RewardUpdateManyMutationInput {
-  amount: String
-  recipients: RewardUpdaterecipientsInput
-}
-
-input RewardUpdaterecipientsInput {
-  set: [String!]
+  treasuryReward: String
+  validatorReward: String
 }
 
 input RewardWhereInput {
@@ -3336,21 +3618,36 @@ input RewardWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  amount: String
-  amount_not: String
-  amount_in: [String!]
-  amount_not_in: [String!]
-  amount_lt: String
-  amount_lte: String
-  amount_gt: String
-  amount_gte: String
-  amount_contains: String
-  amount_not_contains: String
-  amount_starts_with: String
-  amount_not_starts_with: String
-  amount_ends_with: String
-  amount_not_ends_with: String
   authoredBlock: BlockNumberWhereInput
+  sessionIndex: SessionWhereInput
+  treasuryReward: String
+  treasuryReward_not: String
+  treasuryReward_in: [String!]
+  treasuryReward_not_in: [String!]
+  treasuryReward_lt: String
+  treasuryReward_lte: String
+  treasuryReward_gt: String
+  treasuryReward_gte: String
+  treasuryReward_contains: String
+  treasuryReward_not_contains: String
+  treasuryReward_starts_with: String
+  treasuryReward_not_starts_with: String
+  treasuryReward_ends_with: String
+  treasuryReward_not_ends_with: String
+  validatorReward: String
+  validatorReward_not: String
+  validatorReward_in: [String!]
+  validatorReward_not_in: [String!]
+  validatorReward_lt: String
+  validatorReward_lte: String
+  validatorReward_gt: String
+  validatorReward_gte: String
+  validatorReward_contains: String
+  validatorReward_not_contains: String
+  validatorReward_starts_with: String
+  validatorReward_not_starts_with: String
+  validatorReward_ends_with: String
+  validatorReward_not_ends_with: String
   AND: [RewardWhereInput!]
   OR: [RewardWhereInput!]
   NOT: [RewardWhereInput!]
@@ -3705,10 +4002,12 @@ input StakeWhereUniqueInput {
 type Subscription {
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
   era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
+  heartBeat(where: HeartBeatSubscriptionWhereInput): HeartBeatSubscriptionPayload
   motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
   motionProposalArgument(where: MotionProposalArgumentSubscriptionWhereInput): MotionProposalArgumentSubscriptionPayload
   motionStatus(where: MotionStatusSubscriptionWhereInput): MotionStatusSubscriptionPayload
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
+  offlineValidator(where: OfflineValidatorSubscriptionWhereInput): OfflineValidatorSubscriptionPayload
   preimage(where: PreimageSubscriptionWhereInput): PreimageSubscriptionPayload
   preimageArgument(where: PreimageArgumentSubscriptionWhereInput): PreimageArgumentSubscriptionPayload
   preimageStatus(where: PreimageStatusSubscriptionWhereInput): PreimageStatusSubscriptionPayload
