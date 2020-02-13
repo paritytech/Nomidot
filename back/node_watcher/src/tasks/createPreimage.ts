@@ -8,6 +8,7 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { preimageStatus } from '../util/statuses';
 import {
   NomidotPreimage,
@@ -28,10 +29,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
     api: ApiPromise
   ): Promise<NomidotPreimage[]> => {
     const events = await api.query.system.events.at(blockHash);
-    const preimageEvents = events.filter(
-      ({ event: { method, section } }) =>
-        section === 'democracy' && method === preimageStatus.NOTED
-    );
+    const preimageEvents = filterEvents(events, 'democracy', preimageStatus.NOTED)
 
     const results: NomidotPreimage[] = [];
     await Promise.all(

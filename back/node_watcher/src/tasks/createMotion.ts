@@ -8,6 +8,7 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { motionStatus, preimageStatus } from '../util/statuses';
 import {
   NomidotArgument,
@@ -25,11 +26,8 @@ const createMotion: Task<NomidotMotion[]> = {
   name: 'createMotion',
   read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotMotion[]> => {
     const events = await api.query.system.events.at(blockHash);
-
-    const motionEvents = events.filter(
-      ({ event: { method, section } }) =>
-        section === 'council' && method === motionStatus.PROPOSED
-    );
+    
+    const motionEvents = filterEvents(events, 'council', motionStatus.PROPOSED)
 
     const results: NomidotMotion[] = [];
 

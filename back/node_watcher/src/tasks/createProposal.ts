@@ -12,6 +12,7 @@ import {
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { preimageStatus, proposalStatus } from '../util/statuses';
 import {
   NomidotProposal,
@@ -33,10 +34,7 @@ const createProposal: Task<NomidotProposal[]> = {
   ): Promise<NomidotProposal[]> => {
     const events = await api.query.system.events.at(blockHash);
 
-    const proposalEvents = events.filter(
-      ({ event: { method, section } }) =>
-        section === 'democracy' && method === proposalStatus.PROPOSED
-    );
+    const proposalEvents = filterEvents(events, 'democracy', proposalStatus.PROPOSED)
 
     const results: NomidotProposal[] = [];
 

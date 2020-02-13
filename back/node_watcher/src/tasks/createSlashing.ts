@@ -9,6 +9,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { NomidotSlashing, Task } from './types';
+import { filterEvents } from 'src/util/filterEvents';
 
 const l = logger('Task: Slashing');
 
@@ -25,10 +26,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
       blockHash
     );
 
-    const slashEvents = eventsAtBlock.filter(
-      ({ event: { section, method } }) =>
-        section === 'staking' && method === 'Slash'
-    );
+    const slashEvents = filterEvents(eventsAtBlock, 'staking', 'Slash');
 
     const result: NomidotSlashing[] = [];
 
