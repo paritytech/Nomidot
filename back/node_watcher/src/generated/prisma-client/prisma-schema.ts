@@ -399,10 +399,10 @@ type Motion {
   motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument!]
   motionProposalHash: String!
   motionProposalId: Int!
+  motionStatus(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
   preimage: Preimage
   preimageHash: String
   section: String!
-  status(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
 }
 
 type MotionConnection {
@@ -419,10 +419,10 @@ input MotionCreateInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionProposalHash: String!
   motionProposalId: Int!
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
   section: String!
-  status: MotionStatusCreateManyWithoutMotionInput
 }
 
 input MotionCreateOneWithoutMotionProposalArgumentsInput {
@@ -430,13 +430,13 @@ input MotionCreateOneWithoutMotionProposalArgumentsInput {
   connect: MotionWhereUniqueInput
 }
 
-input MotionCreateOneWithoutPreimageInput {
-  create: MotionCreateWithoutPreimageInput
+input MotionCreateOneWithoutMotionStatusInput {
+  create: MotionCreateWithoutMotionStatusInput
   connect: MotionWhereUniqueInput
 }
 
-input MotionCreateOneWithoutStatusInput {
-  create: MotionCreateWithoutStatusInput
+input MotionCreateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
   connect: MotionWhereUniqueInput
 }
 
@@ -447,10 +447,23 @@ input MotionCreateWithoutMotionProposalArgumentsInput {
   method: String!
   motionProposalHash: String!
   motionProposalId: Int!
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
   section: String!
-  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutMotionStatusInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
+  section: String!
 }
 
 input MotionCreateWithoutPreimageInput {
@@ -461,20 +474,7 @@ input MotionCreateWithoutPreimageInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionProposalHash: String!
   motionProposalId: Int!
-  preimageHash: String
-  section: String!
-  status: MotionStatusCreateManyWithoutMotionInput
-}
-
-input MotionCreateWithoutStatusInput {
-  author: String!
-  memberCount: Int!
-  metaDescription: String!
-  method: String!
-  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
-  motionProposalHash: String!
-  motionProposalId: Int!
-  preimage: PreimageCreateOneWithoutMotionInput
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimageHash: String
   section: String!
 }
@@ -752,7 +752,7 @@ type MotionStatusConnection {
 input MotionStatusCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  motion: MotionCreateOneWithoutStatusInput!
+  motion: MotionCreateOneWithoutMotionStatusInput!
   status: String!
 }
 
@@ -838,7 +838,7 @@ input MotionStatusSubscriptionWhereInput {
 
 input MotionStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  motion: MotionUpdateOneRequiredWithoutStatusInput
+  motion: MotionUpdateOneRequiredWithoutMotionStatusInput
   status: String
 }
 
@@ -949,10 +949,10 @@ input MotionUpdateInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionProposalHash: String
   motionProposalId: Int
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
   section: String
-  status: MotionStatusUpdateManyWithoutMotionInput
 }
 
 input MotionUpdateManyMutationInput {
@@ -973,10 +973,10 @@ input MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput {
   connect: MotionWhereUniqueInput
 }
 
-input MotionUpdateOneRequiredWithoutStatusInput {
-  create: MotionCreateWithoutStatusInput
-  update: MotionUpdateWithoutStatusDataInput
-  upsert: MotionUpsertWithoutStatusInput
+input MotionUpdateOneRequiredWithoutMotionStatusInput {
+  create: MotionCreateWithoutMotionStatusInput
+  update: MotionUpdateWithoutMotionStatusDataInput
+  upsert: MotionUpsertWithoutMotionStatusInput
   connect: MotionWhereUniqueInput
 }
 
@@ -996,10 +996,23 @@ input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   method: String
   motionProposalHash: String
   motionProposalId: Int
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
   section: String
-  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutMotionStatusDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
+  section: String
 }
 
 input MotionUpdateWithoutPreimageDataInput {
@@ -1010,20 +1023,7 @@ input MotionUpdateWithoutPreimageDataInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionProposalHash: String
   motionProposalId: Int
-  preimageHash: String
-  section: String
-  status: MotionStatusUpdateManyWithoutMotionInput
-}
-
-input MotionUpdateWithoutStatusDataInput {
-  author: String
-  memberCount: Int
-  metaDescription: String
-  method: String
-  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
-  motionProposalHash: String
-  motionProposalId: Int
-  preimage: PreimageUpdateOneWithoutMotionInput
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimageHash: String
   section: String
 }
@@ -1033,14 +1033,14 @@ input MotionUpsertWithoutMotionProposalArgumentsInput {
   create: MotionCreateWithoutMotionProposalArgumentsInput!
 }
 
+input MotionUpsertWithoutMotionStatusInput {
+  update: MotionUpdateWithoutMotionStatusDataInput!
+  create: MotionCreateWithoutMotionStatusInput!
+}
+
 input MotionUpsertWithoutPreimageInput {
   update: MotionUpdateWithoutPreimageDataInput!
   create: MotionCreateWithoutPreimageInput!
-}
-
-input MotionUpsertWithoutStatusInput {
-  update: MotionUpdateWithoutStatusDataInput!
-  create: MotionCreateWithoutStatusInput!
 }
 
 input MotionWhereInput {
@@ -1127,6 +1127,9 @@ input MotionWhereInput {
   motionProposalId_lte: Int
   motionProposalId_gt: Int
   motionProposalId_gte: Int
+  motionStatus_every: MotionStatusWhereInput
+  motionStatus_some: MotionStatusWhereInput
+  motionStatus_none: MotionStatusWhereInput
   preimage: PreimageWhereInput
   preimageHash: String
   preimageHash_not: String
@@ -1156,9 +1159,6 @@ input MotionWhereInput {
   section_not_starts_with: String
   section_ends_with: String
   section_not_ends_with: String
-  status_every: MotionStatusWhereInput
-  status_some: MotionStatusWhereInput
-  status_none: MotionStatusWhereInput
   AND: [MotionWhereInput!]
   OR: [MotionWhereInput!]
   NOT: [MotionWhereInput!]
