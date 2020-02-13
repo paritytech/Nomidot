@@ -7,6 +7,7 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { NomidotSession, Task } from './types';
 
 const l = logger('Task: Session');
@@ -20,10 +21,7 @@ const createSession: Task<NomidotSession> = {
     const events = await api.query.system.events.at(blockHash);
 
     const didNewSessionStart =
-      events.filter(
-        ({ event: { method, section } }) =>
-          section === 'session' && method === 'NewSession'
-      ).length > 0;
+      filterEvents(events, 'session', 'NewSession').length > 0;
 
     const sessionIndex = await api.query.session.currentIndex.at(blockHash);
 
