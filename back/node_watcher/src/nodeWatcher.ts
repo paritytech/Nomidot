@@ -81,8 +81,10 @@ async function incrementor(
       api.registry.setMetadata(rpcMeta);
     }
 
-    const events = await api.query.system.events.at(blockHash);
-    const sessionIndex = await api.query.session.currentIndex.at(blockHash);
+    const [events, sessionIndex] = await Promise.all([
+      await api.query.system.events.at(blockHash),
+      await api.query.session.currentIndex.at(blockHash)
+    ])
 
     const cached: Cached = {
       events,
