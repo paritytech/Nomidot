@@ -4,11 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash
-} from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';

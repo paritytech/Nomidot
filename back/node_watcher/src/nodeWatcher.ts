@@ -83,8 +83,8 @@ async function incrementor(
 
     const [events, sessionIndex] = await Promise.all([
       await api.query.system.events.at(blockHash),
-      await api.query.session.currentIndex.at(blockHash)
-    ])
+      await api.query.session.currentIndex.at(blockHash),
+    ]);
 
     const cached: Cached = {
       events,

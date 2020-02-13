@@ -3,11 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import {
-  BlockNumber,
-  EventRecord,
-  Hash
-} from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -21,7 +17,11 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: (blockHash: Hash, cached: Cached, api: ApiPromise): Promise<NomidotReward[]> => {
+  read: (
+    blockHash: Hash,
+    cached: Cached,
+    api: ApiPromise
+  ): Promise<NomidotReward[]> => {
     const { events, sessionIndex } = cached;
 
     const rewardEvents: EventRecord[] = filterEvents(
