@@ -7,8 +7,8 @@ import { Option } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
-  Exposure,
   EventRecord,
+  Exposure,
   Hash,
   SessionIndex,
   StakingLedger,

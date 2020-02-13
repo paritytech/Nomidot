@@ -3,13 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType, Vec } from '@polkadot/types';
-import { BlockNumber, EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { createType } from '@polkadot/types';
+import {
+  BlockNumber,
+  EventRecord,
+  Hash,
+  SessionIndex,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { NomidotSlashing, Task } from './types';
-import { filterEvents } from 'src/util/filterEvents';
 
 const l = logger('Task: Slashing');
 
@@ -18,17 +23,17 @@ const l = logger('Task: Slashing');
  */
 const createSlashing: Task<NomidotSlashing[]> = {
   name: 'createSlashing',
-  read: async (
+  read: (
     blockHash: Hash,
     events: EventRecord[],
     sessionIndex: SessionIndex,
     api: ApiPromise
-  ): Promise<NomidotSlashing[]> => {
+  ): NomidotSlashing[] => {
     const slashEvents = filterEvents(events, 'staking', 'Slash');
 
     const result: NomidotSlashing[] = [];
 
-    slashEvents.map(({ event: { data } }) => {
+    slashEvents.map(({ event: { data } }: EventRecord) => {
       result.push({
         who: createType(api.registry, 'AccountId', data[0].toString()),
         amount: createType(api.registry, 'Balance', data[1].toString()),

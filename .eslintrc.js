@@ -35,7 +35,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'simple-import-sort/sort': 'error',
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
     ],
   },

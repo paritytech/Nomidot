@@ -3,7 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import {
+  BlockNumber,
+  EventRecord,
+  Hash,
+  SessionIndex,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -28,7 +33,11 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
     sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<NomidotProposalStatusUpdate[]> => {
-    const proposalEvents = filterEvents(events, 'democracy', proposalStatus.TABLED)
+    const proposalEvents = filterEvents(
+      events,
+      'democracy',
+      proposalStatus.TABLED
+    );
 
     const results: NomidotProposalStatusUpdate[] = [];
 

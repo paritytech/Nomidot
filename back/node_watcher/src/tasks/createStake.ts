@@ -4,7 +4,13 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
-import { BlockNumber, EventRecord, Exposure, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import {
+  BlockNumber,
+  EventRecord,
+  Exposure,
+  Hash,
+  SessionIndex,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 
@@ -18,7 +24,12 @@ const l = logger('Task: Stake');
  */
 const createStake: Task<NomidotStake> = {
   name: 'createStake',
-  read: async (blockHash: Hash, events: EventRecord[], sessionIndex: SessionIndex, api: ApiPromise): Promise<NomidotStake> => {
+  read: async (
+    blockHash: Hash,
+    events: EventRecord[],
+    sessionIndex: SessionIndex,
+    api: ApiPromise
+  ): Promise<NomidotStake> => {
     const currentElected = await api.query.staking.currentElected.at(blockHash);
     const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
     let totalStaked = new BN(0);
