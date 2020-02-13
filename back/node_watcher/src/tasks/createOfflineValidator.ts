@@ -26,10 +26,10 @@ const l = logger('Task: OfflineValidator');
 const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   name: 'createOfflineValidator',
   read: (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
     sessionIndex: SessionIndex,
-    api: ApiPromise
+    _api: ApiPromise
   ): NomidotOfflineValidator[] => {
     // At the end of the session, these validators were found to be offline.
     const someOfflineEvents: EventRecord[] = filterEvents(

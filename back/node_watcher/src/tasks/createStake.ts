@@ -26,8 +26,8 @@ const createStake: Task<NomidotStake> = {
   name: 'createStake',
   read: async (
     blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    _events: EventRecord[],
+    _sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<NomidotStake> => {
     const currentElected = await api.query.staking.currentElected.at(blockHash);

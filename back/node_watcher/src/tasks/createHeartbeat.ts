@@ -23,10 +23,10 @@ const l = logger('Task: HeartBeat');
 const createHeartBeat: Task<NomidotHeartBeat[]> = {
   name: 'createHeartBeat',
   read: (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
     sessionIndex: SessionIndex,
-    api: ApiPromise
+    _api: ApiPromise
   ): NomidotHeartBeat[] => {
     const heartbeatEvents: EventRecord[] = filterEvents(
       events,

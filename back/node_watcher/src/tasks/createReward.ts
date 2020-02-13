@@ -54,7 +54,7 @@ const createReward: Task<NomidotReward[]> = {
 
     return result;
   },
-  write: async (blockNumber: BlockNumber, rewards: NomidotReward[]) => {
+  write: async (_blockNumber: BlockNumber, rewards: NomidotReward[]) => {
     await Promise.all(
       rewards.map(
         async ({

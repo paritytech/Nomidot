@@ -27,10 +27,10 @@ const l = logger('Task: Motions Status Update');
 const createMotion: Task<NomidotMotionStatusUpdate[]> = {
   name: 'createMotionStatusUpdate',
   read: async (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
-    sessionIndex: SessionIndex,
-    api: ApiPromise
+    _sessionIndex: SessionIndex,
+    _api: ApiPromise
   ): Promise<NomidotMotionStatusUpdate[]> => {
     // Proposed is handled by createMotion task
     // Voted should be handled by a vote tracking tasks

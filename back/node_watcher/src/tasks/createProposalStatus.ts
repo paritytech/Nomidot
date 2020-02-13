@@ -28,10 +28,10 @@ const l = logger('Task: Proposals Status Update');
 const createProposal: Task<NomidotProposalStatusUpdate[]> = {
   name: 'createProposalStatusUpdate',
   read: async (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
-    sessionIndex: SessionIndex,
-    api: ApiPromise
+    _sessionIndex: SessionIndex,
+    _api: ApiPromise
   ): Promise<NomidotProposalStatusUpdate[]> => {
     const proposalEvents = filterEvents(
       events,

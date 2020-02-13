@@ -27,10 +27,10 @@ const l = logger('Task: Referendum Status Update');
 const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
   name: 'createReferendumStatusUpdate',
   read: async (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
-    sessionIndex: SessionIndex,
-    api: ApiPromise
+    _sessionIndex: SessionIndex,
+    _api: ApiPromise
   ): Promise<NomidotReferendumStatusUpdate[]> => {
     // The "Started" event is taken care of by the createReferendum
     // task, so we need to filter it out.

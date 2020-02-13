@@ -23,10 +23,10 @@ const l = logger('Task: Session');
 const createSession: Task<NomidotSession> = {
   name: 'createSession',
   read: (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
     sessionIndex: SessionIndex,
-    api: ApiPromise
+    _api: ApiPromise
   ): NomidotSession => {
     const didNewSessionStart =
       filterEvents(events, 'session', 'NewSession').length > 0;

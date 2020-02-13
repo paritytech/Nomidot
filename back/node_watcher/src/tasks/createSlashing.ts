@@ -24,9 +24,9 @@ const l = logger('Task: Slashing');
 const createSlashing: Task<NomidotSlashing[]> = {
   name: 'createSlashing',
   read: (
-    blockHash: Hash,
+    _blockHash: Hash,
     events: EventRecord[],
-    sessionIndex: SessionIndex,
+    _sessionIndex: SessionIndex,
     api: ApiPromise
   ): NomidotSlashing[] => {
     const slashEvents = filterEvents(events, 'staking', 'Slash');

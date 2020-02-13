@@ -23,8 +23,8 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
   name: 'createTotalIssuance',
   read: async (
     blockHash: Hash,
-    events: EventRecord[],
-    sessionIndex: SessionIndex,
+    _events: EventRecord[],
+    _sessionIndex: SessionIndex,
     api: ApiPromise
   ): Promise<NomidotTotalIssuance> => {
     const amount = await api.query.balances.totalIssuance.at(blockHash);
