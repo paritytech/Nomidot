@@ -30,7 +30,7 @@ import {
 
 export interface Task<T> {
   name: string;
-  read(blockHash: Hash, cached: Cached, api: ApiPromise): T | Promise<T>;
+  read(blockHash: Hash, cached: Cached, api: ApiPromise): Promise<T>;
   write(blockNumber: BlockNumber, value: T): Promise<void>;
 }
 

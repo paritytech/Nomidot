@@ -26,7 +26,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
     _blockHash: Hash,
     cached: Cached,
     api: ApiPromise
-  ): NomidotSlashing[] => {
+  ): Promise<NomidotSlashing[]> => {
     const { events } = cached;
     const slashEvents = filterEvents(events, 'staking', 'Slash');
 
@@ -41,7 +41,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
     l.log(`Nomidot Slashing: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSlashing[]) => {
     await Promise.all(

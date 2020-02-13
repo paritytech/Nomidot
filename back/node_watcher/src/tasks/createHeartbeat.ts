@@ -21,7 +21,7 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
     _blockHash: Hash,
     cached: Cached,
     _api: ApiPromise
-  ): NomidotHeartBeat[] => {
+  ): Promise<NomidotHeartBeat[]> => {
     const { events, sessionIndex } = cached;
 
     const heartbeatEvents: EventRecord[] = filterEvents(
@@ -45,7 +45,7 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
 
     l.log(`Heartbeat: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, heartbeats: NomidotHeartBeat[]) => {
     await Promise.all(

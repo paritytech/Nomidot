@@ -21,7 +21,7 @@ const l = logger('Task: Reward');
  */
 const createReward: Task<NomidotReward[]> = {
   name: 'createReward',
-  read: (blockHash: Hash, cached: Cached, api: ApiPromise): NomidotReward[] => {
+  read: (blockHash: Hash, cached: Cached, api: ApiPromise): Promise<NomidotReward[]> => {
     const { events, sessionIndex } = cached;
 
     const rewardEvents: EventRecord[] = filterEvents(
@@ -48,7 +48,7 @@ const createReward: Task<NomidotReward[]> = {
 
     l.log(`Reward: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (_blockNumber: BlockNumber, rewards: NomidotReward[]) => {
     await Promise.all(
