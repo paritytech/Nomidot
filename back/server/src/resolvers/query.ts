@@ -43,6 +43,29 @@ const Query = {
       last,
     });
   },
+  heartBeats(
+    parent: any,
+    {
+      heartBeatWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.heartBeats({
+      where: heartBeatWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
   nominations(
     parent: any,
     {
@@ -58,6 +81,44 @@ const Query = {
   ) {
     return prisma.nominations({
       where: nominationsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+  offlineValidators(
+    parent: any,
+    {
+      offlineValidatorsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.offlineValidators({
+      where: offlineValidatorsWhereInput,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+  rewards(
+    parent: any,
+    { rewardsWhereInput, orderBy, skip, after, before, first, last }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.rewards({
+      where: rewardsWhereInput,
       orderBy,
       skip,
       after,
@@ -96,21 +157,6 @@ const Query = {
   ) {
     return prisma.sessions({
       where: sessionsWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    });
-  },
-  rewards(
-    parent: any,
-    { rewardsWhereInput, orderBy, skip, after, before, first, last }: Selectors,
-    { prisma }: Context
-  ) {
-    return prisma.rewards({
-      where: rewardsWhereInput,
       orderBy,
       skip,
       after,

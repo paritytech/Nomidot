@@ -12,15 +12,76 @@ const resolvers = {
   Subscription,
   Query,
   BlockNumber: {
-    number(parent) {
-      return prisma.blockNumber({ id: parent.id }).number()
-    }
+    authoredBy(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).authoredBy();
+    },
+    hash(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).hash();
+    },
+    id(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).id();
+    },
+    number(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).number();
+    },
+    startDateTime(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).startDateTime();
+    },
+  },
+  Era: {
+    eraStartSessionIndex(parent: any) {
+      return prisma.era({ id: parent.id }).eraStartSessionIndex();
+    },
+  },
+  HeartBeat: {
+    sessionIndex(parent: any) {
+      return prisma.heartBeat({ id: parent.id }).sessionIndex();
+    },
+  },
+  Nomination: {
+    session(parent: any) {
+      return prisma.nomination({ id: parent.id }).session();
+    },
+  },
+  OfflineValidator: {
+    sessionIndex(parent: any) {
+      return prisma.offlineValidator({ id: parent.id }).sessionIndex();
+    },
+  },
+  Reward: {
+    authoredBlock(parent: any) {
+      return prisma.reward({ id: parent.id }).authoredBlock();
+    },
+    sessionIndex(parent: any) {
+      return prisma.reward({ id: parent.id }).sessionIndex();
+    },
+  },
+  Session: {
+    id(parent: any) {
+      return prisma.session({ id: parent.id }).id();
+    },
+    index(parent: any) {
+      return prisma.session({ id: parent.id }).index();
+    },
+    start(parent: any) {
+      return prisma.session({ id: parent.id }).start();
+    },
+  },
+  Stake: {
+    blockNumber(parent: any) {
+      return prisma.stake({ id: parent.id }).blockNumber();
+    },
   },
   TotalIssuance: {
-    blockNumber(parent) {
-      return prisma.totalIssuance({ id: parent.id }).blockNumber()
-    }
-  }
+    blockNumber(parent: any) {
+      return prisma.totalIssuance({ id: parent.id }).blockNumber();
+    },
+  },
+  Validator: {
+    session(parent: any) {
+      return prisma.validator({ id: parent.id }).session();
+    },
+  },
 };
 
 const server = new GraphQLServer({
