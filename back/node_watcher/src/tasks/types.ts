@@ -3,16 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
+import { Compact } from '@polkadot/types';
 import {
   AccountId,
   Balance,
   BlockNumber,
   EraIndex,
   EraPoints,
+  EventRecord,
   Hash,
   Index,
+  IndividualExposure,
   Moment,
   SessionIndex,
+  ValidatorId,
   ValidatorPrefs,
   VoteThreshold,
 } from '@polkadot/types/interfaces';
@@ -26,8 +30,13 @@ import {
 
 export interface Task<T> {
   name: string;
-  read(blockHash: Hash, api: ApiPromise): Promise<T>;
+  read(blockHash: Hash, cached: Cached, api: ApiPromise): Promise<T>;
   write(blockNumber: BlockNumber, value: T): Promise<void>;
+}
+
+export interface Cached {
+  events: EventRecord[];
+  sessionIndex: SessionIndex;
 }
 
 export interface NomidotBlock {
@@ -43,14 +52,42 @@ export interface NomidotEra {
 }
 
 export interface NomidotHeartBeat {
-  isOnline: boolean;
-  sender: AccountId;
-  sessionId: SessionIndex;
+  authorityId: AccountId;
+  sessionIndex: SessionIndex;
+}
+
+export interface NomidotOfflineValidator {
+  sessionIndex: SessionIndex;
+  validatorId: ValidatorId;
+  total: Compact<Balance>;
+  own: Compact<Balance>;
+  others: IndividualExposure[];
+}
+
+export interface NomidotReward {
+  authoredBlock: Hash;
+  sessionIndex: SessionIndex;
+  treasuryReward: Balance; // remainder goes to treasury
+  validatorReward: Balance; // all validators get rewarded by this amount
+}
+
+export interface NomidotNominationAndValidators {
+  nominatorController: AccountId;
+  nominatorStash: AccountId;
+  session: SessionIndex;
+  stakedAmount: Compact<Balance>;
+  validatorController: AccountId;
+  validatorStash: AccountId;
+  validatorPreferences?: ValidatorPrefs;
 }
 
 export interface NomidotSession {
   didNewSessionStart: boolean;
   idx: SessionIndex;
+}
+
+export interface NomidotStake {
+  totalStaked: Balance;
 }
 
 export interface NomidotSlashing {
@@ -62,16 +99,12 @@ export interface NomidotTotalIssuance {
   amount: Balance;
 }
 
-export interface NomidotValidator {
-  controller: AccountId;
-  stash: AccountId;
-  validatorPreferences?: ValidatorPrefs;
-  currentSessionIndex: SessionIndex;
-}
-
 export type Nomidot =
   | NomidotBlock
   | NomidotEra
+  | NomidotOfflineValidator[]
+  | NomidotHeartBeat[]
+  | Set<NomidotNominationAndValidators>
   | NomidotHeartBeat
   | NomidotMotion[]
   | NomidotMotionStatusUpdate[]
@@ -80,10 +113,11 @@ export type Nomidot =
   | NomidotProposal[]
   | NomidotReferendum[]
   | NomidotReferendumStatusUpdate[]
+  | NomidotReward[]
   | NomidotSession
   | NomidotSlashing[]
-  | NomidotTotalIssuance
-  | NomidotValidator[];
+  | NomidotStake
+  | NomidotTotalIssuance;
 
 export type NomidotTask = Task<Nomidot>;
 
@@ -101,6 +135,11 @@ export interface NomidotProposalEvent {
 export interface NomidotProposalRawEvent {
   PropIndex?: number;
   Balance?: Balance;
+}
+
+export interface NomidotRewardEvent extends EventRecord {
+  treasuryReward: Balance;
+  validatorReward: Balance;
 }
 
 export interface NomidotMotion {

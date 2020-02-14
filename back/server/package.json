@@ -7,7 +7,10 @@
   "private": true,
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start:dev": "PRISMA_ENDPOINT=http://0.0.0.0:4466 ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
+    "prisma:deploy": "PRISMA_ENDPOINT=http://0.0.0.0:4466 yarn prisma deploy",
+    "gql:get-schema": "PRISMA_ENDPOINT=http://0.0.0.0:4466 graphql get-schema -e dev --project prisma"
   },
   "dependencies": {
     "graphql-yoga": "1.18.3",

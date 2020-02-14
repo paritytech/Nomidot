@@ -13,6 +13,21 @@ type Session {
   start: BlockNumber! @relation(name: "BlockNumberAtSessionStart", link: INLINE)
 }
 
+type HeartBeat {
+  id: ID! @id
+  sessionIndex: Session! @relation(name: "HeartbeatAtSession", link: INLINE)
+  authorityId: String!
+}
+
+type OfflineValidator {
+  id: ID! @id
+  sessionIndex: Session! @relation(name: "OfflineValidatorAtSession", link: INLINE)
+  validatorId: String!
+  total: String!
+  own: String!
+  others: [Json!]! @scalarList(strategy: RELATION)
+}
+
 type Era {
   id: ID! @id
   index: Int! @unique
@@ -38,15 +53,16 @@ type Validator {
 
 type TotalIssuance {
   id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE)
+  blockNumber: BlockNumber! @relation(name: "TotalIssuanceAtBlockNumber", link: INLINE) @unique
   amount: String!
 }
 
 type Reward {
   id: ID! @id
-  amount: String!
   authoredBlock: BlockNumber! @relation(name: "RewardsAtBlockNumber", link: INLINE)
-  recipients: [String!]! @scalarList(strategy: RELATION)
+  sessionIndex: Session! @relation(name: "RewardsAtSession", link: INLINE)
+  treasuryReward: String!
+  validatorReward: String!
 }
 
 type Nomination {
@@ -56,7 +72,7 @@ type Nomination {
   nominatorController: String!
   nominatorStash: String!
   session: Session! @relation(name: "NominationsAtSession", link: INLINE)
-  bonded: String!
+  stakedAmount: String!
 }
 
 type Stake {
@@ -74,10 +90,10 @@ type Motion {
   motionProposalArguments: [MotionProposalArgument]! @relation(name: "ArgumentForMotionProposal")
   motionProposalHash: String!
   motionProposalId: Int! @unique
+  motionStatus: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
   preimage: Preimage @relation(name: "PreimageForMotion")
   preimageHash: String
   section: String!
-  status: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
 }
 
 type MotionProposalArgument {

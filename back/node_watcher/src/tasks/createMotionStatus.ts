@@ -9,6 +9,7 @@ import { logger } from '@polkadot/util';
 import { prisma } from '../generated/prisma-client';
 import { motionStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotMotionRawEvent,
   NomidotMotionStatusUpdate,
   Task,
@@ -22,11 +23,11 @@ const l = logger('Task: Motions Status Update');
 const createMotion: Task<NomidotMotionStatusUpdate[]> = {
   name: 'createMotionStatusUpdate',
   read: async (
-    blockHash: Hash,
-    api: ApiPromise
+    _blockHash: Hash,
+    cached: Cached,
+    _api: ApiPromise
   ): Promise<NomidotMotionStatusUpdate[]> => {
-    const events = await api.query.system.events.at(blockHash);
-
+    const { events } = cached;
     // Proposed is handled by createMotion task
     // Voted should be handled by a vote tracking tasks
     const motionEvents = events.filter(
@@ -73,7 +74,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
               },
               {
                 // eslint-disable-next-line @typescript-eslint/camelcase
-                status_every: {
+                motionStatus_every: {
                   // eslint-disable-next-line @typescript-eslint/camelcase
                   status_not_in: [
                     motionStatus.VOTED,

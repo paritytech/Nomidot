@@ -7,7 +7,7 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotTotalIssuance, Task } from './types';
+import { Cached, NomidotTotalIssuance, Task } from './types';
 
 const l = logger('Task: TotalIssuance');
 
@@ -18,6 +18,7 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
   name: 'createTotalIssuance',
   read: async (
     blockHash: Hash,
+    _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotTotalIssuance> => {
     const amount = await api.query.balances.totalIssuance.at(blockHash);
@@ -31,16 +32,14 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {
-    const totalIssuanceCreateInput = {
+    await prisma.createTotalIssuance({
       amount: value.amount.toHex(),
       blockNumber: {
         connect: {
           number: blockNumber.toNumber(),
         },
       },
-    };
-
-    await prisma.createTotalIssuance(totalIssuanceCreateInput);
+    });
   },
 };
 
