@@ -108,11 +108,11 @@ const createNominationAndValidators: Task<Set<
               );
 
               const nominatorStash = bonded.isNone
-                ? ledger.unwrap().stash
+                ? ledger.unwrapOr({ stash: null }).stash
                 : who;
 
               const nominatorController =
-                ledger.isSome && ledger.unwrap().stash ? who : bonded.unwrap();
+                ledger.isSome && ledger.unwrapOr({ stash: null }).stash ? who : bonded.unwrapOr(null);
 
               result.add({
                 nominatorStash,
