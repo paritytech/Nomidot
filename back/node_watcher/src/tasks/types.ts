@@ -72,12 +72,12 @@ export interface NomidotReward {
 }
 
 export interface NomidotNominationAndValidators {
-  nominatorController: AccountId;
-  nominatorStash: AccountId;
+  nominatorController: AccountId | null;
+  nominatorStash: AccountId | null;
   session: SessionIndex;
   stakedAmount: Compact<Balance>;
-  validatorController: AccountId;
-  validatorStash: AccountId;
+  validatorController: AccountId | null;
+  validatorStash: AccountId | null;
   validatorPreferences?: ValidatorPrefs;
 }
 

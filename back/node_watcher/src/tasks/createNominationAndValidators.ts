@@ -108,11 +108,13 @@ const createNominationAndValidators: Task<Set<
               );
 
               const nominatorStash = bonded.isNone
-                ? ledger.unwrap().stash
+                ? ledger.unwrapOr({ stash: null }).stash
                 : who;
 
               const nominatorController =
-                ledger.isSome && ledger.unwrap().stash ? who : bonded.unwrap();
+                ledger.isSome && ledger.unwrapOr({ stash: null }).stash
+                  ? who
+                  : bonded.unwrapOr(null);
 
               result.add({
                 nominatorStash,
@@ -154,9 +156,11 @@ const createNominationAndValidators: Task<Set<
             index: session.toNumber(),
           },
         },
-        controller: validatorController.toHex(),
-        stash: validatorStash.toHex(),
-        preferences: validatorPreferences ? validatorPreferences.toHex() : '',
+        controller: validatorController ? validatorController.toHex() : '0x00',
+        stash: validatorStash ? validatorStash.toHex() : '0x00',
+        preferences: validatorPreferences
+          ? validatorPreferences.toHex()
+          : '0x00',
       });
 
       await prisma.createNomination({
@@ -165,10 +169,14 @@ const createNominationAndValidators: Task<Set<
             index: session.toNumber(),
           },
         },
-        validatorController: validatorController.toHex(),
-        validatorStash: validatorStash.toHex(),
-        nominatorController: nominatorController.toHex(),
-        nominatorStash: nominatorStash.toHex(),
+        validatorController: validatorController
+          ? validatorController.toHex()
+          : '0x00',
+        validatorStash: validatorStash ? validatorStash.toHex() : '0x00',
+        nominatorController: nominatorController
+          ? nominatorController.toHex()
+          : '0x00',
+        nominatorStash: nominatorStash ? nominatorStash.toHex() : '0x00',
         stakedAmount: stakedAmount.toHex(),
       });
     }
