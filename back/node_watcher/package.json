@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@polkadot/api": "^1.2.0-beta.4",
+    "@types/bn.js": "^4.11.6",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {
