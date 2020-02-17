@@ -1,12 +1,13 @@
 FROM node:alpine3.10
 
 WORKDIR /server
-COPY . .
 
 # To make the build fast
 COPY package.json .
-COPY yarn.lock .
 
+# Install dependencies
 RUN yarn
+
+COPY ./ ./
 
 CMD ["yarn", "start"]
