@@ -27,13 +27,6 @@ type Query {
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   era(where: EraWhereUniqueInput!): Era
   nomination(where: NominationWhereUniqueInput!): Nomination
-  # preimage(where: PreimageWhereUniqueInput!): Preimage
-  # preimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
-  # preimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
-  # proposal(where: ProposalWhereUniqueInput!): Proposal
-  # proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
-  # referendum(where: ReferendumWhereUniqueInput!): Referendum
-  # referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
   reward(where: RewardWhereUniqueInput!): Reward
   session(where: SessionWhereUniqueInput!): Session
   slashing(where: SlashingWhereUniqueInput!): Slashing
@@ -45,9 +38,12 @@ type Query {
 type Subscription {
   subscribeBlockNumbers: BlockNumber
   subscribeEras: Era
+  subscribeHeartBeats: HeartBeat
   subscribeNominations: Nomination
+  subscribeOfflineValidators: OfflineValidator
   subscribeRewards: Reward
   subscribeSessions: Session
   subscribeSlashings: Slashing
+  subscribeStakes: Stake
   subscribeValidators: Validator
 }
