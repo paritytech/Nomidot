@@ -4,6 +4,28 @@
 
 import gql from 'graphql-tag';
 
+// ******* QUERIES *******
+
+export const LATEST_ERA_QUERY = gql`
+  query {
+    eras(last: 1) {
+      index
+      totalPoints
+      individualPoints
+    }
+  }
+`
+
+export const LATEST_SESSION_QUERY = gql`
+  query {
+    sessions(last: 1) {
+      index
+    }
+  }
+`
+
+// ******* SUBSCRIPTIONS *******
+
 export const BLOCKS_SUBSCRIPTION = gql`
   subscription {
     subscribeBlockNumbers {
@@ -19,6 +41,7 @@ export const ERAS_SUBSCRIPTION = gql`
   subscription {
     subscribeEras {
       index
+      individualPoints
       totalPoints
     }
   }

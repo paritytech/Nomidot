@@ -9,7 +9,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
 const httpLink = new HttpLink({
-  uri: 'https://104.155.89.173:4000',
+  uri: 'http://104.155.89.173:4000',
 });
 
 const wsLink = new WebSocketLink({
