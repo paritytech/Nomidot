@@ -55,10 +55,12 @@ const EraHeader = () => {
         subscribeEras: { index, totalPoints },
       } = data;
 
-      setEraHead({
-        index,
-        totalPoints,
-      });
+      if (!eraHead || index > eraHead.index) {
+        setEraHead({
+          index,
+          totalPoints,
+        });
+      }
     }
   }, [data]);
 
@@ -88,12 +90,14 @@ const BlockHeader = () => {
         subscribeBlockNumbers: { number, authoredBy, hash, startDateTime },
       } = data;
 
-      setBlockHead({
-        authoredBy,
-        hash,
-        number,
-        startDateTime,
-      });
+      if (!blockHead || number > blockHead.number) {
+        setBlockHead({
+          authoredBy,
+          hash,
+          number,
+          startDateTime,
+        });
+      }
     }
   }, [data]);
 
@@ -116,9 +120,11 @@ const SessionHeader = () => {
         subscribeSessions: { index },
       } = data;
 
-      setSessionHead({
-        index,
-      });
+      if (!sessionHead || index > sessionHead.index) {
+        setSessionHead({
+          index,
+        });
+      }
     }
   }, [data]);
 

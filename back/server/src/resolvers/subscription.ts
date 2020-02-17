@@ -21,7 +21,7 @@ const subscribeBlockNumbers = {
   ): (<T = BlockNumberSubscription>() => T) => {
     return context.prisma.$subscribe
       .blockNumber({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...blockNumberSubscriptionWhereInput,
       })
@@ -40,7 +40,7 @@ const subscribeEras = {
   ): (<T = EraSubscription>() => T) => {
     return context.prisma.$subscribe
       .era({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...eraSubscriptionWhereInput,
       })
@@ -59,7 +59,7 @@ const subscribeNominations = {
   ): (<T = NominationSubscription>() => T) => {
     return context.prisma.$subscribe
       .nomination({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...nominationSubscriptionWhereInput,
       })
@@ -78,7 +78,7 @@ const subscribeRewards = {
   ): (<T = RewardSubscription>() => T) => {
     return context.prisma.$subscribe
       .reward({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...rewardSubscriptionWhereInput,
       })
@@ -97,7 +97,7 @@ const subscribeSessions = {
   ): (<T = SessionSubscription>() => T) => {
     return context.prisma.$subscribe
       .session({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...sessionSubscriptionWhereInput,
       })
@@ -116,7 +116,7 @@ const subscribeSlashings = {
   ): (<T = SlashingSubscription>() => T) => {
     return context.prisma.$subscribe
       .slashing({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...slashingSubscriptionWhereInput,
       })
@@ -135,7 +135,7 @@ const subscribeValidators = {
   ): (<T = ValidatorSubscription>() => T) => {
     return context.prisma.$subscribe
       .validator({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...validatorSubscriptionWhereInput,
       })
