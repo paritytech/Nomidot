@@ -4,11 +4,13 @@
 
 import { useSubscription } from '@apollo/react-hooks';
 import { AccountsContext } from '@substrate/context';
+import { Button, ItemStats } from '@substrate/design-system';
 import gql from 'graphql-tag';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { APP_TITLE } from '../../../util';
+import { APP_TITLE, toShortAddress } from '../../../util';
 import styles from './Header.module.css';
+import { BlockHead, EraHead, SessionHead } from './types';
 
 const BLOCKS_SUBSCRIPTION = gql`
   subscription {
@@ -30,14 +32,22 @@ const ERAS_SUBSCRIPTION = gql`
   }
 `;
 
-interface EraHead {
-  index: number;
-  totalPoints: number;
-}
+const SESSIONS_SUBSCRIPTION = gql`
+  subscription {
+    subscribeSessions {
+      index
+    }
+  }
+`;
+
+// const STAKING_SUBSCRIPTION = gql`
+//   subscription {
+//   }
+// `;
 
 const EraHeader = () => {
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
-  const [eraHead, setEraHead] = useState<EraHead>({} as EraHead);
+  const [eraHead, setEraHead] = useState<EraHead>();
 
   useEffect(() => {
     if (data) {
@@ -53,27 +63,24 @@ const EraHeader = () => {
   }, [data]);
 
   return (
-    <div>
-      {eraHead ? (
-        <>
-          Current era: {eraHead.index}
-          Total Points: {eraHead.totalPoints}
-        </>
-      ) : null}
-    </div>
+    <>
+      <ItemStats
+        title='Era Index:'
+        subtitle={null}
+        value={eraHead ? eraHead.index : 'fetching....'}
+      />
+      <ItemStats
+        title='Era Points:'
+        subtitle={null}
+        value={eraHead ? eraHead.totalPoints : 'fetching....'}
+      />
+    </>
   );
 };
 
-interface BlockHead {
-  authoredBy: string;
-  hash: string;
-  number: number;
-  startDateTime: string;
-}
-
 const BlockHeader = () => {
   const { data } = useSubscription(BLOCKS_SUBSCRIPTION);
-  const [blockHead, setBlockHead] = useState<BlockHead>({} as BlockHead);
+  const [blockHead, setBlockHead] = useState<BlockHead>();
 
   useEffect(() => {
     if (data) {
@@ -91,19 +98,42 @@ const BlockHeader = () => {
   }, [data]);
 
   return (
-    <div>
-      {blockHead ? (
-        <>
-          Block #: {blockHead.number}
-          Authored By: {blockHead.authoredBy}
-          Hash: {blockHead.hash}
-        </>
-      ) : (
-        'nohting to show...'
-      )}
-    </div>
+    <ItemStats
+      title='block #'
+      subtitle='/target 6s'
+      value={blockHead || 'fetching...'}
+    />
   );
 };
+
+const SessionHeader = () => {
+  const { data } = useSubscription(SESSIONS_SUBSCRIPTION);
+  const [sessionHead, setSessionHead] = useState<SessionHead>();
+
+  useEffect(() => {
+    if (data) {
+      const {
+        subscribeSessions: { index },
+      } = data;
+
+      setSessionHead({
+        index,
+      });
+    }
+  }, [data]);
+
+  return (
+    <ItemStats
+      title='Session'
+      subtitle={null}
+      value={sessionHead || 'fetching...'}
+    />
+  );
+};
+
+// const StakingHeader = () => {
+//   const { data } = useSubscription(STAKING_SUBSCRIPTION);
+// };
 
 export function Header(): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);
@@ -119,14 +149,17 @@ export function Header(): React.ReactElement {
   return (
     <header className={styles.header}>
       <h2>{APP_TITLE}</h2>
-      <EraHeader />
       <BlockHeader />
+      <EraHeader />
+      <SessionHeader />
       {accounts.length ? (
-        <span>
-          Logged in as {accounts[0].meta.name} ({accounts[0].address})
-        </span>
+        <ItemStats
+          title='Logged in as:'
+          subtitle={toShortAddress(accounts[0].address)}
+          value={accounts[0].meta.name}
+        />
       ) : (
-        <button onClick={handleLogin}>Login</button>
+        <Button onClick={handleLogin}>Login</Button>
       )}
     </header>
   );
