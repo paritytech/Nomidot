@@ -68,7 +68,7 @@ const EraHeader = () => {
         });
       }
     }
-  }, [data]);
+  }, [data, eraHead]);
 
   return (
     <>
@@ -105,7 +105,7 @@ const BlockHeader = () => {
         });
       }
     }
-  }, [data]);
+  }, [blockHead, data]);
 
   return (
     <ItemStats
@@ -132,7 +132,7 @@ const SessionHeader = () => {
         });
       }
     }
-  }, [data]);
+  }, [data, sessionHead]);
 
   return (
     <ItemStats
@@ -150,24 +150,28 @@ const StakingHeader = () => {
   useEffect(() => {
     if (data) {
       const {
-        subscribeStakes: { blockNumber: { number }, totalStake },
+        subscribeStakes: {
+          blockNumber: { number },
+          totalStake,
+        },
       } = data;
 
       if (!stakeHead || stakeHead.blockNumber > number) {
         setStakeHead({
           blockNumber: number,
-          totalStake
-        })
+          totalStake,
+        });
       }
     }
-  }, [data]);
+  }, [data, stakeHead]);
 
   return (
     <ItemStats
       title='Total Stake'
       subtitle={null}
-      value={stakeHead || 'fetching...'} />
-  )
+      value={stakeHead || 'fetching...'}
+    />
+  );
 };
 
 export function Header(): React.ReactElement {
