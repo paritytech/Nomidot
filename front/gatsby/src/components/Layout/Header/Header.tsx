@@ -10,7 +10,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { APP_TITLE, toShortAddress } from '../../../util';
 import styles from './Header.module.css';
-import { BlockHead, EraHead, SessionHead } from './types';
+import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
 const BLOCKS_SUBSCRIPTION = gql`
   subscription {
@@ -40,10 +40,16 @@ const SESSIONS_SUBSCRIPTION = gql`
   }
 `;
 
-// const STAKING_SUBSCRIPTION = gql`
-//   subscription {
-//   }
-// `;
+const STAKING_SUBSCRIPTION = gql`
+  subscription {
+    subscribeStakes {
+      blockNumber {
+        number
+      }
+      totalStake
+    }
+  }
+`;
 
 const EraHeader = () => {
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
@@ -137,9 +143,32 @@ const SessionHeader = () => {
   );
 };
 
-// const StakingHeader = () => {
-//   const { data } = useSubscription(STAKING_SUBSCRIPTION);
-// };
+const StakingHeader = () => {
+  const { data } = useSubscription(STAKING_SUBSCRIPTION);
+  const [stakeHead, setStakeHead] = useState<StakingHead>();
+
+  useEffect(() => {
+    if (data) {
+      const {
+        subscribeStakes: { blockNumber: { number }, totalStake },
+      } = data;
+
+      if (!stakeHead || stakeHead.blockNumber > number) {
+        setStakeHead({
+          blockNumber: number,
+          totalStake
+        })
+      }
+    }
+  }, [data]);
+
+  return (
+    <ItemStats
+      title='Total Stake'
+      subtitle={null}
+      value={stakeHead || 'fetching...'} />
+  )
+};
 
 export function Header(): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);
@@ -158,6 +187,7 @@ export function Header(): React.ReactElement {
       <BlockHeader />
       <EraHeader />
       <SessionHeader />
+      <StakingHeader />
       {accounts.length ? (
         <ItemStats
           title='Logged in as:'

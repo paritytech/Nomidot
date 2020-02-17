@@ -17,3 +17,8 @@ export interface EraHead {
 export interface SessionHead {
   index: number;
 }
+
+export interface StakingHead {
+  blockNumber: number;
+  totalStake: string;
+}
