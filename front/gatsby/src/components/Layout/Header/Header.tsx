@@ -8,9 +8,9 @@ import { Button, ItemStats } from '@substrate/design-system';
 import gql from 'graphql-tag';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { BlockHead, EraHead, SessionHead } from './types';
 import { APP_TITLE, toShortAddress } from '../../../util';
 import styles from './Header.module.css';
+import { BlockHead, EraHead, SessionHead } from './types';
 
 const BLOCKS_SUBSCRIPTION = gql`
   subscription {
@@ -38,12 +38,12 @@ const SESSIONS_SUBSCRIPTION = gql`
       index
     }
   }
-`
+`;
 
-const STAKING_SUBSCRIPTION = gql`
-  subscription {
-  }
-`
+// const STAKING_SUBSCRIPTION = gql`
+//   subscription {
+//   }
+// `;
 
 const EraHeader = () => {
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
@@ -64,8 +64,16 @@ const EraHeader = () => {
 
   return (
     <>
-      <ItemStats title='Era Index:' subtitle={null} value={eraHead ? eraHead.index : 'fetching....'}/>
-      <ItemStats title='Era Points:' subtitle={null} value={eraHead ? eraHead.totalPoints : 'fetching....'}/>
+      <ItemStats
+        title='Era Index:'
+        subtitle={null}
+        value={eraHead ? eraHead.index : 'fetching....'}
+      />
+      <ItemStats
+        title='Era Points:'
+        subtitle={null}
+        value={eraHead ? eraHead.totalPoints : 'fetching....'}
+      />
     </>
   );
 };
@@ -89,7 +97,13 @@ const BlockHeader = () => {
     }
   }, [data]);
 
-  return <ItemStats title='block #' subtitle='/target 6s' value={blockHead || 'fetching...'} />
+  return (
+    <ItemStats
+      title='block #'
+      subtitle='/target 6s'
+      value={blockHead || 'fetching...'}
+    />
+  );
 };
 
 const SessionHeader = () => {
@@ -99,23 +113,27 @@ const SessionHeader = () => {
   useEffect(() => {
     if (data) {
       const {
-        subscribeSessions: { index }
+        subscribeSessions: { index },
       } = data;
 
       setSessionHead({
-        index
-      })
+        index,
+      });
     }
-  }, [data])
+  }, [data]);
 
-  return <ItemStats title='Session' subtitle={null} value={sessionHead || 'fetching...'} />
-}
+  return (
+    <ItemStats
+      title='Session'
+      subtitle={null}
+      value={sessionHead || 'fetching...'}
+    />
+  );
+};
 
-const StakingHeader = () => {
-  const { data } = useSubscription(STAKING_SUBSCRIPTION);
-
-
-}
+// const StakingHeader = () => {
+//   const { data } = useSubscription(STAKING_SUBSCRIPTION);
+// };
 
 export function Header(): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);
@@ -130,12 +148,16 @@ export function Header(): React.ReactElement {
 
   return (
     <header className={styles.header}>
-      <h2>{APP_TITLE}</h2> 
+      <h2>{APP_TITLE}</h2>
       <BlockHeader />
       <EraHeader />
       <SessionHeader />
       {accounts.length ? (
-        <ItemStats title='Logged in as:' subtitle={toShortAddress(accounts[0].address)} value={accounts[0].meta.name} />
+        <ItemStats
+          title='Logged in as:'
+          subtitle={toShortAddress(accounts[0].address)}
+          value={accounts[0].meta.name}
+        />
       ) : (
         <Button onClick={handleLogin}>Login</Button>
       )}
