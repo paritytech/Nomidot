@@ -40,6 +40,11 @@ const SESSIONS_SUBSCRIPTION = gql`
   }
 `
 
+const STAKING_SUBSCRIPTION = gql`
+  subscription {
+  }
+`
+
 const EraHeader = () => {
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
   const [eraHead, setEraHead] = useState<EraHead>();
@@ -104,6 +109,12 @@ const SessionHeader = () => {
   }, [data])
 
   return <ItemStats title='Session' subtitle={null} value={sessionHead || 'fetching...'} />
+}
+
+const StakingHeader = () => {
+  const { data } = useSubscription(STAKING_SUBSCRIPTION);
+
+
 }
 
 export function Header(): React.ReactElement {
