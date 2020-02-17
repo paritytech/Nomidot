@@ -7,7 +7,7 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotEra, Task } from './types';
+import { Cached, NomidotEra, Task } from './types';
 
 const l = logger('Task: Era');
 
@@ -16,7 +16,11 @@ const l = logger('Task: Era');
  */
 const createEra: Task<NomidotEra> = {
   name: 'createEra',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotEra> => {
+  read: async (
+    blockHash: Hash,
+    _cached: Cached,
+    api: ApiPromise
+  ): Promise<NomidotEra> => {
     const idx = await api.query.staking.currentEra.at(blockHash);
     const points = await api.query.staking.currentEraPointsEarned.at(blockHash);
     const currentEraStartSessionIndex = await api.query.staking.currentEraStartSessionIndex.at(

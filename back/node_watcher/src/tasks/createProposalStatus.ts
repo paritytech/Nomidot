@@ -7,8 +7,10 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { proposalStatus } from '../util/statuses';
 import {
+  Cached,
   NomidotProposalRawEvent,
   NomidotProposalStatusUpdate,
   Task,
@@ -22,14 +24,16 @@ const l = logger('Task: Proposals Status Update');
 const createProposal: Task<NomidotProposalStatusUpdate[]> = {
   name: 'createProposalStatusUpdate',
   read: async (
-    blockHash: Hash,
-    api: ApiPromise
+    _blockHash: Hash,
+    cached: Cached,
+    _api: ApiPromise
   ): Promise<NomidotProposalStatusUpdate[]> => {
-    const events = await api.query.system.events.at(blockHash);
+    const { events } = cached;
 
-    const proposalEvents = events.filter(
-      ({ event: { method, section } }) =>
-        section === 'democracy' && method === proposalStatus.TABLED
+    const proposalEvents = filterEvents(
+      events,
+      'democracy',
+      proposalStatus.TABLED
     );
 
     const results: NomidotProposalStatusUpdate[] = [];

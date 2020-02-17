@@ -7,7 +7,8 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { NomidotSession, Task } from './types';
+import { filterEvents } from '../util/filterEvents';
+import { Cached, NomidotSession, Task } from './types';
 
 const l = logger('Task: Session');
 
@@ -16,16 +17,15 @@ const l = logger('Task: Session');
  */
 const createSession: Task<NomidotSession> = {
   name: 'createSession',
-  read: async (blockHash: Hash, api: ApiPromise): Promise<NomidotSession> => {
-    const events = await api.query.system.events.at(blockHash);
+  read: (
+    _blockHash: Hash,
+    cached: Cached,
+    _api: ApiPromise
+  ): Promise<NomidotSession> => {
+    const { events, sessionIndex } = cached;
 
     const didNewSessionStart =
-      events.filter(
-        ({ event: { method, section } }) =>
-          section === 'session' && method === 'NewSession'
-      ).length > 0;
-
-    const sessionIndex = await api.query.session.currentIndex.at(blockHash);
+      filterEvents(events, 'session', 'NewSession').length > 0;
 
     const result = {
       didNewSessionStart,
@@ -34,7 +34,7 @@ const createSession: Task<NomidotSession> = {
 
     l.log(`Nomidot Session: ${JSON.stringify(result)}`);
 
-    return result;
+    return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
     const { didNewSessionStart, idx } = value;

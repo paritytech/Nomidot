@@ -1,6 +1,0 @@
-kind: Namespace  
-apiVersion: v1  
-metadata:  
- name: nomidot-backend-production  
- labels:  
-   name: nomidot-backend-production
