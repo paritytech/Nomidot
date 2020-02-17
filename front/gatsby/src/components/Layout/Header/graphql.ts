@@ -14,7 +14,7 @@ export const LATEST_ERA_QUERY = gql`
       individualPoints
     }
   }
-`
+`;
 
 export const LATEST_SESSION_QUERY = gql`
   query {
@@ -22,7 +22,7 @@ export const LATEST_SESSION_QUERY = gql`
       index
     }
   }
-`
+`;
 
 // ******* SUBSCRIPTIONS *******
 

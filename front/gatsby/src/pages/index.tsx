@@ -4,7 +4,10 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
-import { AccountsContextProvider, ApiContextProvider } from '@substrate/context';
+import {
+  AccountsContextProvider,
+  ApiContextProvider,
+} from '@substrate/context';
 import React from 'react';
 
 import client from '../apollo';
@@ -14,7 +17,9 @@ import { APP_SLUG } from '../util';
 function IndexPage(): React.ReactElement {
   return (
     <ApolloProvider client={client}>
-      <ApiContextProvider provider={new WsProvider('wss://cc3-5.kusama.network/')}>
+      <ApiContextProvider
+        provider={new WsProvider('wss://cc3-5.kusama.network/')}
+      >
         <AccountsContextProvider originName={APP_SLUG}>
           <Layout>
             <Seo title='Home' />

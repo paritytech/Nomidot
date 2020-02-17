@@ -3,15 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
-import styles from './Header.module.css';
-import { BLOCKS_SUBSCRIPTION, ERAS_SUBSCRIPTION, SESSIONS_SUBSCRIPTION, STAKING_SUBSCRIPTION, LATEST_ERA_QUERY, LATEST_SESSION_QUERY } from './graphql';
-import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 import { APP_TITLE, toShortAddress } from '../../../util';
+import {
+  BLOCKS_SUBSCRIPTION,
+  ERAS_SUBSCRIPTION,
+  LATEST_ERA_QUERY,
+  LATEST_SESSION_QUERY,
+  SESSIONS_SUBSCRIPTION,
+  STAKING_SUBSCRIPTION,
+} from './graphql';
+import styles from './Header.module.css';
+import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
 const EraHeader = () => {
   const { api } = useContext(ApiContext);
@@ -37,21 +44,28 @@ const EraHeader = () => {
 
   useEffect(() => {
     if (queryData && queryData.data) {
-      const { data: { eras } } = queryData;
+      const {
+        data: { eras },
+      } = queryData;
 
       setEraHead({
         index: eras[0].index,
-        individualPoints: api.createType('Vec<Points>', eras[0].individualPoints),
-        totalPoints: api.createType('Points', eras[0].totalPoints)
-      })
+        individualPoints: api.createType(
+          'Vec<Points>',
+          eras[0].individualPoints
+        ),
+        totalPoints: api.createType('Points', eras[0].totalPoints),
+      });
     }
-  }, [queryData])
+  }, [api, queryData]);
 
   return (
     <>
       <ItemStats
         title='Era Index:'
-        subtitle={`total points: ${eraHead ? eraHead.totalPoints.toString() : 'fetching....'}`}
+        subtitle={`total points: ${
+          eraHead ? eraHead.totalPoints.toString() : 'fetching....'
+        }`}
         value={eraHead ? eraHead.index.toString() : 'fetching....'}
       />
     </>
@@ -82,7 +96,11 @@ const BlockHeader = () => {
   return (
     <ItemStats
       title='block #'
-      subtitle={`authored by: ${blockHead ? toShortAddress(blockHead.authoredBy.toString()) : 'fetching...'}`}
+      subtitle={`authored by: ${
+        blockHead
+          ? toShortAddress(blockHead.authoredBy.toString())
+          : 'fetching...'
+      }`}
       value={blockHead?.number.toString() || 'fetching...'}
     />
   );
@@ -108,11 +126,13 @@ const SessionHeader = () => {
   }, [data, sessionHead]);
 
   useEffect(() => {
-    if (queryData && queryData.data)  {
-      const { data: { sessions } } = queryData;
+    if (queryData && queryData.data) {
+      const {
+        data: { sessions },
+      } = queryData;
 
       setSessionHead({
-        index: sessions[0].index
+        index: sessions[0].index,
       });
     }
   }, [queryData]);
@@ -147,7 +167,7 @@ const StakingHeader = () => {
         });
       }
     }
-  }, [data, stakeHead]);
+  }, [api, data, stakeHead]);
 
   return (
     <ItemStats
