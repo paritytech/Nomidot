@@ -20,5 +20,5 @@ export interface SessionHead {
 
 export interface StakingHead {
   blockNumber: number;
-  totalStake: string;
+  totalStake: any;
 }

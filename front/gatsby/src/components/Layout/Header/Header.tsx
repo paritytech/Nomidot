@@ -2,54 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useSubscription } from '@apollo/react-hooks';
-import { AccountsContext } from '@substrate/context';
+import { useQuery, useSubscription } from '@apollo/react-hooks';
+import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, ItemStats } from '@substrate/design-system';
-import gql from 'graphql-tag';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { APP_TITLE, toShortAddress } from '../../../util';
 import styles from './Header.module.css';
+import { BLOCKS_SUBSCRIPTION, ERAS_SUBSCRIPTION, SESSIONS_SUBSCRIPTION, STAKING_SUBSCRIPTION } from './graphql';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
-
-const BLOCKS_SUBSCRIPTION = gql`
-  subscription {
-    subscribeBlockNumbers {
-      authoredBy
-      hash
-      number
-      startDateTime
-    }
-  }
-`;
-
-const ERAS_SUBSCRIPTION = gql`
-  subscription {
-    subscribeEras {
-      index
-      totalPoints
-    }
-  }
-`;
-
-const SESSIONS_SUBSCRIPTION = gql`
-  subscription {
-    subscribeSessions {
-      index
-    }
-  }
-`;
-
-const STAKING_SUBSCRIPTION = gql`
-  subscription {
-    subscribeStakes {
-      blockNumber {
-        number
-      }
-      totalStake
-    }
-  }
-`;
+import { APP_TITLE, toShortAddress } from '../../../util';
 
 const EraHeader = () => {
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
@@ -75,12 +36,12 @@ const EraHeader = () => {
       <ItemStats
         title='Era Index:'
         subtitle={null}
-        value={eraHead ? eraHead.index : 'fetching....'}
+        value={eraHead ? eraHead.index.toString() : 'fetching....'}
       />
       <ItemStats
         title='Era Points:'
         subtitle={null}
-        value={eraHead ? eraHead.totalPoints : 'fetching....'}
+        value={eraHead ? eraHead.totalPoints.toString() : 'fetching....'}
       />
     </>
   );
@@ -110,8 +71,8 @@ const BlockHeader = () => {
   return (
     <ItemStats
       title='block #'
-      subtitle='/target 6s'
-      value={blockHead || 'fetching...'}
+      subtitle={`authored by: ${blockHead ? toShortAddress(blockHead.authoredBy.toString()) : 'fetching...'}`}
+      value={blockHead?.number.toString() || 'fetching...'}
     />
   );
 };
@@ -138,7 +99,7 @@ const SessionHeader = () => {
     <ItemStats
       title='Session'
       subtitle={null}
-      value={sessionHead || 'fetching...'}
+      value={sessionHead?.index || 'fetching...'}
     />
   );
 };
@@ -146,6 +107,7 @@ const SessionHeader = () => {
 const StakingHeader = () => {
   const { data } = useSubscription(STAKING_SUBSCRIPTION);
   const [stakeHead, setStakeHead] = useState<StakingHead>();
+  const { api } = useContext(ApiContext);
 
   useEffect(() => {
     if (data) {
@@ -159,7 +121,7 @@ const StakingHeader = () => {
       if (!stakeHead || stakeHead.blockNumber > number) {
         setStakeHead({
           blockNumber: number,
-          totalStake,
+          totalStake: api.createType('Balance', totalStake).toString(),
         });
       }
     }
@@ -169,7 +131,7 @@ const StakingHeader = () => {
     <ItemStats
       title='Total Stake'
       subtitle={null}
-      value={stakeHead || 'fetching...'}
+      value={stakeHead?.totalStake || 'fetching...'}
     />
   );
 };
