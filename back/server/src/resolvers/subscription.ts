@@ -5,10 +5,13 @@
 import {
   BlockNumberSubscription,
   EraSubscription,
+  HeartBeatSubscription,
   NominationSubscription,
+  OfflineValidatorSubscription,
   RewardSubscription,
   SessionSubscription,
   SlashingSubscription,
+  StakeSubscription,
   ValidatorSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
@@ -32,6 +35,25 @@ const subscribeBlockNumbers = {
   },
 };
 
+const subscribeHeartBeats = {
+  subscribe: (
+    parent: any,
+    { heartbeatSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = HeartBeatSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .heartBeat({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...heartbeatSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
 const subscribeEras = {
   subscribe: (
     parent: any,
@@ -43,6 +65,25 @@ const subscribeEras = {
         // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...eraSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeOfflineValidators = {
+  subscribe: (
+    parent: any,
+    { offlineValidatorsSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = OfflineValidatorSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .offlineValidator({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...offlineValidatorsSubscriptionWhereInput,
       })
       .node();
   },
@@ -127,6 +168,25 @@ const subscribeSlashings = {
   },
 };
 
+const subscribeStakes = {
+  subscribe: (
+    parent: any,
+    { stakeSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = StakeSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .stake({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...stakeSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
 const subscribeValidators = {
   subscribe: (
     parent: any,
@@ -149,9 +209,12 @@ const subscribeValidators = {
 export const Subscription = {
   subscribeBlockNumbers,
   subscribeEras,
+  subscribeHeartBeats,
   subscribeNominations,
+  subscribeOfflineValidators,
   subscribeRewards,
   subscribeSessions,
   subscribeSlashings,
+  subscribeStakes,
   subscribeValidators,
 };
