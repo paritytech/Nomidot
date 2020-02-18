@@ -7,10 +7,8 @@
 // const typeRegistry = new TypeRegistry();
 // typeRegistry.register(
 
-
 // );
 
 // export function createTypes(...args: AnyJSON) {
 //   return createType(typeRegistry, ...args);
 // }
-

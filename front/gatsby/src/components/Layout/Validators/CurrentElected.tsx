@@ -4,11 +4,17 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { Button, Spinner } from '@substrate/design-system';
 import { ApiContext } from '@substrate/context';
-import  { AddressSummary, Container, FadedText, Grid, Table } from '@substrate/ui-components';
-import shortid from 'shortid';
+import { Button, Spinner } from '@substrate/design-system';
+import {
+  AddressSummary,
+  Container,
+  FadedText,
+  Grid,
+  Table,
+} from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
+import shortid from 'shortid';
 
 import { CURRENT_ELECTED } from '../graphql';
 import { Validator } from './types';
@@ -21,10 +27,9 @@ export const CurrentElectedList = (props: Props) => {
   const { sessionIndex } = props;
   const { api } = useContext(ApiContext);
   const [currentElected, setCurrentElected] = useState<Array<Validator>>();
-  const { data, loading, error } = useQuery(CURRENT_ELECTED, {
-    variables: { sessionIndex }
+  const { data } = useQuery(CURRENT_ELECTED, {
+    variables: { sessionIndex },
   });
-
 
   useEffect(() => {
     if (data) {
@@ -37,7 +42,7 @@ export const CurrentElectedList = (props: Props) => {
   const handleAddToCart = () => {
     // do nothing for now
     console.log('todo: handle add to cart');
-  }
+  };
 
   const renderValidatorsTable = () => {
     return (
@@ -45,48 +50,75 @@ export const CurrentElectedList = (props: Props) => {
         <Table.Header fullWidth>
           <Table.Row>
             <Table.HeaderCell> Offline </Table.HeaderCell>
-            <Table.HeaderCell >Stash</Table.HeaderCell>
-            <Table.HeaderCell >Controller</Table.HeaderCell>
-            <Table.HeaderCell >Commission</Table.HeaderCell>
+            <Table.HeaderCell>Stash</Table.HeaderCell>
+            <Table.HeaderCell>Controller</Table.HeaderCell>
+            <Table.HeaderCell>Commission</Table.HeaderCell>
             <Table.HeaderCell> Bonded </Table.HeaderCell>
             <Table.HeaderCell> </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-        {
-          currentElected
-            ?  currentElected.map(({ stash, controller, preferences }) => (
-                <Table.Row textAlign='center' key={shortid.generate()}>
-                  <Table.Cell textAlign='center'><FadedText>false</FadedText></Table.Cell>
-                  <Table.Cell textAlign='center'><AddressSummary address={stash} size='small' noBalance noPlaceholderName /></Table.Cell>
-                  <Table.Cell textAlign='center'><AddressSummary address={controller} size='small' noBalance noPlaceholderName /></Table.Cell>
-                  <Table.Cell textAlign='center'>
-                    <FadedText>{formatBalance(api.createType('ValidatorPrefs', preferences).commission.toString())}</FadedText>
-                    </Table.Cell>
-                  <Table.Cell textAlign='center'><FadedText>bnonded amount</FadedText></Table.Cell>
-                  <Table.Cell textAlign='center'><Button type='pilled' onClick={handleAddToCart}> Add To Cart </Button></Table.Cell>
-                </Table.Row>
+          {currentElected ? (
+            currentElected.map(({ stash, controller, preferences }) => (
+              <Table.Row textAlign='center' key={shortid.generate()}>
+                <Table.Cell textAlign='center'>
+                  <FadedText>false</FadedText>
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  <AddressSummary
+                    address={stash}
+                    size='small'
+                    noBalance
+                    noPlaceholderName
+                  />
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  <AddressSummary
+                    address={controller}
+                    size='small'
+                    noBalance
+                    noPlaceholderName
+                  />
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  <FadedText>
+                    {formatBalance(
+                      api
+                        .createType('ValidatorPrefs', preferences)
+                        .commission.toString()
+                    )}
+                  </FadedText>
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  <FadedText>bnonded amount</FadedText>
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  <Button type='pilled' onClick={handleAddToCart}>
+                    {' '}
+                    Add To Cart{' '}
+                  </Button>
+                </Table.Cell>
+              </Table.Row>
             ))
-            : <Spinner inline />
-        }
+          ) : (
+            <Spinner inline />
+          )}
         </Table.Body>
       </Table>
-    )
-  }
+    );
+  };
 
   return (
     <Container>
       <Grid container>
-        {
-          currentElected
-            ? (
-              <Grid.Row style={{ minWidth: '100%' }} padded='very' centered>
-                {renderValidatorsTable()}
-              </Grid.Row>
-            )
-            : <Spinner inline />
-        }
+        {currentElected ? (
+          <Grid.Row style={{ minWidth: '100%' }} padded='very' centered>
+            {renderValidatorsTable()}
+          </Grid.Row>
+        ) : (
+          <Spinner inline />
+        )}
       </Grid>
     </Container>
-  )
+  );
 };

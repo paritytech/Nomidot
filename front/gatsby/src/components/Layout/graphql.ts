@@ -58,7 +58,6 @@ export const OfflineValidators = gql`
       # others
     }
   }
-
 `;
 
 // ******* SUBSCRIPTIONS *******

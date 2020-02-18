@@ -5,10 +5,11 @@
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
-import { Container, Grid } from '@substrate/ui-components';
 import { Button, ItemStats } from '@substrate/design-system';
+import { Container, Grid } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 
+import { APP_TITLE, toShortAddress } from '../../../util';
 import {
   BLOCKS_SUBSCRIPTION,
   ERAS_SUBSCRIPTION,
@@ -19,7 +20,6 @@ import {
 } from '../graphql';
 import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
-import { APP_TITLE, toShortAddress } from '../../../util';
 
 const EraHeader = () => {
   const { api } = useContext(ApiContext);
@@ -191,8 +191,8 @@ export function Header(): React.ReactElement {
   }
 
   useEffect(() => {
-    handleLogin()
-  }, []);
+    handleLogin();
+  }, [handleLogin]);
 
   return (
     <Container>
