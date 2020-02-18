@@ -7,7 +7,7 @@ import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, ItemStats } from '@substrate/design-system';
 import { Container, Grid } from '@substrate/ui-components';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { APP_TITLE, toShortAddress } from '../../../util';
 import {
@@ -21,7 +21,7 @@ import {
 import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
-const EraHeader = () => {
+const EraHeader = (): React.ReactElement => {
   const { api } = useContext(ApiContext);
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
   const queryData = useQuery(LATEST_ERA_QUERY);
@@ -73,7 +73,7 @@ const EraHeader = () => {
   );
 };
 
-const BlockHeader = () => {
+const BlockHeader = (): React.ReactElement => {
   const { data } = useSubscription(BLOCKS_SUBSCRIPTION);
   const [blockHead, setBlockHead] = useState<BlockHead>();
 
@@ -107,7 +107,7 @@ const BlockHeader = () => {
   );
 };
 
-const SessionHeader = () => {
+const SessionHeader = (): React.ReactElement => {
   const queryData = useQuery(LATEST_SESSION_QUERY);
   const { data } = useSubscription(SESSIONS_SUBSCRIPTION);
   const [sessionHead, setSessionHead] = useState<SessionHead>();
@@ -147,7 +147,7 @@ const SessionHeader = () => {
   );
 };
 
-const StakingHeader = () => {
+const StakingHeader = (): React.ReactElement => {
   const { data } = useSubscription(STAKING_SUBSCRIPTION);
   const [stakeHead, setStakeHead] = useState<StakingHead>();
   const { api } = useContext(ApiContext);
@@ -182,13 +182,13 @@ const StakingHeader = () => {
 export function Header(): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);
 
-  async function handleLogin(): Promise<void> {
+  const handleLogin = useCallback(async () => {
     try {
       await fetchAccounts();
     } catch (error) {
       window.alert(error.message);
     }
-  }
+  }, [fetchAccounts]);
 
   useEffect(() => {
     handleLogin();

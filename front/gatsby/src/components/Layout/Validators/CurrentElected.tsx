@@ -23,7 +23,7 @@ interface Props {
   sessionIndex: number;
 }
 
-export const CurrentElectedList = (props: Props) => {
+export const CurrentElectedList = (props: Props): React.ReactElement => {
   const { sessionIndex } = props;
   const { api } = useContext(ApiContext);
   const [currentElected, setCurrentElected] = useState<Array<Validator>>();
@@ -39,12 +39,12 @@ export const CurrentElectedList = (props: Props) => {
     }
   }, [data]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (): void => {
     // do nothing for now
     console.log('todo: handle add to cart');
   };
 
-  const renderValidatorsTable = () => {
+  const renderValidatorsTable = (): React.ReactElement => {
     return (
       <Table celled collapsing padded='very' striped size='large' width='100%'>
         <Table.Header fullWidth>

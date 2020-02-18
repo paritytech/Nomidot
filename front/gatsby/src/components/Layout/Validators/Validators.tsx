@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { LATEST_SESSION_QUERY } from '../graphql';
 import { CurrentElectedList } from './CurrentElected';
 
-export const Validators = () => {
+export const Validators = (): React.ReactElement => {
   const { data } = useQuery(LATEST_SESSION_QUERY, {
     pollInterval: 10000,
   });
