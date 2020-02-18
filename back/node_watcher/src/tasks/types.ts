@@ -222,3 +222,11 @@ export interface NomidotReferendumStatusUpdate {
   referendumId: number;
   status: string;
 }
+
+export interface NomidotTreasury {
+  blockNumber: BlockNumber;
+  proposedBy: string;
+  beneficiary: string;
+  value: string;
+  status: string;
+}
