@@ -20,6 +20,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-helmet": "^5.2.1",
+    "shortid": "^2.2.15",
     "subscriptions-transport-ws": "^0.9.16"
   },
   "scripts": {
@@ -28,5 +29,8 @@
     "start:prod": "yarn build && yarn serve",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/shortid": "^0.0.29"
   }
 }

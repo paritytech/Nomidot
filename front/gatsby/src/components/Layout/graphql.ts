@@ -37,6 +37,30 @@ export const CURRENT_ELECTED = gql`
   }
 `;
 
+export const CURRENT_NOMINATIONS = gql`
+  query Nominators($sessionIndex: Int!) {
+    nominators(where: { session: { index: $sessionIndex } }, last: 150) {
+      validatorController
+      validatorStash
+      nominatorStash
+      nominatorController
+      stakedAmount
+    }
+  }
+`;
+
+export const OfflineValidators = gql`
+  query OfflineValidators($sessionIndex: Int!) {
+    offlineValidators(where: { session: { index: $sessionIndex } }) {
+      validatorId
+      # total
+      # own
+      # others
+    }
+  }
+
+`;
+
 // ******* SUBSCRIPTIONS *******
 
 export const BLOCKS_SUBSCRIPTION = gql`

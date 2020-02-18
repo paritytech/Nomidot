@@ -6,7 +6,8 @@ import { useQuery } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { Button, Spinner } from '@substrate/design-system';
 import { ApiContext } from '@substrate/context';
-import  { AddressSummary, Container, Grid, Table } from '@substrate/ui-components';
+import  { AddressSummary, Container, FadedText, Grid, Table } from '@substrate/ui-components';
+import shortid from 'shortid';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { CURRENT_ELECTED } from '../graphql';
@@ -24,6 +25,7 @@ export const CurrentElectedList = (props: Props) => {
     variables: { sessionIndex }
   });
 
+
   useEffect(() => {
     if (data) {
       const { validators } = data;
@@ -39,27 +41,33 @@ export const CurrentElectedList = (props: Props) => {
 
   const renderValidatorsTable = () => {
     return (
-      <Table basic='very' celled collapsing padded selectable width='100%'>
+      <Table celled collapsing padded='very' striped size='large' width='100%'>
         <Table.Header fullWidth>
-          <Table.HeaderCell >Stash</Table.HeaderCell>
-          <Table.HeaderCell >Controller</Table.HeaderCell>
-          <Table.HeaderCell >Commission</Table.HeaderCell>
-          <Table.HeaderCell> Bonded </Table.HeaderCell>
-          <Table.HeaderCell> Action </Table.HeaderCell>
+          <Table.Row>
+            <Table.HeaderCell> Offline </Table.HeaderCell>
+            <Table.HeaderCell >Stash</Table.HeaderCell>
+            <Table.HeaderCell >Controller</Table.HeaderCell>
+            <Table.HeaderCell >Commission</Table.HeaderCell>
+            <Table.HeaderCell> Bonded </Table.HeaderCell>
+            <Table.HeaderCell> </Table.HeaderCell>
+          </Table.Row>
         </Table.Header>
         <Table.Body>
         {
           currentElected
             ?  currentElected.map(({ stash, controller, preferences }) => (
-                <Table.Row textAlign='center'>
-                  <Table.Cell ><AddressSummary address={stash} size='tiny' noBalance noPlaceholderName /></Table.Cell>
-                  <Table.Cell><AddressSummary address={controller} size='tiny' noBalance noPlaceholderName /></Table.Cell>
-                  <Table.Cell>{formatBalance(api.createType('ValidatorPrefs', preferences).commission.toString())}</Table.Cell>
-                  <Table.Cell>bonded amount</Table.Cell>
-                  <Table.Cell> <Button onClick={handleAddToCart}> Add To Cart </Button></Table.Cell>
+                <Table.Row textAlign='center' key={shortid.generate()}>
+                  <Table.Cell textAlign='center'><FadedText>false</FadedText></Table.Cell>
+                  <Table.Cell textAlign='center'><AddressSummary address={stash} size='small' noBalance noPlaceholderName /></Table.Cell>
+                  <Table.Cell textAlign='center'><AddressSummary address={controller} size='small' noBalance noPlaceholderName /></Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <FadedText>{formatBalance(api.createType('ValidatorPrefs', preferences).commission.toString())}</FadedText>
+                    </Table.Cell>
+                  <Table.Cell textAlign='center'><FadedText>bnonded amount</FadedText></Table.Cell>
+                  <Table.Cell textAlign='center'><Button type='pilled' onClick={handleAddToCart}> Add To Cart </Button></Table.Cell>
                 </Table.Row>
             ))
-            : <Spinner />
+            : <Spinner inline />
         }
         </Table.Body>
       </Table>
@@ -67,19 +75,18 @@ export const CurrentElectedList = (props: Props) => {
   }
 
   return (
-    <Grid container>
-      {
-        currentElected
-          ? (
-            <Grid.Row>
-              <h2>Current Elected Validators</h2>
-              <Grid.Row style={{ minWidth: '100%' }}>
+    <Container>
+      <Grid container>
+        {
+          currentElected
+            ? (
+              <Grid.Row style={{ minWidth: '100%' }} padded='very' centered>
                 {renderValidatorsTable()}
               </Grid.Row>
-            </Grid.Row>
-          )
-          : <Spinner inline />
-      }
-    </Grid>
+            )
+            : <Spinner inline />
+        }
+      </Grid>
+    </Container>
   )
 };

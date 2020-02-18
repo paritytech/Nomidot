@@ -4,7 +4,7 @@
 
 import './Layout.module.css';
 
-import { Container } from '@substrate/ui-components'
+import { Grid } from '@substrate/ui-components'
 import React from 'react';
 
 import { Header } from './Header';
@@ -16,12 +16,10 @@ interface Props {
 
 export function Layout({ children }: Props): React.ReactElement {
   return (
-    <Container>
+    <Grid container>
       <Header />
       {/* TODO use react router */}
-      <main>
-        <Validators />
-      </main>
-    </Container>
+      <Validators />
+    </Grid>
   );
 }

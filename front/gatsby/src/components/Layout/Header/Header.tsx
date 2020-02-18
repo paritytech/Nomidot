@@ -5,10 +5,10 @@
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
+import { Container, Grid } from '@substrate/ui-components';
 import { Button, ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { APP_TITLE, toShortAddress } from '../../../util';
 import {
   BLOCKS_SUBSCRIPTION,
   ERAS_SUBSCRIPTION,
@@ -19,6 +19,7 @@ import {
 } from '../graphql';
 import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
+import { APP_TITLE, toShortAddress } from '../../../util';
 
 const EraHeader = () => {
   const { api } = useContext(ApiContext);
@@ -194,25 +195,27 @@ export function Header(): React.ReactElement {
   }, []);
 
   return (
-    <>
-      <header className={styles.headerTop}>
-        <h2>{APP_TITLE}</h2>
-        {accounts.length ? (
-          <ItemStats
-            title='Logged in as:'
-            subtitle={toShortAddress(accounts[0].address)}
-            value={accounts[0].meta.name}
-          />
-        ) : (
-          <Button onClick={handleLogin}>Login</Button>
-        )}
-      </header>
-      <header className={styles.headerBottom}>
-        <BlockHeader />
-        <EraHeader />
-        <SessionHeader />
-        <StakingHeader />
-      </header>
-    </>
+    <Container>
+      <Grid.Row padded>
+        <header className={styles.headerTop}>
+          <h2>{APP_TITLE}</h2>
+          {accounts.length ? (
+            <ItemStats
+              title='Logged in as:'
+              subtitle={toShortAddress(accounts[0].address)}
+              value={accounts[0].meta.name}
+            />
+          ) : (
+            <Button onClick={handleLogin}>Login</Button>
+          )}
+        </header>
+        <header className={styles.headerBottom}>
+          <BlockHeader />
+          <EraHeader />
+          <SessionHeader />
+          <StakingHeader />
+        </header>
+      </Grid.Row>
+    </Container>
   );
 }
