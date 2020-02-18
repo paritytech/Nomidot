@@ -16,7 +16,7 @@ import {
   LATEST_SESSION_QUERY,
   SESSIONS_SUBSCRIPTION,
   STAKING_SUBSCRIPTION,
-} from './graphql';
+} from '../graphql';
 import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
@@ -141,7 +141,7 @@ const SessionHeader = () => {
     <ItemStats
       title='Session'
       subtitle={null}
-      value={sessionHead?.index || 'fetching...'}
+      value={sessionHead?.index.toString() || 'fetching...'}
     />
   );
 };

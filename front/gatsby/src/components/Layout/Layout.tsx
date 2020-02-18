@@ -7,6 +7,7 @@ import './Layout.module.css';
 import React from 'react';
 
 import { Header } from './Header';
+import { Validators } from './Validators';
 
 interface Props {
   children: React.ReactNode;
@@ -16,7 +17,8 @@ export function Layout({ children }: Props): React.ReactElement {
   return (
     <>
       <Header />
-
+      {/* TODO use react router */}
+      <Validators />
       <main>{children}</main>
     </>
   );
