@@ -4,6 +4,7 @@
 
 import './Layout.module.css';
 
+import { Container } from '@substrate/ui-components'
 import React from 'react';
 
 import { Header } from './Header';
@@ -15,11 +16,12 @@ interface Props {
 
 export function Layout({ children }: Props): React.ReactElement {
   return (
-    <>
+    <Container>
       <Header />
       {/* TODO use react router */}
-      <Validators />
-      <main>{children}</main>
-    </>
+      <main>
+        <Validators />
+      </main>
+    </Container>
   );
 }

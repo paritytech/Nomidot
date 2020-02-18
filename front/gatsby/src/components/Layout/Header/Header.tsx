@@ -189,22 +189,30 @@ export function Header(): React.ReactElement {
     }
   }
 
+  useEffect(() => {
+    handleLogin()
+  }, []);
+
   return (
-    <header className={styles.header}>
-      <h2>{APP_TITLE}</h2>
-      <BlockHeader />
-      <EraHeader />
-      <SessionHeader />
-      <StakingHeader />
-      {accounts.length ? (
-        <ItemStats
-          title='Logged in as:'
-          subtitle={toShortAddress(accounts[0].address)}
-          value={accounts[0].meta.name}
-        />
-      ) : (
-        <Button onClick={handleLogin}>Login</Button>
-      )}
-    </header>
+    <>
+      <header className={styles.headerTop}>
+        <h2>{APP_TITLE}</h2>
+        {accounts.length ? (
+          <ItemStats
+            title='Logged in as:'
+            subtitle={toShortAddress(accounts[0].address)}
+            value={accounts[0].meta.name}
+          />
+        ) : (
+          <Button onClick={handleLogin}>Login</Button>
+        )}
+      </header>
+      <header className={styles.headerBottom}>
+        <BlockHeader />
+        <EraHeader />
+        <SessionHeader />
+        <StakingHeader />
+      </header>
+    </>
   );
 }

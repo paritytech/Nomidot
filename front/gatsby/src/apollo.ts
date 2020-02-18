@@ -9,11 +9,11 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
 const httpLink = new HttpLink({
-  uri: 'http://104.155.89.173:4000',
+  uri: 'http://35.189.196.74:4000',
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://104.155.89.173:4000',
+  uri: 'ws://35.189.196.74:4000',
   options: {
     reconnect: true,
   },
