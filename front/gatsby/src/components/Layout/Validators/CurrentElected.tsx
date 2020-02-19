@@ -108,7 +108,9 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
               ({ stash, controller, preferences, wasOfflineThisSession }) => (
                 <Table.Row textAlign='center' key={shortid.generate()}>
                   <Table.Cell textAlign='center'>
-                    <FadedText>{wasOfflineThisSession}</FadedText>
+                    <FadedText>
+                      {JSON.stringify(wasOfflineThisSession)}
+                    </FadedText>
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
                     <AddressSummary

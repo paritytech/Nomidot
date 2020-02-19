@@ -11,6 +11,7 @@
     "@polkadot/extension-dapp": "^0.14.1",
     "@substrate/design-system": "^1.0.2",
     "@types/react-helmet": "^5.0.14",
+    "@types/shortid": "^0.0.29",
     "apollo-boost": "^0.4.7",
     "apollo-link-ws": "^1.0.19",
     "gatsby": "^2.18.17",
@@ -29,8 +30,5 @@
     "start:prod": "yarn build && yarn serve",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
-  "devDependencies": {
-    "@types/shortid": "^0.0.29"
   }
 }
