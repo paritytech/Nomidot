@@ -82,19 +82,15 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
           });
         });
       }
-      console.log(result);
       setCurrentElected(result);
     }
   }, [currentValidators, currentOffline]);
 
   const handleAddToCart = (): void => {
     // do nothing for now
-    console.log('todo: handle add to cart');
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
-    console.log('current eleced: ', currentElected && currentElected[0]);
-
     return (
       <Table celled collapsing padded='very' striped size='large' width='100%'>
         <Table.Header fullWidth>
