@@ -13,6 +13,9 @@ import {
   SlashingSubscription,
   StakeSubscription,
   ValidatorSubscription,
+  ProposalSubscription,
+  ReferendumSubscription,
+  MotionSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
 
@@ -206,6 +209,64 @@ const subscribeValidators = {
   },
 };
 
+const subscribeMotion = {
+  subscribe: (
+    parent: any,
+    { motionSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = MotionSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .motion({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...motionSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeProposal = {
+  subscribe: (
+    parent: any,
+    { proposalSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = ProposalSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .proposal({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...proposalSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeReferendum = {
+  subscribe: (
+    parent: any,
+    { referendumSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = ReferendumSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .referendum({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...referendumSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+
 export const Subscription = {
   subscribeBlockNumbers,
   subscribeEras,
@@ -217,4 +278,7 @@ export const Subscription = {
   subscribeSlashings,
   subscribeStakes,
   subscribeValidators,
+  subscribeMotion,
+  subscribeProposal,
+  subscribeReferendum,
 };

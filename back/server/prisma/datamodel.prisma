@@ -90,10 +90,10 @@ type Motion {
   motionProposalArguments: [MotionProposalArgument]! @relation(name: "ArgumentForMotionProposal")
   motionProposalHash: String!
   motionProposalId: Int! @unique
+  motionStatus: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
   preimage: Preimage @relation(name: "PreimageForMotion")
   preimageHash: String
   section: String!
-  status: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
 }
 
 type MotionProposalArgument {
