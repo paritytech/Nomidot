@@ -6,16 +6,16 @@ import {
   BlockNumberSubscription,
   EraSubscription,
   HeartBeatSubscription,
+  MotionSubscription,
   NominationSubscription,
   OfflineValidatorSubscription,
+  ProposalSubscription,
+  ReferendumSubscription,
   RewardSubscription,
   SessionSubscription,
   SlashingSubscription,
   StakeSubscription,
   ValidatorSubscription,
-  ProposalSubscription,
-  ReferendumSubscription,
-  MotionSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
 
@@ -265,7 +265,6 @@ const subscribeReferendum = {
     return payload;
   },
 };
-
 
 export const Subscription = {
   subscribeBlockNumbers,
