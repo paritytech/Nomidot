@@ -16,28 +16,69 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
-import { CURRENT_ELECTED } from '../graphql';
-import { Validator } from './types';
+import { CURRENT_ELECTED, OFFLINE_VALIDATORS } from '../graphql';
+import { OfflineValidator, Validator } from './types';
 
 interface Props {
   sessionIndex: number;
 }
 
+interface JoinValidatorOffline extends Validator {
+  wasOfflineThisSession: boolean
+}
+
 export const CurrentElectedList = (props: Props): React.ReactElement => {
   const { sessionIndex } = props;
   const { api } = useContext(ApiContext);
-  const [currentElected, setCurrentElected] = useState<Array<Validator>>();
-  const { data } = useQuery(CURRENT_ELECTED, {
+
+  const [currentElected, setCurrentElected] = useState<JoinValidatorOffline[]>();
+
+  let currentValidators = useQuery(CURRENT_ELECTED, {
     variables: { sessionIndex },
+    pollInterval: 5000
   });
 
+  let currentOffline = useQuery(OFFLINE_VALIDATORS, {
+    variables: { sessionIndex },
+    pollInterval: 5000
+  })
+
   useEffect(() => {
-    if (data) {
-      const { validators } = data;
-      console.log(validators);
-      setCurrentElected(validators);
+    if (currentValidators.data && currentValidators.data.validators) {
+      let result: JoinValidatorOffline[] = [];
+      
+      /*
+      * in theory not great, but unnoticeable in practice
+      * O(N*M) where N = |validators|, M = |offline|
+      */
+      if (currentOffline.data && currentOffline.data.offlineValidators) {
+        currentValidators.data.validators.map((validator: Validator) => {
+          currentOffline.data.offlineValidators.map((offline: OfflineValidator) => {
+              if (validator.stash === offline.validatorId || validator.controller === offline.validatorId) {
+                result.push({
+                  ...validator,
+                  wasOfflineThisSession: true
+                })
+              } else {
+                result.push({
+                  ...validator,
+                  wasOfflineThisSession: false
+                })
+              }   
+            })
+          });
+      } else {
+        currentValidators.data.validators.map((validator: Validator) => {
+          result.push({
+            ...validator,
+            wasOfflineThisSession: false
+          })
+        })
+      }
+      console.log(result);
+      setCurrentElected(result);
     }
-  }, [data]);
+  }, [currentValidators, currentOffline]);
 
   const handleAddToCart = (): void => {
     // do nothing for now
@@ -45,6 +86,10 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
+
+    console.log('current eleced: ', currentElected && currentElected[0]);
+
+
     return (
       <Table celled collapsing padded='very' striped size='large' width='100%'>
         <Table.Header fullWidth>
@@ -53,16 +98,15 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
             <Table.HeaderCell>Stash</Table.HeaderCell>
             <Table.HeaderCell>Controller</Table.HeaderCell>
             <Table.HeaderCell>Commission</Table.HeaderCell>
-            <Table.HeaderCell> Bonded </Table.HeaderCell>
             <Table.HeaderCell> </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {currentElected ? (
-            currentElected.map(({ stash, controller, preferences }) => (
+            currentElected.map(({ stash, controller, preferences, wasOfflineThisSession }) => (
               <Table.Row textAlign='center' key={shortid.generate()}>
                 <Table.Cell textAlign='center'>
-                  <FadedText>false</FadedText>
+                  <FadedText>{wasOfflineThisSession}</FadedText>
                 </Table.Cell>
                 <Table.Cell textAlign='center'>
                   <AddressSummary
@@ -90,10 +134,7 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
                   </FadedText>
                 </Table.Cell>
                 <Table.Cell textAlign='center'>
-                  <FadedText>bnonded amount</FadedText>
-                </Table.Cell>
-                <Table.Cell textAlign='center'>
-                  <Button type='pilled' onClick={handleAddToCart}>
+                  <Button onClick={handleAddToCart}>
                     {' '}
                     Add To Cart{' '}
                   </Button>
@@ -112,7 +153,7 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
     <Container>
       <Grid container>
         {currentElected ? (
-          <Grid.Row style={{ minWidth: '100%' }} padded='very' centered>
+          <Grid.Row style={{ minWidth: '100%' }} centered>
             {renderValidatorsTable()}
           </Grid.Row>
         ) : (

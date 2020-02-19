@@ -5,3 +5,7 @@ export interface Validator {
   stash: string;
   preferences: ValidatorPrefs;
 }
+
+export interface OfflineValidator {
+  validatorId: string;
+}

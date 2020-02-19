@@ -26,12 +26,9 @@ export const LATEST_SESSION_QUERY = gql`
 
 export const CURRENT_ELECTED = gql`
   query Validators($sessionIndex: Int!) {
-    validators(where: { session: { index: $sessionIndex } }, last: 150) {
+    validators(where: { session: { index: $sessionIndex } }, last: 200) {
       controller
       stash
-      session {
-        index
-      }
       preferences
     }
   }
@@ -49,7 +46,7 @@ export const CURRENT_NOMINATIONS = gql`
   }
 `;
 
-export const OfflineValidators = gql`
+export const OFFLINE_VALIDATORS = gql`
   query OfflineValidators($sessionIndex: Int!) {
     offlineValidators(where: { session: { index: $sessionIndex } }) {
       validatorId
