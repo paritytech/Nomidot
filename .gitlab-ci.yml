@@ -20,6 +20,6 @@ linux-test:
     - yarn install --frozen-lockfile
     - yarn build
     - yarn test
-    - yarn lint --fix
+    - yarn lint
   tags:
     - linux-docker
