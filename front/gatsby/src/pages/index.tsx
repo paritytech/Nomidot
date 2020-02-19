@@ -3,7 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApolloProvider } from '@apollo/react-hooks';
-import { AccountsContextProvider } from '@substrate/context';
+import { WsProvider } from '@polkadot/api';
+import {
+  AccountsContextProvider,
+  ApiContextProvider,
+} from '@substrate/context';
 import React from 'react';
 
 import client from '../apollo';
@@ -13,11 +17,15 @@ import { APP_SLUG } from '../util';
 function IndexPage(): React.ReactElement {
   return (
     <ApolloProvider client={client}>
-      <AccountsContextProvider originName={APP_SLUG}>
-        <Layout>
-          <Seo title='Home' />
-        </Layout>
-      </AccountsContextProvider>
+      <ApiContextProvider
+        provider={new WsProvider('wss://cc3-5.kusama.network/')}
+      >
+        <AccountsContextProvider originName={APP_SLUG}>
+          <Layout>
+            <Seo title='Home' />
+          </Layout>
+        </AccountsContextProvider>
+      </ApiContextProvider>
     </ApolloProvider>
   );
 }
