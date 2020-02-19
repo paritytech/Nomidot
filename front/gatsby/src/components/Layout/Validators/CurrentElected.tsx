@@ -24,56 +24,63 @@ interface Props {
 }
 
 interface JoinValidatorOffline extends Validator {
-  wasOfflineThisSession: boolean
+  wasOfflineThisSession: boolean;
 }
 
 export const CurrentElectedList = (props: Props): React.ReactElement => {
   const { sessionIndex } = props;
   const { api } = useContext(ApiContext);
 
-  const [currentElected, setCurrentElected] = useState<JoinValidatorOffline[]>();
+  const [currentElected, setCurrentElected] = useState<
+    JoinValidatorOffline[]
+  >();
 
-  let currentValidators = useQuery(CURRENT_ELECTED, {
+  const currentValidators = useQuery(CURRENT_ELECTED, {
     variables: { sessionIndex },
-    pollInterval: 5000
+    pollInterval: 5000,
   });
 
-  let currentOffline = useQuery(OFFLINE_VALIDATORS, {
+  const currentOffline = useQuery(OFFLINE_VALIDATORS, {
     variables: { sessionIndex },
-    pollInterval: 5000
-  })
+    pollInterval: 5000,
+  });
 
   useEffect(() => {
     if (currentValidators.data && currentValidators.data.validators) {
-      let result: JoinValidatorOffline[] = [];
-      
+      const result: JoinValidatorOffline[] = [];
+
       /*
-      * in theory not great, but unnoticeable in practice
-      * O(N*M) where N = |validators|, M = |offline|
-      */
+       * in theory not great, but unnoticeable in practice
+       * O(N*M) where N = |validators|, M = |offline|
+       */
       if (currentOffline.data && currentOffline.data.offlineValidators) {
         currentValidators.data.validators.map((validator: Validator) => {
-          currentOffline.data.offlineValidators.map((offline: OfflineValidator) => {
-              if (validator.stash === offline.validatorId || validator.controller === offline.validatorId) {
+          currentOffline.data.offlineValidators.map(
+            (offline: OfflineValidator) => {
+              if (
+                validator.stash === offline.validatorId ||
+                validator.controller === offline.validatorId
+              ) {
                 result.push({
                   ...validator,
-                  wasOfflineThisSession: true
-                })
+                  wasOfflineThisSession: true,
+                });
               } else {
                 result.push({
                   ...validator,
-                  wasOfflineThisSession: false
-                })
-              }   
-            })
-          });
+                  wasOfflineThisSession: false,
+                });
+              }
+            }
+          );
+        });
       } else {
         currentValidators.data.validators.map((validator: Validator) => {
           result.push({
             ...validator,
-            wasOfflineThisSession: false
-          })
-        })
+            wasOfflineThisSession: false,
+          });
+        });
       }
       console.log(result);
       setCurrentElected(result);
@@ -86,9 +93,7 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
-
     console.log('current eleced: ', currentElected && currentElected[0]);
-
 
     return (
       <Table celled collapsing padded='very' striped size='large' width='100%'>
@@ -103,44 +108,43 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
         </Table.Header>
         <Table.Body>
           {currentElected ? (
-            currentElected.map(({ stash, controller, preferences, wasOfflineThisSession }) => (
-              <Table.Row textAlign='center' key={shortid.generate()}>
-                <Table.Cell textAlign='center'>
-                  <FadedText>{wasOfflineThisSession}</FadedText>
-                </Table.Cell>
-                <Table.Cell textAlign='center'>
-                  <AddressSummary
-                    address={stash}
-                    size='small'
-                    noBalance
-                    noPlaceholderName
-                  />
-                </Table.Cell>
-                <Table.Cell textAlign='center'>
-                  <AddressSummary
-                    address={controller}
-                    size='small'
-                    noBalance
-                    noPlaceholderName
-                  />
-                </Table.Cell>
-                <Table.Cell textAlign='center'>
-                  <FadedText>
-                    {formatBalance(
-                      api
-                        .createType('ValidatorPrefs', preferences)
-                        .commission.toString()
-                    )}
-                  </FadedText>
-                </Table.Cell>
-                <Table.Cell textAlign='center'>
-                  <Button onClick={handleAddToCart}>
-                    {' '}
-                    Add To Cart{' '}
-                  </Button>
-                </Table.Cell>
-              </Table.Row>
-            ))
+            currentElected.map(
+              ({ stash, controller, preferences, wasOfflineThisSession }) => (
+                <Table.Row textAlign='center' key={shortid.generate()}>
+                  <Table.Cell textAlign='center'>
+                    <FadedText>{wasOfflineThisSession}</FadedText>
+                  </Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <AddressSummary
+                      address={stash}
+                      size='small'
+                      noBalance
+                      noPlaceholderName
+                    />
+                  </Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <AddressSummary
+                      address={controller}
+                      size='small'
+                      noBalance
+                      noPlaceholderName
+                    />
+                  </Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <FadedText>
+                      {formatBalance(
+                        api
+                          .createType('ValidatorPrefs', preferences)
+                          .commission.toString()
+                      )}
+                    </FadedText>
+                  </Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <Button onClick={handleAddToCart}> Add To Cart </Button>
+                  </Table.Cell>
+                </Table.Row>
+              )
+            )
           ) : (
             <Spinner inline />
           )}

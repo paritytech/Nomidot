@@ -192,7 +192,7 @@ export function Header(): React.ReactElement {
 
   useEffect(() => {
     handleLogin();
-  }, []);
+  }, [handleLogin]);
 
   return (
     <Container>
