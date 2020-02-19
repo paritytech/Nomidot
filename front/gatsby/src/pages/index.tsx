@@ -4,15 +4,18 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
+import { Redirect, Router, Link, Location } from '@reach/router';
 import {
   AccountsContextProvider,
   ApiContextProvider,
 } from '@substrate/context';
 import React from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import client from '../apollo';
 import { Layout, Seo } from '../components';
 import { APP_SLUG } from '../util';
+import { Validators } from './Validators';
 
 function IndexPage(): React.ReactElement {
   return (
@@ -22,7 +25,10 @@ function IndexPage(): React.ReactElement {
       >
         <AccountsContextProvider originName={APP_SLUG}>
           <Layout>
-            <Seo title='Home' />
+            <Seo title='Polkadot/Kusama Staking Portal' />
+            <Router>
+              <Validators path='/' />
+            </Router>
           </Layout>
         </AccountsContextProvider>
       </ApiContextProvider>

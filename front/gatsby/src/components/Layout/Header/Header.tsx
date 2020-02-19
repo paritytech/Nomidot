@@ -17,7 +17,7 @@ import {
   LATEST_SESSION_QUERY,
   SESSIONS_SUBSCRIPTION,
   STAKING_SUBSCRIPTION,
-} from '../graphql';
+} from '../../../util/graphql';
 import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
@@ -192,7 +192,7 @@ export function Header(): React.ReactElement {
 
   useEffect(() => {
     handleLogin();
-  }, [handleLogin]);
+  }, []);
 
   return (
     <Container>

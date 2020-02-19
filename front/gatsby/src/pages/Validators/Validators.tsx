@@ -5,7 +5,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
 
-import { LATEST_SESSION_QUERY } from '../graphql';
+import { LATEST_SESSION_QUERY } from '../../util/graphql';
 import { CurrentElectedList } from './CurrentElected';
 
 export const Validators = (): React.ReactElement => {
