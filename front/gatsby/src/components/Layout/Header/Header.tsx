@@ -6,7 +6,7 @@ import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, ItemStats } from '@substrate/design-system';
-import { Container, Grid } from '@substrate/ui-components';
+import { AddressSummary, Container } from '@substrate/ui-components';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { APP_TITLE, toShortAddress } from '../../../util';
@@ -196,15 +196,13 @@ export function Header(): React.ReactElement {
 
   return (
     <Container>
-      <Grid.Row padded>
         <header className={styles.headerTop}>
           <h2>{APP_TITLE}</h2>
           {accounts.length ? (
-            <ItemStats
-              title='Logged in as:'
-              subtitle={toShortAddress(accounts[0].address)}
-              value={accounts[0].meta.name}
-            />
+            <div>
+              <AddressSummary address={accounts[0].address} name={accounts[0].meta.name} noBalance size='small' />
+              {toShortAddress(accounts[0].address)}
+            </div>
           ) : (
             <Button onClick={handleLogin}>Login</Button>
           )}
@@ -215,7 +213,6 @@ export function Header(): React.ReactElement {
           <SessionHeader />
           <StakingHeader />
         </header>
-      </Grid.Row>
     </Container>
   );
 }
