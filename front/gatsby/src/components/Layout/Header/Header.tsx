@@ -21,7 +21,6 @@ import {
 } from '../../../util/graphql';
 import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
-import { Segment } from 'semantic-ui-react';
 
 const EraHeader = (): React.ReactElement => {
   const { api } = useContext(ApiContext);
@@ -198,27 +197,32 @@ export function Header(): React.ReactElement {
 
   return (
     <Container>
-        <header className={styles.headerTop}>
-          <h2>{APP_TITLE}</h2>
-          <div className={styles.headerTop}>
-            <Link to='accounts'> Accounts </Link>
-            <Link to='validators'> Validators </Link>
+      <header className={styles.headerTop}>
+        <h2>{APP_TITLE}</h2>
+        <div className={styles.headerTop}>
+          <Link to='accounts'> Accounts </Link>
+          <Link to='validators'> Validators </Link>
+        </div>
+        {accounts.length ? (
+          <div>
+            <AddressSummary
+              address={accounts[0].address}
+              name={accounts[0].meta.name}
+              noBalance
+              size='small'
+            />
+            {toShortAddress(accounts[0].address)}
           </div>
-          {accounts.length ? (
-            <div>
-              <AddressSummary address={accounts[0].address} name={accounts[0].meta.name} noBalance size='small' />
-              {toShortAddress(accounts[0].address)}
-            </div>
-          ) : (
-            <Button onClick={handleLogin}>Login</Button>
-          )}
-        </header>
-        <header className={styles.headerBottom}>
-          <BlockHeader />
-          <EraHeader />
-          <SessionHeader />
-          <StakingHeader />
-        </header>
+        ) : (
+          <Button onClick={handleLogin}>Login</Button>
+        )}
+      </header>
+      <header className={styles.headerBottom}>
+        <BlockHeader />
+        <EraHeader />
+        <SessionHeader />
+        <StakingHeader />
+      </header>
     </Container>
   );
 }

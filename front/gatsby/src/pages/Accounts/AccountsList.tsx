@@ -2,25 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import {
-  InjectedAccountWithMeta
-} from '@polkadot/extension-inject/types';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiContext } from '@substrate/context';
-import { Table, FadedText } from '@substrate/ui-components';
+import { FadedText, Table } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
-export const AccountsList = () => {
+type Props = RouteComponentProps;
+
+export const AccountsList = (props: Props) => {
   const { accounts } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
   const renderRow = (account: InjectedAccountWithMeta) => {
     return (
       <Table.Row>
-        <Table.Cell><FadedText>{account.address}</FadedText></Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.address}</FadedText>
+        </Table.Cell>
         <Table.Cell></Table.Cell>
       </Table.Row>
-    )
-  }
+    );
+  };
 
   return (
     <Table>
@@ -34,12 +37,10 @@ export const AccountsList = () => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {
-          accounts.map((account: InjectedAccountWithMeta) => {
-            return renderRow(account);
-          })
-        }
+        {accounts.map((account: InjectedAccountWithMeta) => {
+          return renderRow(account);
+        })}
       </Table.Body>
     </Table>
-  )
-}
+  );
+};
