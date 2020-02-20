@@ -6,8 +6,8 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { getChainTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
-import { prisma } from './generated/prisma-client'
 
+import { prisma } from './generated/prisma-client';
 import { Cached, NomidotTask } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT =
@@ -45,8 +45,8 @@ async function incrementor(
 
   const existingBlockIndex = await prisma.blockIndexes({
     where: {
-      identifier: blockIdentifier
-    }
+      identifier: blockIdentifier,
+    },
   });
 
   if (existingBlockIndex.length === 0) {
@@ -134,7 +134,7 @@ async function incrementor(
         index: blockIndex,
       },
       where: {
-        id: blockIndexId
+        id: blockIndexId,
       },
     });
   }
