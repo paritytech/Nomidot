@@ -1336,9 +1336,9 @@ export interface CouncilMemberWhereInput {
   address_not_starts_with?: Maybe<String>;
   address_ends_with?: Maybe<String>;
   address_not_ends_with?: Maybe<String>;
-  council_every?: Maybe<CouncilWhereInput>;
-  council_some?: Maybe<CouncilWhereInput>;
-  council_none?: Maybe<CouncilWhereInput>;
+  councils_every?: Maybe<CouncilWhereInput>;
+  councils_some?: Maybe<CouncilWhereInput>;
+  councils_none?: Maybe<CouncilWhereInput>;
   AND?: Maybe<CouncilMemberWhereInput[] | CouncilMemberWhereInput>;
   OR?: Maybe<CouncilMemberWhereInput[] | CouncilMemberWhereInput>;
   NOT?: Maybe<CouncilMemberWhereInput[] | CouncilMemberWhereInput>;
@@ -2597,7 +2597,7 @@ export interface BlockNumberUpdateManyMutationInput {
 export interface CouncilCreateInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
-  members?: Maybe<CouncilMemberCreateManyWithoutCouncilInput>;
+  members?: Maybe<CouncilMemberCreateManyWithoutCouncilsInput>;
 }
 
 export interface BlockNumberCreateOneInput {
@@ -2605,24 +2605,24 @@ export interface BlockNumberCreateOneInput {
   connect?: Maybe<BlockNumberWhereUniqueInput>;
 }
 
-export interface CouncilMemberCreateManyWithoutCouncilInput {
+export interface CouncilMemberCreateManyWithoutCouncilsInput {
   create?: Maybe<
-    | CouncilMemberCreateWithoutCouncilInput[]
-    | CouncilMemberCreateWithoutCouncilInput
+    | CouncilMemberCreateWithoutCouncilsInput[]
+    | CouncilMemberCreateWithoutCouncilsInput
   >;
   connect?: Maybe<
     CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
   >;
 }
 
-export interface CouncilMemberCreateWithoutCouncilInput {
+export interface CouncilMemberCreateWithoutCouncilsInput {
   id?: Maybe<ID_Input>;
   address: String;
 }
 
 export interface CouncilUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
-  members?: Maybe<CouncilMemberUpdateManyWithoutCouncilInput>;
+  members?: Maybe<CouncilMemberUpdateManyWithoutCouncilsInput>;
 }
 
 export interface BlockNumberUpdateOneRequiredInput {
@@ -2644,10 +2644,10 @@ export interface BlockNumberUpsertNestedInput {
   create: BlockNumberCreateInput;
 }
 
-export interface CouncilMemberUpdateManyWithoutCouncilInput {
+export interface CouncilMemberUpdateManyWithoutCouncilsInput {
   create?: Maybe<
-    | CouncilMemberCreateWithoutCouncilInput[]
-    | CouncilMemberCreateWithoutCouncilInput
+    | CouncilMemberCreateWithoutCouncilsInput[]
+    | CouncilMemberCreateWithoutCouncilsInput
   >;
   delete?: Maybe<
     CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
@@ -2660,12 +2660,12 @@ export interface CouncilMemberUpdateManyWithoutCouncilInput {
     CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
   >;
   update?: Maybe<
-    | CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput[]
-    | CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput
+    | CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput[]
+    | CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput
   >;
   upsert?: Maybe<
-    | CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput[]
-    | CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput
+    | CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput[]
+    | CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput
   >;
   deleteMany?: Maybe<
     CouncilMemberScalarWhereInput[] | CouncilMemberScalarWhereInput
@@ -2676,19 +2676,19 @@ export interface CouncilMemberUpdateManyWithoutCouncilInput {
   >;
 }
 
-export interface CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput {
+export interface CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput {
   where: CouncilMemberWhereUniqueInput;
-  data: CouncilMemberUpdateWithoutCouncilDataInput;
+  data: CouncilMemberUpdateWithoutCouncilsDataInput;
 }
 
-export interface CouncilMemberUpdateWithoutCouncilDataInput {
+export interface CouncilMemberUpdateWithoutCouncilsDataInput {
   address?: Maybe<String>;
 }
 
-export interface CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput {
+export interface CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput {
   where: CouncilMemberWhereUniqueInput;
-  update: CouncilMemberUpdateWithoutCouncilDataInput;
-  create: CouncilMemberCreateWithoutCouncilInput;
+  update: CouncilMemberUpdateWithoutCouncilsDataInput;
+  create: CouncilMemberCreateWithoutCouncilsInput;
 }
 
 export interface CouncilMemberScalarWhereInput {
@@ -2737,7 +2737,7 @@ export interface CouncilMemberUpdateManyDataInput {
 export interface CouncilMemberCreateInput {
   id?: Maybe<ID_Input>;
   address: String;
-  council?: Maybe<CouncilCreateManyWithoutMembersInput>;
+  councils?: Maybe<CouncilCreateManyWithoutMembersInput>;
 }
 
 export interface CouncilCreateManyWithoutMembersInput {
@@ -2754,7 +2754,7 @@ export interface CouncilCreateWithoutMembersInput {
 
 export interface CouncilMemberUpdateInput {
   address?: Maybe<String>;
-  council?: Maybe<CouncilUpdateManyWithoutMembersInput>;
+  councils?: Maybe<CouncilUpdateManyWithoutMembersInput>;
 }
 
 export interface CouncilUpdateManyWithoutMembersInput {
@@ -5048,7 +5048,7 @@ export interface CouncilMemberPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   address: () => Promise<String>;
-  council: <T = FragmentableArray<Council>>(args?: {
+  councils: <T = FragmentableArray<Council>>(args?: {
     where?: CouncilWhereInput;
     orderBy?: CouncilOrderByInput;
     skip?: Int;
@@ -5064,7 +5064,7 @@ export interface CouncilMemberSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   address: () => Promise<AsyncIterator<String>>;
-  council: <T = Promise<AsyncIterator<CouncilSubscription>>>(args?: {
+  councils: <T = Promise<AsyncIterator<CouncilSubscription>>>(args?: {
     where?: CouncilWhereInput;
     orderBy?: CouncilOrderByInput;
     skip?: Int;
@@ -5080,7 +5080,7 @@ export interface CouncilMemberNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   address: () => Promise<String>;
-  council: <T = FragmentableArray<Council>>(args?: {
+  councils: <T = FragmentableArray<Council>>(args?: {
     where?: CouncilWhereInput;
     orderBy?: CouncilOrderByInput;
     skip?: Int;

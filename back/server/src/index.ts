@@ -82,6 +82,74 @@ const resolvers = {
       return prisma.validator({ id: parent.id }).session();
     },
   },
+  Council: {
+    blockNumber(parent: any) {
+      return prisma.council({ id: parent.id }).blockNumber();
+    },
+    members(parent: any) {
+      return prisma.council({ id: parent.id }).members();
+    },
+  },
+  CouncilMember: {
+    councils(parent: any) {
+      return prisma.councilMember({ id: parent.id }).councils();
+    },
+  },
+  Motion: {
+    motionProposalArguments(parent: any) {
+      return prisma.motion({ id: parent.id }).motionProposalArguments();
+    },
+    motionStatus(parent: any) {
+      return prisma.motion({ id: parent.id }).motionStatus();
+    },
+    preimage(parent: any) {
+      return prisma.motion({ id: parent.id }).preimage();
+    },
+  },
+  MotionStatus: {
+    blockNumber(parent: any) {
+      return prisma.motionStatus({ id: parent.id }).blockNumber();
+    },
+  },
+  Proposal: {
+    preimage(parent: any) {
+      return prisma.proposal({ id: parent.id }).preimage();
+    },
+    proposalStatus(parent: any) {
+      return prisma.proposal({ id: parent.id }).proposalStatus();
+    },
+  },
+  Preimage: {
+    preimageArguments(parent: any) {
+      return prisma.preimage({ id: parent.id }).preimageArguments();
+    },
+    preimageStatus(parent: any) {
+      return prisma.preimage({ id: parent.id }).preimageStatus();
+    },
+  },
+  PreimageStatus: {
+    blockNumber(parent: any) {
+      return prisma.preimageStatus({ id: parent.id }).blockNumber();
+    },
+  },
+  ProposalStatus: {
+    blockNumber(parent: any) {
+      return prisma.proposalStatus({ id: parent.id }).blockNumber();
+    },
+  },
+  Referendum: {
+    preimage(parent: any) {
+      return prisma.referendum({ id: parent.id }).preimage();
+    },
+    referendumStatus(parent: any) {
+      return prisma.referendum({ id: parent.id }).referendumStatus();
+    },
+  },
+  ReferendumStatus: {
+    blockNumber(parent: any) {
+      return prisma.referendumStatus({ id: parent.id }).blockNumber();
+    },
+  },
 };
 
 const server = new GraphQLServer({
