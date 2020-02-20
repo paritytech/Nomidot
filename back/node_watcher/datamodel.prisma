@@ -90,7 +90,7 @@ type Council {
 type CouncilMember {
   id: ID! @id
   address: String! @unique
-  council: [Council]! @relation(name: "MembersCouncils")
+  councils: [Council]! @relation(name: "MembersCouncils")
 }
 
 type Motion {

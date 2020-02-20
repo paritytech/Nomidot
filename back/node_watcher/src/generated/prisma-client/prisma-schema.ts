@@ -287,7 +287,7 @@ type CouncilConnection {
 input CouncilCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  members: CouncilMemberCreateManyWithoutCouncilInput
+  members: CouncilMemberCreateManyWithoutCouncilsInput
 }
 
 input CouncilCreateManyWithoutMembersInput {
@@ -308,7 +308,7 @@ type CouncilEdge {
 type CouncilMember {
   id: ID!
   address: String!
-  council(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council!]
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council!]
 }
 
 type CouncilMemberConnection {
@@ -320,15 +320,15 @@ type CouncilMemberConnection {
 input CouncilMemberCreateInput {
   id: ID
   address: String!
-  council: CouncilCreateManyWithoutMembersInput
+  councils: CouncilCreateManyWithoutMembersInput
 }
 
-input CouncilMemberCreateManyWithoutCouncilInput {
-  create: [CouncilMemberCreateWithoutCouncilInput!]
+input CouncilMemberCreateManyWithoutCouncilsInput {
+  create: [CouncilMemberCreateWithoutCouncilsInput!]
   connect: [CouncilMemberWhereUniqueInput!]
 }
 
-input CouncilMemberCreateWithoutCouncilInput {
+input CouncilMemberCreateWithoutCouncilsInput {
   id: ID
   address: String!
 }
@@ -404,7 +404,7 @@ input CouncilMemberSubscriptionWhereInput {
 
 input CouncilMemberUpdateInput {
   address: String
-  council: CouncilUpdateManyWithoutMembersInput
+  councils: CouncilUpdateManyWithoutMembersInput
 }
 
 input CouncilMemberUpdateManyDataInput {
@@ -415,14 +415,14 @@ input CouncilMemberUpdateManyMutationInput {
   address: String
 }
 
-input CouncilMemberUpdateManyWithoutCouncilInput {
-  create: [CouncilMemberCreateWithoutCouncilInput!]
+input CouncilMemberUpdateManyWithoutCouncilsInput {
+  create: [CouncilMemberCreateWithoutCouncilsInput!]
   delete: [CouncilMemberWhereUniqueInput!]
   connect: [CouncilMemberWhereUniqueInput!]
   set: [CouncilMemberWhereUniqueInput!]
   disconnect: [CouncilMemberWhereUniqueInput!]
-  update: [CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput!]
-  upsert: [CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput!]
+  update: [CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput!]
+  upsert: [CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput!]
   deleteMany: [CouncilMemberScalarWhereInput!]
   updateMany: [CouncilMemberUpdateManyWithWhereNestedInput!]
 }
@@ -432,19 +432,19 @@ input CouncilMemberUpdateManyWithWhereNestedInput {
   data: CouncilMemberUpdateManyDataInput!
 }
 
-input CouncilMemberUpdateWithoutCouncilDataInput {
+input CouncilMemberUpdateWithoutCouncilsDataInput {
   address: String
 }
 
-input CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput {
+input CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput {
   where: CouncilMemberWhereUniqueInput!
-  data: CouncilMemberUpdateWithoutCouncilDataInput!
+  data: CouncilMemberUpdateWithoutCouncilsDataInput!
 }
 
-input CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput {
+input CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput {
   where: CouncilMemberWhereUniqueInput!
-  update: CouncilMemberUpdateWithoutCouncilDataInput!
-  create: CouncilMemberCreateWithoutCouncilInput!
+  update: CouncilMemberUpdateWithoutCouncilsDataInput!
+  create: CouncilMemberCreateWithoutCouncilsInput!
 }
 
 input CouncilMemberWhereInput {
@@ -476,9 +476,9 @@ input CouncilMemberWhereInput {
   address_not_starts_with: String
   address_ends_with: String
   address_not_ends_with: String
-  council_every: CouncilWhereInput
-  council_some: CouncilWhereInput
-  council_none: CouncilWhereInput
+  councils_every: CouncilWhereInput
+  councils_some: CouncilWhereInput
+  councils_none: CouncilWhereInput
   AND: [CouncilMemberWhereInput!]
   OR: [CouncilMemberWhereInput!]
   NOT: [CouncilMemberWhereInput!]
@@ -538,7 +538,7 @@ input CouncilSubscriptionWhereInput {
 
 input CouncilUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  members: CouncilMemberUpdateManyWithoutCouncilInput
+  members: CouncilMemberUpdateManyWithoutCouncilsInput
 }
 
 input CouncilUpdateManyWithoutMembersInput {

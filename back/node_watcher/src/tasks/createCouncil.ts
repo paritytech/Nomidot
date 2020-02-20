@@ -55,12 +55,12 @@ const createCouncil: Task<NomidotCouncil> = {
         await prisma.upsertCouncilMember({
           create: {
             address: _address.toString(),
-            council: {
+            councils: {
               connect: { id: newCouncil.id },
             },
           },
           update: {
-            council: {
+            councils: {
               connect: { id: newCouncil.id },
             },
           },
