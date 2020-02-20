@@ -4,17 +4,17 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
-import { Redirect, Router, Link, Location } from '@reach/router';
+import { Router } from '@reach/router';
 import {
   AccountsContextProvider,
   ApiContextProvider,
 } from '@substrate/context';
 import React from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import client from '../apollo';
 import { Layout, Seo } from '../components';
 import { APP_SLUG } from '../util';
+import { AccountsList } from './Accounts';
 import { Validators } from './Validators';
 
 function IndexPage(): React.ReactElement {
@@ -28,6 +28,7 @@ function IndexPage(): React.ReactElement {
             <Seo title='Polkadot/Kusama Staking Portal' />
             <Router>
               <Validators path='/' />
+              <AccountsList path='accounts' />
             </Router>
           </Layout>
         </AccountsContextProvider>
