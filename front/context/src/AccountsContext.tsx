@@ -7,7 +7,15 @@ import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
-import React, { createContext, useState } from 'react';
+import { Option } from '@polkadot/types';
+import {
+  AccountId,
+  StakingLedger
+} from '@polkadot/types/interfaces';
+// import { ApiContext } from '@substrate/context';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+// import { combineLatest } from 'rxjs';
+// import { take } from 'rxjs/operators';
 
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
@@ -17,6 +25,12 @@ interface AccountsContext {
 }
 
 export const AccountsContext = createContext({} as AccountsContext);
+
+// interface InjectedAccountWithMetaAndTags extends InjectedAccountWithMeta {
+//   type?: string,
+//   stash?: AccountId | string,
+//   controller?: AccountId | string,
+// }
 
 interface Props {
   children: React.ReactElement;
@@ -29,9 +43,14 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
+  // const { api } = useContext(ApiContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
+
+  // useEffect(() => {
+  //   tagAccountsAsStashOrController();
+  // }, [accounts])
 
   /**
    * Fetch accounts from the extension
@@ -50,6 +69,51 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     setAccounts(await web3Accounts());
   }
 
+  /**
+   * Tag each account as stash or controller or neither
+   */
+  // async function tagAccountsAsStashOrController(): Promise<void> {
+  //   if (!accounts) {
+  //     return;
+  //   }
+
+  //   for await (let account of accounts) {
+  //     const sub = combineLatest([
+  //       api.query.staking.bonded(account.address),
+  //       api.query.staking.ledger(account.address)
+  //     ]).pipe(
+  //       take(1)
+  //     ).subscribe(([bonded, ledger]: [Option<AccountId>, Option<StakingLedger>]) => {
+  //       let stash;
+  //       let controller;
+  //       let type;
+
+  //       if (bonded.isNone) {
+  //         stash = ledger.unwrap().stash
+  //       } else {
+  //         stash = account.address
+  //         type = 'stash'
+  //       }
+
+  //       if (ledger.isSome && ledger.unwrap().stash) {
+  //         controller = account.address;
+  //         type = 'controller';
+  //       } else {
+  //         controller = bonded.unwrap();
+  //       }
+
+  //       account = {
+  //         ...account,
+  //         type,
+  //         stash,
+  //         controller
+  //       }
+  //     })
+
+  //     sub.unsubscribe();
+  //   }
+  // }
+
   return (
     <AccountsContext.Provider
       value={{
@@ -64,7 +128,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           return extension;
         },
         fetchAccounts,
-        isExtensionReady: isReady,
+        isExtensionReady: isReady
       }}
     >
       {children}

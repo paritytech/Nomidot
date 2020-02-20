@@ -10,9 +10,8 @@ import React, { useContext } from 'react';
 
 type Props = RouteComponentProps;
 
-export const AccountsList = (props: Props) => {
+const AccountsList = (props: Props) => {
   const { accounts } = useContext(AccountsContext);
-  const { api } = useContext(ApiContext);
 
   const renderRow = (account: InjectedAccountWithMeta) => {
     return (
@@ -37,10 +36,12 @@ export const AccountsList = (props: Props) => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {accounts.map((account: InjectedAccountWithMeta) => {
+        {accounts && accounts.map((account: InjectedAccountWithMeta) => {
           return renderRow(account);
         })}
       </Table.Body>
     </Table>
   );
 };
+
+export default AccountsList;

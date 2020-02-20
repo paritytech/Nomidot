@@ -6,12 +6,12 @@ import { useQuery } from '@apollo/react-hooks';
 import { RouteComponentProps } from '@reach/router';
 import React, { useEffect, useState } from 'react';
 
-import { LATEST_SESSION_QUERY } from '../../util/graphql';
+import { LATEST_SESSION_QUERY } from '../util/graphql';
 import { CurrentElectedList } from './CurrentElected';
 
 type Props = RouteComponentProps;
 
-export const Validators = (props: Props): React.ReactElement => {
+const Validators = (props: Props): React.ReactElement => {
   const { data } = useQuery(LATEST_SESSION_QUERY, {
     pollInterval: 10000,
   });
@@ -37,3 +37,5 @@ export const Validators = (props: Props): React.ReactElement => {
     </>
   );
 };
+
+export default Validators;

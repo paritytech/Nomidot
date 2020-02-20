@@ -40,11 +40,13 @@ export function ApiContextProvider(
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
-    api.isReady.subscribe(() => {
+    const sub = api.isReady.subscribe(() => {
       l.log(`Api ready, app is ready to use`);
 
       setState({ isApiReady: true });
     });
+
+    return () => sub.unsubscribe();
   }, [api, provider]);
 
   return (

@@ -4,10 +4,10 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { Link } from '@reach/router';
+import { navigate } from "gatsby";
 import { AccountsContext, ApiContext } from '@substrate/context';
-import { Button, ItemStats } from '@substrate/design-system';
-import { AddressSummary, Container } from '@substrate/ui-components';
+import { Button, ItemStats, MainMenu } from '@substrate/design-system';
+import { AddressSummary } from '@substrate/ui-components';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { APP_TITLE, toShortAddress } from '../../../util';
@@ -19,7 +19,6 @@ import {
   SESSIONS_SUBSCRIPTION,
   STAKING_SUBSCRIPTION,
 } from '../../../util/graphql';
-import styles from './Header.module.css';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
 const EraHeader = (): React.ReactElement => {
@@ -196,33 +195,44 @@ export function Header(): React.ReactElement {
   }, []);
 
   return (
-    <Container>
-      <header className={styles.headerTop}>
-        <h2>{APP_TITLE}</h2>
-        <div className={styles.headerTop}>
-          <Link to='accounts'> Accounts </Link>
-          <Link to='validators'> Validators </Link>
-        </div>
-        {accounts.length ? (
-          <div>
-            <AddressSummary
-              address={accounts[0].address}
-              name={accounts[0].meta.name}
-              noBalance
-              size='small'
-            />
-            {toShortAddress(accounts[0].address)}
-          </div>
-        ) : (
-          <Button onClick={handleLogin}>Login</Button>
-        )}
-      </header>
-      <header className={styles.headerBottom}>
+    <>
+      <MainMenu
+        contentLeft={
+          <h2>{APP_TITLE}</h2>
+        }
+        contentRight={
+          <>
+            {accounts.length ? (
+            <div>
+              <AddressSummary
+                address={accounts[0].address}
+                name={accounts[0].meta.name}
+                noBalance
+                size='small'
+              />
+            </div>
+          ) : (
+            <Button onClick={handleLogin}>Login</Button>
+          )}
+          </>
+        }
+        tabs={
+          [
+            <Button onClick={() => {
+              navigate(`AccountsList`)
+            }}>Accounts</Button>,
+            <Button onClick={() => {
+              navigate(`Validators`)
+            }}>Validators</Button>
+          ]
+        }
+      />
+      <header style={{ display: 'flex' }}>
         <BlockHeader />
         <EraHeader />
         <SessionHeader />
         <StakingHeader />
       </header>
-    </Container>
+    </>
   );
 }
