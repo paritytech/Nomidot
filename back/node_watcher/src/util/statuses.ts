@@ -30,9 +30,3 @@ export const motionStatus = {
   PROPOSED: 'Proposed',
   VOTED: 'Voted',
 };
-
-export const electionStatus = {
-  MEMBER_KICKED: 'MemberKicked',
-  MEMBER_RENOUNCED: 'MemberRenounced',
-  NEW_TERM: 'NewTerm',
-};
