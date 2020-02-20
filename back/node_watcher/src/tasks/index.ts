@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import createBlockNumber from './createBlockNumber';
+import createCouncil from './createCouncil';
 import createEra from './createEra';
 import createMotion from './createMotion';
 import createMotionStatus from './createMotionStatus';
@@ -23,6 +24,7 @@ import { NomidotTask } from './types';
 // N.B. Order of tasks matters here
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
+  createCouncil,
   createSession,
   createStake,
   createOfflineValidator,

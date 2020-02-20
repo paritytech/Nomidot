@@ -101,6 +101,7 @@ export interface NomidotTotalIssuance {
 
 export type Nomidot =
   | NomidotBlock
+  | NomidotCouncil
   | NomidotEra
   | NomidotOfflineValidator[]
   | NomidotHeartBeat[]
@@ -222,3 +223,5 @@ export interface NomidotReferendumStatusUpdate {
   referendumId: number;
   status: string;
 }
+
+export type NomidotCouncil = AccountId[];

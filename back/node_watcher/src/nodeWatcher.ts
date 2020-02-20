@@ -56,13 +56,13 @@ async function incrementor(
     }
 
     l.warn(`blockIndex: ${blockIndex}`);
-    l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
+    // l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
 
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
-    l.warn(`block: ${blockNumber}`);
+    // l.warn(`block: ${blockNumber}`);
 
     const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber);
-    l.warn(`hash: ${blockHash}`);
+    // l.warn(`hash: ${blockHash}`);
 
     // check spec version
     const runtimeVersion = await api.rpc.state.getRuntimeVersion(blockHash);
