@@ -99,6 +99,15 @@ export interface NomidotTotalIssuance {
   amount: Balance;
 }
 
+export interface NomidotTreasury {
+  blockNumber: BlockNumber;
+  proposedBy: string;
+  beneficiary: string;
+  value: string;
+  status: string;
+}
+
+
 export type Nomidot =
   | NomidotBlock
   | NomidotEra
@@ -117,7 +126,8 @@ export type Nomidot =
   | NomidotSession
   | NomidotSlashing[]
   | NomidotStake
-  | NomidotTotalIssuance;
+  | NomidotTotalIssuance
+  | NomidotTreasury[];
 
 export type NomidotTask = Task<Nomidot>;
 
@@ -135,6 +145,10 @@ export interface NomidotProposalEvent {
 export interface NomidotProposalRawEvent {
   PropIndex?: number;
   Balance?: Balance;
+}
+
+export interface NomidotTreasuryRawEvent {
+
 }
 
 export interface NomidotRewardEvent extends EventRecord {
@@ -220,13 +234,5 @@ export interface NomidotMotionStatusUpdate {
 
 export interface NomidotReferendumStatusUpdate {
   referendumId: number;
-  status: string;
-}
-
-export interface NomidotTreasury {
-  blockNumber: BlockNumber;
-  proposedBy: string;
-  beneficiary: string;
-  value: string;
   status: string;
 }
