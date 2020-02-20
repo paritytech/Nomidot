@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType } from '@polkadot/types';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, TreasuryProposal, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
+import { treasuryProposalStatus } from '../util/statuses';
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { Cached, NomidotTreasury, NomidotTreasuryRawEvent, Task } from './types';
+import { Cached, NomidotTreasury, NomidotTreasuryEvent, NomidotTreasuryRawEvent, Task } from './types';
 
 const l = logger('Task: Treasury');
 
@@ -25,13 +25,9 @@ const createTreasury: Task<NomidotTreasury[]> = {
   ): Promise<NomidotTreasury[]> => {
     const { events } = cached;
 
-    const treasuryEvents = filterEvents(events, 'treasury', 'Deposit');
+    const treasuryEvents = filterEvents(events, 'treasury', treasuryProposalStatus.PROPOSED);
 
     const results: NomidotTreasury[] = [];
-
-    treasuryEvents.forEach(event => {
-      console.log(event.event.data);
-    });
 
     await Promise.all(
       treasuryEvents.map(async ({ event: { data, typeDef } }) => {
@@ -47,9 +43,34 @@ const createTreasury: Task<NomidotTreasury[]> = {
           {}
         );
 
-        const result = {};
+        if (
+          !treasuryRawEvent.ProposalIndex &&
+          treasuryRawEvent.ProposalIndex !== 0
+        ) {
+          l.error(
+            `Expected ProposalIndex missing in the event: ${treasuryRawEvent.ProposalIndex}`
+          );
+          return null;
+        }
+
+        const treasuryProposalRaw = await api.query.treasury.proposals(treasuryRawEvent.ProposalIndex);
+        const treasuryProposal: TreasuryProposal = api.createType('TreasuryProposal', treasuryProposalRaw.toU8a(true));
+
+        const proposalArguments: NomidotTreasuryEvent = {
+          proposalId: treasuryRawEvent.ProposalIndex,
+        };
+
+        const result: NomidotTreasury = {
+          proposalId: proposalArguments.proposalId,
+          proposer: treasuryProposal.proposer,
+          beneficiary: treasuryProposal.beneficiary,
+          value: treasuryProposal.value,
+          bond: treasuryProposal.bond,
+          status: treasuryProposalStatus.PROPOSED,
+        };
 
         l.log(`Nomidot Treasury: ${JSON.stringify(result)}`);
+
         results.push(result);
       })
     );
@@ -57,13 +78,36 @@ const createTreasury: Task<NomidotTreasury[]> = {
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTreasury[]) => {
-    await prisma.createTreasury({
-      blockNumber: {
-        connect: {
-          number: blockNumber.toNumber(),
-        },
-      },
-    });
+    await Promise.all(
+      value.map(async prop => {
+        const {
+          proposer,
+          beneficiary,
+          value,
+          bond,
+          proposalId,
+          status,
+        } = prop;
+
+        await prisma.createTreasury({
+          proposer: proposer.toString(),
+          proposalId,
+          beneficiary: beneficiary.toString(),
+          value: value.toString(),
+          bond: bond.toString(),
+          treasuryStatus: {
+            create: {
+              blockNumber: {
+                connect: {
+                  number: blockNumber.toNumber(),
+                },
+              },
+              status,
+            },
+          },
+        });
+      })
+    );
   },
 };
 

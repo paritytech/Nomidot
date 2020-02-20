@@ -30,3 +30,8 @@ export const motionStatus = {
   PROPOSED: 'Proposed',
   VOTED: 'Voted',
 };
+
+export const treasuryProposalStatus = {
+  PROPOSED: 'Proposed',
+  TABLED: 'Tabled',
+};

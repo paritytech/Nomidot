@@ -176,9 +176,17 @@ type ReferendumStatus {
 
 type Treasury {
   id: ID! @id
-  blockNumber: BlockNumber! @relation(name: "TreasuryAtBlockNumber", link: INLINE)
-  proposedBy: String!
+  proposer: String!
   beneficiary: String!
-  Value: String!
+  value: String!
+  bond: String!
+  proposalId: Int! @unique
+  treasuryStatus: [TreasuryStatus]! @relation(name: "TreasuryStatusFromTreasury")
+}
+
+type TreasuryStatus {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "TreasuryStatusAtBlockNumber", link: INLINE)
+  treasury: Treasury! @relation(name: "TreasuryStatusFromTreasury", link: INLINE)
   status: String!
 }

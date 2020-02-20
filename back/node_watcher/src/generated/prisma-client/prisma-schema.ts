@@ -86,6 +86,10 @@ type AggregateTreasury {
   count: Int!
 }
 
+type AggregateTreasuryStatus {
+  count: Int!
+}
+
 type AggregateValidator {
   count: Int!
 }
@@ -1411,6 +1415,12 @@ type Mutation {
   upsertTreasury(where: TreasuryWhereUniqueInput!, create: TreasuryCreateInput!, update: TreasuryUpdateInput!): Treasury!
   deleteTreasury(where: TreasuryWhereUniqueInput!): Treasury
   deleteManyTreasuries(where: TreasuryWhereInput): BatchPayload!
+  createTreasuryStatus(data: TreasuryStatusCreateInput!): TreasuryStatus!
+  updateTreasuryStatus(data: TreasuryStatusUpdateInput!, where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
+  updateManyTreasuryStatuses(data: TreasuryStatusUpdateManyMutationInput!, where: TreasuryStatusWhereInput): BatchPayload!
+  upsertTreasuryStatus(where: TreasuryStatusWhereUniqueInput!, create: TreasuryStatusCreateInput!, update: TreasuryStatusUpdateInput!): TreasuryStatus!
+  deleteTreasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
+  deleteManyTreasuryStatuses(where: TreasuryStatusWhereInput): BatchPayload!
   createValidator(data: ValidatorCreateInput!): Validator!
   updateValidator(data: ValidatorUpdateInput!, where: ValidatorWhereUniqueInput!): Validator
   updateManyValidators(data: ValidatorUpdateManyMutationInput!, where: ValidatorWhereInput): BatchPayload!
@@ -3112,6 +3122,9 @@ type Query {
   treasury(where: TreasuryWhereUniqueInput!): Treasury
   treasuries(where: TreasuryWhereInput, orderBy: TreasuryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Treasury]!
   treasuriesConnection(where: TreasuryWhereInput, orderBy: TreasuryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasuryConnection!
+  treasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
+  treasuryStatuses(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus]!
+  treasuryStatusesConnection(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasuryStatusConnection!
   validator(where: ValidatorWhereUniqueInput!): Validator
   validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
   validatorsConnection(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatorConnection!
@@ -4034,6 +4047,7 @@ type Subscription {
   stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
   totalIssuance(where: TotalIssuanceSubscriptionWhereInput): TotalIssuanceSubscriptionPayload
   treasury(where: TreasurySubscriptionWhereInput): TreasurySubscriptionPayload
+  treasuryStatus(where: TreasuryStatusSubscriptionWhereInput): TreasuryStatusSubscriptionPayload
   validator(where: ValidatorSubscriptionWhereInput): ValidatorSubscriptionPayload
 }
 
@@ -4140,11 +4154,12 @@ input TotalIssuanceWhereUniqueInput {
 
 type Treasury {
   id: ID!
-  blockNumber: BlockNumber!
-  proposedBy: String!
+  proposer: String!
   beneficiary: String!
-  Value: String!
-  status: String!
+  value: String!
+  bond: String!
+  proposalId: Int!
+  treasuryStatus(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus!]
 }
 
 type TreasuryConnection {
@@ -4155,11 +4170,26 @@ type TreasuryConnection {
 
 input TreasuryCreateInput {
   id: ID
-  blockNumber: BlockNumberCreateOneInput!
-  proposedBy: String!
+  proposer: String!
   beneficiary: String!
-  Value: String!
-  status: String!
+  value: String!
+  bond: String!
+  proposalId: Int!
+  treasuryStatus: TreasuryStatusCreateManyWithoutTreasuryInput
+}
+
+input TreasuryCreateOneWithoutTreasuryStatusInput {
+  create: TreasuryCreateWithoutTreasuryStatusInput
+  connect: TreasuryWhereUniqueInput
+}
+
+input TreasuryCreateWithoutTreasuryStatusInput {
+  id: ID
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  proposalId: Int!
 }
 
 type TreasuryEdge {
@@ -4170,22 +4200,212 @@ type TreasuryEdge {
 enum TreasuryOrderByInput {
   id_ASC
   id_DESC
-  proposedBy_ASC
-  proposedBy_DESC
+  proposer_ASC
+  proposer_DESC
   beneficiary_ASC
   beneficiary_DESC
-  Value_ASC
-  Value_DESC
-  status_ASC
-  status_DESC
+  value_ASC
+  value_DESC
+  bond_ASC
+  bond_DESC
+  proposalId_ASC
+  proposalId_DESC
 }
 
 type TreasuryPreviousValues {
   id: ID!
-  proposedBy: String!
+  proposer: String!
   beneficiary: String!
-  Value: String!
+  value: String!
+  bond: String!
+  proposalId: Int!
+}
+
+type TreasuryStatus {
+  id: ID!
+  blockNumber: BlockNumber!
+  treasury: Treasury!
   status: String!
+}
+
+type TreasuryStatusConnection {
+  pageInfo: PageInfo!
+  edges: [TreasuryStatusEdge]!
+  aggregate: AggregateTreasuryStatus!
+}
+
+input TreasuryStatusCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  treasury: TreasuryCreateOneWithoutTreasuryStatusInput!
+  status: String!
+}
+
+input TreasuryStatusCreateManyWithoutTreasuryInput {
+  create: [TreasuryStatusCreateWithoutTreasuryInput!]
+  connect: [TreasuryStatusWhereUniqueInput!]
+}
+
+input TreasuryStatusCreateWithoutTreasuryInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  status: String!
+}
+
+type TreasuryStatusEdge {
+  node: TreasuryStatus!
+  cursor: String!
+}
+
+enum TreasuryStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type TreasuryStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input TreasuryStatusScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [TreasuryStatusScalarWhereInput!]
+  OR: [TreasuryStatusScalarWhereInput!]
+  NOT: [TreasuryStatusScalarWhereInput!]
+}
+
+type TreasuryStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: TreasuryStatus
+  updatedFields: [String!]
+  previousValues: TreasuryStatusPreviousValues
+}
+
+input TreasuryStatusSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TreasuryStatusWhereInput
+  AND: [TreasuryStatusSubscriptionWhereInput!]
+  OR: [TreasuryStatusSubscriptionWhereInput!]
+  NOT: [TreasuryStatusSubscriptionWhereInput!]
+}
+
+input TreasuryStatusUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  treasury: TreasuryUpdateOneRequiredWithoutTreasuryStatusInput
+  status: String
+}
+
+input TreasuryStatusUpdateManyDataInput {
+  status: String
+}
+
+input TreasuryStatusUpdateManyMutationInput {
+  status: String
+}
+
+input TreasuryStatusUpdateManyWithoutTreasuryInput {
+  create: [TreasuryStatusCreateWithoutTreasuryInput!]
+  delete: [TreasuryStatusWhereUniqueInput!]
+  connect: [TreasuryStatusWhereUniqueInput!]
+  set: [TreasuryStatusWhereUniqueInput!]
+  disconnect: [TreasuryStatusWhereUniqueInput!]
+  update: [TreasuryStatusUpdateWithWhereUniqueWithoutTreasuryInput!]
+  upsert: [TreasuryStatusUpsertWithWhereUniqueWithoutTreasuryInput!]
+  deleteMany: [TreasuryStatusScalarWhereInput!]
+  updateMany: [TreasuryStatusUpdateManyWithWhereNestedInput!]
+}
+
+input TreasuryStatusUpdateManyWithWhereNestedInput {
+  where: TreasuryStatusScalarWhereInput!
+  data: TreasuryStatusUpdateManyDataInput!
+}
+
+input TreasuryStatusUpdateWithoutTreasuryDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  status: String
+}
+
+input TreasuryStatusUpdateWithWhereUniqueWithoutTreasuryInput {
+  where: TreasuryStatusWhereUniqueInput!
+  data: TreasuryStatusUpdateWithoutTreasuryDataInput!
+}
+
+input TreasuryStatusUpsertWithWhereUniqueWithoutTreasuryInput {
+  where: TreasuryStatusWhereUniqueInput!
+  update: TreasuryStatusUpdateWithoutTreasuryDataInput!
+  create: TreasuryStatusCreateWithoutTreasuryInput!
+}
+
+input TreasuryStatusWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  treasury: TreasuryWhereInput
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  AND: [TreasuryStatusWhereInput!]
+  OR: [TreasuryStatusWhereInput!]
+  NOT: [TreasuryStatusWhereInput!]
+}
+
+input TreasuryStatusWhereUniqueInput {
+  id: ID
 }
 
 type TreasurySubscriptionPayload {
@@ -4207,18 +4427,40 @@ input TreasurySubscriptionWhereInput {
 }
 
 input TreasuryUpdateInput {
-  blockNumber: BlockNumberUpdateOneRequiredInput
-  proposedBy: String
+  proposer: String
   beneficiary: String
-  Value: String
-  status: String
+  value: String
+  bond: String
+  proposalId: Int
+  treasuryStatus: TreasuryStatusUpdateManyWithoutTreasuryInput
 }
 
 input TreasuryUpdateManyMutationInput {
-  proposedBy: String
+  proposer: String
   beneficiary: String
-  Value: String
-  status: String
+  value: String
+  bond: String
+  proposalId: Int
+}
+
+input TreasuryUpdateOneRequiredWithoutTreasuryStatusInput {
+  create: TreasuryCreateWithoutTreasuryStatusInput
+  update: TreasuryUpdateWithoutTreasuryStatusDataInput
+  upsert: TreasuryUpsertWithoutTreasuryStatusInput
+  connect: TreasuryWhereUniqueInput
+}
+
+input TreasuryUpdateWithoutTreasuryStatusDataInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  proposalId: Int
+}
+
+input TreasuryUpsertWithoutTreasuryStatusInput {
+  update: TreasuryUpdateWithoutTreasuryStatusDataInput!
+  create: TreasuryCreateWithoutTreasuryStatusInput!
 }
 
 input TreasuryWhereInput {
@@ -4236,21 +4478,20 @@ input TreasuryWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  blockNumber: BlockNumberWhereInput
-  proposedBy: String
-  proposedBy_not: String
-  proposedBy_in: [String!]
-  proposedBy_not_in: [String!]
-  proposedBy_lt: String
-  proposedBy_lte: String
-  proposedBy_gt: String
-  proposedBy_gte: String
-  proposedBy_contains: String
-  proposedBy_not_contains: String
-  proposedBy_starts_with: String
-  proposedBy_not_starts_with: String
-  proposedBy_ends_with: String
-  proposedBy_not_ends_with: String
+  proposer: String
+  proposer_not: String
+  proposer_in: [String!]
+  proposer_not_in: [String!]
+  proposer_lt: String
+  proposer_lte: String
+  proposer_gt: String
+  proposer_gte: String
+  proposer_contains: String
+  proposer_not_contains: String
+  proposer_starts_with: String
+  proposer_not_starts_with: String
+  proposer_ends_with: String
+  proposer_not_ends_with: String
   beneficiary: String
   beneficiary_not: String
   beneficiary_in: [String!]
@@ -4265,34 +4506,45 @@ input TreasuryWhereInput {
   beneficiary_not_starts_with: String
   beneficiary_ends_with: String
   beneficiary_not_ends_with: String
-  Value: String
-  Value_not: String
-  Value_in: [String!]
-  Value_not_in: [String!]
-  Value_lt: String
-  Value_lte: String
-  Value_gt: String
-  Value_gte: String
-  Value_contains: String
-  Value_not_contains: String
-  Value_starts_with: String
-  Value_not_starts_with: String
-  Value_ends_with: String
-  Value_not_ends_with: String
-  status: String
-  status_not: String
-  status_in: [String!]
-  status_not_in: [String!]
-  status_lt: String
-  status_lte: String
-  status_gt: String
-  status_gte: String
-  status_contains: String
-  status_not_contains: String
-  status_starts_with: String
-  status_not_starts_with: String
-  status_ends_with: String
-  status_not_ends_with: String
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  bond: String
+  bond_not: String
+  bond_in: [String!]
+  bond_not_in: [String!]
+  bond_lt: String
+  bond_lte: String
+  bond_gt: String
+  bond_gte: String
+  bond_contains: String
+  bond_not_contains: String
+  bond_starts_with: String
+  bond_not_starts_with: String
+  bond_ends_with: String
+  bond_not_ends_with: String
+  proposalId: Int
+  proposalId_not: Int
+  proposalId_in: [Int!]
+  proposalId_not_in: [Int!]
+  proposalId_lt: Int
+  proposalId_lte: Int
+  proposalId_gt: Int
+  proposalId_gte: Int
+  treasuryStatus_every: TreasuryStatusWhereInput
+  treasuryStatus_some: TreasuryStatusWhereInput
+  treasuryStatus_none: TreasuryStatusWhereInput
   AND: [TreasuryWhereInput!]
   OR: [TreasuryWhereInput!]
   NOT: [TreasuryWhereInput!]
@@ -4300,6 +4552,7 @@ input TreasuryWhereInput {
 
 input TreasuryWhereUniqueInput {
   id: ID
+  proposalId: Int
 }
 
 type Validator {

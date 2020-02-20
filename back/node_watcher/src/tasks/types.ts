@@ -99,15 +99,6 @@ export interface NomidotTotalIssuance {
   amount: Balance;
 }
 
-export interface NomidotTreasury {
-  blockNumber: BlockNumber;
-  proposedBy: string;
-  beneficiary: string;
-  value: string;
-  status: string;
-}
-
-
 export type Nomidot =
   | NomidotBlock
   | NomidotEra
@@ -147,8 +138,20 @@ export interface NomidotProposalRawEvent {
   Balance?: Balance;
 }
 
-export interface NomidotTreasuryRawEvent {
+export interface NomidotTreasury extends NomidotTreasuryEvent {
+  proposer: AccountId;
+  beneficiary: AccountId;
+  value: Balance;
+  bond: Balance;
+  status: string;
+}
 
+export interface NomidotTreasuryEvent {
+  proposalId: number;
+}
+
+export interface NomidotTreasuryRawEvent {
+  ProposalIndex?: number;
 }
 
 export interface NomidotRewardEvent extends EventRecord {
