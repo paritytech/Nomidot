@@ -6,6 +6,14 @@ export const typeDefs = /* GraphQL */ `type AggregateBlockNumber {
   count: Int!
 }
 
+type AggregateCouncil {
+  count: Int!
+}
+
+type AggregateCouncilMember {
+  count: Int!
+}
+
 type AggregateEra {
   count: Int!
 }
@@ -264,6 +272,329 @@ input BlockNumberWhereUniqueInput {
   hash: String
 }
 
+type Council {
+  id: ID!
+  blockNumber: BlockNumber!
+  members(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember!]
+}
+
+type CouncilConnection {
+  pageInfo: PageInfo!
+  edges: [CouncilEdge]!
+  aggregate: AggregateCouncil!
+}
+
+input CouncilCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  members: CouncilMemberCreateManyWithoutCouncilInput
+}
+
+input CouncilCreateManyWithoutMembersInput {
+  create: [CouncilCreateWithoutMembersInput!]
+  connect: [CouncilWhereUniqueInput!]
+}
+
+input CouncilCreateWithoutMembersInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+type CouncilEdge {
+  node: Council!
+  cursor: String!
+}
+
+type CouncilMember {
+  id: ID!
+  address: String!
+  council(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council!]
+}
+
+type CouncilMemberConnection {
+  pageInfo: PageInfo!
+  edges: [CouncilMemberEdge]!
+  aggregate: AggregateCouncilMember!
+}
+
+input CouncilMemberCreateInput {
+  id: ID
+  address: String!
+  council: CouncilCreateManyWithoutMembersInput
+}
+
+input CouncilMemberCreateManyWithoutCouncilInput {
+  create: [CouncilMemberCreateWithoutCouncilInput!]
+  connect: [CouncilMemberWhereUniqueInput!]
+}
+
+input CouncilMemberCreateWithoutCouncilInput {
+  id: ID
+  address: String!
+}
+
+type CouncilMemberEdge {
+  node: CouncilMember!
+  cursor: String!
+}
+
+enum CouncilMemberOrderByInput {
+  id_ASC
+  id_DESC
+  address_ASC
+  address_DESC
+}
+
+type CouncilMemberPreviousValues {
+  id: ID!
+  address: String!
+}
+
+input CouncilMemberScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  AND: [CouncilMemberScalarWhereInput!]
+  OR: [CouncilMemberScalarWhereInput!]
+  NOT: [CouncilMemberScalarWhereInput!]
+}
+
+type CouncilMemberSubscriptionPayload {
+  mutation: MutationType!
+  node: CouncilMember
+  updatedFields: [String!]
+  previousValues: CouncilMemberPreviousValues
+}
+
+input CouncilMemberSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CouncilMemberWhereInput
+  AND: [CouncilMemberSubscriptionWhereInput!]
+  OR: [CouncilMemberSubscriptionWhereInput!]
+  NOT: [CouncilMemberSubscriptionWhereInput!]
+}
+
+input CouncilMemberUpdateInput {
+  address: String
+  council: CouncilUpdateManyWithoutMembersInput
+}
+
+input CouncilMemberUpdateManyDataInput {
+  address: String
+}
+
+input CouncilMemberUpdateManyMutationInput {
+  address: String
+}
+
+input CouncilMemberUpdateManyWithoutCouncilInput {
+  create: [CouncilMemberCreateWithoutCouncilInput!]
+  delete: [CouncilMemberWhereUniqueInput!]
+  connect: [CouncilMemberWhereUniqueInput!]
+  set: [CouncilMemberWhereUniqueInput!]
+  disconnect: [CouncilMemberWhereUniqueInput!]
+  update: [CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput!]
+  upsert: [CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput!]
+  deleteMany: [CouncilMemberScalarWhereInput!]
+  updateMany: [CouncilMemberUpdateManyWithWhereNestedInput!]
+}
+
+input CouncilMemberUpdateManyWithWhereNestedInput {
+  where: CouncilMemberScalarWhereInput!
+  data: CouncilMemberUpdateManyDataInput!
+}
+
+input CouncilMemberUpdateWithoutCouncilDataInput {
+  address: String
+}
+
+input CouncilMemberUpdateWithWhereUniqueWithoutCouncilInput {
+  where: CouncilMemberWhereUniqueInput!
+  data: CouncilMemberUpdateWithoutCouncilDataInput!
+}
+
+input CouncilMemberUpsertWithWhereUniqueWithoutCouncilInput {
+  where: CouncilMemberWhereUniqueInput!
+  update: CouncilMemberUpdateWithoutCouncilDataInput!
+  create: CouncilMemberCreateWithoutCouncilInput!
+}
+
+input CouncilMemberWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  council_every: CouncilWhereInput
+  council_some: CouncilWhereInput
+  council_none: CouncilWhereInput
+  AND: [CouncilMemberWhereInput!]
+  OR: [CouncilMemberWhereInput!]
+  NOT: [CouncilMemberWhereInput!]
+}
+
+input CouncilMemberWhereUniqueInput {
+  id: ID
+  address: String
+}
+
+enum CouncilOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type CouncilPreviousValues {
+  id: ID!
+}
+
+input CouncilScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [CouncilScalarWhereInput!]
+  OR: [CouncilScalarWhereInput!]
+  NOT: [CouncilScalarWhereInput!]
+}
+
+type CouncilSubscriptionPayload {
+  mutation: MutationType!
+  node: Council
+  updatedFields: [String!]
+  previousValues: CouncilPreviousValues
+}
+
+input CouncilSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CouncilWhereInput
+  AND: [CouncilSubscriptionWhereInput!]
+  OR: [CouncilSubscriptionWhereInput!]
+  NOT: [CouncilSubscriptionWhereInput!]
+}
+
+input CouncilUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  members: CouncilMemberUpdateManyWithoutCouncilInput
+}
+
+input CouncilUpdateManyWithoutMembersInput {
+  create: [CouncilCreateWithoutMembersInput!]
+  delete: [CouncilWhereUniqueInput!]
+  connect: [CouncilWhereUniqueInput!]
+  set: [CouncilWhereUniqueInput!]
+  disconnect: [CouncilWhereUniqueInput!]
+  update: [CouncilUpdateWithWhereUniqueWithoutMembersInput!]
+  upsert: [CouncilUpsertWithWhereUniqueWithoutMembersInput!]
+  deleteMany: [CouncilScalarWhereInput!]
+}
+
+input CouncilUpdateWithoutMembersDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input CouncilUpdateWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput!
+  data: CouncilUpdateWithoutMembersDataInput!
+}
+
+input CouncilUpsertWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput!
+  update: CouncilUpdateWithoutMembersDataInput!
+  create: CouncilCreateWithoutMembersInput!
+}
+
+input CouncilWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  members_every: CouncilMemberWhereInput
+  members_some: CouncilMemberWhereInput
+  members_none: CouncilMemberWhereInput
+  AND: [CouncilWhereInput!]
+  OR: [CouncilWhereInput!]
+  NOT: [CouncilWhereInput!]
+}
+
+input CouncilWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 type Era {
@@ -510,10 +841,10 @@ type Motion {
   motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument!]
   motionProposalHash: String!
   motionProposalId: Int!
+  motionStatus(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
   preimage: Preimage
   preimageHash: String
   section: String!
-  status(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
 }
 
 type MotionConnection {
@@ -530,10 +861,10 @@ input MotionCreateInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionProposalHash: String!
   motionProposalId: Int!
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
   section: String!
-  status: MotionStatusCreateManyWithoutMotionInput
 }
 
 input MotionCreateOneWithoutMotionProposalArgumentsInput {
@@ -541,13 +872,13 @@ input MotionCreateOneWithoutMotionProposalArgumentsInput {
   connect: MotionWhereUniqueInput
 }
 
-input MotionCreateOneWithoutPreimageInput {
-  create: MotionCreateWithoutPreimageInput
+input MotionCreateOneWithoutMotionStatusInput {
+  create: MotionCreateWithoutMotionStatusInput
   connect: MotionWhereUniqueInput
 }
 
-input MotionCreateOneWithoutStatusInput {
-  create: MotionCreateWithoutStatusInput
+input MotionCreateOneWithoutPreimageInput {
+  create: MotionCreateWithoutPreimageInput
   connect: MotionWhereUniqueInput
 }
 
@@ -558,10 +889,23 @@ input MotionCreateWithoutMotionProposalArgumentsInput {
   method: String!
   motionProposalHash: String!
   motionProposalId: Int!
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
   section: String!
-  status: MotionStatusCreateManyWithoutMotionInput
+}
+
+input MotionCreateWithoutMotionStatusInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimage: PreimageCreateOneWithoutMotionInput
+  preimageHash: String
+  section: String!
 }
 
 input MotionCreateWithoutPreimageInput {
@@ -572,20 +916,7 @@ input MotionCreateWithoutPreimageInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionProposalHash: String!
   motionProposalId: Int!
-  preimageHash: String
-  section: String!
-  status: MotionStatusCreateManyWithoutMotionInput
-}
-
-input MotionCreateWithoutStatusInput {
-  author: String!
-  memberCount: Int!
-  metaDescription: String!
-  method: String!
-  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
-  motionProposalHash: String!
-  motionProposalId: Int!
-  preimage: PreimageCreateOneWithoutMotionInput
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimageHash: String
   section: String!
 }
@@ -863,7 +1194,7 @@ type MotionStatusConnection {
 input MotionStatusCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  motion: MotionCreateOneWithoutStatusInput!
+  motion: MotionCreateOneWithoutMotionStatusInput!
   status: String!
 }
 
@@ -949,7 +1280,7 @@ input MotionStatusSubscriptionWhereInput {
 
 input MotionStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  motion: MotionUpdateOneRequiredWithoutStatusInput
+  motion: MotionUpdateOneRequiredWithoutMotionStatusInput
   status: String
 }
 
@@ -1060,10 +1391,10 @@ input MotionUpdateInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionProposalHash: String
   motionProposalId: Int
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
   section: String
-  status: MotionStatusUpdateManyWithoutMotionInput
 }
 
 input MotionUpdateManyMutationInput {
@@ -1084,10 +1415,10 @@ input MotionUpdateOneRequiredWithoutMotionProposalArgumentsInput {
   connect: MotionWhereUniqueInput
 }
 
-input MotionUpdateOneRequiredWithoutStatusInput {
-  create: MotionCreateWithoutStatusInput
-  update: MotionUpdateWithoutStatusDataInput
-  upsert: MotionUpsertWithoutStatusInput
+input MotionUpdateOneRequiredWithoutMotionStatusInput {
+  create: MotionCreateWithoutMotionStatusInput
+  update: MotionUpdateWithoutMotionStatusDataInput
+  upsert: MotionUpsertWithoutMotionStatusInput
   connect: MotionWhereUniqueInput
 }
 
@@ -1107,10 +1438,23 @@ input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   method: String
   motionProposalHash: String
   motionProposalId: Int
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
   section: String
-  status: MotionStatusUpdateManyWithoutMotionInput
+}
+
+input MotionUpdateWithoutMotionStatusDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  preimage: PreimageUpdateOneWithoutMotionInput
+  preimageHash: String
+  section: String
 }
 
 input MotionUpdateWithoutPreimageDataInput {
@@ -1121,20 +1465,7 @@ input MotionUpdateWithoutPreimageDataInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionProposalHash: String
   motionProposalId: Int
-  preimageHash: String
-  section: String
-  status: MotionStatusUpdateManyWithoutMotionInput
-}
-
-input MotionUpdateWithoutStatusDataInput {
-  author: String
-  memberCount: Int
-  metaDescription: String
-  method: String
-  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
-  motionProposalHash: String
-  motionProposalId: Int
-  preimage: PreimageUpdateOneWithoutMotionInput
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimageHash: String
   section: String
 }
@@ -1144,14 +1475,14 @@ input MotionUpsertWithoutMotionProposalArgumentsInput {
   create: MotionCreateWithoutMotionProposalArgumentsInput!
 }
 
+input MotionUpsertWithoutMotionStatusInput {
+  update: MotionUpdateWithoutMotionStatusDataInput!
+  create: MotionCreateWithoutMotionStatusInput!
+}
+
 input MotionUpsertWithoutPreimageInput {
   update: MotionUpdateWithoutPreimageDataInput!
   create: MotionCreateWithoutPreimageInput!
-}
-
-input MotionUpsertWithoutStatusInput {
-  update: MotionUpdateWithoutStatusDataInput!
-  create: MotionCreateWithoutStatusInput!
 }
 
 input MotionWhereInput {
@@ -1238,6 +1569,9 @@ input MotionWhereInput {
   motionProposalId_lte: Int
   motionProposalId_gt: Int
   motionProposalId_gte: Int
+  motionStatus_every: MotionStatusWhereInput
+  motionStatus_some: MotionStatusWhereInput
+  motionStatus_none: MotionStatusWhereInput
   preimage: PreimageWhereInput
   preimageHash: String
   preimageHash_not: String
@@ -1267,9 +1601,6 @@ input MotionWhereInput {
   section_not_starts_with: String
   section_ends_with: String
   section_not_ends_with: String
-  status_every: MotionStatusWhereInput
-  status_some: MotionStatusWhereInput
-  status_none: MotionStatusWhereInput
   AND: [MotionWhereInput!]
   OR: [MotionWhereInput!]
   NOT: [MotionWhereInput!]
@@ -1287,6 +1618,17 @@ type Mutation {
   upsertBlockNumber(where: BlockNumberWhereUniqueInput!, create: BlockNumberCreateInput!, update: BlockNumberUpdateInput!): BlockNumber!
   deleteBlockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   deleteManyBlockNumbers(where: BlockNumberWhereInput): BatchPayload!
+  createCouncil(data: CouncilCreateInput!): Council!
+  updateCouncil(data: CouncilUpdateInput!, where: CouncilWhereUniqueInput!): Council
+  upsertCouncil(where: CouncilWhereUniqueInput!, create: CouncilCreateInput!, update: CouncilUpdateInput!): Council!
+  deleteCouncil(where: CouncilWhereUniqueInput!): Council
+  deleteManyCouncils(where: CouncilWhereInput): BatchPayload!
+  createCouncilMember(data: CouncilMemberCreateInput!): CouncilMember!
+  updateCouncilMember(data: CouncilMemberUpdateInput!, where: CouncilMemberWhereUniqueInput!): CouncilMember
+  updateManyCouncilMembers(data: CouncilMemberUpdateManyMutationInput!, where: CouncilMemberWhereInput): BatchPayload!
+  upsertCouncilMember(where: CouncilMemberWhereUniqueInput!, create: CouncilMemberCreateInput!, update: CouncilMemberUpdateInput!): CouncilMember!
+  deleteCouncilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
+  deleteManyCouncilMembers(where: CouncilMemberWhereInput): BatchPayload!
   createEra(data: EraCreateInput!): Era!
   updateEra(data: EraUpdateInput!, where: EraWhereUniqueInput!): Era
   updateManyEras(data: EraUpdateManyMutationInput!, where: EraWhereInput): BatchPayload!
@@ -3042,6 +3384,12 @@ type Query {
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
   blockNumbersConnection(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockNumberConnection!
+  council(where: CouncilWhereUniqueInput!): Council
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council]!
+  councilsConnection(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilConnection!
+  councilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
+  councilMembers(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember]!
+  councilMembersConnection(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilMemberConnection!
   era(where: EraWhereUniqueInput!): Era
   eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
   erasConnection(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EraConnection!
@@ -4001,6 +4349,8 @@ input StakeWhereUniqueInput {
 
 type Subscription {
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
+  council(where: CouncilSubscriptionWhereInput): CouncilSubscriptionPayload
+  councilMember(where: CouncilMemberSubscriptionWhereInput): CouncilMemberSubscriptionPayload
   era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
   heartBeat(where: HeartBeatSubscriptionWhereInput): HeartBeatSubscriptionPayload
   motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
