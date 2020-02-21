@@ -48,8 +48,8 @@ export function ApiContextProvider(
       setIsReady(true);
     });
 
-    return () => subscription.unsubscribe();
-  });
+    return (): void => subscription.unsubscribe();
+  }, [api]);
 
   return (
     <ApiContext.Provider value={{ api, isApiReady: isReady }}>
