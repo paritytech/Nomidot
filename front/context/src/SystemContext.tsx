@@ -65,8 +65,12 @@ export function SystemContextProvider(
   const [version, setVersion] = useState<Text>();
 
   const registryRef = useRef(new TypeRegistry());
-  const rpcRef = useRef(new Rpc(registryRef.current, provider));
-  const rpc = rpcRef.current;
+  const [rpc, setRpc] = useState(new Rpc(registryRef.current, provider));
+
+  useEffect(() => {
+    // Create a new RPC client each time we change provider
+    setRpc(new Rpc(registryRef.current, provider));
+  }, [provider]);
 
   useEffect(() => {
     // We want to fetch all the information again each time we reconnect. We
