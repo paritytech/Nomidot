@@ -9,6 +9,7 @@ import {
   ApiContextProvider
 } from '@substrate/context';
 import { global } from '@substrate/design-system';
+
 import React from 'react';
 
 import { Layout, Seo } from './src/components';
@@ -23,12 +24,16 @@ export const wrapRootElement = ({ element }) => (
       provider={new WsProvider('wss://cc3-5.kusama.network/')}
     >
       <AccountsContextProvider originName={APP_SLUG}>
-        <Layout>
-          <Seo title='Polkadot/Kusama Staking Portal' />
-          <GlobalStyle />
-          {element}
-        </Layout>
+        {element}
       </AccountsContextProvider>
     </ApiContextProvider>
   </ApolloProvider>
+)
+
+export const wrapPageElement = ({ element }) => (
+  <Layout>
+    <Seo title='Polkadot/Kusama Staking Portal' />
+    <GlobalStyle />
+    {element}
+  </Layout>
 )
