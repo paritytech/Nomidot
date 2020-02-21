@@ -7,16 +7,7 @@ import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
-import { Option } from '@polkadot/types';
-import {
-  AccountId,
-  StakingLedger
-} from '@polkadot/types/interfaces';
-// import { ApiContext } from '@substrate/context';
-import React, { createContext, useContext, useEffect, useState } from 'react';
-// import { combineLatest } from 'rxjs';
-// import { take } from 'rxjs/operators';
-
+import React, { createContext, useState } from 'react';
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
   readonly extension: InjectedExtension;
@@ -25,12 +16,6 @@ interface AccountsContext {
 }
 
 export const AccountsContext = createContext({} as AccountsContext);
-
-// interface InjectedAccountWithMetaAndTags extends InjectedAccountWithMeta {
-//   type?: string,
-//   stash?: AccountId | string,
-//   controller?: AccountId | string,
-// }
 
 interface Props {
   children: React.ReactElement;
@@ -43,14 +28,9 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-  // const { api } = useContext(ApiContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
-
-  // useEffect(() => {
-  //   tagAccountsAsStashOrController();
-  // }, [accounts])
 
   /**
    * Fetch accounts from the extension
@@ -128,7 +108,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           return extension;
         },
         fetchAccounts,
-        isExtensionReady: isReady
+        isExtensionReady: isReady,
       }}
     >
       {children}

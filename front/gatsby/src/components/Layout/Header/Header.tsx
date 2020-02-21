@@ -4,11 +4,12 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { navigate } from "gatsby";
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, ItemStats, MainMenu } from '@substrate/design-system';
 import { AddressSummary } from '@substrate/ui-components';
+import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import shortid from 'shortid';
 
 import { APP_TITLE, toShortAddress } from '../../../util';
 import {
@@ -197,35 +198,41 @@ export function Header(): React.ReactElement {
   return (
     <>
       <MainMenu
-        contentLeft={
-          <h2>{APP_TITLE}</h2>
-        }
+        contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
           <>
             {accounts.length ? (
-            <div>
-              <AddressSummary
-                address={accounts[0].address}
-                name={accounts[0].meta.name}
-                noBalance
-                size='small'
-              />
-            </div>
-          ) : (
-            <Button onClick={handleLogin}>Login</Button>
-          )}
+              <div>
+                <AddressSummary
+                  address={accounts[0].address}
+                  name={accounts[0].meta.name}
+                  noBalance
+                  size='small'
+                />
+              </div>
+            ) : (
+              <Button onClick={handleLogin}>Login</Button>
+            )}
           </>
         }
-        tabs={
-          [
-            <Button onClick={() => {
-              navigate(`AccountsList`)
-            }}>Accounts</Button>,
-            <Button onClick={() => {
-              navigate(`Validators`)
-            }}>Validators</Button>
-          ]
-        }
+        tabs={[
+          <Button
+            key={shortid.generate()} // FIXME: why do i need a key here...
+            onClick={() => {
+              navigate(`AccountsList`);
+            }}
+          >
+            Accounts
+          </Button>,
+          <Button
+            key={shortid.generate()} // FIXME: why do i need a key here
+            onClick={() => {
+              navigate(`Validators`);
+            }}
+          >
+            Validators
+          </Button>,
+        ]}
       />
       <header style={{ display: 'flex' }}>
         <BlockHeader />

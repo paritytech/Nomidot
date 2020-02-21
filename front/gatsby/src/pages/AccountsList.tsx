@@ -4,13 +4,13 @@
 
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, ApiContext } from '@substrate/context';
+import { AccountsContext } from '@substrate/context';
 import { FadedText, Table } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
 type Props = RouteComponentProps;
 
-const AccountsList = (props: Props) => {
+const AccountsList = (_props: Props) => {
   const { accounts } = useContext(AccountsContext);
 
   const renderRow = (account: InjectedAccountWithMeta) => {
@@ -36,9 +36,10 @@ const AccountsList = (props: Props) => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {accounts && accounts.map((account: InjectedAccountWithMeta) => {
-          return renderRow(account);
-        })}
+        {accounts &&
+          accounts.map((account: InjectedAccountWithMeta) => {
+            return renderRow(account);
+          })}
       </Table.Body>
     </Table>
   );

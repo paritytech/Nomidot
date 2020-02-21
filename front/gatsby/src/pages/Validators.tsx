@@ -11,7 +11,7 @@ import { CurrentElectedList } from './CurrentElected';
 
 type Props = RouteComponentProps;
 
-const Validators = (props: Props): React.ReactElement => {
+const Validators = (_props: Props): React.ReactElement => {
   const { data } = useQuery(LATEST_SESSION_QUERY, {
     pollInterval: 10000,
   });

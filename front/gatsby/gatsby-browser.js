@@ -6,14 +6,13 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
 import {
   AccountsContextProvider,
-  ApiContextProvider
+  ApiContextProvider,
 } from '@substrate/context';
 import { global } from '@substrate/design-system';
-
 import React from 'react';
 
-import { Layout, Seo } from './src/components';
 import client from './src/apollo';
+import { Layout, Seo } from './src/components';
 import { APP_SLUG } from './src/util';
 
 const { GlobalStyle } = global;
@@ -28,7 +27,7 @@ export const wrapRootElement = ({ element }) => (
       </AccountsContextProvider>
     </ApiContextProvider>
   </ApolloProvider>
-)
+);
 
 export const wrapPageElement = ({ element }) => (
   <Layout>
@@ -36,4 +35,4 @@ export const wrapPageElement = ({ element }) => (
     <GlobalStyle />
     {element}
   </Layout>
-)
+);
