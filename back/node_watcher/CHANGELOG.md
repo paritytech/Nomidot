@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
+
+
+### Bug Fixes
+
+* **#173:** unwrap none ([#174](https://github.com/paritytech/Nomidot/issues/174)) ([6d25f44](https://github.com/paritytech/Nomidot/commit/6d25f44252240d9008f8fab012b890e76414e4cd)), closes [#173](https://github.com/paritytech/Nomidot/issues/173)
+* update images ([#171](https://github.com/paritytech/Nomidot/issues/171)) ([1548a46](https://github.com/paritytech/Nomidot/commit/1548a46969b4f6d79c4bdb2c4cc2799805f3ab91))
+
+
+### Features
+
+* **#141:** heartbeats, offline, nominations, rewards, stakes ([#157](https://github.com/paritytech/Nomidot/issues/157)) ([05325db](https://github.com/paritytech/Nomidot/commit/05325dbecafd4f6b64e087c1e837b6d6616bdc2f)), closes [#141](https://github.com/paritytech/Nomidot/issues/141)
+* **#179:** subscribing to heads ([#181](https://github.com/paritytech/Nomidot/issues/181)) ([8c702d1](https://github.com/paritytech/Nomidot/commit/8c702d1d9c59fd4d4eb77c0e07b582bd94be3150)), closes [#179](https://github.com/paritytech/Nomidot/issues/179)
+* **node-watcher:** Store motions in chain-db ([#159](https://github.com/paritytech/Nomidot/issues/159)) ([8657b9b](https://github.com/paritytech/Nomidot/commit/8657b9bacc362548d20953bf42b5e066ac92d90e))
+* **node-watcher:** Write motion status ([#162](https://github.com/paritytech/Nomidot/issues/162)) ([a686485](https://github.com/paritytech/Nomidot/commit/a686485d603d32f4d8d3bd1afdc1bc66e9f4af3d))
+
+
+
+
+
 ## [0.3.20](https://github.com/paritytech/Nomidot/compare/v0.3.19...v0.3.20) (2020-02-11)
 
 

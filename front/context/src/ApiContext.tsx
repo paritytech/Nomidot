@@ -5,14 +5,11 @@
 import { ApiRx } from '@polkadot/api';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { logger } from '@polkadot/util';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-interface State {
-  isApiReady: boolean;
-}
-
-export interface ApiContextType extends State {
+export interface ApiContextType {
   api: ApiRx; // From @polkadot/api
+  isApiReady: boolean;
 }
 
 const l = logger('api-context');
@@ -30,27 +27,32 @@ export function ApiContextProvider(
   props: ApiContextProviderProps
 ): React.ReactElement {
   const { children = null, provider } = props;
-  const [state, setState] = useState<State>({ isApiReady: false });
-  const { isApiReady } = state;
-
-  const apiRef = useRef(new ApiRx({ provider }));
-  const api = apiRef.current;
+  const [api, setApi] = useState<ApiRx>(new ApiRx({ provider }));
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
-    const sub = api.isReady.subscribe(() => {
+    setApi(new ApiRx({ provider }));
+    setIsReady(false);
+  }, [provider]);
+
+  useEffect(() => {
+    // We want to fetch all the information again each time we reconnect. We
+    // might be connecting to a different node, or the node might have changed
+    // settings.
+    const subscription = api.isReady.subscribe(() => {
       l.log(`Api ready, app is ready to use`);
 
-      setState({ isApiReady: true });
+      setIsReady(true);
     });
 
-    return () => sub.unsubscribe();
-  }, [api, provider]);
+    return (): void => subscription.unsubscribe();
+  }, [api]);
 
   return (
-    <ApiContext.Provider value={{ api, isApiReady }}>
+    <ApiContext.Provider value={{ api, isApiReady: isReady }}>
       {children}
     </ApiContext.Provider>
   );
