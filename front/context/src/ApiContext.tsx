@@ -48,7 +48,7 @@ export function ApiContextProvider(
       setIsReady(true);
     });
 
-    return subscription.unsubscribe();
+    return () => subscription.unsubscribe();
   });
 
   return (
