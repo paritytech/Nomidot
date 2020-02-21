@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
+
+
+### Bug Fixes
+
+* update images ([#171](https://github.com/paritytech/Nomidot/issues/171)) ([1548a46](https://github.com/paritytech/Nomidot/commit/1548a46969b4f6d79c4bdb2c4cc2799805f3ab91))
+* **#165:** nested query resolvers ([#168](https://github.com/paritytech/Nomidot/issues/168)) ([8912c99](https://github.com/paritytech/Nomidot/commit/8912c990e896cf90b63a6ecce86289fbfd7fc62d)), closes [#165](https://github.com/paritytech/Nomidot/issues/165)
+
+
+### Features
+
+* decoding SCALE hex, query then subscribe, Validators List ([#182](https://github.com/paritytech/Nomidot/issues/182)) ([d564059](https://github.com/paritytech/Nomidot/commit/d5640595b9765516d9f799059c05a9139db06d9f))
+* **#179:** subscribing to heads ([#181](https://github.com/paritytech/Nomidot/issues/181)) ([8c702d1](https://github.com/paritytech/Nomidot/commit/8c702d1d9c59fd4d4eb77c0e07b582bd94be3150)), closes [#179](https://github.com/paritytech/Nomidot/issues/179)
+* **server:** Polkassembly chain-db server ([#156](https://github.com/paritytech/Nomidot/issues/156)) ([5729220](https://github.com/paritytech/Nomidot/commit/57292208968c0c67abdbe289b8be847c869faa4b))
+* header ui with design-system ([#178](https://github.com/paritytech/Nomidot/issues/178)) ([f85774b](https://github.com/paritytech/Nomidot/commit/f85774b45e4ce116cfc64269a8da5df05a0c6edd))
+* subscription resolvers for stake, heartbeats, offline ([#180](https://github.com/paritytech/Nomidot/issues/180)) ([98be255](https://github.com/paritytech/Nomidot/commit/98be25590e1781b6118fd7c77fcf61205f57c0f8))
+
+
+
+
+
 ## [0.3.19](https://github.com/paritytech/Nomidot/compare/v0.3.18...v0.3.19) (2020-02-06)
 
 

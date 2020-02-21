@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
+
+
+### Features
+
+* decoding SCALE hex, query then subscribe, Validators List ([#182](https://github.com/paritytech/Nomidot/issues/182)) ([d564059](https://github.com/paritytech/Nomidot/commit/d5640595b9765516d9f799059c05a9139db06d9f))
+* **#179:** subscribing to heads ([#181](https://github.com/paritytech/Nomidot/issues/181)) ([8c702d1](https://github.com/paritytech/Nomidot/commit/8c702d1d9c59fd4d4eb77c0e07b582bd94be3150)), closes [#179](https://github.com/paritytech/Nomidot/issues/179)
+* header ui with design-system ([#178](https://github.com/paritytech/Nomidot/issues/178)) ([f85774b](https://github.com/paritytech/Nomidot/commit/f85774b45e4ce116cfc64269a8da5df05a0c6edd))
+
+
+
+
+
 ## [0.3.20](https://github.com/paritytech/Nomidot/compare/v0.3.19...v0.3.20) (2020-02-11)
 
 
