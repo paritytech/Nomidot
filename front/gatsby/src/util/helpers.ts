@@ -2,5 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export * from './constants';
-export * from './helpers';
+export function toShortAddress(address: string): string {
+  return address
+    .slice(0, 8)
+    .concat('...')
+    .concat(address.slice(address.length - 5));
+}

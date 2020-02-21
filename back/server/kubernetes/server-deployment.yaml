@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nomidot-server
-  namespace: nomidot-server
+  namespace: nomidot-staging
   labels:
     stage: staging
     name: nomidot-server
-    app: nomidot-server
+    app: nomidot-staging
 spec:
   selector:
     matchLabels:
@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: nomidot-server
-          image: eu.gcr.io/test-installations-222013/nomidot_server@sha256:8f7cb5a9eeff909431cd195b606f9a662c289dcd4d842e2c86555906a03364d5
+          image: eu.gcr.io/test-installations-222013/nomidot_server@sha256:6674d5b7a586b68ce45c75284f84db496e9d5c8086060a3109d2b19e2306e9ea
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466

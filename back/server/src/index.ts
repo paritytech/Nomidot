@@ -11,6 +11,132 @@ import { Subscription } from './resolvers/subscription';
 const resolvers = {
   Subscription,
   Query,
+  BlockNumber: {
+    authoredBy(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).authoredBy();
+    },
+    hash(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).hash();
+    },
+    id(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).id();
+    },
+    number(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).number();
+    },
+    startDateTime(parent: any) {
+      return prisma.blockNumber({ id: parent.id }).startDateTime();
+    },
+  },
+  Era: {
+    eraStartSessionIndex(parent: any) {
+      return prisma.era({ id: parent.id }).eraStartSessionIndex();
+    },
+  },
+  HeartBeat: {
+    sessionIndex(parent: any) {
+      return prisma.heartBeat({ id: parent.id }).sessionIndex();
+    },
+  },
+  Nomination: {
+    session(parent: any) {
+      return prisma.nomination({ id: parent.id }).session();
+    },
+  },
+  OfflineValidator: {
+    sessionIndex(parent: any) {
+      return prisma.offlineValidator({ id: parent.id }).sessionIndex();
+    },
+  },
+  Reward: {
+    authoredBlock(parent: any) {
+      return prisma.reward({ id: parent.id }).authoredBlock();
+    },
+    sessionIndex(parent: any) {
+      return prisma.reward({ id: parent.id }).sessionIndex();
+    },
+  },
+  Session: {
+    id(parent: any) {
+      return prisma.session({ id: parent.id }).id();
+    },
+    index(parent: any) {
+      return prisma.session({ id: parent.id }).index();
+    },
+    start(parent: any) {
+      return prisma.session({ id: parent.id }).start();
+    },
+  },
+  Stake: {
+    blockNumber(parent: any) {
+      return prisma.stake({ id: parent.id }).blockNumber();
+    },
+  },
+  TotalIssuance: {
+    blockNumber(parent: any) {
+      return prisma.totalIssuance({ id: parent.id }).blockNumber();
+    },
+  },
+  Validator: {
+    session(parent: any) {
+      return prisma.validator({ id: parent.id }).session();
+    },
+  },
+  Motion: {
+    motionProposalArguments(parent: any) {
+      return prisma.motion({ id: parent.id }).motionProposalArguments();
+    },
+    motionStatus(parent: any) {
+      return prisma.motion({ id: parent.id }).motionStatus();
+    },
+    preimage(parent: any) {
+      return prisma.motion({ id: parent.id }).preimage();
+    },
+  },
+  MotionStatus: {
+    blockNumber(parent: any) {
+      return prisma.motionStatus({ id: parent.id }).blockNumber();
+    },
+  },
+  Proposal: {
+    preimage(parent: any) {
+      return prisma.proposal({ id: parent.id }).preimage();
+    },
+    proposalStatus(parent: any) {
+      return prisma.proposal({ id: parent.id }).proposalStatus();
+    },
+  },
+  Preimage: {
+    preimageArguments(parent: any) {
+      return prisma.preimage({ id: parent.id }).preimageArguments();
+    },
+    preimageStatus(parent: any) {
+      return prisma.preimage({ id: parent.id }).preimageStatus();
+    },
+  },
+  PreimageStatus: {
+    blockNumber(parent: any) {
+      return prisma.preimageStatus({ id: parent.id }).blockNumber();
+    },
+  },
+  ProposalStatus: {
+    blockNumber(parent: any) {
+      return prisma.proposalStatus({ id: parent.id }).blockNumber();
+    },
+  },
+  Referendum: {
+    preimage(parent: any) {
+      return prisma.referendum({ id: parent.id }).preimage();
+    },
+    referendumStatus(parent: any) {
+      return prisma.referendum({ id: parent.id }).referendumStatus();
+    },
+  },
+  ReferendumStatus: {
+    blockNumber(parent: any) {
+      return prisma.referendumStatus({ id: parent.id }).blockNumber();
+    },
+  },
 };
 
 const server = new GraphQLServer({

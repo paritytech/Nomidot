@@ -5,10 +5,16 @@
 import {
   BlockNumberSubscription,
   EraSubscription,
+  HeartBeatSubscription,
+  MotionSubscription,
   NominationSubscription,
+  OfflineValidatorSubscription,
+  ProposalSubscription,
+  ReferendumSubscription,
   RewardSubscription,
   SessionSubscription,
   SlashingSubscription,
+  StakeSubscription,
   ValidatorSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
@@ -21,9 +27,28 @@ const subscribeBlockNumbers = {
   ): (<T = BlockNumberSubscription>() => T) => {
     return context.prisma.$subscribe
       .blockNumber({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...blockNumberSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeHeartBeats = {
+  subscribe: (
+    parent: any,
+    { heartbeatSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = HeartBeatSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .heartBeat({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...heartbeatSubscriptionWhereInput,
       })
       .node();
   },
@@ -40,9 +65,28 @@ const subscribeEras = {
   ): (<T = EraSubscription>() => T) => {
     return context.prisma.$subscribe
       .era({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...eraSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeOfflineValidators = {
+  subscribe: (
+    parent: any,
+    { offlineValidatorsSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = OfflineValidatorSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .offlineValidator({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...offlineValidatorsSubscriptionWhereInput,
       })
       .node();
   },
@@ -59,7 +103,7 @@ const subscribeNominations = {
   ): (<T = NominationSubscription>() => T) => {
     return context.prisma.$subscribe
       .nomination({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...nominationSubscriptionWhereInput,
       })
@@ -78,7 +122,7 @@ const subscribeRewards = {
   ): (<T = RewardSubscription>() => T) => {
     return context.prisma.$subscribe
       .reward({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...rewardSubscriptionWhereInput,
       })
@@ -97,7 +141,7 @@ const subscribeSessions = {
   ): (<T = SessionSubscription>() => T) => {
     return context.prisma.$subscribe
       .session({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...sessionSubscriptionWhereInput,
       })
@@ -116,9 +160,28 @@ const subscribeSlashings = {
   ): (<T = SlashingSubscription>() => T) => {
     return context.prisma.$subscribe
       .slashing({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...slashingSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeStakes = {
+  subscribe: (
+    parent: any,
+    { stakeSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = StakeSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .stake({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...stakeSubscriptionWhereInput,
       })
       .node();
   },
@@ -135,9 +198,66 @@ const subscribeValidators = {
   ): (<T = ValidatorSubscription>() => T) => {
     return context.prisma.$subscribe
       .validator({
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/camelcase
         mutation_in: ['CREATED'],
         ...validatorSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeMotion = {
+  subscribe: (
+    parent: any,
+    { motionSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = MotionSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .motion({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...motionSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeProposal = {
+  subscribe: (
+    parent: any,
+    { proposalSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = ProposalSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .proposal({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...proposalSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
+const subscribeReferendum = {
+  subscribe: (
+    parent: any,
+    { referendumSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = ReferendumSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .referendum({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...referendumSubscriptionWhereInput,
       })
       .node();
   },
@@ -149,9 +269,15 @@ const subscribeValidators = {
 export const Subscription = {
   subscribeBlockNumbers,
   subscribeEras,
+  subscribeHeartBeats,
   subscribeNominations,
+  subscribeOfflineValidators,
   subscribeRewards,
   subscribeSessions,
   subscribeSlashings,
+  subscribeStakes,
   subscribeValidators,
+  subscribeMotion,
+  subscribeProposal,
+  subscribeReferendum,
 };

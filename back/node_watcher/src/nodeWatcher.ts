@@ -7,10 +7,11 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { getChainTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
-import { NomidotTask } from './tasks/types';
+import { prisma } from './generated/prisma-client';
+import { Cached, NomidotTask } from './tasks/types';
 
-const ARCHIVE_NODE_ENDPOINT = 'wss://kusama-rpc.polkadot.io/';
-// const ARCHIVE_NODE_ENDPOINT = 'ws://127.0.0.1:9944';
+const ARCHIVE_NODE_ENDPOINT =
+  process.env.ARCHIVE_NODE_ENDPOINT || 'wss://kusama-rpc.polkadot.io/';
 
 const l = logger('node-watcher');
 
@@ -36,9 +37,30 @@ async function incrementor(
   provider: WsProvider,
   tasks: NomidotTask[]
 ): Promise<void> {
+  const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
+  let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
+
+  const existingBlockIndex = await prisma.blockIndexes({
+    where: {
+      identifier: blockIdentifier,
+    },
+  });
+
+  if (existingBlockIndex.length === 0) {
+    const result = await prisma.createBlockIndex({
+      identifier: blockIdentifier,
+      startFrom: blockIndex,
+      index: blockIndex,
+    });
+
+    blockIndexId = result.id;
+  } else {
+    blockIndexId = existingBlockIndex[0].id;
+    blockIndex = existingBlockIndex[0].index;
+  }
 
   api.once('disconnected', async () => {
     try {
@@ -81,11 +103,21 @@ async function incrementor(
       api.registry.setMetadata(rpcMeta);
     }
 
+    const [events, sessionIndex] = await Promise.all([
+      await api.query.system.events.at(blockHash),
+      await api.query.session.currentIndex.at(blockHash),
+    ]);
+
+    const cached: Cached = {
+      events,
+      sessionIndex,
+    };
+
     // execute watcher tasks
     for await (const task of tasks) {
       l.warn(`Task --- ${task.name}`);
 
-      const result = await task.read(blockHash, api);
+      const result = await task.read(blockHash, cached, api);
 
       try {
         l.warn(`Writing: ${JSON.stringify(result)}`);
@@ -96,6 +128,15 @@ async function incrementor(
     }
 
     blockIndex += 1;
+
+    await prisma.updateBlockIndex({
+      data: {
+        index: blockIndex,
+      },
+      where: {
+        id: blockIndexId,
+      },
+    });
   }
 }
 

@@ -7,8 +7,14 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
+import { filterEvents } from '../util/filterEvents';
 import { preimageStatus, referendumStatus } from '../util/statuses';
-import { NomidotReferendum, NomidotReferendumRawEvent, Task } from './types';
+import {
+  Cached,
+  NomidotReferendum,
+  NomidotReferendumRawEvent,
+  Task,
+} from './types';
 
 const l = logger('Task: Referenda');
 
@@ -19,13 +25,15 @@ const createReferendum: Task<NomidotReferendum[]> = {
   name: 'createReferendum',
   read: async (
     blockHash: Hash,
+    cached: Cached,
     api: ApiPromise
   ): Promise<NomidotReferendum[]> => {
-    const events = await api.query.system.events.at(blockHash);
+    const { events } = cached;
 
-    const referendumEvents = events.filter(
-      ({ event: { method, section } }) =>
-        section === 'democracy' && method === referendumStatus.STARTED
+    const referendumEvents = filterEvents(
+      events,
+      'democracy',
+      referendumStatus.STARTED
     );
 
     const results: NomidotReferendum[] = [];
