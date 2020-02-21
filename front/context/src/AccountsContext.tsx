@@ -8,7 +8,6 @@ import {
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
 import React, { createContext, useState } from 'react';
-
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
   readonly extension: InjectedExtension;
@@ -49,6 +48,51 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     setIsReady(true);
     setAccounts(await web3Accounts());
   }
+
+  /**
+   * Tag each account as stash or controller or neither
+   */
+  // async function tagAccountsAsStashOrController(): Promise<void> {
+  //   if (!accounts) {
+  //     return;
+  //   }
+
+  //   for await (let account of accounts) {
+  //     const sub = combineLatest([
+  //       api.query.staking.bonded(account.address),
+  //       api.query.staking.ledger(account.address)
+  //     ]).pipe(
+  //       take(1)
+  //     ).subscribe(([bonded, ledger]: [Option<AccountId>, Option<StakingLedger>]) => {
+  //       let stash;
+  //       let controller;
+  //       let type;
+
+  //       if (bonded.isNone) {
+  //         stash = ledger.unwrap().stash
+  //       } else {
+  //         stash = account.address
+  //         type = 'stash'
+  //       }
+
+  //       if (ledger.isSome && ledger.unwrap().stash) {
+  //         controller = account.address;
+  //         type = 'controller';
+  //       } else {
+  //         controller = bonded.unwrap();
+  //       }
+
+  //       account = {
+  //         ...account,
+  //         type,
+  //         stash,
+  //         controller
+  //       }
+  //     })
+
+  //     sub.unsubscribe();
+  //   }
+  // }
 
   return (
     <AccountsContext.Provider

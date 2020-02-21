@@ -3,12 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useQuery } from '@apollo/react-hooks';
+import { RouteComponentProps } from '@reach/router';
 import React, { useEffect, useState } from 'react';
 
-import { LATEST_SESSION_QUERY } from '../graphql';
+import { LATEST_SESSION_QUERY } from '../util/graphql';
 import { CurrentElectedList } from './CurrentElected';
 
-export const Validators = (): React.ReactElement => {
+type Props = RouteComponentProps;
+
+const Validators = (_props: Props): React.ReactElement => {
   const { data } = useQuery(LATEST_SESSION_QUERY, {
     pollInterval: 10000,
   });
@@ -34,3 +37,5 @@ export const Validators = (): React.ReactElement => {
     </>
   );
 };
+
+export default Validators;
