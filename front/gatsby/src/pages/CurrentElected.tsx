@@ -86,8 +86,14 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
     }
   }, [currentValidators, currentOffline]);
 
-  const handleAddToCart = (): void => {
-    // do nothing for now
+  const handleAddToCart = ({ currentTarget: { dataset: { controller, stash } } }: React.MouseEvent<HTMLElement>): void => {
+    console.log(controller, stash);
+    // api.tx.staking.nominate() must be signed by the nominator's controller id, and try to nominate the validators's
+    if (controller) {
+      localStorage.setItem(`cart:${controller}`, controller);
+    } else {
+      window.alert('Could not add to cart. Please refresh the page and try again.');
+    }
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
@@ -138,7 +144,7 @@ export const CurrentElectedList = (props: Props): React.ReactElement => {
                     </FadedText>
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
-                    <Button onClick={handleAddToCart}> Add To Cart </Button>
+                    <Button onClick={handleAddToCart} data-controller={controller} data-stash={stash}> Add To Cart </Button>
                   </Table.Cell>
                 </Table.Row>
               )

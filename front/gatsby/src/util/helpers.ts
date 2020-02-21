@@ -8,3 +8,8 @@ export function toShortAddress(address: string): string {
     .concat('...')
     .concat(address.slice(address.length - 5));
 }
+
+export function isCartItem(key: string) {
+  console.log('key -> ', key);
+  return key.slice(0, 5) === 'cart:';
+}

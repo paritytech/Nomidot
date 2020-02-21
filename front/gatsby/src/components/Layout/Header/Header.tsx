@@ -6,11 +6,13 @@ import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, ItemStats, MainMenu } from '@substrate/design-system';
-import { AddressSummary } from '@substrate/ui-components';
+import { AddressSummary, StackedHorizontal } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
+import { ShoppingHeader } from '../../ShoppingHeader';
+import { isCartItem } from '../../../util/helpers';
 import { APP_TITLE, toShortAddress } from '../../../util';
 import {
   BLOCKS_SUBSCRIPTION,
@@ -182,6 +184,7 @@ const StakingHeader = (): React.ReactElement => {
 
 export function Header(): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);
+  const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
 
   const handleLogin = useCallback(async () => {
     try {
@@ -195,6 +198,16 @@ export function Header(): React.ReactElement {
     handleLogin();
   }, []);
 
+  useEffect(() => {
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      
+      if (key && isCartItem(key)) {
+        setNumberOfItemsInCart(numberOfItemsInCart + 1);
+      }
+    }
+  }, [localStorage])
+
   return (
     <>
       <MainMenu
@@ -202,14 +215,15 @@ export function Header(): React.ReactElement {
         contentRight={
           <>
             {accounts.length ? (
-              <div>
+              <StackedHorizontal>
                 <AddressSummary
                   address={accounts[0].address}
                   name={accounts[0].meta.name}
                   noBalance
                   size='small'
                 />
-              </div>
+                <ShoppingHeader numberOfItemsInCart={numberOfItemsInCart} />
+              </StackedHorizontal>
             ) : (
               <Button onClick={handleLogin}>Login</Button>
             )}

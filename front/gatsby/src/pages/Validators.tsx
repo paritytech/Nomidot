@@ -4,6 +4,8 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { RouteComponentProps } from '@reach/router';
+import { Spinner } from '@substrate/design-system';
+import { Grid } from '@substrate/ui-components';
 import React, { useEffect, useState } from 'react';
 
 import { LATEST_SESSION_QUERY } from '../util/graphql';
@@ -30,9 +32,13 @@ const Validators = (_props: Props): React.ReactElement => {
   return (
     <>
       {sessionIndex ? (
-        <CurrentElectedList sessionIndex={sessionIndex} />
+        <Grid>
+          <Grid.Row>
+            <CurrentElectedList sessionIndex={sessionIndex} />
+          </Grid.Row>
+        </Grid>
       ) : (
-        '...Loading...'
+        <Spinner inline />
       )}
     </>
   );
