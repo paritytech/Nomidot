@@ -6,13 +6,12 @@
   "private": true,
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
-    "build": "yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/ui-components --scope @substrate/node-watcher",
+    "build": "yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/node-watcher",
     "clean": "rimraf front/**/lib back/**/lib front/**/.cache back/**/.cache",
     "lerna:bump": "lerna version --conventional-commits",
     "lerna:publish": "yarn build && lerna publish from-git",
     "lint": "tsc --noEmit && eslint --ext js,ts,tsx .",
     "start": "cd ./front/gatsby && yarn start",
-    "storybook": "cd ./front/ui-components && yarn storybook",
     "test": "echo No tests for now."
   },
   "workspaces": {
