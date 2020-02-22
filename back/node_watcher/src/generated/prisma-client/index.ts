@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  blockIndex: (where?: BlockIndexWhereInput) => Promise<boolean>;
   blockNumber: (where?: BlockNumberWhereInput) => Promise<boolean>;
   era: (where?: EraWhereInput) => Promise<boolean>;
   heartBeat: (where?: HeartBeatWhereInput) => Promise<boolean>;
@@ -62,6 +63,25 @@ export interface Prisma {
    * Queries
    */
 
+  blockIndex: (where: BlockIndexWhereUniqueInput) => BlockIndexNullablePromise;
+  blockIndexes: (args?: {
+    where?: BlockIndexWhereInput;
+    orderBy?: BlockIndexOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<BlockIndex>;
+  blockIndexesConnection: (args?: {
+    where?: BlockIndexWhereInput;
+    orderBy?: BlockIndexOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => BlockIndexConnectionPromise;
   blockNumber: (
     where: BlockNumberWhereUniqueInput
   ) => BlockNumberNullablePromise;
@@ -525,6 +545,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createBlockIndex: (data: BlockIndexCreateInput) => BlockIndexPromise;
+  updateBlockIndex: (args: {
+    data: BlockIndexUpdateInput;
+    where: BlockIndexWhereUniqueInput;
+  }) => BlockIndexPromise;
+  updateManyBlockIndexes: (args: {
+    data: BlockIndexUpdateManyMutationInput;
+    where?: BlockIndexWhereInput;
+  }) => BatchPayloadPromise;
+  upsertBlockIndex: (args: {
+    where: BlockIndexWhereUniqueInput;
+    create: BlockIndexCreateInput;
+    update: BlockIndexUpdateInput;
+  }) => BlockIndexPromise;
+  deleteBlockIndex: (where: BlockIndexWhereUniqueInput) => BlockIndexPromise;
+  deleteManyBlockIndexes: (where?: BlockIndexWhereInput) => BatchPayloadPromise;
   createBlockNumber: (data: BlockNumberCreateInput) => BlockNumberPromise;
   updateBlockNumber: (args: {
     data: BlockNumberUpdateInput;
@@ -954,6 +990,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  blockIndex: (
+    where?: BlockIndexSubscriptionWhereInput
+  ) => BlockIndexSubscriptionPayloadSubscription;
   blockNumber: (
     where?: BlockNumberSubscriptionWhereInput
   ) => BlockNumberSubscriptionPayloadSubscription;
@@ -1032,6 +1071,16 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type BlockIndexOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "identifier_ASC"
+  | "identifier_DESC"
+  | "startFrom_ASC"
+  | "startFrom_DESC"
+  | "index_ASC"
+  | "index_DESC";
 
 export type BlockNumberOrderByInput =
   | "id_ASC"
@@ -1250,6 +1299,61 @@ export type ValidatorOrderByInput =
   | "preferences_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type BlockIndexWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  identifier?: Maybe<String>;
+}>;
+
+export interface BlockIndexWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  identifier?: Maybe<String>;
+  identifier_not?: Maybe<String>;
+  identifier_in?: Maybe<String[] | String>;
+  identifier_not_in?: Maybe<String[] | String>;
+  identifier_lt?: Maybe<String>;
+  identifier_lte?: Maybe<String>;
+  identifier_gt?: Maybe<String>;
+  identifier_gte?: Maybe<String>;
+  identifier_contains?: Maybe<String>;
+  identifier_not_contains?: Maybe<String>;
+  identifier_starts_with?: Maybe<String>;
+  identifier_not_starts_with?: Maybe<String>;
+  identifier_ends_with?: Maybe<String>;
+  identifier_not_ends_with?: Maybe<String>;
+  startFrom?: Maybe<Int>;
+  startFrom_not?: Maybe<Int>;
+  startFrom_in?: Maybe<Int[] | Int>;
+  startFrom_not_in?: Maybe<Int[] | Int>;
+  startFrom_lt?: Maybe<Int>;
+  startFrom_lte?: Maybe<Int>;
+  startFrom_gt?: Maybe<Int>;
+  startFrom_gte?: Maybe<Int>;
+  index?: Maybe<Int>;
+  index_not?: Maybe<Int>;
+  index_in?: Maybe<Int[] | Int>;
+  index_not_in?: Maybe<Int[] | Int>;
+  index_lt?: Maybe<Int>;
+  index_lte?: Maybe<Int>;
+  index_gt?: Maybe<Int>;
+  index_gte?: Maybe<Int>;
+  AND?: Maybe<BlockIndexWhereInput[] | BlockIndexWhereInput>;
+  OR?: Maybe<BlockIndexWhereInput[] | BlockIndexWhereInput>;
+  NOT?: Maybe<BlockIndexWhereInput[] | BlockIndexWhereInput>;
+}
 
 export type BlockNumberWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -2650,6 +2754,25 @@ export interface ValidatorWhereInput {
   AND?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
   OR?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
   NOT?: Maybe<ValidatorWhereInput[] | ValidatorWhereInput>;
+}
+
+export interface BlockIndexCreateInput {
+  id?: Maybe<ID_Input>;
+  identifier: String;
+  startFrom: Int;
+  index: Int;
+}
+
+export interface BlockIndexUpdateInput {
+  identifier?: Maybe<String>;
+  startFrom?: Maybe<Int>;
+  index?: Maybe<Int>;
+}
+
+export interface BlockIndexUpdateManyMutationInput {
+  identifier?: Maybe<String>;
+  startFrom?: Maybe<Int>;
+  index?: Maybe<Int>;
 }
 
 export interface BlockNumberCreateInput {
@@ -4576,6 +4699,23 @@ export interface ValidatorUpdateManyMutationInput {
   preferences?: Maybe<String>;
 }
 
+export interface BlockIndexSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BlockIndexWhereInput>;
+  AND?: Maybe<
+    BlockIndexSubscriptionWhereInput[] | BlockIndexSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    BlockIndexSubscriptionWhereInput[] | BlockIndexSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    BlockIndexSubscriptionWhereInput[] | BlockIndexSubscriptionWhereInput
+  >;
+}
+
 export interface BlockNumberSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -4954,6 +5094,117 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface BlockIndex {
+  id: ID_Output;
+  identifier: String;
+  startFrom: Int;
+  index: Int;
+}
+
+export interface BlockIndexPromise extends Promise<BlockIndex>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  identifier: () => Promise<String>;
+  startFrom: () => Promise<Int>;
+  index: () => Promise<Int>;
+}
+
+export interface BlockIndexSubscription
+  extends Promise<AsyncIterator<BlockIndex>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  identifier: () => Promise<AsyncIterator<String>>;
+  startFrom: () => Promise<AsyncIterator<Int>>;
+  index: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface BlockIndexNullablePromise
+  extends Promise<BlockIndex | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  identifier: () => Promise<String>;
+  startFrom: () => Promise<Int>;
+  index: () => Promise<Int>;
+}
+
+export interface BlockIndexConnection {
+  pageInfo: PageInfo;
+  edges: BlockIndexEdge[];
+}
+
+export interface BlockIndexConnectionPromise
+  extends Promise<BlockIndexConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<BlockIndexEdge>>() => T;
+  aggregate: <T = AggregateBlockIndexPromise>() => T;
+}
+
+export interface BlockIndexConnectionSubscription
+  extends Promise<AsyncIterator<BlockIndexConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BlockIndexEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBlockIndexSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BlockIndexEdge {
+  node: BlockIndex;
+  cursor: String;
+}
+
+export interface BlockIndexEdgePromise
+  extends Promise<BlockIndexEdge>,
+    Fragmentable {
+  node: <T = BlockIndexPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface BlockIndexEdgeSubscription
+  extends Promise<AsyncIterator<BlockIndexEdge>>,
+    Fragmentable {
+  node: <T = BlockIndexSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateBlockIndex {
+  count: Int;
+}
+
+export interface AggregateBlockIndexPromise
+  extends Promise<AggregateBlockIndex>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBlockIndexSubscription
+  extends Promise<AsyncIterator<AggregateBlockIndex>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface BlockNumber {
   id: ID_Output;
   number: Int;
@@ -5009,29 +5260,6 @@ export interface BlockNumberConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<BlockNumberEdgeSubscription>>>() => T;
   aggregate: <T = AggregateBlockNumberSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface BlockNumberEdge {
@@ -7297,6 +7525,56 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface BlockIndexSubscriptionPayload {
+  mutation: MutationType;
+  node: BlockIndex;
+  updatedFields: String[];
+  previousValues: BlockIndexPreviousValues;
+}
+
+export interface BlockIndexSubscriptionPayloadPromise
+  extends Promise<BlockIndexSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = BlockIndexPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = BlockIndexPreviousValuesPromise>() => T;
+}
+
+export interface BlockIndexSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<BlockIndexSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = BlockIndexSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = BlockIndexPreviousValuesSubscription>() => T;
+}
+
+export interface BlockIndexPreviousValues {
+  id: ID_Output;
+  identifier: String;
+  startFrom: Int;
+  index: Int;
+}
+
+export interface BlockIndexPreviousValuesPromise
+  extends Promise<BlockIndexPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  identifier: () => Promise<String>;
+  startFrom: () => Promise<Int>;
+  index: () => Promise<Int>;
+}
+
+export interface BlockIndexPreviousValuesSubscription
+  extends Promise<AsyncIterator<BlockIndexPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  identifier: () => Promise<AsyncIterator<String>>;
+  startFrom: () => Promise<AsyncIterator<Int>>;
+  index: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface BlockNumberSubscriptionPayload {
   mutation: MutationType;
   node: BlockNumber;
@@ -8439,14 +8717,19 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type String = string;
+export type Boolean = boolean;
 
 /*
 DateTime scalar input type, allowing Date
@@ -8457,11 +8740,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 export type Json = any;
 
@@ -8554,6 +8832,10 @@ export const models: Model[] = [
   },
   {
     name: "ReferendumStatus",
+    embedded: false
+  },
+  {
+    name: "BlockIndex",
     embedded: false
   },
   {

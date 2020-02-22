@@ -5,9 +5,11 @@
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
-import { Button, ItemStats } from '@substrate/design-system';
-import { Container, Grid } from '@substrate/ui-components';
+import { Button, ItemStats, MainMenu } from '@substrate/design-system';
+import { AddressSummary } from '@substrate/ui-components';
+import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import shortid from 'shortid';
 
 import { APP_TITLE, toShortAddress } from '../../../util';
 import {
@@ -17,8 +19,7 @@ import {
   LATEST_SESSION_QUERY,
   SESSIONS_SUBSCRIPTION,
   STAKING_SUBSCRIPTION,
-} from '../graphql';
-import styles from './Header.module.css';
+} from '../../../util/graphql';
 import { BlockHead, EraHead, SessionHead, StakingHead } from './types';
 
 const EraHeader = (): React.ReactElement => {
@@ -192,30 +193,53 @@ export function Header(): React.ReactElement {
 
   useEffect(() => {
     handleLogin();
-  }, [handleLogin]);
+  }, []);
 
   return (
-    <Container>
-      <Grid.Row padded>
-        <header className={styles.headerTop}>
-          <h2>{APP_TITLE}</h2>
-          {accounts.length ? (
-            <ItemStats
-              title='Logged in as:'
-              subtitle={toShortAddress(accounts[0].address)}
-              value={accounts[0].meta.name}
-            />
-          ) : (
-            <Button onClick={handleLogin}>Login</Button>
-          )}
-        </header>
-        <header className={styles.headerBottom}>
-          <BlockHeader />
-          <EraHeader />
-          <SessionHeader />
-          <StakingHeader />
-        </header>
-      </Grid.Row>
-    </Container>
+    <>
+      <MainMenu
+        contentLeft={<h2>{APP_TITLE}</h2>}
+        contentRight={
+          <>
+            {accounts.length ? (
+              <div>
+                <AddressSummary
+                  address={accounts[0].address}
+                  name={accounts[0].meta.name}
+                  noBalance
+                  size='small'
+                />
+              </div>
+            ) : (
+              <Button onClick={handleLogin}>Login</Button>
+            )}
+          </>
+        }
+        tabs={[
+          <Button
+            key={shortid.generate()} // FIXME: why do i need a key here...
+            onClick={() => {
+              navigate(`AccountsList`);
+            }}
+          >
+            Accounts
+          </Button>,
+          <Button
+            key={shortid.generate()} // FIXME: why do i need a key here
+            onClick={() => {
+              navigate(`Validators`);
+            }}
+          >
+            Validators
+          </Button>,
+        ]}
+      />
+      <header style={{ display: 'flex' }}>
+        <BlockHeader />
+        <EraHeader />
+        <SessionHeader />
+        <StakingHeader />
+      </header>
+    </>
   );
 }
