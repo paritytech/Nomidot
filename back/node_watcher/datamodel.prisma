@@ -182,7 +182,7 @@ type BlockIndex {
 }
 
 type Treasury {
-  id: ID! @id
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "TREASURY_SEQUENCE" initialValue:1 allocationSize:1)
   proposer: String!
   beneficiary: String!
   value: String!
