@@ -4295,7 +4295,7 @@ input TotalIssuanceWhereUniqueInput {
 }
 
 type Treasury {
-  id: ID!
+  id: Int!
   proposer: String!
   beneficiary: String!
   value: String!
@@ -4311,7 +4311,6 @@ type TreasuryConnection {
 }
 
 input TreasuryCreateInput {
-  id: ID
   proposer: String!
   beneficiary: String!
   value: String!
@@ -4326,7 +4325,6 @@ input TreasuryCreateOneWithoutTreasuryStatusInput {
 }
 
 input TreasuryCreateWithoutTreasuryStatusInput {
-  id: ID
   proposer: String!
   beneficiary: String!
   value: String!
@@ -4355,7 +4353,7 @@ enum TreasuryOrderByInput {
 }
 
 type TreasuryPreviousValues {
-  id: ID!
+  id: Int!
   proposer: String!
   beneficiary: String!
   value: String!
@@ -4606,20 +4604,14 @@ input TreasuryUpsertWithoutTreasuryStatusInput {
 }
 
 input TreasuryWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   proposer: String
   proposer_not: String
   proposer_in: [String!]
@@ -4693,7 +4685,7 @@ input TreasuryWhereInput {
 }
 
 input TreasuryWhereUniqueInput {
-  id: ID
+  id: Int
   treasuryProposalId: Int
 }
 

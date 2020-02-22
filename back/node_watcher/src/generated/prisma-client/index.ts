@@ -2558,7 +2558,7 @@ export interface TotalIssuanceWhereInput {
 }
 
 export type TreasuryWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+  id: Maybe<Int>;
   treasuryProposalId?: Maybe<Int>;
 }>;
 
@@ -2599,20 +2599,14 @@ export interface TreasuryStatusWhereInput {
 }
 
 export interface TreasuryWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   proposer?: Maybe<String>;
   proposer_not?: Maybe<String>;
   proposer_in?: Maybe<String[] | String>;
@@ -4488,7 +4482,6 @@ export interface TotalIssuanceUpdateManyMutationInput {
 }
 
 export interface TreasuryCreateInput {
-  id?: Maybe<ID_Input>;
   proposer: String;
   beneficiary: String;
   value: String;
@@ -4640,7 +4633,6 @@ export interface TreasuryCreateOneWithoutTreasuryStatusInput {
 }
 
 export interface TreasuryCreateWithoutTreasuryStatusInput {
-  id?: Maybe<ID_Input>;
   proposer: String;
   beneficiary: String;
   value: String;
@@ -7206,7 +7198,7 @@ export interface AggregateTotalIssuanceSubscription
 }
 
 export interface Treasury {
-  id: ID_Output;
+  id: Int;
   proposer: String;
   beneficiary: String;
   value: String;
@@ -7215,7 +7207,7 @@ export interface Treasury {
 }
 
 export interface TreasuryPromise extends Promise<Treasury>, Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   proposer: () => Promise<String>;
   beneficiary: () => Promise<String>;
   value: () => Promise<String>;
@@ -7235,7 +7227,7 @@ export interface TreasuryPromise extends Promise<Treasury>, Fragmentable {
 export interface TreasurySubscription
   extends Promise<AsyncIterator<Treasury>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   proposer: () => Promise<AsyncIterator<String>>;
   beneficiary: () => Promise<AsyncIterator<String>>;
   value: () => Promise<AsyncIterator<String>>;
@@ -7257,7 +7249,7 @@ export interface TreasurySubscription
 export interface TreasuryNullablePromise
   extends Promise<Treasury | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   proposer: () => Promise<String>;
   beneficiary: () => Promise<String>;
   value: () => Promise<String>;
@@ -8586,7 +8578,7 @@ export interface TreasurySubscriptionPayloadSubscription
 }
 
 export interface TreasuryPreviousValues {
-  id: ID_Output;
+  id: Int;
   proposer: String;
   beneficiary: String;
   value: String;
@@ -8597,7 +8589,7 @@ export interface TreasuryPreviousValues {
 export interface TreasuryPreviousValuesPromise
   extends Promise<TreasuryPreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   proposer: () => Promise<String>;
   beneficiary: () => Promise<String>;
   value: () => Promise<String>;
@@ -8608,7 +8600,7 @@ export interface TreasuryPreviousValuesPromise
 export interface TreasuryPreviousValuesSubscription
   extends Promise<AsyncIterator<TreasuryPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   proposer: () => Promise<AsyncIterator<String>>;
   beneficiary: () => Promise<AsyncIterator<String>>;
   value: () => Promise<AsyncIterator<String>>;
