@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
+import { Option } from '@polkadot/types';
 import {
   BlockNumber,
   Hash,
@@ -67,18 +68,19 @@ const createTreasury: Task<NomidotTreasury[]> = {
           return null;
         }
 
-        const treasuryProposalRaw = await api.query.treasury.proposals(
+        const treasuryProposalRaw: Option<TreasuryProposal> = await api.query.treasury.proposals(
           treasuryRawEvent.ProposalIndex
         );
-        const treasuryProposal: TreasuryProposal = api.createType(
-          'TreasuryProposal',
-          treasuryProposalRaw.toU8a(true)
-        );
 
+        if (treasuryProposalRaw.isNone) {
+          l.error('Expected data missing in treasuryProposalRaw');
+          return null;
+        }
+
+        const treasuryProposal = treasuryProposalRaw.unwrap();
         const proposalArguments: NomidotTreasuryEvent = {
           treasuryProposalId: treasuryRawEvent.ProposalIndex,
         };
-
         const result: NomidotTreasury = {
           treasuryProposalId: proposalArguments.treasuryProposalId,
           proposer: treasuryProposal.proposer,
