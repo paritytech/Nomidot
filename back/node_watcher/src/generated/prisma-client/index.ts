@@ -1285,8 +1285,8 @@ export type TreasuryOrderByInput =
   | "value_DESC"
   | "bond_ASC"
   | "bond_DESC"
-  | "proposalId_ASC"
-  | "proposalId_DESC";
+  | "treasuryProposalId_ASC"
+  | "treasuryProposalId_DESC";
 
 export type ValidatorOrderByInput =
   | "id_ASC"
@@ -2559,7 +2559,7 @@ export interface TotalIssuanceWhereInput {
 
 export type TreasuryWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  proposalId?: Maybe<Int>;
+  treasuryProposalId?: Maybe<Int>;
 }>;
 
 export interface TreasuryStatusWhereInput {
@@ -2669,14 +2669,14 @@ export interface TreasuryWhereInput {
   bond_not_starts_with?: Maybe<String>;
   bond_ends_with?: Maybe<String>;
   bond_not_ends_with?: Maybe<String>;
-  proposalId?: Maybe<Int>;
-  proposalId_not?: Maybe<Int>;
-  proposalId_in?: Maybe<Int[] | Int>;
-  proposalId_not_in?: Maybe<Int[] | Int>;
-  proposalId_lt?: Maybe<Int>;
-  proposalId_lte?: Maybe<Int>;
-  proposalId_gt?: Maybe<Int>;
-  proposalId_gte?: Maybe<Int>;
+  treasuryProposalId?: Maybe<Int>;
+  treasuryProposalId_not?: Maybe<Int>;
+  treasuryProposalId_in?: Maybe<Int[] | Int>;
+  treasuryProposalId_not_in?: Maybe<Int[] | Int>;
+  treasuryProposalId_lt?: Maybe<Int>;
+  treasuryProposalId_lte?: Maybe<Int>;
+  treasuryProposalId_gt?: Maybe<Int>;
+  treasuryProposalId_gte?: Maybe<Int>;
   treasuryStatus_every?: Maybe<TreasuryStatusWhereInput>;
   treasuryStatus_some?: Maybe<TreasuryStatusWhereInput>;
   treasuryStatus_none?: Maybe<TreasuryStatusWhereInput>;
@@ -4493,7 +4493,7 @@ export interface TreasuryCreateInput {
   beneficiary: String;
   value: String;
   bond: String;
-  proposalId: Int;
+  treasuryProposalId: Int;
   treasuryStatus?: Maybe<TreasuryStatusCreateManyWithoutTreasuryInput>;
 }
 
@@ -4518,7 +4518,7 @@ export interface TreasuryUpdateInput {
   beneficiary?: Maybe<String>;
   value?: Maybe<String>;
   bond?: Maybe<String>;
-  proposalId?: Maybe<Int>;
+  treasuryProposalId?: Maybe<Int>;
   treasuryStatus?: Maybe<TreasuryStatusUpdateManyWithoutTreasuryInput>;
 }
 
@@ -4624,7 +4624,7 @@ export interface TreasuryUpdateManyMutationInput {
   beneficiary?: Maybe<String>;
   value?: Maybe<String>;
   bond?: Maybe<String>;
-  proposalId?: Maybe<Int>;
+  treasuryProposalId?: Maybe<Int>;
 }
 
 export interface TreasuryStatusCreateInput {
@@ -4645,7 +4645,7 @@ export interface TreasuryCreateWithoutTreasuryStatusInput {
   beneficiary: String;
   value: String;
   bond: String;
-  proposalId: Int;
+  treasuryProposalId: Int;
 }
 
 export interface TreasuryStatusUpdateInput {
@@ -4666,7 +4666,7 @@ export interface TreasuryUpdateWithoutTreasuryStatusDataInput {
   beneficiary?: Maybe<String>;
   value?: Maybe<String>;
   bond?: Maybe<String>;
-  proposalId?: Maybe<Int>;
+  treasuryProposalId?: Maybe<Int>;
 }
 
 export interface TreasuryUpsertWithoutTreasuryStatusInput {
@@ -7211,7 +7211,7 @@ export interface Treasury {
   beneficiary: String;
   value: String;
   bond: String;
-  proposalId: Int;
+  treasuryProposalId: Int;
 }
 
 export interface TreasuryPromise extends Promise<Treasury>, Fragmentable {
@@ -7220,7 +7220,7 @@ export interface TreasuryPromise extends Promise<Treasury>, Fragmentable {
   beneficiary: () => Promise<String>;
   value: () => Promise<String>;
   bond: () => Promise<String>;
-  proposalId: () => Promise<Int>;
+  treasuryProposalId: () => Promise<Int>;
   treasuryStatus: <T = FragmentableArray<TreasuryStatus>>(args?: {
     where?: TreasuryStatusWhereInput;
     orderBy?: TreasuryStatusOrderByInput;
@@ -7240,7 +7240,7 @@ export interface TreasurySubscription
   beneficiary: () => Promise<AsyncIterator<String>>;
   value: () => Promise<AsyncIterator<String>>;
   bond: () => Promise<AsyncIterator<String>>;
-  proposalId: () => Promise<AsyncIterator<Int>>;
+  treasuryProposalId: () => Promise<AsyncIterator<Int>>;
   treasuryStatus: <
     T = Promise<AsyncIterator<TreasuryStatusSubscription>>
   >(args?: {
@@ -7262,7 +7262,7 @@ export interface TreasuryNullablePromise
   beneficiary: () => Promise<String>;
   value: () => Promise<String>;
   bond: () => Promise<String>;
-  proposalId: () => Promise<Int>;
+  treasuryProposalId: () => Promise<Int>;
   treasuryStatus: <T = FragmentableArray<TreasuryStatus>>(args?: {
     where?: TreasuryStatusWhereInput;
     orderBy?: TreasuryStatusOrderByInput;
@@ -8591,7 +8591,7 @@ export interface TreasuryPreviousValues {
   beneficiary: String;
   value: String;
   bond: String;
-  proposalId: Int;
+  treasuryProposalId: Int;
 }
 
 export interface TreasuryPreviousValuesPromise
@@ -8602,7 +8602,7 @@ export interface TreasuryPreviousValuesPromise
   beneficiary: () => Promise<String>;
   value: () => Promise<String>;
   bond: () => Promise<String>;
-  proposalId: () => Promise<Int>;
+  treasuryProposalId: () => Promise<Int>;
 }
 
 export interface TreasuryPreviousValuesSubscription
@@ -8613,7 +8613,7 @@ export interface TreasuryPreviousValuesSubscription
   beneficiary: () => Promise<AsyncIterator<String>>;
   value: () => Promise<AsyncIterator<String>>;
   bond: () => Promise<AsyncIterator<String>>;
-  proposalId: () => Promise<AsyncIterator<Int>>;
+  treasuryProposalId: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface TreasuryStatusSubscriptionPayload {

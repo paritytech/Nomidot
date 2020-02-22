@@ -4300,7 +4300,7 @@ type Treasury {
   beneficiary: String!
   value: String!
   bond: String!
-  proposalId: Int!
+  treasuryProposalId: Int!
   treasuryStatus(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus!]
 }
 
@@ -4316,7 +4316,7 @@ input TreasuryCreateInput {
   beneficiary: String!
   value: String!
   bond: String!
-  proposalId: Int!
+  treasuryProposalId: Int!
   treasuryStatus: TreasuryStatusCreateManyWithoutTreasuryInput
 }
 
@@ -4331,7 +4331,7 @@ input TreasuryCreateWithoutTreasuryStatusInput {
   beneficiary: String!
   value: String!
   bond: String!
-  proposalId: Int!
+  treasuryProposalId: Int!
 }
 
 type TreasuryEdge {
@@ -4350,8 +4350,8 @@ enum TreasuryOrderByInput {
   value_DESC
   bond_ASC
   bond_DESC
-  proposalId_ASC
-  proposalId_DESC
+  treasuryProposalId_ASC
+  treasuryProposalId_DESC
 }
 
 type TreasuryPreviousValues {
@@ -4360,7 +4360,7 @@ type TreasuryPreviousValues {
   beneficiary: String!
   value: String!
   bond: String!
-  proposalId: Int!
+  treasuryProposalId: Int!
 }
 
 type TreasuryStatus {
@@ -4573,7 +4573,7 @@ input TreasuryUpdateInput {
   beneficiary: String
   value: String
   bond: String
-  proposalId: Int
+  treasuryProposalId: Int
   treasuryStatus: TreasuryStatusUpdateManyWithoutTreasuryInput
 }
 
@@ -4582,7 +4582,7 @@ input TreasuryUpdateManyMutationInput {
   beneficiary: String
   value: String
   bond: String
-  proposalId: Int
+  treasuryProposalId: Int
 }
 
 input TreasuryUpdateOneRequiredWithoutTreasuryStatusInput {
@@ -4597,7 +4597,7 @@ input TreasuryUpdateWithoutTreasuryStatusDataInput {
   beneficiary: String
   value: String
   bond: String
-  proposalId: Int
+  treasuryProposalId: Int
 }
 
 input TreasuryUpsertWithoutTreasuryStatusInput {
@@ -4676,14 +4676,14 @@ input TreasuryWhereInput {
   bond_not_starts_with: String
   bond_ends_with: String
   bond_not_ends_with: String
-  proposalId: Int
-  proposalId_not: Int
-  proposalId_in: [Int!]
-  proposalId_not_in: [Int!]
-  proposalId_lt: Int
-  proposalId_lte: Int
-  proposalId_gt: Int
-  proposalId_gte: Int
+  treasuryProposalId: Int
+  treasuryProposalId_not: Int
+  treasuryProposalId_in: [Int!]
+  treasuryProposalId_not_in: [Int!]
+  treasuryProposalId_lt: Int
+  treasuryProposalId_lte: Int
+  treasuryProposalId_gt: Int
+  treasuryProposalId_gte: Int
   treasuryStatus_every: TreasuryStatusWhereInput
   treasuryStatus_some: TreasuryStatusWhereInput
   treasuryStatus_none: TreasuryStatusWhereInput
@@ -4694,7 +4694,7 @@ input TreasuryWhereInput {
 
 input TreasuryWhereUniqueInput {
   id: ID
-  proposalId: Int
+  treasuryProposalId: Int
 }
 
 type Validator {

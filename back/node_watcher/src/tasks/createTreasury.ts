@@ -3,13 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, TreasuryProposal, Hash } from '@polkadot/types/interfaces';
+import {
+  BlockNumber,
+  Hash,
+  TreasuryProposal,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { treasuryProposalStatus } from '../util/statuses';
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
-import { Cached, NomidotTreasury, NomidotTreasuryEvent, NomidotTreasuryRawEvent, Task } from './types';
+import { treasuryProposalStatus } from '../util/statuses';
+import {
+  Cached,
+  NomidotTreasury,
+  NomidotTreasuryEvent,
+  NomidotTreasuryRawEvent,
+  Task,
+} from './types';
 
 const l = logger('Task: Treasury');
 
@@ -25,7 +35,11 @@ const createTreasury: Task<NomidotTreasury[]> = {
   ): Promise<NomidotTreasury[]> => {
     const { events } = cached;
 
-    const treasuryEvents = filterEvents(events, 'treasury', treasuryProposalStatus.PROPOSED);
+    const treasuryEvents = filterEvents(
+      events,
+      'treasury',
+      treasuryProposalStatus.PROPOSED
+    );
 
     const results: NomidotTreasury[] = [];
 
@@ -53,15 +67,20 @@ const createTreasury: Task<NomidotTreasury[]> = {
           return null;
         }
 
-        const treasuryProposalRaw = await api.query.treasury.proposals(treasuryRawEvent.ProposalIndex);
-        const treasuryProposal: TreasuryProposal = api.createType('TreasuryProposal', treasuryProposalRaw.toU8a(true));
+        const treasuryProposalRaw = await api.query.treasury.proposals(
+          treasuryRawEvent.ProposalIndex
+        );
+        const treasuryProposal: TreasuryProposal = api.createType(
+          'TreasuryProposal',
+          treasuryProposalRaw.toU8a(true)
+        );
 
         const proposalArguments: NomidotTreasuryEvent = {
-          proposalId: treasuryRawEvent.ProposalIndex,
+          treasuryProposalId: treasuryRawEvent.ProposalIndex,
         };
 
         const result: NomidotTreasury = {
-          proposalId: proposalArguments.proposalId,
+          treasuryProposalId: proposalArguments.treasuryProposalId,
           proposer: treasuryProposal.proposer,
           beneficiary: treasuryProposal.beneficiary,
           value: treasuryProposal.value,
@@ -85,13 +104,13 @@ const createTreasury: Task<NomidotTreasury[]> = {
           beneficiary,
           value,
           bond,
-          proposalId,
+          treasuryProposalId,
           status,
         } = prop;
 
         await prisma.createTreasury({
           proposer: proposer.toString(),
-          proposalId,
+          treasuryProposalId,
           beneficiary: beneficiary.toString(),
           value: value.toString(),
           bond: bond.toString(),

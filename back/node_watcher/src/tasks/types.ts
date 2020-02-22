@@ -147,7 +147,7 @@ export interface NomidotTreasury extends NomidotTreasuryEvent {
 }
 
 export interface NomidotTreasuryEvent {
-  proposalId: number;
+  treasuryProposalId: number;
 }
 
 export interface NomidotTreasuryRawEvent {
