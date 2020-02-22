@@ -33,5 +33,6 @@ export const motionStatus = {
 
 export const treasuryProposalStatus = {
   PROPOSED: 'Proposed',
-  TABLED: 'Tabled',
+  TABLED: 'Awarded',
+  REJECTED: 'Rejected',
 };
