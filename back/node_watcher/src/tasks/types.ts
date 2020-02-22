@@ -138,16 +138,13 @@ export interface NomidotProposalRawEvent {
   Balance?: Balance;
 }
 
-export interface NomidotTreasury extends NomidotTreasuryEvent {
+export interface NomidotTreasury {
+  treasuryProposalId: number;
   proposer: AccountId;
   beneficiary: AccountId;
   value: Balance;
   bond: Balance;
   status: string;
-}
-
-export interface NomidotTreasuryEvent {
-  treasuryProposalId: number;
 }
 
 export interface NomidotTreasuryRawEvent {

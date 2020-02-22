@@ -17,7 +17,6 @@ import { treasuryProposalStatus } from '../util/statuses';
 import {
   Cached,
   NomidotTreasury,
-  NomidotTreasuryEvent,
   NomidotTreasuryRawEvent,
   Task,
 } from './types';
@@ -78,11 +77,8 @@ const createTreasury: Task<NomidotTreasury[]> = {
         }
 
         const treasuryProposal = treasuryProposalRaw.unwrap();
-        const proposalArguments: NomidotTreasuryEvent = {
-          treasuryProposalId: treasuryRawEvent.ProposalIndex,
-        };
         const result: NomidotTreasury = {
-          treasuryProposalId: proposalArguments.treasuryProposalId,
+          treasuryProposalId: treasuryRawEvent.ProposalIndex,
           proposer: treasuryProposal.proposer,
           beneficiary: treasuryProposal.beneficiary,
           value: treasuryProposal.value,
