@@ -11,7 +11,7 @@ exports.onCreateWebpackConfig = function({ actions }) {
   actions.setWebpackConfig({
     resolve: {
       alias: {
-        '@substrate/context': path.resolve(__dirname, '../context/src'),
+        '@substrate/context': path.resolve(__dirname, '../context/src')
       },
     },
   });

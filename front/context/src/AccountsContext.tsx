@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import {
   InjectedAccountWithMeta,
   InjectedExtension,
@@ -36,17 +35,21 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
    * Fetch accounts from the extension
    */
   async function fetchAccounts(): Promise<void> {
-    const extensions = await web3Enable(originName);
+    if (typeof window !== `undefined`) {
+      const { web3Accounts, web3Enable } = require('@polkadot/extension-dapp');
 
-    if (!extensions.length) {
-      throw new Error(
-        'No extension found. Please install PolkadotJS extension.'
-      );
+      const extensions = await web3Enable(originName);
+
+      if (!extensions.length) {
+        throw new Error(
+          'No extension found. Please install PolkadotJS extension.'
+        );
+      }
+  
+      setExtension(extensions[0]);
+      setIsReady(true);
+      setAccounts(await web3Accounts());
     }
-
-    setExtension(extensions[0]);
-    setIsReady(true);
-    setAccounts(await web3Accounts());
   }
 
   /**
@@ -102,6 +105,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           if (!extension) {
             throw new Error(
               'Please use `extension` only after `isExtensionReady` is set to true'
+            );
+          }
+
+          if (typeof window === 'undefined') {
+            throw new Error(
+              'Window does not exist during SSR'
             );
           }
 

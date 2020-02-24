@@ -27,8 +27,7 @@
     "react-dom": "^16.11.0",
     "react-helmet": "^5.2.1",
     "react-transition-group": "^4.3.0",
-    "shortid": "^2.2.15",
-    "subscriptions-transport-ws": "^0.9.16"
+    "shortid": "^2.2.15"
   },
   "scripts": {
     "build": "gatsby build",

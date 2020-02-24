@@ -4,6 +4,7 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
+
 import {
   AccountsContextProvider,
   ApiContextProvider,
