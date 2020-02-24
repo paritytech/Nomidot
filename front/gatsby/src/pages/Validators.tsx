@@ -4,6 +4,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { RouteComponentProps } from '@reach/router';
+import { Spinner } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
 import { LATEST_SESSION_QUERY } from '../util/graphql';
@@ -12,12 +13,14 @@ import { CurrentElectedList } from '../components/CurrentElected';
 type Props = RouteComponentProps;
 
 const Validators = (_props: Props): React.ReactElement => {
-  const { data } = useQuery(LATEST_SESSION_QUERY, {
-    pollInterval: 10000,
-  });
+  
   const [sessionIndex, setSessionIndex] = useState<number>();
 
   useEffect(() => {
+    const { data } = useQuery(LATEST_SESSION_QUERY, {
+      pollInterval: 10000,
+    });
+
     if (data) {
       const { sessions } = data;
 
@@ -25,14 +28,14 @@ const Validators = (_props: Props): React.ReactElement => {
 
       setSessionIndex(index);
     }
-  }, [data]);
+  }, []);
 
   return (
     <>
       {sessionIndex ? (
         <CurrentElectedList sessionIndex={sessionIndex} />
       ) : (
-        '...Loading...'
+        <Spinner inline />
       )}
     </>
   );
