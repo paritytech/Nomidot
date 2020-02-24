@@ -7,7 +7,7 @@ import { RouteComponentProps } from '@reach/router';
 import React, { useEffect, useState } from 'react';
 
 import { LATEST_SESSION_QUERY } from '../util/graphql';
-import { CurrentElectedList } from './CurrentElected';
+import { CurrentElectedList } from '../components/CurrentElected';
 
 type Props = RouteComponentProps;
 
