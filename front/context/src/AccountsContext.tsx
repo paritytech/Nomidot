@@ -7,6 +7,7 @@ import {
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
 import React, { createContext, useState } from 'react';
+
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
   readonly extension: InjectedExtension;
@@ -36,7 +37,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
    */
   async function fetchAccounts(): Promise<void> {
     if (typeof window !== `undefined`) {
-      const { web3Accounts, web3Enable } = require('@polkadot/extension-dapp');
+      const { web3Accounts, web3Enable } = await import('@polkadot/extension-dapp');
 
       const extensions = await web3Enable(originName);
 

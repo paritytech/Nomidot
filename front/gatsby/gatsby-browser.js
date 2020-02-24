@@ -5,10 +5,10 @@
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
 
+import { AccountsContextProvider } from '../context/src/AccountsContext';
 import {
-  AccountsContextProvider,
   ApiContextProvider,
-} from '@substrate/context';
+} from '../context/src/ApiContext';
 import { global } from '@substrate/design-system';
 import React from 'react';
 

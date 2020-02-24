@@ -201,7 +201,7 @@ export function Header(): React.ReactElement {
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
           <>
-            {accounts.length ? (
+            {accounts && accounts.length ? (
               <div>
                 <AddressSummary
                   address={accounts[0].address}
