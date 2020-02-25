@@ -227,7 +227,7 @@ export function Header(): React.ReactElement {
           <Button
             key={shortid.generate()} // FIXME: why do i need a key here
             onClick={() => {
-              navigate(`Validators`);
+              navigate(`validators`);
             }}
           >
             Validators

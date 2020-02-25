@@ -7,6 +7,7 @@ import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import * as ws from 'ws';
 
 const httpLink = new HttpLink({
   uri: 'http://35.189.196.74:4000',
@@ -17,6 +18,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
   },
+  webSocketImpl: process.env.NODE_ENV === 'production' ? ws : undefined, // ws does not work in the browser. Browser clients must use the native WebSocket object. But during production SSR, we must use ws.
 });
 
 const link = split(
