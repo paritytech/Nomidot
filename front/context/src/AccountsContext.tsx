@@ -8,6 +8,8 @@ import {
 } from '@polkadot/extension-inject/types';
 import React, { createContext, useState } from 'react';
 
+import { IS_SSR } from './util';
+
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
   readonly extension: InjectedExtension;
@@ -47,6 +49,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         throw new Error(
           'No extension found. Please install PolkadotJS extension.'
         );
+      }
+
+      if (IS_SSR) {
+        throw new Error('Window does not exist during SSR');
       }
 
       setExtension(extensions[0]);
@@ -111,7 +117,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
             );
           }
 
-          if (typeof window === 'undefined') {
+          if (IS_SSR) {
             throw new Error('Window does not exist during SSR');
           }
 
