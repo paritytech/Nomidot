@@ -13,9 +13,7 @@ import { CurrentElectedList } from '../components/CurrentElected';
 type Props = RouteComponentProps;
 
 const Validators = (_props: Props): React.ReactElement => {
-  const { data } = useQuery(LATEST_SESSION_QUERY, {
-    pollInterval: 10000,
-  });
+  let { data } = useQuery(LATEST_SESSION_QUERY);
   const [sessionIndex, setSessionIndex] = useState<number>();
 
   useEffect(() => {

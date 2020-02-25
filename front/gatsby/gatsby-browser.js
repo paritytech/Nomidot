@@ -10,6 +10,7 @@ import {
   ApiContextProvider,
 } from '../context/src/ApiContext';
 import { global } from '@substrate/design-system';
+import React from 'react';
 
 import client from './src/apollo';
 import { Layout, Seo } from './src/components';
@@ -17,19 +18,17 @@ import { APP_SLUG } from './src/util';
 
 const { GlobalStyle } = global;
 
-export const wrapRootComponent = ({ Root }) => {
-  () => (
-    <ApolloProvider client={client}>
-      <ApiContextProvider
-        provider={new WsProvider('wss://cc3-5.kusama.network/')}
-      >
-        <AccountsContextProvider originName={APP_SLUG}>
-          <Root />
-        </AccountsContextProvider>
-      </ApiContextProvider>
-    </ApolloProvider>
-  )
-};
+export const wrapRootElement = ({ element }) => (
+  <ApolloProvider client={client}>
+    <ApiContextProvider
+      provider={new WsProvider('wss://cc3-5.kusama.network/')}
+    >
+      <AccountsContextProvider originName={APP_SLUG}>
+        { element }
+      </AccountsContextProvider>
+    </ApiContextProvider>
+  </ApolloProvider>
+);
 
 export const wrapPageElement = ({ element }) => (
   <Layout>
