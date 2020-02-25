@@ -10,7 +10,7 @@
     "clean": "rimraf front/**/lib back/**/lib front/**/.cache back/**/.cache",
     "lerna:bump": "lerna version --conventional-commits",
     "lerna:publish": "yarn build && lerna publish from-git",
-    "lint": "node --max_old_space_size=4096 ./node_modules/eslint/bin/eslint.js --ext js,ts,tsx . --fix ",
+    "lint": "tsc --noEmit && node --max_old_space_size=4096 ./node_modules/eslint/bin/eslint.js --ext js,ts,tsx .",
     "start": "cd ./front/gatsby && yarn start",
     "test": "echo No tests for now."
   },
