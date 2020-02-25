@@ -13,14 +13,12 @@ import { CurrentElectedList } from '../components/CurrentElected';
 type Props = RouteComponentProps;
 
 const Validators = (_props: Props): React.ReactElement => {
-  
+  const { data } = useQuery(LATEST_SESSION_QUERY, {
+    pollInterval: 10000,
+  });
   const [sessionIndex, setSessionIndex] = useState<number>();
 
   useEffect(() => {
-    const { data } = useQuery(LATEST_SESSION_QUERY, {
-      pollInterval: 10000,
-    });
-
     if (data) {
       const { sessions } = data;
 
@@ -28,7 +26,7 @@ const Validators = (_props: Props): React.ReactElement => {
 
       setSessionIndex(index);
     }
-  }, []);
+  }, [data]);
 
   return (
     <>
