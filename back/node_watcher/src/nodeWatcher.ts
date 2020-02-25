@@ -4,7 +4,7 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
-import { getChainTypes } from '@polkadot/types/known';
+import { getSpecTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
 import { prisma } from './generated/prisma-client';
@@ -70,6 +70,7 @@ async function incrementor(
     }
   });
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     if (blockIndex > lastKnownBestFinalized) {
       lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
@@ -98,7 +99,7 @@ async function incrementor(
 
       // based on the node spec & chain, inject specific type overrides
       const chain = await api.rpc.system.chain();
-      api.registry.register(getChainTypes(chain, runtimeVersion));
+      api.registry.register(getSpecTypes(chain, runtimeVersion));
 
       api.registry.setMetadata(rpcMeta);
     }
