@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useSubscription, useQuery } from '@apollo/react-hooks';
+import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { ApiContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
@@ -17,7 +17,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import { OfflineValidator, Validator } from '../types';
-import { CURRENT_ELECTED, SESSIONS_SUBSCRIPTION, OFFLINE_VALIDATORS } from '../util/graphql';
+import {
+  CURRENT_ELECTED,
+  OFFLINE_VALIDATORS,
+  SESSIONS_SUBSCRIPTION,
+} from '../util/graphql';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
