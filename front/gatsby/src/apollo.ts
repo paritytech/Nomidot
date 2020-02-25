@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import * as ws from 'ws';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
@@ -17,6 +18,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
   },
+  webSocketImpl: process.env.NODE_ENV === 'production' ? ws : undefined
 });
 
 const link = split(

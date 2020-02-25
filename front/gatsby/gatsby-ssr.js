@@ -29,7 +29,8 @@ export const wrapRootElement = ({ element }) => (
 
 export const wrapPageElement = ({ element, props }) => (
   <Layout {...props}>
-    <Seo title='Polkadot/Kusama Staking Portal' />
+        <Seo title='Polkadot/Kusama Staking Portal' />
+
     <GlobalStyle />
     {element}
   </Layout>
