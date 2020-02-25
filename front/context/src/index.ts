@@ -6,7 +6,6 @@ export * from './AccountsContext';
 export * from './AlertsContext';
 export * from './ApiContext';
 export * from './HealthContext';
-// export * from './KeyringContext';
 export * from './SystemContext';
 export * from './TxQueueContext';
 export * from './util';
