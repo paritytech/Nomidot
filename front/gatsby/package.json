@@ -35,6 +35,7 @@
   },
   "scripts": {
     "build": "gatsby build",
+    "netlify": "gatsby build",
     "start": "gatsby develop",
     "start:prod": "yarn build && yarn serve",
     "serve": "gatsby serve",
