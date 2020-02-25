@@ -21,7 +21,7 @@
     ]
   },
   "dependencies": {
-    "@polkadot/api": "^1.2.0-beta.4"
+    "@polkadot/api": "^1.4.0-beta.46"
   },
   "devDependencies": {
     "@polkadot/dev": "^0.41.3",
@@ -31,7 +31,6 @@
     "eslint-plugin-simple-import-sort": "^5.0.0",
     "lerna": "^3.18.4",
     "prettier": "1.19.1",
-    "ts-jest": "^24.2.0",
     "typescript": "^3.8.2"
   },
   "resolutions": {
