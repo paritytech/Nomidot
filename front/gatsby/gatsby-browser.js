@@ -4,14 +4,11 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
-
-import { AccountsContextProvider } from '../context/src/AccountsContext';
-import {
-  ApiContextProvider,
-} from '../context/src/ApiContext';
 import { global } from '@substrate/design-system';
 import React from 'react';
 
+import { AccountsContextProvider } from '../context/src/AccountsContext';
+import { ApiContextProvider } from '../context/src/ApiContext';
 import client from './src/apollo';
 import { Layout, Seo } from './src/components';
 import { APP_SLUG } from './src/util';
@@ -24,7 +21,7 @@ export const wrapRootElement = ({ element }) => (
       provider={new WsProvider('wss://cc3-5.kusama.network/')}
     >
       <AccountsContextProvider originName={APP_SLUG}>
-        { element }
+        {element}
       </AccountsContextProvider>
     </ApiContextProvider>
   </ApolloProvider>

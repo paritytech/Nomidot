@@ -7,13 +7,13 @@ import { RouteComponentProps } from '@reach/router';
 import { Spinner } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
-import { LATEST_SESSION_QUERY } from '../util/graphql';
 import { CurrentElectedList } from '../components/CurrentElected';
+import { LATEST_SESSION_QUERY } from '../util/graphql';
 
 type Props = RouteComponentProps;
 
 const Validators = (_props: Props): React.ReactElement => {
-  let { data } = useQuery(LATEST_SESSION_QUERY);
+  const { data } = useQuery(LATEST_SESSION_QUERY);
   const [sessionIndex, setSessionIndex] = useState<number>();
 
   useEffect(() => {

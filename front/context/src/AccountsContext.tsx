@@ -37,7 +37,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
    */
   async function fetchAccounts(): Promise<void> {
     if (typeof window !== `undefined`) {
-      const { web3Accounts, web3Enable } = await import('@polkadot/extension-dapp');
+      const { web3Accounts, web3Enable } = await import(
+        '@polkadot/extension-dapp'
+      );
 
       const extensions = await web3Enable(originName);
 
@@ -46,7 +48,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           'No extension found. Please install PolkadotJS extension.'
         );
       }
-  
+
       setExtension(extensions[0]);
       setIsReady(true);
       setAccounts(await web3Accounts());
@@ -110,9 +112,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           }
 
           if (typeof window === 'undefined') {
-            throw new Error(
-              'Window does not exist during SSR'
-            );
+            throw new Error('Window does not exist during SSR');
           }
 
           return extension;

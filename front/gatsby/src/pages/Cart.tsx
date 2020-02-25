@@ -6,20 +6,14 @@ import { RouteComponentProps } from '@reach/router';
 import { Grid } from '@substrate/ui-components';
 import React from 'react';
 
-interface Props extends RouteComponentProps {
-  
-}
+type Props = RouteComponentProps;
 
-const Cart = (props: Props): React.ReactElement => {
-
+const Cart = (_props: Props): React.ReactElement => {
   return (
     <Grid>
-      <Grid.Column width='8'>
-
-      </Grid.Column>
+      <Grid.Column width='8'></Grid.Column>
     </Grid>
-  )
-
-}
+  );
+};
 
 export default Cart;

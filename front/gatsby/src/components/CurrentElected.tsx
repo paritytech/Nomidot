@@ -16,8 +16,8 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
-import { CURRENT_ELECTED, OFFLINE_VALIDATORS } from '../util/graphql';
 import { OfflineValidator, Validator } from '../types';
+import { CURRENT_ELECTED, OFFLINE_VALIDATORS } from '../util/graphql';
 
 interface Props {
   sessionIndex: number;
