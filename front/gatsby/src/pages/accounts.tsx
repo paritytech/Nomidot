@@ -4,8 +4,10 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, DecoratedAccount } from '@substrate/context';
-import { FadedText, Table } from '@substrate/ui-components';
+import { AddressSummary, FadedText, Table } from '@substrate/ui-components';
 import React, { useContext } from 'react';
+
+import { toShortAddress } from '../util';
 
 type Props = RouteComponentProps;
 
@@ -16,9 +18,32 @@ const AccountsList = (_props: Props) => {
     return (
       <Table.Row>
         <Table.Cell>
-          <FadedText>{account.address}</FadedText>
+          <AddressSummary
+            address={account.address}
+            name={account.meta.name}
+            noBalance
+            size='tiny'
+          />
         </Table.Cell>
-        <Table.Cell></Table.Cell>
+        <Table.Cell>
+          <FadedText>
+            {toShortAddress(account.stashId || account.address)}
+          </FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>
+            {toShortAddress(account.controllerId || account.address)}
+          </FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.unlocking?.toString() || 'N/A'}</FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.redeemable?.toString() || 'N/A'}</FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.nominateAt?.toString() || 'N/A'}</FadedText>
+        </Table.Cell>
       </Table.Row>
     );
   };
@@ -32,6 +57,7 @@ const AccountsList = (_props: Props) => {
           <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
           <Table.HeaderCell>Total Funds</Table.HeaderCell>
           <Table.HeaderCell>Transferable</Table.HeaderCell>
+          <Table.HeaderCell>Create Bond</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>

@@ -117,7 +117,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           }
 
           if (IS_SSR) {
-        
             throw new Error('Window does not exist during SSR');
           }
 
