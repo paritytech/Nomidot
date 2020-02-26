@@ -93,7 +93,7 @@ type Motion {
   motionStatus: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
   preimage: Preimage @relation(name: "PreimageForMotion")
   preimageHash: String
-  treasurySpendProposal: TreasurySpendProposal @relation(name: "TreasurySpendProposalFromMotion")
+  treasurySpendProposal: TreasurySpendProposal @relation(name: "TreasurySpendProposalForMotion")
   section: String!
 }
 
