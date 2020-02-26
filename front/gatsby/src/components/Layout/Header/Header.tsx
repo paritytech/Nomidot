@@ -16,7 +16,7 @@ import { APP_TITLE } from '../../../util';
 interface Props extends RouteComponentProps {}
 
 export function Header(props: Props): React.ReactElement {
-  const { location, path, navigate } = props;
+  const { location, path } = props;
   const { accounts, fetchAccounts } = useContext(AccountsContext);
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
 
@@ -33,7 +33,7 @@ export function Header(props: Props): React.ReactElement {
   }, [fetchAccounts]);
 
   const navToCartPage = () => {
-    navigate && navigate('/cart');
+    navigate('/cart');
   }
 
   return (
@@ -62,7 +62,7 @@ export function Header(props: Props): React.ReactElement {
           <Button
             key={shortid.generate()} // FIXME: why do i need a key here...
             onClick={() => {
-              navigate(`AccountsList`);
+              navigate(`/accounts`);
             }}
           >
             Accounts
@@ -70,7 +70,7 @@ export function Header(props: Props): React.ReactElement {
           <Button
             key={shortid.generate()} // FIXME: why do i need a key here
             onClick={() => {
-              navigate(`validators`);
+              navigate(`/validators`);
             }}
           >
             Validators
