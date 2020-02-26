@@ -6,9 +6,11 @@ import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
-import React, { createContext, useState } from 'react';
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import React, { createContext, useContext, useState } from 'react';
 
 import { IS_SSR } from './util';
+import { SystemContext } from './SystemContext';
 
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
@@ -30,6 +32,7 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
+  const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
@@ -57,7 +60,15 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       setExtension(extensions[0]);
       setIsReady(true);
-      setAccounts(await web3Accounts());
+
+      let _accounts = await web3Accounts();
+
+      // make sure it's encoded correctly
+      _accounts.map((account: InjectedAccountWithMeta) => {
+        account.address = encodeAddress(decodeAddress(account.address), 2);
+      })
+
+      setAccounts(_accounts);
     }
   }
 
