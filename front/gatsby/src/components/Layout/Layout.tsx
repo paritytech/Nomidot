@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Grid } from '@substrate/ui-components';
+import { Container } from '@substrate/ui-components';
 import React from 'react';
 
 import { Header } from './Header';
@@ -13,9 +13,11 @@ interface Props {
 
 export function Layout({ children }: Props): React.ReactElement {
   return (
-    <Grid container>
+    <>
       <Header />
-      {children}
-    </Grid>
+      <Container padded>
+        {children}
+      </Container>
+    </>
   );
 }

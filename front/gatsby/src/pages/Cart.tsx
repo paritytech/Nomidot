@@ -9,6 +9,11 @@ import React from 'react';
 type Props = RouteComponentProps;
 
 const Cart = (_props: Props): React.ReactElement => {
+
+  const fetchValidatorsInCart = () => {
+    
+  }
+
   return (
     <Grid>
       <Grid.Column width='8'></Grid.Column>

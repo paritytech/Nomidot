@@ -5,8 +5,8 @@
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { AccountsContext, ApiContext } from '@substrate/context';
-import { Button, ItemStats, MainMenu } from '@substrate/design-system';
-import { AddressSummary } from '@substrate/ui-components';
+import { Button, ItemStats, Margin, MainMenu } from '@substrate/design-system';
+import { AddressSummary, Container, Icon, StackedHorizontal } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
@@ -200,7 +200,7 @@ export function Header(): React.ReactElement {
       <MainMenu
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
-          <>
+          <StackedHorizontal>
             {accounts.length ? (
               <div>
                 <AddressSummary
@@ -213,7 +213,9 @@ export function Header(): React.ReactElement {
             ) : (
               <Button onClick={handleLogin}>Login</Button>
             )}
-          </>
+            <Margin left />
+            <Icon inverted name='cart' size='large' style={{ zIndex: 10000 }} />
+          </StackedHorizontal>
         }
         tabs={[
           <Button
@@ -234,12 +236,12 @@ export function Header(): React.ReactElement {
           </Button>,
         ]}
       />
-      <header style={{ display: 'flex' }}>
+      <Container style={{ display: 'flex' }}>
         <BlockHeader />
         <EraHeader />
         <SessionHeader />
         <StakingHeader />
-      </header>
+      </Container>
     </>
   );
 }
