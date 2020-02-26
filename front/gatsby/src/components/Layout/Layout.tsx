@@ -2,20 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Grid } from '@substrate/ui-components';
+import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
 import { Header } from './Header';
 
-interface Props {
+interface Props extends RouteComponentProps {
   children: React.ReactNode;
 }
 
-export function Layout({ children }: Props): React.ReactElement {
+export function Layout(props: Props): React.ReactElement {
+  const { children } = props;
+
   return (
-    <Grid container>
-      <Header />
+    <>
+      <Header {...props} />
       {children}
-    </Grid>
+    </>
   );
 }
