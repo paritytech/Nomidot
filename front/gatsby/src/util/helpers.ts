@@ -13,6 +13,10 @@ export function isCartItem(item: string): boolean {
   return item.slice(0, 5) === 'cart:';
 }
 
+export function stripAddressFromCartItem(item: string): string {
+  return item.slice(5);
+}
+
 export function getCartItemsCount(): number {
   let count = 0;
 

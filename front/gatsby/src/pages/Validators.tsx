@@ -170,15 +170,11 @@ const CurrentElectedList = (): React.ReactElement => {
 
   return (
     <Container>
-      <Grid container>
         {currentElected ? (
-          <Grid.Row style={{ minWidth: '100%' }} centered>
-            {renderValidatorsTable()}
-          </Grid.Row>
+          renderValidatorsTable()
         ) : (
           <Spinner inline />
         )}
-      </Grid>
     </Container>
   );
 };

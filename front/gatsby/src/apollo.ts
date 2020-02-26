@@ -18,7 +18,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
   },
-  webSocketImpl: process.env.NODE_ENV === 'production' ? ws : window.WebSocket, // ws does not work in the browser. Browser clients must use the native WebSocket object. But during production SSR, we must use ws.
+  webSocketImpl: typeof window === 'undefined' ? ws : window.WebSocket, // ws does not work in the browser. Browser clients must use the native WebSocket object. But during production SSR, we must use ws.
 });
 
 const link = split(
