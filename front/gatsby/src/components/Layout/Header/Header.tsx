@@ -28,7 +28,6 @@ type Props = RouteComponentProps;
 
 export function Header(_props: Props): React.ReactElement {
   const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
-
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
 
   const handleLogin = useCallback(async () => {

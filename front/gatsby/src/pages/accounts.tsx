@@ -4,15 +4,8 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, DecoratedAccount } from '@substrate/context';
-import {
-  AddressSummary,
-  Container,
-  FadedText,
-  Table,
-} from '@substrate/ui-components';
+import { FadedText, Table } from '@substrate/ui-components';
 import React, { useContext } from 'react';
-
-import { toShortAddress } from '../util';
 
 type Props = RouteComponentProps;
 
@@ -23,60 +16,32 @@ const AccountsList = (_props: Props) => {
     return (
       <Table.Row>
         <Table.Cell>
-          <AddressSummary
-            address={account.address}
-            name={account.meta.name}
-            noBalance
-            size='tiny'
-          />
+          <FadedText>{account.address}</FadedText>
         </Table.Cell>
-        <Table.Cell>
-          <FadedText>
-            {toShortAddress(account.stashId || account.address)}
-          </FadedText>
-        </Table.Cell>
-        <Table.Cell>
-          <FadedText>
-            {toShortAddress(account.controllerId || account.address)}
-          </FadedText>
-        </Table.Cell>
-        <Table.Cell>
-          <FadedText>{account.unlocking?.toString() || 'N/A'}</FadedText>
-        </Table.Cell>
-        <Table.Cell>
-          <FadedText>{account.redeemable?.toString() || 'N/A'}</FadedText>
-        </Table.Cell>
-        <Table.Cell>
-          <FadedText>{account.nominateAt?.toString() || 'N/A'}</FadedText>
-        </Table.Cell>
+        <Table.Cell></Table.Cell>
       </Table.Row>
     );
   };
 
-  const renderAccountsTable = () => {
-    return (
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Identicon</Table.HeaderCell>
-            <Table.HeaderCell>Stash</Table.HeaderCell>
-            <Table.HeaderCell>Controller</Table.HeaderCell>
-            <Table.HeaderCell>Unlocking</Table.HeaderCell>
-            <Table.HeaderCell>Redeemable</Table.HeaderCell>
-            <Table.HeaderCell>Nominate At</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {decoratedAccounts &&
-            decoratedAccounts.map((account: DecoratedAccount) => {
-              return renderRow(account);
-            })}
-        </Table.Body>
-      </Table>
-    );
-  };
-
-  return <Container>{renderAccountsTable()}</Container>;
+  return (
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Stash</Table.HeaderCell>
+          <Table.HeaderCell>Controller</Table.HeaderCell>
+          <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
+          <Table.HeaderCell>Total Funds</Table.HeaderCell>
+          <Table.HeaderCell>Transferable</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {decoratedAccounts &&
+          decoratedAccounts.map((account: DecoratedAccount) => {
+            return renderRow(account);
+          })}
+      </Table.Body>
+    </Table>
+  );
 };
 
 export default AccountsList;
