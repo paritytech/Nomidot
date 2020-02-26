@@ -9,6 +9,7 @@ import React from 'react';
 
 import { AccountsContextProvider } from '../context/src/AccountsContext';
 import { ApiContextProvider } from '../context/src/ApiContext';
+import { SystemContextProvider } from '../context/src/SystemContext';
 import client from './src/apollo';
 import { Layout, Seo } from './src/components';
 import { APP_SLUG } from './src/util';
@@ -20,9 +21,11 @@ export const wrapRootElement = ({ element }) => (
     <ApiContextProvider
       provider={new WsProvider('wss://cc3-5.kusama.network/')}
     >
-      <AccountsContextProvider originName={APP_SLUG}>
-        {element}
-      </AccountsContextProvider>
+      <SystemContextProvider>
+        <AccountsContextProvider originName={APP_SLUG}>
+          {element}
+        </AccountsContextProvider>
+      </SystemContextProvider>
     </ApiContextProvider>
   </ApolloProvider>
 );

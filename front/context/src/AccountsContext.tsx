@@ -32,7 +32,7 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-  const { chain } = useContext(SystemContext);
+  const { properties } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
@@ -60,6 +60,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       setExtension(extensions[0]);
       setIsReady(true);
+
+      console.log(properties.ss58Format);
 
       let _accounts = await web3Accounts();
 
