@@ -2,23 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedStakingAccount } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
-
-import { DerivedStakingAccount } from '@polkadot/api-derive/types';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { ApiContext } from './ApiContext';
 import { SystemContext } from './SystemContext';
 import { IS_SSR } from './util';
 
+export interface DecoratedAccount
+  extends InjectedAccountWithMeta,
+    DerivedStakingAccount {}
+
 interface AccountsContext {
-  accounts: InjectedAccountWithMeta[];
+  decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
@@ -40,28 +43,37 @@ interface Props {
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
   const { api, isApiReady } = useContext(ApiContext);
-  const { chain, properties } = useContext(SystemContext);
+  const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [decoratedAccounts, setDecoratedAccounts] = useState<
+    DecoratedAccount[]
+  >([]); // FIXME: any
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (!isApiReady || !accounts) {
-      return
+      return;
     } else {
       // make sure it's encoded correctly
       accounts.map((account: InjectedAccountWithMeta) => {
         account.address = encodeAddress(decodeAddress(account.address), 2);
 
-        const sub = api.derive.staking.account(account.address)
-          .pipe(
-            take(1)
-          ).subscribe((derivedStakingAccount: DerivedStakingAccount) => {
-            console.log(derivedStakingAccount);
+        const sub = api.derive.staking
+          .account(account.address)
+          .pipe(take(1), distinctUntilChanged())
+          .subscribe((derivedStakingAccount: DerivedStakingAccount) => {
+            setDecoratedAccounts([
+              ...decoratedAccounts,
+              {
+                ...account,
+                ...derivedStakingAccount,
+              },
+            ]);
           });
-        
+
         return () => sub.unsubscribe();
-      })
+      });
     }
   }, [accounts, isApiReady]);
 
@@ -96,7 +108,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   return (
     <AccountsContext.Provider
       value={{
-        accounts,
+        decoratedAccounts,
         get extension(): InjectedExtension {
           if (!extension) {
             throw new Error(
@@ -105,6 +117,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           }
 
           if (IS_SSR) {
+            ``;
             throw new Error('Window does not exist during SSR');
           }
 

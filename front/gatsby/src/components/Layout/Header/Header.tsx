@@ -27,7 +27,7 @@ import {
 type Props = RouteComponentProps;
 
 export function Header(_props: Props): React.ReactElement {
-  const { accounts, fetchAccounts } = useContext(AccountsContext);
+  const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
 
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
 
@@ -57,11 +57,11 @@ export function Header(_props: Props): React.ReactElement {
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
           <StackedHorizontal justifyContent='center' alignItems='center'>
-            {accounts.length ? (
+            {decoratedAccounts.length ? (
               <div>
                 <AddressSummary
-                  address={accounts[0].address}
-                  name={accounts[0].meta.name}
+                  address={decoratedAccounts[0].address}
+                  name={decoratedAccounts[0].meta.name}
                   noBalance
                   size='tiny'
                 />

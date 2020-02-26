@@ -9,30 +9,31 @@ import React from 'react';
 
 import { AccountsContextProvider } from '../context/src/AccountsContext';
 import { ApiContextProvider } from '../context/src/ApiContext';
-import { SystemContext, SystemContextProvider } from '../context/src/SystemContext';
+import {
+  SystemContext,
+  SystemContextProvider,
+} from '../context/src/SystemContext';
 import client from './src/apollo';
 import { Layout, Seo } from './src/components';
 import { APP_SLUG } from './src/util';
 
 const { GlobalStyle } = global;
-const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/')
+const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/');
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
-    <ApiContextProvider
-      provider={WS_PROVIDER}
-    >
+    <ApiContextProvider provider={WS_PROVIDER}>
       <SystemContextProvider provider={WS_PROVIDER}>
         <SystemContext.Consumer>
-          {
-            isSystemReady => {
-              return isSystemReady && (
+          {isSystemReady => {
+            return (
+              isSystemReady && (
                 <AccountsContextProvider originName={APP_SLUG}>
                   {element}
                 </AccountsContextProvider>
               )
-            }
-          }
+            );
+          }}
         </SystemContext.Consumer>
       </SystemContextProvider>
     </ApiContextProvider>

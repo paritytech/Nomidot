@@ -2,10 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext } from '@substrate/context';
-import { AddressSummary, Container, FadedText, Table } from '@substrate/ui-components';
+import { AccountsContext, DecoratedAccount } from '@substrate/context';
+import {
+  AddressSummary,
+  Container,
+  FadedText,
+  Table,
+} from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
 import { toShortAddress } from '../util';
@@ -13,16 +17,38 @@ import { toShortAddress } from '../util';
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props) => {
-  const { accounts } = useContext(AccountsContext);
+  const { decoratedAccounts } = useContext(AccountsContext);
 
-  const renderRow = (account: InjectedAccountWithMeta) => {
+  const renderRow = (account: DecoratedAccount) => {
     return (
       <Table.Row>
-        <Table.Cell><AddressSummary address={account.address} name={account.meta.name} noBalance size='tiny' /></Table.Cell>
         <Table.Cell>
-          <FadedText>{toShortAddress(account.address)}</FadedText>
+          <AddressSummary
+            address={account.address}
+            name={account.meta.name}
+            noBalance
+            size='tiny'
+          />
         </Table.Cell>
-        <Table.Cell></Table.Cell>
+        <Table.Cell>
+          <FadedText>
+            {toShortAddress(account.stashId || account.address)}
+          </FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>
+            {toShortAddress(account.controllerId || account.address)}
+          </FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.unlocking?.toString() || 'N/A'}</FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.redeemable?.toString() || 'N/A'}</FadedText>
+        </Table.Cell>
+        <Table.Cell>
+          <FadedText>{account.nominateAt?.toString() || 'N/A'}</FadedText>
+        </Table.Cell>
       </Table.Row>
     );
   };
@@ -35,26 +61,22 @@ const AccountsList = (_props: Props) => {
             <Table.HeaderCell>Identicon</Table.HeaderCell>
             <Table.HeaderCell>Stash</Table.HeaderCell>
             <Table.HeaderCell>Controller</Table.HeaderCell>
-            <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
-            <Table.HeaderCell>Total Funds</Table.HeaderCell>
-            <Table.HeaderCell>Transferable</Table.HeaderCell>
+            <Table.HeaderCell>Unlocking</Table.HeaderCell>
+            <Table.HeaderCell>Redeemable</Table.HeaderCell>
+            <Table.HeaderCell>Nominate At</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {accounts &&
-            accounts.map((account: InjectedAccountWithMeta) => {
+          {decoratedAccounts &&
+            decoratedAccounts.map((account: DecoratedAccount) => {
               return renderRow(account);
             })}
         </Table.Body>
       </Table>
     );
-  }
+  };
 
-  return (
-    <Container>
-      {renderAccountsTable()}
-    </Container>
-  )
+  return <Container>{renderAccountsTable()}</Container>;
 };
 
 export default AccountsList;
