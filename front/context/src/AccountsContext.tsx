@@ -47,7 +47,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [decoratedAccounts, setDecoratedAccounts] = useState<
     DecoratedAccount[]
-  >([]); // FIXME: any
+  >([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
 
