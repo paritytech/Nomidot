@@ -11,25 +11,26 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import { BlockHeader, EraHeader, SessionHeader, StakingHeader } from './Subheaders';
-import { APP_TITLE } from '../../../util';
+import { APP_TITLE, getCartItemsCount } from '../../../util';
 
 interface Props extends RouteComponentProps {}
 
 export function Header(props: Props): React.ReactElement {
   const { location, path } = props;
   const { accounts, fetchAccounts } = useContext(AccountsContext);
+
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
 
   useEffect(() => {
+    let count = getCartItemsCount();
+    setNumberOfItemsInCart(count);
+
     handleLogin();
   }, []);
 
   useEffect(() => {
-    for (let i in localStorage) {
-      console.log(i);
-    }    
 
-  }, [localStorage]);
+  })
 
   const handleLogin = useCallback(async () => {
     try {
@@ -48,7 +49,7 @@ export function Header(props: Props): React.ReactElement {
       <MainMenu
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
-          <StackedHorizontal>
+          <StackedHorizontal justifyContent='center' alignItems='center'>
             {accounts.length ? (
               <div>
                 <AddressSummary
@@ -61,7 +62,7 @@ export function Header(props: Props): React.ReactElement {
             ) : (
               <Button onClick={handleLogin}>Login</Button>
             )}
-            <Margin left='huge' />
+            <Margin left='big' />
             <Icon inverted link name='cart' size='large' onClick={navToCartPage} />
             <p>{numberOfItemsInCart}</p>
           </StackedHorizontal>
