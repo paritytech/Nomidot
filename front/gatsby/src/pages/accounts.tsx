@@ -4,7 +4,12 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, DecoratedAccount } from '@substrate/context';
-import { AddressSummary, FadedText, Table } from '@substrate/ui-components';
+import {
+  AddressSummary,
+  Container,
+  FadedText,
+  Table,
+} from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
 import { toShortAddress } from '../util';
@@ -49,24 +54,26 @@ const AccountsList = (_props: Props) => {
   };
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Stash</Table.HeaderCell>
-          <Table.HeaderCell>Controller</Table.HeaderCell>
-          <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
-          <Table.HeaderCell>Total Funds</Table.HeaderCell>
-          <Table.HeaderCell>Transferable</Table.HeaderCell>
-          <Table.HeaderCell>Create Bond</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {decoratedAccounts &&
-          decoratedAccounts.map((account: DecoratedAccount) => {
-            return renderRow(account);
-          })}
-      </Table.Body>
-    </Table>
+    <Container>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Stash</Table.HeaderCell>
+            <Table.HeaderCell>Controller</Table.HeaderCell>
+            <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
+            <Table.HeaderCell>Total Funds</Table.HeaderCell>
+            <Table.HeaderCell>Transferable</Table.HeaderCell>
+            <Table.HeaderCell>Create Bond</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {decoratedAccounts &&
+            decoratedAccounts.map((account: DecoratedAccount) => {
+              return renderRow(account);
+            })}
+        </Table.Body>
+      </Table>
+    </Container>
   );
 };
 

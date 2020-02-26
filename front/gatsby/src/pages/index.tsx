@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import { navigate } from 'gatsby';
+import React, { useEffect } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -10,6 +11,10 @@ interface Props {
 
 const IndexPage = (props: Props) => {
   const { children } = props;
+
+  useEffect(() => {
+    navigate('/validators');
+  }, []);
 
   return <div>{children}</div>;
 };

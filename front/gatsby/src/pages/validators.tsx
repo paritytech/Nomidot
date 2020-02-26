@@ -106,7 +106,7 @@ const CurrentElectedList = (): React.ReactElement => {
     if (stash) {
       localStorage.setItem(`cart:${stash}`, stash);
     } else {
-      alert('Something went wrong. Please try again.');
+      alert('Something went wrong. Please try again later.');
     }
   };
 
