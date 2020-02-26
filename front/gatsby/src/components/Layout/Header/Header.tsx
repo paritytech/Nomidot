@@ -24,6 +24,13 @@ export function Header(props: Props): React.ReactElement {
     handleLogin();
   }, []);
 
+  useEffect(() => {
+    for (let i in localStorage) {
+      console.log(i);
+    }    
+
+  }, [localStorage]);
+
   const handleLogin = useCallback(async () => {
     try {
       await fetchAccounts();
@@ -54,8 +61,9 @@ export function Header(props: Props): React.ReactElement {
             ) : (
               <Button onClick={handleLogin}>Login</Button>
             )}
-            <Margin left />
+            <Margin left='huge' />
             <Icon inverted link name='cart' size='large' onClick={navToCartPage} />
+            <p>{numberOfItemsInCart}</p>
           </StackedHorizontal>
         }
         tabs={[

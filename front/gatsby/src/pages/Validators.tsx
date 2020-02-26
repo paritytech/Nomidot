@@ -99,8 +99,12 @@ const CurrentElectedList = (): React.ReactElement => {
     }
   }, [currentValidators, currentOffline]);
 
-  const handleAddToCart = (): void => {
-    // do nothing for now
+  const handleAddToCart = ({ currentTarget: { dataset: { stash } } }: React.MouseEvent<HTMLButtonElement>): void => {
+    if (stash) {
+      localStorage.setItem(`cart:${stash}`, stash);
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
@@ -151,7 +155,7 @@ const CurrentElectedList = (): React.ReactElement => {
                     </FadedText>
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
-                    <Button onClick={handleAddToCart}> Add To Cart </Button>
+                    <Button onClick={handleAddToCart} data-stash={stash}> Add To Cart </Button>
                   </Table.Cell>
                 </Table.Row>
               )
