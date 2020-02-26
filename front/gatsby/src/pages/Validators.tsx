@@ -10,7 +10,6 @@ import {
   AddressSummary,
   Container,
   FadedText,
-  Grid,
   Table,
 } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
@@ -99,14 +98,22 @@ const CurrentElectedList = (): React.ReactElement => {
     }
   }, [currentValidators, currentOffline]);
 
-  const handleAddToCart = (): void => {
-    // do nothing for now
+  const handleAddToCart = ({
+    currentTarget: {
+      dataset: { stash },
+    },
+  }: React.MouseEvent<HTMLButtonElement>): void => {
+    if (stash) {
+      localStorage.setItem(`cart:${stash}`, stash);
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
     return (
-      <Table celled collapsing padded='very' striped size='large' width='100%'>
-        <Table.Header fullWidth>
+      <Table celled padded striped size='large'>
+        <Table.Header>
           <Table.Row>
             <Table.HeaderCell> Offline </Table.HeaderCell>
             <Table.HeaderCell>Stash</Table.HeaderCell>
@@ -151,7 +158,10 @@ const CurrentElectedList = (): React.ReactElement => {
                     </FadedText>
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
-                    <Button onClick={handleAddToCart}> Add To Cart </Button>
+                    <Button onClick={handleAddToCart} data-stash={stash}>
+                      {' '}
+                      Add To Cart{' '}
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               )
@@ -166,15 +176,7 @@ const CurrentElectedList = (): React.ReactElement => {
 
   return (
     <Container>
-      <Grid container>
-        {currentElected ? (
-          <Grid.Row style={{ minWidth: '100%' }} centered>
-            {renderValidatorsTable()}
-          </Grid.Row>
-        ) : (
-          <Spinner inline />
-        )}
-      </Grid>
+      {currentElected ? renderValidatorsTable() : <Spinner inline />}
     </Container>
   );
 };
