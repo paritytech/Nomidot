@@ -105,7 +105,7 @@ const CurrentElectedList = (): React.ReactElement => {
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
-      store.setItem(`cart:${stash}`, stash);
+      store.set(`cart:${stash}`, stash);
     } else {
       alert('Something went wrong. Please try again later.');
     }

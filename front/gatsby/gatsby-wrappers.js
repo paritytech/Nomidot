@@ -6,6 +6,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
 import { global } from '@substrate/design-system';
 import React from 'react';
+import store from 'store';
+import eventsPlugin from 'store/plugins/events';
 
 import { AccountsContextProvider } from '../context/src/AccountsContext';
 import { ApiContextProvider } from '../context/src/ApiContext';
@@ -19,6 +21,7 @@ import { APP_SLUG } from './src/util';
 
 const { GlobalStyle } = global;
 const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/');
+store.addPlugin(eventsPlugin);
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
