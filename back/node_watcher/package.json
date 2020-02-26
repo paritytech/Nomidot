@@ -21,7 +21,7 @@
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node ./src/index.ts"
+    "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {
     "@polkadot/api": "^1.4.0-beta.46",
