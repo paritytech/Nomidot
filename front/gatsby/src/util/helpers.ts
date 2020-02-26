@@ -10,7 +10,7 @@ export function toShortAddress(address: string): string {
 }
 
 export function isCartItem(item: string): boolean {
-  return item.slice(0, 5) === 'cart:';
+  return item.startsWith('cart:');
 }
 
 export function stripAddressFromCartItem(item: string): string {
@@ -20,7 +20,7 @@ export function stripAddressFromCartItem(item: string): string {
 export function getCartItemsCount(): number {
   let count = 0;
 
-  for (let key in localStorage) {
+  for (const key in localStorage) {
     if (isCartItem(key)) {
       count += 1;
     }
@@ -30,9 +30,9 @@ export function getCartItemsCount(): number {
 }
 
 export function getCartItems(): Array<string> {
-  let result = [];
+  const result = [];
 
-  for (let key in localStorage) {
+  for (const key in localStorage) {
     if (isCartItem(key)) {
       result.push(key);
     }
@@ -42,13 +42,13 @@ export function getCartItems(): Array<string> {
 }
 
 export function clearCart(): void {
-  for (let key in localStorage) {
+  for (const key in localStorage) {
     if (isCartItem(key)) {
-      localStorage.removeItem(key)
+      localStorage.removeItem(key);
     }
   }
 }
 
 export function removeCartItem(itemKey: string): void {
-  localStorage.removeItem(itemKey)
+  localStorage.removeItem(itemKey);
 }

@@ -10,7 +10,6 @@ import {
   AddressSummary,
   Container,
   FadedText,
-  Grid,
   Table,
 } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
@@ -99,7 +98,11 @@ const CurrentElectedList = (): React.ReactElement => {
     }
   }, [currentValidators, currentOffline]);
 
-  const handleAddToCart = ({ currentTarget: { dataset: { stash } } }: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleAddToCart = ({
+    currentTarget: {
+      dataset: { stash },
+    },
+  }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
       localStorage.setItem(`cart:${stash}`, stash);
     } else {
@@ -155,7 +158,10 @@ const CurrentElectedList = (): React.ReactElement => {
                     </FadedText>
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
-                    <Button onClick={handleAddToCart} data-stash={stash}> Add To Cart </Button>
+                    <Button onClick={handleAddToCart} data-stash={stash}>
+                      {' '}
+                      Add To Cart{' '}
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               )
@@ -170,11 +176,7 @@ const CurrentElectedList = (): React.ReactElement => {
 
   return (
     <Container>
-        {currentElected ? (
-          renderValidatorsTable()
-        ) : (
-          <Spinner inline />
-        )}
+      {currentElected ? renderValidatorsTable() : <Spinner inline />}
     </Container>
   );
 };

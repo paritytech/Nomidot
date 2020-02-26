@@ -7,10 +7,7 @@ import { ItemStats } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
 import { toShortAddress } from '../../../../util';
-
-import {
-  BLOCKS_SUBSCRIPTION,
-} from '../../../../util/graphql';
+import { BLOCKS_SUBSCRIPTION } from '../../../../util/graphql';
 import { BlockHead } from '../types';
 
 const BlockHeader = (): React.ReactElement => {

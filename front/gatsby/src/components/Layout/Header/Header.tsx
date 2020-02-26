@@ -5,29 +5,31 @@
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
-import { AddressSummary, Container, Icon, Margin, StackedHorizontal } from '@substrate/ui-components';
+import {
+  AddressSummary,
+  Container,
+  Icon,
+  Margin,
+  StackedHorizontal,
+} from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
-import { BlockHeader, EraHeader, SessionHeader, StakingHeader } from './Subheaders';
 import { APP_TITLE, getCartItemsCount } from '../../../util';
+import {
+  BlockHeader,
+  EraHeader,
+  SessionHeader,
+  StakingHeader,
+} from './Subheaders';
 
-interface Props extends RouteComponentProps {}
+type Props = RouteComponentProps;
 
-export function Header(props: Props): React.ReactElement {
-  const { location, path } = props;
+export function Header(_props: Props): React.ReactElement {
   const { accounts, fetchAccounts } = useContext(AccountsContext);
 
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
-
-  useEffect(() => {
-    let count = getCartItemsCount();
-    setNumberOfItemsInCart(count);
-    handleLogin();
-
-    // FIXME: use store.js for window.addEventListener('storage', updateCartItems);
-  }, []);
 
   const handleLogin = useCallback(async () => {
     try {
@@ -37,9 +39,17 @@ export function Header(props: Props): React.ReactElement {
     }
   }, [fetchAccounts]);
 
+  useEffect(() => {
+    const count = getCartItemsCount();
+    setNumberOfItemsInCart(count);
+    handleLogin();
+
+    // FIXME: use store.js for window.addEventListener('storage', updateCartItems);
+  }, []);
+
   const navToCartPage = () => {
     navigate('/cart');
-  }
+  };
 
   return (
     <>
@@ -60,7 +70,13 @@ export function Header(props: Props): React.ReactElement {
               <Button onClick={handleLogin}>Login</Button>
             )}
             <Margin left='big' />
-            <Icon inverted link name='cart' size='large' onClick={navToCartPage} />
+            <Icon
+              inverted
+              link
+              name='cart'
+              size='large'
+              onClick={navToCartPage}
+            />
             <p>{numberOfItemsInCart}</p>
           </StackedHorizontal>
         }

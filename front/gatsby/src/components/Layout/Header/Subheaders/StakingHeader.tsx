@@ -8,9 +8,7 @@ import { ApiContext } from '@substrate/context';
 import { ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
-import {
-  STAKING_SUBSCRIPTION,
-} from '../../../../util/graphql';
+import { STAKING_SUBSCRIPTION } from '../../../../util/graphql';
 import { StakingHead } from '../types';
 
 const StakingHeader = (): React.ReactElement => {

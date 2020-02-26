@@ -7,11 +7,8 @@ import { ApiContext } from '@substrate/context';
 import { ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
+import { ERAS_SUBSCRIPTION, LATEST_ERA_QUERY } from '../../../../util/graphql';
 import { EraHead } from '../types';
-import {
-  ERAS_SUBSCRIPTION,
-  LATEST_ERA_QUERY
-} from '../../../../util/graphql';
 
 const EraHeader = (): React.ReactElement => {
   const { api } = useContext(ApiContext);
