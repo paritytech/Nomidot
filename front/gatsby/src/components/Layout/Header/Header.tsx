@@ -24,13 +24,14 @@ export function Header(props: Props): React.ReactElement {
   useEffect(() => {
     let count = getCartItemsCount();
     setNumberOfItemsInCart(count);
-
     handleLogin();
+
+    // window.addEventListener('storage', updateCartItems);
   }, []);
 
-  useEffect(() => {
-
-  })
+  // const updateCartItems = (event) => {
+  //   console.log(event);
+  // }
 
   const handleLogin = useCallback(async () => {
     try {

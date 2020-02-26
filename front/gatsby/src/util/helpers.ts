@@ -16,8 +16,8 @@ export function isCartItem(item: string): boolean {
 export function getCartItemsCount(): number {
   let count = 0;
 
-  for (let i in localStorage) {
-    if (isCartItem(i)) {
+  for (let key in localStorage) {
+    if (isCartItem(key)) {
       count += 1;
     }
   }
@@ -28,11 +28,23 @@ export function getCartItemsCount(): number {
 export function getCartItems(): Array<string> {
   let result = [];
 
-  for (let i in localStorage) {
-    if (isCartItem(i)) {
-      result.push(i);
+  for (let key in localStorage) {
+    if (isCartItem(key)) {
+      result.push(key);
     }
   }
 
   return result;
+}
+
+export function clearCart(): void {
+  for (let key in localStorage) {
+    if (isCartItem(key)) {
+      localStorage.removeItem(key)
+    }
+  }
+}
+
+export function removeCartItem(itemKey: string): void {
+  localStorage.removeItem(itemKey)
 }
