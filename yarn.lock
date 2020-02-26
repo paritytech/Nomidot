@@ -2588,6 +2588,11 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
+"@rehooks/local-storage@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@rehooks/local-storage/-/local-storage-2.2.2.tgz#9e7c998838b513fc378a527db218e0a6d797c387"
+  integrity sha512-tBhDB4qkJwXE6Gl/pu9E5qsRMqyhEQc95v1PnxQ5TgxS5LdMWXRxD4VO0Vl3TTJS4BTDzZ7NQ+j23lIT547Tzw==
+
 "@semantic-ui-react/event-stack@^3.1.0":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@semantic-ui-react/event-stack/-/event-stack-3.1.1.tgz#3263d17511db81a743167fe45281a24b3eb6b3c8"

@@ -14,14 +14,14 @@ import {
 } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
-import store from 'store';
 
 import { OfflineValidator, Validator } from '../types';
-import {
+import { 
+  addToCart,
   CURRENT_ELECTED,
   OFFLINE_VALIDATORS,
-  SESSIONS_SUBSCRIPTION,
-} from '../util/graphql';
+  SESSIONS_SUBSCRIPTION
+} from '../util';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
@@ -105,7 +105,7 @@ const CurrentElectedList = (): React.ReactElement => {
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
-      store.set(`cart:${stash}`, stash);
+      addToCart(`cart:${stash}`, stash);
     } else {
       alert('Something went wrong. Please try again later.');
     }
