@@ -93,6 +93,7 @@ type Motion {
   motionStatus: [MotionStatus]! @relation(name: "MotionStatusFromMotion")
   preimage: Preimage @relation(name: "PreimageForMotion")
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposal @relation(name: "TreasurySpendProposalFromMotion")
   section: String!
 }
 
@@ -181,19 +182,20 @@ type BlockIndex {
   index: Int!
 }
 
-type Treasury {
-  id: Int! @id(strategy: SEQUENCE) @sequence(name: "TREASURY_SEQUENCE" initialValue:1 allocationSize:1)
+type TreasurySpendProposal {
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "TREASURY_SPEND_PROPOSAL_SEQUENCE" initialValue:1 allocationSize:1)
   proposer: String!
   beneficiary: String!
   value: String!
   bond: String!
   treasuryProposalId: Int! @unique
-  treasuryStatus: [TreasuryStatus]! @relation(name: "TreasuryStatusFromTreasury")
+  treasuryStatus: [TreasuryStatus]! @relation(name: "TreasuryStatusFromTreasurySpendProposal")
+  motion: Motion @relation(name: "TreasurySpendProposalForMotion", link: INLINE)
 }
 
 type TreasuryStatus {
   id: ID! @id
   blockNumber: BlockNumber! @relation(name: "TreasuryStatusAtBlockNumber", link: INLINE)
-  treasury: Treasury! @relation(name: "TreasuryStatusFromTreasury", link: INLINE)
+  treasurySpendProposal: TreasurySpendProposal! @relation(name: "TreasuryStatusFromTreasurySpendProposal", link: INLINE)
   status: String!
 }

@@ -86,7 +86,7 @@ type AggregateTotalIssuance {
   count: Int!
 }
 
-type AggregateTreasury {
+type AggregateTreasurySpendProposal {
   count: Int!
 }
 
@@ -653,6 +653,7 @@ type Motion {
   motionStatus(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
   preimage: Preimage
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposal
   section: String!
 }
 
@@ -673,6 +674,7 @@ input MotionCreateInput {
   motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
   section: String!
 }
 
@@ -691,6 +693,11 @@ input MotionCreateOneWithoutPreimageInput {
   connect: MotionWhereUniqueInput
 }
 
+input MotionCreateOneWithoutTreasurySpendProposalInput {
+  create: MotionCreateWithoutTreasurySpendProposalInput
+  connect: MotionWhereUniqueInput
+}
+
 input MotionCreateWithoutMotionProposalArgumentsInput {
   author: String!
   memberCount: Int!
@@ -701,6 +708,7 @@ input MotionCreateWithoutMotionProposalArgumentsInput {
   motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
   section: String!
 }
 
@@ -714,6 +722,7 @@ input MotionCreateWithoutMotionStatusInput {
   motionProposalId: Int!
   preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
   section: String!
 }
 
@@ -726,6 +735,21 @@ input MotionCreateWithoutPreimageInput {
   motionProposalHash: String!
   motionProposalId: Int!
   motionStatus: MotionStatusCreateManyWithoutMotionInput
+  preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
+  section: String!
+}
+
+input MotionCreateWithoutTreasurySpendProposalInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionProposalHash: String!
+  motionProposalId: Int!
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
   preimageHash: String
   section: String!
 }
@@ -1203,6 +1227,7 @@ input MotionUpdateInput {
   motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
   section: String
 }
 
@@ -1240,6 +1265,15 @@ input MotionUpdateOneWithoutPreimageInput {
   connect: MotionWhereUniqueInput
 }
 
+input MotionUpdateOneWithoutTreasurySpendProposalInput {
+  create: MotionCreateWithoutTreasurySpendProposalInput
+  update: MotionUpdateWithoutTreasurySpendProposalDataInput
+  upsert: MotionUpsertWithoutTreasurySpendProposalInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: MotionWhereUniqueInput
+}
+
 input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   author: String
   memberCount: Int
@@ -1250,6 +1284,7 @@ input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
   section: String
 }
 
@@ -1263,6 +1298,7 @@ input MotionUpdateWithoutMotionStatusDataInput {
   motionProposalId: Int
   preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
   section: String
 }
 
@@ -1275,6 +1311,21 @@ input MotionUpdateWithoutPreimageDataInput {
   motionProposalHash: String
   motionProposalId: Int
   motionStatus: MotionStatusUpdateManyWithoutMotionInput
+  preimageHash: String
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
+  section: String
+}
+
+input MotionUpdateWithoutTreasurySpendProposalDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionProposalHash: String
+  motionProposalId: Int
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
   preimageHash: String
   section: String
 }
@@ -1292,6 +1343,11 @@ input MotionUpsertWithoutMotionStatusInput {
 input MotionUpsertWithoutPreimageInput {
   update: MotionUpdateWithoutPreimageDataInput!
   create: MotionCreateWithoutPreimageInput!
+}
+
+input MotionUpsertWithoutTreasurySpendProposalInput {
+  update: MotionUpdateWithoutTreasurySpendProposalDataInput!
+  create: MotionCreateWithoutTreasurySpendProposalInput!
 }
 
 input MotionWhereInput {
@@ -1396,6 +1452,7 @@ input MotionWhereInput {
   preimageHash_not_starts_with: String
   preimageHash_ends_with: String
   preimageHash_not_ends_with: String
+  treasurySpendProposal: TreasurySpendProposalWhereInput
   section: String
   section_not: String
   section_in: [String!]
@@ -1547,12 +1604,12 @@ type Mutation {
   upsertTotalIssuance(where: TotalIssuanceWhereUniqueInput!, create: TotalIssuanceCreateInput!, update: TotalIssuanceUpdateInput!): TotalIssuance!
   deleteTotalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
   deleteManyTotalIssuances(where: TotalIssuanceWhereInput): BatchPayload!
-  createTreasury(data: TreasuryCreateInput!): Treasury!
-  updateTreasury(data: TreasuryUpdateInput!, where: TreasuryWhereUniqueInput!): Treasury
-  updateManyTreasuries(data: TreasuryUpdateManyMutationInput!, where: TreasuryWhereInput): BatchPayload!
-  upsertTreasury(where: TreasuryWhereUniqueInput!, create: TreasuryCreateInput!, update: TreasuryUpdateInput!): Treasury!
-  deleteTreasury(where: TreasuryWhereUniqueInput!): Treasury
-  deleteManyTreasuries(where: TreasuryWhereInput): BatchPayload!
+  createTreasurySpendProposal(data: TreasurySpendProposalCreateInput!): TreasurySpendProposal!
+  updateTreasurySpendProposal(data: TreasurySpendProposalUpdateInput!, where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  updateManyTreasurySpendProposals(data: TreasurySpendProposalUpdateManyMutationInput!, where: TreasurySpendProposalWhereInput): BatchPayload!
+  upsertTreasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!, create: TreasurySpendProposalCreateInput!, update: TreasurySpendProposalUpdateInput!): TreasurySpendProposal!
+  deleteTreasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  deleteManyTreasurySpendProposals(where: TreasurySpendProposalWhereInput): BatchPayload!
   createTreasuryStatus(data: TreasuryStatusCreateInput!): TreasuryStatus!
   updateTreasuryStatus(data: TreasuryStatusUpdateInput!, where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
   updateManyTreasuryStatuses(data: TreasuryStatusUpdateManyMutationInput!, where: TreasuryStatusWhereInput): BatchPayload!
@@ -3260,9 +3317,9 @@ type Query {
   totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
   totalIssuances(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TotalIssuance]!
   totalIssuancesConnection(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TotalIssuanceConnection!
-  treasury(where: TreasuryWhereUniqueInput!): Treasury
-  treasuries(where: TreasuryWhereInput, orderBy: TreasuryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Treasury]!
-  treasuriesConnection(where: TreasuryWhereInput, orderBy: TreasuryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasuryConnection!
+  treasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  treasurySpendProposals(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasurySpendProposal]!
+  treasurySpendProposalsConnection(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasurySpendProposalConnection!
   treasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
   treasuryStatuses(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus]!
   treasuryStatusesConnection(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasuryStatusConnection!
@@ -4188,7 +4245,7 @@ type Subscription {
   slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload
   stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
   totalIssuance(where: TotalIssuanceSubscriptionWhereInput): TotalIssuanceSubscriptionPayload
-  treasury(where: TreasurySubscriptionWhereInput): TreasurySubscriptionPayload
+  treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
   treasuryStatus(where: TreasuryStatusSubscriptionWhereInput): TreasuryStatusSubscriptionPayload
   validator(where: ValidatorSubscriptionWhereInput): ValidatorSubscriptionPayload
 }
@@ -4294,7 +4351,7 @@ input TotalIssuanceWhereUniqueInput {
   id: ID
 }
 
-type Treasury {
+type TreasurySpendProposal {
   id: Int!
   proposer: String!
   beneficiary: String!
@@ -4302,42 +4359,59 @@ type Treasury {
   bond: String!
   treasuryProposalId: Int!
   treasuryStatus(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus!]
+  motion: Motion
 }
 
-type TreasuryConnection {
+type TreasurySpendProposalConnection {
   pageInfo: PageInfo!
-  edges: [TreasuryEdge]!
-  aggregate: AggregateTreasury!
+  edges: [TreasurySpendProposalEdge]!
+  aggregate: AggregateTreasurySpendProposal!
 }
 
-input TreasuryCreateInput {
+input TreasurySpendProposalCreateInput {
   proposer: String!
   beneficiary: String!
   value: String!
   bond: String!
   treasuryProposalId: Int!
-  treasuryStatus: TreasuryStatusCreateManyWithoutTreasuryInput
+  treasuryStatus: TreasuryStatusCreateManyWithoutTreasurySpendProposalInput
+  motion: MotionCreateOneWithoutTreasurySpendProposalInput
 }
 
-input TreasuryCreateOneWithoutTreasuryStatusInput {
-  create: TreasuryCreateWithoutTreasuryStatusInput
-  connect: TreasuryWhereUniqueInput
+input TreasurySpendProposalCreateOneWithoutMotionInput {
+  create: TreasurySpendProposalCreateWithoutMotionInput
+  connect: TreasurySpendProposalWhereUniqueInput
 }
 
-input TreasuryCreateWithoutTreasuryStatusInput {
+input TreasurySpendProposalCreateOneWithoutTreasuryStatusInput {
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput
+  connect: TreasurySpendProposalWhereUniqueInput
+}
+
+input TreasurySpendProposalCreateWithoutMotionInput {
   proposer: String!
   beneficiary: String!
   value: String!
   bond: String!
   treasuryProposalId: Int!
+  treasuryStatus: TreasuryStatusCreateManyWithoutTreasurySpendProposalInput
 }
 
-type TreasuryEdge {
-  node: Treasury!
+input TreasurySpendProposalCreateWithoutTreasuryStatusInput {
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  treasuryProposalId: Int!
+  motion: MotionCreateOneWithoutTreasurySpendProposalInput
+}
+
+type TreasurySpendProposalEdge {
+  node: TreasurySpendProposal!
   cursor: String!
 }
 
-enum TreasuryOrderByInput {
+enum TreasurySpendProposalOrderByInput {
   id_ASC
   id_DESC
   proposer_ASC
@@ -4352,7 +4426,7 @@ enum TreasuryOrderByInput {
   treasuryProposalId_DESC
 }
 
-type TreasuryPreviousValues {
+type TreasurySpendProposalPreviousValues {
   id: Int!
   proposer: String!
   beneficiary: String!
@@ -4361,10 +4435,177 @@ type TreasuryPreviousValues {
   treasuryProposalId: Int!
 }
 
+type TreasurySpendProposalSubscriptionPayload {
+  mutation: MutationType!
+  node: TreasurySpendProposal
+  updatedFields: [String!]
+  previousValues: TreasurySpendProposalPreviousValues
+}
+
+input TreasurySpendProposalSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TreasurySpendProposalWhereInput
+  AND: [TreasurySpendProposalSubscriptionWhereInput!]
+  OR: [TreasurySpendProposalSubscriptionWhereInput!]
+  NOT: [TreasurySpendProposalSubscriptionWhereInput!]
+}
+
+input TreasurySpendProposalUpdateInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+  treasuryStatus: TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput
+  motion: MotionUpdateOneWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalUpdateManyMutationInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+}
+
+input TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput {
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput
+  update: TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput
+  upsert: TreasurySpendProposalUpsertWithoutTreasuryStatusInput
+  connect: TreasurySpendProposalWhereUniqueInput
+}
+
+input TreasurySpendProposalUpdateOneWithoutMotionInput {
+  create: TreasurySpendProposalCreateWithoutMotionInput
+  update: TreasurySpendProposalUpdateWithoutMotionDataInput
+  upsert: TreasurySpendProposalUpsertWithoutMotionInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: TreasurySpendProposalWhereUniqueInput
+}
+
+input TreasurySpendProposalUpdateWithoutMotionDataInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+  treasuryStatus: TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+  motion: MotionUpdateOneWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalUpsertWithoutMotionInput {
+  update: TreasurySpendProposalUpdateWithoutMotionDataInput!
+  create: TreasurySpendProposalCreateWithoutMotionInput!
+}
+
+input TreasurySpendProposalUpsertWithoutTreasuryStatusInput {
+  update: TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput!
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput!
+}
+
+input TreasurySpendProposalWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  proposer: String
+  proposer_not: String
+  proposer_in: [String!]
+  proposer_not_in: [String!]
+  proposer_lt: String
+  proposer_lte: String
+  proposer_gt: String
+  proposer_gte: String
+  proposer_contains: String
+  proposer_not_contains: String
+  proposer_starts_with: String
+  proposer_not_starts_with: String
+  proposer_ends_with: String
+  proposer_not_ends_with: String
+  beneficiary: String
+  beneficiary_not: String
+  beneficiary_in: [String!]
+  beneficiary_not_in: [String!]
+  beneficiary_lt: String
+  beneficiary_lte: String
+  beneficiary_gt: String
+  beneficiary_gte: String
+  beneficiary_contains: String
+  beneficiary_not_contains: String
+  beneficiary_starts_with: String
+  beneficiary_not_starts_with: String
+  beneficiary_ends_with: String
+  beneficiary_not_ends_with: String
+  value: String
+  value_not: String
+  value_in: [String!]
+  value_not_in: [String!]
+  value_lt: String
+  value_lte: String
+  value_gt: String
+  value_gte: String
+  value_contains: String
+  value_not_contains: String
+  value_starts_with: String
+  value_not_starts_with: String
+  value_ends_with: String
+  value_not_ends_with: String
+  bond: String
+  bond_not: String
+  bond_in: [String!]
+  bond_not_in: [String!]
+  bond_lt: String
+  bond_lte: String
+  bond_gt: String
+  bond_gte: String
+  bond_contains: String
+  bond_not_contains: String
+  bond_starts_with: String
+  bond_not_starts_with: String
+  bond_ends_with: String
+  bond_not_ends_with: String
+  treasuryProposalId: Int
+  treasuryProposalId_not: Int
+  treasuryProposalId_in: [Int!]
+  treasuryProposalId_not_in: [Int!]
+  treasuryProposalId_lt: Int
+  treasuryProposalId_lte: Int
+  treasuryProposalId_gt: Int
+  treasuryProposalId_gte: Int
+  treasuryStatus_every: TreasuryStatusWhereInput
+  treasuryStatus_some: TreasuryStatusWhereInput
+  treasuryStatus_none: TreasuryStatusWhereInput
+  motion: MotionWhereInput
+  AND: [TreasurySpendProposalWhereInput!]
+  OR: [TreasurySpendProposalWhereInput!]
+  NOT: [TreasurySpendProposalWhereInput!]
+}
+
+input TreasurySpendProposalWhereUniqueInput {
+  id: Int
+  treasuryProposalId: Int
+}
+
 type TreasuryStatus {
   id: ID!
   blockNumber: BlockNumber!
-  treasury: Treasury!
+  treasurySpendProposal: TreasurySpendProposal!
   status: String!
 }
 
@@ -4377,16 +4618,16 @@ type TreasuryStatusConnection {
 input TreasuryStatusCreateInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
-  treasury: TreasuryCreateOneWithoutTreasuryStatusInput!
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput!
   status: String!
 }
 
-input TreasuryStatusCreateManyWithoutTreasuryInput {
-  create: [TreasuryStatusCreateWithoutTreasuryInput!]
+input TreasuryStatusCreateManyWithoutTreasurySpendProposalInput {
+  create: [TreasuryStatusCreateWithoutTreasurySpendProposalInput!]
   connect: [TreasuryStatusWhereUniqueInput!]
 }
 
-input TreasuryStatusCreateWithoutTreasuryInput {
+input TreasuryStatusCreateWithoutTreasurySpendProposalInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
@@ -4463,7 +4704,7 @@ input TreasuryStatusSubscriptionWhereInput {
 
 input TreasuryStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
-  treasury: TreasuryUpdateOneRequiredWithoutTreasuryStatusInput
+  treasurySpendProposal: TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput
   status: String
 }
 
@@ -4475,14 +4716,14 @@ input TreasuryStatusUpdateManyMutationInput {
   status: String
 }
 
-input TreasuryStatusUpdateManyWithoutTreasuryInput {
-  create: [TreasuryStatusCreateWithoutTreasuryInput!]
+input TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput {
+  create: [TreasuryStatusCreateWithoutTreasurySpendProposalInput!]
   delete: [TreasuryStatusWhereUniqueInput!]
   connect: [TreasuryStatusWhereUniqueInput!]
   set: [TreasuryStatusWhereUniqueInput!]
   disconnect: [TreasuryStatusWhereUniqueInput!]
-  update: [TreasuryStatusUpdateWithWhereUniqueWithoutTreasuryInput!]
-  upsert: [TreasuryStatusUpsertWithWhereUniqueWithoutTreasuryInput!]
+  update: [TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput!]
+  upsert: [TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput!]
   deleteMany: [TreasuryStatusScalarWhereInput!]
   updateMany: [TreasuryStatusUpdateManyWithWhereNestedInput!]
 }
@@ -4492,20 +4733,20 @@ input TreasuryStatusUpdateManyWithWhereNestedInput {
   data: TreasuryStatusUpdateManyDataInput!
 }
 
-input TreasuryStatusUpdateWithoutTreasuryDataInput {
+input TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   status: String
 }
 
-input TreasuryStatusUpdateWithWhereUniqueWithoutTreasuryInput {
+input TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput {
   where: TreasuryStatusWhereUniqueInput!
-  data: TreasuryStatusUpdateWithoutTreasuryDataInput!
+  data: TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput!
 }
 
-input TreasuryStatusUpsertWithWhereUniqueWithoutTreasuryInput {
+input TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput {
   where: TreasuryStatusWhereUniqueInput!
-  update: TreasuryStatusUpdateWithoutTreasuryDataInput!
-  create: TreasuryStatusCreateWithoutTreasuryInput!
+  update: TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput!
+  create: TreasuryStatusCreateWithoutTreasurySpendProposalInput!
 }
 
 input TreasuryStatusWhereInput {
@@ -4524,7 +4765,7 @@ input TreasuryStatusWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   blockNumber: BlockNumberWhereInput
-  treasury: TreasuryWhereInput
+  treasurySpendProposal: TreasurySpendProposalWhereInput
   status: String
   status_not: String
   status_in: [String!]
@@ -4546,147 +4787,6 @@ input TreasuryStatusWhereInput {
 
 input TreasuryStatusWhereUniqueInput {
   id: ID
-}
-
-type TreasurySubscriptionPayload {
-  mutation: MutationType!
-  node: Treasury
-  updatedFields: [String!]
-  previousValues: TreasuryPreviousValues
-}
-
-input TreasurySubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: TreasuryWhereInput
-  AND: [TreasurySubscriptionWhereInput!]
-  OR: [TreasurySubscriptionWhereInput!]
-  NOT: [TreasurySubscriptionWhereInput!]
-}
-
-input TreasuryUpdateInput {
-  proposer: String
-  beneficiary: String
-  value: String
-  bond: String
-  treasuryProposalId: Int
-  treasuryStatus: TreasuryStatusUpdateManyWithoutTreasuryInput
-}
-
-input TreasuryUpdateManyMutationInput {
-  proposer: String
-  beneficiary: String
-  value: String
-  bond: String
-  treasuryProposalId: Int
-}
-
-input TreasuryUpdateOneRequiredWithoutTreasuryStatusInput {
-  create: TreasuryCreateWithoutTreasuryStatusInput
-  update: TreasuryUpdateWithoutTreasuryStatusDataInput
-  upsert: TreasuryUpsertWithoutTreasuryStatusInput
-  connect: TreasuryWhereUniqueInput
-}
-
-input TreasuryUpdateWithoutTreasuryStatusDataInput {
-  proposer: String
-  beneficiary: String
-  value: String
-  bond: String
-  treasuryProposalId: Int
-}
-
-input TreasuryUpsertWithoutTreasuryStatusInput {
-  update: TreasuryUpdateWithoutTreasuryStatusDataInput!
-  create: TreasuryCreateWithoutTreasuryStatusInput!
-}
-
-input TreasuryWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
-  proposer: String
-  proposer_not: String
-  proposer_in: [String!]
-  proposer_not_in: [String!]
-  proposer_lt: String
-  proposer_lte: String
-  proposer_gt: String
-  proposer_gte: String
-  proposer_contains: String
-  proposer_not_contains: String
-  proposer_starts_with: String
-  proposer_not_starts_with: String
-  proposer_ends_with: String
-  proposer_not_ends_with: String
-  beneficiary: String
-  beneficiary_not: String
-  beneficiary_in: [String!]
-  beneficiary_not_in: [String!]
-  beneficiary_lt: String
-  beneficiary_lte: String
-  beneficiary_gt: String
-  beneficiary_gte: String
-  beneficiary_contains: String
-  beneficiary_not_contains: String
-  beneficiary_starts_with: String
-  beneficiary_not_starts_with: String
-  beneficiary_ends_with: String
-  beneficiary_not_ends_with: String
-  value: String
-  value_not: String
-  value_in: [String!]
-  value_not_in: [String!]
-  value_lt: String
-  value_lte: String
-  value_gt: String
-  value_gte: String
-  value_contains: String
-  value_not_contains: String
-  value_starts_with: String
-  value_not_starts_with: String
-  value_ends_with: String
-  value_not_ends_with: String
-  bond: String
-  bond_not: String
-  bond_in: [String!]
-  bond_not_in: [String!]
-  bond_lt: String
-  bond_lte: String
-  bond_gt: String
-  bond_gte: String
-  bond_contains: String
-  bond_not_contains: String
-  bond_starts_with: String
-  bond_not_starts_with: String
-  bond_ends_with: String
-  bond_not_ends_with: String
-  treasuryProposalId: Int
-  treasuryProposalId_not: Int
-  treasuryProposalId_in: [Int!]
-  treasuryProposalId_not_in: [Int!]
-  treasuryProposalId_lt: Int
-  treasuryProposalId_lte: Int
-  treasuryProposalId_gt: Int
-  treasuryProposalId_gte: Int
-  treasuryStatus_every: TreasuryStatusWhereInput
-  treasuryStatus_some: TreasuryStatusWhereInput
-  treasuryStatus_none: TreasuryStatusWhereInput
-  AND: [TreasuryWhereInput!]
-  OR: [TreasuryWhereInput!]
-  NOT: [TreasuryWhereInput!]
-}
-
-input TreasuryWhereUniqueInput {
-  id: Int
-  treasuryProposalId: Int
 }
 
 type Validator {

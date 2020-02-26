@@ -106,7 +106,7 @@ const createTreasury: Task<NomidotTreasury[]> = {
           status,
         } = prop;
 
-        await prisma.createTreasury({
+        await prisma.createTreasurySpendProposal({
           proposer: proposer.toString(),
           treasuryProposalId,
           beneficiary: beneficiary.toString(),
