@@ -26,12 +26,8 @@ export function Header(props: Props): React.ReactElement {
     setNumberOfItemsInCart(count);
     handleLogin();
 
-    // window.addEventListener('storage', updateCartItems);
+    // FIXME: use store.js for window.addEventListener('storage', updateCartItems);
   }, []);
-
-  // const updateCartItems = (event) => {
-  //   console.log(event);
-  // }
 
   const handleLogin = useCallback(async () => {
     try {

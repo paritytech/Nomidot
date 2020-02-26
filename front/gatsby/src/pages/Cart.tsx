@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AddressSummary, Container, Grid, List, WithSpaceAround  } from '@substrate/ui-components';
+import { AddressSummary, Container, Grid, Icon, List, Margin, StackedHorizontal, WithSpaceAround } from '@substrate/ui-components';
 import { Button, Subheading } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
-import { getCartItems, stripAddressFromCartItem } from '../util/helpers';
+import { getCartItems, removeCartItem, stripAddressFromCartItem } from '../util/helpers';
 
 type Props = RouteComponentProps;
 
@@ -22,6 +22,15 @@ const Cart = (_props: Props): React.ReactElement => {
     setCartItems(_cartItems);
   }, []);
 
+  const removeItemFromCart = ({ currentTarget: { dataset: { key } } }: React.MouseEvent<HTMLButtonElement>) => {
+    // FIXME: use store.js and subscribe events so this update happens immediately (not on refresh).
+    if (key) {
+      removeCartItem(key);
+    } else { 
+      alert('Something went wrong. Please try again later.')
+    }
+  }
+
   return (
     <Container>
       <Grid stretched>
@@ -32,13 +41,22 @@ const Cart = (_props: Props): React.ReactElement => {
           <Grid.Column width='6'>
             <List animated relaxed>
               {
-                cartItems && cartItems.map((item: string) => (
-                  <List.Item>
+                cartItems && cartItems.map((item: string) => {
+                  const address = stripAddressFromCartItem(item);
+
+                  return (
+                    <List.Item>
                     <WithSpaceAround>
-                      <AddressSummary address={stripAddressFromCartItem(item)} noPlaceholderName orientation='horizontal' size='small' />
+                      <StackedHorizontal>
+                        <AddressSummary address={address} noPlaceholderName orientation='horizontal' size='small' />
+                        <Margin left />
+                        <Icon name='close' link onClick={removeItemFromCart} data-key={item}/>
+                        {/* TODO: <NominationDetails address={address} /> */}
+                      </StackedHorizontal>
                     </WithSpaceAround>
                   </List.Item>
-                ))
+                  )
+                })
               }
             </List>
           </Grid.Column>
