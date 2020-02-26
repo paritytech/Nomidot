@@ -31,6 +31,7 @@
     "react-transition-group": "^4.3.0",
     "semantic-ui-css": "^2.4.1",
     "shortid": "^2.2.15",
+    "store": "^2.0.12",
     "subscriptions-transport-ws": "^0.9.16",
     "ws": "^7.2.1"
   },
