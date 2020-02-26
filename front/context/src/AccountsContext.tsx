@@ -6,11 +6,16 @@ import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import React, { createContext, useContext, useState } from 'react';
 
-import { IS_SSR } from './util';
+import { DerivedStakingAccount } from '@polkadot/api-derive/types';
+import { logger } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { take } from 'rxjs/operators';
+
+import { ApiContext } from './ApiContext';
 import { SystemContext } from './SystemContext';
+import { IS_SSR } from './util';
 
 interface AccountsContext {
   accounts: InjectedAccountWithMeta[];
@@ -18,6 +23,8 @@ interface AccountsContext {
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
 }
+
+const l = logger('accounts-context');
 
 export const AccountsContext = createContext({} as AccountsContext);
 
@@ -32,10 +39,31 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-  const { properties } = useContext(SystemContext);
+  const { api, isApiReady } = useContext(ApiContext);
+  const { chain, properties } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (!isApiReady || !accounts) {
+      return
+    } else {
+      // make sure it's encoded correctly
+      accounts.map((account: InjectedAccountWithMeta) => {
+        account.address = encodeAddress(decodeAddress(account.address), 2);
+
+        const sub = api.derive.staking.account(account.address)
+          .pipe(
+            take(1)
+          ).subscribe((derivedStakingAccount: DerivedStakingAccount) => {
+            console.log(derivedStakingAccount);
+          });
+        
+        return () => sub.unsubscribe();
+      })
+    }
+  }, [accounts, isApiReady]);
 
   /**
    * Fetch accounts from the extension
@@ -59,65 +87,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       }
 
       setExtension(extensions[0]);
+      setAccounts(await web3Accounts());
+      l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsReady(true);
-
-      console.log(properties.ss58Format);
-
-      let _accounts = await web3Accounts();
-
-      // make sure it's encoded correctly
-      _accounts.map((account: InjectedAccountWithMeta) => {
-        account.address = encodeAddress(decodeAddress(account.address), 2);
-      })
-
-      setAccounts(_accounts);
     }
   }
-
-  /**
-   * Tag each account as stash or controller or neither
-   */
-  // async function tagAccountsAsStashOrController(): Promise<void> {
-  //   if (!accounts) {
-  //     return;
-  //   }
-
-  //   for await (let account of accounts) {
-  //     const sub = combineLatest([
-  //       api.query.staking.bonded(account.address),
-  //       api.query.staking.ledger(account.address)
-  //     ]).pipe(
-  //       take(1)
-  //     ).subscribe(([bonded, ledger]: [Option<AccountId>, Option<StakingLedger>]) => {
-  //       let stash;
-  //       let controller;
-  //       let type;
-
-  //       if (bonded.isNone) {
-  //         stash = ledger.unwrap().stash
-  //       } else {
-  //         stash = account.address
-  //         type = 'stash'
-  //       }
-
-  //       if (ledger.isSome && ledger.unwrap().stash) {
-  //         controller = account.address;
-  //         type = 'controller';
-  //       } else {
-  //         controller = bonded.unwrap();
-  //       }
-
-  //       account = {
-  //         ...account,
-  //         type,
-  //         stash,
-  //         controller
-  //       }
-  //     })
-
-  //     sub.unsubscribe();
-  //   }
-  // }
 
   return (
     <AccountsContext.Provider

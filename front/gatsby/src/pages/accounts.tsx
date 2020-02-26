@@ -8,6 +8,8 @@ import { AccountsContext } from '@substrate/context';
 import { AddressSummary, Container, FadedText, Table } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
+import { toShortAddress } from '../util';
+
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props) => {
@@ -18,7 +20,7 @@ const AccountsList = (_props: Props) => {
       <Table.Row>
         <Table.Cell><AddressSummary address={account.address} name={account.meta.name} noBalance size='tiny' /></Table.Cell>
         <Table.Cell>
-          <FadedText>{account.address}</FadedText>
+          <FadedText>{toShortAddress(account.address)}</FadedText>
         </Table.Cell>
         <Table.Cell></Table.Cell>
       </Table.Row>
