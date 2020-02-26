@@ -15,9 +15,7 @@ export function Layout({ children }: Props): React.ReactElement {
   return (
     <>
       <Header />
-      <Container padded>
-        {children}
-      </Container>
+      {children}
     </>
   );
 }

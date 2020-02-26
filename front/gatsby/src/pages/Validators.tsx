@@ -105,8 +105,8 @@ const CurrentElectedList = (): React.ReactElement => {
 
   const renderValidatorsTable = (): React.ReactElement => {
     return (
-      <Table celled collapsing padded='very' striped size='large' width='100%'>
-        <Table.Header fullWidth>
+      <Table celled padded striped size='large'>
+        <Table.Header>
           <Table.Row>
             <Table.HeaderCell> Offline </Table.HeaderCell>
             <Table.HeaderCell>Stash</Table.HeaderCell>

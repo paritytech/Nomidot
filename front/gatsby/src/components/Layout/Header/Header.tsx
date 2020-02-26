@@ -213,7 +213,6 @@ export function Header(): React.ReactElement {
             ) : (
               <Button onClick={handleLogin}>Login</Button>
             )}
-            <Margin left />
             <Icon inverted name='cart' size='large' style={{ zIndex: 10000 }} />
           </StackedHorizontal>
         }
