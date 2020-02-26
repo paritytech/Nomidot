@@ -2,20 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedStakingAccount } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
-import React, { createContext, useState } from 'react';
+import { logger } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 
+import { ApiContext } from './ApiContext';
+import { SystemContext } from './SystemContext';
 import { IS_SSR } from './util';
 
+export interface DecoratedAccount
+  extends InjectedAccountWithMeta,
+    DerivedStakingAccount {}
+
 interface AccountsContext {
-  accounts: InjectedAccountWithMeta[];
+  decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
 }
+
+const l = logger('accounts-context');
 
 export const AccountsContext = createContext({} as AccountsContext);
 
@@ -30,9 +42,40 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
+  const { api, isApiReady } = useContext(ApiContext);
+  const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [decoratedAccounts, setDecoratedAccounts] = useState<
+    DecoratedAccount[]
+  >([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (!isApiReady || !accounts) {
+      return;
+    } else {
+      // make sure it's encoded correctly
+      accounts.map((account: InjectedAccountWithMeta) => {
+        account.address = encodeAddress(decodeAddress(account.address), 2);
+
+        const sub = api.derive.staking
+          .account(account.address)
+          .pipe(take(1), distinctUntilChanged())
+          .subscribe((derivedStakingAccount: DerivedStakingAccount) => {
+            setDecoratedAccounts([
+              ...decoratedAccounts,
+              {
+                ...account,
+                ...derivedStakingAccount,
+              },
+            ]);
+          });
+
+        return () => sub.unsubscribe();
+      });
+    }
+  }, [accounts, isApiReady]);
 
   /**
    * Fetch accounts from the extension
@@ -56,60 +99,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       }
 
       setExtension(extensions[0]);
-      setIsReady(true);
       setAccounts(await web3Accounts());
+      l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
+      setIsReady(true);
     }
   }
-
-  /**
-   * Tag each account as stash or controller or neither
-   */
-  // async function tagAccountsAsStashOrController(): Promise<void> {
-  //   if (!accounts) {
-  //     return;
-  //   }
-
-  //   for await (let account of accounts) {
-  //     const sub = combineLatest([
-  //       api.query.staking.bonded(account.address),
-  //       api.query.staking.ledger(account.address)
-  //     ]).pipe(
-  //       take(1)
-  //     ).subscribe(([bonded, ledger]: [Option<AccountId>, Option<StakingLedger>]) => {
-  //       let stash;
-  //       let controller;
-  //       let type;
-
-  //       if (bonded.isNone) {
-  //         stash = ledger.unwrap().stash
-  //       } else {
-  //         stash = account.address
-  //         type = 'stash'
-  //       }
-
-  //       if (ledger.isSome && ledger.unwrap().stash) {
-  //         controller = account.address;
-  //         type = 'controller';
-  //       } else {
-  //         controller = bonded.unwrap();
-  //       }
-
-  //       account = {
-  //         ...account,
-  //         type,
-  //         stash,
-  //         controller
-  //       }
-  //     })
-
-  //     sub.unsubscribe();
-  //   }
-  // }
 
   return (
     <AccountsContext.Provider
       value={{
-        accounts,
+        decoratedAccounts,
         get extension(): InjectedExtension {
           if (!extension) {
             throw new Error(
