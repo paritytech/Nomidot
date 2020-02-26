@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
 import {
@@ -82,19 +82,13 @@ export function Header(_props: Props): React.ReactElement {
         tabs={[
           <Button
             key={shortid.generate()} // FIXME: why do i need a key here...
-            onClick={() => {
-              navigate(`/accounts`);
-            }}
           >
-            Accounts
+            <Link to={`/accounts`}>Accounts</Link>
           </Button>,
           <Button
-            key={shortid.generate()} // FIXME: why do i need a key here
-            onClick={() => {
-              navigate(`/validators`);
-            }}
+            key={shortid.generate()} // FIXME: why do i need a key here>
           >
-            Validators
+            <Link to={'/validators'}>Validators</Link>
           </Button>,
         ]}
       />
