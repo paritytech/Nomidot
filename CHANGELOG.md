@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
+
+
+### Bug Fixes
+
+* **#165:** nested query resolvers ([#168](https://github.com/paritytech/Nomidot/issues/168)) ([8912c99](https://github.com/paritytech/Nomidot/commit/8912c990e896cf90b63a6ecce86289fbfd7fc62d)), closes [#165](https://github.com/paritytech/Nomidot/issues/165)
+* **#173:** unwrap none ([#174](https://github.com/paritytech/Nomidot/issues/174)) ([6d25f44](https://github.com/paritytech/Nomidot/commit/6d25f44252240d9008f8fab012b890e76414e4cd)), closes [#173](https://github.com/paritytech/Nomidot/issues/173)
+* **context:** Create a new {Api,System}Context on new provider ([#196](https://github.com/paritytech/Nomidot/issues/196)) ([2270a25](https://github.com/paritytech/Nomidot/commit/2270a25600ee2d6bb4a301e08b45a21db543e44d))
+* update images ([#171](https://github.com/paritytech/Nomidot/issues/171)) ([1548a46](https://github.com/paritytech/Nomidot/commit/1548a46969b4f6d79c4bdb2c4cc2799805f3ab91))
+
+
+### Features
+
+* decoding SCALE hex, query then subscribe, Validators List ([#182](https://github.com/paritytech/Nomidot/issues/182)) ([d564059](https://github.com/paritytech/Nomidot/commit/d5640595b9765516d9f799059c05a9139db06d9f))
+* **#141:** heartbeats, offline, nominations, rewards, stakes ([#157](https://github.com/paritytech/Nomidot/issues/157)) ([05325db](https://github.com/paritytech/Nomidot/commit/05325dbecafd4f6b64e087c1e837b6d6616bdc2f)), closes [#141](https://github.com/paritytech/Nomidot/issues/141)
+* **#179:** subscribing to heads ([#181](https://github.com/paritytech/Nomidot/issues/181)) ([8c702d1](https://github.com/paritytech/Nomidot/commit/8c702d1d9c59fd4d4eb77c0e07b582bd94be3150)), closes [#179](https://github.com/paritytech/Nomidot/issues/179)
+* **node-watcher:** Store motions in chain-db ([#159](https://github.com/paritytech/Nomidot/issues/159)) ([8657b9b](https://github.com/paritytech/Nomidot/commit/8657b9bacc362548d20953bf42b5e066ac92d90e))
+* **node-watcher:** Write motion status ([#162](https://github.com/paritytech/Nomidot/issues/162)) ([a686485](https://github.com/paritytech/Nomidot/commit/a686485d603d32f4d8d3bd1afdc1bc66e9f4af3d))
+* **server:** Polkassembly chain-db server ([#156](https://github.com/paritytech/Nomidot/issues/156)) ([5729220](https://github.com/paritytech/Nomidot/commit/57292208968c0c67abdbe289b8be847c869faa4b))
+* header ui with design-system ([#178](https://github.com/paritytech/Nomidot/issues/178)) ([f85774b](https://github.com/paritytech/Nomidot/commit/f85774b45e4ce116cfc64269a8da5df05a0c6edd))
+* subscription resolvers for stake, heartbeats, offline ([#180](https://github.com/paritytech/Nomidot/issues/180)) ([98be255](https://github.com/paritytech/Nomidot/commit/98be25590e1781b6118fd7c77fcf61205f57c0f8))
+
+
+
+
+
 ## [0.3.20](https://github.com/paritytech/Nomidot/compare/v0.3.19...v0.3.20) (2020-02-11)
 
 

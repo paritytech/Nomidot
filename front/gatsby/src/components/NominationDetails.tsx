@@ -2,6 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export * from './provider';
-export * from './ssr';
-export * from './ui';
+import React from 'react';
+
+interface Props {
+  address: string;
+}
+
+// TODO
+export const NominationDetails = (props: Props) => {
+  const { address } = props;
+
+  return <>{address}</>;
+};

@@ -27,11 +27,11 @@ spec:
       restartPolicy: Never
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:d3496521d5ffd1eab2bdcca0bd5a5b1a4644dc3fbbca6b4a34ffa9c95717832b
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:c7f56f7066786562cd7295d7bd2d4454a52b11cd0907dbdcf19aee7d611b6856
           imagePullPolicy: Always
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
             - name: START_FROM
-              value: '1135256'
+              value: '1100000'
           command: ["yarn", "start"]

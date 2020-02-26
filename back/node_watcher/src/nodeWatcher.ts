@@ -4,9 +4,10 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
-import { getChainTypes } from '@polkadot/types/known';
+import { getSpecTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
+import { prisma } from './generated/prisma-client';
 import { Cached, NomidotTask } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT =
@@ -36,9 +37,30 @@ async function incrementor(
   provider: WsProvider,
   tasks: NomidotTask[]
 ): Promise<void> {
+  const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
+  let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
+
+  const existingBlockIndex = await prisma.blockIndexes({
+    where: {
+      identifier: blockIdentifier,
+    },
+  });
+
+  if (existingBlockIndex.length === 0) {
+    const result = await prisma.createBlockIndex({
+      identifier: blockIdentifier,
+      startFrom: blockIndex,
+      index: blockIndex,
+    });
+
+    blockIndexId = result.id;
+  } else {
+    blockIndexId = existingBlockIndex[0].id;
+    blockIndex = existingBlockIndex[0].index;
+  }
 
   api.once('disconnected', async () => {
     try {
@@ -48,6 +70,7 @@ async function incrementor(
     }
   });
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     if (blockIndex > lastKnownBestFinalized) {
       lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
@@ -76,7 +99,7 @@ async function incrementor(
 
       // based on the node spec & chain, inject specific type overrides
       const chain = await api.rpc.system.chain();
-      api.registry.register(getChainTypes(chain, runtimeVersion));
+      api.registry.register(getSpecTypes(chain, runtimeVersion));
 
       api.registry.setMetadata(rpcMeta);
     }
@@ -106,6 +129,15 @@ async function incrementor(
     }
 
     blockIndex += 1;
+
+    await prisma.updateBlockIndex({
+      data: {
+        index: blockIndex,
+      },
+      where: {
+        id: blockIndexId,
+      },
+    });
   }
 }
 

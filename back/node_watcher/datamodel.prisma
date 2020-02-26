@@ -185,3 +185,10 @@ type ReferendumStatus {
   referendum: Referendum! @relation(name: "ReferendumStatusFromReferendum", link: INLINE)
   status: String!
 }
+
+type BlockIndex {
+  id: ID! @id
+  identifier: String! @unique
+  startFrom: Int!
+  index: Int!
+}

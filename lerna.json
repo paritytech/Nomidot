@@ -5,11 +5,7 @@
     }
   },
   "npmClient": "yarn",
-  "packages": [
-    "front/context",
-    "front/ui-components",
-    "back/*"
-  ],
+  "packages": ["front/context", "back/*"],
   "useWorkspaces": true,
-  "version": "0.3.20"
+  "version": "0.3.21"
 }

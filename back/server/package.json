@@ -1,6 +1,6 @@
 {
   "name": "@substrate/nomidot-server",
-  "version": "0.3.19",
+  "version": "0.3.21",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Backend server for Nomidot",
   "license": "Apache-2.0",
@@ -19,6 +19,6 @@
   "devDependencies": {
     "prisma": "1.34.10",
     "ts-node": "8.6.2",
-    "typescript": "3.7.5"
+    "typescript": "3.8.2"
   }
 }
