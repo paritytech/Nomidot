@@ -174,7 +174,9 @@ const createMotion: Task<NomidotMotion[]> = {
           : null;
 
         const treasurySpendProposals =
-          section === 'treasury' && mPA.length > 0
+          section === 'treasury' &&
+          mPA.length > 0 &&
+          mPA[0].name === 'proposal_id'
             ? await prisma.treasurySpendProposals({
                 where: { treasuryProposalId: parseInt(mPA[0].value) },
               })
