@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RouteComponentProps } from '@reach/router';
 import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
-import { AddressSummary, Container, Icon, StackedHorizontal } from '@substrate/ui-components';
+import { AddressSummary, Container, Icon, Margin, StackedHorizontal } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
@@ -12,9 +13,16 @@ import shortid from 'shortid';
 import { BlockHeader, EraHeader, SessionHeader, StakingHeader } from './Subheaders';
 import { APP_TITLE } from '../../../util';
 
-export function Header(): React.ReactElement {
+interface Props extends RouteComponentProps {}
+
+export function Header(props: Props): React.ReactElement {
+  const { location, path, navigate } = props;
   const { accounts, fetchAccounts } = useContext(AccountsContext);
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
+
+  useEffect(() => {
+    handleLogin();
+  }, []);
 
   const handleLogin = useCallback(async () => {
     try {
@@ -24,9 +32,9 @@ export function Header(): React.ReactElement {
     }
   }, [fetchAccounts]);
 
-  useEffect(() => {
-    handleLogin();
-  }, []);
+  const navToCartPage = () => {
+    navigate && navigate('/cart');
+  }
 
   return (
     <>
@@ -40,13 +48,14 @@ export function Header(): React.ReactElement {
                   address={accounts[0].address}
                   name={accounts[0].meta.name}
                   noBalance
-                  size='small'
+                  size='tiny'
                 />
               </div>
             ) : (
               <Button onClick={handleLogin}>Login</Button>
             )}
-            <Icon inverted name='cart' size='large'>{numberOfItemsInCart}</Icon>
+            <Margin left />
+            <Icon inverted link name='cart' size='large' onClick={navToCartPage} />
           </StackedHorizontal>
         }
         tabs={[
