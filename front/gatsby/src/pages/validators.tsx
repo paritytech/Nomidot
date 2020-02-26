@@ -14,6 +14,7 @@ import {
 } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
+import store from 'store';
 
 import { OfflineValidator, Validator } from '../types';
 import {
@@ -104,7 +105,7 @@ const CurrentElectedList = (): React.ReactElement => {
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
-      localStorage.setItem(`cart:${stash}`, stash);
+      store.setItem(`cart:${stash}`, stash);
     } else {
       alert('Something went wrong. Please try again later.');
     }

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
+import store from 'store';
 
 export function toShortAddress(address: string | AccountId): string {
   if (typeof address !== 'string') {
@@ -26,35 +27,35 @@ export function stripAddressFromCartItem(item: string): string {
 export function getCartItemsCount(): number {
   let count = 0;
 
-  for (const key in localStorage) {
+  store.each((value, key) => {
     if (isCartItem(key)) {
       count += 1;
     }
-  }
+  })
 
   return count;
 }
 
 export function getCartItems(): Array<string> {
-  const result = [];
+  const result: Array<string> = [];
 
-  for (const key in localStorage) {
+  store.each((value, key) => {
     if (isCartItem(key)) {
       result.push(key);
     }
-  }
+  })
 
   return result;
 }
 
 export function clearCart(): void {
-  for (const key in localStorage) {
+  store.each((value, key) => {
     if (isCartItem(key)) {
-      localStorage.removeItem(key);
+      store.remove(key);
     }
-  }
+  });
 }
 
 export function removeCartItem(itemKey: string): void {
-  localStorage.removeItem(itemKey);
+  store.remove(itemKey);
 }
