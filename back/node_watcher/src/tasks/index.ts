@@ -18,6 +18,7 @@ import createSession from './createSession';
 import createSlashing from './createSlashing';
 import createStake from './createStake';
 import createTotalIssuance from './createTotalIssuance';
+import createTreasury from './createTreasury';
 import { NomidotTask } from './types';
 
 // N.B. Order of tasks matters here
@@ -38,4 +39,5 @@ export const nomidotTasks: NomidotTask[] = [
   createReferendumStatus,
   createMotion,
   createMotionStatus,
+  createTreasury,
 ];

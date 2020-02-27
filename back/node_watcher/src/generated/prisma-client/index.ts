@@ -39,6 +39,10 @@ export interface Exists {
   slashing: (where?: SlashingWhereInput) => Promise<boolean>;
   stake: (where?: StakeWhereInput) => Promise<boolean>;
   totalIssuance: (where?: TotalIssuanceWhereInput) => Promise<boolean>;
+  treasurySpendProposal: (
+    where?: TreasurySpendProposalWhereInput
+  ) => Promise<boolean>;
+  treasuryStatus: (where?: TreasuryStatusWhereInput) => Promise<boolean>;
   validator: (where?: ValidatorWhereInput) => Promise<boolean>;
 }
 
@@ -478,6 +482,48 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => TotalIssuanceConnectionPromise;
+  treasurySpendProposal: (
+    where: TreasurySpendProposalWhereUniqueInput
+  ) => TreasurySpendProposalNullablePromise;
+  treasurySpendProposals: (args?: {
+    where?: TreasurySpendProposalWhereInput;
+    orderBy?: TreasurySpendProposalOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<TreasurySpendProposal>;
+  treasurySpendProposalsConnection: (args?: {
+    where?: TreasurySpendProposalWhereInput;
+    orderBy?: TreasurySpendProposalOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => TreasurySpendProposalConnectionPromise;
+  treasuryStatus: (
+    where: TreasuryStatusWhereUniqueInput
+  ) => TreasuryStatusNullablePromise;
+  treasuryStatuses: (args?: {
+    where?: TreasuryStatusWhereInput;
+    orderBy?: TreasuryStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<TreasuryStatus>;
+  treasuryStatusesConnection: (args?: {
+    where?: TreasuryStatusWhereInput;
+    orderBy?: TreasuryStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => TreasuryStatusConnectionPromise;
   validator: (where: ValidatorWhereUniqueInput) => ValidatorNullablePromise;
   validators: (args?: {
     where?: ValidatorWhereInput;
@@ -885,6 +931,50 @@ export interface Prisma {
   deleteManyTotalIssuances: (
     where?: TotalIssuanceWhereInput
   ) => BatchPayloadPromise;
+  createTreasurySpendProposal: (
+    data: TreasurySpendProposalCreateInput
+  ) => TreasurySpendProposalPromise;
+  updateTreasurySpendProposal: (args: {
+    data: TreasurySpendProposalUpdateInput;
+    where: TreasurySpendProposalWhereUniqueInput;
+  }) => TreasurySpendProposalPromise;
+  updateManyTreasurySpendProposals: (args: {
+    data: TreasurySpendProposalUpdateManyMutationInput;
+    where?: TreasurySpendProposalWhereInput;
+  }) => BatchPayloadPromise;
+  upsertTreasurySpendProposal: (args: {
+    where: TreasurySpendProposalWhereUniqueInput;
+    create: TreasurySpendProposalCreateInput;
+    update: TreasurySpendProposalUpdateInput;
+  }) => TreasurySpendProposalPromise;
+  deleteTreasurySpendProposal: (
+    where: TreasurySpendProposalWhereUniqueInput
+  ) => TreasurySpendProposalPromise;
+  deleteManyTreasurySpendProposals: (
+    where?: TreasurySpendProposalWhereInput
+  ) => BatchPayloadPromise;
+  createTreasuryStatus: (
+    data: TreasuryStatusCreateInput
+  ) => TreasuryStatusPromise;
+  updateTreasuryStatus: (args: {
+    data: TreasuryStatusUpdateInput;
+    where: TreasuryStatusWhereUniqueInput;
+  }) => TreasuryStatusPromise;
+  updateManyTreasuryStatuses: (args: {
+    data: TreasuryStatusUpdateManyMutationInput;
+    where?: TreasuryStatusWhereInput;
+  }) => BatchPayloadPromise;
+  upsertTreasuryStatus: (args: {
+    where: TreasuryStatusWhereUniqueInput;
+    create: TreasuryStatusCreateInput;
+    update: TreasuryStatusUpdateInput;
+  }) => TreasuryStatusPromise;
+  deleteTreasuryStatus: (
+    where: TreasuryStatusWhereUniqueInput
+  ) => TreasuryStatusPromise;
+  deleteManyTreasuryStatuses: (
+    where?: TreasuryStatusWhereInput
+  ) => BatchPayloadPromise;
   createValidator: (data: ValidatorCreateInput) => ValidatorPromise;
   updateValidator: (args: {
     data: ValidatorUpdateInput;
@@ -973,6 +1063,12 @@ export interface Subscription {
   totalIssuance: (
     where?: TotalIssuanceSubscriptionWhereInput
   ) => TotalIssuanceSubscriptionPayloadSubscription;
+  treasurySpendProposal: (
+    where?: TreasurySpendProposalSubscriptionWhereInput
+  ) => TreasurySpendProposalSubscriptionPayloadSubscription;
+  treasuryStatus: (
+    where?: TreasuryStatusSubscriptionWhereInput
+  ) => TreasuryStatusSubscriptionPayloadSubscription;
   validator: (
     where?: ValidatorSubscriptionWhereInput
   ) => ValidatorSubscriptionPayloadSubscription;
@@ -1057,6 +1153,12 @@ export type PreimageStatusOrderByInput =
   | "status_DESC";
 
 export type ReferendumStatusOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "status_ASC"
+  | "status_DESC";
+
+export type TreasuryStatusOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "status_ASC"
@@ -1181,6 +1283,20 @@ export type TotalIssuanceOrderByInput =
   | "id_DESC"
   | "amount_ASC"
   | "amount_DESC";
+
+export type TreasurySpendProposalOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "proposer_ASC"
+  | "proposer_DESC"
+  | "beneficiary_ASC"
+  | "beneficiary_DESC"
+  | "value_ASC"
+  | "value_DESC"
+  | "bond_ASC"
+  | "bond_DESC"
+  | "treasuryProposalId_ASC"
+  | "treasuryProposalId_DESC";
 
 export type ValidatorOrderByInput =
   | "id_ASC"
@@ -1597,6 +1713,7 @@ export interface MotionWhereInput {
   preimageHash_not_starts_with?: Maybe<String>;
   preimageHash_ends_with?: Maybe<String>;
   preimageHash_not_ends_with?: Maybe<String>;
+  treasurySpendProposal?: Maybe<TreasurySpendProposalWhereInput>;
   section?: Maybe<String>;
   section_not?: Maybe<String>;
   section_in?: Maybe<String[] | String>;
@@ -2060,6 +2177,130 @@ export interface ReferendumStatusWhereInput {
   NOT?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
 }
 
+export interface TreasurySpendProposalWhereInput {
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
+  proposer?: Maybe<String>;
+  proposer_not?: Maybe<String>;
+  proposer_in?: Maybe<String[] | String>;
+  proposer_not_in?: Maybe<String[] | String>;
+  proposer_lt?: Maybe<String>;
+  proposer_lte?: Maybe<String>;
+  proposer_gt?: Maybe<String>;
+  proposer_gte?: Maybe<String>;
+  proposer_contains?: Maybe<String>;
+  proposer_not_contains?: Maybe<String>;
+  proposer_starts_with?: Maybe<String>;
+  proposer_not_starts_with?: Maybe<String>;
+  proposer_ends_with?: Maybe<String>;
+  proposer_not_ends_with?: Maybe<String>;
+  beneficiary?: Maybe<String>;
+  beneficiary_not?: Maybe<String>;
+  beneficiary_in?: Maybe<String[] | String>;
+  beneficiary_not_in?: Maybe<String[] | String>;
+  beneficiary_lt?: Maybe<String>;
+  beneficiary_lte?: Maybe<String>;
+  beneficiary_gt?: Maybe<String>;
+  beneficiary_gte?: Maybe<String>;
+  beneficiary_contains?: Maybe<String>;
+  beneficiary_not_contains?: Maybe<String>;
+  beneficiary_starts_with?: Maybe<String>;
+  beneficiary_not_starts_with?: Maybe<String>;
+  beneficiary_ends_with?: Maybe<String>;
+  beneficiary_not_ends_with?: Maybe<String>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  bond?: Maybe<String>;
+  bond_not?: Maybe<String>;
+  bond_in?: Maybe<String[] | String>;
+  bond_not_in?: Maybe<String[] | String>;
+  bond_lt?: Maybe<String>;
+  bond_lte?: Maybe<String>;
+  bond_gt?: Maybe<String>;
+  bond_gte?: Maybe<String>;
+  bond_contains?: Maybe<String>;
+  bond_not_contains?: Maybe<String>;
+  bond_starts_with?: Maybe<String>;
+  bond_not_starts_with?: Maybe<String>;
+  bond_ends_with?: Maybe<String>;
+  bond_not_ends_with?: Maybe<String>;
+  treasuryProposalId?: Maybe<Int>;
+  treasuryProposalId_not?: Maybe<Int>;
+  treasuryProposalId_in?: Maybe<Int[] | Int>;
+  treasuryProposalId_not_in?: Maybe<Int[] | Int>;
+  treasuryProposalId_lt?: Maybe<Int>;
+  treasuryProposalId_lte?: Maybe<Int>;
+  treasuryProposalId_gt?: Maybe<Int>;
+  treasuryProposalId_gte?: Maybe<Int>;
+  treasuryStatus_every?: Maybe<TreasuryStatusWhereInput>;
+  treasuryStatus_some?: Maybe<TreasuryStatusWhereInput>;
+  treasuryStatus_none?: Maybe<TreasuryStatusWhereInput>;
+  motion?: Maybe<MotionWhereInput>;
+  AND?: Maybe<
+    TreasurySpendProposalWhereInput[] | TreasurySpendProposalWhereInput
+  >;
+  OR?: Maybe<
+    TreasurySpendProposalWhereInput[] | TreasurySpendProposalWhereInput
+  >;
+  NOT?: Maybe<
+    TreasurySpendProposalWhereInput[] | TreasurySpendProposalWhereInput
+  >;
+}
+
+export interface TreasuryStatusWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  treasurySpendProposal?: Maybe<TreasurySpendProposalWhereInput>;
+  status?: Maybe<String>;
+  status_not?: Maybe<String>;
+  status_in?: Maybe<String[] | String>;
+  status_not_in?: Maybe<String[] | String>;
+  status_lt?: Maybe<String>;
+  status_lte?: Maybe<String>;
+  status_gt?: Maybe<String>;
+  status_gte?: Maybe<String>;
+  status_contains?: Maybe<String>;
+  status_not_contains?: Maybe<String>;
+  status_starts_with?: Maybe<String>;
+  status_not_starts_with?: Maybe<String>;
+  status_ends_with?: Maybe<String>;
+  status_not_ends_with?: Maybe<String>;
+  AND?: Maybe<TreasuryStatusWhereInput[] | TreasuryStatusWhereInput>;
+  OR?: Maybe<TreasuryStatusWhereInput[] | TreasuryStatusWhereInput>;
+  NOT?: Maybe<TreasuryStatusWhereInput[] | TreasuryStatusWhereInput>;
+}
+
 export type MotionProposalArgumentWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -2451,6 +2692,15 @@ export interface TotalIssuanceWhereInput {
   NOT?: Maybe<TotalIssuanceWhereInput[] | TotalIssuanceWhereInput>;
 }
 
+export type TreasurySpendProposalWhereUniqueInput = AtLeastOne<{
+  id: Maybe<Int>;
+  treasuryProposalId?: Maybe<Int>;
+}>;
+
+export type TreasuryStatusWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type ValidatorWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -2668,6 +2918,9 @@ export interface MotionCreateInput {
   motionStatus?: Maybe<MotionStatusCreateManyWithoutMotionInput>;
   preimage?: Maybe<PreimageCreateOneWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalCreateOneWithoutMotionInput
+  >;
   section: String;
 }
 
@@ -2814,6 +3067,38 @@ export interface ReferendumStatusCreateWithoutReferendumInput {
   status: String;
 }
 
+export interface TreasurySpendProposalCreateOneWithoutMotionInput {
+  create?: Maybe<TreasurySpendProposalCreateWithoutMotionInput>;
+  connect?: Maybe<TreasurySpendProposalWhereUniqueInput>;
+}
+
+export interface TreasurySpendProposalCreateWithoutMotionInput {
+  proposer: String;
+  beneficiary: String;
+  value: String;
+  bond: String;
+  treasuryProposalId: Int;
+  treasuryStatus?: Maybe<
+    TreasuryStatusCreateManyWithoutTreasurySpendProposalInput
+  >;
+}
+
+export interface TreasuryStatusCreateManyWithoutTreasurySpendProposalInput {
+  create?: Maybe<
+    | TreasuryStatusCreateWithoutTreasurySpendProposalInput[]
+    | TreasuryStatusCreateWithoutTreasurySpendProposalInput
+  >;
+  connect?: Maybe<
+    TreasuryStatusWhereUniqueInput[] | TreasuryStatusWhereUniqueInput
+  >;
+}
+
+export interface TreasuryStatusCreateWithoutTreasurySpendProposalInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  status: String;
+}
+
 export interface MotionUpdateInput {
   author?: Maybe<String>;
   memberCount?: Maybe<Int>;
@@ -2827,6 +3112,9 @@ export interface MotionUpdateInput {
   motionStatus?: Maybe<MotionStatusUpdateManyWithoutMotionInput>;
   preimage?: Maybe<PreimageUpdateOneWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalUpdateOneWithoutMotionInput
+  >;
   section?: Maybe<String>;
 }
 
@@ -3520,6 +3808,128 @@ export interface PreimageUpsertWithoutMotionInput {
   create: PreimageCreateWithoutMotionInput;
 }
 
+export interface TreasurySpendProposalUpdateOneWithoutMotionInput {
+  create?: Maybe<TreasurySpendProposalCreateWithoutMotionInput>;
+  update?: Maybe<TreasurySpendProposalUpdateWithoutMotionDataInput>;
+  upsert?: Maybe<TreasurySpendProposalUpsertWithoutMotionInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<TreasurySpendProposalWhereUniqueInput>;
+}
+
+export interface TreasurySpendProposalUpdateWithoutMotionDataInput {
+  proposer?: Maybe<String>;
+  beneficiary?: Maybe<String>;
+  value?: Maybe<String>;
+  bond?: Maybe<String>;
+  treasuryProposalId?: Maybe<Int>;
+  treasuryStatus?: Maybe<
+    TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput
+  >;
+}
+
+export interface TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput {
+  create?: Maybe<
+    | TreasuryStatusCreateWithoutTreasurySpendProposalInput[]
+    | TreasuryStatusCreateWithoutTreasurySpendProposalInput
+  >;
+  delete?: Maybe<
+    TreasuryStatusWhereUniqueInput[] | TreasuryStatusWhereUniqueInput
+  >;
+  connect?: Maybe<
+    TreasuryStatusWhereUniqueInput[] | TreasuryStatusWhereUniqueInput
+  >;
+  set?: Maybe<
+    TreasuryStatusWhereUniqueInput[] | TreasuryStatusWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    TreasuryStatusWhereUniqueInput[] | TreasuryStatusWhereUniqueInput
+  >;
+  update?: Maybe<
+    | TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput[]
+    | TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput
+  >;
+  upsert?: Maybe<
+    | TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput[]
+    | TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput
+  >;
+  deleteMany?: Maybe<
+    TreasuryStatusScalarWhereInput[] | TreasuryStatusScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | TreasuryStatusUpdateManyWithWhereNestedInput[]
+    | TreasuryStatusUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput {
+  where: TreasuryStatusWhereUniqueInput;
+  data: TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput;
+}
+
+export interface TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  status?: Maybe<String>;
+}
+
+export interface TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput {
+  where: TreasuryStatusWhereUniqueInput;
+  update: TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput;
+  create: TreasuryStatusCreateWithoutTreasurySpendProposalInput;
+}
+
+export interface TreasuryStatusScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  status?: Maybe<String>;
+  status_not?: Maybe<String>;
+  status_in?: Maybe<String[] | String>;
+  status_not_in?: Maybe<String[] | String>;
+  status_lt?: Maybe<String>;
+  status_lte?: Maybe<String>;
+  status_gt?: Maybe<String>;
+  status_gte?: Maybe<String>;
+  status_contains?: Maybe<String>;
+  status_not_contains?: Maybe<String>;
+  status_starts_with?: Maybe<String>;
+  status_not_starts_with?: Maybe<String>;
+  status_ends_with?: Maybe<String>;
+  status_not_ends_with?: Maybe<String>;
+  AND?: Maybe<
+    TreasuryStatusScalarWhereInput[] | TreasuryStatusScalarWhereInput
+  >;
+  OR?: Maybe<TreasuryStatusScalarWhereInput[] | TreasuryStatusScalarWhereInput>;
+  NOT?: Maybe<
+    TreasuryStatusScalarWhereInput[] | TreasuryStatusScalarWhereInput
+  >;
+}
+
+export interface TreasuryStatusUpdateManyWithWhereNestedInput {
+  where: TreasuryStatusScalarWhereInput;
+  data: TreasuryStatusUpdateManyDataInput;
+}
+
+export interface TreasuryStatusUpdateManyDataInput {
+  status?: Maybe<String>;
+}
+
+export interface TreasurySpendProposalUpsertWithoutMotionInput {
+  update: TreasurySpendProposalUpdateWithoutMotionDataInput;
+  create: TreasurySpendProposalCreateWithoutMotionInput;
+}
+
 export interface MotionUpdateManyMutationInput {
   author?: Maybe<String>;
   memberCount?: Maybe<Int>;
@@ -3553,6 +3963,9 @@ export interface MotionCreateWithoutMotionProposalArgumentsInput {
   motionStatus?: Maybe<MotionStatusCreateManyWithoutMotionInput>;
   preimage?: Maybe<PreimageCreateOneWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalCreateOneWithoutMotionInput
+  >;
   section: String;
 }
 
@@ -3579,6 +3992,9 @@ export interface MotionUpdateWithoutMotionProposalArgumentsDataInput {
   motionStatus?: Maybe<MotionStatusUpdateManyWithoutMotionInput>;
   preimage?: Maybe<PreimageUpdateOneWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalUpdateOneWithoutMotionInput
+  >;
   section?: Maybe<String>;
 }
 
@@ -3616,6 +4032,9 @@ export interface MotionCreateWithoutMotionStatusInput {
   motionProposalId: Int;
   preimage?: Maybe<PreimageCreateOneWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalCreateOneWithoutMotionInput
+  >;
   section: String;
 }
 
@@ -3644,6 +4063,9 @@ export interface MotionUpdateWithoutMotionStatusDataInput {
   motionProposalId?: Maybe<Int>;
   preimage?: Maybe<PreimageUpdateOneWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalUpdateOneWithoutMotionInput
+  >;
   section?: Maybe<String>;
 }
 
@@ -3747,6 +4169,9 @@ export interface MotionCreateWithoutPreimageInput {
   motionProposalId: Int;
   motionStatus?: Maybe<MotionStatusCreateManyWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalCreateOneWithoutMotionInput
+  >;
   section: String;
 }
 
@@ -3785,6 +4210,9 @@ export interface MotionUpdateWithoutPreimageDataInput {
   motionProposalId?: Maybe<Int>;
   motionStatus?: Maybe<MotionStatusUpdateManyWithoutMotionInput>;
   preimageHash?: Maybe<String>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalUpdateOneWithoutMotionInput
+  >;
   section?: Maybe<String>;
 }
 
@@ -4249,6 +4677,143 @@ export interface TotalIssuanceUpdateManyMutationInput {
   amount?: Maybe<String>;
 }
 
+export interface TreasurySpendProposalCreateInput {
+  proposer: String;
+  beneficiary: String;
+  value: String;
+  bond: String;
+  treasuryProposalId: Int;
+  treasuryStatus?: Maybe<
+    TreasuryStatusCreateManyWithoutTreasurySpendProposalInput
+  >;
+  motion?: Maybe<MotionCreateOneWithoutTreasurySpendProposalInput>;
+}
+
+export interface MotionCreateOneWithoutTreasurySpendProposalInput {
+  create?: Maybe<MotionCreateWithoutTreasurySpendProposalInput>;
+  connect?: Maybe<MotionWhereUniqueInput>;
+}
+
+export interface MotionCreateWithoutTreasurySpendProposalInput {
+  author: String;
+  memberCount: Int;
+  metaDescription: String;
+  method: String;
+  motionProposalArguments?: Maybe<
+    MotionProposalArgumentCreateManyWithoutMotionInput
+  >;
+  motionProposalHash: String;
+  motionProposalId: Int;
+  motionStatus?: Maybe<MotionStatusCreateManyWithoutMotionInput>;
+  preimage?: Maybe<PreimageCreateOneWithoutMotionInput>;
+  preimageHash?: Maybe<String>;
+  section: String;
+}
+
+export interface TreasurySpendProposalUpdateInput {
+  proposer?: Maybe<String>;
+  beneficiary?: Maybe<String>;
+  value?: Maybe<String>;
+  bond?: Maybe<String>;
+  treasuryProposalId?: Maybe<Int>;
+  treasuryStatus?: Maybe<
+    TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput
+  >;
+  motion?: Maybe<MotionUpdateOneWithoutTreasurySpendProposalInput>;
+}
+
+export interface MotionUpdateOneWithoutTreasurySpendProposalInput {
+  create?: Maybe<MotionCreateWithoutTreasurySpendProposalInput>;
+  update?: Maybe<MotionUpdateWithoutTreasurySpendProposalDataInput>;
+  upsert?: Maybe<MotionUpsertWithoutTreasurySpendProposalInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<MotionWhereUniqueInput>;
+}
+
+export interface MotionUpdateWithoutTreasurySpendProposalDataInput {
+  author?: Maybe<String>;
+  memberCount?: Maybe<Int>;
+  metaDescription?: Maybe<String>;
+  method?: Maybe<String>;
+  motionProposalArguments?: Maybe<
+    MotionProposalArgumentUpdateManyWithoutMotionInput
+  >;
+  motionProposalHash?: Maybe<String>;
+  motionProposalId?: Maybe<Int>;
+  motionStatus?: Maybe<MotionStatusUpdateManyWithoutMotionInput>;
+  preimage?: Maybe<PreimageUpdateOneWithoutMotionInput>;
+  preimageHash?: Maybe<String>;
+  section?: Maybe<String>;
+}
+
+export interface MotionUpsertWithoutTreasurySpendProposalInput {
+  update: MotionUpdateWithoutTreasurySpendProposalDataInput;
+  create: MotionCreateWithoutTreasurySpendProposalInput;
+}
+
+export interface TreasurySpendProposalUpdateManyMutationInput {
+  proposer?: Maybe<String>;
+  beneficiary?: Maybe<String>;
+  value?: Maybe<String>;
+  bond?: Maybe<String>;
+  treasuryProposalId?: Maybe<Int>;
+}
+
+export interface TreasuryStatusCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput;
+  status: String;
+}
+
+export interface TreasurySpendProposalCreateOneWithoutTreasuryStatusInput {
+  create?: Maybe<TreasurySpendProposalCreateWithoutTreasuryStatusInput>;
+  connect?: Maybe<TreasurySpendProposalWhereUniqueInput>;
+}
+
+export interface TreasurySpendProposalCreateWithoutTreasuryStatusInput {
+  proposer: String;
+  beneficiary: String;
+  value: String;
+  bond: String;
+  treasuryProposalId: Int;
+  motion?: Maybe<MotionCreateOneWithoutTreasurySpendProposalInput>;
+}
+
+export interface TreasuryStatusUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  treasurySpendProposal?: Maybe<
+    TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput
+  >;
+  status?: Maybe<String>;
+}
+
+export interface TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput {
+  create?: Maybe<TreasurySpendProposalCreateWithoutTreasuryStatusInput>;
+  update?: Maybe<TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput>;
+  upsert?: Maybe<TreasurySpendProposalUpsertWithoutTreasuryStatusInput>;
+  connect?: Maybe<TreasurySpendProposalWhereUniqueInput>;
+}
+
+export interface TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput {
+  proposer?: Maybe<String>;
+  beneficiary?: Maybe<String>;
+  value?: Maybe<String>;
+  bond?: Maybe<String>;
+  treasuryProposalId?: Maybe<Int>;
+  motion?: Maybe<MotionUpdateOneWithoutTreasurySpendProposalInput>;
+}
+
+export interface TreasurySpendProposalUpsertWithoutTreasuryStatusInput {
+  update: TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput;
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput;
+}
+
+export interface TreasuryStatusUpdateManyMutationInput {
+  status?: Maybe<String>;
+}
+
 export interface ValidatorCreateInput {
   id?: Maybe<ID_Input>;
   session: SessionCreateOneInput;
@@ -4606,6 +5171,46 @@ export interface TotalIssuanceSubscriptionWhereInput {
   >;
   NOT?: Maybe<
     TotalIssuanceSubscriptionWhereInput[] | TotalIssuanceSubscriptionWhereInput
+  >;
+}
+
+export interface TreasurySpendProposalSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<TreasurySpendProposalWhereInput>;
+  AND?: Maybe<
+    | TreasurySpendProposalSubscriptionWhereInput[]
+    | TreasurySpendProposalSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | TreasurySpendProposalSubscriptionWhereInput[]
+    | TreasurySpendProposalSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | TreasurySpendProposalSubscriptionWhereInput[]
+    | TreasurySpendProposalSubscriptionWhereInput
+  >;
+}
+
+export interface TreasuryStatusSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<TreasuryStatusWhereInput>;
+  AND?: Maybe<
+    | TreasuryStatusSubscriptionWhereInput[]
+    | TreasuryStatusSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | TreasuryStatusSubscriptionWhereInput[]
+    | TreasuryStatusSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | TreasuryStatusSubscriptionWhereInput[]
+    | TreasuryStatusSubscriptionWhereInput
   >;
 }
 
@@ -5072,6 +5677,7 @@ export interface MotionPromise extends Promise<Motion>, Fragmentable {
   }) => T;
   preimage: <T = PreimagePromise>() => T;
   preimageHash: () => Promise<String>;
+  treasurySpendProposal: <T = TreasurySpendProposalPromise>() => T;
   section: () => Promise<String>;
 }
 
@@ -5107,6 +5713,7 @@ export interface MotionSubscription
   }) => T;
   preimage: <T = PreimageSubscription>() => T;
   preimageHash: () => Promise<AsyncIterator<String>>;
+  treasurySpendProposal: <T = TreasurySpendProposalSubscription>() => T;
   section: () => Promise<AsyncIterator<String>>;
 }
 
@@ -5142,6 +5749,7 @@ export interface MotionNullablePromise
   }) => T;
   preimage: <T = PreimagePromise>() => T;
   preimageHash: () => Promise<String>;
+  treasurySpendProposal: <T = TreasurySpendProposalPromise>() => T;
   section: () => Promise<String>;
 }
 
@@ -5587,6 +6195,112 @@ export interface ReferendumStatusNullablePromise
   id: () => Promise<ID_Output>;
   blockNumber: <T = BlockNumberPromise>() => T;
   referendum: <T = ReferendumPromise>() => T;
+  status: () => Promise<String>;
+}
+
+export interface TreasurySpendProposal {
+  id: Int;
+  proposer: String;
+  beneficiary: String;
+  value: String;
+  bond: String;
+  treasuryProposalId: Int;
+}
+
+export interface TreasurySpendProposalPromise
+  extends Promise<TreasurySpendProposal>,
+    Fragmentable {
+  id: () => Promise<Int>;
+  proposer: () => Promise<String>;
+  beneficiary: () => Promise<String>;
+  value: () => Promise<String>;
+  bond: () => Promise<String>;
+  treasuryProposalId: () => Promise<Int>;
+  treasuryStatus: <T = FragmentableArray<TreasuryStatus>>(args?: {
+    where?: TreasuryStatusWhereInput;
+    orderBy?: TreasuryStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  motion: <T = MotionPromise>() => T;
+}
+
+export interface TreasurySpendProposalSubscription
+  extends Promise<AsyncIterator<TreasurySpendProposal>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<Int>>;
+  proposer: () => Promise<AsyncIterator<String>>;
+  beneficiary: () => Promise<AsyncIterator<String>>;
+  value: () => Promise<AsyncIterator<String>>;
+  bond: () => Promise<AsyncIterator<String>>;
+  treasuryProposalId: () => Promise<AsyncIterator<Int>>;
+  treasuryStatus: <
+    T = Promise<AsyncIterator<TreasuryStatusSubscription>>
+  >(args?: {
+    where?: TreasuryStatusWhereInput;
+    orderBy?: TreasuryStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  motion: <T = MotionSubscription>() => T;
+}
+
+export interface TreasurySpendProposalNullablePromise
+  extends Promise<TreasurySpendProposal | null>,
+    Fragmentable {
+  id: () => Promise<Int>;
+  proposer: () => Promise<String>;
+  beneficiary: () => Promise<String>;
+  value: () => Promise<String>;
+  bond: () => Promise<String>;
+  treasuryProposalId: () => Promise<Int>;
+  treasuryStatus: <T = FragmentableArray<TreasuryStatus>>(args?: {
+    where?: TreasuryStatusWhereInput;
+    orderBy?: TreasuryStatusOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  motion: <T = MotionPromise>() => T;
+}
+
+export interface TreasuryStatus {
+  id: ID_Output;
+  status: String;
+}
+
+export interface TreasuryStatusPromise
+  extends Promise<TreasuryStatus>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  treasurySpendProposal: <T = TreasurySpendProposalPromise>() => T;
+  status: () => Promise<String>;
+}
+
+export interface TreasuryStatusSubscription
+  extends Promise<AsyncIterator<TreasuryStatus>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  blockNumber: <T = BlockNumberSubscription>() => T;
+  treasurySpendProposal: <T = TreasurySpendProposalSubscription>() => T;
+  status: () => Promise<AsyncIterator<String>>;
+}
+
+export interface TreasuryStatusNullablePromise
+  extends Promise<TreasuryStatus | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  treasurySpendProposal: <T = TreasurySpendProposalPromise>() => T;
   status: () => Promise<String>;
 }
 
@@ -6741,6 +7455,120 @@ export interface AggregateTotalIssuanceSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface TreasurySpendProposalConnection {
+  pageInfo: PageInfo;
+  edges: TreasurySpendProposalEdge[];
+}
+
+export interface TreasurySpendProposalConnectionPromise
+  extends Promise<TreasurySpendProposalConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TreasurySpendProposalEdge>>() => T;
+  aggregate: <T = AggregateTreasurySpendProposalPromise>() => T;
+}
+
+export interface TreasurySpendProposalConnectionSubscription
+  extends Promise<AsyncIterator<TreasurySpendProposalConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <
+    T = Promise<AsyncIterator<TreasurySpendProposalEdgeSubscription>>
+  >() => T;
+  aggregate: <T = AggregateTreasurySpendProposalSubscription>() => T;
+}
+
+export interface TreasurySpendProposalEdge {
+  node: TreasurySpendProposal;
+  cursor: String;
+}
+
+export interface TreasurySpendProposalEdgePromise
+  extends Promise<TreasurySpendProposalEdge>,
+    Fragmentable {
+  node: <T = TreasurySpendProposalPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface TreasurySpendProposalEdgeSubscription
+  extends Promise<AsyncIterator<TreasurySpendProposalEdge>>,
+    Fragmentable {
+  node: <T = TreasurySpendProposalSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateTreasurySpendProposal {
+  count: Int;
+}
+
+export interface AggregateTreasurySpendProposalPromise
+  extends Promise<AggregateTreasurySpendProposal>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTreasurySpendProposalSubscription
+  extends Promise<AsyncIterator<AggregateTreasurySpendProposal>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface TreasuryStatusConnection {
+  pageInfo: PageInfo;
+  edges: TreasuryStatusEdge[];
+}
+
+export interface TreasuryStatusConnectionPromise
+  extends Promise<TreasuryStatusConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TreasuryStatusEdge>>() => T;
+  aggregate: <T = AggregateTreasuryStatusPromise>() => T;
+}
+
+export interface TreasuryStatusConnectionSubscription
+  extends Promise<AsyncIterator<TreasuryStatusConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TreasuryStatusEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTreasuryStatusSubscription>() => T;
+}
+
+export interface TreasuryStatusEdge {
+  node: TreasuryStatus;
+  cursor: String;
+}
+
+export interface TreasuryStatusEdgePromise
+  extends Promise<TreasuryStatusEdge>,
+    Fragmentable {
+  node: <T = TreasuryStatusPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface TreasuryStatusEdgeSubscription
+  extends Promise<AsyncIterator<TreasuryStatusEdge>>,
+    Fragmentable {
+  node: <T = TreasuryStatusSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateTreasuryStatus {
+  count: Int;
+}
+
+export interface AggregateTreasuryStatusPromise
+  extends Promise<AggregateTreasuryStatus>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTreasuryStatusSubscription
+  extends Promise<AsyncIterator<AggregateTreasuryStatus>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface Validator {
   id: ID_Output;
   controller: String;
@@ -7883,6 +8711,106 @@ export interface TotalIssuancePreviousValuesSubscription
   amount: () => Promise<AsyncIterator<String>>;
 }
 
+export interface TreasurySpendProposalSubscriptionPayload {
+  mutation: MutationType;
+  node: TreasurySpendProposal;
+  updatedFields: String[];
+  previousValues: TreasurySpendProposalPreviousValues;
+}
+
+export interface TreasurySpendProposalSubscriptionPayloadPromise
+  extends Promise<TreasurySpendProposalSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TreasurySpendProposalPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TreasurySpendProposalPreviousValuesPromise>() => T;
+}
+
+export interface TreasurySpendProposalSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TreasurySpendProposalSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TreasurySpendProposalSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TreasurySpendProposalPreviousValuesSubscription>() => T;
+}
+
+export interface TreasurySpendProposalPreviousValues {
+  id: Int;
+  proposer: String;
+  beneficiary: String;
+  value: String;
+  bond: String;
+  treasuryProposalId: Int;
+}
+
+export interface TreasurySpendProposalPreviousValuesPromise
+  extends Promise<TreasurySpendProposalPreviousValues>,
+    Fragmentable {
+  id: () => Promise<Int>;
+  proposer: () => Promise<String>;
+  beneficiary: () => Promise<String>;
+  value: () => Promise<String>;
+  bond: () => Promise<String>;
+  treasuryProposalId: () => Promise<Int>;
+}
+
+export interface TreasurySpendProposalPreviousValuesSubscription
+  extends Promise<AsyncIterator<TreasurySpendProposalPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<Int>>;
+  proposer: () => Promise<AsyncIterator<String>>;
+  beneficiary: () => Promise<AsyncIterator<String>>;
+  value: () => Promise<AsyncIterator<String>>;
+  bond: () => Promise<AsyncIterator<String>>;
+  treasuryProposalId: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface TreasuryStatusSubscriptionPayload {
+  mutation: MutationType;
+  node: TreasuryStatus;
+  updatedFields: String[];
+  previousValues: TreasuryStatusPreviousValues;
+}
+
+export interface TreasuryStatusSubscriptionPayloadPromise
+  extends Promise<TreasuryStatusSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TreasuryStatusPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TreasuryStatusPreviousValuesPromise>() => T;
+}
+
+export interface TreasuryStatusSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TreasuryStatusSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TreasuryStatusSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TreasuryStatusPreviousValuesSubscription>() => T;
+}
+
+export interface TreasuryStatusPreviousValues {
+  id: ID_Output;
+  status: String;
+}
+
+export interface TreasuryStatusPreviousValuesPromise
+  extends Promise<TreasuryStatusPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  status: () => Promise<String>;
+}
+
+export interface TreasuryStatusPreviousValuesSubscription
+  extends Promise<AsyncIterator<TreasuryStatusPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  status: () => Promise<AsyncIterator<String>>;
+}
+
 export interface ValidatorSubscriptionPayload {
   mutation: MutationType;
   node: Validator;
@@ -8059,6 +8987,14 @@ export const models: Model[] = [
   },
   {
     name: "BlockIndex",
+    embedded: false
+  },
+  {
+    name: "TreasurySpendProposal",
+    embedded: false
+  },
+  {
+    name: "TreasuryStatus",
     embedded: false
   }
 ];

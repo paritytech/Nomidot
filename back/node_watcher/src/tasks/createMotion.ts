@@ -173,6 +173,15 @@ const createMotion: Task<NomidotMotion[]> = {
             })[0]
           : null;
 
+        const treasurySpendProposals =
+          section === 'treasury' &&
+          mPA.length > 0 &&
+          mPA[0].name === 'proposal_id'
+            ? await prisma.treasurySpendProposals({
+                where: { treasuryProposalId: parseInt(mPA[0].value) },
+              })
+            : [];
+
         await prisma.createMotion({
           author: author.toString(),
           memberCount,
@@ -191,6 +200,14 @@ const createMotion: Task<NomidotMotion[]> = {
               }
             : null,
           preimageHash,
+          treasurySpendProposal:
+            treasurySpendProposals?.length > 0
+              ? {
+                  connect: {
+                    id: treasurySpendProposals[0].id,
+                  },
+                }
+              : null,
           section,
           motionStatus: {
             create: {
