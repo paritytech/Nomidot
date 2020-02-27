@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
+import { useLocalStorage } from '@rehooks/local-storage';
 import { Button, Subheading } from '@substrate/design-system';
 import {
   AddressSummary,
@@ -29,12 +30,13 @@ type Props = RouteComponentProps;
 
 const Cart = (_props: Props): React.ReactElement => {
   const [cartItems, setCartItems] = useState<string[]>([]);
+  const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   useEffect(() => {
     const _cartItems = getCartItems();
 
     setCartItems(_cartItems);
-  }, []);
+  }, [cartItemsCount]);
 
   const removeItemFromCart = ({
     currentTarget: {
@@ -43,7 +45,7 @@ const Cart = (_props: Props): React.ReactElement => {
   }: React.MouseEvent<HTMLButtonElement>) => {
     // FIXME: use store.js and subscribe events so this update happens immediately (not on refresh).
     if (key) {
-      removeCartItem(key);
+      removeCartItem(key, Number(cartItemsCount));
     } else {
       alert('Something went wrong. Please try again later.');
     }

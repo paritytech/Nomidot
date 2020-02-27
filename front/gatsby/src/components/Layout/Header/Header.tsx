@@ -17,7 +17,7 @@ import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
-import { APP_TITLE, getCartItemsCount } from '../../../util';
+import { APP_TITLE } from '../../../util';
 import {
   BlockHeader,
   EraHeader,
@@ -29,7 +29,7 @@ type Props = RouteComponentProps;
 
 export function Header(_props: Props): React.ReactElement {
   const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
-  // const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
+
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   const handleLogin = useCallback(async () => {

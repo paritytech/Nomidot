@@ -26,25 +26,12 @@ export function stripAddressFromCartItem(item: string): string {
 
 export function addToCart(stash: string, currCartCount: number): void {
   writeStorage(`cart:${stash}`, stash);
-  console.log('currCartCount', currCartCount);
 
   if (currCartCount) {
     writeStorage(`cartItemsCount`, currCartCount + 1);
   } else {
     writeStorage(`cartItemsCount`, 1);
   }
-}
-
-export function getCartItemsCount(): number {
-  let count = 0;
-
-  for (const key in localStorage) {
-    if (isCartItem(key)) {
-      count += 1;
-    }
-  }
-
-  return count;
 }
 
 export function getCartItems(): Array<string> {
@@ -65,8 +52,12 @@ export function clearCart(): void {
       localStorage.removeItem(key);
     }
   }
+
+  writeStorage('cartItemsCount', 0);
 }
 
-export function removeCartItem(itemKey: string): void {
+export function removeCartItem(itemKey: string, currCartCount: number): void {
   localStorage.removeItem(itemKey);
+
+  writeStorage('cartItemsCount', currCartCount - 1);
 }
