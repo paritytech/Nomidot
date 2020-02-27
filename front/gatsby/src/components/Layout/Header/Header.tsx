@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Link, RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
+import { useLocalStorage } from '@rehooks/local-storage';
 import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
 import {
@@ -28,7 +29,8 @@ type Props = RouteComponentProps;
 
 export function Header(_props: Props): React.ReactElement {
   const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
-  const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
+  // const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
+  const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   const handleLogin = useCallback(async () => {
     try {
@@ -39,11 +41,7 @@ export function Header(_props: Props): React.ReactElement {
   }, [fetchAccounts]);
 
   useEffect(() => {
-    const count = getCartItemsCount();
-    setNumberOfItemsInCart(count);
     handleLogin();
-
-    // FIXME: use store.js for window.addEventListener('storage', updateCartItems);
   }, []);
 
   const navToCartPage = () => {
@@ -76,19 +74,21 @@ export function Header(_props: Props): React.ReactElement {
               size='large'
               onClick={navToCartPage}
             />
-            <p>{numberOfItemsInCart}</p>
+            <p>{cartItemsCount}</p>
           </StackedHorizontal>
         }
         tabs={[
           <Button
+            onClick={() => navigate('/accounts')}
             key={shortid.generate()} // FIXME: why do i need a key here...
           >
-            <Link to={`/accounts`}>Accounts</Link>
+            Accounts
           </Button>,
           <Button
+            onClick={() => navigate('/validators')}
             key={shortid.generate()} // FIXME: why do i need a key here>
           >
-            <Link to={'/validators'}>Validators</Link>
+            Validators
           </Button>,
         ]}
       />

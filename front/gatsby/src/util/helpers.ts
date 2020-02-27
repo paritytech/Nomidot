@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
+import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 
 export function toShortAddress(address: string | AccountId): string {
   if (typeof address !== 'string') {
@@ -21,6 +22,17 @@ export function isCartItem(item: string): boolean {
 
 export function stripAddressFromCartItem(item: string): string {
   return item.slice(5);
+}
+
+export function addToCart(stash: string, currCartCount: number): void {
+  writeStorage(`cart:${stash}`, stash);
+  console.log('currCartCount', currCartCount);
+
+  if (currCartCount) {
+    writeStorage(`cartItemsCount`, currCartCount + 1);
+  } else {
+    writeStorage(`cartItemsCount`, 1);
+  }
 }
 
 export function getCartItemsCount(): number {

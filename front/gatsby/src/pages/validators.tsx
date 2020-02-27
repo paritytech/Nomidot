@@ -4,6 +4,7 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
+import { useLocalStorage } from '@rehooks/local-storage';
 import { ApiContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
@@ -21,6 +22,7 @@ import {
   OFFLINE_VALIDATORS,
   SESSIONS_SUBSCRIPTION,
 } from '../util/graphql';
+import { addToCart } from '../util';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
@@ -28,6 +30,7 @@ interface JoinValidatorOffline extends Validator {
 
 const CurrentElectedList = (): React.ReactElement => {
   const { api } = useContext(ApiContext);
+  let [currCartCount] = useLocalStorage(`cartItemsCount`);
 
   const [currentElected, setCurrentElected] = useState<
     JoinValidatorOffline[]
@@ -104,7 +107,7 @@ const CurrentElectedList = (): React.ReactElement => {
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
-      localStorage.setItem(`cart:${stash}`, stash);
+      addToCart(stash, Number(currCartCount));
     } else {
       alert('Something went wrong. Please try again later.');
     }
