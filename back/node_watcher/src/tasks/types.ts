@@ -118,7 +118,8 @@ export type Nomidot =
   | NomidotSession
   | NomidotSlashing[]
   | NomidotStake
-  | NomidotTotalIssuance;
+  | NomidotTotalIssuance
+  | NomidotTreasury[];
 
 export type NomidotTask = Task<Nomidot>;
 
@@ -136,6 +137,19 @@ export interface NomidotProposalEvent {
 export interface NomidotProposalRawEvent {
   PropIndex?: number;
   Balance?: Balance;
+}
+
+export interface NomidotTreasury {
+  treasuryProposalId: number;
+  proposer: AccountId;
+  beneficiary: AccountId;
+  value: Balance;
+  bond: Balance;
+  status: string;
+}
+
+export interface NomidotTreasuryRawEvent {
+  ProposalIndex?: number;
 }
 
 export interface NomidotRewardEvent extends EventRecord {
