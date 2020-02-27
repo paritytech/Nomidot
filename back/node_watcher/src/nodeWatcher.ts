@@ -38,29 +38,29 @@ async function incrementor(
   tasks: NomidotTask[]
 ): Promise<void> {
   const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
-  let blockIndexId = '';
+  // let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
   let lastKnownBestFinalized = await waitFinalized(api, 0);
 
-  const existingBlockIndex = await prisma.blockIndexes({
-    where: {
-      identifier: blockIdentifier,
-    },
-  });
+  // const existingBlockIndex = await prisma.blockIndexes({
+  //   where: {
+  //     identifier: blockIdentifier,
+  //   },
+  // });
 
-  if (existingBlockIndex.length === 0) {
-    const result = await prisma.createBlockIndex({
-      identifier: blockIdentifier,
-      startFrom: blockIndex,
-      index: blockIndex,
-    });
+  // if (existingBlockIndex.length === 0) {
+  //   const result = await prisma.createBlockIndex({
+  //     identifier: blockIdentifier,
+  //     startFrom: blockIndex,
+  //     index: blockIndex,
+  //   });
 
-    blockIndexId = result.id;
-  } else {
-    blockIndexId = existingBlockIndex[0].id;
-    blockIndex = existingBlockIndex[0].index;
-  }
+  //   blockIndexId = result.id;
+  // } else {
+  //   blockIndexId = existingBlockIndex[0].id;
+  //   blockIndex = existingBlockIndex[0].index;
+  // }
 
   api.once('disconnected', async () => {
     try {
@@ -130,14 +130,14 @@ async function incrementor(
 
     blockIndex += 1;
 
-    await prisma.updateBlockIndex({
-      data: {
-        index: blockIndex,
-      },
-      where: {
-        id: blockIndexId,
-      },
-    });
+    // await prisma.updateBlockIndex({
+    //   data: {
+    //     index: blockIndex,
+    //   },
+    //   where: {
+    //     id: blockIndexId,
+    //   },
+    // });
   }
 }
 
