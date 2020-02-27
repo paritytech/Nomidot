@@ -82,6 +82,19 @@ const resolvers = {
       return prisma.validator({ id: parent.id }).session();
     },
   },
+  Council: {
+    blockNumber(parent: any) {
+      return prisma.council({ id: parent.id }).blockNumber();
+    },
+    members(parent: any) {
+      return prisma.council({ id: parent.id }).members();
+    },
+  },
+  CouncilMember: {
+    councils(parent: any) {
+      return prisma.councilMember({ id: parent.id }).councils();
+    },
+  },
   Motion: {
     motionProposalArguments(parent: any) {
       return prisma.motion({ id: parent.id }).motionProposalArguments();

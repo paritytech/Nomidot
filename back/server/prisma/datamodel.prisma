@@ -81,6 +81,18 @@ type Stake {
   totalStake: String!
 }
 
+type Council {
+  id: ID! @id
+  blockNumber: BlockNumber! @relation(name: "CouncilFromBlockNumber", link: INLINE)
+  members: [CouncilMember]! @relation(name: "MembersCouncils")
+}
+
+type CouncilMember {
+  id: ID! @id
+  address: String! @unique
+  councils: [Council]! @relation(name: "MembersCouncils")
+}
+
 type Motion {
   id: Int! @id(strategy: SEQUENCE) @sequence(name: "MOTION_SEQUENCE" initialValue:1 allocationSize:1)
   author: String!

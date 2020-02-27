@@ -6,20 +6,12 @@ import { Context, Selectors } from '../types';
 
 const Query = {
   blockNumbers(
-    parent: any,
-    {
-      blockNumberWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.blockNumbers({
-      where: blockNumberWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -29,12 +21,12 @@ const Query = {
     });
   },
   eras(
-    parent: any,
-    { eraWhereInput, orderBy, skip, after, before, first, last }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.eras({
-      where: eraWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -44,20 +36,12 @@ const Query = {
     });
   },
   heartBeats(
-    parent: any,
-    {
-      heartBeatWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.heartBeats({
-      where: heartBeatWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -67,20 +51,12 @@ const Query = {
     });
   },
   nominations(
-    parent: any,
-    {
-      nominationsWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.nominations({
-      where: nominationsWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -90,20 +66,12 @@ const Query = {
     });
   },
   offlineValidators(
-    parent: any,
-    {
-      offlineValidatorsWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.offlineValidators({
-      where: offlineValidatorsWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -113,12 +81,12 @@ const Query = {
     });
   },
   rewards(
-    parent: any,
-    { rewardsWhereInput, orderBy, skip, after, before, first, last }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.rewards({
-      where: rewardsWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -128,12 +96,12 @@ const Query = {
     });
   },
   stakes(
-    parent: any,
-    { stakesWhereInput, orderBy, skip, after, before, first, last }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.stakes({
-      where: stakesWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -143,20 +111,12 @@ const Query = {
     });
   },
   sessions(
-    parent: any,
-    {
-      sessionsWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.sessions({
-      where: sessionsWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -166,20 +126,12 @@ const Query = {
     });
   },
   slashings(
-    parent: any,
-    {
-      slashingsWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.slashings({
-      where: slashingsWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -189,20 +141,12 @@ const Query = {
     });
   },
   totalIssuances(
-    parent: any,
-    {
-      totalIssuancesWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.totalIssuances({
-      where: totalIssuancesWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -212,20 +156,12 @@ const Query = {
     });
   },
   validators(
-    parent: any,
-    {
-      validatorsWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.validators({
-      where: validatorsWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -235,86 +171,122 @@ const Query = {
     });
   },
   blockNumber(
-    parent: any,
+    _parent: any,
     { blockNumberWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.blockNumber(blockNumberWhereUniqueInput);
   },
-  era(parent: any, { eraWhereUniqueInput }: Selectors, { prisma }: Context) {
+  era(_parent: any, { eraWhereUniqueInput }: Selectors, { prisma }: Context) {
     return prisma.era(eraWhereUniqueInput);
   },
   nomination(
-    parent: any,
+    _parent: any,
     { nominationWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.nomination(nominationWhereUniqueInput);
   },
   reward(
-    parent: any,
+    _parent: any,
     { rewardWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.reward(rewardWhereUniqueInput);
   },
   session(
-    parent: any,
+    _parent: any,
     { sessionWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.session(sessionWhereUniqueInput);
   },
   slashing(
-    parent: any,
+    _parent: any,
     { slashingWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.slashing(slashingWhereUniqueInput);
   },
   stake(
-    parent: any,
+    _parent: any,
     { stakeWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.stake(stakeWhereUniqueInput);
   },
   totalIssuance(
-    parent: any,
+    _parent: any,
     { totalIssuanceWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.totalIssuance(totalIssuanceWhereUniqueInput);
   },
   validator(
-    parent: any,
+    _parent: any,
     { validatorWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.validator(validatorWhereUniqueInput);
   },
-  motionStatus(
-    parent: any,
-    { MotionStatusWhereUniqueInput }: Selectors,
+  councils(
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
-    return prisma.motionStatus(MotionStatusWhereUniqueInput);
-  },
-  motionStatuses(
-    parent: any,
-    {
-      MotionStatusWhereInput,
+    return prisma.councils({
+      where,
       orderBy,
       skip,
       after,
       before,
       first,
       last,
-    }: Selectors,
+    });
+  },
+  council(
+    _parent: any,
+    { councilWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.council(councilWhereUniqueInput);
+  },
+  councilMembers(
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.councilMembers({
+      where,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+  councilMember(
+    _parent: any,
+    { councilMemberWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.councilMember(councilMemberWhereUniqueInput);
+  },
+  motionStatus(
+    _parent: any,
+    { MotionStatusWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.motionStatus(MotionStatusWhereUniqueInput);
+  },
+  motionStatuses(
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.motionStatuses({
-      where: MotionStatusWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -324,7 +296,7 @@ const Query = {
     });
   },
   motionProposalArgument(
-    parent: any,
+    _parent: any,
     { MotionProposalArgumentWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
@@ -333,20 +305,12 @@ const Query = {
     );
   },
   motionProposalArguments(
-    parent: any,
-    {
-      MotionProposalArgumentWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.motionProposalArguments({
-      where: MotionProposalArgumentWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -356,19 +320,19 @@ const Query = {
     });
   },
   motion(
-    parent: any,
+    _parent: any,
     { MotionWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.motion(MotionWhereUniqueInput);
   },
   motions(
-    parent: any,
-    { MotionWhereInput, orderBy, skip, after, before, first, last }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.motions({
-      where: MotionWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -378,20 +342,12 @@ const Query = {
     });
   },
   preimages(
-    parent: any,
-    {
-      preimageWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.preimages({
-      where: preimageWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -401,27 +357,19 @@ const Query = {
     });
   },
   preimage(
-    parent: any,
+    _parent: any,
     { PreimageWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.preimage(PreimageWhereUniqueInput);
   },
   preimageStatuses(
-    parent: any,
-    {
-      PreimageStatusWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.preimageStatuses({
-      where: PreimageStatusWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -431,27 +379,19 @@ const Query = {
     });
   },
   preimageStatus(
-    parent: any,
+    _parent: any,
     { PreimageStatusWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.preimageStatus(PreimageStatusWhereUniqueInput);
   },
   proposals(
-    parent: any,
-    {
-      ProposalWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.proposals({
-      where: ProposalWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -461,27 +401,19 @@ const Query = {
     });
   },
   proposal(
-    parent: any,
+    _parent: any,
     { ProposalWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.proposal(ProposalWhereUniqueInput);
   },
   proposalStatuses(
-    parent: any,
-    {
-      ProposalStatusWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.proposalStatuses({
-      where: ProposalStatusWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -491,27 +423,19 @@ const Query = {
     });
   },
   proposalStatus(
-    parent: any,
+    _parent: any,
     { ProposalStatusWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.proposalStatus(ProposalStatusWhereUniqueInput);
   },
   preimageArguments(
-    parent: any,
-    {
-      PreimageArgumentWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.preimageArguments({
-      where: PreimageArgumentWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -521,27 +445,19 @@ const Query = {
     });
   },
   preimageArgument(
-    parent: any,
+    _parent: any,
     { PreimageArgumentWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.preimageArgument(PreimageArgumentWhereUniqueInput);
   },
   referendums(
-    parent: any,
-    {
-      referendumWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.referendums({
-      where: referendumWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -551,27 +467,19 @@ const Query = {
     });
   },
   referendum(
-    parent: any,
+    _parent: any,
     { referendumWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {
     return prisma.referendum(referendumWhereUniqueInput);
   },
   referendumStatuses(
-    parent: any,
-    {
-      referendumStatusWhereInput,
-      orderBy,
-      skip,
-      after,
-      before,
-      first,
-      last,
-    }: Selectors,
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
   ) {
     return prisma.referendumStatuses({
-      where: referendumStatusWhereInput,
+      where,
       orderBy,
       skip,
       after,
@@ -581,7 +489,7 @@ const Query = {
     });
   },
   referendumStatus(
-    parent: any,
+    _parent: any,
     { referendumStatusWhereUniqueInput }: Selectors,
     { prisma }: Context
   ) {

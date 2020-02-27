@@ -18,6 +18,8 @@ export type Maybe<T> = T | undefined | null;
 export interface Exists {
   blockIndex: (where?: BlockIndexWhereInput) => Promise<boolean>;
   blockNumber: (where?: BlockNumberWhereInput) => Promise<boolean>;
+  council: (where?: CouncilWhereInput) => Promise<boolean>;
+  councilMember: (where?: CouncilMemberWhereInput) => Promise<boolean>;
   era: (where?: EraWhereInput) => Promise<boolean>;
   heartBeat: (where?: HeartBeatWhereInput) => Promise<boolean>;
   motion: (where?: MotionWhereInput) => Promise<boolean>;
@@ -105,6 +107,46 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BlockNumberConnectionPromise;
+  council: (where: CouncilWhereUniqueInput) => CouncilNullablePromise;
+  councils: (args?: {
+    where?: CouncilWhereInput;
+    orderBy?: CouncilOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Council>;
+  councilsConnection: (args?: {
+    where?: CouncilWhereInput;
+    orderBy?: CouncilOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => CouncilConnectionPromise;
+  councilMember: (
+    where: CouncilMemberWhereUniqueInput
+  ) => CouncilMemberNullablePromise;
+  councilMembers: (args?: {
+    where?: CouncilMemberWhereInput;
+    orderBy?: CouncilMemberOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<CouncilMember>;
+  councilMembersConnection: (args?: {
+    where?: CouncilMemberWhereInput;
+    orderBy?: CouncilMemberOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => CouncilMemberConnectionPromise;
   era: (where: EraWhereUniqueInput) => EraNullablePromise;
   eras: (args?: {
     where?: EraWhereInput;
@@ -583,6 +625,38 @@ export interface Prisma {
   deleteManyBlockNumbers: (
     where?: BlockNumberWhereInput
   ) => BatchPayloadPromise;
+  createCouncil: (data: CouncilCreateInput) => CouncilPromise;
+  updateCouncil: (args: {
+    data: CouncilUpdateInput;
+    where: CouncilWhereUniqueInput;
+  }) => CouncilPromise;
+  upsertCouncil: (args: {
+    where: CouncilWhereUniqueInput;
+    create: CouncilCreateInput;
+    update: CouncilUpdateInput;
+  }) => CouncilPromise;
+  deleteCouncil: (where: CouncilWhereUniqueInput) => CouncilPromise;
+  deleteManyCouncils: (where?: CouncilWhereInput) => BatchPayloadPromise;
+  createCouncilMember: (data: CouncilMemberCreateInput) => CouncilMemberPromise;
+  updateCouncilMember: (args: {
+    data: CouncilMemberUpdateInput;
+    where: CouncilMemberWhereUniqueInput;
+  }) => CouncilMemberPromise;
+  updateManyCouncilMembers: (args: {
+    data: CouncilMemberUpdateManyMutationInput;
+    where?: CouncilMemberWhereInput;
+  }) => BatchPayloadPromise;
+  upsertCouncilMember: (args: {
+    where: CouncilMemberWhereUniqueInput;
+    create: CouncilMemberCreateInput;
+    update: CouncilMemberUpdateInput;
+  }) => CouncilMemberPromise;
+  deleteCouncilMember: (
+    where: CouncilMemberWhereUniqueInput
+  ) => CouncilMemberPromise;
+  deleteManyCouncilMembers: (
+    where?: CouncilMemberWhereInput
+  ) => BatchPayloadPromise;
   createEra: (data: EraCreateInput) => EraPromise;
   updateEra: (args: {
     data: EraUpdateInput;
@@ -1006,6 +1080,12 @@ export interface Subscription {
   blockNumber: (
     where?: BlockNumberSubscriptionWhereInput
   ) => BlockNumberSubscriptionPayloadSubscription;
+  council: (
+    where?: CouncilSubscriptionWhereInput
+  ) => CouncilSubscriptionPayloadSubscription;
+  councilMember: (
+    where?: CouncilMemberSubscriptionWhereInput
+  ) => CouncilMemberSubscriptionPayloadSubscription;
   era: (
     where?: EraSubscriptionWhereInput
   ) => EraSubscriptionPayloadSubscription;
@@ -1103,6 +1183,14 @@ export type BlockNumberOrderByInput =
   | "startDateTime_DESC"
   | "hash_ASC"
   | "hash_DESC";
+
+export type CouncilMemberOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "address_ASC"
+  | "address_DESC";
+
+export type CouncilOrderByInput = "id_ASC" | "id_DESC";
 
 export type EraOrderByInput =
   | "id_ASC"
@@ -1434,6 +1522,76 @@ export interface BlockNumberWhereInput {
   OR?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
   NOT?: Maybe<BlockNumberWhereInput[] | BlockNumberWhereInput>;
 }
+
+export type CouncilWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CouncilMemberWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
+  councils_every?: Maybe<CouncilWhereInput>;
+  councils_some?: Maybe<CouncilWhereInput>;
+  councils_none?: Maybe<CouncilWhereInput>;
+  AND?: Maybe<CouncilMemberWhereInput[] | CouncilMemberWhereInput>;
+  OR?: Maybe<CouncilMemberWhereInput[] | CouncilMemberWhereInput>;
+  NOT?: Maybe<CouncilMemberWhereInput[] | CouncilMemberWhereInput>;
+}
+
+export interface CouncilWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  blockNumber?: Maybe<BlockNumberWhereInput>;
+  members_every?: Maybe<CouncilMemberWhereInput>;
+  members_some?: Maybe<CouncilMemberWhereInput>;
+  members_none?: Maybe<CouncilMemberWhereInput>;
+  AND?: Maybe<CouncilWhereInput[] | CouncilWhereInput>;
+  OR?: Maybe<CouncilWhereInput[] | CouncilWhereInput>;
+  NOT?: Maybe<CouncilWhereInput[] | CouncilWhereInput>;
+}
+
+export type CouncilMemberWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  address?: Maybe<String>;
+}>;
 
 export type EraWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -2809,6 +2967,227 @@ export interface BlockNumberUpdateManyMutationInput {
   hash?: Maybe<String>;
 }
 
+export interface CouncilCreateInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+  members?: Maybe<CouncilMemberCreateManyWithoutCouncilsInput>;
+}
+
+export interface BlockNumberCreateOneInput {
+  create?: Maybe<BlockNumberCreateInput>;
+  connect?: Maybe<BlockNumberWhereUniqueInput>;
+}
+
+export interface CouncilMemberCreateManyWithoutCouncilsInput {
+  create?: Maybe<
+    | CouncilMemberCreateWithoutCouncilsInput[]
+    | CouncilMemberCreateWithoutCouncilsInput
+  >;
+  connect?: Maybe<
+    CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
+  >;
+}
+
+export interface CouncilMemberCreateWithoutCouncilsInput {
+  id?: Maybe<ID_Input>;
+  address: String;
+}
+
+export interface CouncilUpdateInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+  members?: Maybe<CouncilMemberUpdateManyWithoutCouncilsInput>;
+}
+
+export interface BlockNumberUpdateOneRequiredInput {
+  create?: Maybe<BlockNumberCreateInput>;
+  update?: Maybe<BlockNumberUpdateDataInput>;
+  upsert?: Maybe<BlockNumberUpsertNestedInput>;
+  connect?: Maybe<BlockNumberWhereUniqueInput>;
+}
+
+export interface BlockNumberUpdateDataInput {
+  number?: Maybe<Int>;
+  authoredBy?: Maybe<String>;
+  startDateTime?: Maybe<DateTimeInput>;
+  hash?: Maybe<String>;
+}
+
+export interface BlockNumberUpsertNestedInput {
+  update: BlockNumberUpdateDataInput;
+  create: BlockNumberCreateInput;
+}
+
+export interface CouncilMemberUpdateManyWithoutCouncilsInput {
+  create?: Maybe<
+    | CouncilMemberCreateWithoutCouncilsInput[]
+    | CouncilMemberCreateWithoutCouncilsInput
+  >;
+  delete?: Maybe<
+    CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
+  >;
+  connect?: Maybe<
+    CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
+  >;
+  set?: Maybe<CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput>;
+  disconnect?: Maybe<
+    CouncilMemberWhereUniqueInput[] | CouncilMemberWhereUniqueInput
+  >;
+  update?: Maybe<
+    | CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput[]
+    | CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput
+  >;
+  upsert?: Maybe<
+    | CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput[]
+    | CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput
+  >;
+  deleteMany?: Maybe<
+    CouncilMemberScalarWhereInput[] | CouncilMemberScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | CouncilMemberUpdateManyWithWhereNestedInput[]
+    | CouncilMemberUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput {
+  where: CouncilMemberWhereUniqueInput;
+  data: CouncilMemberUpdateWithoutCouncilsDataInput;
+}
+
+export interface CouncilMemberUpdateWithoutCouncilsDataInput {
+  address?: Maybe<String>;
+}
+
+export interface CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput {
+  where: CouncilMemberWhereUniqueInput;
+  update: CouncilMemberUpdateWithoutCouncilsDataInput;
+  create: CouncilMemberCreateWithoutCouncilsInput;
+}
+
+export interface CouncilMemberScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CouncilMemberScalarWhereInput[] | CouncilMemberScalarWhereInput>;
+  OR?: Maybe<CouncilMemberScalarWhereInput[] | CouncilMemberScalarWhereInput>;
+  NOT?: Maybe<CouncilMemberScalarWhereInput[] | CouncilMemberScalarWhereInput>;
+}
+
+export interface CouncilMemberUpdateManyWithWhereNestedInput {
+  where: CouncilMemberScalarWhereInput;
+  data: CouncilMemberUpdateManyDataInput;
+}
+
+export interface CouncilMemberUpdateManyDataInput {
+  address?: Maybe<String>;
+}
+
+export interface CouncilMemberCreateInput {
+  id?: Maybe<ID_Input>;
+  address: String;
+  councils?: Maybe<CouncilCreateManyWithoutMembersInput>;
+}
+
+export interface CouncilCreateManyWithoutMembersInput {
+  create?: Maybe<
+    CouncilCreateWithoutMembersInput[] | CouncilCreateWithoutMembersInput
+  >;
+  connect?: Maybe<CouncilWhereUniqueInput[] | CouncilWhereUniqueInput>;
+}
+
+export interface CouncilCreateWithoutMembersInput {
+  id?: Maybe<ID_Input>;
+  blockNumber: BlockNumberCreateOneInput;
+}
+
+export interface CouncilMemberUpdateInput {
+  address?: Maybe<String>;
+  councils?: Maybe<CouncilUpdateManyWithoutMembersInput>;
+}
+
+export interface CouncilUpdateManyWithoutMembersInput {
+  create?: Maybe<
+    CouncilCreateWithoutMembersInput[] | CouncilCreateWithoutMembersInput
+  >;
+  delete?: Maybe<CouncilWhereUniqueInput[] | CouncilWhereUniqueInput>;
+  connect?: Maybe<CouncilWhereUniqueInput[] | CouncilWhereUniqueInput>;
+  set?: Maybe<CouncilWhereUniqueInput[] | CouncilWhereUniqueInput>;
+  disconnect?: Maybe<CouncilWhereUniqueInput[] | CouncilWhereUniqueInput>;
+  update?: Maybe<
+    | CouncilUpdateWithWhereUniqueWithoutMembersInput[]
+    | CouncilUpdateWithWhereUniqueWithoutMembersInput
+  >;
+  upsert?: Maybe<
+    | CouncilUpsertWithWhereUniqueWithoutMembersInput[]
+    | CouncilUpsertWithWhereUniqueWithoutMembersInput
+  >;
+  deleteMany?: Maybe<CouncilScalarWhereInput[] | CouncilScalarWhereInput>;
+}
+
+export interface CouncilUpdateWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput;
+  data: CouncilUpdateWithoutMembersDataInput;
+}
+
+export interface CouncilUpdateWithoutMembersDataInput {
+  blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
+}
+
+export interface CouncilUpsertWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput;
+  update: CouncilUpdateWithoutMembersDataInput;
+  create: CouncilCreateWithoutMembersInput;
+}
+
+export interface CouncilScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  AND?: Maybe<CouncilScalarWhereInput[] | CouncilScalarWhereInput>;
+  OR?: Maybe<CouncilScalarWhereInput[] | CouncilScalarWhereInput>;
+  NOT?: Maybe<CouncilScalarWhereInput[] | CouncilScalarWhereInput>;
+}
+
+export interface CouncilMemberUpdateManyMutationInput {
+  address?: Maybe<String>;
+}
+
 export interface EraCreateInput {
   id?: Maybe<ID_Input>;
   index: Int;
@@ -2826,11 +3205,6 @@ export interface SessionCreateInput {
   id?: Maybe<ID_Input>;
   index: Int;
   start: BlockNumberCreateOneInput;
-}
-
-export interface BlockNumberCreateOneInput {
-  create?: Maybe<BlockNumberCreateInput>;
-  connect?: Maybe<BlockNumberWhereUniqueInput>;
 }
 
 export interface EraCreateindividualPointsInput {
@@ -2854,25 +3228,6 @@ export interface SessionUpdateOneRequiredInput {
 export interface SessionUpdateDataInput {
   index?: Maybe<Int>;
   start?: Maybe<BlockNumberUpdateOneRequiredInput>;
-}
-
-export interface BlockNumberUpdateOneRequiredInput {
-  create?: Maybe<BlockNumberCreateInput>;
-  update?: Maybe<BlockNumberUpdateDataInput>;
-  upsert?: Maybe<BlockNumberUpsertNestedInput>;
-  connect?: Maybe<BlockNumberWhereUniqueInput>;
-}
-
-export interface BlockNumberUpdateDataInput {
-  number?: Maybe<Int>;
-  authoredBy?: Maybe<String>;
-  startDateTime?: Maybe<DateTimeInput>;
-  hash?: Maybe<String>;
-}
-
-export interface BlockNumberUpsertNestedInput {
-  update: BlockNumberUpdateDataInput;
-  create: BlockNumberCreateInput;
 }
 
 export interface SessionUpsertNestedInput {
@@ -4869,6 +5224,34 @@ export interface BlockNumberSubscriptionWhereInput {
   >;
 }
 
+export interface CouncilSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CouncilWhereInput>;
+  AND?: Maybe<CouncilSubscriptionWhereInput[] | CouncilSubscriptionWhereInput>;
+  OR?: Maybe<CouncilSubscriptionWhereInput[] | CouncilSubscriptionWhereInput>;
+  NOT?: Maybe<CouncilSubscriptionWhereInput[] | CouncilSubscriptionWhereInput>;
+}
+
+export interface CouncilMemberSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CouncilMemberWhereInput>;
+  AND?: Maybe<
+    CouncilMemberSubscriptionWhereInput[] | CouncilMemberSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    CouncilMemberSubscriptionWhereInput[] | CouncilMemberSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    CouncilMemberSubscriptionWhereInput[] | CouncilMemberSubscriptionWhereInput
+  >;
+}
+
 export interface EraSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -5434,6 +5817,219 @@ export interface AggregateBlockNumberPromise
 
 export interface AggregateBlockNumberSubscription
   extends Promise<AsyncIterator<AggregateBlockNumber>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Council {
+  id: ID_Output;
+}
+
+export interface CouncilPromise extends Promise<Council>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  members: <T = FragmentableArray<CouncilMember>>(args?: {
+    where?: CouncilMemberWhereInput;
+    orderBy?: CouncilMemberOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CouncilSubscription
+  extends Promise<AsyncIterator<Council>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  blockNumber: <T = BlockNumberSubscription>() => T;
+  members: <T = Promise<AsyncIterator<CouncilMemberSubscription>>>(args?: {
+    where?: CouncilMemberWhereInput;
+    orderBy?: CouncilMemberOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CouncilNullablePromise
+  extends Promise<Council | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  blockNumber: <T = BlockNumberPromise>() => T;
+  members: <T = FragmentableArray<CouncilMember>>(args?: {
+    where?: CouncilMemberWhereInput;
+    orderBy?: CouncilMemberOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CouncilMember {
+  id: ID_Output;
+  address: String;
+}
+
+export interface CouncilMemberPromise
+  extends Promise<CouncilMember>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  address: () => Promise<String>;
+  councils: <T = FragmentableArray<Council>>(args?: {
+    where?: CouncilWhereInput;
+    orderBy?: CouncilOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CouncilMemberSubscription
+  extends Promise<AsyncIterator<CouncilMember>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  address: () => Promise<AsyncIterator<String>>;
+  councils: <T = Promise<AsyncIterator<CouncilSubscription>>>(args?: {
+    where?: CouncilWhereInput;
+    orderBy?: CouncilOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CouncilMemberNullablePromise
+  extends Promise<CouncilMember | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  address: () => Promise<String>;
+  councils: <T = FragmentableArray<Council>>(args?: {
+    where?: CouncilWhereInput;
+    orderBy?: CouncilOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CouncilConnection {
+  pageInfo: PageInfo;
+  edges: CouncilEdge[];
+}
+
+export interface CouncilConnectionPromise
+  extends Promise<CouncilConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CouncilEdge>>() => T;
+  aggregate: <T = AggregateCouncilPromise>() => T;
+}
+
+export interface CouncilConnectionSubscription
+  extends Promise<AsyncIterator<CouncilConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CouncilEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCouncilSubscription>() => T;
+}
+
+export interface CouncilEdge {
+  node: Council;
+  cursor: String;
+}
+
+export interface CouncilEdgePromise extends Promise<CouncilEdge>, Fragmentable {
+  node: <T = CouncilPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CouncilEdgeSubscription
+  extends Promise<AsyncIterator<CouncilEdge>>,
+    Fragmentable {
+  node: <T = CouncilSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateCouncil {
+  count: Int;
+}
+
+export interface AggregateCouncilPromise
+  extends Promise<AggregateCouncil>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCouncilSubscription
+  extends Promise<AsyncIterator<AggregateCouncil>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CouncilMemberConnection {
+  pageInfo: PageInfo;
+  edges: CouncilMemberEdge[];
+}
+
+export interface CouncilMemberConnectionPromise
+  extends Promise<CouncilMemberConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CouncilMemberEdge>>() => T;
+  aggregate: <T = AggregateCouncilMemberPromise>() => T;
+}
+
+export interface CouncilMemberConnectionSubscription
+  extends Promise<AsyncIterator<CouncilMemberConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CouncilMemberEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCouncilMemberSubscription>() => T;
+}
+
+export interface CouncilMemberEdge {
+  node: CouncilMember;
+  cursor: String;
+}
+
+export interface CouncilMemberEdgePromise
+  extends Promise<CouncilMemberEdge>,
+    Fragmentable {
+  node: <T = CouncilMemberPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CouncilMemberEdgeSubscription
+  extends Promise<AsyncIterator<CouncilMemberEdge>>,
+    Fragmentable {
+  node: <T = CouncilMemberSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateCouncilMember {
+  count: Int;
+}
+
+export interface AggregateCouncilMemberPromise
+  extends Promise<AggregateCouncilMember>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCouncilMemberSubscription
+  extends Promise<AsyncIterator<AggregateCouncilMember>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -7779,6 +8375,91 @@ export interface BlockNumberPreviousValuesSubscription
   hash: () => Promise<AsyncIterator<String>>;
 }
 
+export interface CouncilSubscriptionPayload {
+  mutation: MutationType;
+  node: Council;
+  updatedFields: String[];
+  previousValues: CouncilPreviousValues;
+}
+
+export interface CouncilSubscriptionPayloadPromise
+  extends Promise<CouncilSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CouncilPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CouncilPreviousValuesPromise>() => T;
+}
+
+export interface CouncilSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CouncilSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CouncilSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CouncilPreviousValuesSubscription>() => T;
+}
+
+export interface CouncilPreviousValues {
+  id: ID_Output;
+}
+
+export interface CouncilPreviousValuesPromise
+  extends Promise<CouncilPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+}
+
+export interface CouncilPreviousValuesSubscription
+  extends Promise<AsyncIterator<CouncilPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+}
+
+export interface CouncilMemberSubscriptionPayload {
+  mutation: MutationType;
+  node: CouncilMember;
+  updatedFields: String[];
+  previousValues: CouncilMemberPreviousValues;
+}
+
+export interface CouncilMemberSubscriptionPayloadPromise
+  extends Promise<CouncilMemberSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CouncilMemberPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CouncilMemberPreviousValuesPromise>() => T;
+}
+
+export interface CouncilMemberSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CouncilMemberSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CouncilMemberSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CouncilMemberPreviousValuesSubscription>() => T;
+}
+
+export interface CouncilMemberPreviousValues {
+  id: ID_Output;
+  address: String;
+}
+
+export interface CouncilMemberPreviousValuesPromise
+  extends Promise<CouncilMemberPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  address: () => Promise<String>;
+}
+
+export interface CouncilMemberPreviousValuesSubscription
+  extends Promise<AsyncIterator<CouncilMemberPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  address: () => Promise<AsyncIterator<String>>;
+}
+
 export interface EraSubscriptionPayload {
   mutation: MutationType;
   node: Era;
@@ -8943,6 +9624,14 @@ export const models: Model[] = [
   },
   {
     name: "Stake",
+    embedded: false
+  },
+  {
+    name: "Council",
+    embedded: false
+  },
+  {
+    name: "CouncilMember",
     embedded: false
   },
   {

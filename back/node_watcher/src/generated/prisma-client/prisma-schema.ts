@@ -10,6 +10,14 @@ type AggregateBlockNumber {
   count: Int!
 }
 
+type AggregateCouncil {
+  count: Int!
+}
+
+type AggregateCouncilMember {
+  count: Int!
+}
+
 type AggregateEra {
   count: Int!
 }
@@ -402,6 +410,329 @@ input BlockNumberWhereUniqueInput {
   id: ID
   number: Int
   hash: String
+}
+
+type Council {
+  id: ID!
+  blockNumber: BlockNumber!
+  members(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember!]
+}
+
+type CouncilConnection {
+  pageInfo: PageInfo!
+  edges: [CouncilEdge]!
+  aggregate: AggregateCouncil!
+}
+
+input CouncilCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  members: CouncilMemberCreateManyWithoutCouncilsInput
+}
+
+input CouncilCreateManyWithoutMembersInput {
+  create: [CouncilCreateWithoutMembersInput!]
+  connect: [CouncilWhereUniqueInput!]
+}
+
+input CouncilCreateWithoutMembersInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+type CouncilEdge {
+  node: Council!
+  cursor: String!
+}
+
+type CouncilMember {
+  id: ID!
+  address: String!
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council!]
+}
+
+type CouncilMemberConnection {
+  pageInfo: PageInfo!
+  edges: [CouncilMemberEdge]!
+  aggregate: AggregateCouncilMember!
+}
+
+input CouncilMemberCreateInput {
+  id: ID
+  address: String!
+  councils: CouncilCreateManyWithoutMembersInput
+}
+
+input CouncilMemberCreateManyWithoutCouncilsInput {
+  create: [CouncilMemberCreateWithoutCouncilsInput!]
+  connect: [CouncilMemberWhereUniqueInput!]
+}
+
+input CouncilMemberCreateWithoutCouncilsInput {
+  id: ID
+  address: String!
+}
+
+type CouncilMemberEdge {
+  node: CouncilMember!
+  cursor: String!
+}
+
+enum CouncilMemberOrderByInput {
+  id_ASC
+  id_DESC
+  address_ASC
+  address_DESC
+}
+
+type CouncilMemberPreviousValues {
+  id: ID!
+  address: String!
+}
+
+input CouncilMemberScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  AND: [CouncilMemberScalarWhereInput!]
+  OR: [CouncilMemberScalarWhereInput!]
+  NOT: [CouncilMemberScalarWhereInput!]
+}
+
+type CouncilMemberSubscriptionPayload {
+  mutation: MutationType!
+  node: CouncilMember
+  updatedFields: [String!]
+  previousValues: CouncilMemberPreviousValues
+}
+
+input CouncilMemberSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CouncilMemberWhereInput
+  AND: [CouncilMemberSubscriptionWhereInput!]
+  OR: [CouncilMemberSubscriptionWhereInput!]
+  NOT: [CouncilMemberSubscriptionWhereInput!]
+}
+
+input CouncilMemberUpdateInput {
+  address: String
+  councils: CouncilUpdateManyWithoutMembersInput
+}
+
+input CouncilMemberUpdateManyDataInput {
+  address: String
+}
+
+input CouncilMemberUpdateManyMutationInput {
+  address: String
+}
+
+input CouncilMemberUpdateManyWithoutCouncilsInput {
+  create: [CouncilMemberCreateWithoutCouncilsInput!]
+  delete: [CouncilMemberWhereUniqueInput!]
+  connect: [CouncilMemberWhereUniqueInput!]
+  set: [CouncilMemberWhereUniqueInput!]
+  disconnect: [CouncilMemberWhereUniqueInput!]
+  update: [CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput!]
+  upsert: [CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput!]
+  deleteMany: [CouncilMemberScalarWhereInput!]
+  updateMany: [CouncilMemberUpdateManyWithWhereNestedInput!]
+}
+
+input CouncilMemberUpdateManyWithWhereNestedInput {
+  where: CouncilMemberScalarWhereInput!
+  data: CouncilMemberUpdateManyDataInput!
+}
+
+input CouncilMemberUpdateWithoutCouncilsDataInput {
+  address: String
+}
+
+input CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput {
+  where: CouncilMemberWhereUniqueInput!
+  data: CouncilMemberUpdateWithoutCouncilsDataInput!
+}
+
+input CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput {
+  where: CouncilMemberWhereUniqueInput!
+  update: CouncilMemberUpdateWithoutCouncilsDataInput!
+  create: CouncilMemberCreateWithoutCouncilsInput!
+}
+
+input CouncilMemberWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  councils_every: CouncilWhereInput
+  councils_some: CouncilWhereInput
+  councils_none: CouncilWhereInput
+  AND: [CouncilMemberWhereInput!]
+  OR: [CouncilMemberWhereInput!]
+  NOT: [CouncilMemberWhereInput!]
+}
+
+input CouncilMemberWhereUniqueInput {
+  id: ID
+  address: String
+}
+
+enum CouncilOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type CouncilPreviousValues {
+  id: ID!
+}
+
+input CouncilScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [CouncilScalarWhereInput!]
+  OR: [CouncilScalarWhereInput!]
+  NOT: [CouncilScalarWhereInput!]
+}
+
+type CouncilSubscriptionPayload {
+  mutation: MutationType!
+  node: Council
+  updatedFields: [String!]
+  previousValues: CouncilPreviousValues
+}
+
+input CouncilSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CouncilWhereInput
+  AND: [CouncilSubscriptionWhereInput!]
+  OR: [CouncilSubscriptionWhereInput!]
+  NOT: [CouncilSubscriptionWhereInput!]
+}
+
+input CouncilUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  members: CouncilMemberUpdateManyWithoutCouncilsInput
+}
+
+input CouncilUpdateManyWithoutMembersInput {
+  create: [CouncilCreateWithoutMembersInput!]
+  delete: [CouncilWhereUniqueInput!]
+  connect: [CouncilWhereUniqueInput!]
+  set: [CouncilWhereUniqueInput!]
+  disconnect: [CouncilWhereUniqueInput!]
+  update: [CouncilUpdateWithWhereUniqueWithoutMembersInput!]
+  upsert: [CouncilUpsertWithWhereUniqueWithoutMembersInput!]
+  deleteMany: [CouncilScalarWhereInput!]
+}
+
+input CouncilUpdateWithoutMembersDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input CouncilUpdateWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput!
+  data: CouncilUpdateWithoutMembersDataInput!
+}
+
+input CouncilUpsertWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput!
+  update: CouncilUpdateWithoutMembersDataInput!
+  create: CouncilCreateWithoutMembersInput!
+}
+
+input CouncilWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  members_every: CouncilMemberWhereInput
+  members_some: CouncilMemberWhereInput
+  members_none: CouncilMemberWhereInput
+  AND: [CouncilWhereInput!]
+  OR: [CouncilWhereInput!]
+  NOT: [CouncilWhereInput!]
+}
+
+input CouncilWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
@@ -1490,6 +1821,17 @@ type Mutation {
   upsertBlockNumber(where: BlockNumberWhereUniqueInput!, create: BlockNumberCreateInput!, update: BlockNumberUpdateInput!): BlockNumber!
   deleteBlockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   deleteManyBlockNumbers(where: BlockNumberWhereInput): BatchPayload!
+  createCouncil(data: CouncilCreateInput!): Council!
+  updateCouncil(data: CouncilUpdateInput!, where: CouncilWhereUniqueInput!): Council
+  upsertCouncil(where: CouncilWhereUniqueInput!, create: CouncilCreateInput!, update: CouncilUpdateInput!): Council!
+  deleteCouncil(where: CouncilWhereUniqueInput!): Council
+  deleteManyCouncils(where: CouncilWhereInput): BatchPayload!
+  createCouncilMember(data: CouncilMemberCreateInput!): CouncilMember!
+  updateCouncilMember(data: CouncilMemberUpdateInput!, where: CouncilMemberWhereUniqueInput!): CouncilMember
+  updateManyCouncilMembers(data: CouncilMemberUpdateManyMutationInput!, where: CouncilMemberWhereInput): BatchPayload!
+  upsertCouncilMember(where: CouncilMemberWhereUniqueInput!, create: CouncilMemberCreateInput!, update: CouncilMemberUpdateInput!): CouncilMember!
+  deleteCouncilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
+  deleteManyCouncilMembers(where: CouncilMemberWhereInput): BatchPayload!
   createEra(data: EraCreateInput!): Era!
   updateEra(data: EraUpdateInput!, where: EraWhereUniqueInput!): Era
   updateManyEras(data: EraUpdateManyMutationInput!, where: EraWhereInput): BatchPayload!
@@ -3260,6 +3602,12 @@ type Query {
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
   blockNumbersConnection(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockNumberConnection!
+  council(where: CouncilWhereUniqueInput!): Council
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council]!
+  councilsConnection(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilConnection!
+  councilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
+  councilMembers(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember]!
+  councilMembersConnection(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilMemberConnection!
   era(where: EraWhereUniqueInput!): Era
   eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
   erasConnection(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EraConnection!
@@ -4226,6 +4574,8 @@ input StakeWhereUniqueInput {
 type Subscription {
   blockIndex(where: BlockIndexSubscriptionWhereInput): BlockIndexSubscriptionPayload
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
+  council(where: CouncilSubscriptionWhereInput): CouncilSubscriptionPayload
+  councilMember(where: CouncilMemberSubscriptionWhereInput): CouncilMemberSubscriptionPayload
   era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
   heartBeat(where: HeartBeatSubscriptionWhereInput): HeartBeatSubscriptionPayload
   motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload

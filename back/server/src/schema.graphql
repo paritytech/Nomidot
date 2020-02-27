@@ -24,6 +24,21 @@ type Query {
   totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
   validator(where: ValidatorWhereUniqueInput!): Validator
   
+  council(where: CouncilWhereUniqueInput!): Council
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council]!
+
+  councilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
+  councilMembers(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember]!
+
+  motion(where: MotionWhereUniqueInput!): Motion
+  motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
+
+  motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
+  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
+  
+  motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
+  motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
+  
   preimage(where: PreimageWhereUniqueInput!): Preimage
   preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
   
@@ -45,14 +60,6 @@ type Query {
   referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
   referendumStatuses(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus]!
   
-  motion(where: MotionWhereUniqueInput!): Motion
-  motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
-  
-  motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
-  motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
-  
-  motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
-  motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
   
 }
 

@@ -1,7 +1,15 @@
 # source: http://127.0.0.1:4466
-# timestamp: Thu Feb 13 2020 16:42:02 GMT+0100 (Central European Standard Time)
+# timestamp: Thu Feb 20 2020 19:18:18 GMT+0100 (Central European Standard Time)
 
 type AggregateBlockNumber {
+  count: Int!
+}
+
+type AggregateCouncil {
+  count: Int!
+}
+
+type AggregateCouncilMember {
   count: Int!
 }
 
@@ -400,6 +408,559 @@ input BlockNumberWhereUniqueInput {
   id: ID
   number: Int
   hash: String
+}
+
+type Council implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  members(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember!]
+}
+
+"""A connection to a list of items."""
+type CouncilConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CouncilEdge]!
+  aggregate: AggregateCouncil!
+}
+
+input CouncilCreateInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+  members: CouncilMemberCreateManyWithoutCouncilsInput
+}
+
+input CouncilCreateManyWithoutMembersInput {
+  create: [CouncilCreateWithoutMembersInput!]
+  connect: [CouncilWhereUniqueInput!]
+}
+
+input CouncilCreateWithoutMembersInput {
+  id: ID
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type CouncilEdge {
+  """The item at the end of the edge."""
+  node: Council!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type CouncilMember implements Node {
+  id: ID!
+  address: String!
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council!]
+}
+
+"""A connection to a list of items."""
+type CouncilMemberConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CouncilMemberEdge]!
+  aggregate: AggregateCouncilMember!
+}
+
+input CouncilMemberCreateInput {
+  id: ID
+  address: String!
+  councils: CouncilCreateManyWithoutMembersInput
+}
+
+input CouncilMemberCreateManyWithoutCouncilsInput {
+  create: [CouncilMemberCreateWithoutCouncilsInput!]
+  connect: [CouncilMemberWhereUniqueInput!]
+}
+
+input CouncilMemberCreateWithoutCouncilsInput {
+  id: ID
+  address: String!
+}
+
+"""An edge in a connection."""
+type CouncilMemberEdge {
+  """The item at the end of the edge."""
+  node: CouncilMember!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum CouncilMemberOrderByInput {
+  id_ASC
+  id_DESC
+  address_ASC
+  address_DESC
+}
+
+type CouncilMemberPreviousValues {
+  id: ID!
+  address: String!
+}
+
+input CouncilMemberScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CouncilMemberScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CouncilMemberScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CouncilMemberScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+}
+
+type CouncilMemberSubscriptionPayload {
+  mutation: MutationType!
+  node: CouncilMember
+  updatedFields: [String!]
+  previousValues: CouncilMemberPreviousValues
+}
+
+input CouncilMemberSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CouncilMemberSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CouncilMemberSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CouncilMemberSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CouncilMemberWhereInput
+}
+
+input CouncilMemberUpdateInput {
+  address: String
+  councils: CouncilUpdateManyWithoutMembersInput
+}
+
+input CouncilMemberUpdateManyDataInput {
+  address: String
+}
+
+input CouncilMemberUpdateManyMutationInput {
+  address: String
+}
+
+input CouncilMemberUpdateManyWithoutCouncilsInput {
+  create: [CouncilMemberCreateWithoutCouncilsInput!]
+  connect: [CouncilMemberWhereUniqueInput!]
+  set: [CouncilMemberWhereUniqueInput!]
+  disconnect: [CouncilMemberWhereUniqueInput!]
+  delete: [CouncilMemberWhereUniqueInput!]
+  update: [CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput!]
+  updateMany: [CouncilMemberUpdateManyWithWhereNestedInput!]
+  deleteMany: [CouncilMemberScalarWhereInput!]
+  upsert: [CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput!]
+}
+
+input CouncilMemberUpdateManyWithWhereNestedInput {
+  where: CouncilMemberScalarWhereInput!
+  data: CouncilMemberUpdateManyDataInput!
+}
+
+input CouncilMemberUpdateWithoutCouncilsDataInput {
+  address: String
+}
+
+input CouncilMemberUpdateWithWhereUniqueWithoutCouncilsInput {
+  where: CouncilMemberWhereUniqueInput!
+  data: CouncilMemberUpdateWithoutCouncilsDataInput!
+}
+
+input CouncilMemberUpsertWithWhereUniqueWithoutCouncilsInput {
+  where: CouncilMemberWhereUniqueInput!
+  update: CouncilMemberUpdateWithoutCouncilsDataInput!
+  create: CouncilMemberCreateWithoutCouncilsInput!
+}
+
+input CouncilMemberWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CouncilMemberWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CouncilMemberWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CouncilMemberWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+  councils_every: CouncilWhereInput
+  councils_some: CouncilWhereInput
+  councils_none: CouncilWhereInput
+}
+
+input CouncilMemberWhereUniqueInput {
+  id: ID
+  address: String
+}
+
+enum CouncilOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type CouncilPreviousValues {
+  id: ID!
+}
+
+input CouncilScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CouncilScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CouncilScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CouncilScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+}
+
+type CouncilSubscriptionPayload {
+  mutation: MutationType!
+  node: Council
+  updatedFields: [String!]
+  previousValues: CouncilPreviousValues
+}
+
+input CouncilSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CouncilSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CouncilSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CouncilSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CouncilWhereInput
+}
+
+input CouncilUpdateInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  members: CouncilMemberUpdateManyWithoutCouncilsInput
+}
+
+input CouncilUpdateManyWithoutMembersInput {
+  create: [CouncilCreateWithoutMembersInput!]
+  connect: [CouncilWhereUniqueInput!]
+  set: [CouncilWhereUniqueInput!]
+  disconnect: [CouncilWhereUniqueInput!]
+  delete: [CouncilWhereUniqueInput!]
+  update: [CouncilUpdateWithWhereUniqueWithoutMembersInput!]
+  deleteMany: [CouncilScalarWhereInput!]
+  upsert: [CouncilUpsertWithWhereUniqueWithoutMembersInput!]
+}
+
+input CouncilUpdateWithoutMembersDataInput {
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input CouncilUpdateWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput!
+  data: CouncilUpdateWithoutMembersDataInput!
+}
+
+input CouncilUpsertWithWhereUniqueWithoutMembersInput {
+  where: CouncilWhereUniqueInput!
+  update: CouncilUpdateWithoutMembersDataInput!
+  create: CouncilCreateWithoutMembersInput!
+}
+
+input CouncilWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CouncilWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CouncilWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CouncilWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  blockNumber: BlockNumberWhereInput
+  members_every: CouncilMemberWhereInput
+  members_some: CouncilMemberWhereInput
+  members_none: CouncilMemberWhereInput
+}
+
+input CouncilWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
@@ -2179,6 +2740,8 @@ type Mutation {
   createReward(data: RewardCreateInput!): Reward!
   createNomination(data: NominationCreateInput!): Nomination!
   createStake(data: StakeCreateInput!): Stake!
+  createCouncil(data: CouncilCreateInput!): Council!
+  createCouncilMember(data: CouncilMemberCreateInput!): CouncilMember!
   createMotion(data: MotionCreateInput!): Motion!
   createMotionProposalArgument(data: MotionProposalArgumentCreateInput!): MotionProposalArgument!
   createMotionStatus(data: MotionStatusCreateInput!): MotionStatus!
@@ -2200,6 +2763,8 @@ type Mutation {
   updateReward(data: RewardUpdateInput!, where: RewardWhereUniqueInput!): Reward
   updateNomination(data: NominationUpdateInput!, where: NominationWhereUniqueInput!): Nomination
   updateStake(data: StakeUpdateInput!, where: StakeWhereUniqueInput!): Stake
+  updateCouncil(data: CouncilUpdateInput!, where: CouncilWhereUniqueInput!): Council
+  updateCouncilMember(data: CouncilMemberUpdateInput!, where: CouncilMemberWhereUniqueInput!): CouncilMember
   updateMotion(data: MotionUpdateInput!, where: MotionWhereUniqueInput!): Motion
   updateMotionProposalArgument(data: MotionProposalArgumentUpdateInput!, where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
   updateMotionStatus(data: MotionStatusUpdateInput!, where: MotionStatusWhereUniqueInput!): MotionStatus
@@ -2221,6 +2786,8 @@ type Mutation {
   deleteReward(where: RewardWhereUniqueInput!): Reward
   deleteNomination(where: NominationWhereUniqueInput!): Nomination
   deleteStake(where: StakeWhereUniqueInput!): Stake
+  deleteCouncil(where: CouncilWhereUniqueInput!): Council
+  deleteCouncilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
   deleteMotion(where: MotionWhereUniqueInput!): Motion
   deleteMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
   deleteMotionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
@@ -2242,6 +2809,8 @@ type Mutation {
   upsertReward(where: RewardWhereUniqueInput!, create: RewardCreateInput!, update: RewardUpdateInput!): Reward!
   upsertNomination(where: NominationWhereUniqueInput!, create: NominationCreateInput!, update: NominationUpdateInput!): Nomination!
   upsertStake(where: StakeWhereUniqueInput!, create: StakeCreateInput!, update: StakeUpdateInput!): Stake!
+  upsertCouncil(where: CouncilWhereUniqueInput!, create: CouncilCreateInput!, update: CouncilUpdateInput!): Council!
+  upsertCouncilMember(where: CouncilMemberWhereUniqueInput!, create: CouncilMemberCreateInput!, update: CouncilMemberUpdateInput!): CouncilMember!
   upsertMotion(where: MotionWhereUniqueInput!, create: MotionCreateInput!, update: MotionUpdateInput!): Motion!
   upsertMotionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!, create: MotionProposalArgumentCreateInput!, update: MotionProposalArgumentUpdateInput!): MotionProposalArgument!
   upsertMotionStatus(where: MotionStatusWhereUniqueInput!, create: MotionStatusCreateInput!, update: MotionStatusUpdateInput!): MotionStatus!
@@ -2263,6 +2832,7 @@ type Mutation {
   updateManyRewards(data: RewardUpdateManyMutationInput!, where: RewardWhereInput): BatchPayload!
   updateManyNominations(data: NominationUpdateManyMutationInput!, where: NominationWhereInput): BatchPayload!
   updateManyStakes(data: StakeUpdateManyMutationInput!, where: StakeWhereInput): BatchPayload!
+  updateManyCouncilMembers(data: CouncilMemberUpdateManyMutationInput!, where: CouncilMemberWhereInput): BatchPayload!
   updateManyMotions(data: MotionUpdateManyMutationInput!, where: MotionWhereInput): BatchPayload!
   updateManyMotionProposalArguments(data: MotionProposalArgumentUpdateManyMutationInput!, where: MotionProposalArgumentWhereInput): BatchPayload!
   updateManyMotionStatuses(data: MotionStatusUpdateManyMutationInput!, where: MotionStatusWhereInput): BatchPayload!
@@ -2284,6 +2854,8 @@ type Mutation {
   deleteManyRewards(where: RewardWhereInput): BatchPayload!
   deleteManyNominations(where: NominationWhereInput): BatchPayload!
   deleteManyStakes(where: StakeWhereInput): BatchPayload!
+  deleteManyCouncils(where: CouncilWhereInput): BatchPayload!
+  deleteManyCouncilMembers(where: CouncilMemberWhereInput): BatchPayload!
   deleteManyMotions(where: MotionWhereInput): BatchPayload!
   deleteManyMotionProposalArguments(where: MotionProposalArgumentWhereInput): BatchPayload!
   deleteManyMotionStatuses(where: MotionStatusWhereInput): BatchPayload!
@@ -5103,6 +5675,8 @@ type Query {
   rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
   nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
   stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
+  councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council]!
+  councilMembers(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember]!
   motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
   motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
   motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
@@ -5124,6 +5698,8 @@ type Query {
   reward(where: RewardWhereUniqueInput!): Reward
   nomination(where: NominationWhereUniqueInput!): Nomination
   stake(where: StakeWhereUniqueInput!): Stake
+  council(where: CouncilWhereUniqueInput!): Council
+  councilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
   motion(where: MotionWhereUniqueInput!): Motion
   motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
   motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
@@ -5145,6 +5721,8 @@ type Query {
   rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
   nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
   stakesConnection(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StakeConnection!
+  councilsConnection(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilConnection!
+  councilMembersConnection(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilMemberConnection!
   motionsConnection(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionConnection!
   motionProposalArgumentsConnection(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionProposalArgumentConnection!
   motionStatusesConnection(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionStatusConnection!
@@ -6726,6 +7304,8 @@ type Subscription {
   reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
   nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
   stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
+  council(where: CouncilSubscriptionWhereInput): CouncilSubscriptionPayload
+  councilMember(where: CouncilMemberSubscriptionWhereInput): CouncilMemberSubscriptionPayload
   motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
   motionProposalArgument(where: MotionProposalArgumentSubscriptionWhereInput): MotionProposalArgumentSubscriptionPayload
   motionStatus(where: MotionStatusSubscriptionWhereInput): MotionStatusSubscriptionPayload
