@@ -14,7 +14,7 @@ import {
   StackedHorizontal,
 } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import shortid from 'shortid';
 
 import { APP_TITLE } from '../../../util';
@@ -42,7 +42,7 @@ export function Header(_props: Props): React.ReactElement {
 
   useEffect(() => {
     handleLogin();
-  }, []);
+  }, [handleLogin]);
 
   const navToCartPage = () => {
     navigate('/cart');

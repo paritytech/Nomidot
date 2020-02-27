@@ -17,12 +17,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import { OfflineValidator, Validator } from '../types';
+import { addToCart } from '../util';
 import {
   CURRENT_ELECTED,
   OFFLINE_VALIDATORS,
   SESSIONS_SUBSCRIPTION,
 } from '../util/graphql';
-import { addToCart } from '../util';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
@@ -30,7 +30,7 @@ interface JoinValidatorOffline extends Validator {
 
 const CurrentElectedList = (): React.ReactElement => {
   const { api } = useContext(ApiContext);
-  let [currCartCount] = useLocalStorage(`cartItemsCount`);
+  const [currCartCount] = useLocalStorage(`cartItemsCount`);
 
   const [currentElected, setCurrentElected] = useState<
     JoinValidatorOffline[]
