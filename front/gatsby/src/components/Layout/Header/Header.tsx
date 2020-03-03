@@ -16,6 +16,7 @@ import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
+import { AccountsDropdown } from '../AccountsDropdown';
 import { APP_TITLE, getCartItemsCount } from '../../../util';
 import {
   BlockHeader,
@@ -27,23 +28,12 @@ import {
 type Props = RouteComponentProps;
 
 export function Header(_props: Props): React.ReactElement {
-  const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
+  const { decoratedAccounts } = useContext(AccountsContext);
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
-
-  const handleLogin = useCallback(async () => {
-    try {
-      await fetchAccounts();
-    } catch (error) {
-      window.alert(error.message);
-    }
-  }, [fetchAccounts]);
 
   useEffect(() => {
     const count = getCartItemsCount();
     setNumberOfItemsInCart(count);
-    handleLogin();
-
-    // FIXME: use store.js for window.addEventListener('storage', updateCartItems);
   }, []);
 
   const navToCartPage = () => {
@@ -66,7 +56,7 @@ export function Header(_props: Props): React.ReactElement {
                 />
               </div>
             ) : (
-              <Button onClick={handleLogin}>Login</Button>
+              <AccountsDropdown accounts={decoratedAccounts} />
             )}
             <Margin left='big' />
             <Icon
