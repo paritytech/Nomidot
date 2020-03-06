@@ -67,7 +67,8 @@ const createTreasury: Task<NomidotTreasury[]> = {
           return null;
         }
 
-        const treasuryProposalRaw: Option<TreasuryProposal> = await api.query.treasury.proposals(
+        const treasuryProposalRaw: Option<TreasuryProposal> = await api.query.treasury.proposals.at(
+          blockHash,
           treasuryRawEvent.ProposalIndex
         );
 
