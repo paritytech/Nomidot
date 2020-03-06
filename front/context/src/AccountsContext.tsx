@@ -9,7 +9,7 @@ import {
 } from '@polkadot/extension-inject/types';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { Dispatch, createContext, useContext, useEffect, useState } from 'react';
 import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { ApiContext } from './ApiContext';
@@ -21,10 +21,12 @@ export interface DecoratedAccount
     DerivedStakingAccount {}
 
 interface AccountsContext {
+  currentAccount: DecoratedAccount,
   decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
+  setCurrentAccount: Dispatch<any>;
 }
 
 const l = logger('accounts-context');
@@ -45,6 +47,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { api, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [currentAccount, setCurrentAccount] = useState();
   const [decoratedAccounts, setDecoratedAccounts] = useState<
     DecoratedAccount[]
   >([]);
@@ -100,14 +103,20 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       setExtension(extensions[0]);
       setAccounts(await web3Accounts());
+      setCurrentAccount(accounts[0]);
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsReady(true);
     }
   }
 
+  useEffect(() => {
+    fetchAccounts();
+  }, []);
+
   return (
     <AccountsContext.Provider
       value={{
+        currentAccount,
         decoratedAccounts,
         get extension(): InjectedExtension {
           if (!extension) {
@@ -124,6 +133,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         },
         fetchAccounts,
         isExtensionReady: isReady,
+        setCurrentAccount
       }}
     >
       {children}

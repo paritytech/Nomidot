@@ -46,19 +46,7 @@ export function Header(_props: Props): React.ReactElement {
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
           <StackedHorizontal justifyContent='center' alignItems='center'>
-            {decoratedAccounts.length ? (
-              <div>
-                <AddressSummary
-                  address={decoratedAccounts[0].address}
-                  name={decoratedAccounts[0].meta.name}
-                  noBalance
-                  size='tiny'
-                />
-              </div>
-            ) : (
-              <AccountsDropdown accounts={decoratedAccounts} />
-            )}
-            <Margin left='big' />
+            <AccountsDropdown accounts={decoratedAccounts} />
             <Icon
               inverted
               link

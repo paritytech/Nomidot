@@ -33,7 +33,7 @@ spec:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
             - name: START_FROM
-              value: '1177733'
+              value: '1318706'
             - name: BLOCK_IDENTIFIER
               value: 'last-50k'
           command: ["yarn", "start"]

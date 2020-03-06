@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DecoratedAccount } from '@substrate/context';
-import { Spinner } from '@substrate/design-system';
-import { Dropdown } from '@substrate/ui-components';
-import React from 'react';
+import { AccountsContext, DecoratedAccount } from '@substrate/context';
+import { Button, Spinner } from '@substrate/design-system';
+import { AddressSummary, Dropdown, DropdownProps, InputAddress } from '@substrate/ui-components';
+import React, { useContext } from 'react';
+
+import { toShortAddress } from '../../util';
 
 interface Props {
   accounts: DecoratedAccount[];
@@ -13,16 +15,16 @@ interface Props {
 
 export const AccountsDropdown = (props: Props) => {
   const { accounts } = props;
+  const { currentAccount, fetchAccounts, isExtensionReady, setCurrentAccount } = useContext(AccountsContext);
 
-  if (!accounts.length) {
-    return <Spinner />;
+  if (!isExtensionReady) {
+    return <Button onClick={fetchAccounts}>Login</Button>;
   }
 
-  const options = accounts.map((account: DecoratedAccount) => ({
-    key: account.accountId.toString(),
-    text: account.accountId.toString(),
-    value: account.accountId.toString(),
-  }));
+  const onSelectAccount = (event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+    console.log(event);
+    console.log(data);
+  }
 
-  return <Dropdown placeholder={'Login'} fluid selection options={options} />;
+  return <InputAddress />
 };
