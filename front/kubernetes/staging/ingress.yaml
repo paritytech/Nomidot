@@ -1,0 +1,29 @@
+apiVersion: v1
+data:
+  auth: YTokYXByMSRWdVhZTHVFSiRVMHZhZHJjUUw3YmJsZjdFRG1DUUIx
+kind: Secret
+metadata:
+  name: nodewatcher-basic-auth
+type: Opaque
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nodewatcher-ingress
+  labels:
+    app: nodewatcher
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.entryPoints: "https,http"
+    ingress.kubernetes.io/auth-type: basic
+    ingress.kubernetes.io/auth-secret: nodewatcher-basic-auth
+spec:
+  rules:
+  - host: nodewatcher-staging.polkassembly.io
+    http:
+      paths:
+      - backend:
+          serviceName: nodewatcher
+          servicePort: 4466
+        path: /
