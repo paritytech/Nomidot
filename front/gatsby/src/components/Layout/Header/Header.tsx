@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { useLocalStorage } from '@rehooks/local-storage';
+import { useLocalStorage } from '@substrate/local-storage';
 import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
 import {
@@ -27,7 +27,7 @@ import {
 
 type Props = RouteComponentProps;
 
-export function Header(_props: Props): React.ReactElement {
+export default function Header(_props: Props): React.ReactElement {
   const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
 
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
@@ -42,7 +42,7 @@ export function Header(_props: Props): React.ReactElement {
 
   useEffect(() => {
     handleLogin();
-  }, [handleLogin]);
+  }, []);
 
   const navToCartPage = () => {
     navigate('/cart');

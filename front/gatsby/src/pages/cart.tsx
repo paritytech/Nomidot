@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { useLocalStorage } from '@rehooks/local-storage';
+import { useLocalStorage } from '@substrate/local-storage';
 import { Button, Subheading } from '@substrate/design-system';
 import {
   AddressSummary,

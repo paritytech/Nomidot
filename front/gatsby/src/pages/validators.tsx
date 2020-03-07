@@ -4,7 +4,7 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { useLocalStorage } from '@rehooks/local-storage';
+import { useLocalStorage } from '@substrate/local-storage';
 import { ApiContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
