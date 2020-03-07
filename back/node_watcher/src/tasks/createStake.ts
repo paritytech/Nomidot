@@ -4,7 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
-import { BlockNumber, Exposure, Hash } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber, Exposure, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 
@@ -23,13 +23,13 @@ const createStake: Task<NomidotStake> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotStake> => {
-    const currentElected = await api.query.staking.currentElected.at(blockHash);
+    const currentElected: AccountId[] = await api.query.staking.currentElected.at(blockHash);
     const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
     let totalStaked = new BN(0);
 
     await Promise.all(
       currentElected.map(async stashId => {
-        const stakersForThisValidator = await api.query.staking.stakers.at(
+        const stakersForThisValidator: Exposure = await api.query.staking.stakers.at(
           blockHash,
           stashId
         );

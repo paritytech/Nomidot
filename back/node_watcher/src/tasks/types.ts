@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { Compact } from '@polkadot/types';
+import { Compact, Option } from '@polkadot/types';
 import {
   AccountId,
   Balance,
@@ -46,7 +46,7 @@ export interface NomidotBlock {
 }
 
 export interface NomidotEra {
-  idx: EraIndex;
+  idx: Option<EraIndex>;
   points: EraPoints;
   startSessionIndex: Index;
 }
