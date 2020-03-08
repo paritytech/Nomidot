@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
+import { writeStorage } from '@substrate/local-storage';
 
 export function toShortAddress(address: string | AccountId): string {
   if (typeof address !== 'string') {
@@ -23,16 +24,20 @@ export function stripAddressFromCartItem(item: string): string {
   return item.slice(5);
 }
 
-export function getCartItemsCount(): number {
+export function getCurrCartCount(): number {
   let count = 0;
-
   for (const key in localStorage) {
     if (isCartItem(key)) {
       count += 1;
     }
   }
-
   return count;
+}
+
+export function addToCart(stash: string): void {
+  writeStorage(`cart:${stash}`, stash);
+  const currCartCount = getCurrCartCount();
+  writeStorage(`cartItemsCount`, currCartCount);
 }
 
 export function getCartItems(): Array<string> {
@@ -53,8 +58,12 @@ export function clearCart(): void {
       localStorage.removeItem(key);
     }
   }
+
+  writeStorage('cartItemsCount', 0);
 }
 
-export function removeCartItem(itemKey: string): void {
+export function removeCartItem(itemKey: string, currCartCount: number): void {
   localStorage.removeItem(itemKey);
+
+  writeStorage('cartItemsCount', currCartCount - 1);
 }

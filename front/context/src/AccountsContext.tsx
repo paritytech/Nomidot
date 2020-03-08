@@ -21,7 +21,8 @@ export interface DecoratedAccount
     DerivedStakingAccount {}
 
 interface AccountsContext {
-  currentAccount: DecoratedAccount,
+  accounts: InjectedAccountWithMeta[],
+  currentAccount?: string,
   decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
@@ -47,7 +48,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { api, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-  const [currentAccount, setCurrentAccount] = useState();
+  const [currentAccount, setCurrentAccount] = useState<string>();
   const [decoratedAccounts, setDecoratedAccounts] = useState<
     DecoratedAccount[]
   >([]);
@@ -103,19 +104,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       setExtension(extensions[0]);
       setAccounts(await web3Accounts());
-      setCurrentAccount(accounts[0]);
+      setCurrentAccount(accounts && accounts[0] && accounts[0].address);
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsReady(true);
     }
   }
 
-  useEffect(() => {
-    fetchAccounts();
-  }, []);
-
   return (
     <AccountsContext.Provider
       value={{
+        accounts,
         currentAccount,
         decoratedAccounts,
         get extension(): InjectedExtension {
