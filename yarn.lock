@@ -2876,10 +2876,10 @@
     custom-event "^1.0.1"
     node-localstorage "^2.1.5"
 
-"@substrate/ui-components@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@substrate/ui-components/-/ui-components-0.3.23.tgz#c948c9a210646c58d09ef1f75ea4f2af18543a0d"
-  integrity sha512-GfvdkOeqTbjQA0+Ftnu8h+1Q9O9GfdBSMYI3wPgSC3QLoCmqMh4xf+h+vFQ4q7+sfiKPWSYohQ5oMJNvGhxEFQ==
+"@substrate/ui-components@^0.3.26":
+  version "0.3.26"
+  resolved "https://registry.yarnpkg.com/@substrate/ui-components/-/ui-components-0.3.26.tgz#da291b5f0fa51df7cd9148fe91ff6343a565f1f6"
+  integrity sha512-PPzOgjRwMUmoU++8EsNse0mP97nGnZo7OPE5am6AD7TNxxmr6CzX50VKhJoN7K6eYkL0klFuWuRy7fmGaAvDgg==
   dependencies:
     "@polkadot/extension-dapp" "^0.22.1"
     "@polkadot/react-identicon" "^0.51.1"
