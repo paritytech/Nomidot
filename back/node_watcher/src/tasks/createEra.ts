@@ -29,8 +29,8 @@ const createEra: Task<NomidotEra> = {
 
     const result = {
       idx,
-      points,
-      startSessionIndex: currentEraStartSessionIndex,
+      points: api.createType('EraPoints', points),
+      startSessionIndex: api.createType('Index', currentEraStartSessionIndex),
     };
 
     l.log(`NomidotEra: ${JSON.stringify(result)}`);
@@ -38,11 +38,15 @@ const createEra: Task<NomidotEra> = {
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotEra) => {
+    if (value.idx.isNone) {
+      return;
+    }
+
     const { idx, points, startSessionIndex } = value;
 
     // check if record exists
     const eraIndexAlreadyExists = await prisma.$exists.era({
-      index: idx.toNumber(),
+      index: idx.unwrap().toNumber(),
     });
 
     if (eraIndexAlreadyExists) {
@@ -54,13 +58,13 @@ const createEra: Task<NomidotEra> = {
           totalPoints: points.total.toHex(),
         },
         where: {
-          index: idx.toNumber(),
+          index: idx.unwrap().toNumber(),
         },
       });
     } else if (startSessionIndex.toNumber() > 0) {
       // only start writing after there's actually been a session.
       await prisma.createEra({
-        index: idx.toNumber(),
+        index: idx.unwrap().toNumber(),
         totalPoints: points.total.toHex(),
         individualPoints: {
           set: points.individual.map(points => points.toHex()),
