@@ -12,7 +12,7 @@
     "@polkadot/extension-dapp": "^0.21.1",
     "@substrate/design-system": "^1.0.9",
     "@substrate/local-storage": "^2.2.9",
-    "@substrate/ui-components": "^0.3.24",
+    "@substrate/ui-components": "^0.3.25",
     "@types/loadable__component": "^5.10.0",
     "@types/node": "^13.7.4",
     "@types/react": "^16.9.22",
