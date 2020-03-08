@@ -5,7 +5,7 @@
 import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { Header } from './Header';
+import { LoadableHeader } from './Header';
 
 interface Props extends RouteComponentProps {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export function Layout(props: Props): React.ReactElement {
 
   return (
     <>
-      <Header {...props} />
+      <LoadableHeader {...props} />
       {children}
     </>
   );

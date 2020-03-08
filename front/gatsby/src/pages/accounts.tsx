@@ -3,7 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, DecoratedAccount } from '@substrate/context';
+import {
+  AccountsContext,
+  ApiContext,
+  DecoratedAccount,
+} from '@substrate/context';
 import {
   AddressSummary,
   Container,
@@ -18,6 +22,7 @@ type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props) => {
   const { decoratedAccounts } = useContext(AccountsContext);
+  const { api } = useContext(ApiContext);
 
   const renderRow = (account: DecoratedAccount) => {
     return (
@@ -25,6 +30,7 @@ const AccountsList = (_props: Props) => {
         <Table.Cell>
           <AddressSummary
             address={account.address}
+            api={api}
             name={account.meta.name}
             noBalance
             size='tiny'

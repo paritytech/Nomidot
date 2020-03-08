@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { useLocalStorage } from '@substrate/local-storage';
-import { AccountsContext } from '@substrate/context';
+import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
+import { useLocalStorage } from '@substrate/local-storage';
 import {
   AddressSummary,
   Container,
@@ -29,6 +29,7 @@ type Props = RouteComponentProps;
 
 export default function Header(_props: Props): React.ReactElement {
   const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
+  const { api } = useContext(ApiContext);
 
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
@@ -58,6 +59,7 @@ export default function Header(_props: Props): React.ReactElement {
               <div>
                 <AddressSummary
                   address={decoratedAccounts[0].address}
+                  api={api}
                   name={decoratedAccounts[0].meta.name}
                   noBalance
                   size='tiny'

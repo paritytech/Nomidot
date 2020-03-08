@@ -4,7 +4,6 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { useLocalStorage } from '@substrate/local-storage';
 import { ApiContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
@@ -30,7 +29,6 @@ interface JoinValidatorOffline extends Validator {
 
 const CurrentElectedList = (): React.ReactElement => {
   const { api } = useContext(ApiContext);
-  const [currCartCount] = useLocalStorage(`cartItemsCount`);
 
   const [currentElected, setCurrentElected] = useState<
     JoinValidatorOffline[]
@@ -107,7 +105,7 @@ const CurrentElectedList = (): React.ReactElement => {
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
-      addToCart(stash, Number(currCartCount));
+      addToCart(stash);
     } else {
       alert('Something went wrong. Please try again later.');
     }
@@ -138,6 +136,7 @@ const CurrentElectedList = (): React.ReactElement => {
                   <Table.Cell textAlign='center'>
                     <AddressSummary
                       address={stash}
+                      api={api}
                       size='small'
                       noBalance
                       noPlaceholderName
@@ -146,6 +145,7 @@ const CurrentElectedList = (): React.ReactElement => {
                   <Table.Cell textAlign='center'>
                     <AddressSummary
                       address={controller}
+                      api={api}
                       size='small'
                       noBalance
                       noPlaceholderName
