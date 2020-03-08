@@ -14,5 +14,8 @@ exports.onCreateWebpackConfig = function({ actions }) {
         '@substrate/context': path.resolve(__dirname, '../context/src'),
       },
     },
+    node: {
+      fs: 'empty'
+    }
   });
 };
