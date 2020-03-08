@@ -9,7 +9,13 @@ import {
 } from '@polkadot/extension-inject/types';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import React, { Dispatch, createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { ApiContext } from './ApiContext';
@@ -21,8 +27,8 @@ export interface DecoratedAccount
     DerivedStakingAccount {}
 
 interface AccountsContext {
-  accounts: InjectedAccountWithMeta[],
-  currentAccount?: string,
+  accounts: InjectedAccountWithMeta[];
+  currentAccount?: string;
   decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
@@ -61,8 +67,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     } else {
       // make sure it's encoded correctly
       accounts.map((account: InjectedAccountWithMeta) => {
-        account.address = encodeAddress(decodeAddress(account.address), 2);
-
         const sub = api.derive.staking
           .account(account.address)
           .pipe(take(1), distinctUntilChanged())
@@ -103,12 +107,25 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       }
 
       setExtension(extensions[0]);
-      setAccounts(await web3Accounts());
-      setCurrentAccount(accounts && accounts[0] && accounts[0].address);
+
+      const _web3Accounts = await web3Accounts();
+
+      _web3Accounts.map((account: InjectedAccountWithMeta) => {
+        account.address = encodeAddress(decodeAddress(account.address), 2);
+      });
+
+      setAccounts(_web3Accounts);
+      setCurrentAccount(
+        _web3Accounts && _web3Accounts[0] && _web3Accounts[0].address
+      );
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsReady(true);
     }
   }
+
+  useEffect(() => {
+    fetchAccounts();
+  }, []);
 
   return (
     <AccountsContext.Provider
@@ -131,7 +148,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         },
         fetchAccounts,
         isExtensionReady: isReady,
-        setCurrentAccount
+        setCurrentAccount,
       }}
     >
       {children}

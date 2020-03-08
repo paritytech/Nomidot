@@ -3,28 +3,26 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, ApiContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
 import { useLocalStorage } from '@substrate/local-storage';
 import {
-  AddressSummary,
   Container,
   Icon,
   Margin,
   StackedHorizontal,
 } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React from 'react';
 import shortid from 'shortid';
 
 import { APP_TITLE } from '../../../util';
+import { AccountsDropdown } from '../AccountsDropdown';
 import {
   BlockHeader,
   EraHeader,
   SessionHeader,
   StakingHeader,
 } from './Subheaders';
-import { AccountsDropdown } from '../AccountsDropdown';
 
 type Props = RouteComponentProps;
 
@@ -41,7 +39,7 @@ export default function Header(_props: Props): React.ReactElement {
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
           <StackedHorizontal justifyContent='center' alignItems='center'>
-            <AccountsDropdown  />
+            <AccountsDropdown />
             <Margin left='big' />
             <Icon
               inverted
