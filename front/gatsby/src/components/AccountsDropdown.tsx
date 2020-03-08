@@ -5,19 +5,14 @@
 import { AccountsContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 export const AccountsDropdown = () => {
   const { accounts, currentAccount, setCurrentAccount } = useContext(
     AccountsContext
-  );
+  );;
 
-  useEffect(() => {
-    console.log('accounts -> ', accounts);
-    console.log('current -> ', currentAccount);
-  }, [accounts, currentAccount]);
-
-  if (!currentAccount) {
+  if (!accounts || !currentAccount) {
     return <Spinner inline />;
   }
 
@@ -27,7 +22,7 @@ export const AccountsDropdown = () => {
       fromKeyring={false}
       onChangeAddress={setCurrentAccount}
       value={currentAccount}
-      width='20px'
+      width='175px'
     />
   );
 };

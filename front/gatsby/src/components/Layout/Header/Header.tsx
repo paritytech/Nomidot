@@ -3,21 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, ApiContext } from '@substrate/context';
+import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
 import { useLocalStorage } from '@substrate/local-storage';
-import {
-  AddressSummary,
-  Container,
-  Icon,
-  Margin,
-  StackedHorizontal,
-} from '@substrate/ui-components';
+import { Container, Icon, StackedHorizontal } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useEffect } from 'react';
 import shortid from 'shortid';
 
 import { APP_TITLE } from '../../../util';
+import { AccountsDropdown } from '../../AccountsDropdown';
 import {
   BlockHeader,
   EraHeader,
@@ -28,22 +23,7 @@ import {
 type Props = RouteComponentProps;
 
 export default function Header(_props: Props): React.ReactElement {
-  const { decoratedAccounts, fetchAccounts } = useContext(AccountsContext);
-  const { api } = useContext(ApiContext);
-
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
-
-  const handleLogin = useCallback(async () => {
-    try {
-      await fetchAccounts();
-    } catch (error) {
-      window.alert(error.message);
-    }
-  }, [fetchAccounts]);
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
 
   const navToCartPage = () => {
     navigate('/cart');
@@ -55,20 +35,7 @@ export default function Header(_props: Props): React.ReactElement {
         contentLeft={<h2>{APP_TITLE}</h2>}
         contentRight={
           <StackedHorizontal justifyContent='center' alignItems='center'>
-            {decoratedAccounts.length ? (
-              <div>
-                <AddressSummary
-                  address={decoratedAccounts[0].address}
-                  api={api}
-                  name={decoratedAccounts[0].meta.name}
-                  noBalance
-                  size='tiny'
-                />
-              </div>
-            ) : (
-              <Button onClick={handleLogin}>Login</Button>
-            )}
-            <Margin left='big' />
+            <AccountsDropdown />
             <Icon
               inverted
               link

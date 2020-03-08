@@ -48,7 +48,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { api, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-  const [currentAccount, setCurrentAccount] = useState<string>()
+  const [currentAccount, setCurrentAccount] = useState<string>();
   const [decoratedAccounts, setDecoratedAccounts] = useState<
     DecoratedAccount[]
   >([]);
@@ -145,7 +145,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         },
         fetchAccounts,
         isExtensionReady: isReady,
-        setCurrentAccount
+        setCurrentAccount,
       }}
     >
       {children}
