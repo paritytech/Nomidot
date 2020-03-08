@@ -16,6 +16,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import { OfflineValidator, Validator } from '../types';
+import { addToCart } from '../util';
 import {
   CURRENT_ELECTED,
   OFFLINE_VALIDATORS,
@@ -104,7 +105,7 @@ const CurrentElectedList = (): React.ReactElement => {
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
     if (stash) {
-      localStorage.setItem(`cart:${stash}`, stash);
+      addToCart(stash);
     } else {
       alert('Something went wrong. Please try again later.');
     }
@@ -135,6 +136,7 @@ const CurrentElectedList = (): React.ReactElement => {
                   <Table.Cell textAlign='center'>
                     <AddressSummary
                       address={stash}
+                      api={api}
                       size='small'
                       noBalance
                       noPlaceholderName
@@ -143,6 +145,7 @@ const CurrentElectedList = (): React.ReactElement => {
                   <Table.Cell textAlign='center'>
                     <AddressSummary
                       address={controller}
+                      api={api}
                       size='small'
                       noBalance
                       noPlaceholderName
