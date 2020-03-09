@@ -80,7 +80,8 @@ type Subscription {
   subscribeSlashings: Slashing
   subscribeStakes: Stake
   subscribeValidators: Validator
-  subscribeMotion: Motion
   subscribeProposal: Proposal
+  subscribeMotion: Motion
+  subscribeTreasurySpendProposal: TreasurySpendProposal
   subscribeReferendum: Referendum
 }
