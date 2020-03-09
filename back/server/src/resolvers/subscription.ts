@@ -15,6 +15,7 @@ import {
   SessionSubscription,
   SlashingSubscription,
   StakeSubscription,
+  TreasurySpendProposalSubscription,
   ValidatorSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
@@ -266,6 +267,25 @@ const subscribeReferendum = {
   },
 };
 
+const subscribeTreasurySpendProposal = {
+  subscribe: (
+    parent: any,
+    { treasurySpendProposalSubscriptionWhereInput }: Selectors,
+    context: Context
+  ): (<T = TreasurySpendProposalSubscription>() => T) => {
+    return context.prisma.$subscribe
+      .treasurySpendProposal({
+        // eslint-disable-next-line
+        mutation_in: ['CREATED'],
+        ...treasurySpendProposalSubscriptionWhereInput,
+      })
+      .node();
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
 export const Subscription = {
   subscribeBlockNumbers,
   subscribeEras,
@@ -279,5 +299,6 @@ export const Subscription = {
   subscribeValidators,
   subscribeMotion,
   subscribeProposal,
+  subscribeTreasurySpendProposal,
   subscribeReferendum,
 };
