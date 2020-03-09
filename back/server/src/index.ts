@@ -137,6 +137,14 @@ const resolvers = {
       return prisma.proposalStatus({ id: parent.id }).blockNumber();
     },
   },
+  TreasurySpendProposal: {
+    treasuryStatus(parent: any) {
+      return prisma.treasurySpendProposal({ id: parent.id }).treasuryStatus();
+    },
+    motion(parent: any) {
+      return prisma.treasurySpendProposal({ id: parent.id }).motion();
+    },
+  },
   Referendum: {
     preimage(parent: any) {
       return prisma.referendum({ id: parent.id }).preimage();
