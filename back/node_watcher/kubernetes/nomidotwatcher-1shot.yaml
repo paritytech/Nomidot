@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: nomidotwatcher-last-50k
+  name: nomidotwatcher-1-shot
   namespace: nodewatcher-staging
   labels:
     stage: staging
     name: nomidotwatcher
     app: nomidotwatcher
-    job-name: nomidotwatcher-last-50k
+    job-name: nomidotwatcher-1-shot
 spec:
   manualSelector: true
   selector:
@@ -15,25 +15,25 @@ spec:
       stage: staging
       name: nomidotwatcher
       app: nomidotwatcher
-      job-name: nomidotwatcher-last-50k
+      job-name: nomidotwatcher-1-shot
   template:
     metadata:
       labels:
         stage: staging
         name: nomidotwatcher
         app: nomidotwatcher
-        job-name: nomidotwatcher-last-50k
+        job-name: nomidotwatcher-1-shot
     spec:
       restartPolicy: Never
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:25784970a161187574c52acf842d7a3a323c620378613351a6223846ec917967
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:ae51d76da094a05acb4e565e08bc10ae6f9a7d2265b5cac946650cd8a16dac86
           imagePullPolicy: Always
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
             - name: START_FROM
-              value: '1305897'
+              value: '1025633'
             - name: BLOCK_IDENTIFIER
-              value: 'last-50k-1'
+              value: '1shot'
           command: ["yarn", "start"]
