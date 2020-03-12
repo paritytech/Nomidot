@@ -80,8 +80,8 @@ type Subscription {
   subscribeSlashings: Slashing
   subscribeStakes: Stake
   subscribeValidators: Validator
-  subscribeProposal: Proposal
-  subscribeMotion: Motion
-  subscribeTreasurySpendProposal: TreasurySpendProposal
-  subscribeReferendum: Referendum
+  proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
+  motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
+  treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
+  referendum(where: ReferendumSubscriptionWhereInput): ReferendumSubscriptionPayload
 }

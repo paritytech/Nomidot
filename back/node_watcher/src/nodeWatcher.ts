@@ -62,12 +62,8 @@ async function incrementor(
     blockIndex = existingBlockIndex[0].index;
   }
 
-  api.once('disconnected', async () => {
-    try {
-      api = await ApiPromise.create({ provider });
-    } catch (e) {
-      throw new Error(e + ' --- ' + blockIndex);
-    }
+  api.once('disconnected', () => {
+    process.exit(1);
   });
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/

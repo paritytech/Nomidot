@@ -6,16 +6,20 @@ import {
   BlockNumberSubscription,
   EraSubscription,
   HeartBeatSubscription,
-  MotionSubscription,
+  MotionSubscriptionPayloadSubscription,
+  MotionSubscriptionWhereInput,
   NominationSubscription,
   OfflineValidatorSubscription,
-  ProposalSubscription,
-  ReferendumSubscription,
+  ProposalSubscriptionPayloadSubscription,
+  ProposalSubscriptionWhereInput,
+  ReferendumSubscriptionPayloadSubscription,
+  ReferendumSubscriptionWhereInput,
   RewardSubscription,
   SessionSubscription,
   SlashingSubscription,
   StakeSubscription,
-  TreasurySpendProposalSubscription,
+  TreasurySpendProposalSubscriptionPayloadSubscription,
+  TreasurySpendProposalSubscriptionWhereInput,
   ValidatorSubscription,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
@@ -210,76 +214,52 @@ const subscribeValidators = {
   },
 };
 
-const subscribeMotion = {
+const motion = {
   subscribe: (
     parent: any,
-    { motionSubscriptionWhereInput }: Selectors,
+    { where }: { where: MotionSubscriptionWhereInput },
     context: Context
-  ): (<T = MotionSubscription>() => T) => {
-    return context.prisma.$subscribe
-      .motion({
-        // eslint-disable-next-line
-        mutation_in: ['CREATED'],
-        ...motionSubscriptionWhereInput,
-      })
-      .node();
+  ): MotionSubscriptionPayloadSubscription => {
+    return context.prisma.$subscribe.motion(where);
   },
   resolve: (payload: any) => {
     return payload;
   },
 };
 
-const subscribeProposal = {
+const proposal = {
   subscribe: (
     parent: any,
-    { proposalSubscriptionWhereInput }: Selectors,
+    { where }: { where: ProposalSubscriptionWhereInput },
     context: Context
-  ): (<T = ProposalSubscription>() => T) => {
-    return context.prisma.$subscribe
-      .proposal({
-        // eslint-disable-next-line
-        mutation_in: ['CREATED'],
-        ...proposalSubscriptionWhereInput,
-      })
-      .node();
+  ): ProposalSubscriptionPayloadSubscription => {
+    return context.prisma.$subscribe.proposal(where);
   },
   resolve: (payload: any) => {
     return payload;
   },
 };
 
-const subscribeReferendum = {
+const referendum = {
   subscribe: (
     parent: any,
-    { referendumSubscriptionWhereInput }: Selectors,
+    { where }: { where: ReferendumSubscriptionWhereInput },
     context: Context
-  ): (<T = ReferendumSubscription>() => T) => {
-    return context.prisma.$subscribe
-      .referendum({
-        // eslint-disable-next-line
-        mutation_in: ['CREATED'],
-        ...referendumSubscriptionWhereInput,
-      })
-      .node();
+  ): ReferendumSubscriptionPayloadSubscription => {
+    return context.prisma.$subscribe.referendum(where);
   },
   resolve: (payload: any) => {
     return payload;
   },
 };
 
-const subscribeTreasurySpendProposal = {
+const treasurySpendProposal = {
   subscribe: (
     parent: any,
-    { treasurySpendProposalSubscriptionWhereInput }: Selectors,
+    { where }: { where: TreasurySpendProposalSubscriptionWhereInput },
     context: Context
-  ): (<T = TreasurySpendProposalSubscription>() => T) => {
-    return context.prisma.$subscribe
-      .treasurySpendProposal({
-        // eslint-disable-next-line
-        mutation_in: ['CREATED'],
-        ...treasurySpendProposalSubscriptionWhereInput,
-      })
-      .node();
+  ): TreasurySpendProposalSubscriptionPayloadSubscription => {
+    return context.prisma.$subscribe.treasurySpendProposal(where);
   },
   resolve: (payload: any) => {
     return payload;
@@ -297,8 +277,8 @@ export const Subscription = {
   subscribeSlashings,
   subscribeStakes,
   subscribeValidators,
-  subscribeMotion,
-  subscribeProposal,
-  subscribeTreasurySpendProposal,
-  subscribeReferendum,
+  motion,
+  proposal,
+  treasurySpendProposal,
+  referendum,
 };
