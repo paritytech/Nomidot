@@ -198,6 +198,11 @@ const resolvers = {
       return prisma.treasurySpendProposal({ id: parent.id }).motion();
     },
   },
+  TreasuryStatus: {
+    blockNumber(parent: any) {
+      return prisma.treasuryStatus({ id: parent.id }).blockNumber();
+    },
+  },
   Referendum: {
     preimage(parent: any) {
       return prisma.referendum({ id: parent.id }).preimage();
