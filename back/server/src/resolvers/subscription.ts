@@ -217,9 +217,7 @@ const motion = {
     motionSubscriptionWhereInput: Selectors,
     context: Context
   ): MotionSubscriptionPayloadSubscription => {
-    return context.prisma.$subscribe
-      .motion(motionSubscriptionWhereInput)
-      .node();
+    return context.prisma.$subscribe.motion(motionSubscriptionWhereInput);
   },
   resolve: (payload: any) => {
     return payload;
@@ -232,9 +230,7 @@ const proposal = {
     proposalSubscriptionWhereInput: Selectors,
     context: Context
   ): ProposalSubscriptionPayloadSubscription => {
-    return context.prisma.$subscribe
-      .proposal(proposalSubscriptionWhereInput)
-      .node();
+    return context.prisma.$subscribe.proposal(proposalSubscriptionWhereInput);
   },
   resolve: (payload: any) => {
     return payload;
@@ -247,9 +243,9 @@ const referendum = {
     referendumSubscriptionWhereInput: Selectors,
     context: Context
   ): ReferendumSubscriptionPayloadSubscription => {
-    return context.prisma.$subscribe
-      .referendum(referendumSubscriptionWhereInput)
-      .node();
+    return context.prisma.$subscribe.referendum(
+      referendumSubscriptionWhereInput
+    );
   },
   resolve: (payload: any) => {
     return payload;
