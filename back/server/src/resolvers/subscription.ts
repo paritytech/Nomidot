@@ -7,10 +7,13 @@ import {
   EraSubscription,
   HeartBeatSubscription,
   MotionSubscriptionPayloadSubscription,
+  MotionSubscriptionWhereInput,
   NominationSubscription,
   OfflineValidatorSubscription,
   ProposalSubscriptionPayloadSubscription,
+  ProposalSubscriptionWhereInput,
   ReferendumSubscriptionPayloadSubscription,
+  ReferendumSubscriptionWhereInput,
   RewardSubscription,
   SessionSubscription,
   SlashingSubscription,
@@ -214,10 +217,10 @@ const subscribeValidators = {
 const motion = {
   subscribe: (
     parent: any,
-    motionSubscriptionWhereInput: Selectors,
+    { where }: { where: MotionSubscriptionWhereInput },
     context: Context
   ): MotionSubscriptionPayloadSubscription => {
-    return context.prisma.$subscribe.motion(motionSubscriptionWhereInput);
+    return context.prisma.$subscribe.motion(where);
   },
   resolve: (payload: any) => {
     return payload;
@@ -227,10 +230,10 @@ const motion = {
 const proposal = {
   subscribe: (
     parent: any,
-    proposalSubscriptionWhereInput: Selectors,
+    { where }: { where: ProposalSubscriptionWhereInput },
     context: Context
   ): ProposalSubscriptionPayloadSubscription => {
-    return context.prisma.$subscribe.proposal(proposalSubscriptionWhereInput);
+    return context.prisma.$subscribe.proposal(where);
   },
   resolve: (payload: any) => {
     return payload;
@@ -240,12 +243,10 @@ const proposal = {
 const referendum = {
   subscribe: (
     parent: any,
-    referendumSubscriptionWhereInput: Selectors,
+    { where }: { where: ReferendumSubscriptionWhereInput },
     context: Context
   ): ReferendumSubscriptionPayloadSubscription => {
-    return context.prisma.$subscribe.referendum(
-      referendumSubscriptionWhereInput
-    );
+    return context.prisma.$subscribe.referendum(where);
   },
   resolve: (payload: any) => {
     return payload;
