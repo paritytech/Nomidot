@@ -116,12 +116,8 @@ async function incrementor(
 
       const result = await task.read(blockHash, cached, api);
 
-      try {
-        l.warn(`Writing: ${JSON.stringify(result)}`);
-        await task.write(blockNumber, result);
-      } catch (e) {
-        l.error(e);
-      }
+      l.warn(`Writing: ${JSON.stringify(result)}`);
+      await task.write(blockNumber, result);
     }
 
     blockIndex += 1;
@@ -147,5 +143,5 @@ export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
   const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
   const api = await ApiPromise.create({ provider });
 
-  incrementor(api, provider, tasks);
+  return incrementor(api, provider, tasks);
 }
