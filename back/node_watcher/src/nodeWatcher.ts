@@ -116,8 +116,14 @@ async function incrementor(
 
       const result = await task.read(blockHash, cached, api);
 
-      l.warn(`Writing: ${JSON.stringify(result)}`);
-      await task.write(blockNumber, result);
+      try {
+        l.warn(`Writing: ${JSON.stringify(result)}`);
+        await task.write(blockNumber, result);
+      } catch (e) {
+        // Write task might throw errors such as unique constraints violated,
+        // we ignore those.
+        l.error(e);
+      }
     }
 
     blockIndex += 1;
