@@ -120,6 +120,8 @@ async function incrementor(
         l.warn(`Writing: ${JSON.stringify(result)}`);
         await task.write(blockNumber, result);
       } catch (e) {
+        // Write task might throw errors such as unique constraints violated,
+        // we ignore those.
         l.error(e);
       }
     }
@@ -147,5 +149,5 @@ export async function nodeWatcher(tasks: NomidotTask[]): Promise<void> {
   const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
   const api = await ApiPromise.create({ provider });
 
-  incrementor(api, provider, tasks);
+  return incrementor(api, provider, tasks);
 }
