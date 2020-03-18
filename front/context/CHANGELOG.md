@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
+
+
+### Bug Fixes
+
+* **context:** Remove useless keyring from context ([#241](https://github.com/paritytech/Nomidot/issues/241)) ([d03b432](https://github.com/paritytech/Nomidot/commit/d03b432b459ba10865a436870796596308b07ae7))
+
+
+### Features
+
+* accounts page ([#207](https://github.com/paritytech/Nomidot/issues/207)) ([ba81594](https://github.com/paritytech/Nomidot/commit/ba81594401e0fc01c299b1d4cafbc3d18e898e6b))
+* **gatsby:** make master build for Netlify ([#201](https://github.com/paritytech/Nomidot/issues/201)) ([6bdda24](https://github.com/paritytech/Nomidot/commit/6bdda24e183df95805ac801dcae65bce62748a6c))
+* app wide routing setup with @reach/router ([#191](https://github.com/paritytech/Nomidot/issues/191)) ([c73069c](https://github.com/paritytech/Nomidot/commit/c73069c823a539a216c5053d9e9dd938e7805692))
+
+
+
+
+
 ## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
 
 
