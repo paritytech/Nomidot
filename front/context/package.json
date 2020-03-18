@@ -17,9 +17,6 @@
     "start": "yarn build --watch",
     "test": "echo skipped"
   },
-  "dependencies": {
-    "fp-ts": "1.18.1"
-  },
   "peerDependencies": {
     "react": "^16.9"
   }
