@@ -12,6 +12,7 @@ import { Cached, NomidotTask } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT =
   process.env.ARCHIVE_NODE_ENDPOINT || 'wss://kusama-rpc.polkadot.io/';
+const MAX_LAG = process.env.MAX_LAG || 0;
 
 const l = logger('node-watcher');
 
@@ -32,6 +33,32 @@ function waitFinalized(
   });
 }
 
+function waitLagLimit(
+  api: ApiPromise,
+  lastKnownBestBlock: number
+): Promise<number> {
+  return new Promise(resolve => {
+    async function wait(): Promise<void> {
+      await api.derive.chain.bestNumber(best => {
+        if (best.toNumber() > lastKnownBestBlock) {
+          resolve(best.toNumber());
+        }
+      });
+    }
+
+    wait();
+  });
+}
+
+function reachedLimitLag(
+  lastKnownBestFinalized: number,
+  lastKnownBestBlock: number
+): boolean {
+  return MAX_LAG
+    ? lastKnownBestBlock - lastKnownBestFinalized > parseInt(MAX_LAG)
+    : false;
+}
+
 async function incrementor(
   api: ApiPromise,
   provider: WsProvider,
@@ -41,7 +68,16 @@ async function incrementor(
   let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
-  let lastKnownBestFinalized = await waitFinalized(api, 0);
+  let lastKnownBestFinalized = 0;
+  let lastKnownBestBlock = 0;
+
+  await api.derive.chain.bestNumberFinalized(bestFinalized => {
+    lastKnownBestFinalized = bestFinalized.toNumber();
+  });
+
+  await api.derive.chain.bestNumber(best => {
+    lastKnownBestBlock = best.toNumber();
+  });
 
   const existingBlockIndex = await prisma.blockIndexes({
     where: {
@@ -68,13 +104,40 @@ async function incrementor(
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
-    if (blockIndex > lastKnownBestFinalized) {
+    if (MAX_LAG) {
+      // if a MAX_LAG is set, we reached the last finalized block
+      // but haven't reached the lag limit yet, we need to wait
+      if (
+        blockIndex > lastKnownBestFinalized &&
+        !reachedLimitLag(lastKnownBestFinalized, lastKnownBestBlock)
+      ) {
+        l.warn(`Waiting for finalization or a max lag of ${MAX_LAG} blocks.`);
+        lastKnownBestBlock = await waitLagLimit(api, lastKnownBestBlock);
+        continue;
+      }
+    } else {
+      if (blockIndex > lastKnownBestFinalized) {
+        l.warn('Waiting for finalization.');
+        lastKnownBestFinalized = await waitFinalized(
+          api,
+          lastKnownBestFinalized
+        );
+        continue;
+      }
+    }
+    if (
+      blockIndex > lastKnownBestFinalized &&
+      !reachedLimitLag(lastKnownBestFinalized, lastKnownBestBlock)
+    ) {
+      l.warn(
+        `Waiting for finalization, or reaching a lag of ${MAX_LAG} blocks`
+      );
       lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
-      l.warn(`WAITING FINALIZED.`);
       continue;
     }
 
     l.warn(`blockIndex: ${blockIndex}`);
+    l.warn(`lastKnownBestBlock: ${lastKnownBestBlock}`);
     l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
 
     const blockNumber: BlockNumber = api.createType('BlockNumber', blockIndex);
