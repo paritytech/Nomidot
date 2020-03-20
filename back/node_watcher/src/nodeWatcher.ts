@@ -115,7 +115,7 @@ async function incrementor(
         continue;
       }
     } else {
-      // MAX_LAG isn't set only the finalization matters
+      // MAX_LAG isn't set, only the finalization matters
       if (blockIndex > lastKnownBestFinalized) {
         l.warn('Waiting for finalization.');
         const { unsub, bestFinalizedBlock } = await waitFinalized(
