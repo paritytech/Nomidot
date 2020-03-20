@@ -6,6 +6,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { getSpecTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
+import pAny from 'p-any';
 
 import { prisma } from './generated/prisma-client';
 import { Cached, NomidotTask } from './tasks/types';
@@ -37,10 +38,10 @@ function reachedLimitLag(
   blockIndex: number,
   lastKnownBestBlock: number
 ): boolean {
-  // console.log(
-  //   'block remaining before kick in',
-  //   Number(MAX_LAG) - (lastKnownBestBlock - blockIndex)
-  // );
+  console.log(
+    'block remaining before kick in',
+    Number(MAX_LAG) - (lastKnownBestBlock - blockIndex)
+  );
 
   return MAX_LAG ? lastKnownBestBlock - blockIndex > parseInt(MAX_LAG) : false;
 }
@@ -68,10 +69,16 @@ async function incrementor(
   let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
-  let lastKnownBestFinalized = (
-    await api.derive.chain.bestNumberFinalized()
-  ).toNumber();
-  let lastKnownBestBlock = (await api.derive.chain.bestNumber()).toNumber();
+  let lastKnownBestFinalized = 0;
+  let lastKnownBestBlock = 0;
+
+  api.derive.chain.bestNumberFinalized(best => {
+    lastKnownBestFinalized = best.toNumber();
+  });
+
+  api.derive.chain.bestNumber(best => {
+    lastKnownBestBlock = best.toNumber();
+  });
 
   const existingBlockIndex = await prisma.blockIndexes({
     where: {
@@ -98,28 +105,34 @@ async function incrementor(
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
-    if (MAX_LAG) {
-      // if we reached the last finalized block
-      // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
-      if (
-        blockIndex > lastKnownBestFinalized &&
-        !reachedLimitLag(blockIndex, lastKnownBestBlock)
-      ) {
-        l.warn(`Waiting for finalization or a max lag of ${MAX_LAG} blocks.`);
-        lastKnownBestBlock = await waitLagLimit(api, blockIndex);
-        continue;
-      }
-    } else {
-      // MAX_LAG isn't set only the finalization matters
-      if (blockIndex > lastKnownBestFinalized) {
-        l.warn('Waiting for finalization.');
-        lastKnownBestFinalized = await waitFinalized(
-          api,
-          lastKnownBestFinalized
-        );
-        continue;
-      }
-    }
+    const result = await pAny([
+      waitLagLimit(api, blockIndex),
+      waitFinalized(api, lastKnownBestFinalized),
+    ]);
+
+    console.log('result', result);
+    // if (MAX_LAG) {
+    //   // if we reached the last finalized block
+    //   // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
+    //   if (
+    //     blockIndex > lastKnownBestFinalized &&
+    //     !reachedLimitLag(blockIndex, lastKnownBestBlock)
+    //   ) {
+    //     l.warn(`Waiting for finalization or a max lag of ${MAX_LAG} blocks.`);
+    //     lastKnownBestBlock = await waitLagLimit(api, blockIndex);
+    //     continue;
+    //   }
+    // } else {
+    //   // MAX_LAG isn't set only the finalization matters
+    //   if (blockIndex > lastKnownBestFinalized) {
+    //     l.warn('Waiting for finalization.');
+    //     lastKnownBestFinalized = await waitFinalized(
+    //       api,
+    //       lastKnownBestFinalized
+    //     );
+    //     continue;
+    //   }
+    // }
 
     l.warn(`blockIndex: ${blockIndex}`);
     l.warn(`lastKnownBestBlock: ${lastKnownBestBlock}`);

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@types/bn.js": "^4.11.6",
+    "p-any": "^3.0.0",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {
