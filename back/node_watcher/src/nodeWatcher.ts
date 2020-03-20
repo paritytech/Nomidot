@@ -19,12 +19,12 @@ const l = logger('node-watcher');
 function waitFinalized(
   api: ApiPromise,
   lastKnownBestFinalized: number
-): Promise<number> {
+): Promise<{ unsub: () => void; bestFinalizedBlock: number }> {
   return new Promise(resolve => {
     async function wait(): Promise<void> {
-      await api.derive.chain.bestNumberFinalized(best => {
+      const unsub = await api.derive.chain.bestNumberFinalized(best => {
         if (best.toNumber() > lastKnownBestFinalized) {
-          resolve(best.toNumber());
+          resolve({ unsub, bestFinalizedBlock: best.toNumber() });
         }
       });
     }
@@ -37,20 +37,23 @@ function reachedLimitLag(
   blockIndex: number,
   lastKnownBestBlock: number
 ): boolean {
-  // console.log(
-  //   'block remaining before kick in',
-  //   Number(MAX_LAG) - (lastKnownBestBlock - blockIndex)
-  // );
+  console.log(
+    'block remaining before kick in',
+    Number(MAX_LAG) - (lastKnownBestBlock - blockIndex)
+  );
 
   return MAX_LAG ? lastKnownBestBlock - blockIndex > parseInt(MAX_LAG) : false;
 }
 
-function waitLagLimit(api: ApiPromise, blockIndex: number): Promise<number> {
+function waitLagLimit(
+  api: ApiPromise,
+  blockIndex: number
+): Promise<{ unsub: () => void; bestBlock: number }> {
   return new Promise(resolve => {
     async function wait(): Promise<void> {
-      await api.derive.chain.bestNumber(bestBlock => {
+      const unsub = await api.derive.chain.bestNumber(bestBlock => {
         if (reachedLimitLag(blockIndex, bestBlock.toNumber())) {
-          resolve(bestBlock.toNumber());
+          resolve({ unsub, bestBlock: bestBlock.toNumber() });
         }
       });
     }
@@ -68,7 +71,7 @@ async function incrementor(
   let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
-  let lastKnownBestFinalized = (
+  const lastKnownBestFinalized = (
     await api.derive.chain.bestNumberFinalized()
   ).toNumber();
   let lastKnownBestBlock = (await api.derive.chain.bestNumber()).toNumber();
@@ -106,17 +109,21 @@ async function incrementor(
         !reachedLimitLag(blockIndex, lastKnownBestBlock)
       ) {
         l.warn(`Waiting for finalization or a max lag of ${MAX_LAG} blocks.`);
-        lastKnownBestBlock = await waitLagLimit(api, blockIndex);
+        const { unsub, bestBlock } = await waitLagLimit(api, blockIndex);
+        unsub && unsub();
+        lastKnownBestBlock = bestBlock;
         continue;
       }
     } else {
       // MAX_LAG isn't set only the finalization matters
       if (blockIndex > lastKnownBestFinalized) {
         l.warn('Waiting for finalization.');
-        lastKnownBestFinalized = await waitFinalized(
+        const { unsub, bestFinalizedBlock } = await waitFinalized(
           api,
           lastKnownBestFinalized
         );
+        unsub && unsub();
+        lastKnownBestBlock = bestFinalizedBlock;
         continue;
       }
     }
