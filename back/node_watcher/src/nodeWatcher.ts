@@ -33,30 +33,30 @@ function waitFinalized(
   });
 }
 
-function waitLagLimit(
-  api: ApiPromise,
+function reachedLimitLag(
+  blockIndex: number,
   lastKnownBestBlock: number
-): Promise<number> {
+): boolean {
+  // console.log(
+  //   'block remaining before kick in',
+  //   Number(MAX_LAG) - (lastKnownBestBlock - blockIndex)
+  // );
+
+  return MAX_LAG ? lastKnownBestBlock - blockIndex > parseInt(MAX_LAG) : false;
+}
+
+function waitLagLimit(api: ApiPromise, blockIndex: number): Promise<number> {
   return new Promise(resolve => {
     async function wait(): Promise<void> {
-      await api.derive.chain.bestNumber(best => {
-        if (best.toNumber() > lastKnownBestBlock) {
-          resolve(best.toNumber());
+      await api.derive.chain.bestNumber(bestBlock => {
+        if (reachedLimitLag(blockIndex, bestBlock.toNumber())) {
+          resolve(bestBlock.toNumber());
         }
       });
     }
 
     wait();
   });
-}
-
-function reachedLimitLag(
-  lastKnownBestFinalized: number,
-  lastKnownBestBlock: number
-): boolean {
-  return MAX_LAG
-    ? lastKnownBestBlock - lastKnownBestFinalized > parseInt(MAX_LAG)
-    : false;
 }
 
 async function incrementor(
@@ -68,16 +68,10 @@ async function incrementor(
   let blockIndexId = '';
   let blockIndex = parseInt(process.env.START_FROM || '0');
   let currentSpecVersion = api.createType('u32', -1);
-  let lastKnownBestFinalized = 0;
-  let lastKnownBestBlock = 0;
-
-  await api.derive.chain.bestNumberFinalized(bestFinalized => {
-    lastKnownBestFinalized = bestFinalized.toNumber();
-  });
-
-  await api.derive.chain.bestNumber(best => {
-    lastKnownBestBlock = best.toNumber();
-  });
+  let lastKnownBestFinalized = (
+    await api.derive.chain.bestNumberFinalized()
+  ).toNumber();
+  let lastKnownBestBlock = (await api.derive.chain.bestNumber()).toNumber();
 
   const existingBlockIndex = await prisma.blockIndexes({
     where: {
@@ -105,17 +99,18 @@ async function incrementor(
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     if (MAX_LAG) {
-      // if a MAX_LAG is set, we reached the last finalized block
-      // but haven't reached the lag limit yet, we need to wait
+      // if we reached the last finalized block
+      // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
       if (
         blockIndex > lastKnownBestFinalized &&
-        !reachedLimitLag(lastKnownBestFinalized, lastKnownBestBlock)
+        !reachedLimitLag(blockIndex, lastKnownBestBlock)
       ) {
         l.warn(`Waiting for finalization or a max lag of ${MAX_LAG} blocks.`);
-        lastKnownBestBlock = await waitLagLimit(api, lastKnownBestBlock);
+        lastKnownBestBlock = await waitLagLimit(api, blockIndex);
         continue;
       }
     } else {
+      // MAX_LAG isn't set only the finalization matters
       if (blockIndex > lastKnownBestFinalized) {
         l.warn('Waiting for finalization.');
         lastKnownBestFinalized = await waitFinalized(
@@ -124,16 +119,6 @@ async function incrementor(
         );
         continue;
       }
-    }
-    if (
-      blockIndex > lastKnownBestFinalized &&
-      !reachedLimitLag(lastKnownBestFinalized, lastKnownBestBlock)
-    ) {
-      l.warn(
-        `Waiting for finalization, or reaching a lag of ${MAX_LAG} blocks`
-      );
-      lastKnownBestFinalized = await waitFinalized(api, lastKnownBestFinalized);
-      continue;
     }
 
     l.warn(`blockIndex: ${blockIndex}`);
