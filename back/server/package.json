@@ -7,6 +7,7 @@
   "private": true,
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
+    "docker": "cp ../../yarn.lock . && docker build -t nomidot-server:v0.6 . && docker tag nomidot-server:v0.6 eu.gcr.io/test-installations-222013/nomidot-server:v0.6 && docker push eu.gcr.io/test-installations-222013/nomidot-server:v0.6 && rm yarn.lock",
     "start:dev": "PRISMA_ENDPOINT=http://0.0.0.0:4466 ts-node src/index.ts",
     "start": "ts-node src/index.ts",
     "prisma:deploy": "PRISMA_ENDPOINT=http://0.0.0.0:4466 yarn prisma deploy",

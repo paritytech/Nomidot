@@ -27,7 +27,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:411849a9abd9070b8bb95998684c969dd6098c9beef5f183ad01ac883ec5e653
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:8a7d9342950174cf2342551f41768c533e062925e1456d5f3e2a58cb9801333b
           imagePullPolicy: Always
           env:
             - name: PRISMA_ENDPOINT
@@ -36,4 +36,6 @@ spec:
               value: '1305897'
             - name: BLOCK_IDENTIFIER
               value: 'last-50k-1'
+            - name: MAX_LAG
+              value: '10'
           command: ["yarn", "start"]
