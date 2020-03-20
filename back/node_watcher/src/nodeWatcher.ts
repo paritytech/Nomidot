@@ -37,11 +37,6 @@ function reachedLimitLag(
   blockIndex: number,
   lastKnownBestBlock: number
 ): boolean {
-  console.log(
-    'block remaining before kick in',
-    Number(MAX_LAG) - (lastKnownBestBlock - blockIndex)
-  );
-
   return MAX_LAG ? lastKnownBestBlock - blockIndex > parseInt(MAX_LAG) : false;
 }
 
