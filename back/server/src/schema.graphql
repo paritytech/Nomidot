@@ -54,6 +54,12 @@ type Query {
   proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
   proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
   
+  treasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  treasurySpendProposals(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasurySpendProposal]!
+
+  treasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
+  treasuryStatuses(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus]!
+
   referendum(where: ReferendumWhereUniqueInput!): Referendum
   referendums(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Referendum]!
   
@@ -74,7 +80,8 @@ type Subscription {
   subscribeSlashings: Slashing
   subscribeStakes: Stake
   subscribeValidators: Validator
-  subscribeMotion: Motion
-  subscribeProposal: Proposal
-  subscribeReferendum: Referendum
+  proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
+  motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
+  treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
+  referendum(where: ReferendumSubscriptionWhereInput): ReferendumSubscriptionPayload
 }

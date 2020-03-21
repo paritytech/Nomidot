@@ -4,21 +4,21 @@
 
 import createBlockNumber from './createBlockNumber';
 import createCouncil from './createCouncil';
-import createEra from './createEra';
+// import createEra from './createEra';
 import createMotion from './createMotion';
 import createMotionStatus from './createMotionStatus';
-import createNominationAndValidators from './createNominationAndValidators';
-import createOfflineValidator from './createOfflineValidator';
+// import createNominationAndValidators from './createNominationAndValidators';
+// import createOfflineValidator from './createOfflineValidator';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
 import createReferendum from './createReferendum';
 import createReferendumStatus from './createReferendumStatus';
-import createReward from './createReward';
-import createSession from './createSession';
-import createSlashing from './createSlashing';
-import createStake from './createStake';
-import createTotalIssuance from './createTotalIssuance';
+// import createReward from './createReward';
+// import createSession from './createSession';
+// import createSlashing from './createSlashing';
+// import createStake from './createStake';
+// import createTotalIssuance from './createTotalIssuance';
 import createTreasury from './createTreasury';
 import { NomidotTask } from './types';
 
@@ -26,14 +26,14 @@ import { NomidotTask } from './types';
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createCouncil,
-  createSession,
-  createStake,
-  createOfflineValidator,
-  createReward,
-  createEra,
-  createSlashing,
-  createTotalIssuance,
-  createNominationAndValidators,
+  // createSession,
+  // createStake,
+  // createOfflineValidator,
+  // createReward,
+  // createEra,
+  // createSlashing,
+  // createTotalIssuance,
+  // createNominationAndValidators,
   createPreimage,
   createProposal,
   createProposalStatus,

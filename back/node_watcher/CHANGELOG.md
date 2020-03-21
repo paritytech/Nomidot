@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
+
+
+### Bug Fixes
+
+* **nodeWatcher:** Handle promise errors ([#240](https://github.com/paritytech/Nomidot/issues/240)) ([bbe8986](https://github.com/paritytech/Nomidot/commit/bbe8986141457659252debb00250e3e481cd9103))
+* js heap out of memory ([#203](https://github.com/paritytech/Nomidot/issues/203)) ([246a3c1](https://github.com/paritytech/Nomidot/commit/246a3c12eb94106aa08b3df6ae6baa2fc1931ea0))
+
+
+### Features
+
+* accounts page ([#207](https://github.com/paritytech/Nomidot/issues/207)) ([ba81594](https://github.com/paritytech/Nomidot/commit/ba81594401e0fc01c299b1d4cafbc3d18e898e6b))
+* add to cart, cart page ([#205](https://github.com/paritytech/Nomidot/issues/205)) ([3baf09e](https://github.com/paritytech/Nomidot/commit/3baf09e5fc70991a6243cabc5694b479c0000d8b))
+* localstorage listeners ([#215](https://github.com/paritytech/Nomidot/issues/215)) ([c26ac08](https://github.com/paritytech/Nomidot/commit/c26ac08b7fc59fd9df5d34167d5cb44b230bbce3))
+* **gatsby:** make master build for Netlify ([#201](https://github.com/paritytech/Nomidot/issues/201)) ([6bdda24](https://github.com/paritytech/Nomidot/commit/6bdda24e183df95805ac801dcae65bce62748a6c))
+
+
+
+
+
 ## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
 
 
