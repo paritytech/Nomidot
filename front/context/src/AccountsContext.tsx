@@ -62,7 +62,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!isReady|| !accounts) {
+    if (!isReady || !accounts) {
       return;
     } else {
       // make sure it's encoded correctly
