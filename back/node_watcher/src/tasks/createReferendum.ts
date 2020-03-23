@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { Option } from '@polkadot/types';
+import { BlockNumber, Hash, ReferendumInfoTo239 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, ReferendumUpdateInput } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { preimageStatus, referendumStatus } from '../util/statuses';
 import {
@@ -76,7 +77,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // democracy.referendumInfoOf: Option<ReferendumInfo>
         // {"end":180,"proposalHash":"0x6b41591e6cbb1c82eeb8370e29e09c4026450dc274869a333e6df95050d2b1cb","threshold":"supermajorityapproval","delay":60}
 
-        const referendumInfo = referendumInfoRaw.unwrapOr(undefined);
+        const referendumInfo = (referendumInfoRaw as unknown as Option<ReferendumInfoTo239>).unwrapOr(undefined);
         if (!referendumInfo) {
           l.error(
             `No ReferendumInfo found for ReferendumIndex: ${referendumRawEvent.ReferendumIndex}`

@@ -23,7 +23,7 @@
     "build": "tsc",
     "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:comment-out-v1.2.27 . && docker tag nomidot_watcher:comment-out-v1.2.27 eu.gcr.io/test-installations-222013/nomidot_watcher:comment-out-v1.2.27 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:comment-out-v1.2.27 && rm yarn.lock",
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts",
-    "local": "PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start"
+    "local": "BLOCK_IDENTIFIER=1515639 START_FROM=1515639 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start"
   },
   "dependencies": {
     "@polkadot/api": "^1.8.1",
