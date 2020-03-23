@@ -8,6 +8,7 @@ import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
+import { getReferendumStatus } from '../util/getReferendumStatus';
 import { preimageStatus, referendumStatus } from '../util/statuses';
 import {
   Cached,
@@ -76,7 +77,8 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // democracy.referendumInfoOf: Option<ReferendumInfo>
         // {"end":180,"proposalHash":"0x6b41591e6cbb1c82eeb8370e29e09c4026450dc274869a333e6df95050d2b1cb","threshold":"supermajorityapproval","delay":60}
 
-        const referendumInfo = referendumInfoRaw.unwrapOr(undefined);
+        const referendumInfo = getReferendumStatus(referendumInfoRaw);
+        // then use referendumInfo.asOngoing.delay
         if (!referendumInfo) {
           l.error(
             `No ReferendumInfo found for ReferendumIndex: ${referendumRawEvent.ReferendumIndex}`
