@@ -9,7 +9,13 @@ import {
 } from '@polkadot/extension-inject/types';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { ApiContext } from './ApiContext';
@@ -21,10 +27,13 @@ export interface DecoratedAccount
     DerivedStakingAccount {}
 
 interface AccountsContext {
+  accounts: InjectedAccountWithMeta[];
+  currentAccount?: string;
   decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
+  setCurrentAccount: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const l = logger('accounts-context');
@@ -45,6 +54,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { api, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [currentAccount, setCurrentAccount] = useState<string>();
   const [decoratedAccounts, setDecoratedAccounts] = useState<
     DecoratedAccount[]
   >([]);
@@ -52,7 +62,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!isApiReady || !accounts) {
+    if (!isReady || !accounts) {
       return;
     } else {
       // make sure it's encoded correctly
@@ -72,15 +82,15 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
             ]);
           });
 
-        return () => sub.unsubscribe();
+        return (): void => sub.unsubscribe();
       });
     }
-  }, [accounts, isApiReady]);
+  }, [accounts, api, decoratedAccounts, isApiReady]);
 
   /**
    * Fetch accounts from the extension
    */
-  async function fetchAccounts(): Promise<void> {
+  const fetchAccounts = useCallback(async () => {
     if (typeof window !== `undefined`) {
       const { web3Accounts, web3Enable } = await import(
         '@polkadot/extension-dapp'
@@ -99,15 +109,32 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       }
 
       setExtension(extensions[0]);
-      setAccounts(await web3Accounts());
+
+      const _web3Accounts = await web3Accounts();
+
+      _web3Accounts.map((account: InjectedAccountWithMeta) => {
+        account.address = encodeAddress(decodeAddress(account.address), 2);
+      });
+
+      setAccounts(_web3Accounts);
+      setCurrentAccount(
+        _web3Accounts && _web3Accounts[0] && _web3Accounts[0].address
+      );
+
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsReady(true);
     }
-  }
+  }, [chain, originName]);
+
+  useEffect(() => {
+    fetchAccounts();
+  }, [fetchAccounts]);
 
   return (
     <AccountsContext.Provider
       value={{
+        accounts,
+        currentAccount,
         decoratedAccounts,
         get extension(): InjectedExtension {
           if (!extension) {
@@ -124,6 +151,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         },
         fetchAccounts,
         isExtensionReady: isReady,
+        setCurrentAccount,
       }}
     >
       {children}

@@ -9,7 +9,7 @@ interface Props {
 }
 
 // TODO
-export const NominationDetails = (props: Props) => {
+export const NominationDetails = (props: Props): React.ReactElement => {
   const { address } = props;
 
   return <>{address}</>;

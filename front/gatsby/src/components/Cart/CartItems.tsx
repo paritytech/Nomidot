@@ -23,7 +23,7 @@ import {
   stripAddressFromCartItem,
 } from '../../util/helpers';
 
-const CartItems = () => {
+const CartItems = (): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
   const { api } = useContext(ApiContext);
   const [cartItems, setCartItems] = useState<string[]>([]);
@@ -34,12 +34,14 @@ const CartItems = () => {
     setCartItems(_cartItems);
   }, [cartItemsCount]);
 
-  const renderCartEmpty = () => {
+  const renderCartEmpty = (): React.ReactElement => {
     return (
       <Stacked>
         <Subheading>Cart Empty</Subheading>
         <p>you should add some validators to nominate...</p>
-        <Button onClick={() => navigate('/validators')}>Take Me There!</Button>
+        <Button onClick={(): Promise<void> => navigate('/validators')}>
+          Take Me There!
+        </Button>
       </Stacked>
     );
   };
@@ -48,7 +50,7 @@ const CartItems = () => {
     currentTarget: {
       dataset: { key },
     },
-  }: React.MouseEvent<HTMLButtonElement>) => {
+  }: React.MouseEvent<HTMLButtonElement>): void => {
     // FIXME: use store.js and subscribe events so this update happens immediately (not on refresh).
     if (key) {
       removeCartItem(key, Number(cartItemsCount));
