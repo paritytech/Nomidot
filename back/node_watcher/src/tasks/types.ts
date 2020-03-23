@@ -16,6 +16,7 @@ import {
   IndividualExposure,
   Moment,
   SessionIndex,
+  ReferendumInfoFinished,
   ValidatorId,
   ValidatorPrefs,
   VoteThreshold,
@@ -178,9 +179,13 @@ export interface NomidotMotionRawEvent {
 }
 
 export interface NomidotReferendum {
-  delay: BlockNumber;
-  end: BlockNumber;
-  preimageHash: Hash;
+  delay?: BlockNumber;
+  end?: BlockNumber;
+  preimageHash?: Hash;
+  isOngoing?: boolean;
+  asOngoing?: ReferendumStatus;
+  isFinished?: boolean;
+  asFinished?: ReferendumInfoFinished;
   referendumIndex: number;
   status: ReferendumStatus;
   voteThreshold: VoteThreshold;

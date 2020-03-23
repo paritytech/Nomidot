@@ -4,7 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { Option } from '@polkadot/types';
-import { BlockNumber, Hash, ReferendumInfoTo239 } from '@polkadot/types/interfaces';
+import { BlockNumber, Hash, ReferendumInfo, ReferendumInfoTo239 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma, ReferendumUpdateInput } from '../generated/prisma-client';
@@ -18,6 +18,10 @@ import {
 } from './types';
 
 const l = logger('Task: Referenda');
+
+function isOld (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
+  return !!(info as ReferendumInfoTo239).proposalHash;
+}
 
 /*
  *  ======= Table (Referendum) ======
@@ -77,7 +81,9 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // democracy.referendumInfoOf: Option<ReferendumInfo>
         // {"end":180,"proposalHash":"0x6b41591e6cbb1c82eeb8370e29e09c4026450dc274869a333e6df95050d2b1cb","threshold":"supermajorityapproval","delay":60}
 
-        const referendumInfo = (referendumInfoRaw as unknown as Option<ReferendumInfoTo239>).unwrapOr(undefined);
+        const isItOld = isOld(referendumInfoRaw.unwrap());
+
+        const referendumInfo = isItOld ? (referendumInfoRaw as unknown as Option<ReferendumInfoTo239>).unwrapOr(undefined) : (referendumInfoRaw as unknown as Option<ReferendumInfo>).unwrapOr(undefined);
         if (!referendumInfo) {
           l.error(
             `No ReferendumInfo found for ReferendumIndex: ${referendumRawEvent.ReferendumIndex}`
@@ -85,17 +91,21 @@ const createReferendum: Task<NomidotReferendum[]> = {
           return null;
         }
 
-        const result: NomidotReferendum = {
-          delay: referendumInfo.delay,
-          end: referendumInfo.end,
-          preimageHash: referendumInfo.proposalHash,
-          referendumIndex: referendumRawEvent.ReferendumIndex,
-          status: referendumStatus.STARTED,
-          voteThreshold: referendumRawEvent.VoteThreshold,
-        };
+        if (isItOld) {
 
-        l.log(`Nomidot Referendum: ${JSON.stringify(result)}`);
-        results.push(result);
+        } else {
+          const result: NomidotReferendum = {
+            delay: (referendumInfo as ReferendumInfoTo239).delay,
+            end: (referendumInfo as ReferendumInfoTo239).end,
+            preimageHash: (referendumInfo as ReferendumInfoTo239).proposalHash,
+            referendumIndex: referendumRawEvent.ReferendumIndex,
+            status: referendumStatus.STARTED,
+            voteThreshold: referendumRawEvent.VoteThreshold,
+          };
+
+          l.log(`Nomidot Referendum: ${JSON.stringify(result)}`);
+          results.push(result);
+        }
       })
     );
 
