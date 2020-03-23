@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const IndexPage = (props: Props) => {
+const IndexPage = (props: Props): React.ReactElement => {
   const { children } = props;
 
   useEffect(() => {
