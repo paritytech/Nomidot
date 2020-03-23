@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
+
+
+### Features
+
+* app wide routing setup with @reach/router ([#191](https://github.com/paritytech/Nomidot/issues/191)) ([c73069c](https://github.com/paritytech/Nomidot/commit/c73069c823a539a216c5053d9e9dd938e7805692))
+
+
+
+
+
 ## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
 
 

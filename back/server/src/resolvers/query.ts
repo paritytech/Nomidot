@@ -451,6 +451,50 @@ const Query = {
   ) {
     return prisma.preimageArgument(PreimageArgumentWhereUniqueInput);
   },
+  treasurySpendProposals(
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.treasurySpendProposals({
+      where,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+  treasurySpendProposal(
+    _parent: any,
+    { TreasurySpendProposalWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.treasurySpendProposal(TreasurySpendProposalWhereUniqueInput);
+  },
+  treasuryStatuses(
+    _parent: any,
+    { where, orderBy, skip, after, before, first, last }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.treasuryStatuses({
+      where,
+      orderBy,
+      skip,
+      after,
+      before,
+      first,
+      last,
+    });
+  },
+  treasuryStatus(
+    _parent: any,
+    { TreasuryStatusWhereUniqueInput }: Selectors,
+    { prisma }: Context
+  ) {
+    return prisma.treasuryStatus(TreasuryStatusWhereUniqueInput);
+  },
   referendums(
     _parent: any,
     { where, orderBy, skip, after, before, first, last }: Selectors,

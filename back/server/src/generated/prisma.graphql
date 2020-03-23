@@ -1,5 +1,9 @@
 # source: http://127.0.0.1:4466
-# timestamp: Thu Feb 20 2020 19:18:18 GMT+0100 (Central European Standard Time)
+# timestamp: Sun Mar 08 2020 21:45:32 GMT+0100 (Central European Standard Time)
+
+type AggregateBlockIndex {
+  count: Int!
+}
 
 type AggregateBlockNumber {
   count: Int!
@@ -89,6 +93,14 @@ type AggregateTotalIssuance {
   count: Int!
 }
 
+type AggregateTreasurySpendProposal {
+  count: Int!
+}
+
+type AggregateTreasuryStatus {
+  count: Int!
+}
+
 type AggregateValidator {
   count: Int!
 }
@@ -96,6 +108,246 @@ type AggregateValidator {
 type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
+}
+
+type BlockIndex implements Node {
+  id: ID!
+  identifier: String!
+  startFrom: Int!
+  index: Int!
+}
+
+"""A connection to a list of items."""
+type BlockIndexConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [BlockIndexEdge]!
+  aggregate: AggregateBlockIndex!
+}
+
+input BlockIndexCreateInput {
+  id: ID
+  identifier: String!
+  startFrom: Int!
+  index: Int!
+}
+
+"""An edge in a connection."""
+type BlockIndexEdge {
+  """The item at the end of the edge."""
+  node: BlockIndex!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum BlockIndexOrderByInput {
+  id_ASC
+  id_DESC
+  identifier_ASC
+  identifier_DESC
+  startFrom_ASC
+  startFrom_DESC
+  index_ASC
+  index_DESC
+}
+
+type BlockIndexPreviousValues {
+  id: ID!
+  identifier: String!
+  startFrom: Int!
+  index: Int!
+}
+
+type BlockIndexSubscriptionPayload {
+  mutation: MutationType!
+  node: BlockIndex
+  updatedFields: [String!]
+  previousValues: BlockIndexPreviousValues
+}
+
+input BlockIndexSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlockIndexSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlockIndexSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlockIndexSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: BlockIndexWhereInput
+}
+
+input BlockIndexUpdateInput {
+  identifier: String
+  startFrom: Int
+  index: Int
+}
+
+input BlockIndexUpdateManyMutationInput {
+  identifier: String
+  startFrom: Int
+  index: Int
+}
+
+input BlockIndexWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlockIndexWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlockIndexWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlockIndexWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  identifier: String
+
+  """All values that are not equal to given value."""
+  identifier_not: String
+
+  """All values that are contained in given list."""
+  identifier_in: [String!]
+
+  """All values that are not contained in given list."""
+  identifier_not_in: [String!]
+
+  """All values less than the given value."""
+  identifier_lt: String
+
+  """All values less than or equal the given value."""
+  identifier_lte: String
+
+  """All values greater than the given value."""
+  identifier_gt: String
+
+  """All values greater than or equal the given value."""
+  identifier_gte: String
+
+  """All values containing the given string."""
+  identifier_contains: String
+
+  """All values not containing the given string."""
+  identifier_not_contains: String
+
+  """All values starting with the given string."""
+  identifier_starts_with: String
+
+  """All values not starting with the given string."""
+  identifier_not_starts_with: String
+
+  """All values ending with the given string."""
+  identifier_ends_with: String
+
+  """All values not ending with the given string."""
+  identifier_not_ends_with: String
+  startFrom: Int
+
+  """All values that are not equal to given value."""
+  startFrom_not: Int
+
+  """All values that are contained in given list."""
+  startFrom_in: [Int!]
+
+  """All values that are not contained in given list."""
+  startFrom_not_in: [Int!]
+
+  """All values less than the given value."""
+  startFrom_lt: Int
+
+  """All values less than or equal the given value."""
+  startFrom_lte: Int
+
+  """All values greater than the given value."""
+  startFrom_gt: Int
+
+  """All values greater than or equal the given value."""
+  startFrom_gte: Int
+  index: Int
+
+  """All values that are not equal to given value."""
+  index_not: Int
+
+  """All values that are contained in given list."""
+  index_in: [Int!]
+
+  """All values that are not contained in given list."""
+  index_not_in: [Int!]
+
+  """All values less than the given value."""
+  index_lt: Int
+
+  """All values less than or equal the given value."""
+  index_lte: Int
+
+  """All values greater than the given value."""
+  index_gt: Int
+
+  """All values greater than or equal the given value."""
+  index_gte: Int
+}
+
+input BlockIndexWhereUniqueInput {
+  id: ID
+  identifier: String
 }
 
 type BlockNumber implements Node {
@@ -1399,6 +1651,7 @@ type Motion {
   motionStatus(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus!]
   preimage: Preimage
   preimageHash: String
+  treasurySpendProposal: TreasurySpendProposal
   section: String!
 }
 
@@ -1424,6 +1677,7 @@ input MotionCreateInput {
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
 }
 
 input MotionCreateOneWithoutMotionProposalArgumentsInput {
@@ -1441,6 +1695,11 @@ input MotionCreateOneWithoutPreimageInput {
   connect: MotionWhereUniqueInput
 }
 
+input MotionCreateOneWithoutTreasurySpendProposalInput {
+  create: MotionCreateWithoutTreasurySpendProposalInput
+  connect: MotionWhereUniqueInput
+}
+
 input MotionCreateWithoutMotionProposalArgumentsInput {
   author: String!
   memberCount: Int!
@@ -1452,6 +1711,7 @@ input MotionCreateWithoutMotionProposalArgumentsInput {
   section: String!
   motionStatus: MotionStatusCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
 }
 
 input MotionCreateWithoutMotionStatusInput {
@@ -1465,6 +1725,7 @@ input MotionCreateWithoutMotionStatusInput {
   section: String!
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   preimage: PreimageCreateOneWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
 }
 
 input MotionCreateWithoutPreimageInput {
@@ -1478,6 +1739,21 @@ input MotionCreateWithoutPreimageInput {
   section: String!
   motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
   motionStatus: MotionStatusCreateManyWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutMotionInput
+}
+
+input MotionCreateWithoutTreasurySpendProposalInput {
+  author: String!
+  memberCount: Int!
+  metaDescription: String!
+  method: String!
+  motionProposalHash: String!
+  motionProposalId: Int!
+  preimageHash: String
+  section: String!
+  motionProposalArguments: MotionProposalArgumentCreateManyWithoutMotionInput
+  motionStatus: MotionStatusCreateManyWithoutMotionInput
+  preimage: PreimageCreateOneWithoutMotionInput
 }
 
 """An edge in a connection."""
@@ -2311,6 +2587,7 @@ input MotionUpdateInput {
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
 }
 
 input MotionUpdateManyMutationInput {
@@ -2347,6 +2624,15 @@ input MotionUpdateOneWithoutPreimageInput {
   upsert: MotionUpsertWithoutPreimageInput
 }
 
+input MotionUpdateOneWithoutTreasurySpendProposalInput {
+  create: MotionCreateWithoutTreasurySpendProposalInput
+  connect: MotionWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: MotionUpdateWithoutTreasurySpendProposalDataInput
+  upsert: MotionUpsertWithoutTreasurySpendProposalInput
+}
+
 input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   author: String
   memberCount: Int
@@ -2358,6 +2644,7 @@ input MotionUpdateWithoutMotionProposalArgumentsDataInput {
   section: String
   motionStatus: MotionStatusUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
 }
 
 input MotionUpdateWithoutMotionStatusDataInput {
@@ -2371,6 +2658,7 @@ input MotionUpdateWithoutMotionStatusDataInput {
   section: String
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   preimage: PreimageUpdateOneWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
 }
 
 input MotionUpdateWithoutPreimageDataInput {
@@ -2384,6 +2672,21 @@ input MotionUpdateWithoutPreimageDataInput {
   section: String
   motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
   motionStatus: MotionStatusUpdateManyWithoutMotionInput
+  treasurySpendProposal: TreasurySpendProposalUpdateOneWithoutMotionInput
+}
+
+input MotionUpdateWithoutTreasurySpendProposalDataInput {
+  author: String
+  memberCount: Int
+  metaDescription: String
+  method: String
+  motionProposalHash: String
+  motionProposalId: Int
+  preimageHash: String
+  section: String
+  motionProposalArguments: MotionProposalArgumentUpdateManyWithoutMotionInput
+  motionStatus: MotionStatusUpdateManyWithoutMotionInput
+  preimage: PreimageUpdateOneWithoutMotionInput
 }
 
 input MotionUpsertWithoutMotionProposalArgumentsInput {
@@ -2399,6 +2702,11 @@ input MotionUpsertWithoutMotionStatusInput {
 input MotionUpsertWithoutPreimageInput {
   update: MotionUpdateWithoutPreimageDataInput!
   create: MotionCreateWithoutPreimageInput!
+}
+
+input MotionUpsertWithoutTreasurySpendProposalInput {
+  update: MotionUpdateWithoutTreasurySpendProposalDataInput!
+  create: MotionCreateWithoutTreasurySpendProposalInput!
 }
 
 input MotionWhereInput {
@@ -2723,6 +3031,7 @@ input MotionWhereInput {
   motionStatus_some: MotionStatusWhereInput
   motionStatus_none: MotionStatusWhereInput
   preimage: PreimageWhereInput
+  treasurySpendProposal: TreasurySpendProposalWhereInput
 }
 
 input MotionWhereUniqueInput {
@@ -2752,6 +3061,9 @@ type Mutation {
   createPreimageArgument(data: PreimageArgumentCreateInput!): PreimageArgument!
   createReferendum(data: ReferendumCreateInput!): Referendum!
   createReferendumStatus(data: ReferendumStatusCreateInput!): ReferendumStatus!
+  createBlockIndex(data: BlockIndexCreateInput!): BlockIndex!
+  createTreasurySpendProposal(data: TreasurySpendProposalCreateInput!): TreasurySpendProposal!
+  createTreasuryStatus(data: TreasuryStatusCreateInput!): TreasuryStatus!
   createBlockNumber(data: BlockNumberCreateInput!): BlockNumber!
   createSession(data: SessionCreateInput!): Session!
   updateHeartBeat(data: HeartBeatUpdateInput!, where: HeartBeatWhereUniqueInput!): HeartBeat
@@ -2775,6 +3087,9 @@ type Mutation {
   updatePreimageArgument(data: PreimageArgumentUpdateInput!, where: PreimageArgumentWhereUniqueInput!): PreimageArgument
   updateReferendum(data: ReferendumUpdateInput!, where: ReferendumWhereUniqueInput!): Referendum
   updateReferendumStatus(data: ReferendumStatusUpdateInput!, where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  updateBlockIndex(data: BlockIndexUpdateInput!, where: BlockIndexWhereUniqueInput!): BlockIndex
+  updateTreasurySpendProposal(data: TreasurySpendProposalUpdateInput!, where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  updateTreasuryStatus(data: TreasuryStatusUpdateInput!, where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
   updateBlockNumber(data: BlockNumberUpdateInput!, where: BlockNumberWhereUniqueInput!): BlockNumber
   updateSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
   deleteHeartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
@@ -2798,6 +3113,9 @@ type Mutation {
   deletePreimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
   deleteReferendum(where: ReferendumWhereUniqueInput!): Referendum
   deleteReferendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  deleteBlockIndex(where: BlockIndexWhereUniqueInput!): BlockIndex
+  deleteTreasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  deleteTreasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
   deleteBlockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   deleteSession(where: SessionWhereUniqueInput!): Session
   upsertHeartBeat(where: HeartBeatWhereUniqueInput!, create: HeartBeatCreateInput!, update: HeartBeatUpdateInput!): HeartBeat!
@@ -2821,6 +3139,9 @@ type Mutation {
   upsertPreimageArgument(where: PreimageArgumentWhereUniqueInput!, create: PreimageArgumentCreateInput!, update: PreimageArgumentUpdateInput!): PreimageArgument!
   upsertReferendum(where: ReferendumWhereUniqueInput!, create: ReferendumCreateInput!, update: ReferendumUpdateInput!): Referendum!
   upsertReferendumStatus(where: ReferendumStatusWhereUniqueInput!, create: ReferendumStatusCreateInput!, update: ReferendumStatusUpdateInput!): ReferendumStatus!
+  upsertBlockIndex(where: BlockIndexWhereUniqueInput!, create: BlockIndexCreateInput!, update: BlockIndexUpdateInput!): BlockIndex!
+  upsertTreasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!, create: TreasurySpendProposalCreateInput!, update: TreasurySpendProposalUpdateInput!): TreasurySpendProposal!
+  upsertTreasuryStatus(where: TreasuryStatusWhereUniqueInput!, create: TreasuryStatusCreateInput!, update: TreasuryStatusUpdateInput!): TreasuryStatus!
   upsertBlockNumber(where: BlockNumberWhereUniqueInput!, create: BlockNumberCreateInput!, update: BlockNumberUpdateInput!): BlockNumber!
   upsertSession(where: SessionWhereUniqueInput!, create: SessionCreateInput!, update: SessionUpdateInput!): Session!
   updateManyHeartBeats(data: HeartBeatUpdateManyMutationInput!, where: HeartBeatWhereInput): BatchPayload!
@@ -2843,6 +3164,9 @@ type Mutation {
   updateManyPreimageArguments(data: PreimageArgumentUpdateManyMutationInput!, where: PreimageArgumentWhereInput): BatchPayload!
   updateManyReferendums(data: ReferendumUpdateManyMutationInput!, where: ReferendumWhereInput): BatchPayload!
   updateManyReferendumStatuses(data: ReferendumStatusUpdateManyMutationInput!, where: ReferendumStatusWhereInput): BatchPayload!
+  updateManyBlockIndexes(data: BlockIndexUpdateManyMutationInput!, where: BlockIndexWhereInput): BatchPayload!
+  updateManyTreasurySpendProposals(data: TreasurySpendProposalUpdateManyMutationInput!, where: TreasurySpendProposalWhereInput): BatchPayload!
+  updateManyTreasuryStatuses(data: TreasuryStatusUpdateManyMutationInput!, where: TreasuryStatusWhereInput): BatchPayload!
   updateManyBlockNumbers(data: BlockNumberUpdateManyMutationInput!, where: BlockNumberWhereInput): BatchPayload!
   updateManySessions(data: SessionUpdateManyMutationInput!, where: SessionWhereInput): BatchPayload!
   deleteManyHeartBeats(where: HeartBeatWhereInput): BatchPayload!
@@ -2866,6 +3190,9 @@ type Mutation {
   deleteManyPreimageArguments(where: PreimageArgumentWhereInput): BatchPayload!
   deleteManyReferendums(where: ReferendumWhereInput): BatchPayload!
   deleteManyReferendumStatuses(where: ReferendumStatusWhereInput): BatchPayload!
+  deleteManyBlockIndexes(where: BlockIndexWhereInput): BatchPayload!
+  deleteManyTreasurySpendProposals(where: TreasurySpendProposalWhereInput): BatchPayload!
+  deleteManyTreasuryStatuses(where: TreasuryStatusWhereInput): BatchPayload!
   deleteManyBlockNumbers(where: BlockNumberWhereInput): BatchPayload!
   deleteManySessions(where: SessionWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
@@ -5687,6 +6014,9 @@ type Query {
   preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument]!
   referendums(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Referendum]!
   referendumStatuses(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus]!
+  blockIndexes(where: BlockIndexWhereInput, orderBy: BlockIndexOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockIndex]!
+  treasurySpendProposals(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasurySpendProposal]!
+  treasuryStatuses(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus]!
   blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
   sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
   heartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
@@ -5710,6 +6040,9 @@ type Query {
   preimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
   referendum(where: ReferendumWhereUniqueInput!): Referendum
   referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
+  blockIndex(where: BlockIndexWhereUniqueInput!): BlockIndex
+  treasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  treasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
   session(where: SessionWhereUniqueInput!): Session
   heartBeatsConnection(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeartBeatConnection!
@@ -5733,6 +6066,9 @@ type Query {
   preimageArgumentsConnection(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageArgumentConnection!
   referendumsConnection(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumConnection!
   referendumStatusesConnection(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumStatusConnection!
+  blockIndexesConnection(where: BlockIndexWhereInput, orderBy: BlockIndexOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockIndexConnection!
+  treasurySpendProposalsConnection(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasurySpendProposalConnection!
+  treasuryStatusesConnection(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasuryStatusConnection!
   blockNumbersConnection(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockNumberConnection!
   sessionsConnection(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SessionConnection!
 
@@ -7316,6 +7652,9 @@ type Subscription {
   preimageArgument(where: PreimageArgumentSubscriptionWhereInput): PreimageArgumentSubscriptionPayload
   referendum(where: ReferendumSubscriptionWhereInput): ReferendumSubscriptionPayload
   referendumStatus(where: ReferendumStatusSubscriptionWhereInput): ReferendumStatusSubscriptionPayload
+  blockIndex(where: BlockIndexSubscriptionWhereInput): BlockIndexSubscriptionPayload
+  treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
+  treasuryStatus(where: TreasuryStatusSubscriptionWhereInput): TreasuryStatusSubscriptionPayload
   blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
   session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
 }
@@ -7502,6 +7841,749 @@ input TotalIssuanceWhereInput {
 }
 
 input TotalIssuanceWhereUniqueInput {
+  id: ID
+}
+
+type TreasurySpendProposal {
+  id: Int!
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  treasuryProposalId: Int!
+  treasuryStatus(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus!]
+  motion: Motion
+}
+
+"""A connection to a list of items."""
+type TreasurySpendProposalConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TreasurySpendProposalEdge]!
+  aggregate: AggregateTreasurySpendProposal!
+}
+
+input TreasurySpendProposalCreateInput {
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  treasuryProposalId: Int!
+  treasuryStatus: TreasuryStatusCreateManyWithoutTreasurySpendProposalInput
+  motion: MotionCreateOneWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalCreateOneWithoutMotionInput {
+  create: TreasurySpendProposalCreateWithoutMotionInput
+  connect: TreasurySpendProposalWhereUniqueInput
+}
+
+input TreasurySpendProposalCreateOneWithoutTreasuryStatusInput {
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput
+  connect: TreasurySpendProposalWhereUniqueInput
+}
+
+input TreasurySpendProposalCreateWithoutMotionInput {
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  treasuryProposalId: Int!
+  treasuryStatus: TreasuryStatusCreateManyWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalCreateWithoutTreasuryStatusInput {
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  treasuryProposalId: Int!
+  motion: MotionCreateOneWithoutTreasurySpendProposalInput
+}
+
+"""An edge in a connection."""
+type TreasurySpendProposalEdge {
+  """The item at the end of the edge."""
+  node: TreasurySpendProposal!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TreasurySpendProposalOrderByInput {
+  id_ASC
+  id_DESC
+  proposer_ASC
+  proposer_DESC
+  beneficiary_ASC
+  beneficiary_DESC
+  value_ASC
+  value_DESC
+  bond_ASC
+  bond_DESC
+  treasuryProposalId_ASC
+  treasuryProposalId_DESC
+}
+
+type TreasurySpendProposalPreviousValues {
+  id: Int!
+  proposer: String!
+  beneficiary: String!
+  value: String!
+  bond: String!
+  treasuryProposalId: Int!
+}
+
+type TreasurySpendProposalSubscriptionPayload {
+  mutation: MutationType!
+  node: TreasurySpendProposal
+  updatedFields: [String!]
+  previousValues: TreasurySpendProposalPreviousValues
+}
+
+input TreasurySpendProposalSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TreasurySpendProposalSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TreasurySpendProposalSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TreasurySpendProposalSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TreasurySpendProposalWhereInput
+}
+
+input TreasurySpendProposalUpdateInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+  treasuryStatus: TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput
+  motion: MotionUpdateOneWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalUpdateManyMutationInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+}
+
+input TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput {
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput
+  connect: TreasurySpendProposalWhereUniqueInput
+  update: TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput
+  upsert: TreasurySpendProposalUpsertWithoutTreasuryStatusInput
+}
+
+input TreasurySpendProposalUpdateOneWithoutMotionInput {
+  create: TreasurySpendProposalCreateWithoutMotionInput
+  connect: TreasurySpendProposalWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: TreasurySpendProposalUpdateWithoutMotionDataInput
+  upsert: TreasurySpendProposalUpsertWithoutMotionInput
+}
+
+input TreasurySpendProposalUpdateWithoutMotionDataInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+  treasuryStatus: TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput {
+  proposer: String
+  beneficiary: String
+  value: String
+  bond: String
+  treasuryProposalId: Int
+  motion: MotionUpdateOneWithoutTreasurySpendProposalInput
+}
+
+input TreasurySpendProposalUpsertWithoutMotionInput {
+  update: TreasurySpendProposalUpdateWithoutMotionDataInput!
+  create: TreasurySpendProposalCreateWithoutMotionInput!
+}
+
+input TreasurySpendProposalUpsertWithoutTreasuryStatusInput {
+  update: TreasurySpendProposalUpdateWithoutTreasuryStatusDataInput!
+  create: TreasurySpendProposalCreateWithoutTreasuryStatusInput!
+}
+
+input TreasurySpendProposalWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TreasurySpendProposalWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TreasurySpendProposalWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TreasurySpendProposalWhereInput!]
+  id: Int
+
+  """All values that are not equal to given value."""
+  id_not: Int
+
+  """All values that are contained in given list."""
+  id_in: [Int!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [Int!]
+
+  """All values less than the given value."""
+  id_lt: Int
+
+  """All values less than or equal the given value."""
+  id_lte: Int
+
+  """All values greater than the given value."""
+  id_gt: Int
+
+  """All values greater than or equal the given value."""
+  id_gte: Int
+  proposer: String
+
+  """All values that are not equal to given value."""
+  proposer_not: String
+
+  """All values that are contained in given list."""
+  proposer_in: [String!]
+
+  """All values that are not contained in given list."""
+  proposer_not_in: [String!]
+
+  """All values less than the given value."""
+  proposer_lt: String
+
+  """All values less than or equal the given value."""
+  proposer_lte: String
+
+  """All values greater than the given value."""
+  proposer_gt: String
+
+  """All values greater than or equal the given value."""
+  proposer_gte: String
+
+  """All values containing the given string."""
+  proposer_contains: String
+
+  """All values not containing the given string."""
+  proposer_not_contains: String
+
+  """All values starting with the given string."""
+  proposer_starts_with: String
+
+  """All values not starting with the given string."""
+  proposer_not_starts_with: String
+
+  """All values ending with the given string."""
+  proposer_ends_with: String
+
+  """All values not ending with the given string."""
+  proposer_not_ends_with: String
+  beneficiary: String
+
+  """All values that are not equal to given value."""
+  beneficiary_not: String
+
+  """All values that are contained in given list."""
+  beneficiary_in: [String!]
+
+  """All values that are not contained in given list."""
+  beneficiary_not_in: [String!]
+
+  """All values less than the given value."""
+  beneficiary_lt: String
+
+  """All values less than or equal the given value."""
+  beneficiary_lte: String
+
+  """All values greater than the given value."""
+  beneficiary_gt: String
+
+  """All values greater than or equal the given value."""
+  beneficiary_gte: String
+
+  """All values containing the given string."""
+  beneficiary_contains: String
+
+  """All values not containing the given string."""
+  beneficiary_not_contains: String
+
+  """All values starting with the given string."""
+  beneficiary_starts_with: String
+
+  """All values not starting with the given string."""
+  beneficiary_not_starts_with: String
+
+  """All values ending with the given string."""
+  beneficiary_ends_with: String
+
+  """All values not ending with the given string."""
+  beneficiary_not_ends_with: String
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values less than the given value."""
+  value_lt: String
+
+  """All values less than or equal the given value."""
+  value_lte: String
+
+  """All values greater than the given value."""
+  value_gt: String
+
+  """All values greater than or equal the given value."""
+  value_gte: String
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string."""
+  value_not_ends_with: String
+  bond: String
+
+  """All values that are not equal to given value."""
+  bond_not: String
+
+  """All values that are contained in given list."""
+  bond_in: [String!]
+
+  """All values that are not contained in given list."""
+  bond_not_in: [String!]
+
+  """All values less than the given value."""
+  bond_lt: String
+
+  """All values less than or equal the given value."""
+  bond_lte: String
+
+  """All values greater than the given value."""
+  bond_gt: String
+
+  """All values greater than or equal the given value."""
+  bond_gte: String
+
+  """All values containing the given string."""
+  bond_contains: String
+
+  """All values not containing the given string."""
+  bond_not_contains: String
+
+  """All values starting with the given string."""
+  bond_starts_with: String
+
+  """All values not starting with the given string."""
+  bond_not_starts_with: String
+
+  """All values ending with the given string."""
+  bond_ends_with: String
+
+  """All values not ending with the given string."""
+  bond_not_ends_with: String
+  treasuryProposalId: Int
+
+  """All values that are not equal to given value."""
+  treasuryProposalId_not: Int
+
+  """All values that are contained in given list."""
+  treasuryProposalId_in: [Int!]
+
+  """All values that are not contained in given list."""
+  treasuryProposalId_not_in: [Int!]
+
+  """All values less than the given value."""
+  treasuryProposalId_lt: Int
+
+  """All values less than or equal the given value."""
+  treasuryProposalId_lte: Int
+
+  """All values greater than the given value."""
+  treasuryProposalId_gt: Int
+
+  """All values greater than or equal the given value."""
+  treasuryProposalId_gte: Int
+  treasuryStatus_every: TreasuryStatusWhereInput
+  treasuryStatus_some: TreasuryStatusWhereInput
+  treasuryStatus_none: TreasuryStatusWhereInput
+  motion: MotionWhereInput
+}
+
+input TreasurySpendProposalWhereUniqueInput {
+  id: Int
+  treasuryProposalId: Int
+}
+
+type TreasuryStatus implements Node {
+  id: ID!
+  blockNumber: BlockNumber!
+  treasurySpendProposal: TreasurySpendProposal!
+  status: String!
+}
+
+"""A connection to a list of items."""
+type TreasuryStatusConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TreasuryStatusEdge]!
+  aggregate: AggregateTreasuryStatus!
+}
+
+input TreasuryStatusCreateInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+  treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput!
+}
+
+input TreasuryStatusCreateManyWithoutTreasurySpendProposalInput {
+  create: [TreasuryStatusCreateWithoutTreasurySpendProposalInput!]
+  connect: [TreasuryStatusWhereUniqueInput!]
+}
+
+input TreasuryStatusCreateWithoutTreasurySpendProposalInput {
+  id: ID
+  status: String!
+  blockNumber: BlockNumberCreateOneInput!
+}
+
+"""An edge in a connection."""
+type TreasuryStatusEdge {
+  """The item at the end of the edge."""
+  node: TreasuryStatus!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TreasuryStatusOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+}
+
+type TreasuryStatusPreviousValues {
+  id: ID!
+  status: String!
+}
+
+input TreasuryStatusScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TreasuryStatusScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TreasuryStatusScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TreasuryStatusScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+}
+
+type TreasuryStatusSubscriptionPayload {
+  mutation: MutationType!
+  node: TreasuryStatus
+  updatedFields: [String!]
+  previousValues: TreasuryStatusPreviousValues
+}
+
+input TreasuryStatusSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TreasuryStatusSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TreasuryStatusSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TreasuryStatusSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TreasuryStatusWhereInput
+}
+
+input TreasuryStatusUpdateInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+  treasurySpendProposal: TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput
+}
+
+input TreasuryStatusUpdateManyDataInput {
+  status: String
+}
+
+input TreasuryStatusUpdateManyMutationInput {
+  status: String
+}
+
+input TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput {
+  create: [TreasuryStatusCreateWithoutTreasurySpendProposalInput!]
+  connect: [TreasuryStatusWhereUniqueInput!]
+  set: [TreasuryStatusWhereUniqueInput!]
+  disconnect: [TreasuryStatusWhereUniqueInput!]
+  delete: [TreasuryStatusWhereUniqueInput!]
+  update: [TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput!]
+  updateMany: [TreasuryStatusUpdateManyWithWhereNestedInput!]
+  deleteMany: [TreasuryStatusScalarWhereInput!]
+  upsert: [TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput!]
+}
+
+input TreasuryStatusUpdateManyWithWhereNestedInput {
+  where: TreasuryStatusScalarWhereInput!
+  data: TreasuryStatusUpdateManyDataInput!
+}
+
+input TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput {
+  status: String
+  blockNumber: BlockNumberUpdateOneRequiredInput
+}
+
+input TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput {
+  where: TreasuryStatusWhereUniqueInput!
+  data: TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput!
+}
+
+input TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput {
+  where: TreasuryStatusWhereUniqueInput!
+  update: TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput!
+  create: TreasuryStatusCreateWithoutTreasurySpendProposalInput!
+}
+
+input TreasuryStatusWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TreasuryStatusWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TreasuryStatusWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TreasuryStatusWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  status: String
+
+  """All values that are not equal to given value."""
+  status_not: String
+
+  """All values that are contained in given list."""
+  status_in: [String!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [String!]
+
+  """All values less than the given value."""
+  status_lt: String
+
+  """All values less than or equal the given value."""
+  status_lte: String
+
+  """All values greater than the given value."""
+  status_gt: String
+
+  """All values greater than or equal the given value."""
+  status_gte: String
+
+  """All values containing the given string."""
+  status_contains: String
+
+  """All values not containing the given string."""
+  status_not_contains: String
+
+  """All values starting with the given string."""
+  status_starts_with: String
+
+  """All values not starting with the given string."""
+  status_not_starts_with: String
+
+  """All values ending with the given string."""
+  status_ends_with: String
+
+  """All values not ending with the given string."""
+  status_not_ends_with: String
+  blockNumber: BlockNumberWhereInput
+  treasurySpendProposal: TreasurySpendProposalWhereInput
+}
+
+input TreasuryStatusWhereUniqueInput {
   id: ID
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@substrate/node-watcher",
-  "version": "0.3.21",
+  "version": "0.3.22",
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Apache-2.0",
   "description": "Extract, Transform, Load Kusama/Polkadot history into a PostgreSQL DB",
@@ -21,14 +21,16 @@
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
+    "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:comment-out-v1.2.27 . && docker tag nomidot_watcher:comment-out-v1.2.27 eu.gcr.io/test-installations-222013/nomidot_watcher:comment-out-v1.2.27 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:comment-out-v1.2.27 && rm yarn.lock",
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {
+    "@polkadot/api": "^1.8.0-beta.4",
     "@types/bn.js": "^4.11.6",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.41.3",
+    "@polkadot/dev": "^0.51.5",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-simple-import-sort": "^5.0.0",
     "ts-node": "^8.6.2",

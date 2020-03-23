@@ -7,6 +7,7 @@ import { GraphQLServer } from 'graphql-yoga';
 import { prisma } from './generated/prisma-client';
 import { Query } from './resolvers/query';
 import { Subscription } from './resolvers/subscription';
+import { Selectors } from './types';
 
 const resolvers = {
   Subscription,
@@ -86,21 +87,47 @@ const resolvers = {
     blockNumber(parent: any) {
       return prisma.council({ id: parent.id }).blockNumber();
     },
-    members(parent: any) {
-      return prisma.council({ id: parent.id }).members();
+    members(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .council({ id: parent.id })
+        .members({ where, orderBy, skip, after, before, first, last });
     },
   },
   CouncilMember: {
-    councils(parent: any) {
-      return prisma.councilMember({ id: parent.id }).councils();
+    councils(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .councilMember({ id: parent.id })
+        .councils({ where, orderBy, skip, after, before, first, last });
     },
   },
   Motion: {
-    motionProposalArguments(parent: any) {
-      return prisma.motion({ id: parent.id }).motionProposalArguments();
+    motionProposalArguments(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma.motion({ id: parent.id }).motionProposalArguments({
+        where,
+        orderBy,
+        skip,
+        after,
+        before,
+        first,
+        last,
+      });
     },
-    motionStatus(parent: any) {
-      return prisma.motion({ id: parent.id }).motionStatus();
+    motionStatus(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .motion({ id: parent.id })
+        .motionStatus({ where, orderBy, skip, after, before, first, last });
     },
     preimage(parent: any) {
       return prisma.motion({ id: parent.id }).preimage();
@@ -115,16 +142,37 @@ const resolvers = {
     preimage(parent: any) {
       return prisma.proposal({ id: parent.id }).preimage();
     },
-    proposalStatus(parent: any) {
-      return prisma.proposal({ id: parent.id }).proposalStatus();
+    proposalStatus(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .proposal({ id: parent.id })
+        .proposalStatus({ where, orderBy, skip, after, before, first, last });
     },
   },
   Preimage: {
-    preimageArguments(parent: any) {
-      return prisma.preimage({ id: parent.id }).preimageArguments();
+    preimageArguments(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma.preimage({ id: parent.id }).preimageArguments({
+        where,
+        orderBy,
+        skip,
+        after,
+        before,
+        first,
+        last,
+      });
     },
-    preimageStatus(parent: any) {
-      return prisma.preimage({ id: parent.id }).preimageStatus();
+    preimageStatus(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .preimage({ id: parent.id })
+        .preimageStatus({ where, orderBy, skip, after, before, first, last });
     },
   },
   PreimageStatus: {
@@ -137,12 +185,35 @@ const resolvers = {
       return prisma.proposalStatus({ id: parent.id }).blockNumber();
     },
   },
+  TreasurySpendProposal: {
+    treasuryStatus(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .treasurySpendProposal({ id: parent.id })
+        .treasuryStatus({ where, orderBy, skip, after, before, first, last });
+    },
+    motion(parent: any) {
+      return prisma.treasurySpendProposal({ id: parent.id }).motion();
+    },
+  },
+  TreasuryStatus: {
+    blockNumber(parent: any) {
+      return prisma.treasuryStatus({ id: parent.id }).blockNumber();
+    },
+  },
   Referendum: {
     preimage(parent: any) {
       return prisma.referendum({ id: parent.id }).preimage();
     },
-    referendumStatus(parent: any) {
-      return prisma.referendum({ id: parent.id }).referendumStatus();
+    referendumStatus(
+      parent: any,
+      { where, orderBy, skip, after, before, first, last }: Selectors
+    ) {
+      return prisma
+        .referendum({ id: parent.id })
+        .referendumStatus({ where, orderBy, skip, after, before, first, last });
     },
   },
   ReferendumStatus: {

@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
+
+
+### Bug Fixes
+
+* **context:** Remove useless keyring from context ([#241](https://github.com/paritytech/Nomidot/issues/241)) ([d03b432](https://github.com/paritytech/Nomidot/commit/d03b432b459ba10865a436870796596308b07ae7))
+* **nodeWatcher:** Handle promise errors ([#240](https://github.com/paritytech/Nomidot/issues/240)) ([bbe8986](https://github.com/paritytech/Nomidot/commit/bbe8986141457659252debb00250e3e481cd9103))
+* js heap out of memory ([#203](https://github.com/paritytech/Nomidot/issues/203)) ([246a3c1](https://github.com/paritytech/Nomidot/commit/246a3c12eb94106aa08b3df6ae6baa2fc1931ea0))
+* redirection and other navigation bugs ([#209](https://github.com/paritytech/Nomidot/issues/209)) ([6a0c20d](https://github.com/paritytech/Nomidot/commit/6a0c20d01b51253b174f90e30d7a6790f2de829a))
+* ws iin dev ([#204](https://github.com/paritytech/Nomidot/issues/204)) ([b0adb5b](https://github.com/paritytech/Nomidot/commit/b0adb5b6774fe8b460c83d45fd4846f1c271ee43))
+
+
+### Features
+
+* accounts page ([#207](https://github.com/paritytech/Nomidot/issues/207)) ([ba81594](https://github.com/paritytech/Nomidot/commit/ba81594401e0fc01c299b1d4cafbc3d18e898e6b))
+* add to cart, cart page ([#205](https://github.com/paritytech/Nomidot/issues/205)) ([3baf09e](https://github.com/paritytech/Nomidot/commit/3baf09e5fc70991a6243cabc5694b479c0000d8b))
+* app wide routing setup with @reach/router ([#191](https://github.com/paritytech/Nomidot/issues/191)) ([c73069c](https://github.com/paritytech/Nomidot/commit/c73069c823a539a216c5053d9e9dd938e7805692))
+* localstorage listeners ([#215](https://github.com/paritytech/Nomidot/issues/215)) ([c26ac08](https://github.com/paritytech/Nomidot/commit/c26ac08b7fc59fd9df5d34167d5cb44b230bbce3))
+* **gatsby:** make master build for Netlify ([#201](https://github.com/paritytech/Nomidot/issues/201)) ([6bdda24](https://github.com/paritytech/Nomidot/commit/6bdda24e183df95805ac801dcae65bce62748a6c))
+
+
+
+
+
 ## [0.3.21](https://github.com/paritytech/Nomidot/compare/v0.3.20...v0.3.21) (2020-02-21)
 
 
