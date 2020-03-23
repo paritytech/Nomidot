@@ -1,6 +1,6 @@
 {
   "name": "@substrate/context",
-  "version": "0.3.21",
+  "version": "0.3.22",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Wrapper to connect React components to PolkadotJS Api",
   "files": [
@@ -16,10 +16,6 @@
     "build": "tsc",
     "start": "yarn build --watch",
     "test": "echo skipped"
-  },
-  "dependencies": {
-    "@polkadot/ui-keyring": "^0.51.1",
-    "fp-ts": "1.18.1"
   },
   "peerDependencies": {
     "react": "^16.9"
