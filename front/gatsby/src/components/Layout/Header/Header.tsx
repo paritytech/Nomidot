@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext } from '@substrate/context';
 import { Button, MainMenu } from '@substrate/design-system';
 import { useLocalStorage } from '@substrate/local-storage';
 import { Container, Icon, StackedHorizontal } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React from 'react';
 import shortid from 'shortid';
 
 import { APP_TITLE } from '../../../util';
@@ -25,7 +24,7 @@ type Props = RouteComponentProps;
 export default function Header(_props: Props): React.ReactElement {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
-  const navToCartPage = () => {
+  const navToCartPage = (): void => {
     navigate('/cart');
   };
 
@@ -48,13 +47,13 @@ export default function Header(_props: Props): React.ReactElement {
         }
         tabs={[
           <Button
-            onClick={() => navigate('/accounts')}
+            onClick={(): Promise<void> => navigate('/accounts')}
             key={shortid.generate()} // FIXME: why do i need a key here...
           >
             Accounts
           </Button>,
           <Button
-            onClick={() => navigate('/validators')}
+            onClick={(): Promise<void> => navigate('/validators')}
             key={shortid.generate()} // FIXME: why do i need a key here>
           >
             Validators

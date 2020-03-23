@@ -7,10 +7,10 @@ import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
-export const AccountsDropdown = () => {
+export const AccountsDropdown = (): React.ReactElement => {
   const { accounts, currentAccount, setCurrentAccount } = useContext(
     AccountsContext
-  );;
+  );
 
   if (!accounts || !currentAccount) {
     return <Spinner inline />;

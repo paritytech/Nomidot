@@ -20,11 +20,11 @@ import { toShortAddress } from '../util';
 
 type Props = RouteComponentProps;
 
-const AccountsList = (_props: Props) => {
+const AccountsList = (_props: Props): React.ReactElement => {
   const { decoratedAccounts } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
-  const renderRow = (account: DecoratedAccount) => {
+  const renderRow = (account: DecoratedAccount): React.ReactElement => {
     return (
       <Table.Row>
         <Table.Cell>
@@ -73,10 +73,9 @@ const AccountsList = (_props: Props) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {decoratedAccounts &&
-            decoratedAccounts.map((account: DecoratedAccount) => {
-              return renderRow(account);
-            })}
+          {decoratedAccounts.map((account: DecoratedAccount) =>
+            renderRow(account)
+          )}
         </Table.Body>
       </Table>
     </Container>

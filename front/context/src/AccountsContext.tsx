@@ -9,7 +9,13 @@ import {
 } from '@polkadot/extension-inject/types';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { ApiContext } from './ApiContext';
@@ -27,7 +33,7 @@ interface AccountsContext {
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
-  setCurrentAccount: React.Dispatch<any>;
+  setCurrentAccount: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const l = logger('accounts-context');
@@ -76,15 +82,15 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
             ]);
           });
 
-        return () => sub.unsubscribe();
+        return (): void => sub.unsubscribe();
       });
     }
-  }, [accounts, isApiReady]);
+  }, [accounts, api.derive.staking, decoratedAccounts, isApiReady]);
 
   /**
    * Fetch accounts from the extension
    */
-  async function fetchAccounts(): Promise<void> {
+  const fetchAccounts = useCallback(async () => {
     if (typeof window !== `undefined`) {
       const { web3Accounts, web3Enable } = await import(
         '@polkadot/extension-dapp'
@@ -118,11 +124,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsReady(true);
     }
-  }
+  }, [chain, originName]);
 
   useEffect(() => {
     fetchAccounts();
-  }, []);
+  }, [fetchAccounts]);
 
   return (
     <AccountsContext.Provider
