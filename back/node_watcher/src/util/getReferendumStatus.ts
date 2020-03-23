@@ -1,3 +1,7 @@
+// Copyright 2018-2020 @paritytech/nomidot authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import { Option } from '@polkadot/types';
 import {
   ReferendumInfo,
@@ -11,6 +15,7 @@ function isOld(
   return !!(info as ReferendumInfoTo239).proposalHash;
 }
 
+// Copy-paste from https://github.com/polkadot-js/api/blob/master/packages/api-derive/src/democracy/util.ts#L19
 export function getReferendumStatus(
   info: Option<ReferendumInfo | ReferendumInfoTo239>
 ): ReferendumStatus | ReferendumInfoTo239 | null {
