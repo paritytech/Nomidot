@@ -62,7 +62,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!isApiReady || !accounts) {
+    if (!isReady|| !accounts) {
       return;
     } else {
       // make sure it's encoded correctly
@@ -85,7 +85,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         return (): void => sub.unsubscribe();
       });
     }
-  }, [accounts, api.derive.staking, decoratedAccounts, isApiReady]);
+  }, [accounts, api, decoratedAccounts, isApiReady]);
 
   /**
    * Fetch accounts from the extension
