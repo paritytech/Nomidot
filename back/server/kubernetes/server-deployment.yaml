@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       app: nomidot-server
-  replicas: 1
+  replicas: 2
   strategy:
     type: Recreate
   template:
