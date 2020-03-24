@@ -7,7 +7,7 @@ import createCouncil from './createCouncil';
 import createEra from './createEra';
 import createMotion from './createMotion';
 import createMotionStatus from './createMotionStatus';
-// import createNominationAndValidators from './createNominationAndValidators';
+import createNominationAndValidators from './createNominationAndValidators';
 import createOfflineValidator from './createOfflineValidator';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
@@ -17,7 +17,7 @@ import createReferendumStatus from './createReferendumStatus';
 import createReward from './createReward';
 import createSession from './createSession';
 import createSlashing from './createSlashing';
-// import createStake from './createStake';
+import createStake from './createStake';
 import createTotalIssuance from './createTotalIssuance';
 import createTreasury from './createTreasury';
 import { NomidotTask } from './types';
@@ -27,13 +27,13 @@ export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createCouncil,
   createSession,
-  // createStake,
+  createStake,
   createOfflineValidator,
   createReward,
   createEra,
   createSlashing,
   createTotalIssuance,
-  // createNominationAndValidators,
+  createNominationAndValidators,
   createPreimage,
   createProposal,
   createProposalStatus,
