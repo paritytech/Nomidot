@@ -3,12 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType } from '@polkadot/types';
+import { createType, Vec } from '@polkadot/types';
+import { ITuple } from '@polkadot/types/types';
 import {
   AccountId,
   BlockNumber,
   Exposure,
   Hash,
+  Keys
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
@@ -28,14 +30,16 @@ const createStake: Task<NomidotStake> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotStake> => {
-    const currentElected: AccountId[] = await api.query.staking.currentElected.at(
-      blockHash
-    );
+    // keys for the next session
+    const queuedKeys: Vec<ITuple<[AccountId, Keys]>> = await api.query.session.queuedKeys.at(blockHash);
+
+    const sessionKeys = queuedKeys.map(key => key[0] as AccountId);
+    
     const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
     let totalStaked = new BN(0);
 
     await Promise.all(
-      currentElected.map(async stashId => {
+      sessionKeys.map(async stashId => {
         const stakersForThisValidator: Exposure = await api.query.staking.stakers.at(
           blockHash,
           stashId
