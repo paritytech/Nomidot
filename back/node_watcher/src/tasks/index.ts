@@ -8,7 +8,7 @@ import createCouncil from './createCouncil';
 import createMotion from './createMotion';
 import createMotionStatus from './createMotionStatus';
 // import createNominationAndValidators from './createNominationAndValidators';
-// import createOfflineValidator from './createOfflineValidator';
+import createOfflineValidator from './createOfflineValidator';
 import createPreimage from './createPreimage';
 import createProposal from './createProposal';
 import createProposalStatus from './createProposalStatus';
@@ -28,7 +28,7 @@ export const nomidotTasks: NomidotTask[] = [
   createCouncil,
   createSession,
   // createStake,
-  // createOfflineValidator,
+  createOfflineValidator,
   // createReward,
   // createEra,
   // createSlashing,

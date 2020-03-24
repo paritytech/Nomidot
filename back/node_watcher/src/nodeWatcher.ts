@@ -146,7 +146,6 @@ async function incrementor(
       // based on the node spec & chain, inject specific type overrides
       const chain = await api.rpc.system.chain();
       api.registry.register(getSpecTypes(api.registry, chain, runtimeVersion));
-
       api.registry.setMetadata(rpcMeta);
     }
 
