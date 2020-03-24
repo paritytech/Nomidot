@@ -126,7 +126,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     fetchAccounts();
-  }, [fetchAccounts]);
+  }, []);
 
   return (
     <AccountsContext.Provider
