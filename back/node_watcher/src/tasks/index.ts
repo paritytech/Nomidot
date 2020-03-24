@@ -18,7 +18,7 @@ import createReward from './createReward';
 import createSession from './createSession';
 import createSlashing from './createSlashing';
 // import createStake from './createStake';
-// import createTotalIssuance from './createTotalIssuance';
+import createTotalIssuance from './createTotalIssuance';
 import createTreasury from './createTreasury';
 import { NomidotTask } from './types';
 
@@ -32,7 +32,7 @@ export const nomidotTasks: NomidotTask[] = [
   createReward,
   createEra,
   createSlashing,
-  // createTotalIssuance,
+  createTotalIssuance,
   // createNominationAndValidators,
   createPreimage,
   createProposal,
