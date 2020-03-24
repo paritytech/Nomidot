@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { Option } from '@polkadot/types';
+import { BlockNumber, EraRewardPoints, Hash, SessionIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -22,15 +23,16 @@ const createEra: Task<NomidotEra> = {
     api: ApiPromise
   ): Promise<NomidotEra> => {
     const idx = await api.query.staking.currentEra.at(blockHash);
-    const points = await api.query.staking.currentEraPointsEarned.at(blockHash);
-    const currentEraStartSessionIndex = await api.query.staking.currentEraStartSessionIndex.at(
-      blockHash
+    const points: EraRewardPoints = await api.query.staking.erasRewardPoints.at(blockHash, idx.unwrap());
+    const currentEraStartSessionIndex: Option<SessionIndex> = await api.query.staking.erasStartSessionIndex.at(
+      blockHash,
+      idx.unwrap()
     );
 
     const result = {
       idx,
-      points: api.createType('EraPoints', points),
-      startSessionIndex: api.createType('Index', currentEraStartSessionIndex),
+      points,
+      startSessionIndex: currentEraStartSessionIndex.unwrap(),
     };
 
     l.log(`NomidotEra: ${JSON.stringify(result)}`);
@@ -53,7 +55,7 @@ const createEra: Task<NomidotEra> = {
       await prisma.updateEra({
         data: {
           individualPoints: {
-            set: points.individual.map(points => points.toHex()),
+            set: points.individual.toHex(),
           },
           totalPoints: points.total.toHex(),
         },
@@ -67,7 +69,7 @@ const createEra: Task<NomidotEra> = {
         index: idx.unwrap().toNumber(),
         totalPoints: points.total.toHex(),
         individualPoints: {
-          set: points.individual.map(points => points.toHex()),
+          set: points.individual.toHex(),
         },
         eraStartSessionIndex: {
           connect: {

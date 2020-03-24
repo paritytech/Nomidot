@@ -4,7 +4,7 @@
 
 import createBlockNumber from './createBlockNumber';
 import createCouncil from './createCouncil';
-// import createEra from './createEra';
+import createEra from './createEra';
 import createMotion from './createMotion';
 import createMotionStatus from './createMotionStatus';
 // import createNominationAndValidators from './createNominationAndValidators';
@@ -30,7 +30,7 @@ export const nomidotTasks: NomidotTask[] = [
   // createStake,
   createOfflineValidator,
   createReward,
-  // createEra,
+  createEra,
   // createSlashing,
   // createTotalIssuance,
   // createNominationAndValidators,
