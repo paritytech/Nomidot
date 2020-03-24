@@ -11,7 +11,8 @@ import {
   EraIndex,
   Exposure,
   Hash,
-  Keys
+  Keys,
+  ValidatorId
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
@@ -31,28 +32,43 @@ const createStake: Task<NomidotStake> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotStake> => {
-    // keys for the next session
-    const queuedKeys: Vec<ITuple<[AccountId, Keys]>> = await api.query.session.queuedKeys.at(blockHash);
+    let totalStaked = new BN(0);
     let stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
 
-    const sessionKeys = queuedKeys.map(key => key[0] as AccountId);
-    
-    const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(blockHash);
+    if (api.query.staking.currentElected) {
+      const currentElected: AccountId[] = await api.query.staking.currentElected.at(blockHash);
 
-    let totalStaked = new BN(0);
+      await Promise.all(
+        currentElected.map(async stashId => {
+          const exposure: Exposure = await api.query.staking.stakers.at(
+            blockHash,
+            stashId
+          );
 
-    await Promise.all(
-      sessionKeys.map(async stashId => {
-        const exposure: Exposure = await api.query.staking.erasStakers.at(
-          blockHash,
-          currentEra.unwrap(),
-          stashId
-        );
+          stakersInfoForEachCurrentElectedValidator.push(exposure);
+        })
+      );
+    } else {
+      const queuedKeys: Vec<ITuple<[AccountId, Keys]>> = await api.query.session.queuedKeys.at(blockHash);
+      const validators = await api.query.session.validators.at(blockHash);
 
-        stakersInfoForEachCurrentElectedValidator.push(exposure);
-      })
-    );
+      const currentElected = queuedKeys.map(key => key[0] as AccountId).filter((accountId: AccountId) => validators.includes(accountId as ValidatorId));
+      
+      const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(blockHash);
 
+      await Promise.all(
+        currentElected.map(async stashId => {
+          const exposure: Exposure = await api.query.staking.erasStakers.at(
+            blockHash,
+            currentEra.unwrap(),
+            stashId
+          );
+
+          stakersInfoForEachCurrentElectedValidator.push(exposure);
+        })
+      );
+    }
+   
     stakersInfoForEachCurrentElectedValidator.map(exposure => {
       if (exposure) {
         const bondTotal = exposure.total.unwrap();
