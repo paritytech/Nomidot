@@ -27,6 +27,7 @@
   "dependencies": {
     "@polkadot/api": "^1.8.1",
     "@types/bn.js": "^4.11.6",
+    "p-retry": "^4.2.0",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {

@@ -3,17 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { logger } from '@polkadot/util';
+import pRetry from 'p-retry';
 
 import { nodeWatcher } from './nodeWatcher';
-import { nomidotTasks } from './tasks';
 
 const l = logger('main');
 
-function main(): void {
-  nodeWatcher(nomidotTasks).catch(e => {
-    l.error(e);
-    process.exit(1);
+async function main(): Promise<void> {
+  await pRetry(nodeWatcher, {
+    onFailedAttempt: error => {
+      console.log(
+        `Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
+      );
+    },
+    retries: 5,
   });
 }
 
-main();
+main().catch(e => {
+  l.error(e);
+  process.exit(1);
+});
