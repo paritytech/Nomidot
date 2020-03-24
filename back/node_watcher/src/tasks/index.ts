@@ -16,7 +16,7 @@ import createReferendum from './createReferendum';
 import createReferendumStatus from './createReferendumStatus';
 import createReward from './createReward';
 import createSession from './createSession';
-// import createSlashing from './createSlashing';
+import createSlashing from './createSlashing';
 // import createStake from './createStake';
 // import createTotalIssuance from './createTotalIssuance';
 import createTreasury from './createTreasury';
@@ -31,7 +31,7 @@ export const nomidotTasks: NomidotTask[] = [
   createOfflineValidator,
   createReward,
   createEra,
-  // createSlashing,
+  createSlashing,
   // createTotalIssuance,
   // createNominationAndValidators,
   createPreimage,
