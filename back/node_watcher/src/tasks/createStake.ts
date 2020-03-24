@@ -4,7 +4,6 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { createType, Option, Vec } from '@polkadot/types';
-import { ITuple } from '@polkadot/types/types';
 import {
   AccountId,
   BlockNumber,
@@ -12,8 +11,9 @@ import {
   Exposure,
   Hash,
   Keys,
-  ValidatorId
+  ValidatorId,
 } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 
@@ -33,10 +33,12 @@ const createStake: Task<NomidotStake> = {
     api: ApiPromise
   ): Promise<NomidotStake> => {
     let totalStaked = new BN(0);
-    let stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
+    const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
 
     if (api.query.staking.currentElected) {
-      const currentElected: AccountId[] = await api.query.staking.currentElected.at(blockHash);
+      const currentElected: AccountId[] = await api.query.staking.currentElected.at(
+        blockHash
+      );
 
       await Promise.all(
         currentElected.map(async stashId => {
@@ -49,12 +51,20 @@ const createStake: Task<NomidotStake> = {
         })
       );
     } else {
-      const queuedKeys: Vec<ITuple<[AccountId, Keys]>> = await api.query.session.queuedKeys.at(blockHash);
+      const queuedKeys: Vec<ITuple<
+        [AccountId, Keys]
+      >> = await api.query.session.queuedKeys.at(blockHash);
       const validators = await api.query.session.validators.at(blockHash);
 
-      const currentElected = queuedKeys.map(key => key[0] as AccountId).filter((accountId: AccountId) => validators.includes(accountId as ValidatorId));
-      
-      const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(blockHash);
+      const currentElected = queuedKeys
+        .map(key => key[0])
+        .filter((accountId: AccountId) =>
+          validators.includes(accountId as ValidatorId)
+        );
+
+      const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(
+        blockHash
+      );
 
       await Promise.all(
         currentElected.map(async stashId => {
@@ -68,7 +78,7 @@ const createStake: Task<NomidotStake> = {
         })
       );
     }
-   
+
     stakersInfoForEachCurrentElectedValidator.map(exposure => {
       if (exposure) {
         const bondTotal = exposure.total.unwrap();

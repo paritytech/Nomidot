@@ -4,10 +4,16 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { Option } from '@polkadot/types';
-import { BlockNumber, EraRewardPoints, EraPoints, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import {
+  BlockNumber,
+  EraPoints,
+  EraRewardPoints,
+  Hash,
+  SessionIndex,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma, Session } from '../generated/prisma-client';
+import { prisma } from '../generated/prisma-client';
 import { Cached, NomidotEra, Task } from './types';
 
 const l = logger('Task: Era');
@@ -27,15 +33,21 @@ const createEra: Task<NomidotEra> = {
     let currentEraStartSessionIndex;
     let result = {} as NomidotEra;
 
-    if(api.query.staking.currentEraStartSessionIndex) {
-      points = await api.query.staking.currentEraPointsEarned.at<EraPoints>(blockHash);	
-      currentEraStartSessionIndex = await api.query.staking.currentEraStartSessionIndex.at<SessionIndex>(blockHash)
+    if (api.query.staking.currentEraStartSessionIndex) {
+      points = await api.query.staking.currentEraPointsEarned.at<EraPoints>(
+        blockHash
+      );
+      currentEraStartSessionIndex = await api.query.staking.currentEraStartSessionIndex.at<
+        SessionIndex
+      >(blockHash);
     } else {
-      points = await api.query.staking.erasRewardPoints.at<EraRewardPoints>(blockHash, idx.unwrap());
-      currentEraStartSessionIndex = await api.query.staking.erasStartSessionIndex.at<Option<SessionIndex>>(
+      points = await api.query.staking.erasRewardPoints.at<EraRewardPoints>(
         blockHash,
         idx.unwrap()
       );
+      currentEraStartSessionIndex = await api.query.staking.erasStartSessionIndex.at<
+        Option<SessionIndex>
+      >(blockHash, idx.unwrap());
 
       result = {
         idx,

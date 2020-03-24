@@ -91,7 +91,9 @@ const createNominationAndValidators: Task<Set<
           if (api.query.staking.stakers) {
             exposure = await api.query.staking.stakers.at<Exposure>(blockHash);
           } else {
-            const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(blockHash);
+            const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(
+              blockHash
+            );
 
             exposure = await api.query.staking.erasStakers.at<Exposure>(
               blockHash,
