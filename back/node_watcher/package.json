@@ -22,6 +22,7 @@
   "scripts": {
     "build": "tsc",
     "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:comment-out-v1.2.27 . && docker tag nomidot_watcher:comment-out-v1.2.27 eu.gcr.io/test-installations-222013/nomidot_watcher:comment-out-v1.2.27 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:comment-out-v1.2.27 && rm yarn.lock",
+    "local": "BLOCK_IDENTIFIER=1580016 START_FROM=1580016 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start",
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {

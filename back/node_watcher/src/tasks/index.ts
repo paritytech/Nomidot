@@ -15,7 +15,7 @@ import createProposalStatus from './createProposalStatus';
 import createReferendum from './createReferendum';
 import createReferendumStatus from './createReferendumStatus';
 // import createReward from './createReward';
-// import createSession from './createSession';
+import createSession from './createSession';
 // import createSlashing from './createSlashing';
 // import createStake from './createStake';
 // import createTotalIssuance from './createTotalIssuance';
@@ -26,7 +26,7 @@ import { NomidotTask } from './types';
 export const nomidotTasks: NomidotTask[] = [
   createBlockNumber,
   createCouncil,
-  // createSession,
+  createSession,
   // createStake,
   // createOfflineValidator,
   // createReward,
