@@ -63,19 +63,15 @@ export async function nodeWatcher(): Promise<void> {
   const api = await ApiPromise.create({ provider });
 
   // The promise reject version
-  // api.once('disconnected', () => {
-  //   new Promise((_, reject) => {
-  //     api.once('disconnected', () => {
-  //       reject();
-  //     });
-  //   });
-  // });
-
-  api.once('disconnected', () => {
+  new Promise((_, reject) => {
     api.once('disconnected', () => {
-      throw new Error('Disconnected');
+      reject();
     });
   });
+
+  // api.once('disconnected', () => {
+  //   throw new Error('Disconnected');
+  // });
 
   const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
   let blockIndexId = '';
