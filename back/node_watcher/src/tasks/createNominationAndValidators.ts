@@ -86,14 +86,19 @@ const createNominationAndValidators: Task<Set<
             validatorStash
           );
 
-          const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(blockHash);
+          let exposure: Exposure;
 
-          const exposure: Exposure = await api.query.staking.erasStakers.at(
-            blockHash,
-            currentEra.unwrap(),
-            validatorStash
-          );
+          if (api.query.staking.stakers) {
+            exposure = await api.query.staking.stakers.at<Exposure>(blockHash);
+          } else {
+            const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(blockHash);
 
+            exposure = await api.query.staking.erasStakers.at<Exposure>(
+              blockHash,
+              currentEra.unwrap(),
+              validatorStash
+            );
+          }
           // per validator in session, get nominator info
           await Promise.all(
             exposure.others.map(async individualExposure => {
