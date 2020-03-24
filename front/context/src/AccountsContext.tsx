@@ -59,12 +59,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     DecoratedAccount[]
   >([]);
   const [extension, setExtension] = useState<InjectedExtension>();
-  const [isReady, setIsReady] = useState(false);
+  const [isExtensionReady, setIsExtensionReady] = useState(false);
 
   useEffect(() => {
-    if (!isReady || !accounts) {
-      return;
-    } else {
+    if (isApiReady && isExtensionReady) {
       // make sure it's encoded correctly
       accounts.map((account: InjectedAccountWithMeta) => {
         account.address = encodeAddress(decodeAddress(account.address), 2);
@@ -122,7 +120,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       );
 
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
-      setIsReady(true);
+      setIsExtensionReady(true);
     }
   }, [chain, originName]);
 
@@ -150,7 +148,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           return extension;
         },
         fetchAccounts,
-        isExtensionReady: isReady,
+        isExtensionReady,
         setCurrentAccount,
       }}
     >
