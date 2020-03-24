@@ -62,11 +62,18 @@ export async function nodeWatcher(): Promise<void> {
   const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
   const api = await ApiPromise.create({ provider });
 
+  // The promise reject version
+  // api.once('disconnected', () => {
+  //   new Promise((_, reject) => {
+  //     api.once('disconnected', () => {
+  //       reject();
+  //     });
+  //   });
+  // });
+
   api.once('disconnected', () => {
-    new Promise((_, reject) => {
-      api.once('disconnected', () => {
-        reject();
-      });
+    api.once('disconnected', () => {
+      throw new Error('Disconnected');
     });
   });
 
@@ -97,10 +104,6 @@ export async function nodeWatcher(): Promise<void> {
     blockIndexId = existingBlockIndex[0].id;
     blockIndex = existingBlockIndex[0].index;
   }
-
-  // api.once('disconnected', () => {
-  //   process.exit(1);
-  // });
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
