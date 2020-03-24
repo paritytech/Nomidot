@@ -83,7 +83,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         return (): void => sub.unsubscribe();
       });
     }
-  }, [accounts, api, decoratedAccounts, isApiReady]);
+  }, [accounts, isApiReady]);
 
   /**
    * Fetch accounts from the extension
