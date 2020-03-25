@@ -67,12 +67,14 @@ export async function nodeWatcher(): Promise<unknown> {
       .then(async api => {
         api.once('error', () => {
           keepLooping = false;
+          api.disconnect();
           reject(new Error('api error'));
         });
 
         api.once('disconnected', () => {
           keepLooping = false;
-          reject(new Error('disconnected'));
+          api.disconnect();
+          reject(new Error('api disconnected'));
         });
 
         const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
@@ -210,7 +212,7 @@ export async function nodeWatcher(): Promise<unknown> {
         }
       })
       .catch(() => {
-        reject(new Error('connection error'));
+        reject(new Error('Connection error'));
       });
   });
 }

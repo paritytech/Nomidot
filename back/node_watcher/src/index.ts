@@ -13,7 +13,7 @@ async function main(): Promise<void> {
   await pRetry(nodeWatcher, {
     onFailedAttempt: error => {
       console.log(
-        `Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
+        `${error.message} - Retry attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
       );
     },
     retries: 10,
