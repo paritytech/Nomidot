@@ -3,13 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { createType } from '@polkadot/types';
+import { createType, Option, Vec } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
+  EraIndex,
   Exposure,
   Hash,
+  Keys,
+  ValidatorId,
 } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 
@@ -28,21 +32,52 @@ const createStake: Task<NomidotStake> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotStake> => {
-    const currentElected: AccountId[] = await api.query.staking.currentElected.at(
-      blockHash
-    );
-    const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
     let totalStaked = new BN(0);
+    const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
 
-    await Promise.all(
-      currentElected.map(async stashId => {
-        const stakersForThisValidator: Exposure = await api.query.staking.stakers.at(
-          blockHash,
-          stashId
+    if (api.query.staking.currentElected) {
+      const currentElected: AccountId[] = await api.query.staking.currentElected.at(
+        blockHash
+      );
+
+      await Promise.all(
+        currentElected.map(async stashId => {
+          const exposure: Exposure = await api.query.staking.stakers.at(
+            blockHash,
+            stashId
+          );
+
+          stakersInfoForEachCurrentElectedValidator.push(exposure);
+        })
+      );
+    } else {
+      const queuedKeys: Vec<ITuple<
+        [AccountId, Keys]
+      >> = await api.query.session.queuedKeys.at(blockHash);
+      const validators = await api.query.session.validators.at(blockHash);
+
+      const currentElected = queuedKeys
+        .map(key => key[0])
+        .filter((accountId: AccountId) =>
+          validators.includes(accountId as ValidatorId)
         );
-        stakersInfoForEachCurrentElectedValidator.push(stakersForThisValidator);
-      })
-    );
+
+      const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(
+        blockHash
+      );
+
+      await Promise.all(
+        currentElected.map(async stashId => {
+          const exposure: Exposure = await api.query.staking.erasStakers.at(
+            blockHash,
+            currentEra.unwrapOrDefault(),
+            stashId
+          );
+
+          stakersInfoForEachCurrentElectedValidator.push(exposure);
+        })
+      );
+    }
 
     stakersInfoForEachCurrentElectedValidator.map(exposure => {
       if (exposure) {

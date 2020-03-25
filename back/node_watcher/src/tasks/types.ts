@@ -10,9 +10,9 @@ import {
   BlockNumber,
   EraIndex,
   EraPoints,
+  EraRewardPoints,
   EventRecord,
   Hash,
-  Index,
   IndividualExposure,
   Moment,
   SessionIndex,
@@ -47,8 +47,8 @@ export interface NomidotBlock {
 
 export interface NomidotEra {
   idx: Option<EraIndex>;
-  points: EraPoints;
-  startSessionIndex: Index;
+  points: EraRewardPoints | EraPoints;
+  startSessionIndex: SessionIndex;
 }
 
 export interface NomidotHeartBeat {

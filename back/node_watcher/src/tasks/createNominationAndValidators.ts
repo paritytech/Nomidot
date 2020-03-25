@@ -7,6 +7,7 @@ import { Option } from '@polkadot/types';
 import {
   AccountId,
   BlockNumber,
+  EraIndex,
   Exposure,
   Hash,
   StakingLedger,
@@ -85,11 +86,21 @@ const createNominationAndValidators: Task<Set<
             validatorStash
           );
 
-          const exposure: Exposure = await api.query.staking.stakers.at(
-            blockHash,
-            validatorStash
-          );
+          let exposure: Exposure;
 
+          if (api.query.staking.stakers) {
+            exposure = await api.query.staking.stakers.at<Exposure>(blockHash);
+          } else {
+            const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(
+              blockHash
+            );
+
+            exposure = await api.query.staking.erasStakers.at<Exposure>(
+              blockHash,
+              currentEra.unwrap(),
+              validatorStash
+            );
+          }
           // per validator in session, get nominator info
           await Promise.all(
             exposure.others.map(async individualExposure => {
