@@ -60,15 +60,18 @@ function waitLagLimit(
 
 export async function nodeWatcher(): Promise<unknown> {
   return new Promise((_, reject) => {
+    let keepLooping = true;
     const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
     ApiPromise.create({ provider })
       .then(async api => {
         api.once('error', () => {
+          keepLooping = false;
           reject(new Error('api error'));
         });
 
         api.once('disconnected', () => {
+          keepLooping = false;
           reject(new Error('disconnected'));
         });
 
@@ -103,7 +106,7 @@ export async function nodeWatcher(): Promise<unknown> {
         }
 
         /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
-        while (true) {
+        while (keepLooping) {
           if (MAX_LAG) {
             // if we reached the last finalized block
             // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
