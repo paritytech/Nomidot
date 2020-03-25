@@ -70,7 +70,7 @@ const createStake: Task<NomidotStake> = {
         currentElected.map(async stashId => {
           const exposure: Exposure = await api.query.staking.erasStakers.at(
             blockHash,
-            currentEra.unwrap(),
+            currentEra.unwrapOrDefault(),
             stashId
           );
 

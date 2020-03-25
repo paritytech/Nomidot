@@ -43,16 +43,16 @@ const createEra: Task<NomidotEra> = {
     } else {
       points = await api.query.staking.erasRewardPoints.at<EraRewardPoints>(
         blockHash,
-        idx.unwrap()
+        idx.unwrapOrDefault()
       );
       currentEraStartSessionIndex = await api.query.staking.erasStartSessionIndex.at<
         Option<SessionIndex>
-      >(blockHash, idx.unwrap());
+      >(blockHash, idx.unwrapOrDefault());
 
       result = {
         idx,
         points,
-        startSessionIndex: currentEraStartSessionIndex.unwrap(),
+        startSessionIndex: currentEraStartSessionIndex.unwrapOrDefault(),
       };
     }
 
@@ -69,7 +69,7 @@ const createEra: Task<NomidotEra> = {
 
     // check if record exists
     const eraIndexAlreadyExists = await prisma.$exists.era({
-      index: idx.unwrap().toNumber(),
+      index: idx.unwrapOrDefault().toNumber(),
     });
 
     if (eraIndexAlreadyExists) {
@@ -81,13 +81,13 @@ const createEra: Task<NomidotEra> = {
           totalPoints: points.total.toHex(),
         },
         where: {
-          index: idx.unwrap().toNumber(),
+          index: idx.unwrapOrDefault().toNumber(),
         },
       });
     } else if (startSessionIndex.toNumber() > 0) {
       // only start writing after there's actually been a session.
       await prisma.createEra({
-        index: idx.unwrap().toNumber(),
+        index: idx.unwrapOrDefault().toNumber(),
         totalPoints: points.total.toHex(),
         individualPoints: {
           set: points.individual.toHex(),
