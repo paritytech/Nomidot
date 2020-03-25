@@ -206,8 +206,8 @@ export async function nodeWatcher(): Promise<unknown> {
           });
         }
       })
-      .catch();
-
-    throw new Error('oops');
+      .catch(() => {
+        reject(new Error('connection error'));
+      });
   });
 }
