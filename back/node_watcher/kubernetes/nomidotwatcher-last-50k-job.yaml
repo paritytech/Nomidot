@@ -27,13 +27,11 @@ spec:
       restartPolicy: Never
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:1553bb0e0c492b853155816fd6b25236be4b554303fa18fbb5f8aea43ee9f397
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:d5554bdf39b08676689423b0484920045ca99583fb0eb514c089adecbf6bcd10
           imagePullPolicy: Always
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
-            - name: ARCHIVE_NODE_ENDPOINT
-              value: ws://polkassembly-rpc-internal-0.parity-prod.parity.io:9944
             - name: START_FROM
               value: '1305897'
             - name: BLOCK_IDENTIFIER
