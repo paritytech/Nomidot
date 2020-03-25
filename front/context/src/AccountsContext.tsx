@@ -2,11 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingAccount } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
+import {
+  Option
+} from '@polkadot/types';
+import {
+  AccountId,
+  StakingLedger
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import React, {
@@ -16,20 +22,16 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { ApiContext } from './ApiContext';
 import { SystemContext } from './SystemContext';
 import { IS_SSR } from './util';
 
-export interface DecoratedAccount
-  extends InjectedAccountWithMeta,
-    DerivedStakingAccount {}
-
 interface AccountsContext {
-  accounts: InjectedAccountWithMeta[];
+  allAccounts: InjectedAccountWithMeta[];
+  allControllers?: Option<StakingLedger>[];
+  allStashes?: Option<AccountId>[];
   currentAccount?: string;
-  decoratedAccounts: DecoratedAccount[];
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
@@ -51,39 +53,29 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-  const { api, isApiReady } = useContext(ApiContext);
+  const { apiPromise, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
-  const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [allStashes, setStashes] = useState<Option<AccountId>[]>();
+  const [allControllers, setControllers] = useState<Option<StakingLedger>[]>();
   const [currentAccount, setCurrentAccount] = useState<string>();
-  const [decoratedAccounts, setDecoratedAccounts] = useState<
-    DecoratedAccount[]
-  >([]);
   const [extension, setExtension] = useState<InjectedExtension>();
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
-  useEffect(() => {
-    if (isApiReady && isExtensionReady) {
-      // make sure it's encoded correctly
-      accounts.map((account: InjectedAccountWithMeta) => {
-        account.address = encodeAddress(decodeAddress(account.address), 2);
+  const getStashControllerInfo = async () => {
+    if (apiPromise && allAccounts) {
+      const addresses = allAccounts.map(account => account.address);
+      const ownBonded = await apiPromise.query.staking?.bonded.multi(addresses) as Option<AccountId>[];
+      const ownLedger = await apiPromise.query.staking?.ledger.multi(addresses) as Option<StakingLedger>[];
 
-        const sub = api.derive.staking
-          .account(account.address)
-          .pipe(take(1), distinctUntilChanged())
-          .subscribe((derivedStakingAccount: DerivedStakingAccount) => {
-            setDecoratedAccounts([
-              ...decoratedAccounts,
-              {
-                ...account,
-                ...derivedStakingAccount,
-              },
-            ]);
-          });
-
-        return (): void => sub.unsubscribe();
-      });
+      setStashes(ownBonded);
+      setControllers(ownLedger);
     }
-  }, [accounts, isApiReady]);
+  }
+
+  useEffect(() => {
+    getStashControllerInfo();
+  }, [allAccounts, apiPromise])
 
   /**
    * Fetch accounts from the extension
@@ -131,9 +123,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   return (
     <AccountsContext.Provider
       value={{
-        accounts,
+        allAccounts,
+        allControllers,
+        allStashes,
         currentAccount,
-        decoratedAccounts,
         get extension(): InjectedExtension {
           if (!extension) {
             throw new Error(
@@ -149,7 +142,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         },
         fetchAccounts,
         isExtensionReady,
-        setCurrentAccount,
+        setCurrentAccount
       }}
     >
       {children}
