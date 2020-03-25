@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodewatcher
+  name: nodewatcher-v1.5
   namespace: nodewatcher-staging
   labels:
     stage: staging
-    name: nodewatcher
-    app: nodewatcher
+    name:  nodewatcher-v1.5
+    app:  nodewatcher-v1.5
 spec:
   selector:
     matchLabels:
-      app: nodewatcher
+      app:  nodewatcher-v1.5
   replicas: 1
   strategy:
     type: RollingUpdate
@@ -18,8 +18,8 @@ spec:
     metadata:
       labels:
         stage: staging
-        name: nodewatcher
-        app: nodewatcher
+        name:  nodewatcher-v1.5
+        app:  nodewatcher-v1.5
     spec:
       containers:
         - name: prisma
@@ -36,17 +36,17 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: cloudsql-db-credentials
+                  name: cloudsql-db-credentials-v1.5
                   key: username
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: cloudsql-db-credentials
+                  name: cloudsql-db-credentials-v1.5
                   key: password
             - name: DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: cloudsql-db-credentials
+                  name: cloudsql-db-credentials-v1.5
                   key: dbname
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.16
