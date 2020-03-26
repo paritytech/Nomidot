@@ -17,7 +17,6 @@ import {
   AddressSummary,
   Container,
   Dropdown,
-  FadedText,
   Header,
   StyledNavButton,
   Table,
@@ -29,66 +28,44 @@ import shortid from 'shortid';
 
 type Props = RouteComponentProps;
 
-const BondedAccountsList = () => {
-
-}
-
-const UnbondedAccountsList = () => {
-
-}
-
-
 const AccountsList = (_props: Props): React.ReactElement => {
-  const { accountBalanceMap, allAccounts, allStashes, stashControllerMap, loadingAccountStaking, loadingBalances } = useContext(AccountsContext);
+  const { accountBalanceMap, allAccounts, allStashes, stashControllerMap, loadingAccountStaking } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
   const renderStakingQueryColumns = (account: string) => {
     const staking = stashControllerMap[account];
-    let isBonded = true;
-
-    if (!staking) {
-      isBonded = false;
-    }
 
     return (
       <>
-        {
-          loadingAccountStaking
-          ? <Table.Cell><Spinner active inline /></Table.Cell>
-          : (
-            <>
-              <Table.Cell padded>
-                {
-                  isBonded
-                    ? <AddressSummary
-                        address={staking.controllerId?.toHuman()}
-                        api={api}
-                        noBalance
-                        size='tiny'
-                      />
-                    : 'Not Bonded'
-                }
-              </Table.Cell>
-              <Table.Cell padded>
-                {
-                  staking?.exposure?.own.toHuman() || 'Not Bonded'
-                }
-              </Table.Cell>
-            </>
-          )
-        }
+        <Table.Cell padded='very' >
+          {
+            staking
+              ? <AddressSummary
+                  address={staking.controllerId?.toHuman()}
+                  api={api}
+                  noBalance
+                  size='tiny'
+                />
+              : <Spinner />
+          }
+        </Table.Cell>
+        <Table.Cell padded='very'>
+          {
+            staking?.exposure?.own.toHuman() || <Spinner inline active />
+          }
+        </Table.Cell>
       </>
     );
   }
  
   const renderStashColumn = (account: string) => {
     const isThisStash = allStashes.includes(account);
-    const thisInjectedStash = allAccounts.find(injectedAccount => {
+    const thisInjectedStash = allAccounts.find((injectedAccount: InjectedAccountWithMeta) => {
       injectedAccount.address === account
     });
 
     return (
-      <Table.Cell padded>
+      <Table.Cell padded='very'>
         {
           loadingAccountStaking
             ? <Spinner active inline />
@@ -106,22 +83,24 @@ const AccountsList = (_props: Props): React.ReactElement => {
     )
   }
 
-  const renderActions = (account: string) => {
-    const thisInjectedAccount = allAccounts.find(injectedAccount => {
-      injectedAccount.address === account
-    });
-
+  const renderActionsForBonded = (account: string) => {
     return (
-      <Table.Cell>
+      <Table.Cell padded='very'>
         <Dropdown text='Actions'>
           <Dropdown.Menu>
-            <Dropdown.Item text='New Stake' />
             <Dropdown.Item text='Set Controller' />
             <Dropdown.Item text='Bond More Funds' />
-            <Dropdown.Item text='Change Preferences' />
-            <Dropdown.Item text='Create Backup' />
+            <Dropdown.Item text='Change Reward Preferences' />
           </Dropdown.Menu>
         </Dropdown>
+      </Table.Cell>
+    )
+  }
+
+  const renderActionsForUnbonded = (account: string) => {
+    return (
+      <Table.Cell padded='very'>
+        <StyledNavButton onClick={() => console.log('hi')}>New Stake</StyledNavButton>
       </Table.Cell>
     )
   }
@@ -129,18 +108,14 @@ const AccountsList = (_props: Props): React.ReactElement => {
   const renderBalanceColumns = (account: string) => {
     return (
       <>
-        <Table.Cell padded>
+        <Table.Cell padded='very'>
           {
-            loadingBalances
-              ? <Spinner active inline />
-              : accountBalanceMap[account]?.reservedBalance.toHuman()
+            accountBalanceMap[account]?.reservedBalance.toHuman() || <Spinner active inline /> 
           }
         </Table.Cell>
-        <Table.Cell padded>
+        <Table.Cell padded='very'>
           {
-            loadingBalances
-              ? <Spinner active inline />
-              : accountBalanceMap[account]?.freeBalance?.toHuman()
+            accountBalanceMap[account]?.freeBalance?.toHuman() || <Spinner active inline />
           }
         </Table.Cell>
       </>
@@ -150,7 +125,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
   const renderUnbondedAccountRow = (account: InjectedAccountWithMeta): React.ReactElement => {
     return (
       <Table.Row key={shortid.generate()}>
-        <Table.Cell>
+        <Table.Cell padded='very'>
           <AddressSummary
             address={account.address}
             api={api}
@@ -159,8 +134,13 @@ const AccountsList = (_props: Props): React.ReactElement => {
             size='tiny'
           />
         </Table.Cell>
+        <Table.Cell padded='very'>
+          {
+            toShortAddress(account.address)
+          }
+        </Table.Cell>
         {renderBalanceColumns(account.address)}
-        {renderActions(account.address)}
+        {renderActionsForUnbonded(account.address)}
       </Table.Row>
     )
   }
@@ -171,7 +151,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
         {renderStashColumn(account)}
         {renderStakingQueryColumns(account)}
         {renderBalanceColumns(account)}
-        {renderActions(account)}
+        {renderActionsForBonded(account)}
       </Table.Row>
     );
   };
@@ -190,9 +170,13 @@ const AccountsList = (_props: Props): React.ReactElement => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {allStashes.map((account: string) =>
-            renderBondedAccountRow(account)
-          )}
+          {
+            allStashes.length
+              ? allStashes.map((account: string) =>
+                  renderBondedAccountRow(account)
+                )
+              : <Spinner active inline />
+          }
         </Table.Body>
       </Table>
 
@@ -205,6 +189,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Account</Table.HeaderCell>
+            <Table.HeaderCell>Address</Table.HeaderCell>
             <Table.HeaderCell>Reserved Balance</Table.HeaderCell>
             <Table.HeaderCell>Transferable</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
