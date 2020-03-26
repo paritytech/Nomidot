@@ -5,8 +5,11 @@ stages:
   - dockerize
 
 variables:
-  GIT_DEPTH: '3'
-  SIMPLECOV: 'true'
+  GIT_DEPTH:      '3'
+  SIMPLECOV:      'true'
+  KUBE_NAMESPACE: "nomidot"
+  CI_REGISTRY:    "gcr.io/test-installations-222013"
+  DOCKER_TAG:     '$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA'
 
 cache:
   key: '${CI_JOB_NAME}'
@@ -29,7 +32,7 @@ linux-test:
 
 #### stage:                        dockerize
 
-.docker_init:                   &docker_init
+.dockerize_init:                   &dockerize_init
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://localhost:2375
@@ -45,11 +48,11 @@ linux-test:
     - echo $DOCKER_IMAGE_FULL_NAME
     - echo "$DOCKER_REGISTRY_JSON" | docker login -u _json_key --password-stdin https://gcr.io
 
-dockerize-nomidot-frontend:
+dockerize-frontend:
   stage: dockerize
   environment:
     name: parity-build
-  <<: *docker_init
+  <<: *dockerize_init
   script:
     - docker build -t "$DOCKER_IMAGE_FULL_NAME" front
     - docker push "$DOCKER_IMAGE_FULL_NAME"
@@ -57,11 +60,11 @@ dockerize-nomidot-frontend:
     - master
     - tags
 
-dockerize-nomidot-server:
+dockerize-server:
   stage: dockerize
   environment:
     name: parity-build
-  <<: *docker_init
+  <<: *dockerize_init
   script:
     - docker build -t "$DOCKER_IMAGE_FULL_NAME" back/server
     - docker push "$DOCKER_IMAGE_FULL_NAME"
@@ -73,7 +76,7 @@ dockerize-nodewatcher:
   stage: dockerize
   environment:
     name: parity-build
-  <<: *docker_init
+  <<: *dockerize_init
   script:
     - docker build -t "$DOCKER_IMAGE_FULL_NAME" back/node_watcher
     - docker push "$DOCKER_IMAGE_FULL_NAME"
