@@ -56,7 +56,13 @@ const createEra: Task<NomidotEra> = {
       };
     }
 
-    l.log(`NomidotEra: ${JSON.stringify(result)}`);
+    const eraIndexAlreadyExists = await prisma.$exists.era({
+      index: idx.unwrapOrDefault().toNumber(),
+    });
+
+    if (!eraIndexAlreadyExists) {
+      l.log(`NomidotEra: ${JSON.stringify(result)}`);
+    }
 
     return result;
   },
