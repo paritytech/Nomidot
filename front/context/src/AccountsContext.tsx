@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
   InjectedExtension,
@@ -29,13 +30,15 @@ import { IS_SSR } from './util';
 
 interface AccountsContext {
   allAccounts: InjectedAccountWithMeta[];
-  allControllers?: Option<StakingLedger>[];
-  allStashes?: Option<AccountId>[];
+  // allControllers: StakingLedger[];
+  // allStashes: AccountId[];
   currentAccount?: string;
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
+  loadingAccountStaking: boolean;
   setCurrentAccount: React.Dispatch<React.SetStateAction<string | undefined>>;
+  stashControllerMap: Record<string, string>;
 }
 
 const l = logger('accounts-context');
@@ -51,31 +54,64 @@ interface Props {
   originName: string;
 }
 
+function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownLedger: Option<StakingLedger>[]): string[] {
+  const result: string[] = [];
+
+  ownBonded.forEach((value, index): void => {
+    value.isSome && result.push(allAccounts[index]);
+  });
+
+  ownLedger.forEach((ledger): void => {
+    if (ledger.isSome) {
+      const stashId = ledger.unwrap().stash.toString();
+
+      !result.some(([accountId]): boolean => accountId === stashId) && result.push(stashId);
+    }
+  });
+
+  return result;
+}
+
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
   const { apiPromise, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
   const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-  const [allStashes, setStashes] = useState<Option<AccountId>[]>();
-  const [allControllers, setControllers] = useState<Option<StakingLedger>[]>();
+  const [allStashes, setAllStashes] = useState<string[]>();
+  const [stashControllerMap, setStashControllerMap] = useState<Record<string, DerivedStakingQuery>>({});
   const [currentAccount, setCurrentAccount] = useState<string>();
   const [extension, setExtension] = useState<InjectedExtension>();
+  const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
-  const getStashControllerInfo = async () => {
-    if (apiPromise && allAccounts) {
-      const addresses = allAccounts.map(account => account.address);
-      const ownBonded = await apiPromise.query.staking?.bonded.multi(addresses) as Option<AccountId>[];
-      const ownLedger = await apiPromise.query.staking?.ledger.multi(addresses) as Option<StakingLedger>[];
+  const getDerivedStaking = async () => {
+    if (allStashes && apiPromise) {
+      let result: Record<string, DerivedStakingQuery> = {};
+      allStashes.map(async (stashId) => {
+        const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
-      setStashes(ownBonded);
-      setControllers(ownLedger);
+        result[stashId] = stakingInfo;
+      })
+
+      setStashControllerMap(result);
     }
   }
 
-  useEffect(() => {
-    getStashControllerInfo();
-  }, [allAccounts, apiPromise])
+  const getStashInfo = async () => {
+    if (isApiReady && apiPromise && allAccounts) {
+      setLoadingAccountStaking(true);
+      const addresses = allAccounts.map(account => account.address);
+
+      const allBonded: Option<AccountId>[] = await apiPromise.query.staking?.bonded.multi(addresses);
+      const allLedger: Option<StakingLedger>[] = await apiPromise.query.staking.ledger.multi(addresses);
+
+      let stashes = getStashes(addresses, allBonded, allLedger);
+
+      setAllStashes(stashes);
+
+      setLoadingAccountStaking(false);
+    }
+  }
 
   /**
    * Fetch accounts from the extension
@@ -110,7 +146,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       setCurrentAccount(
         _web3Accounts && _web3Accounts[0] && _web3Accounts[0].address
       );
-
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsExtensionReady(true);
     }
@@ -120,12 +155,20 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     fetchAccounts();
   }, []);
 
+  useEffect(() => {
+    getStashInfo();
+  }, [allAccounts, apiPromise, isApiReady])
+
+  useEffect(() => {
+    getDerivedStaking();
+  }, [allStashes])
+
   return (
     <AccountsContext.Provider
       value={{
         allAccounts,
-        allControllers,
-        allStashes,
+        // allControllers,
+        // allStashes,
         currentAccount,
         get extension(): InjectedExtension {
           if (!extension) {
@@ -142,7 +185,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         },
         fetchAccounts,
         isExtensionReady,
-        setCurrentAccount
+        loadingAccountStaking,
+        setCurrentAccount,
+        stashControllerMap
       }}
     >
       {children}

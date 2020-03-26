@@ -5,11 +5,17 @@
 import {
   InjectedAccountWithMeta
 } from '@polkadot/extension-inject/types';
+import { 
+  AccountId
+} from '@polkadot/types/interfaces';
 import { RouteComponentProps } from '@reach/router';
 import {
   AccountsContext,
   ApiContext
 } from '@substrate/context';
+import { 
+  Spinner
+} from '@substrate/design-system';
 import {
   AddressSummary,
   Container,
@@ -19,36 +25,56 @@ import {
 import React, { useContext } from 'react';
 
 import { toShortAddress } from '../util';
-
+import shortid from 'shortid';
 
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
-  const { allAccounts, allControllers, allStashes } = useContext(AccountsContext);
+  const { allAccounts, stashControllerMap, loadingAccountStaking } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
-  console.log(allAccounts);
-
   const renderControllerColumn = (account: InjectedAccountWithMeta) => {
+    const controller = stashControllerMap[account.address];
+    let isBonded = true;
+
+    if (controller === account.address) {
+      isBonded = false;
+    }
+
     return (
       <Table.Cell>
-        <FadedText>
-          {toShortAddress(account.address)}
-        </FadedText>
+        {
+          loadingAccountStaking
+            ? <Spinner active inline />
+            : isBonded
+              ? <AddressSummary
+                  address={controller}
+                  api={api}
+                  name={account.meta.name}
+                  noBalance
+                  size='tiny'
+                />
+              : 'Not Bonded'
+        }
       </Table.Cell>
-    )
+    );
   }
 
   const renderStashColumn = (account: InjectedAccountWithMeta) => {
+
     return (
       <Table.Cell>
-        <AddressSummary
-          address={account.address}
-          api={api}
-          name={account.meta.name}
-          noBalance
-          size='tiny'
-        />
+        {
+          loadingAccountStaking
+            ? <Spinner active inline />
+            : <AddressSummary
+                  address={stashControllerMap[account.address]}
+                  api={api}
+                  name={account.meta.name}
+                  noBalance
+                  size='tiny'
+                />
+        }
       </Table.Cell>
     )
   }
@@ -56,7 +82,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
   const renderRow = (account: InjectedAccountWithMeta): React.ReactElement => {
 
     return (
-      <Table.Row>
+      <Table.Row key={shortid.generate()}>
         {renderStashColumn(account)}
         {renderControllerColumn(account)}
         <Table.Cell>

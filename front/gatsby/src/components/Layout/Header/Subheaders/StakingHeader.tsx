@@ -28,7 +28,7 @@ const StakingHeader = (): React.ReactElement => {
       if (!stakeHead || stakeHead.blockNumber > number) {
         setStakeHead({
           blockNumber: number,
-          totalStake: api.createType('Balance', totalStake),
+          totalStake,
         });
       }
     }
