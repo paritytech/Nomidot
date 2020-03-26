@@ -10,7 +10,8 @@ import {
   AccountsContext,
   ApiContext
 } from '@substrate/context';
-import { 
+import {
+  Button,
   Spinner
 } from '@substrate/design-system';
 import {
@@ -18,20 +19,23 @@ import {
   Container,
   Dropdown,
   Header,
+  InputAddress,
   Modal,
-  StyledNavButton,
+  Stacked,
   Table,
 } from '@substrate/ui-components';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import shortid from 'shortid';
 
 import { toShortAddress } from '../util';
-import shortid from 'shortid';
 
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
-  const { accountBalanceMap, allAccounts, allStashes, stashControllerMap, loadingAccountStaking } = useContext(AccountsContext);
+  const { accountBalanceMap, allAccounts, allStashes, currentAccount, stashControllerMap, loadingAccountStaking } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
+  const [accountForController, setAccountForController] = useState(currentAccount);
+  const [accountForStash, setAccountForStash] = useState(currentAccount);
 
   const renderStakingQueryColumns = (account: string) => {
     const staking = stashControllerMap[account];
@@ -99,15 +103,46 @@ const AccountsList = (_props: Props): React.ReactElement => {
   }
 
   const renderBondingModal = () => {
+    const selectStash = (address: string) => {
+      setAccountForStash(address);
+    }
+
+    const selectController = (address: string) => {
+      setAccountForController(address);
+    }
+
     return (
-      <Modal trigger={<>Bond as Stash</>}>
+      <Modal trigger={<Button>New Bond</Button>} open>
         <Modal.Header>Bonding Preferences</Modal.Header>
         <Modal.Content image>
+          <Stacked justifyContent='flex-start'>
+            <Modal.SubHeader>Choose Stash:</Modal.SubHeader>
+            {
+              accountForStash
+                ? <InputAddress
+                    accounts={allAccounts}
+                    fromKeyring={false}
+                    onChangeAddress={selectStash}
+                    value={accountForStash}
+                    width='175px'
+                  />
+                : <Spinner active inline />
+            }
+            <Modal.SubHeader>Choose Controller:</Modal.SubHeader>
+              {
+                accountForStash
+                  ? <InputAddress
+                      accounts={allAccounts}
+                      fromKeyring={false}
+                      onChangeAddress={selectController}
+                      value={accountForStash}
+                      width='175px'
+                    />
+                  : <Spinner active inline />
+              }
+          </Stacked>
+          
           <Modal.Description>
-            <p>
-              We've found the following gravatar image associated with your e-mail
-              address.
-            </p>
             <p>Is it okay to use this photo?</p>
           </Modal.Description>
         </Modal.Content>
@@ -118,11 +153,9 @@ const AccountsList = (_props: Props): React.ReactElement => {
   const renderActionsForUnbonded = (account: string) => {
     return (
       <Table.Cell padded='very'>
-        <Dropdown text='Actions'>
+        <Dropdown>
           <Dropdown.Menu>
-            <Dropdown.Item>
-              {renderBondingModal()}
-            </Dropdown.Item>
+            <Dropdown.Item text='Backup' />
           </Dropdown.Menu>
         </Dropdown>
       </Table.Cell>
@@ -199,7 +232,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
               ? allStashes.map((account: string) =>
                   renderBondedAccountRow(account)
                 )
-              : <Spinner active inline />
+              : null
           }
         </Table.Body>
       </Table>
@@ -235,6 +268,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
       {renderBondedAccounts()}
 
       <Header>Unbonded Accounts</Header>
+      {renderBondingModal()}
       {renderUnbondedAccounts()}
     </Container>
   );
