@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DerivedBalancesAll, DerivedStakingQuery } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
   InjectedExtension,
@@ -29,16 +29,18 @@ import { SystemContext } from './SystemContext';
 import { IS_SSR } from './util';
 
 interface AccountsContext {
+  accountBalanceMap: Record<string, DerivedBalancesAll>;
   allAccounts: InjectedAccountWithMeta[];
   // allControllers: StakingLedger[];
-  // allStashes: AccountId[];
+  allStashes: string[];
   currentAccount?: string;
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
   loadingAccountStaking: boolean;
+  loadingBalances: boolean;
   setCurrentAccount: React.Dispatch<React.SetStateAction<string | undefined>>;
-  stashControllerMap: Record<string, string>;
+  stashControllerMap: Record<string, DerivedStakingQuery>;
 }
 
 const l = logger('accounts-context');
@@ -77,12 +79,31 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { apiPromise, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
   const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-  const [allStashes, setAllStashes] = useState<string[]>();
+  const [accountBalanceMap, setAccountBalanceMap] = useState<Record<string, DerivedBalancesAll>>({});
+  const [allStashes, setAllStashes] = useState<string[]>([]);
   const [stashControllerMap, setStashControllerMap] = useState<Record<string, DerivedStakingQuery>>({});
   const [currentAccount, setCurrentAccount] = useState<string>();
   const [extension, setExtension] = useState<InjectedExtension>();
+  const [loadingBalances, setLoadingBalances] = useState(true);
   const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
   const [isExtensionReady, setIsExtensionReady] = useState(false);
+
+  const getDerivedBalances = async () => {
+    if (allAccounts && apiPromise) {
+      setLoadingBalances(true);
+      const addresses = allAccounts.map(account => account.address);
+      
+      let result: Record<string, DerivedBalancesAll> = {};
+      addresses.map(async (address: string) => {
+        const derivedBalances = await apiPromise.derive.balances.all(address);
+
+        result[address] = derivedBalances;
+      });
+
+      setAccountBalanceMap(result);
+      setLoadingBalances(false);
+    }
+  }
 
   const getDerivedStaking = async () => {
     if (allStashes && apiPromise) {
@@ -161,14 +182,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     getDerivedStaking();
+    getDerivedBalances();
   }, [allStashes])
 
   return (
     <AccountsContext.Provider
       value={{
+        accountBalanceMap,
         allAccounts,
         // allControllers,
-        // allStashes,
+        allStashes,
         currentAccount,
         get extension(): InjectedExtension {
           if (!extension) {
@@ -186,6 +209,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         fetchAccounts,
         isExtensionReady,
         loadingAccountStaking,
+        loadingBalances,
         setCurrentAccount,
         stashControllerMap
       }}

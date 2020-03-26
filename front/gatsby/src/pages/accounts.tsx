@@ -5,9 +5,6 @@
 import {
   InjectedAccountWithMeta
 } from '@polkadot/extension-inject/types';
-import { 
-  AccountId
-} from '@polkadot/types/interfaces';
 import { RouteComponentProps } from '@reach/router';
 import {
   AccountsContext,
@@ -19,7 +16,9 @@ import {
 import {
   AddressSummary,
   Container,
+  Dropdown,
   FadedText,
+  StyledNavButton,
   Table,
 } from '@substrate/ui-components';
 import React, { useContext } from 'react';
@@ -30,51 +29,82 @@ import shortid from 'shortid';
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
-  const { allAccounts, stashControllerMap, loadingAccountStaking } = useContext(AccountsContext);
+  const { accountBalanceMap, allAccounts, allStashes, stashControllerMap, loadingAccountStaking, loadingBalances } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
-  const renderControllerColumn = (account: InjectedAccountWithMeta) => {
-    const controller = stashControllerMap[account.address];
+  const renderStakingQueryColumns = (account: InjectedAccountWithMeta) => {
+    const staking = stashControllerMap[account.address];
     let isBonded = true;
 
-    if (controller === account.address) {
+    if (!staking) {
       isBonded = false;
     }
 
     return (
-      <Table.Cell>
+      <>
         {
           loadingAccountStaking
-            ? <Spinner active inline />
-            : isBonded
-              ? <AddressSummary
-                  address={controller}
-                  api={api}
-                  name={account.meta.name}
-                  noBalance
-                  size='tiny'
-                />
-              : 'Not Bonded'
+          ? <Table.Cell><Spinner active inline /></Table.Cell>
+          : (
+            <>
+              <Table.Cell>
+                {
+                  isBonded
+                    ? <AddressSummary
+                        address={staking.controllerId?.toHuman()}
+                        api={api}
+                        noBalance
+                        size='tiny'
+                      />
+                    : 'Not Bonded'
+                }
+              </Table.Cell>
+              <Table.Cell>
+                {
+                  staking?.exposure?.own.toHuman() || 'Not Bonded'
+                }
+              </Table.Cell>
+            </>
+          )
         }
-      </Table.Cell>
+      </>
     );
   }
-
+ 
   const renderStashColumn = (account: InjectedAccountWithMeta) => {
+    const isThisStash = allStashes.includes(account.address);
 
     return (
       <Table.Cell>
         {
           loadingAccountStaking
             ? <Spinner active inline />
-            : <AddressSummary
-                  address={stashControllerMap[account.address]}
-                  api={api}
-                  name={account.meta.name}
-                  noBalance
-                  size='tiny'
-                />
+            : isThisStash
+                ? <AddressSummary
+                    address={account.address}
+                    api={api}
+                    name={account.meta.name}
+                    noBalance
+                    size='tiny'
+                  />
+                : ''
         }
+      </Table.Cell>
+    )
+  }
+
+  const renderActions = (account: InjectedAccountWithMeta) => {
+    return (
+      <Table.Cell>
+        <Dropdown text='Actions'>
+          <Dropdown.Menu>
+            <Dropdown.Item text='New Stake' />
+            <Dropdown.Item text='Set Controller' />
+            <Dropdown.Item text='Bond More Funds' />
+            <Dropdown.Item text='Change Preferences' />
+            <Dropdown.Item text='Create Backup' />
+          </Dropdown.Menu>
+        </Dropdown>
       </Table.Cell>
     )
   }
@@ -84,18 +114,22 @@ const AccountsList = (_props: Props): React.ReactElement => {
     return (
       <Table.Row key={shortid.generate()}>
         {renderStashColumn(account)}
-        {renderControllerColumn(account)}
+        {renderStakingQueryColumns(account)}
         <Table.Cell>
-          <FadedText>
-
-          </FadedText>
+          {
+            loadingBalances
+              ? <Spinner active inline />
+              : accountBalanceMap[account.address]?.reservedBalance.toHuman()
+          }
         </Table.Cell>
         <Table.Cell>
+          {
+            loadingBalances
+              ? <Spinner active inline />
+              : accountBalanceMap[account.address]?.freeBalance?.toHuman()
+          }
         </Table.Cell>
-        <Table.Cell>
-        </Table.Cell>
-        <Table.Cell>
-        </Table.Cell>
+        {renderActions(account)}
       </Table.Row>
     );
   };
@@ -108,9 +142,9 @@ const AccountsList = (_props: Props): React.ReactElement => {
             <Table.HeaderCell>Stash</Table.HeaderCell>
             <Table.HeaderCell>Controller</Table.HeaderCell>
             <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
-            <Table.HeaderCell>Total Funds</Table.HeaderCell>
+            <Table.HeaderCell>Reserved Balance</Table.HeaderCell>
             <Table.HeaderCell>Transferable</Table.HeaderCell>
-            <Table.HeaderCell>Create Bond</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
