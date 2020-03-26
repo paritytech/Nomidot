@@ -18,6 +18,7 @@ import {
   Container,
   Dropdown,
   Header,
+  Modal,
   StyledNavButton,
   Table,
 } from '@substrate/ui-components';
@@ -97,10 +98,33 @@ const AccountsList = (_props: Props): React.ReactElement => {
     )
   }
 
+  const renderBondingModal = () => {
+    return (
+      <Modal trigger={<>Bond as Stash</>}>
+        <Modal.Header>Bonding Preferences</Modal.Header>
+        <Modal.Content image>
+          <Modal.Description>
+            <p>
+              We've found the following gravatar image associated with your e-mail
+              address.
+            </p>
+            <p>Is it okay to use this photo?</p>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal>
+    )
+  }
+
   const renderActionsForUnbonded = (account: string) => {
     return (
       <Table.Cell padded='very'>
-        <StyledNavButton onClick={() => console.log('hi')}>New Stake</StyledNavButton>
+        <Dropdown text='Actions'>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              {renderBondingModal()}
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Table.Cell>
     )
   }
