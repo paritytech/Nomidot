@@ -16,17 +16,20 @@ import {
 } from '@substrate/design-system';
 import {
   AddressSummary,
+  BalanceDisplay,
   Container,
   Dropdown,
   Header,
   InputAddress,
   Modal,
   Stacked,
+  StackedHorizontal,
   Table,
 } from '@substrate/ui-components';
 import React, { useContext, useState } from 'react';
 import shortid from 'shortid';
 
+import BondingModal from '../components/BondingModal';
 import { toShortAddress } from '../util';
 
 type Props = RouteComponentProps;
@@ -34,8 +37,6 @@ type Props = RouteComponentProps;
 const AccountsList = (_props: Props): React.ReactElement => {
   const { accountBalanceMap, allAccounts, allStashes, currentAccount, stashControllerMap, loadingAccountStaking } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
-  const [accountForController, setAccountForController] = useState(currentAccount);
-  const [accountForStash, setAccountForStash] = useState(currentAccount);
 
   const renderStakingQueryColumns = (account: string) => {
     const staking = stashControllerMap[account];
@@ -99,54 +100,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
           </Dropdown.Menu>
         </Dropdown>
       </Table.Cell>
-    )
-  }
-
-  const renderBondingModal = () => {
-    const selectStash = (address: string) => {
-      setAccountForStash(address);
-    }
-
-    const selectController = (address: string) => {
-      setAccountForController(address);
-    }
-
-    return (
-      <Modal trigger={<Button>New Bond</Button>} open>
-        <Modal.Header>Bonding Preferences</Modal.Header>
-        <Modal.Content image>
-          <Stacked justifyContent='flex-start'>
-            <Modal.SubHeader>Choose Stash:</Modal.SubHeader>
-            {
-              accountForStash
-                ? <InputAddress
-                    accounts={allAccounts}
-                    fromKeyring={false}
-                    onChangeAddress={selectStash}
-                    value={accountForStash}
-                    width='175px'
-                  />
-                : <Spinner active inline />
-            }
-            <Modal.SubHeader>Choose Controller:</Modal.SubHeader>
-              {
-                accountForStash
-                  ? <InputAddress
-                      accounts={allAccounts}
-                      fromKeyring={false}
-                      onChangeAddress={selectController}
-                      value={accountForStash}
-                      width='175px'
-                    />
-                  : <Spinner active inline />
-              }
-          </Stacked>
-          
-          <Modal.Description>
-            <p>Is it okay to use this photo?</p>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
     )
   }
 
@@ -268,7 +221,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
       {renderBondedAccounts()}
 
       <Header>Unbonded Accounts</Header>
-      {renderBondingModal()}
+      <BondingModal />
       {renderUnbondedAccounts()}
     </Container>
   );
