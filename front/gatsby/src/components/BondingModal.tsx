@@ -56,21 +56,22 @@ const BondingModal = (): React.ReactElement => {
     loadingBalances,
   } = useContext(AccountsContext);
   const { apiPromise } = useContext(ApiContext);
-  const [accountForController, setAccountForController] = useState(
-    currentAccount
-  );
+  const [accountForController, setAccountForController] = useState(currentAccount);
   const [accountForStash, setAccountForStash] = useState(currentAccount);
-  const [bondAmount, setBondAmount] = useState<BN>(new BN(0));
+  const [bondAmount, setBondAmount] = useState<string>('');
   const [bondingError, setBondingError] = useState<Error>();
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
 
   const checkFees = useCallback(async () => {
+    console.log('checking fees');
     if (apiPromise && accountForStash && accountForController) {
+      console.log('checking fees.... -> ', accountForStash);
+
       const submitBondExtrinsic = apiPromise.tx.staking.bond(
         accountForController!,
-        bondAmount,
+        new BN(bondAmount),
         rewardDestination
       );
       const fees = await apiPromise.derive.balances.fees();
@@ -91,6 +92,13 @@ const BondingModal = (): React.ReactElement => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (currentAccount) {
+      setAccountForStash(currentAccount);
+      setAccountForController(currentAccount);
+    }
+  }, [currentAccount]);
 
   useEffect(() => {
     if (apiPromise) {
@@ -114,12 +122,14 @@ const BondingModal = (): React.ReactElement => {
   }, [
     accountForStash,
     accountForController,
+    bondAmount,
     apiPromise,
     checkFees,
     rewardDestination,
   ]);
 
   const selectStash = (address: string) => {
+    console.log('hello -> ', address);
     setAccountForStash(address);
   };
 
@@ -152,7 +162,7 @@ const BondingModal = (): React.ReactElement => {
                     width='175px'
                   />
                   {loadingBalances ? (
-                    <p>Loading Balances</p>
+                    <Spinner active inline />
                   ) : (
                     <BalanceDisplay
                       allBalances={
@@ -176,15 +186,15 @@ const BondingModal = (): React.ReactElement => {
                     value={accountForController}
                     width='175px'
                   />
-                  {loadingBalances ? (
-                    'Loading Balances'
-                  ) : (
-                    <BalanceDisplay
-                      allBalances={
-                        accountBalanceMap[accountForController]
-                      }
-                    />
-                  )}
+                  {loadingBalances
+                    ? <Spinner active inline />
+                    : (
+                        <BalanceDisplay
+                          allBalances={
+                            accountBalanceMap[accountForController]
+                          }
+                        />
+                    )}
                 </>
               ) : (
                 <Spinner active inline />
@@ -192,14 +202,16 @@ const BondingModal = (): React.ReactElement => {
             </Stacked>
           </StackedHorizontal>
           <Margin top />
+          <Stacked justifyContent='space-around'>
             <Dropdown
+              fluid
               placeholder='Reward Destination'
               selection
               onChange={handleSetRewardDestination}
               options={rewardDestinationOptions}
             />
-
-          <Input
+            <Margin top />
+            <Input
               fluid
               label='UNIT'
               labelPosition='right'
@@ -209,6 +221,10 @@ const BondingModal = (): React.ReactElement => {
               type='number'
               value={String(bondAmount)}
             />
+              <Margin top />
+            <Button>Submit Bond</Button>
+          </Stacked>
+          <Margin top />
           <Modal.Description>
             <ErrorText>{bondingError}</ErrorText>
           </Modal.Description>

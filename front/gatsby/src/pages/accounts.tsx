@@ -58,7 +58,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
   };
 
   const renderStashColumn = (account: string) => {
-    const isThisStash = allStashes.includes(account);
     const thisInjectedStash = allAccounts.find(
       (injectedAccount: InjectedAccountWithMeta) => {
         injectedAccount.address === account;
@@ -67,19 +66,17 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
     return (
       <Table.Cell padded='very'>
-        {loadingAccountStaking ? (
-          <Spinner active inline />
-        ) : isThisStash ? (
-          <AddressSummary
-            address={account}
-            api={api}
-            name={thisInjectedStash?.meta.name}
-            noBalance
-            size='tiny'
-          />
-        ) : (
-          ''
-        )}
+        {
+          loadingAccountStaking 
+            ? <Spinner active inline />
+            : <AddressSummary
+                address={account}
+                api={api}
+                name={thisInjectedStash!.meta.name}
+                noBalance
+                size='tiny'
+              />
+        }
       </Table.Cell>
     );
   };
@@ -203,7 +200,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {allAccounts.map((account: InjectedAccountWithMeta) =>
+          {allAccounts.filter((account: InjectedAccountWithMeta) => !allStashes.includes(account.address)).map((account: InjectedAccountWithMeta) =>
             renderUnbondedAccountRow(account)
           )}
         </Table.Body>

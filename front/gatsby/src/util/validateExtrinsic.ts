@@ -36,19 +36,19 @@ export function validateFees(
   const allFees = fees.transactionBaseFee.add(
     fees.transactionByteFee.muln(txLength)
   );
-
+    // debugger;
   let isCreation = false;
 
   const allTotal = amount
     .add(allFees)
     .add(isCreation ? fees.creationFee : new BN(0));
-
+    // debugger;
   const hasAvailable = currentBalance.freeBalance.gte(allTotal);
   const isRemovable = currentBalance.votingBalance
     .sub(allTotal)
     .lte(fees.existentialDeposit);
   const overLimit = txLength >= MAX_SIZE_BYTES;
-
+  // debugger;
   const errors = [] as Errors;
 
   if (!hasAvailable) {
