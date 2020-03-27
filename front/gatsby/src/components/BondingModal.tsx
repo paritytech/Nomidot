@@ -3,12 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountInfo } from '@polkadot/types/interfaces';
-import BN from 'bn.js';
 import { AccountsContext, ApiContext } from '@substrate/context';
-import {
-  Button,
-  Spinner
-} from '@substrate/design-system';
+import { Button, Spinner } from '@substrate/design-system';
 import {
   BalanceDisplay,
   Dropdown,
@@ -17,16 +13,17 @@ import {
   InputAddress,
   Modal,
   Stacked,
-  StackedHorizontal
+  StackedHorizontal,
 } from '@substrate/ui-components';
-import React, { useState, useContext, useEffect } from 'react';
+import BN from 'bn.js';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { validateFees } from '../util/validateExtrinsic';
 
 enum RewardDestination {
   'Stash',
   'Staked',
-  'Controller'
+  'Controller',
 }
 
 const rewardDestinationOptions = [
@@ -50,27 +47,48 @@ const rewardDestinationOptions = [
 type Error = string;
 
 const BondingModal = (): React.ReactElement => {
-  const { accountBalanceMap, allAccounts, currentAccount, loadingBalances } = useContext(AccountsContext);
+  const {
+    accountBalanceMap,
+    allAccounts,
+    currentAccount,
+    loadingBalances,
+  } = useContext(AccountsContext);
   const { apiPromise } = useContext(ApiContext);
-  const [accountForController, setAccountForController] = useState(currentAccount);
+  const [accountForController, setAccountForController] = useState(
+    currentAccount
+  );
   const [accountForStash, setAccountForStash] = useState(currentAccount);
   const [bondAmount, setBondAmount] = useState<BN>(new BN(0));
   const [bondingError, setBondingError] = useState<Error>();
-  const [rewardDestination, setRewardDestination] = useState<RewardDestination>(RewardDestination.Staked);
+  const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
+    RewardDestination.Staked
+  );
 
-  const checkFees = async () => {
-    if (apiPromise) {
-      const submitBondExtrinsic = apiPromise.tx.staking.bond(accountForController!, bondAmount, rewardDestination!);
+  const checkFees = useCallback(async () => {
+    if (apiPromise && accountForStash && accountForController) {
+      const submitBondExtrinsic = apiPromise.tx.staking.bond(
+        accountForController!,
+        bondAmount,
+        rewardDestination
+      );
       const fees = await apiPromise.derive.balances.fees();
-      const accountNonce = await apiPromise.query.system.account(accountForStash) as AccountInfo;
-  
-      const feeErrors = validateFees(accountNonce, undefined, accountBalanceMap[accountForStash!], submitBondExtrinsic, fees, undefined);
-  
+      const accountNonce = (await apiPromise.query.system.account(
+        accountForStash
+      )) as AccountInfo;
+
+      const feeErrors = validateFees(
+        accountNonce,
+        undefined,
+        accountBalanceMap[accountForStash!],
+        submitBondExtrinsic,
+        fees
+      );
+
       if (feeErrors) {
         setBondingError(feeErrors[0]);
       }
     }
-  }
+  }, []);
 
   useEffect(() => {
     if (apiPromise) {
@@ -78,7 +96,7 @@ const BondingModal = (): React.ReactElement => {
         setBondingError('Please select an account to use as your stash.');
         return;
       }
-  
+
       if (!accountForController) {
         setBondingError('Please select an account to use as your controller.');
         return;
@@ -91,90 +109,100 @@ const BondingModal = (): React.ReactElement => {
 
       checkFees();
     }
-  }, [accountForStash, accountForController, rewardDestination])
+  }, [
+    accountForStash,
+    accountForController,
+    apiPromise,
+    checkFees,
+    rewardDestination,
+  ]);
 
   const selectStash = (address: string) => {
     setAccountForStash(address);
-  }
+  };
 
   const selectController = (address: string) => {
     setAccountForController(address);
-  }
+  };
 
-  const handleSetRewardDestination = (_event: React.SyntheticEvent,
-    { value }: DropdownProps) => {
-
+  const handleSetRewardDestination = (
+    _event: React.SyntheticEvent,
+    { value }: DropdownProps
+  ) => {
     setRewardDestination(value as RewardDestination);
-  }
+  };
 
   return (
     <Modal trigger={<Button>New Bond</Button>}>
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content image>
-        <StackedHorizontal alignItems='stretch' justifyContent='space-between'>
+        <Stacked alignItems='stretch' justifyContent='space-between'>
           <Stacked justifyContent='flex-start' alignItems='center'>
             <b>Choose Stash:</b>
-            {
-              currentAccount
-                ? (
-                  <>
-                    <InputAddress
-                      accounts={allAccounts}
-                      fromKeyring={false}
-                      onChangeAddress={selectStash}
-                      value={accountForStash || currentAccount}
-                      width='175px'
-                    />
-                    {
-                      loadingBalances
-                        ? <p>Loading Balances</p>
-                        : <BalanceDisplay allBalances={accountBalanceMap[accountForStash || currentAccount]} />
+            {accountForStash ? (
+              <>
+                <InputAddress
+                  accounts={allAccounts}
+                  fromKeyring={false}
+                  onChangeAddress={selectStash}
+                  value={accountForStash}
+                  width='175px'
+                />
+                {loadingBalances ? (
+                  <p>Loading Balances</p>
+                ) : (
+                  <BalanceDisplay
+                    allBalances={
+                      accountBalanceMap[accountForStash]
                     }
-                  </>
-                )
-                : <Spinner active inline />
-            }
+                  />
+                )}
+              </>
+            ) : (
+              <Spinner active inline />
+            )}
           </Stacked>
           <Stacked justifyContent='center'>
             <b>Choose Controller:</b>
-              {
-                currentAccount
-                  ? (
-                  <>
-                    <InputAddress
-                      accounts={allAccounts}
-                      fromKeyring={false}
-                      onChangeAddress={selectController}
-                      value={accountForController || currentAccount}
-                      width='175px' />
-                    {
-                      loadingBalances
-                        ? (
-                          'Loading Balances'
-                        )
-                        : <BalanceDisplay allBalances={accountBalanceMap[accountForController || currentAccount]} />
+            {accountForController ? (
+              <>
+                <InputAddress
+                  accounts={allAccounts}
+                  fromKeyring={false}
+                  onChangeAddress={selectController}
+                  value={accountForController}
+                  width='175px'
+                />
+                {loadingBalances ? (
+                  'Loading Balances'
+                ) : (
+                  <BalanceDisplay
+                    allBalances={
+                      accountBalanceMap[accountForController]
                     }
-                  </>
-                  )
-                  : <Spinner active inline />
-              }
-            </Stacked>
-            <Stacked>
-              <Dropdown
-                placeholder='Reward Destination'
-                selection
-                onChange={handleSetRewardDestination}
-                options={rewardDestinationOptions}
-              />
-            </Stacked>
-        </StackedHorizontal>
-        
+                  />
+                )}
+              </>
+            ) : (
+              <Spinner active inline />
+            )}
+          </Stacked>
+          <Stacked>
+            <Dropdown
+              placeholder='Reward Destination'
+              selection
+              onChange={handleSetRewardDestination}
+              options={rewardDestinationOptions}
+            />
+          </Stacked>
+        </Stacked>
+
         <Modal.Description>
           <ErrorText>{bondingError}</ErrorText>
         </Modal.Description>
       </Modal.Content>
     </Modal>
-  )
-}
+  );
+};
 
 export default BondingModal;
