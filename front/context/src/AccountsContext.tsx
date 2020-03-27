@@ -154,7 +154,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         '@polkadot/extension-dapp'
       );
 
-      const extensions = await web3Enable(originName);
+      const extensions: InjectedExtension[] = await web3Enable(originName);
 
       if (!extensions.length) {
         throw new Error(
@@ -166,7 +166,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         throw new Error('Window does not exist during SSR');
       }
 
-      setExtension(extensions[0]);
+      setExtension(extensions[0]); // accounts, signer
 
       const _web3Accounts = await web3Accounts();
 

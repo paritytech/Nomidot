@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableResult } from '@polkadot/api/submittable';
-import { AddressOrPair, SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import {
+  AddressOrPair,
+  SubmittableExtrinsic,
+} from '@polkadot/api/submittable/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Balance } from '@polkadot/types/interfaces';
-import { IKeyringPair } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
 import React, { createContext, useState } from 'react';
@@ -63,7 +64,6 @@ const cancelObservable = new Subject<{ msg: string }>();
 const successObservable = new Subject<ExtrinsicDetails>();
 const errorObservable = new Subject<{ error: string }>();
 
-
 export const TxQueueContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   enqueue: (extrinsic: Extrinsic, details: ExtrinsicDetails) => {
@@ -71,7 +71,7 @@ export const TxQueueContext = createContext({
   },
   txQueue: [] as PendingExtrinsic[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  submit: (extrinsicId: number) => {
+  signAndSubmit: (extrinsicId: number) => {
     console.error(INIT_ERROR);
   },
   clear: () => {
@@ -132,7 +132,11 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
     setTxCounter(txCounter + 1);
 
     l.log(
-      `Queued extrinsic #${extrinsicId} from ${isSenderPairKeyring(details.senderPair) ? (details.senderPair as KeyringPair).address : (details.senderPair as string) } to ${details.recipientAddress} of amount ${details.amount}`,
+      `Queued extrinsic #${extrinsicId} from ${
+        isSenderPairKeyring(details.senderPair)
+          ? (details.senderPair as KeyringPair).address
+          : (details.senderPair as string)
+      } to ${details.recipientAddress} of amount ${details.amount}`,
       details
     );
 
@@ -158,7 +162,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
   /**
    * Sign and send the tx with id `extrinsicId`
    */
-  const submit = (extrinsicId: number): void => {
+  const signAndSubmit = (extrinsicId: number): void => {
     const pendingExtrinsic = txQueue.find(tx => tx.id === extrinsicId);
 
     if (!pendingExtrinsic) {
@@ -238,7 +242,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
       value={{
         clear,
         enqueue,
-        submit,
+        signAndSubmit,
         txQueue,
         successObservable,
         errorObservable,

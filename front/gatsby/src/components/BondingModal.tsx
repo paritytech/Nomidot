@@ -3,7 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { createType } from '@polkadot/types';
-import { AccountsContext, ApiContext, ExtrinsicDetails, handler, TxQueueContext } from '@substrate/context';
+import {
+  AccountsContext,
+  ApiContext,
+  ExtrinsicDetails,
+  handler,
+  TxQueueContext,
+} from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
   BalanceDisplay,
@@ -53,7 +59,7 @@ const BondingModal = (): React.ReactElement => {
     accountBalanceMap,
     allAccounts,
     currentAccount,
-    loadingBalances
+    loadingBalances,
   } = useContext(AccountsContext);
   const { api, apiPromise } = useContext(ApiContext);
   const { enqueue } = useContext(TxQueueContext);
@@ -92,7 +98,7 @@ const BondingModal = (): React.ReactElement => {
       );
 
       setAllTotal(total);
-      setAllFees(fee)
+      setAllFees(fee);
 
       if (feeErrors) {
         setBondingError(feeErrors[0]);
@@ -100,7 +106,7 @@ const BondingModal = (): React.ReactElement => {
         setBondingError(undefined);
       }
     }
-  }, [apiPromise && accountForStash && accountForController && bondAmount]);
+  }, [apiPromise, accountForStash, accountForController, bondAmount]);
 
   useEffect(() => {
     if (currentAccount) {
@@ -125,7 +131,7 @@ const BondingModal = (): React.ReactElement => {
         return;
       }
 
-      setBondingError(undefined)
+      setBondingError(undefined);
       checkFees();
     }
   }, [
@@ -152,8 +158,14 @@ const BondingModal = (): React.ReactElement => {
     setRewardDestination(value as RewardDestination);
   };
 
-  const signAndSubmitBond = async () => {
-    if (apiPromise && accountForController && accountForStash && allFees && allTotal) {
+  const signAndSubmitBond = () => {
+    if (
+      apiPromise &&
+      accountForController &&
+      accountForStash &&
+      allFees &&
+      allTotal
+    ) {
       const submitBondExtrinsic = api.tx.staking.bond(
         accountForController,
         new BN(bondAmount),
@@ -165,22 +177,19 @@ const BondingModal = (): React.ReactElement => {
         allTotal,
         amount: createType(api.registry, 'Balance', bondAmount),
         methodCall: 'staking.bond',
-        senderPair: accountForStash
-      }
-  
-      enqueue(submitBondExtrinsic, details)
+        senderPair: accountForStash,
+      };
+
+      enqueue(submitBondExtrinsic, details);
     }
-  }
+  };
 
   return (
     <Modal trigger={<Button>New Bond</Button>}>
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content image>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-          <StackedHorizontal
-            alignItems='stretch'
-            justifyContent='space-around'
-          >
+          <StackedHorizontal alignItems='stretch' justifyContent='space-around'>
             <Stacked justifyContent='flex-start' alignItems='flex-start'>
               <b>Choose Stash:</b>
               {accountForStash ? (

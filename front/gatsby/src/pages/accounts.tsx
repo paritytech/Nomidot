@@ -28,7 +28,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     allAccounts,
     allStashes,
     loadingAccountStaking,
-    stashControllerMap
+    stashControllerMap,
   } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
@@ -36,30 +36,31 @@ const AccountsList = (_props: Props): React.ReactElement => {
     const staking = stashControllerMap[account];
 
     const thisInjectedController = allAccounts.find(
-      (injectedAccount: InjectedAccountWithMeta) => injectedAccount.address === account && !allStashes.includes(account)
+      (injectedAccount: InjectedAccountWithMeta) =>
+        injectedAccount.address === account && !allStashes.includes(account)
     );
 
     return (
       <>
         <Table.Cell padded='very'>
-          {
-            staking
-              ? <AddressSummary
-                  address={staking.controllerId?.toHuman()}
-                  api={api}
-                  name={thisInjectedController?.meta.name}
-                  noBalance
-                  size='tiny'
-                />
-              : <Spinner active inline />
-          }
+          {staking ? (
+            <AddressSummary
+              address={staking.controllerId?.toHuman()}
+              api={api}
+              name={thisInjectedController?.meta.name}
+              noBalance
+              size='tiny'
+            />
+          ) : (
+            <Spinner active inline />
+          )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {
-            staking
-              ? staking.stakingLedger?.active.toHuman()
-              : <Spinner inline active />
-          }
+          {staking ? (
+            staking.stakingLedger?.active.toHuman()
+          ) : (
+            <Spinner inline active />
+          )}
         </Table.Cell>
       </>
     );
@@ -67,7 +68,8 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
   const renderStashColumn = (account: string) => {
     const thisInjectedStash = allAccounts.find(
-      (injectedAccount: InjectedAccountWithMeta) => injectedAccount.address === account
+      (injectedAccount: InjectedAccountWithMeta) =>
+        injectedAccount.address === account
     );
 
     return (
@@ -117,25 +119,25 @@ const AccountsList = (_props: Props): React.ReactElement => {
     return (
       <>
         <Table.Cell padded='very'>
-          {
-            accountBalanceMap[account]
-              ? accountBalanceMap[account].lockedBalance.toHuman()
-              : <Spinner active inline />
-          }
+          {accountBalanceMap[account] ? (
+            accountBalanceMap[account].lockedBalance.toHuman()
+          ) : (
+            <Spinner active inline />
+          )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {
-            accountBalanceMap[account]
-              ? accountBalanceMap[account].reservedBalance.toHuman()
-              : <Spinner active inline />
-          }
+          {accountBalanceMap[account] ? (
+            accountBalanceMap[account].reservedBalance.toHuman()
+          ) : (
+            <Spinner active inline />
+          )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {
-            accountBalanceMap[account]
-              ? accountBalanceMap[account].freeBalance.toHuman()
-              : <Spinner active inline />
-          }
+          {accountBalanceMap[account] ? (
+            accountBalanceMap[account].freeBalance.toHuman()
+          ) : (
+            <Spinner active inline />
+          )}
         </Table.Cell>
       </>
     );

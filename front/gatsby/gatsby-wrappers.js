@@ -13,9 +13,7 @@ import {
   SystemContext,
   SystemContextProvider,
 } from '../context/src/SystemContext';
-import {
-  TxQueueContextProvider
-} from '../context/src/TxQueueContext';
+import { TxQueueContextProvider } from '../context/src/TxQueueContext';
 import client from './src/apollo';
 import { Layout, Seo } from './src/components';
 import { APP_SLUG } from './src/util';
