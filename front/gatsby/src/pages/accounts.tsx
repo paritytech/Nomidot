@@ -10,7 +10,6 @@ import {
   AddressSummary,
   Container,
   Dropdown,
-  Header,
   Margin,
   Stacked,
   Table,
@@ -66,17 +65,17 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
     return (
       <Table.Cell padded='very'>
-        {
-          loadingAccountStaking 
-            ? <Spinner active inline />
-            : <AddressSummary
-                address={account}
-                api={api}
-                name={thisInjectedStash!.meta.name}
-                noBalance
-                size='tiny'
-              />
-        }
+        {loadingAccountStaking ? (
+          <Spinner active inline />
+        ) : (
+          <AddressSummary
+            address={account}
+            api={api}
+            name={thisInjectedStash!.meta.name}
+            noBalance
+            size='tiny'
+          />
+        )}
       </Table.Cell>
     );
   };
@@ -189,7 +188,9 @@ const AccountsList = (_props: Props): React.ReactElement => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell colSpan='4'>Unbonded</Table.HeaderCell>
-            <Table.HeaderCell colSpan='4'><BondingModal /></Table.HeaderCell>
+            <Table.HeaderCell colSpan='4'>
+              <BondingModal />
+            </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             <Table.HeaderCell>Account</Table.HeaderCell>
@@ -200,9 +201,14 @@ const AccountsList = (_props: Props): React.ReactElement => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {allAccounts.filter((account: InjectedAccountWithMeta) => !allStashes.includes(account.address)).map((account: InjectedAccountWithMeta) =>
-            renderUnbondedAccountRow(account)
-          )}
+          {allAccounts
+            .filter(
+              (account: InjectedAccountWithMeta) =>
+                !allStashes.includes(account.address)
+            )
+            .map((account: InjectedAccountWithMeta) =>
+              renderUnbondedAccountRow(account)
+            )}
         </Table.Body>
       </Table>
     );
@@ -210,13 +216,9 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
   return (
     <Container>
-      <Stacked alignItems='flex-end'>
-        {renderBondedAccounts()}
-      </Stacked>
+      <Stacked alignItems='flex-end'>{renderBondedAccounts()}</Stacked>
       <Margin top />
-      <Stacked alignItems='flex-end'>
-        {renderUnbondedAccounts()}
-      </Stacked>
+      <Stacked alignItems='flex-end'>{renderUnbondedAccounts()}</Stacked>
     </Container>
   );
 };

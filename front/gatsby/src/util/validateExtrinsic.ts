@@ -36,13 +36,13 @@ export function validateFees(
   const allFees = fees.transactionBaseFee.add(
     fees.transactionByteFee.muln(txLength)
   );
-    // debugger;
-  let isCreation = false;
+  // debugger;
+  const isCreation = false;
 
   const allTotal = amount
     .add(allFees)
     .add(isCreation ? fees.creationFee : new BN(0));
-    // debugger;
+  // debugger;
   const hasAvailable = currentBalance.freeBalance.gte(allTotal);
   const isRemovable = currentBalance.votingBalance
     .sub(allTotal)

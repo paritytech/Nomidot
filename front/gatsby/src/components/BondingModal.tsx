@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountInfo } from '@polkadot/types/interfaces';
 import { AccountsContext, ApiContext, handler } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
@@ -56,7 +55,9 @@ const BondingModal = (): React.ReactElement => {
     loadingBalances,
   } = useContext(AccountsContext);
   const { apiPromise } = useContext(ApiContext);
-  const [accountForController, setAccountForController] = useState(currentAccount);
+  const [accountForController, setAccountForController] = useState(
+    currentAccount
+  );
   const [accountForStash, setAccountForStash] = useState(currentAccount);
   const [bondAmount, setBondAmount] = useState<string>('');
   const [bondingError, setBondingError] = useState<Error>();
@@ -70,19 +71,19 @@ const BondingModal = (): React.ReactElement => {
       console.log('checking fees.... -> ', accountForStash);
 
       const submitBondExtrinsic = apiPromise.tx.staking.bond(
-        accountForController!,
+        accountForController,
         new BN(bondAmount),
         rewardDestination
       );
       const fees = await apiPromise.derive.balances.fees();
-      const accountNonce = (await apiPromise.query.system.account(
+      const accountNonce = await apiPromise.query.system.account(
         accountForStash
-      )) as AccountInfo;
+      );
 
       const feeErrors = validateFees(
         accountNonce,
         undefined,
-        accountBalanceMap[accountForStash!],
+        accountBalanceMap[accountForStash],
         submitBondExtrinsic,
         fees
       );
@@ -149,7 +150,10 @@ const BondingModal = (): React.ReactElement => {
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content image>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-          <StackedHorizontal alignItems='stretch' justifyContent='space-between'>
+          <StackedHorizontal
+            alignItems='stretch'
+            justifyContent='space-between'
+          >
             <Stacked justifyContent='flex-start' alignItems='flex-start'>
               <b>Choose Stash:</b>
               {accountForStash ? (
@@ -165,9 +169,7 @@ const BondingModal = (): React.ReactElement => {
                     <Spinner active inline />
                   ) : (
                     <BalanceDisplay
-                      allBalances={
-                        accountBalanceMap[accountForStash]
-                      }
+                      allBalances={accountBalanceMap[accountForStash]}
                     />
                   )}
                 </>
@@ -186,15 +188,13 @@ const BondingModal = (): React.ReactElement => {
                     value={accountForController}
                     width='175px'
                   />
-                  {loadingBalances
-                    ? <Spinner active inline />
-                    : (
-                        <BalanceDisplay
-                          allBalances={
-                            accountBalanceMap[accountForController]
-                          }
-                        />
-                    )}
+                  {loadingBalances ? (
+                    <Spinner active inline />
+                  ) : (
+                    <BalanceDisplay
+                      allBalances={accountBalanceMap[accountForController]}
+                    />
+                  )}
                 </>
               ) : (
                 <Spinner active inline />
@@ -221,7 +221,7 @@ const BondingModal = (): React.ReactElement => {
               type='number'
               value={String(bondAmount)}
             />
-              <Margin top />
+            <Margin top />
             <Button>Submit Bond</Button>
           </Stacked>
           <Margin top />
