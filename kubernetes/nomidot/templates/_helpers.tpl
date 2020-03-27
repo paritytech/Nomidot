@@ -36,11 +36,18 @@ Common labels
 */}}
 {{- define "nomidot.labels" -}}
 chart: {{ include "nomidot.chart" . }}
+<<<<<<< HEAD
+=======
+{{ include "nomidot.selectorLabels" . }}
+>>>>>>> 8ba937f... fv-wip-01
 {{- if .Chart.AppVersion }}
 version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 managed-by: {{ .Release.Service }}
+<<<<<<< HEAD
 part-of: {{ include "nomidot.name" . }}
+=======
+>>>>>>> 8ba937f... fv-wip-01
 {{- end -}}
 
 {{/*
@@ -54,6 +61,7 @@ app: {{ include "nomidot.name" . }}
 Create unified labels for nomidot components
 */}}
 
+<<<<<<< HEAD
 {{- define "nomidot.nodewatcher.labels" -}}
 {{ include "nomidot.labels" . }}
 {{ include "nomidot.nodewatcher.matchLabels" . }}
@@ -79,6 +87,15 @@ app: {{ .Values.frontend.name }}
 
 {{- define "nomidot.server.matchLabels" -}}
 app: {{ .Values.server.name }}
+=======
+{{- define "nomidot.frontend.labels" -}}
+{{ include "nomidot.selectorLabels" . }}
+{{- end -}}
+
+{{- define "nomidot.frontend.matchLabels" -}}
+component: {{ .Values.frontend.name | quote }}
+{{ include "nomidot.selectorLabels" . }}
+>>>>>>> 8ba937f... fv-wip-01
 {{- end -}}
 
 {{- define "nomidot.frontend.fullname" -}}
@@ -93,6 +110,7 @@ app: {{ .Values.server.name }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+<<<<<<< HEAD
   
 {{- define "nomidot.nodewatcher.fullname" -}}
 {{- if .Values.nodewatcher.fullnameOverride -}}
@@ -136,3 +154,6 @@ databases:
     migrations: true
     connectionLimit: 5
 {{- end }}
+=======
+
+>>>>>>> 8ba937f... fv-wip-01

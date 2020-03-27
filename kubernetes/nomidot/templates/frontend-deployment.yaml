@@ -3,16 +3,28 @@ kind: Deployment
 metadata:
   name: {{ include "nomidot.frontend.fullname" . }}
   labels:
+<<<<<<< HEAD
     {{- include "nomidot.frontend.labels" . | nindent 4 }}
+=======
+    {{- include "nomidot.labels" . | nindent 4 }}
+>>>>>>> 8ba937f... fv-wip-01
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
+<<<<<<< HEAD
       {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         {{- include "nomidot.frontend.matchLabels" . | nindent 8 }}
+=======
+      {{- include "nomidot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nomidot.selectorLabels" . | nindent 8 }}
+>>>>>>> 8ba937f... fv-wip-01
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -20,10 +32,16 @@ spec:
     {{- end }}
       containers:
         - name: {{ include "nomidot.frontend.fullname" . }}
+<<<<<<< HEAD
+=======
+          securityContext:
+            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
+>>>>>>> 8ba937f... fv-wip-01
           image: '{{ .Values.frontend.image.repository }}/{{ include "nomidot.frontend.fullname" . }}:{{ .Chart.AppVersion }}'
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           ports:
             - name: http
+<<<<<<< HEAD
               containerPort: {{ .Values.frontend.service.port }}
               protocol: TCP
 {{- with .Values.nodeSelector }}
@@ -31,3 +49,11 @@ spec:
 {{ toYaml . | indent 8 }}
 {{- end }}
 
+=======
+              containerPort: 80
+              protocol: TCP
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+>>>>>>> 8ba937f... fv-wip-01
