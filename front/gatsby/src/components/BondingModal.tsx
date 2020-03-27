@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees } from '@polkadot/api-derive/types';
-import { AccountInfo, RewardDestination } from '@polkadot/types/interfaces';
+import { AccountInfo } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import {
@@ -11,21 +10,42 @@ import {
   Spinner
 } from '@substrate/design-system';
 import {
-  AddressSummary,
   BalanceDisplay,
-  Container,
   Dropdown,
+  DropdownProps,
   ErrorText,
-  Header,
   InputAddress,
   Modal,
   Stacked,
-  StackedHorizontal,
-  Table,
+  StackedHorizontal
 } from '@substrate/ui-components';
 import React, { useState, useContext, useEffect } from 'react';
 
 import { validateFees } from '../util/validateExtrinsic';
+
+enum RewardDestination {
+  'Stash',
+  'Staked',
+  'Controller'
+}
+
+const rewardDestinationOptions = [
+  {
+    key: 'Stake',
+    text: 'Stash (increase amount at stake)',
+    value: 'Staked',
+  },
+  {
+    key: 'Stash',
+    text: 'Stash (do not increase amount at stake)',
+    value: 'Stash',
+  },
+  {
+    key: 'Controller',
+    text: 'Controller',
+    value: 'Controller',
+  },
+];
 
 type Error = string;
 
@@ -36,7 +56,7 @@ const BondingModal = (): React.ReactElement => {
   const [accountForStash, setAccountForStash] = useState(currentAccount);
   const [bondAmount, setBondAmount] = useState<BN>(new BN(0));
   const [bondingError, setBondingError] = useState<Error>();
-  const [rewardDestination, setRewardDestination] = useState<RewardDestination>();
+  const [rewardDestination, setRewardDestination] = useState<RewardDestination>(RewardDestination.Staked);
 
   const checkFees = async () => {
     if (apiPromise) {
@@ -81,11 +101,17 @@ const BondingModal = (): React.ReactElement => {
     setAccountForController(address);
   }
 
+  const handleSetRewardDestination = (_event: React.SyntheticEvent,
+    { value }: DropdownProps) => {
+
+    setRewardDestination(value as RewardDestination);
+  }
+
   return (
     <Modal trigger={<Button>New Bond</Button>}>
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content image>
-        <StackedHorizontal justifyContent='space-around'>
+        <StackedHorizontal alignItems='stretch' justifyContent='space-between'>
           <Stacked justifyContent='flex-start' alignItems='center'>
             <b>Choose Stash:</b>
             {
@@ -101,9 +127,7 @@ const BondingModal = (): React.ReactElement => {
                     />
                     {
                       loadingBalances
-                        ? (
-                          'Loading Balances'
-                        )
+                        ? <p>Loading Balances</p>
                         : <BalanceDisplay allBalances={accountBalanceMap[accountForStash || currentAccount]} />
                     }
                   </>
@@ -135,14 +159,18 @@ const BondingModal = (): React.ReactElement => {
                   : <Spinner active inline />
               }
             </Stacked>
+            <Stacked>
+              <Dropdown
+                placeholder='Reward Destination'
+                selection
+                onChange={handleSetRewardDestination}
+                options={rewardDestinationOptions}
+              />
+            </Stacked>
         </StackedHorizontal>
         
         <Modal.Description>
-          {
-            bondingErrors.map((error) => {
-              <ErrorText>error</ErrorText>
-            })
-          }
+          <ErrorText>{bondingError}</ErrorText>
         </Modal.Description>
       </Modal.Content>
     </Modal>
