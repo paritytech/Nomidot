@@ -11,6 +11,7 @@ import {
   DropdownProps,
   ErrorText,
   InputAddress,
+  Margin,
   Modal,
   Stacked,
   StackedHorizontal,
@@ -137,69 +138,69 @@ const BondingModal = (): React.ReactElement => {
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content image>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-          <Stacked justifyContent='flex-start' alignItems='center'>
-            <b>Choose Stash:</b>
-            {accountForStash ? (
-              <>
-                <InputAddress
-                  accounts={allAccounts}
-                  fromKeyring={false}
-                  onChangeAddress={selectStash}
-                  value={accountForStash}
-                  width='175px'
-                />
-                {loadingBalances ? (
-                  <p>Loading Balances</p>
-                ) : (
-                  <BalanceDisplay
-                    allBalances={
-                      accountBalanceMap[accountForStash]
-                    }
+          <StackedHorizontal alignItems='stretch' justifyContent='space-between'>
+            <Stacked justifyContent='flex-start' alignItems='flex-start'>
+              <b>Choose Stash:</b>
+              {accountForStash ? (
+                <>
+                  <InputAddress
+                    accounts={allAccounts}
+                    fromKeyring={false}
+                    onChangeAddress={selectStash}
+                    value={accountForStash}
+                    width='175px'
                   />
-                )}
-              </>
-            ) : (
-              <Spinner active inline />
-            )}
-          </Stacked>
-          <Stacked justifyContent='center'>
-            <b>Choose Controller:</b>
-            {accountForController ? (
-              <>
-                <InputAddress
-                  accounts={allAccounts}
-                  fromKeyring={false}
-                  onChangeAddress={selectController}
-                  value={accountForController}
-                  width='175px'
-                />
-                {loadingBalances ? (
-                  'Loading Balances'
-                ) : (
-                  <BalanceDisplay
-                    allBalances={
-                      accountBalanceMap[accountForController]
-                    }
+                  {loadingBalances ? (
+                    <p>Loading Balances</p>
+                  ) : (
+                    <BalanceDisplay
+                      allBalances={
+                        accountBalanceMap[accountForStash]
+                      }
+                    />
+                  )}
+                </>
+              ) : (
+                <Spinner active inline />
+              )}
+            </Stacked>
+            <Stacked justifyContent='center' alignItems='flex-start'>
+              <b>Choose Controller:</b>
+              {accountForController ? (
+                <>
+                  <InputAddress
+                    accounts={allAccounts}
+                    fromKeyring={false}
+                    onChangeAddress={selectController}
+                    value={accountForController}
+                    width='175px'
                   />
-                )}
-              </>
-            ) : (
-              <Spinner active inline />
-            )}
-          </Stacked>
-          <Stacked>
+                  {loadingBalances ? (
+                    'Loading Balances'
+                  ) : (
+                    <BalanceDisplay
+                      allBalances={
+                        accountBalanceMap[accountForController]
+                      }
+                    />
+                  )}
+                </>
+              ) : (
+                <Spinner active inline />
+              )}
+            </Stacked>
+          </StackedHorizontal>
+          <Margin top />
             <Dropdown
               placeholder='Reward Destination'
               selection
               onChange={handleSetRewardDestination}
               options={rewardDestinationOptions}
             />
-          </Stacked>
+          <Modal.Description>
+            <ErrorText>{bondingError}</ErrorText>
+          </Modal.Description>
         </Stacked>
-
-        <Modal.Description>
-          <ErrorText>{bondingError}</ErrorText>
-        </Modal.Description>
       </Modal.Content>
     </Modal>
   );
