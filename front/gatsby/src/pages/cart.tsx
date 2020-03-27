@@ -8,7 +8,7 @@ import { Container, Grid, StackedHorizontal } from '@substrate/ui-components';
 import React from 'react';
 
 import { LoadableCartItems } from '../components';
-import { clearCart } from '../util/helpers';
+import { clearCart } from '../util/cartHelpers';
 
 type Props = RouteComponentProps;
 

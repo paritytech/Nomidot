@@ -27,30 +27,39 @@ const AccountsList = (_props: Props): React.ReactElement => {
     accountBalanceMap,
     allAccounts,
     allStashes,
-    stashControllerMap,
     loadingAccountStaking,
+    stashControllerMap
   } = useContext(AccountsContext);
   const { api } = useContext(ApiContext);
 
   const renderStakingQueryColumns = (account: string) => {
     const staking = stashControllerMap[account];
 
+    const thisInjectedController = allAccounts.find(
+      (injectedAccount: InjectedAccountWithMeta) => injectedAccount.address === account && !allStashes.includes(account)
+    );
+
     return (
       <>
         <Table.Cell padded='very'>
-          {staking ? (
-            <AddressSummary
-              address={staking.controllerId?.toHuman()}
-              api={api}
-              noBalance
-              size='tiny'
-            />
-          ) : (
-            <Spinner />
-          )}
+          {
+            staking
+              ? <AddressSummary
+                  address={staking.controllerId?.toHuman()}
+                  api={api}
+                  name={thisInjectedController?.meta.name}
+                  noBalance
+                  size='tiny'
+                />
+              : <Spinner active inline />
+          }
         </Table.Cell>
         <Table.Cell padded='very'>
-          {staking?.exposure?.own.toHuman() || <Spinner inline active />}
+          {
+            staking
+              ? staking.stakingLedger?.active.toHuman()
+              : <Spinner inline active />
+          }
         </Table.Cell>
       </>
     );
@@ -58,9 +67,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
   const renderStashColumn = (account: string) => {
     const thisInjectedStash = allAccounts.find(
-      (injectedAccount: InjectedAccountWithMeta) => {
-        injectedAccount.address === account;
-      }
+      (injectedAccount: InjectedAccountWithMeta) => injectedAccount.address === account
     );
 
     return (
@@ -71,7 +78,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
           <AddressSummary
             address={account}
             api={api}
-            name={thisInjectedStash!.meta.name}
+            name={thisInjectedStash?.meta.name}
             noBalance
             size='tiny'
           />
@@ -110,14 +117,25 @@ const AccountsList = (_props: Props): React.ReactElement => {
     return (
       <>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account]?.reservedBalance.toHuman() || (
-            <Spinner active inline />
-          )}
+          {
+            accountBalanceMap[account]
+              ? accountBalanceMap[account].lockedBalance.toHuman()
+              : <Spinner active inline />
+          }
         </Table.Cell>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account]?.freeBalance?.toHuman() || (
-            <Spinner active inline />
-          )}
+          {
+            accountBalanceMap[account]
+              ? accountBalanceMap[account].reservedBalance.toHuman()
+              : <Spinner active inline />
+          }
+        </Table.Cell>
+        <Table.Cell padded='very'>
+          {
+            accountBalanceMap[account]
+              ? accountBalanceMap[account].freeBalance.toHuman()
+              : <Spinner active inline />
+          }
         </Table.Cell>
       </>
     );
@@ -160,14 +178,15 @@ const AccountsList = (_props: Props): React.ReactElement => {
       <Table unstackable padded='very'>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan='3'>Bonded</Table.HeaderCell>
+            <Table.HeaderCell colSpan='8'>Bonded</Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             <Table.HeaderCell>Stash</Table.HeaderCell>
             <Table.HeaderCell>Controller</Table.HeaderCell>
             <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
+            <Table.HeaderCell>Locked</Table.HeaderCell>
             <Table.HeaderCell>Reserved Balance</Table.HeaderCell>
-            <Table.HeaderCell>Transferable</Table.HeaderCell>
+            <Table.HeaderCell>Transferrable</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -187,14 +206,15 @@ const AccountsList = (_props: Props): React.ReactElement => {
       <Table unstackable padded='very'>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan='4'>Unbonded</Table.HeaderCell>
-            <Table.HeaderCell colSpan='4'>
+            <Table.HeaderCell colSpan='5'>Unbonded</Table.HeaderCell>
+            <Table.HeaderCell colSpan='7'>
               <BondingModal />
             </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             <Table.HeaderCell>Account</Table.HeaderCell>
             <Table.HeaderCell>Address</Table.HeaderCell>
+            <Table.HeaderCell>Locked</Table.HeaderCell>
             <Table.HeaderCell>Reserved Balance</Table.HeaderCell>
             <Table.HeaderCell>Transferable</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>

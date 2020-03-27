@@ -52,7 +52,7 @@ const BondingModal = (): React.ReactElement => {
     accountBalanceMap,
     allAccounts,
     currentAccount,
-    loadingBalances,
+    loadingBalances
   } = useContext(AccountsContext);
   const { apiPromise } = useContext(ApiContext);
   const [accountForController, setAccountForController] = useState(
@@ -66,15 +66,13 @@ const BondingModal = (): React.ReactElement => {
   );
 
   const checkFees = useCallback(async () => {
-    console.log('checking fees');
-    if (apiPromise && accountForStash && accountForController) {
-      console.log('checking fees.... -> ', accountForStash);
-
+    if (apiPromise && accountForStash && accountForController && bondAmount) {
       const submitBondExtrinsic = apiPromise.tx.staking.bond(
         accountForController,
         new BN(bondAmount),
         rewardDestination
       );
+
       const fees = await apiPromise.derive.balances.fees();
       const accountNonce = await apiPromise.query.system.account(
         accountForStash
@@ -82,7 +80,7 @@ const BondingModal = (): React.ReactElement => {
 
       const feeErrors = validateFees(
         accountNonce,
-        undefined,
+        new BN(bondAmount),
         accountBalanceMap[accountForStash],
         submitBondExtrinsic,
         fees
@@ -90,9 +88,11 @@ const BondingModal = (): React.ReactElement => {
 
       if (feeErrors) {
         setBondingError(feeErrors[0]);
+      } else {
+        setBondingError(undefined);
       }
     }
-  }, []);
+  }, [apiPromise && accountForStash && accountForController && bondAmount]);
 
   useEffect(() => {
     if (currentAccount) {
@@ -112,12 +112,12 @@ const BondingModal = (): React.ReactElement => {
         setBondingError('Please select an account to use as your controller.');
         return;
       }
-
       if (!rewardDestination) {
         setBondingError('Please select a reward destination.');
         return;
       }
 
+      setBondingError(undefined)
       checkFees();
     }
   }, [
@@ -130,7 +130,6 @@ const BondingModal = (): React.ReactElement => {
   ]);
 
   const selectStash = (address: string) => {
-    console.log('hello -> ', address);
     setAccountForStash(address);
   };
 
@@ -152,7 +151,7 @@ const BondingModal = (): React.ReactElement => {
         <Stacked alignItems='stretch' justifyContent='space-between'>
           <StackedHorizontal
             alignItems='stretch'
-            justifyContent='space-between'
+            justifyContent='space-around'
           >
             <Stacked justifyContent='flex-start' alignItems='flex-start'>
               <b>Choose Stash:</b>
@@ -177,7 +176,7 @@ const BondingModal = (): React.ReactElement => {
                 <Spinner active inline />
               )}
             </Stacked>
-            <Stacked justifyContent='center' alignItems='flex-start'>
+            <Stacked justifyContent='flex-start' alignItems='flex-start'>
               <b>Choose Controller:</b>
               {accountForController ? (
                 <>
