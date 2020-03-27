@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountInfo } from '@polkadot/types/interfaces';
-import { AccountsContext, ApiContext } from '@substrate/context';
+import { AccountsContext, ApiContext, handler } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
   BalanceDisplay,
   Dropdown,
   DropdownProps,
   ErrorText,
+  Input,
   InputAddress,
   Margin,
   Modal,
@@ -196,6 +197,17 @@ const BondingModal = (): React.ReactElement => {
               selection
               onChange={handleSetRewardDestination}
               options={rewardDestinationOptions}
+            />
+
+          <Input
+              fluid
+              label='UNIT'
+              labelPosition='right'
+              min={0}
+              onChange={handler(setBondAmount)}
+              placeholder='e.g. 1.00'
+              type='number'
+              value={String(bondAmount)}
             />
           <Modal.Description>
             <ErrorText>{bondingError}</ErrorText>
