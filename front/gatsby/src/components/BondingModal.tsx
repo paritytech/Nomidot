@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountsContext, ApiContext, handler } from '@substrate/context';
+import { createType } from '@polkadot/types';
+import { AccountsContext, ApiContext, ExtrinsicDetails, handler, TxQueueContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
   BalanceDisplay,
@@ -54,7 +55,9 @@ const BondingModal = (): React.ReactElement => {
     currentAccount,
     loadingBalances
   } = useContext(AccountsContext);
-  const { apiPromise } = useContext(ApiContext);
+  const { api, apiPromise } = useContext(ApiContext);
+  const { enqueue } = useContext(TxQueueContext);
+
   const [accountForController, setAccountForController] = useState(
     currentAccount
   );
@@ -64,10 +67,12 @@ const BondingModal = (): React.ReactElement => {
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
+  const [allFees, setAllFees] = useState<BN>();
+  const [allTotal, setAllTotal] = useState<BN>();
 
   const checkFees = useCallback(async () => {
     if (apiPromise && accountForStash && accountForController && bondAmount) {
-      const submitBondExtrinsic = apiPromise.tx.staking.bond(
+      const submitBondExtrinsic = api.tx.staking.bond(
         accountForController,
         new BN(bondAmount),
         rewardDestination
@@ -78,13 +83,16 @@ const BondingModal = (): React.ReactElement => {
         accountForStash
       );
 
-      const feeErrors = validateFees(
+      const [feeErrors, total, fee] = validateFees(
         accountNonce,
         new BN(bondAmount),
         accountBalanceMap[accountForStash],
         submitBondExtrinsic,
         fees
       );
+
+      setAllTotal(total);
+      setAllFees(fee)
 
       if (feeErrors) {
         setBondingError(feeErrors[0]);
@@ -143,6 +151,26 @@ const BondingModal = (): React.ReactElement => {
   ) => {
     setRewardDestination(value as RewardDestination);
   };
+
+  const signAndSubmitBond = async () => {
+    if (apiPromise && accountForController && accountForStash && allFees && allTotal) {
+      const submitBondExtrinsic = api.tx.staking.bond(
+        accountForController,
+        new BN(bondAmount),
+        rewardDestination
+      );
+
+      const details: ExtrinsicDetails = {
+        allFees,
+        allTotal,
+        amount: createType(api.registry, 'Balance', bondAmount),
+        methodCall: 'staking.bond',
+        senderPair: accountForStash
+      }
+  
+      enqueue(submitBondExtrinsic, details)
+    }
+  }
 
   return (
     <Modal trigger={<Button>New Bond</Button>}>
@@ -221,7 +249,7 @@ const BondingModal = (): React.ReactElement => {
               value={String(bondAmount)}
             />
             <Margin top />
-            <Button>Submit Bond</Button>
+            <Button onClick={signAndSubmitBond}>Submit Bond</Button>
           </Stacked>
           <Margin top />
           <Modal.Description>

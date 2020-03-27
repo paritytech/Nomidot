@@ -28,7 +28,7 @@ export function validateFees(
   currentBalance: DerivedBalancesAll,
   extrinsic: SubmittableExtrinsic<'promise' | 'rxjs'>,
   fees: DerivedFees
-): Errors {
+): [Errors, BN, BN] {
   const txLength =
     SIGNATURE_SIZE +
     compactToU8a(accountNonce.nonce).length +
@@ -69,5 +69,5 @@ export function validateFees(
     );
   }
 
-  return errors;
+  return [errors, allTotal, allFees];
 }
