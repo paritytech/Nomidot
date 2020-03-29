@@ -54,7 +54,8 @@ dockerize-frontend:
     name: parity-build
   <<: *dockerize_init
   script:
-    - docker build -t "$DOCKER_IMAGE_FULL_NAME" front
+    - cd front
+    - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
@@ -66,7 +67,8 @@ dockerize-server:
     name: parity-build
   <<: *dockerize_init
   script:
-    - docker build -t "$DOCKER_IMAGE_FULL_NAME" back/server
+    - cd back/server
+    - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
@@ -78,7 +80,8 @@ dockerize-nodewatcher:
     name: parity-build
   <<: *dockerize_init
   script:
-    - docker build -t "$DOCKER_IMAGE_FULL_NAME" back/node_watcher
+    - cd back/node_watcher
+    - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
