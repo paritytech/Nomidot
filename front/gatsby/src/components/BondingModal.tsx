@@ -128,7 +128,7 @@ const BondingModal = (): React.ReactElement => {
       setBondingError('Please select a reward destination.');
       return;
     }
-  }
+  };
 
   useEffect(() => {
     if (currentAccount) {
