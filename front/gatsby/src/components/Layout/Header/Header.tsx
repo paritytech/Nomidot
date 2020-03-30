@@ -4,7 +4,7 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
-import { Container, Icon, Menu } from '@substrate/ui-components';
+import { Icon, Menu, StackedHorizontal } from '@substrate/ui-components';
 import { navigate, Link } from 'gatsby';
 import React from 'react';
 
@@ -45,7 +45,11 @@ export default function Header(_props: Props): React.ReactElement {
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>
-          <AccountsDropdown />
+            <BlockHeader />
+            <EraHeader />
+            <SessionHeader />
+            <StakingHeader />
+            <AccountsDropdown />
           <Menu.Item>
             <Icon
               link
@@ -57,12 +61,6 @@ export default function Header(_props: Props): React.ReactElement {
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-      <Container style={{ display: 'flex' }}>
-        <BlockHeader />
-        <EraHeader />
-        <SessionHeader />
-        <StakingHeader />
-      </Container>
     </>
   );
 }
