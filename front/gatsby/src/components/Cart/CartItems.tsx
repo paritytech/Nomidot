@@ -21,7 +21,7 @@ import {
   getCartItems,
   removeCartItem,
   stripAddressFromCartItem,
-} from '../../util/helpers';
+} from '../../util/cartHelpers';
 
 const CartItems = (): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
