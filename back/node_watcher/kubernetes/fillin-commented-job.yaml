@@ -35,7 +35,7 @@ spec:
             - name: START_FROM
               value: '1407636'
             - name: BLOCK_IDENTIFIER
-              value: 'last-50k-1'
+              value: 'fillin-commented'
             - name: MAX_LAG
               value: '10'
           command: ["yarn", "start"]
