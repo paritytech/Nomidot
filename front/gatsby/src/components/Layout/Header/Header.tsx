@@ -4,8 +4,8 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
-import { Icon, Menu, StackedHorizontal } from '@substrate/ui-components';
-import { navigate, Link } from 'gatsby';
+import { Icon, Menu } from '@substrate/ui-components';
+import { Link, navigate } from 'gatsby';
 import React from 'react';
 
 import { APP_TITLE } from '../../../util';
@@ -34,29 +34,20 @@ export default function Header(_props: Props): React.ReactElement {
         </Menu.Item>
         <Menu.Menu>
           <Menu.Item>
-            <Link to='/accounts'>
-              Accounts
-            </Link>
+            <Link to='/accounts'>Accounts</Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to='/validators'>
-            Validators
-            </Link>
+            <Link to='/validators'>Validators</Link>
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>
-            <BlockHeader />
-            <EraHeader />
-            <SessionHeader />
-            <StakingHeader />
-            <AccountsDropdown />
+          <BlockHeader />
+          <EraHeader />
+          <SessionHeader />
+          <StakingHeader />
+          <AccountsDropdown />
           <Menu.Item>
-            <Icon
-              link
-              name='cart'
-              size='large'
-              onClick={navToCartPage}
-            />
+            <Icon link name='cart' size='large' onClick={navToCartPage} />
             <p>{cartItemsCount}</p>
           </Menu.Item>
         </Menu.Menu>
