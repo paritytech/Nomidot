@@ -68,7 +68,7 @@ dockerize-server:
   <<: *dockerize_init
   script:
     - cd back/server
-    - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
+    - cp ../../yarn.lock && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
@@ -81,7 +81,7 @@ dockerize-nodewatcher:
   <<: *dockerize_init
   script:
     - cd back/node_watcher
-    - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
+    - cp ../../yarn.lock && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
