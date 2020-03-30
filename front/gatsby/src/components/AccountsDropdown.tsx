@@ -8,17 +8,17 @@ import { InputAddress } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
 export const AccountsDropdown = (): React.ReactElement => {
-  const { accounts, currentAccount, setCurrentAccount } = useContext(
+  const { allAccounts, currentAccount, setCurrentAccount } = useContext(
     AccountsContext
   );
 
-  if (!accounts || !currentAccount) {
+  if (!allAccounts || !currentAccount) {
     return <Spinner inline />;
   }
 
   return (
     <InputAddress
-      accounts={accounts}
+      accounts={allAccounts}
       fromKeyring={false}
       onChangeAddress={setCurrentAccount}
       value={currentAccount}

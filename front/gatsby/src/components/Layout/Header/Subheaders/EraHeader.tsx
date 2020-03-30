@@ -40,10 +40,7 @@ const EraHeader = (): React.ReactElement => {
 
       setEraHead({
         index: eras[0].index,
-        individualPoints: api.createType(
-          'Vec<Points>',
-          eras[0].individualPoints
-        ),
+        individualPoints: eras[0].individualPoints,
         totalPoints: api.createType('Points', eras[0].totalPoints),
       });
     }

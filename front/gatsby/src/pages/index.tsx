@@ -13,7 +13,7 @@ const IndexPage = (props: Props): React.ReactElement => {
   const { children } = props;
 
   useEffect(() => {
-    navigate('/validators');
+    navigate('/accounts');
   }, []);
 
   return <div>{children}</div>;
