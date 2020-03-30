@@ -108,6 +108,28 @@ const BondingModal = (): React.ReactElement => {
     }
   }, [apiPromise, accountForStash, accountForController, bondAmount]);
 
+  const checkUserInputs = () => {
+    if (!accountForStash) {
+      setBondingError('Please select an account to use as your stash.');
+      return;
+    }
+
+    if (!accountForController) {
+      setBondingError('Please select an account to use as your controller.');
+      return;
+    }
+
+    if (accountForStash === accountForController) {
+      setBondingError('Please use different accounts for stash and controller');
+      return;
+    }
+
+    if (!rewardDestination) {
+      setBondingError('Please select a reward destination.');
+      return;
+    }
+  };
+
   useEffect(() => {
     if (currentAccount) {
       setAccountForStash(currentAccount);
@@ -117,21 +139,7 @@ const BondingModal = (): React.ReactElement => {
 
   useEffect(() => {
     if (apiPromise) {
-      if (!accountForStash) {
-        setBondingError('Please select an account to use as your stash.');
-        return;
-      }
-
-      if (!accountForController) {
-        setBondingError('Please select an account to use as your controller.');
-        return;
-      }
-      if (!rewardDestination) {
-        setBondingError('Please select a reward destination.');
-        return;
-      }
-
-      setBondingError(undefined);
+      checkUserInputs();
       checkFees();
     }
   }, [
