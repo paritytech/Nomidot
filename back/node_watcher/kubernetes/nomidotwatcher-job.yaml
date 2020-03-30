@@ -34,4 +34,8 @@ spec:
               value: http://10.0.9.43:4466
             - name: START_FROM
               value: '1035035'
+            - name: BLOCK_IDENTIFIER
+              value: 'job'
+            - name: MAX_LAG
+              value: '10'
           command: ["yarn", "start"]
