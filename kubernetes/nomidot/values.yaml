@@ -8,6 +8,10 @@ imagePullSecrets:
 nodeSelector: {}
 cloudsqlInstanceCredentials: some-secret.json-from-gitlab-vars
 
+nodewatcher:
+  dbUser: felix
+  dbPassword: theCat
+
 frontend:
   name: frontend
   replicaCount: 1

@@ -75,4 +75,20 @@ component: {{ .Values.frontend.name | quote }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
-
+  
+{{/*  
+Config for Prisma
+*/}}
+{{- define "nodewatcher.prisma-config" }}
+port: 4466
+databases:
+  default:
+    connector: postgres
+    host: 127.0.0.1
+    user: {{ .Values.nodewatcher.dbUser }}
+    password: {{ .Values.nodewatcher.dbPassword }}
+    rawAccess: true
+    port: 5432
+    migrations: true
+    connectionLimit: 5
+{{- end }}
