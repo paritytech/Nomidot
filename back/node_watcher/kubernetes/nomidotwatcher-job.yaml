@@ -32,6 +32,8 @@ spec:
           env:
             - name: PRISMA_ENDPOINT
               value: http://10.0.9.43:4466
+            - name: ARCHIVE_NODE_ENDPOINT
+              value: ws://polkassembly-rpc-internal-0.parity-prod.parity.io:9944
             - name: START_FROM
               value: '1322452'
             - name: BLOCK_IDENTIFIER
