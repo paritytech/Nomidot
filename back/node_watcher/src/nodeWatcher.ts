@@ -7,7 +7,7 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { getSpecTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
-import { prisma } from './generated/prisma-client';
+import { BlockIndex, prisma } from './generated/prisma-client';
 import { nomidotTasks } from './tasks';
 import { Cached } from './tasks/types';
 
@@ -77,38 +77,68 @@ export async function nodeWatcher(): Promise<unknown> {
           reject(new Error('api disconnected'));
         });
 
+        api.once('error', e => {
+          keepLooping = false;
+          console.log('api error', e);
+          api.disconnect();
+          reject((e: string) => new Error(`api error ${e}`));
+        });
+
         const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
         let blockIndexId = '';
         let blockIndex = parseInt(process.env.START_FROM || '0');
         let currentSpecVersion = api.createType('u32', -1);
-        const lastKnownBestFinalized = (
-          await api.derive.chain.bestNumberFinalized()
-        ).toNumber();
-        let lastKnownBestBlock = (
-          await api.derive.chain.bestNumber()
-        ).toNumber();
 
-        const existingBlockIndex = await prisma.blockIndexes({
-          where: {
-            identifier: blockIdentifier,
-          },
-        });
+        let lastKnownBestFinalized = 0;
+        try {
+          lastKnownBestFinalized = (
+            await api.derive.chain.bestNumberFinalized()
+          ).toNumber();
+          console.log('lastKnownBestFinalized', lastKnownBestFinalized);
+        } catch (e) {
+          console.error('lastKnownBestFinalized', e);
+          reject((e: string) => new Error(`lastKnownBestFinalized error ${e}`));
+        }
 
-        if (existingBlockIndex.length === 0) {
-          const result = await prisma.createBlockIndex({
-            identifier: blockIdentifier,
-            startFrom: blockIndex,
-            index: blockIndex,
+        let lastKnownBestBlock = 0;
+        try {
+          lastKnownBestBlock = (await api.derive.chain.bestNumber()).toNumber();
+          console.log('lastKnownBestBlock', lastKnownBestBlock);
+        } catch (e) {
+          console.error('lastKnownBestBlock', e);
+          reject((e: string) => new Error(`lastKnownBestBlock error ${e}`));
+        }
+
+        let existingBlockIndex: BlockIndex[];
+
+        try {
+          existingBlockIndex = await prisma.blockIndexes({
+            where: {
+              identifier: blockIdentifier,
+            },
           });
+          console.log('existingBlockIndex', existingBlockIndex);
 
-          blockIndexId = result.id;
-        } else {
-          blockIndexId = existingBlockIndex[0].id;
-          blockIndex = existingBlockIndex[0].index;
+          if (existingBlockIndex.length === 0) {
+            const result = await prisma.createBlockIndex({
+              identifier: blockIdentifier,
+              startFrom: blockIndex,
+              index: blockIndex,
+            });
+
+            blockIndexId = result.id;
+          } else {
+            blockIndexId = existingBlockIndex[0].id;
+            blockIndex = existingBlockIndex[0].index;
+          }
+        } catch (e) {
+          console.error('existingBlockIndex', e);
+          reject((e: string) => new Error(`existingBlockIndex error ${e}`));
         }
 
         /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
         while (keepLooping) {
+          console.log('new loop');
           if (MAX_LAG) {
             // if we reached the last finalized block
             // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
