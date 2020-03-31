@@ -65,16 +65,16 @@ export async function nodeWatcher(): Promise<unknown> {
 
     ApiPromise.create({ provider })
       .then(async api => {
-        api.once('error', () => {
+        api.once('error', e => {
           keepLooping = false;
           api.disconnect();
-          reject(new Error('api error'));
+          reject(new Error(`Api error: ${e}`));
         });
 
-        api.once('disconnected', () => {
+        api.once('disconnected', e => {
           keepLooping = false;
           api.disconnect();
-          reject(new Error('api disconnected'));
+          reject(new Error(`Api disconnected: ${e}`));
         });
 
         const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
