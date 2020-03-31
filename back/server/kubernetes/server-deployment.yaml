@@ -13,7 +13,7 @@ spec:
       app: nomidot-server
   replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
