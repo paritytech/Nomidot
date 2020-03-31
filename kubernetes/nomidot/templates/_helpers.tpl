@@ -111,6 +111,7 @@ component: {{ .Values.frontend.name | quote }}
 {{- end -}}
 {{- end -}}
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 {{- define "nomidot.nodewatcher.fullname" -}}
 {{- if .Values.nodewatcher.fullnameOverride -}}
@@ -138,13 +139,20 @@ component: {{ .Values.frontend.name | quote }}
 {{- end -}}
 {{- end -}}
 
+=======
+  
+>>>>>>> 238bd72... prismagraphql config added.
 {{/*  
 Config for Prisma
 */}}
 {{- define "nodewatcher.prisma-config" }}
 port: 4466
 databases:
+<<<<<<< HEAD
   {{ .Values.nodewatcher.dbName }}:
+=======
+  default:
+>>>>>>> 238bd72... prismagraphql config added.
     connector: postgres
     host: 127.0.0.1
     user: {{ .Values.nodewatcher.dbUser }}
@@ -154,6 +162,9 @@ databases:
     migrations: true
     connectionLimit: 5
 {{- end }}
+<<<<<<< HEAD
 =======
 
 >>>>>>> 8ba937f... fv-wip-01
+=======
+>>>>>>> 238bd72... prismagraphql config added.

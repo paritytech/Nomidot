@@ -41,6 +41,10 @@ nodeSelector: {}
 cloudsqlInstanceCredentials: some-secret.json-from-gitlab-vars
 >>>>>>> 8ba937f... fv-wip-01
 
+nodewatcher:
+  dbUser: felix
+  dbPassword: theCat
+
 frontend:
   name: frontend
   replicaCount: 1
