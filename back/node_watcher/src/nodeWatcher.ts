@@ -211,7 +211,7 @@ export async function nodeWatcher(): Promise<unknown> {
           });
         }
       })
-      .catch((e) => {
+      .catch(e => {
         keepLooping = false;
         reject(new Error(`Connection error: ${e}`));
       });
