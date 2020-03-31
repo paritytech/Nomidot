@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       app: nodewatcher
-  replicas: 4
+  replicas: 1
   strategy:
     type: RollingUpdate
   template:
