@@ -8,6 +8,7 @@ metadata:
     name: nomidot-server
     app: nomidot-staging
 spec:
+  loadBalancerIP: 35.189.196.74
   type: LoadBalancer
   selector:
     app: nomidot-server
