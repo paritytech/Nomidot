@@ -26,7 +26,7 @@ spec:
           image: eu.gcr.io/test-installations-222013/nomidot-server@sha256:5f0f209ff62eb93a3e76a5c406821f4c1a86e88a1ad06e32739241e77893c14e
           env:
             - name: PRISMA_ENDPOINT
-              value: http://10.0.9.43:4466
+              value: http://nodewatcher.nodewatcher-staging:4466
           ports:
             - name: nomidot-4000
               containerPort: 4000
