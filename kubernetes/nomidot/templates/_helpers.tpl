@@ -72,6 +72,15 @@ app: {{ .Values.nodewatcher.name }}
 app: {{ .Values.frontend.name }}
 {{- end -}}
 
+{{- define "nomidot.server.labels" -}}
+{{ include "nomidot.labels" . }}
+{{ include "nomidot.server.matchLabels" . }}
+{{- end -}}
+
+{{- define "nomidot.server.matchLabels" -}}
+app: {{ .Values.server.name }}
+{{- end -}}
+
 {{- define "nomidot.frontend.fullname" -}}
 {{- if .Values.frontend.fullnameOverride -}}
 {{- .Values.frontend.fullnameOverride | trunc 63 | trimSuffix "-" -}}
@@ -94,6 +103,19 @@ app: {{ .Values.frontend.name }}
 {{- printf "%s-%s" .Release.Name .Values.nodewatcher.name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s-%s" .Release.Name $name .Values.nodewatcher.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "nomidot.server.fullname" -}}
+{{- if .Values.server.fullnameOverride -}}
+{{- .Values.server.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s" .Release.Name .Values.server.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.server.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
