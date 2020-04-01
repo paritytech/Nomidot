@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: {{ include "nomidot.frontend.fullname" . }}
   labels:
-    {{- include "nomidot.labels" . | nindent 4 }}
+    {{- include "nomidot.frontend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-      {{- include "nomidot.frontend.selectorLabels" . | nindent 6 }}
+      {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "nomidot.frontend.selectorLabels" . | nindent 8 }}
+        {{- include "nomidot.frontend.matchLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
