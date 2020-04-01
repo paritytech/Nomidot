@@ -51,10 +51,14 @@ spec:
           ports:
             - name: prisma
 <<<<<<< HEAD
+<<<<<<< HEAD
               containerPort: {{ .Values.nodewatcher.service.port }}
 =======
               containerPort: 4466
 >>>>>>> 35317fc... added nodewatcher deployemten
+=======
+              containerPort: {{ .Values.nodewatcher.service.port }}
+>>>>>>> f8c8994... use "...service.port" in container:
           env:
             - name: PRISMA_CONFIG
               valueFrom:

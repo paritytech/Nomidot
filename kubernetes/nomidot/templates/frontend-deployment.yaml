@@ -53,14 +53,18 @@ spec:
       containers:
         - name: {{ include "nomidot.frontend.fullname" . }}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
           securityContext:
             {{- toYaml .Values.frontend.securityContext | nindent 12 }}
 >>>>>>> 8ba937f... fv-wip-01
+=======
+>>>>>>> f8c8994... use "...service.port" in container:
           image: '{{ .Values.frontend.image.repository }}/{{ include "nomidot.frontend.fullname" . }}:{{ .Chart.AppVersion }}'
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           ports:
             - name: http
+<<<<<<< HEAD
 <<<<<<< HEAD
               containerPort: {{ .Values.frontend.service.port }}
               protocol: TCP
@@ -71,6 +75,9 @@ spec:
 
 =======
               containerPort: 80
+=======
+              containerPort: {{ .Values.frontend.service.port }}
+>>>>>>> f8c8994... use "...service.port" in container:
               protocol: TCP
 {{- with .Values.nodeSelector }}
       nodeSelector:

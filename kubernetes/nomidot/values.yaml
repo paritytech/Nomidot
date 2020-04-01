@@ -190,10 +190,6 @@ server:
   nameOverride: ""
   fullnameOverride: ""
 
-  service:
-    type: ClusterIP
-    port: 4000
-
 #  ingress:
 #    enabled: false
 #    annotations: {}
