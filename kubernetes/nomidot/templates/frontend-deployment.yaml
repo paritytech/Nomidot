@@ -8,11 +8,11 @@ spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-      {{- include "nomidot.selectorLabels" . | nindent 6 }}
+      {{- include "nomidot.frontend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "nomidot.selectorLabels" . | nindent 8 }}
+        {{- include "nomidot.frontend.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -28,7 +28,8 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-      {{- with .Values.nodeSelector }}
+{{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+
