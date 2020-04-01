@@ -25,7 +25,7 @@ spec:
           image: {{ .Values.nodewatcher.image.repository }}
           ports:
             - name: prisma
-              containerPort: 4466
+              containerPort: {{ .Values.nodewatcher.service.port }}
           env:
             - name: PRISMA_CONFIG
               valueFrom:
