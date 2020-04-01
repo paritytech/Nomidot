@@ -3,18 +3,31 @@ kind: Deployment
 metadata:
   name: {{ include "nomidot.nodewatcher.fullname" . }}
   labels:
+<<<<<<< HEAD
     {{- include "nomidot.nodewatcher.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.nodewatcher.replicaCount }}
   selector:
     matchLabels:
       {{- include "nomidot.nodewatcher.matchLabels" . | nindent 6 }}
+=======
+    {{- include "nomidot.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "nomidot.nodewatcher.selectorLabels" . | nindent 6 }}
+>>>>>>> 35317fc... added nodewatcher deployemten
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
+<<<<<<< HEAD
         {{- include "nomidot.nodewatcher.matchLabels" . | nindent 8 }}
+=======
+        {{- include "nomidot.nodewatcher.selectorLabels" . | nindent 8 }}
+>>>>>>> 35317fc... added nodewatcher deployemten
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -25,7 +38,11 @@ spec:
           image: {{ .Values.nodewatcher.image.repository }}
           ports:
             - name: prisma
+<<<<<<< HEAD
               containerPort: {{ .Values.nodewatcher.service.port }}
+=======
+              containerPort: 4466
+>>>>>>> 35317fc... added nodewatcher deployemten
           env:
             - name: PRISMA_CONFIG
               valueFrom:
@@ -36,7 +53,11 @@ spec:
           image: gcr.io/cloudsql-docker/gce-proxy:1.16
           command: ["cloud_sql_proxy"]
           args:
+<<<<<<< HEAD
             - "-dir=/cloudsql"
+=======
+            - "--dir=/cloudsql"
+>>>>>>> 35317fc... added nodewatcher deployemten
             - "-credential_file=/secrets/cloudsql/credentials.json"
             - {{ .Values.cloudsql.commandline.args | quote }}
           volumeMounts:
@@ -46,8 +67,11 @@ spec:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
+<<<<<<< HEAD
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
 {{- end }}
 
+=======
+>>>>>>> 35317fc... added nodewatcher deployemten
