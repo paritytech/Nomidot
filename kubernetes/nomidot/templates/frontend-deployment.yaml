@@ -13,6 +13,7 @@ spec:
   selector:
     matchLabels:
 <<<<<<< HEAD
+<<<<<<< HEAD
       {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
   template:
     metadata:
@@ -25,6 +26,13 @@ spec:
       labels:
         {{- include "nomidot.selectorLabels" . | nindent 8 }}
 >>>>>>> 8ba937f... fv-wip-01
+=======
+      {{- include "nomidot.frontend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nomidot.frontend.selectorLabels" . | nindent 8 }}
+>>>>>>> 0437e02... nodeSelector and new values file for prod
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -52,8 +60,14 @@ spec:
 =======
               containerPort: 80
               protocol: TCP
-      {{- with .Values.nodeSelector }}
+{{- with .Values.nodeSelector }}
       nodeSelector:
+<<<<<<< HEAD
         {{- toYaml . | nindent 8 }}
       {{- end }}
 >>>>>>> 8ba937f... fv-wip-01
+=======
+{{ toYaml . | indent 8 }}
+{{- end }}
+
+>>>>>>> 0437e02... nodeSelector and new values file for prod

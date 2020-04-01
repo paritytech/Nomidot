@@ -109,6 +109,15 @@ component: {{ .Values.nodewatcher.name | quote }}
 {{ include "nomidot.selectorLabels" . }}
 {{- end -}}
 
+{{- define "nomidot.frontend.selectorLabels" -}}
+chart: {{ include "nomidot.chart" . }}
+{{- if .Chart.AppVersion }}
+version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+managed-by: {{ .Release.Service }}
+app: {{ include "nomidot.frontend.fullname" . }}
+{{- end -}}
+
 {{- define "nomidot.frontend.matchLabels" -}}
 component: {{ .Values.frontend.name | quote }}
 {{ include "nomidot.selectorLabels" . }}
@@ -182,13 +191,16 @@ Config for Prisma
 port: 4466
 databases:
 <<<<<<< HEAD
+<<<<<<< HEAD
   {{ .Values.nodewatcher.dbName }}:
 =======
   default:
 >>>>>>> 238bd72... prismagraphql config added.
+=======
+  {{ .Values.nodewatcher.dbName }}:
+>>>>>>> 0437e02... nodeSelector and new values file for prod
     connector: postgres
     host: 127.0.0.1
-    database: { .Values.nodewatcher.dbName }} 
     user: {{ .Values.nodewatcher.dbUser }}
     password: {{ .Values.nodewatcher.dbPassword }}
     rawAccess: true

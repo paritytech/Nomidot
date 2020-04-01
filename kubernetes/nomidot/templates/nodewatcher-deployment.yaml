@@ -68,10 +68,16 @@ spec:
           secret:
             secretName: cloudsql-instance-credentials
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0437e02... nodeSelector and new values file for prod
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
 {{- end }}
 
+<<<<<<< HEAD
 =======
 >>>>>>> 35317fc... added nodewatcher deployemten
+=======
+>>>>>>> 0437e02... nodeSelector and new values file for prod
