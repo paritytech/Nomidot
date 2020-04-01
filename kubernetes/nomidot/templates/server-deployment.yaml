@@ -16,16 +16,20 @@ spec:
       labels:
         {{- include "nomidot.server.matchLabels" . | nindent 8 }}
     spec:
+<<<<<<< HEAD
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+=======
+>>>>>>> 6233916... added server deployemten
       containers:
         - name: {{ include "nomidot.server.fullname" . }}
           image: '{{ .Values.server.image.repository }}/{{ include "nomidot.server.fullname" . }}:{{ .Chart.AppVersion }}'
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           env:
             - name: PRISMA_ENDPOINT
+<<<<<<< HEAD
               value: http://{{ include "nomidot.nodewatcher.fullname" . }}:{{ .Values.nodewatcher.service.port }}
           ports:
             - name: server
@@ -34,3 +38,9 @@ spec:
       nodeSelector:
 {{ toYaml . | indent 8 }}
 {{- end }}
+=======
+              value: http://{{ include "nomidot.nodewatcher.fullname" . }}:4466
+          ports:
+            - name: server
+              containerPort: 4000
+>>>>>>> 6233916... added server deployemten

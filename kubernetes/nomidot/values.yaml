@@ -75,6 +75,10 @@ nodewatcher:
   image:
     repository: prismagraphql/prisma:1.34
 
+  service:
+    type: ClusterIP
+    port: 80
+
 frontend:
   name: frontend
   replicaCount: 1
@@ -171,6 +175,21 @@ tolerations: []
 affinity: {}
 >>>>>>> 8ba937f... fv-wip-01
 =======
+  service:
+    type: ClusterIP
+    port: 80
+
+server:
+  name: server
+  replicaCount: 2
+
+  image:
+    repository: gcr.io/test-installations-222013
+    pullPolicy: Always
+
+  nameOverride: ""
+  fullnameOverride: ""
+
   service:
     type: ClusterIP
     port: 80

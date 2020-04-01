@@ -96,6 +96,7 @@ app: {{ .Values.frontend.name }}
 
 {{- define "nomidot.server.matchLabels" -}}
 app: {{ .Values.server.name }}
+<<<<<<< HEAD
 =======
 =======
 {{- define "nomidot.nodewatcher.selectorLabels" -}}
@@ -130,6 +131,8 @@ component: {{ .Values.frontend.name | quote }}
 =======
 app: {{ .Values.frontend.name }}
 >>>>>>> bd347eb... restructured object labels
+=======
+>>>>>>> 6233916... added server deployemten
 {{- end -}}
 
 {{- define "nomidot.frontend.fullname" -}}
@@ -173,6 +176,7 @@ app: {{ .Values.frontend.name }}
 {{- end -}}
 {{- end -}}
 
+<<<<<<< HEAD
 =======
   
 <<<<<<< HEAD
@@ -192,6 +196,8 @@ app: {{ .Values.frontend.name }}
 {{- end -}}
 
 >>>>>>> 35317fc... added nodewatcher deployemten
+=======
+>>>>>>> 6233916... added server deployemten
 {{/*  
 Config for Prisma
 */}}
