@@ -8,6 +8,7 @@ spec:
   type: {{ .Values.nodewatcher.service.type }}
   ports:
 <<<<<<< HEAD
+<<<<<<< HEAD
   - port: {{ .Values.nodewatcher.service.port }}
     protocol: TCP
 =======
@@ -15,5 +16,9 @@ spec:
     protocol: TCP
     targetPort: 4466
 >>>>>>> 6233916... added server deployemten
+=======
+  - port: {{ .Values.nodewatcher.service.port }}
+    protocol: TCP
+>>>>>>> 277f745... use port no. from values file
   selector:
     {{- include "nomidot.nodewatcher.matchLabels" . | nindent 4 }}

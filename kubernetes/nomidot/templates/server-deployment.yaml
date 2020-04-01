@@ -30,6 +30,7 @@ spec:
           env:
             - name: PRISMA_ENDPOINT
 <<<<<<< HEAD
+<<<<<<< HEAD
               value: http://{{ include "nomidot.nodewatcher.fullname" . }}:{{ .Values.nodewatcher.service.port }}
           ports:
             - name: server
@@ -40,6 +41,9 @@ spec:
 {{- end }}
 =======
               value: http://{{ include "nomidot.nodewatcher.fullname" . }}:4466
+=======
+              value: http://{{ include "nomidot.nodewatcher.fullname" . }}:{{ .Values.nodewatcher.service.port }}
+>>>>>>> 277f745... use port no. from values file
           ports:
             - name: server
               containerPort: 4000
