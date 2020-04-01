@@ -4,6 +4,7 @@ metadata:
   name: {{ include "nomidot.nodewatcher.fullname" . }}
   labels:
 <<<<<<< HEAD
+<<<<<<< HEAD
     {{- include "nomidot.nodewatcher.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.nodewatcher.replicaCount }}
@@ -12,22 +13,33 @@ spec:
       {{- include "nomidot.nodewatcher.matchLabels" . | nindent 6 }}
 =======
     {{- include "nomidot.labels" . | nindent 4 }}
+=======
+    {{- include "nomidot.nodewatcher.labels" . | nindent 4 }}
+>>>>>>> bd347eb... restructured object labels
 spec:
-  replicas: {{ .Values.frontend.replicaCount }}
+  replicas: {{ .Values.nodewatcher.replicaCount }}
   selector:
     matchLabels:
+<<<<<<< HEAD
       {{- include "nomidot.nodewatcher.selectorLabels" . | nindent 6 }}
 >>>>>>> 35317fc... added nodewatcher deployemten
+=======
+      {{- include "nomidot.nodewatcher.matchLabels" . | nindent 6 }}
+>>>>>>> bd347eb... restructured object labels
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
 <<<<<<< HEAD
+<<<<<<< HEAD
         {{- include "nomidot.nodewatcher.matchLabels" . | nindent 8 }}
 =======
         {{- include "nomidot.nodewatcher.selectorLabels" . | nindent 8 }}
 >>>>>>> 35317fc... added nodewatcher deployemten
+=======
+        {{- include "nomidot.nodewatcher.matchLabels" . | nindent 8 }}
+>>>>>>> bd347eb... restructured object labels
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -54,10 +66,14 @@ spec:
           command: ["cloud_sql_proxy"]
           args:
 <<<<<<< HEAD
+<<<<<<< HEAD
             - "-dir=/cloudsql"
 =======
             - "--dir=/cloudsql"
 >>>>>>> 35317fc... added nodewatcher deployemten
+=======
+            - "-dir=/cloudsql"
+>>>>>>> bd347eb... restructured object labels
             - "-credential_file=/secrets/cloudsql/credentials.json"
             - {{ .Values.cloudsql.commandline.args | quote }}
           volumeMounts:

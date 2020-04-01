@@ -15,6 +15,7 @@ spec:
       name: http
   selector:
     {{- include "nomidot.frontend.matchLabels" . | nindent 4 }}
+<<<<<<< HEAD
 =======
   name: nomidot-frontend
 =======
@@ -39,3 +40,5 @@ spec:
   selector:
     {{- include "nomidot.selectorLabels" . | nindent 4 }}
 >>>>>>> 991e0b1... added frontend server template
+=======
+>>>>>>> bd347eb... restructured object labels

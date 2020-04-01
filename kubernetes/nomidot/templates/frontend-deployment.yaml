@@ -4,14 +4,19 @@ metadata:
   name: {{ include "nomidot.frontend.fullname" . }}
   labels:
 <<<<<<< HEAD
+<<<<<<< HEAD
     {{- include "nomidot.frontend.labels" . | nindent 4 }}
 =======
     {{- include "nomidot.labels" . | nindent 4 }}
 >>>>>>> 8ba937f... fv-wip-01
+=======
+    {{- include "nomidot.frontend.labels" . | nindent 4 }}
+>>>>>>> bd347eb... restructured object labels
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
@@ -33,6 +38,13 @@ spec:
       labels:
         {{- include "nomidot.frontend.selectorLabels" . | nindent 8 }}
 >>>>>>> 0437e02... nodeSelector and new values file for prod
+=======
+      {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nomidot.frontend.matchLabels" . | nindent 8 }}
+>>>>>>> bd347eb... restructured object labels
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

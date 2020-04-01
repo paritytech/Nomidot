@@ -37,17 +37,24 @@ Common labels
 {{- define "nomidot.labels" -}}
 chart: {{ include "nomidot.chart" . }}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 {{ include "nomidot.selectorLabels" . }}
 >>>>>>> 8ba937f... fv-wip-01
+=======
+>>>>>>> bd347eb... restructured object labels
 {{- if .Chart.AppVersion }}
 version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 managed-by: {{ .Release.Service }}
 <<<<<<< HEAD
+<<<<<<< HEAD
 part-of: {{ include "nomidot.name" . }}
 =======
 >>>>>>> 8ba937f... fv-wip-01
+=======
+part-of: {{ include "nomidot.name" . }}
+>>>>>>> bd347eb... restructured object labels
 {{- end -}}
 
 {{/*
@@ -61,6 +68,7 @@ app: {{ include "nomidot.name" . }}
 Create unified labels for nomidot components
 */}}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 {{- define "nomidot.nodewatcher.labels" -}}
@@ -97,31 +105,31 @@ version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 managed-by: {{ .Release.Service }}
 app: {{ include "nomidot.nodewatcher.fullname" . }}
+=======
+{{- define "nomidot.nodewatcher.labels" -}}
+{{ include "nomidot.labels" . }}
+{{ include "nomidot.nodewatcher.matchLabels" . }}
+>>>>>>> bd347eb... restructured object labels
 {{- end -}}
 
 {{- define "nomidot.nodewatcher.matchLabels" -}}
-component: {{ .Values.nodewatcher.name | quote }}
-{{ include "nomidot.selectorLabels" . }}
+app: {{ .Values.nodewatcher.name }}
 {{- end -}}
 
 >>>>>>> 35317fc... added nodewatcher deployemten
 {{- define "nomidot.frontend.labels" -}}
-{{ include "nomidot.selectorLabels" . }}
-{{- end -}}
-
-{{- define "nomidot.frontend.selectorLabels" -}}
-chart: {{ include "nomidot.chart" . }}
-{{- if .Chart.AppVersion }}
-version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-managed-by: {{ .Release.Service }}
-app: {{ include "nomidot.frontend.fullname" . }}
+{{ include "nomidot.labels" . }}
+{{ include "nomidot.frontend.matchLabels" . }}
 {{- end -}}
 
 {{- define "nomidot.frontend.matchLabels" -}}
+<<<<<<< HEAD
 component: {{ .Values.frontend.name | quote }}
 {{ include "nomidot.selectorLabels" . }}
 >>>>>>> 8ba937f... fv-wip-01
+=======
+app: {{ .Values.frontend.name }}
+>>>>>>> bd347eb... restructured object labels
 {{- end -}}
 
 {{- define "nomidot.frontend.fullname" -}}
