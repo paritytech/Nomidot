@@ -20,13 +20,11 @@ spec:
     {{- end }}
       containers:
         - name: {{ include "nomidot.frontend.fullname" . }}
-          securityContext:
-            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
           image: '{{ .Values.frontend.image.repository }}/{{ include "nomidot.frontend.fullname" . }}:{{ .Chart.AppVersion }}'
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.frontend.service.port }}
               protocol: TCP
 {{- with .Values.nodeSelector }}
       nodeSelector:
