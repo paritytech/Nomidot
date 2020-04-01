@@ -54,6 +54,20 @@ app: {{ include "nomidot.name" . }}
 Create unified labels for nomidot components
 */}}
 
+{{- define "nomidot.nodewatcher.selectorLabels" -}}
+chart: {{ include "nomidot.chart" . }}
+{{- if .Chart.AppVersion }}
+version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+managed-by: {{ .Release.Service }}
+app: {{ include "nomidot.nodewatcher.fullname" . }}
+{{- end -}}
+
+{{- define "nomidot.nodewatcher.matchLabels" -}}
+component: {{ .Values.nodewatcher.name | quote }}
+{{ include "nomidot.selectorLabels" . }}
+{{- end -}}
+
 {{- define "nomidot.frontend.labels" -}}
 {{ include "nomidot.selectorLabels" . }}
 {{- end -}}
@@ -76,6 +90,19 @@ component: {{ .Values.frontend.name | quote }}
 {{- end -}}
 {{- end -}}
   
+{{- define "nomidot.nodewatcher.fullname" -}}
+{{- if .Values.nodewatcher.fullnameOverride -}}
+{{- .Values.nodewatcher.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s" .Release.Name .Values.nodewatcher.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.nodewatcher.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
 {{/*  
 Config for Prisma
 */}}
@@ -85,6 +112,7 @@ databases:
   default:
     connector: postgres
     host: 127.0.0.1
+    database: { .Values.nodewatcher.dbName }} 
     user: {{ .Values.nodewatcher.dbUser }}
     password: {{ .Values.nodewatcher.dbPassword }}
     rawAccess: true
