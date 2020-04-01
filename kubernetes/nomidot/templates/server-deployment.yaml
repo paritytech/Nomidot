@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           env:
             - name: PRISMA_ENDPOINT
-              value: http://{{ include "nomidot.nodewatcher.fullname" . }}:4466
+              value: http://{{ include "nomidot.nodewatcher.fullname" . }}:{{ .Values.nodewatcher.service.port }}
           ports:
             - name: server
               containerPort: 4000

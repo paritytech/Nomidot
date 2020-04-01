@@ -7,8 +7,7 @@ metadata:
 spec:
   type: {{ .Values.nodewatcher.service.type }}
   ports:
-  - port: 4466
+  - port: {{ .Values.nodewatcher.service.port }}
     protocol: TCP
-    targetPort: 4466
   selector:
     {{- include "nomidot.nodewatcher.matchLabels" . | nindent 4 }}
