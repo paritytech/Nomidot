@@ -36,11 +36,11 @@ Common labels
 */}}
 {{- define "nomidot.labels" -}}
 chart: {{ include "nomidot.chart" . }}
-{{ include "nomidot.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 managed-by: {{ .Release.Service }}
+part-of: {{ include "nomidot.name" . }}
 {{- end -}}
 
 {{/*
@@ -54,36 +54,22 @@ app: {{ include "nomidot.name" . }}
 Create unified labels for nomidot components
 */}}
 
-{{- define "nomidot.nodewatcher.selectorLabels" -}}
-chart: {{ include "nomidot.chart" . }}
-{{- if .Chart.AppVersion }}
-version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-managed-by: {{ .Release.Service }}
-app: {{ include "nomidot.nodewatcher.fullname" . }}
+{{- define "nomidot.nodewatcher.labels" -}}
+{{ include "nomidot.labels" . }}
+{{ include "nomidot.nodewatcher.matchLabels" . }}
 {{- end -}}
 
 {{- define "nomidot.nodewatcher.matchLabels" -}}
-component: {{ .Values.nodewatcher.name | quote }}
-{{ include "nomidot.selectorLabels" . }}
+app: {{ .Values.nodewatcher.name }}
 {{- end -}}
 
 {{- define "nomidot.frontend.labels" -}}
-{{ include "nomidot.selectorLabels" . }}
-{{- end -}}
-
-{{- define "nomidot.frontend.selectorLabels" -}}
-chart: {{ include "nomidot.chart" . }}
-{{- if .Chart.AppVersion }}
-version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-managed-by: {{ .Release.Service }}
-app: {{ include "nomidot.frontend.fullname" . }}
+{{ include "nomidot.labels" . }}
+{{ include "nomidot.frontend.matchLabels" . }}
 {{- end -}}
 
 {{- define "nomidot.frontend.matchLabels" -}}
-component: {{ .Values.frontend.name | quote }}
-{{ include "nomidot.selectorLabels" . }}
+app: {{ .Values.frontend.name }}
 {{- end -}}
 
 {{- define "nomidot.frontend.fullname" -}}
