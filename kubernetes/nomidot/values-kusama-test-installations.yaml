@@ -3,11 +3,9 @@
 # Declare variables to be passed into your templates.
 
 ## common values
-nodeSelector: { cloud.google.com/gke-nodepool: apps-pool }
-
 cloudsql:
   commandline:
-    args: "-instances=parity-prod:europe-west3:nomidot=tcp:0.0.0.0:5432"
+    args: "-instances=test-installations-222013:europe-west1:kusama-etl"
 
 ## nodewatcher
 nodewatcher:

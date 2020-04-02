@@ -10,14 +10,14 @@ imagePullSecrets:
 
 cloudsql:
   commandline:
-    args: "-instances=parity-prod:europe-west3:nomidot=tcp:0.0.0.0:5432"
+    args: "-instances=<copy-from-gcp-sql-overview>"
 
 ## nodewatcher
 nodewatcher:
   name: nodewatcher
 
-  dbName: from-gitlab-vars
-  dbUser: from-gitlab-vars
+  dbName: kusama-nodewatcher
+  dbUser: kusama-nodewatcher
   dbPassword: from-gitlab-vars
 
   replicaCount: 1
@@ -34,7 +34,7 @@ frontend:
   replicaCount: 1
 
   image:
-    repository: gcr.io/test-installations-222013
+    repository: paritytech
     pullPolicy: Always
 
   nameOverride: ""
@@ -49,7 +49,7 @@ server:
   replicaCount: 2
 
   image:
-    repository: gcr.io/test-installations-222013
+    repository: paritytech
     pullPolicy: Always
 
   nameOverride: ""
