@@ -16,6 +16,10 @@ spec:
       labels:
         {{- include "nomidot.server.matchLabels" . | nindent 8 }}
     spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
         - name: {{ include "nomidot.server.fullname" . }}
           image: '{{ .Values.server.image.repository }}/{{ include "nomidot.server.fullname" . }}:{{ .Chart.AppVersion }}'
@@ -26,3 +30,7 @@ spec:
           ports:
             - name: server
               containerPort: 4000
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
