@@ -8,7 +8,7 @@ variables:
   GIT_DEPTH:      '3'
   SIMPLECOV:      'true'
   KUBE_NAMESPACE: "nomidot"
-  CI_REGISTRY:    "gcr.io/test-installations-222013"
+  CI_REGISTRY:    "paritytech"
   DOCKER_TAG:     '$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA'
 
 cache:
@@ -46,7 +46,7 @@ linux-test:
     - export DOCKER_IMAGE="${CI_REGISTRY}/${KUBE_NAMESPACE}-${POD_NAME}"
     - export DOCKER_IMAGE_FULL_NAME=$DOCKER_IMAGE:$DOCKER_TAG
     - echo $DOCKER_IMAGE_FULL_NAME
-    - echo "$DOCKER_REGISTRY_JSON" | docker login -u _json_key --password-stdin https://gcr.io
+    - echo "$Docker_Hub_Pass_Parity" | docker login -u "$Docker_Hub_User_Parity" --password-stdin 
 
 dockerize-frontend:
   stage: dockerize
@@ -60,6 +60,7 @@ dockerize-frontend:
   only:
     - master
     - tags
+    # - /^fv-.*$/
 
 dockerize-server:
   stage: dockerize
@@ -68,11 +69,12 @@ dockerize-server:
   <<: *dockerize_init
   script:
     - cd back/server
-    - cp ../../yarn.lock && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
+    - cp ../../yarn.lock . && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
     - tags
+    # - /^fv-.*$/
 
 dockerize-nodewatcher:
   stage: dockerize
@@ -81,8 +83,9 @@ dockerize-nodewatcher:
   <<: *dockerize_init
   script:
     - cd back/node_watcher
-    - cp ../../yarn.lock && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
+    - cp ../../yarn.lock . && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
     - docker push "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
     - tags
+    # - /^fv-.*$/
