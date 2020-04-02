@@ -15,6 +15,7 @@ imagePullSecrets:
 cloudsql:
   commandline:
     args: "-instances=<copy-from-gcp-sql-overview>"
+<<<<<<< HEAD
 
 ## nodewatcher
 nodewatcher:
@@ -54,6 +55,8 @@ imagePullSecrets:
 cloudsql:
   commandline:
     args: "-instances=parity-prod:europe-west3:nomidot=tcp:0.0.0.0:5432"
+=======
+>>>>>>> 47329d1... values for test-installations
 
 <<<<<<< HEAD
 
@@ -66,8 +69,8 @@ cloudsql:
 nodewatcher:
   name: nodewatcher
 
-  dbName: from-gitlab-vars
-  dbUser: from-gitlab-vars
+  dbName: kusama-nodewatcher
+  dbUser: kusama-nodewatcher
   dbPassword: from-gitlab-vars
 
   replicaCount: 1
@@ -85,10 +88,14 @@ frontend:
 
   image:
 <<<<<<< HEAD
+<<<<<<< HEAD
     repository: paritytech
 =======
     repository: gcr.io/test-installations-222013
 >>>>>>> 8ba937f... fv-wip-01
+=======
+    repository: paritytech
+>>>>>>> 47329d1... values for test-installations
     pullPolicy: Always
 
   nameOverride: ""
@@ -184,7 +191,7 @@ server:
   replicaCount: 2
 
   image:
-    repository: gcr.io/test-installations-222013
+    repository: paritytech
     pullPolicy: Always
 
   nameOverride: ""

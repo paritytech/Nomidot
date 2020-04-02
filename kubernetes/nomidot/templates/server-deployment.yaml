@@ -17,12 +17,18 @@ spec:
         {{- include "nomidot.server.matchLabels" . | nindent 8 }}
     spec:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 47329d1... values for test-installations
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+<<<<<<< HEAD
 =======
 >>>>>>> 6233916... added server deployemten
+=======
+>>>>>>> 47329d1... values for test-installations
       containers:
         - name: {{ include "nomidot.server.fullname" . }}
           image: '{{ .Values.server.image.repository }}/{{ include "nomidot.server.fullname" . }}:{{ .Chart.AppVersion }}'
@@ -39,6 +45,7 @@ spec:
       nodeSelector:
 {{ toYaml . | indent 8 }}
 {{- end }}
+<<<<<<< HEAD
 =======
               value: http://{{ include "nomidot.nodewatcher.fullname" . }}:4466
 =======
@@ -48,3 +55,5 @@ spec:
             - name: server
               containerPort: 4000
 >>>>>>> 6233916... added server deployemten
+=======
+>>>>>>> 47329d1... values for test-installations
