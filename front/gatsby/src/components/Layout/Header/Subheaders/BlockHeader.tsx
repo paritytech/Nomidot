@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useSubscription } from '@apollo/react-hooks';
-import { ItemStats } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
+import HeaderItem from '../HeaderItem';
 import { toShortAddress } from '../../../../util';
 import { BLOCKS_SUBSCRIPTION } from '../../../../util/graphql';
 import { BlockHead } from '../types';
@@ -32,7 +32,7 @@ const BlockHeader = (): React.ReactElement => {
   }, [blockHead, data]);
 
   return (
-    <ItemStats
+    <HeaderItem
       title='block #'
       subtitle={`authored by: ${
         blockHead

@@ -48,13 +48,13 @@ spec:
                 secretKeyRef:
                   name: cloudsql-db-credentials
                   key: dbname
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1Gi
-            requests:
-              cpu: 50m
-              memory: 128Mi
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 50m
+            memory: 128Mi
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.16
           command: ["/cloud_sql_proxy",
@@ -65,12 +65,6 @@ spec:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
               resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 50m
-      memory: 128Mi
       volumes:
         - name: cloudsql-instance-credentials
           secret:

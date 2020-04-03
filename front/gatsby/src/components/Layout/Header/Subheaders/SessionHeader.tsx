@@ -6,6 +6,7 @@ import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { ItemStats } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
+import HeaderItem from '../HeaderItem';
 import {
   LATEST_SESSION_QUERY,
   SESSIONS_SUBSCRIPTION,
@@ -44,9 +45,8 @@ const SessionHeader = (): React.ReactElement => {
   }, [queryData]);
 
   return (
-    <ItemStats
+    <HeaderItem
       title='Session'
-      subtitle={null}
       value={sessionHead?.index.toString() || 'fetching...'}
     />
   );

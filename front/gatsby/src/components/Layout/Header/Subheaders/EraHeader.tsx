@@ -7,6 +7,7 @@ import { ApiContext } from '@substrate/context';
 import { ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
+import HeaderItem from '../HeaderItem';
 import { ERAS_SUBSCRIPTION, LATEST_ERA_QUERY } from '../../../../util/graphql';
 import { EraHead } from '../types';
 
@@ -47,15 +48,13 @@ const EraHeader = (): React.ReactElement => {
   }, [api, queryData]);
 
   return (
-    <>
-      <ItemStats
-        title='Era Index:'
-        subtitle={`total points: ${
-          eraHead ? eraHead.totalPoints.toString() : 'fetching....'
-        }`}
-        value={eraHead ? eraHead.index.toString() : 'fetching....'}
-      />
-    </>
+    <HeaderItem
+      title='Era Index:'
+      subtitle={`total points: ${
+        eraHead ? eraHead.totalPoints.toString() : 'fetching....'
+      }`}
+      value={eraHead ? eraHead.index.toString() : 'fetching....'}
+    />
   );
 };
 

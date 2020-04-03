@@ -8,6 +8,7 @@ import { ApiContext } from '@substrate/context';
 import { ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
+import HeaderItem from '../HeaderItem';
 import { STAKING_SUBSCRIPTION } from '../../../../util/graphql';
 import { StakingHead } from '../types';
 
@@ -35,7 +36,7 @@ const StakingHeader = (): React.ReactElement => {
   }, [api, data, stakeHead]);
 
   return (
-    <ItemStats
+    <HeaderItem
       title='Total Stake'
       subtitle={null}
       value={stakeHead ? formatBalance(stakeHead.totalStake) : 'fetching...'}

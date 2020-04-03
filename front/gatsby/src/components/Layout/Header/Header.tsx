@@ -6,10 +6,12 @@ import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
 import { Icon, Menu } from '@substrate/ui-components';
 import { Link, navigate } from 'gatsby';
-import React from 'react';
+import React, { createRef } from 'react';
+import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
 
 import { APP_TITLE } from '../../../util';
 import { AccountsDropdown } from '../../AccountsDropdown';
+import HeaderItem from './HeaderItem';
 import {
   BlockHeader,
   EraHeader,
@@ -17,41 +19,40 @@ import {
   StakingHeader,
 } from './Subheaders';
 
-type Props = RouteComponentProps;
+interface Props extends RouteComponentProps {
+  handleToggle: () => void;
+};
 
-export default function Header(_props: Props): React.ReactElement {
+export default function Header(props: Props): React.ReactElement {
+  const { handleToggle } = props;
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
+
+  const contextRef = createRef();
 
   const navToCartPage = (): void => {
     navigate('/cart');
   };
 
   return (
-    <>
-      <Menu>
+    <Sticky context={contextRef}>
+      <Menu stackable>
+        <Menu.Item>
+          <Icon name='bars' onClick={handleToggle} />
+        </Menu.Item>
         <Menu.Item>
           <h2>{APP_TITLE}</h2>
         </Menu.Item>
-        <Menu.Menu>
-          <Menu.Item>
-            <Link to='/accounts'>Accounts</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to='/validators'>Validators</Link>
-          </Menu.Item>
-        </Menu.Menu>
-        <Menu.Menu position='right'>
+        <Menu.Menu stackable position='right'>
           <BlockHeader />
           <EraHeader />
           <SessionHeader />
           <StakingHeader />
-          <AccountsDropdown />
           <Menu.Item>
             <Icon link name='cart' size='large' onClick={navToCartPage} />
             <p>{cartItemsCount}</p>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-    </>
+    </Sticky>
   );
 }
