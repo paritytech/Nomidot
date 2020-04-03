@@ -111,7 +111,6 @@ const BondingModal = (): React.ReactElement => {
     accountForStash,
     accountForController,
     bondAmount,
-    api.tx.staking,
     rewardDestination,
     accountBalanceMap,
   ]);
