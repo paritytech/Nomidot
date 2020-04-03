@@ -4,10 +4,10 @@
 
 import { RouteComponentProps } from '@reach/router';
 import React, { useState } from 'react';
+import { Segment, Sidebar } from 'semantic-ui-react';
 
 import { LoadableHeader } from './Header';
 import { VerticalSidebar } from './Sidebar';
-import { Segment, Sidebar } from 'semantic-ui-react';
 
 interface Props extends RouteComponentProps {
   children: React.ReactNode;
@@ -19,10 +19,10 @@ export function Layout(props: Props): React.ReactElement {
 
   const toggleSidebar = () => {
     setVisible(!visible);
-  }
+  };
 
   return (
-    <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }} >
+    <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }}>
       <VerticalSidebar handleToggle={toggleSidebar} visible={visible} />
       <Sidebar.Pusher>
         <LoadableHeader handleToggle={toggleSidebar} {...props} />

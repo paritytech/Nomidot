@@ -185,16 +185,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     fetchAccounts();
-  }, []);
+  }, [fetchAccounts]);
 
   useEffect(() => {
     getStashInfo();
-  }, [allAccounts, apiPromise, isApiReady]);
+  }, [allAccounts, apiPromise, getStashInfo, isApiReady]);
 
   useEffect(() => {
     getDerivedStaking();
     getDerivedBalances();
-  }, [allStashes]);
+  }, [allStashes, getDerivedBalances, getDerivedStaking]);
 
   return (
     <AccountsContext.Provider

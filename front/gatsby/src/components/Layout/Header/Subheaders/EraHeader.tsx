@@ -4,11 +4,10 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { ApiContext } from '@substrate/context';
-import { ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
-import HeaderItem from '../HeaderItem';
 import { ERAS_SUBSCRIPTION, LATEST_ERA_QUERY } from '../../../../util/graphql';
+import HeaderItem from '../HeaderItem';
 import { EraHead } from '../types';
 
 const EraHeader = (): React.ReactElement => {

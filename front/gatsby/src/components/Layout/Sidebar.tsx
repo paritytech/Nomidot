@@ -1,10 +1,6 @@
-import React from 'react'
-import {
-  Icon,
-  Menu,
-  Sidebar,
-} from 'semantic-ui-react'
-import { navigate } from 'gatsby'
+import { navigate } from 'gatsby';
+import React from 'react';
+import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 
 interface Props {
   handleToggle: () => void;
@@ -37,4 +33,4 @@ export const VerticalSidebar = ({ handleToggle, visible }: Props) => (
       Cart
     </Menu.Item>
   </Sidebar>
-)
+);

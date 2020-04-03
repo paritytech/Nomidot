@@ -5,13 +5,11 @@
 import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
 import { Icon, Menu } from '@substrate/ui-components';
-import { Link, navigate } from 'gatsby';
+import { navigate } from 'gatsby';
 import React, { createRef } from 'react';
 import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
 
 import { APP_TITLE } from '../../../util';
-import { AccountsDropdown } from '../../AccountsDropdown';
-import HeaderItem from './HeaderItem';
 import {
   BlockHeader,
   EraHeader,
@@ -21,7 +19,7 @@ import {
 
 interface Props extends RouteComponentProps {
   handleToggle: () => void;
-};
+}
 
 export default function Header(props: Props): React.ReactElement {
   const { handleToggle } = props;

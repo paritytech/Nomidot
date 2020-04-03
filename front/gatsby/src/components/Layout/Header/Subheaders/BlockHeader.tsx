@@ -5,9 +5,9 @@
 import { useSubscription } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
 
-import HeaderItem from '../HeaderItem';
 import { toShortAddress } from '../../../../util';
 import { BLOCKS_SUBSCRIPTION } from '../../../../util/graphql';
+import HeaderItem from '../HeaderItem';
 import { BlockHead } from '../types';
 
 const BlockHeader = (): React.ReactElement => {
