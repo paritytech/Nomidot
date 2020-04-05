@@ -183,12 +183,19 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   }, [chain, originName]);
 
+  const setSigner = () => {
+    if (apiPromise && extension) {
+      apiPromise.setSigner(extension?.signer);
+    }
+  }
+
   useEffect(() => {
     fetchAccounts();
   }, []);
 
   useEffect(() => {
     getStashInfo();
+    setSigner();
   }, [allAccounts, apiPromise, isApiReady]);
 
   useEffect(() => {
