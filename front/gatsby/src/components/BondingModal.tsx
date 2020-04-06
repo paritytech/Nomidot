@@ -106,7 +106,14 @@ const BondingModal = (): React.ReactElement => {
         setBondingError(undefined);
       }
     }
-  }, [apiPromise, accountForStash, accountForController, bondAmount]);
+  }, [
+    apiPromise,
+    accountForStash,
+    accountForController,
+    bondAmount,
+    rewardDestination,
+    accountBalanceMap,
+  ]);
 
   const checkUserInputs = () => {
     if (!accountForStash) {
@@ -149,6 +156,7 @@ const BondingModal = (): React.ReactElement => {
     apiPromise,
     checkFees,
     rewardDestination,
+    checkUserInputs,
   ]);
 
   const selectStash = (address: string) => {

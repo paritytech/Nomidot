@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
-import { ItemStats } from '@substrate/design-system';
 import React, { useEffect, useState } from 'react';
 
 import {
   LATEST_SESSION_QUERY,
   SESSIONS_SUBSCRIPTION,
 } from '../../../../util/graphql';
+import HeaderItem from '../HeaderItem';
 import { SessionHead } from '../types';
 
 const SessionHeader = (): React.ReactElement => {
@@ -44,9 +44,8 @@ const SessionHeader = (): React.ReactElement => {
   }, [queryData]);
 
   return (
-    <ItemStats
+    <HeaderItem
       title='Session'
-      subtitle={null}
       value={sessionHead?.index.toString() || 'fetching...'}
     />
   );
