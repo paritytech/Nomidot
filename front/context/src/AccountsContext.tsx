@@ -98,7 +98,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const getDerivedBalances = () => {
     if (allAccounts && apiPromise) {
       setLoadingBalances(true);
-      const addresses = allAccounts.map(account => account.address);
+      const addresses = allAccounts.map((account) => account.address);
 
       const result: Record<string, DeriveBalancesAll> = {};
       addresses.map(async (address: string) => {
@@ -115,7 +115,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const getDerivedStaking = () => {
     if (allStashes && apiPromise) {
       const result: Record<string, DeriveStakingQuery> = {};
-      allStashes.map(async stashId => {
+      allStashes.map(async (stashId) => {
         const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
         result[stashId] = stakingInfo;
@@ -128,7 +128,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const getStashInfo = async () => {
     if (isApiReady && apiPromise && allAccounts) {
       setLoadingAccountStaking(true);
-      const addresses = allAccounts.map(account => account.address);
+      const addresses = allAccounts.map((account) => account.address);
 
       const allBonded: Option<
         AccountId

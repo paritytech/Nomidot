@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingAccount } from '@polkadot/api-derive/types';
+import { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 
 // calculates the bonded, first being the own, the second being nominated
 export function calcBonded(
-  stakingInfo?: DerivedStakingAccount,
+  stakingInfo?: DeriveStakingAccount,
   bonded?: boolean | BN[]
 ): [BN, BN[]] {
   let other: BN[] = [];

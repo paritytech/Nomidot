@@ -97,7 +97,7 @@ const createTreasury: Task<NomidotTreasury[]> = {
   },
   write: async (blockNumber: BlockNumber, value: NomidotTreasury[]) => {
     await Promise.all(
-      value.map(async prop => {
+      value.map(async (prop) => {
         const {
           proposer,
           beneficiary,

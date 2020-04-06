@@ -106,7 +106,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
     }
 
     await Promise.all(
-      value.map(async referendum => {
+      value.map(async (referendum) => {
         const {
           delay,
           end,
@@ -126,7 +126,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // however, there can only be one preimage with the status "Noted"
         // at a time
         const notedPreimage = preimages.length
-          ? preimages.filter(async preimage => {
+          ? preimages.filter(async (preimage) => {
               await prisma.preimageStatuses({
                 where: {
                   AND: [

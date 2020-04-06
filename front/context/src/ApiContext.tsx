@@ -52,7 +52,7 @@ export function ApiContextProvider(
     // might be connecting to a different node, or the node might have changed
     // settings.
     if (promise) {
-      apiPromise.isReady.then(_ => {
+      apiPromise.isReady.then((_) => {
         setIsReady(true);
       });
     } else {

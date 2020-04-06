@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { getSpecTypes } from '@polkadot/types-known';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from './generated/prisma-client';
@@ -21,9 +21,9 @@ function waitFinalized(
   api: ApiPromise,
   lastKnownBestFinalized: number
 ): Promise<{ unsub: () => void; bestFinalizedBlock: number }> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     async function wait(): Promise<void> {
-      const unsub = await api.derive.chain.bestNumberFinalized(best => {
+      const unsub = await api.derive.chain.bestNumberFinalized((best) => {
         if (best.toNumber() > lastKnownBestFinalized) {
           resolve({ unsub, bestFinalizedBlock: best.toNumber() });
         }
@@ -45,9 +45,9 @@ function waitLagLimit(
   api: ApiPromise,
   blockIndex: number
 ): Promise<{ unsub: () => void; bestBlock: number }> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     async function wait(): Promise<void> {
-      const unsub = await api.derive.chain.bestNumber(bestBlock => {
+      const unsub = await api.derive.chain.bestNumber((bestBlock) => {
         if (reachedLimitLag(blockIndex, bestBlock.toNumber())) {
           resolve({ unsub, bestBlock: bestBlock.toNumber() });
         }
@@ -64,14 +64,14 @@ export async function nodeWatcher(): Promise<unknown> {
     const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
     ApiPromise.create({ provider })
-      .then(async api => {
-        api.once('error', e => {
+      .then(async (api) => {
+        api.once('error', (e) => {
           keepLooping = false;
           api.disconnect();
           reject(new Error(`Api error: ${e}`));
         });
 
-        api.once('disconnected', e => {
+        api.once('disconnected', (e) => {
           keepLooping = false;
           api.disconnect();
           reject(new Error(`Api disconnected: ${e}`));
@@ -168,7 +168,12 @@ export async function nodeWatcher(): Promise<unknown> {
             // based on the node spec & chain, inject specific type overrides
             const chain = await api.rpc.system.chain();
             api.registry.register(
-              getSpecTypes(api.registry, chain, runtimeVersion.specName, runtimeVersion.specVersion)
+              getSpecTypes(
+                api.registry,
+                chain,
+                runtimeVersion.specName,
+                runtimeVersion.specVersion
+              )
             );
             api.registry.setMetadata(rpcMeta);
           }
@@ -211,7 +216,7 @@ export async function nodeWatcher(): Promise<unknown> {
           });
         }
       })
-      .catch(e => {
+      .catch((e) => {
         keepLooping = false;
         reject(new Error(`Connection error: ${e}`));
       });

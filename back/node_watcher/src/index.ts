@@ -11,7 +11,7 @@ const l = logger('main');
 
 async function main(): Promise<void> {
   await pRetry(nodeWatcher, {
-    onFailedAttempt: error => {
+    onFailedAttempt: (error) => {
       console.log(
         `${error.message} - Retry attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
       );
@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   });
 }
 
-main().catch(e => {
+main().catch((e) => {
   l.error(e);
   process.exit(1);
 });

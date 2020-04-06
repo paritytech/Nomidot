@@ -26,7 +26,7 @@ export const wrapRootElement = ({ element }) => (
     <ApiContextProvider provider={WS_PROVIDER}>
       <SystemContextProvider provider={WS_PROVIDER}>
         <SystemContext.Consumer>
-          {isSystemReady => {
+          {(isSystemReady) => {
             return (
               isSystemReady && (
                 <TxQueueContextProvider>

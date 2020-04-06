@@ -95,7 +95,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
     }
 
     await Promise.all(
-      value.map(async prop => {
+      value.map(async (prop) => {
         const { proposalId: pId, status } = prop;
 
         await prisma.createProposalStatus({

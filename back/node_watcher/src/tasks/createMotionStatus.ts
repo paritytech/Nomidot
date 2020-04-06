@@ -118,7 +118,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
     }
 
     await Promise.all(
-      value.map(async prop => {
+      value.map(async (prop) => {
         const { motionProposalId: mPId, status } = prop;
 
         await prisma.createMotionStatus({

@@ -99,7 +99,7 @@ const createProposal: Task<NomidotProposal[]> = {
   },
   write: async (blockNumber: BlockNumber, value: NomidotProposal[]) => {
     await Promise.all(
-      value.map(async prop => {
+      value.map(async (prop) => {
         const {
           author,
           depositAmount,
@@ -117,7 +117,7 @@ const createProposal: Task<NomidotProposal[]> = {
         // at a time
         const notedPreimage =
           preimages.length &&
-          preimages.filter(async preimage => {
+          preimages.filter(async (preimage) => {
             await prisma.preimageStatuses({
               where: {
                 AND: [{ id: preimage.id }, { status: preimageStatus.NOTED }],

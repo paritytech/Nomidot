@@ -51,7 +51,7 @@ const createCouncil: Task<NomidotCouncil> = {
         },
       });
 
-      value.map(async _address => {
+      value.map(async (_address) => {
         await prisma.upsertCouncilMember({
           create: {
             address: _address.toString(),

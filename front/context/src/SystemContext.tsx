@@ -78,7 +78,7 @@ export function SystemContextProvider(
     // settings.
     const sub = providerConnected(provider)
       .pipe(
-        filter(connected => !!connected),
+        filter((connected) => !!connected),
         switchMap(() =>
           combineLatest([
             rpc.system.chain(),
@@ -117,7 +117,7 @@ export function SystemContextProvider(
   useEffect(() => {
     const sub = providerConnected(provider)
       .pipe(
-        filter(connected => !!connected),
+        filter((connected) => !!connected),
         switchMap(() =>
           combineLatest([
             merge(

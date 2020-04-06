@@ -35,7 +35,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
       ({ event: { method, section } }) =>
         section === 'democracy' &&
         Object.values(referendumStatus)
-          .filter(status => status !== referendumStatus.STARTED)
+          .filter((status) => status !== referendumStatus.STARTED)
           .includes(method)
     );
 
@@ -96,7 +96,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
   ) => {
     if (value && value.length) {
       await Promise.all(
-        value.map(async ref => {
+        value.map(async (ref) => {
           const { referendumId, status } = ref;
 
           await prisma.createReferendumStatus({

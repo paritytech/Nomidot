@@ -41,7 +41,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
   },
   write: async (blockNumber: BlockNumber, value: NomidotSlashing[]) => {
     await Promise.all(
-      value.map(async slashEvent => {
+      value.map(async (slashEvent) => {
         const { who, amount } = slashEvent;
         await prisma.createSlashing({
           blockNumber: {

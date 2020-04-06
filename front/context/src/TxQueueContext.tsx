@@ -117,10 +117,10 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
    * Unsubscribe the tx with id `extrinsicId`
    */
   const closeTxSubscription = (extrinsicId: number): void => {
-    const tx = txQueue.find(tx => tx.id === extrinsicId);
+    const tx = txQueue.find((tx) => tx.id === extrinsicId);
     if (tx) {
       tx.unsubscribe();
-      setTxQueue(txQueue.filter(tx => tx.id !== extrinsicId));
+      setTxQueue(txQueue.filter((tx) => tx.id !== extrinsicId));
     }
   };
 
@@ -163,7 +163,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
    * Sign and send the tx with id `extrinsicId`
    */
   const signAndSubmit = (extrinsicId: number): void => {
-    const pendingExtrinsic = txQueue.find(tx => tx.id === extrinsicId);
+    const pendingExtrinsic = txQueue.find((tx) => tx.id === extrinsicId);
 
     if (!pendingExtrinsic) {
       l.error(`There's no extrinsic with id #${extrinsicId}`);

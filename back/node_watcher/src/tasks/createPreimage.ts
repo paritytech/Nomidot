@@ -123,7 +123,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
   },
   write: async (blockNumber: BlockNumber, value: NomidotPreimage[]) => {
     await Promise.all(
-      value.map(async prop => {
+      value.map(async (prop) => {
         const {
           author,
           depositAmount,

@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 export function providerConnected(
   provider: ProviderInterface
 ): Observable<boolean> {
-  return new Observable(subscriber => {
+  return new Observable((subscriber) => {
     if (provider.isConnected()) {
       subscriber.next(true);
     } else {

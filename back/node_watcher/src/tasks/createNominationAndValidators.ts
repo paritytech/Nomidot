@@ -103,7 +103,7 @@ const createNominationAndValidators: Task<Set<
           }
           // per validator in session, get nominator info
           await Promise.all(
-            exposure.others.map(async individualExposure => {
+            exposure.others.map(async (individualExposure) => {
               const { who, value } = individualExposure;
 
               // bonded controller if nominator is a stash

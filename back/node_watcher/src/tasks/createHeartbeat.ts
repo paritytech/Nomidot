@@ -34,7 +34,7 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
 
     if (heartbeatEvents) {
       heartbeatEvents.map(({ event: { data } }) => {
-        data.map(authorityId => {
+        data.map((authorityId) => {
           result.push({
             authorityId,
             sessionIndex,

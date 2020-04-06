@@ -41,7 +41,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
 
     if (someOfflineEvents && someOfflineEvents.length) {
       someOfflineEvents.map(({ event: { data } }: EventRecord) => {
-        data.map(idTuples => {
+        data.map((idTuples) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
           // @ts-ignore
           idTuples.map((idTuple: IdentificationTuple) => {
@@ -90,7 +90,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
             total: total.toHex(),
             own: own.toHex(),
             others: {
-              set: others.map(other => {
+              set: others.map((other) => {
                 return {
                   who: other.who.toHex(),
                   value: other.value.toHex(),

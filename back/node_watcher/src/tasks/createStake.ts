@@ -41,7 +41,7 @@ const createStake: Task<NomidotStake> = {
       );
 
       await Promise.all(
-        currentElected.map(async stashId => {
+        currentElected.map(async (stashId) => {
           const exposure: Exposure = await api.query.staking.stakers.at(
             blockHash,
             stashId
@@ -57,7 +57,7 @@ const createStake: Task<NomidotStake> = {
       const validators = await api.query.session.validators.at(blockHash);
 
       const currentElected = queuedKeys
-        .map(key => key[0])
+        .map((key) => key[0])
         .filter((accountId: AccountId) =>
           validators.includes(accountId as ValidatorId)
         );
@@ -67,7 +67,7 @@ const createStake: Task<NomidotStake> = {
       );
 
       await Promise.all(
-        currentElected.map(async stashId => {
+        currentElected.map(async (stashId) => {
           const exposure: Exposure = await api.query.staking.erasStakers.at(
             blockHash,
             currentEra.unwrapOrDefault(),
@@ -79,7 +79,7 @@ const createStake: Task<NomidotStake> = {
       );
     }
 
-    stakersInfoForEachCurrentElectedValidator.map(exposure => {
+    stakersInfoForEachCurrentElectedValidator.map((exposure) => {
       if (exposure) {
         const bondTotal = exposure.total.unwrap();
         totalStaked = totalStaked.add(bondTotal);

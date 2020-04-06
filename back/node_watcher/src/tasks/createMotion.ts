@@ -140,7 +140,7 @@ const createMotion: Task<NomidotMotion[]> = {
   },
   write: async (blockNumber: BlockNumber, value: NomidotMotion[]) => {
     await Promise.all(
-      value.map(async prop => {
+      value.map(async (prop) => {
         const {
           author,
           memberCount,
@@ -164,7 +164,7 @@ const createMotion: Task<NomidotMotion[]> = {
         // however, there can only be one preimage with the status "Noted"
         // at a time
         const notedPreimage = preimages?.length
-          ? preimages.filter(async preimage => {
+          ? preimages.filter(async (preimage) => {
               await prisma.preimageStatuses({
                 where: {
                   AND: [{ id: preimage.id }, { status: preimageStatus.NOTED }],
