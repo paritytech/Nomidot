@@ -82,7 +82,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const addresses = allAccounts.map(account => account.address);
 
       const result: Record<string, DerivedBalancesAll> = {};
-      
+
       await Promise.all(addresses.map(async (address: string) => {
         const derivedBalances = await apiPromise.derive.balances.all(address);
 
@@ -188,16 +188,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, []);
+  }, [fetchAccounts]);
 
   useEffect(() => {
     getStashInfo();
-  }, [allAccounts, apiPromise, isApiReady]);
+  }, [allAccounts, apiPromise, getStashInfo, isApiReady]);
 
   useEffect(() => {
     getDerivedStaking();
     getDerivedBalances();
-  }, [allStashes]);
+  }, [allStashes, getDerivedBalances, getDerivedStaking]);
 
   return (
     <AccountsContext.Provider
