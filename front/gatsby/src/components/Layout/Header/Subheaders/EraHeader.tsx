@@ -4,10 +4,10 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { ApiContext } from '@substrate/context';
-import { ItemStats } from '@substrate/design-system';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { ERAS_SUBSCRIPTION, LATEST_ERA_QUERY } from '../../../../util/graphql';
+import HeaderItem from '../HeaderItem';
 import { EraHead } from '../types';
 
 const EraHeader = (): React.ReactElement => {
@@ -47,15 +47,13 @@ const EraHeader = (): React.ReactElement => {
   }, [api, queryData]);
 
   return (
-    <>
-      <ItemStats
-        title='Era Index:'
-        subtitle={`total points: ${
-          eraHead ? eraHead.totalPoints.toString() : 'fetching....'
-        }`}
-        value={eraHead ? eraHead.index.toString() : 'fetching....'}
-      />
-    </>
+    <HeaderItem
+      title='Era Index:'
+      subtitle={`total points: ${
+        eraHead ? eraHead.totalPoints.toString() : 'fetching....'
+      }`}
+      value={eraHead ? eraHead.index.toString() : 'fetching....'}
+    />
   );
 };
 
