@@ -76,20 +76,20 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
-  const getDerivedBalances = () => {
+  const getDerivedBalances = async () => {
     if (allAccounts && apiPromise) {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
       const result: Record<string, DerivedBalancesAll> = {};
-      addresses.map(async (address: string) => {
+      
+      await Promise.all(addresses.map(async (address: string) => {
         const derivedBalances = await apiPromise.derive.balances.all(address);
 
         result[address] = derivedBalances;
-      });
+      }));
 
       setAccountBalanceMap(result);
-      localStorage.removeItem('derivedBalances');
       writeStorage('derivedBalances', JSON.stringify(result));
       setLoadingBalances(false);
     }
