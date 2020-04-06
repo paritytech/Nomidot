@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import {
-  DerivedBalancesAll,
-  DerivedStakingQuery,
+  DeriveBalancesAll,
+  DeriveStakingQuery,
 } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
@@ -27,7 +27,7 @@ import { SystemContext } from './SystemContext';
 import { IS_SSR } from './util';
 
 interface AccountsContext {
-  accountBalanceMap: Record<string, DerivedBalancesAll>;
+  accountBalanceMap: Record<string, DeriveBalancesAll>;
   allAccounts: InjectedAccountWithMeta[];
   // allControllers: StakingLedger[];
   allStashes: string[];
@@ -38,7 +38,7 @@ interface AccountsContext {
   loadingAccountStaking: boolean;
   loadingBalances: boolean;
   setCurrentAccount: React.Dispatch<React.SetStateAction<string | undefined>>;
-  stashControllerMap: Record<string, DerivedStakingQuery>;
+  stashControllerMap: Record<string, DeriveStakingQuery>;
 }
 
 const l = logger('accounts-context');
@@ -83,11 +83,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { chain } = useContext(SystemContext);
   const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [accountBalanceMap, setAccountBalanceMap] = useState<
-    Record<string, DerivedBalancesAll>
+    Record<string, DeriveBalancesAll>
   >({});
   const [allStashes, setAllStashes] = useState<string[]>([]);
   const [stashControllerMap, setStashControllerMap] = useState<
-    Record<string, DerivedStakingQuery>
+    Record<string, DeriveStakingQuery>
   >({});
   const [currentAccount, setCurrentAccount] = useState<string>();
   const [extension, setExtension] = useState<InjectedExtension>();
@@ -100,7 +100,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
-      const result: Record<string, DerivedBalancesAll> = {};
+      const result: Record<string, DeriveBalancesAll> = {};
       addresses.map(async (address: string) => {
         const derivedBalances = await apiPromise.derive.balances.all(address);
 
@@ -114,7 +114,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const getDerivedStaking = () => {
     if (allStashes && apiPromise) {
-      const result: Record<string, DerivedStakingQuery> = {};
+      const result: Record<string, DeriveStakingQuery> = {};
       allStashes.map(async stashId => {
         const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
