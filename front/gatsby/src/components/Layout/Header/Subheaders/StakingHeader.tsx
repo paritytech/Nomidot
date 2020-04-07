@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useSubscription } from '@apollo/react-hooks';
+import { useSubscription } from '@apollo/client';
 import { formatBalance } from '@polkadot/util';
 import { ApiContext } from '@substrate/context';
 import React, { useContext, useEffect, useState } from 'react';
