@@ -2,7 +2,7 @@
 // // This software may be modified and distributed under the terms
 // // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveBalancesAll, DerivedFees } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll, DeriveFees } from '@polkadot/api-derive/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountInfo } from '@polkadot/types/interfaces';
 import { compactToU8a } from '@polkadot/util';
@@ -27,7 +27,7 @@ export function validateFees(
   amount = new BN(0),
   currentBalance: DeriveBalancesAll,
   extrinsic: SubmittableExtrinsic<'promise' | 'rxjs'>,
-  fees: DerivedFees
+  fees: DeriveFees
 ): [Errors, BN, BN] {
   const txLength =
     SIGNATURE_SIZE +
