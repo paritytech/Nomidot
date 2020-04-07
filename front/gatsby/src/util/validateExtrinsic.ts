@@ -2,7 +2,7 @@
 // // This software may be modified and distributed under the terms
 // // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll, DerivedFees } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll, DerivedFees } from '@polkadot/api-derive/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountInfo } from '@polkadot/types/interfaces';
 import { compactToU8a } from '@polkadot/util';
@@ -25,7 +25,7 @@ type Errors = Error[];
 export function validateFees(
   accountNonce: AccountInfo,
   amount = new BN(0),
-  currentBalance: DerivedBalancesAll,
+  currentBalance: DeriveBalancesAll,
   extrinsic: SubmittableExtrinsic<'promise' | 'rxjs'>,
   fees: DerivedFees
 ): [Errors, BN, BN] {
