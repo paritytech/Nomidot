@@ -190,12 +190,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }
 
   useEffect(() => {
+    setSigner();
     fetchAccounts();
   }, []);
 
   useEffect(() => {
     getStashInfo();
-    setSigner();
   }, [allAccounts, apiPromise, isApiReady]);
 
   useEffect(() => {
