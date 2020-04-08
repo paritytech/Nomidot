@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import {
-  DerivedBalancesAll,
-  DerivedStakingQuery,
+  DeriveBalancesAll,
+  DeriveStakingQuery,
 } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
@@ -27,8 +27,8 @@ import { ApiContext } from './ApiContext';
 import { SystemContext } from './SystemContext';
 import { getStashes, IS_SSR } from './util';
 
-type AccountBalanceMap = Record<string, DerivedBalancesAll>;
-type StashControllerMap = Record<string, DerivedStakingQuery>;
+type AccountBalanceMap = Record<string, DeriveBalancesAll>;
+type StashControllerMap = Record<string, DeriveStakingQuery>;
 
 interface AccountsContext {
   accountBalanceMap: AccountBalanceMap;
@@ -81,8 +81,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
-      const result: Record<string, DerivedBalancesAll> = {};
-
+      const result: AccountBalanceMap = {};
       await Promise.all(addresses.map(async (address: string) => {
         const derivedBalances = await apiPromise.derive.balances.all(address);
 
@@ -97,7 +96,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const getDerivedStaking = () => {
     if (allStashes && apiPromise && apiPromise.isReady) {
-      const result: Record<string, DerivedStakingQuery> = {};
+      const result: StashControllerMap = {};
       
       allStashes.map(async stashId => {
         console.log(stashId)

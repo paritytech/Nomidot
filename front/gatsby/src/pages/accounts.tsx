@@ -9,12 +9,12 @@ import { Spinner } from '@substrate/design-system';
 import {
   AddressSummary,
   Container,
-  Dropdown,
   Margin,
   Stacked,
   Table,
 } from '@substrate/ui-components';
 import React, { useContext } from 'react';
+import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
 
 import BondingModal from '../components/BondingModal';
