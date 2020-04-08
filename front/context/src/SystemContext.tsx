@@ -31,14 +31,14 @@ function distinctCodecChanged<T extends Codec>(): MonoTypeOperatorFunction<T> {
  * System-wide meta-information about the chain (nothing from its state)
  */
 export interface SystemContextType {
-  chain: Text;
-  genesisHash: BlockHash;
-  header: Header;
-  health: Health;
-  isSystemReady: boolean;
-  name: Text;
-  properties: ChainProperties;
-  version: Text;
+  chain?: Text;
+  genesisHash?: BlockHash;
+  header?: Header;
+  health?: Health;
+  isSystemReady?: boolean;
+  name?: Text;
+  properties?: ChainProperties;
+  version?: Text;
 }
 
 const l = logger('system-context');
@@ -49,7 +49,7 @@ export const SystemContext: React.Context<SystemContextType> = React.createConte
 
 export interface SystemContextProviderProps {
   children?: React.ReactElement;
-  provider: ProviderInterface;
+  provider?: ProviderInterface;
 }
 
 export function SystemContextProvider(
@@ -65,14 +65,22 @@ export function SystemContextProvider(
   const [version, setVersion] = useState<Text>();
 
   const registryRef = useRef(new TypeRegistry());
-  const [rpc, setRpc] = useState(new Rpc(registryRef.current, provider));
+  const [rpc, setRpc] = useState<Rpc>();
 
   useEffect(() => {
+    if (!provider) {
+      return;
+    }
+
     // Create a new RPC client each time we change provider
     setRpc(new Rpc(registryRef.current, provider));
   }, [provider]);
 
   useEffect(() => {
+    if (!provider || !rpc) {
+      return;
+    }
+
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
@@ -115,6 +123,10 @@ export function SystemContextProvider(
   }, [provider, rpc]);
 
   useEffect(() => {
+    if (!provider || !rpc) {
+      return;
+    }
+
     const sub = providerConnected(provider)
       .pipe(
         filter(connected => !!connected),
@@ -143,10 +155,10 @@ export function SystemContextProvider(
   return (
     <SystemContext.Provider
       value={{
-        chain: chain as Text,
-        genesisHash: genesisHash as BlockHash,
-        header: header as Header,
-        health: health as Health,
+        chain,
+        genesisHash,
+        header,
+        health,
         isSystemReady: !!(
           chain &&
           genesisHash &&
@@ -156,9 +168,9 @@ export function SystemContextProvider(
           properties &&
           version
         ),
-        name: name as Text,
-        properties: properties as ChainProperties,
-        version: version as Text,
+        name,
+        properties,
+        version,
       }}
     >
       {children}
