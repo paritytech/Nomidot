@@ -14,7 +14,7 @@ import { Option } from '@polkadot/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import { writeStorage } from '@substrate/local-storage';
+import { useLocalStorage, writeStorage } from '@substrate/local-storage';
 import React, {
   createContext,
   useCallback,
@@ -77,11 +77,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
   const getDerivedBalances = async () => {
-    if (allAccounts && apiPromise) {
+    if (allAccounts && apiPromise && isApiReady) {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
-      const result: Record<string, DerivedBalancesAll> = {};
+      const result: AccountBalanceMap = {};
 
       await Promise.all(addresses.map(async (address: string) => {
         const derivedBalances = await apiPromise.derive.balances.all(address);
@@ -96,14 +96,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   };
 
   const getDerivedStaking = () => {
-    if (allStashes && apiPromise && apiPromise.isReady) {
+    if (allStashes && apiPromise && isApiReady) {
       const result: Record<string, DerivedStakingQuery> = {};
       
       allStashes.map(async stashId => {
         console.log(stashId)
-        // const stakingInfo = await apiPromise.derive.staking.query(stashId);
+        const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
-        // result[stashId] = stakingInfo;
+        result[stashId] = stakingInfo;
       });
 
       setStashControllerMap(result);
@@ -173,31 +173,31 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const fetchCachedRpcResults = () => {
     const cachedStashes = localStorage.getItem('allStashes');
     const cachedBalances = localStorage.getItem('derivedBalances');
+    const cachedStaking = localStorage.getItem('derivedStaking');
 
     if (cachedStashes) {
       const asStashArray = JSON.parse(cachedStashes) as string[];
-
       setAllStashes(asStashArray);
     }
 
     if (cachedBalances) {
-      setAccountBalanceMap(JSON.parse(cachedBalances) as Recrod);
+      setAccountBalanceMap(JSON.parse(cachedBalances) as AccountBalanceMap);
     }
   };
 
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [fetchAccounts]);
+  }, []);
 
   useEffect(() => {
     getStashInfo();
-  }, [allAccounts, apiPromise, getStashInfo, isApiReady]);
+  }, [allAccounts, apiPromise, isApiReady]);
 
   useEffect(() => {
     getDerivedStaking();
     getDerivedBalances();
-  }, [allStashes, getDerivedBalances, getDerivedStaking]);
+  }, [allStashes, apiPromise, isApiReady]);
 
   return (
     <AccountsContext.Provider

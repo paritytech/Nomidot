@@ -43,24 +43,28 @@ const AccountsList = (_props: Props): React.ReactElement => {
     return (
       <>
         <Table.Cell padded='very'>
-          {staking ? (
-            <AddressSummary
-              address={staking.controllerId?.toHuman()}
-              api={api}
-              name={thisInjectedController?.meta.name}
-              noBalance
-              size='tiny'
-            />
-          ) : (
-            <Spinner active inline />
-          )}
+          {
+            loadingAccountStaking
+              ? <Spinner active inline />
+              : !staking
+                ? 'no staking info'
+                : <AddressSummary
+                    address={staking.controllerId?.toHuman()}
+                    api={api}
+                    name={thisInjectedController?.meta.name}
+                    noBalance
+                    size='tiny'
+                  />
+          }
         </Table.Cell>
         <Table.Cell padded='very'>
-          {staking ? (
-            staking.stakingLedger?.active.toHuman()
-          ) : (
-            <Spinner inline active />
-          )}
+          {
+            loadingAccountStaking
+              ? <Spinner inline active />
+              : !staking
+                ? 'no staking info'
+                : staking.stakingLedger?.active.toHuman()
+          }
         </Table.Cell>
       </>
     );
@@ -74,7 +78,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
     return (
       <Table.Cell padded='very'>
-        {loadingAccountStaking ? (
+        {!allStashes ? (
           <Spinner active inline />
         ) : (
           <AddressSummary
@@ -116,25 +120,27 @@ const AccountsList = (_props: Props): React.ReactElement => {
   };
 
   const renderBalanceColumns = (account: string) => {
+    const thisAccount = accountBalanceMap[account];
+    
     return (
       <>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account] ? (
-            accountBalanceMap[account].lockedBalance.toHuman()
+          {thisAccount ? (
+            thisAccount.lockedBalance.toHuman && thisAccount.lockedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account] ? (
-            accountBalanceMap[account].reservedBalance.toHuman()
+          {thisAccount ? (
+            thisAccount.reservedBalance.toHuman && thisAccount.reservedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account] ? (
-            accountBalanceMap[account].freeBalance.toHuman()
+          {thisAccount ? (
+            thisAccount.freeBalance.toHuman && thisAccount.freeBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
@@ -197,7 +203,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
             ? allStashes.map((account: string) =>
                 renderBondedAccountRow(account)
               )
-            : null}
+            : 'No Bonded Accounts'}
         </Table.Body>
       </Table>
     );

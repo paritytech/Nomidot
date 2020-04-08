@@ -40,7 +40,7 @@ export default function Header(props: Props): React.ReactElement {
         <Menu.Item>
           <h2>{APP_TITLE}</h2>
         </Menu.Item>
-        <Menu.Menu stackable position='right'>
+        <Menu.Menu stackable='true' position='right'>
           <BlockHeader />
           <EraHeader />
           <SessionHeader />
