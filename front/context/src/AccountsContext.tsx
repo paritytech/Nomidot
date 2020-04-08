@@ -14,7 +14,7 @@ import { Option } from '@polkadot/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import { useLocalStorage, writeStorage } from '@substrate/local-storage';
+import { writeStorage } from '@substrate/local-storage';
 import React, {
   createContext,
   useCallback,
@@ -67,9 +67,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   // state
   const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-  const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>({});
+  const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>(
+    {}
+  );
   const [allStashes, setAllStashes] = useState<string[]>([]);
-  const [stashControllerMap, setStashControllerMap] = useState<StashControllerMap>({});
+  const [stashControllerMap, setStashControllerMap] = useState<
+    StashControllerMap
+  >({});
   const [currentAccount, setCurrentAccount] = useState<string>();
   const [extension, setExtension] = useState<InjectedExtension>();
   const [loadingBalances, setLoadingBalances] = useState(true);
@@ -83,11 +87,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       const result: AccountBalanceMap = {};
 
-      await Promise.all(addresses.map(async (address: string) => {
-        const derivedBalances = await apiPromise.derive.balances.all(address);
+      await Promise.all(
+        addresses.map(async (address: string) => {
+          const derivedBalances = await apiPromise.derive.balances.all(address);
 
-        result[address] = derivedBalances;
-      }));
+          result[address] = derivedBalances;
+        })
+      );
 
       setAccountBalanceMap(result);
       writeStorage('derivedBalances', JSON.stringify(result));
@@ -98,13 +104,15 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const getDerivedStaking = async () => {
     if (allStashes && apiPromise && isApiReady) {
       const result: StashControllerMap = {};
-      
-      await Promise.all(allStashes.map(async stashId => {
-        console.log(stashId)
-        const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
-        result[stashId] = stakingInfo;
-      }));
+      await Promise.all(
+        allStashes.map(async stashId => {
+          console.log(stashId);
+          const stakingInfo = await apiPromise.derive.staking.query(stashId);
+
+          result[stashId] = stakingInfo;
+        })
+      );
 
       setStashControllerMap(result);
       writeStorage('derivedStaking', JSON.stringify(result));

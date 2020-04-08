@@ -28,6 +28,4 @@ function getStashes(
   return result;
 }
 
-export {
-  getStashes
-}
+export { getStashes };
