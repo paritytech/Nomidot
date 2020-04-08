@@ -6,7 +6,7 @@
   "private": true,
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
-    "build": "yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/node-watcher --scope @substrate/nomidot-gatsby",
+    "build": "yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/node-watcher --scope @substrate/nomidot-server --scope @substrate/nomidot-gatsby",
     "netlify": "cd front/gatsby && yarn build",
     "clean": "rimraf front/**/lib back/**/lib front/**/.cache back/**/.cache",
     "lerna:bump": "lerna version --conventional-commits",
@@ -22,7 +22,7 @@
     ]
   },
   "dependencies": {
-    "@polkadot/api": "^1.8.1"
+    "@polkadot/api": "^1.9.1"
   },
   "devDependencies": {
     "@polkadot/dev": "^0.51.5",

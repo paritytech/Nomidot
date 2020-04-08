@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import {
-  DerivedBalancesAll,
-  DerivedStakingQuery,
+  DeriveBalancesAll,
+  DeriveStakingQuery,
 } from '@polkadot/api-derive/types';
 import {
   InjectedAccountWithMeta,
@@ -27,8 +27,8 @@ import { ApiContext } from './ApiContext';
 import { SystemContext } from './SystemContext';
 import { getStashes, IS_SSR } from './util';
 
-type AccountBalanceMap = Record<string, DerivedBalancesAll>;
-type StashControllerMap = Record<string, DerivedStakingQuery>;
+type AccountBalanceMap = Record<string, DeriveBalancesAll>;
+type StashControllerMap = Record<string, DeriveStakingQuery>;
 
 interface AccountsContext {
   accountBalanceMap: AccountBalanceMap;
@@ -95,18 +95,19 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   };
 
-  const getDerivedStaking = () => {
+  const getDerivedStaking = async () => {
     if (allStashes && apiPromise && isApiReady) {
-      const result: Record<string, DerivedStakingQuery> = {};
+      const result: StashControllerMap = {};
       
-      allStashes.map(async stashId => {
+      await Promise.all(allStashes.map(async stashId => {
         console.log(stashId)
         const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
         result[stashId] = stakingInfo;
-      });
+      }));
 
       setStashControllerMap(result);
+      writeStorage('derivedStaking', JSON.stringify(result));
     }
   };
 
@@ -182,6 +183,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
     if (cachedBalances) {
       setAccountBalanceMap(JSON.parse(cachedBalances) as AccountBalanceMap);
+    }
+
+    if (cachedStaking) {
+      setStashControllerMap(JSON.parse(cachedStaking) as StashControllerMap);
     }
   };
 

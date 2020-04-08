@@ -9,12 +9,12 @@ import { Spinner } from '@substrate/design-system';
 import {
   AddressSummary,
   Container,
-  Dropdown,
   Margin,
   Stacked,
   Table,
 } from '@substrate/ui-components';
 import React, { useContext } from 'react';
+import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
 
 import BondingModal from '../components/BondingModal';
@@ -37,7 +37,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
     const thisInjectedController = allAccounts.find(
       (injectedAccount: InjectedAccountWithMeta) =>
-        injectedAccount.address === account && !allStashes.includes(account)
+        injectedAccount.address === account && !allStashes.includes(injectedAccount.address)
     );
 
     return (
@@ -49,7 +49,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
               : !staking
                 ? 'no staking info'
                 : <AddressSummary
-                    address={staking.controllerId?.toHuman()}
+                    address={staking.controllerId?.toHuman && staking.controllerId?.toHuman()}
                     api={api}
                     name={thisInjectedController?.meta.name}
                     noBalance
@@ -63,7 +63,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
               ? <Spinner inline active />
               : !staking
                 ? 'no staking info'
-                : staking.stakingLedger?.active.toHuman()
+                : staking.stakingLedger?.active.toHuman && staking.stakingLedger?.active.toHuman()
           }
         </Table.Cell>
       </>
@@ -125,25 +125,25 @@ const AccountsList = (_props: Props): React.ReactElement => {
     return (
       <>
         <Table.Cell padded='very'>
-          {thisAccount ? (
-            thisAccount.lockedBalance.toHuman && thisAccount.lockedBalance.toHuman()
-          ) : (
-            <Spinner active inline />
-          )}
+          {
+            thisAccount && thisAccount.lockedBalance.toHuman
+              ? thisAccount.lockedBalance.toHuman()
+              : <Spinner active inline />
+          }
         </Table.Cell>
         <Table.Cell padded='very'>
-          {thisAccount ? (
-            thisAccount.reservedBalance.toHuman && thisAccount.reservedBalance.toHuman()
-          ) : (
-            <Spinner active inline />
-          )}
+          {
+            thisAccount && thisAccount.reservedBalance.toHuman
+              ? thisAccount.reservedBalance.toHuman()
+              : <Spinner active inline />
+          }
         </Table.Cell>
         <Table.Cell padded='very'>
-          {thisAccount ? (
-            thisAccount.freeBalance.toHuman && thisAccount.freeBalance.toHuman()
-          ) : (
-            <Spinner active inline />
-          )}
+          {
+            thisAccount && thisAccount.freeBalance.toHuman
+             ? thisAccount.freeBalance.toHuman()
+             : <Spinner active inline />
+          }
         </Table.Cell>
       </>
     );
@@ -170,12 +170,12 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
+  // FIXME doesnt make sense to render balacne here because it's not clear to the user whether the balance is for the stash or the controller. Would make sense to defer that to account details page.
   const renderBondedAccountRow = (account: string): React.ReactElement => {
     return (
       <Table.Row key={shortid.generate()}>
         {renderStashColumn(account)}
         {renderStakingQueryColumns(account)}
-        {renderBalanceColumns(account)}
         {renderActionsForBonded()}
       </Table.Row>
     );
@@ -192,9 +192,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
             <Table.HeaderCell>Stash</Table.HeaderCell>
             <Table.HeaderCell>Controller</Table.HeaderCell>
             <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
-            <Table.HeaderCell>Locked</Table.HeaderCell>
-            <Table.HeaderCell>Reserved Balance</Table.HeaderCell>
-            <Table.HeaderCell>Transferrable</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>

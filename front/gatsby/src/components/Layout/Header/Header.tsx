@@ -4,9 +4,10 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
-import { Icon, Menu } from '@substrate/ui-components';
+import { Icon } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { createRef } from 'react';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
 
 import { APP_TITLE } from '../../../util';
