@@ -33,6 +33,7 @@
     "react-helmet": "^5.2.1",
     "react-transition-group": "^4.3.0",
     "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "shortid": "^2.2.15",
     "subscriptions-transport-ws": "^0.9.16",
     "ws": "^7.2.1"
