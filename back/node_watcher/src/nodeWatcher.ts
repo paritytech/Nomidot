@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { getSpecTypes } from '@polkadot/types-known';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces';
-import { getSpecTypes } from '@polkadot/types/known';
 import { logger } from '@polkadot/util';
 
 import { prisma } from './generated/prisma-client';
@@ -168,7 +168,12 @@ export async function nodeWatcher(): Promise<unknown> {
             // based on the node spec & chain, inject specific type overrides
             const chain = await api.rpc.system.chain();
             api.registry.register(
-              getSpecTypes(api.registry, chain, runtimeVersion)
+              getSpecTypes(
+                api.registry,
+                chain,
+                runtimeVersion.specName,
+                runtimeVersion.specVersion
+              )
             );
             api.registry.setMetadata(rpcMeta);
           }
