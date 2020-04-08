@@ -107,7 +107,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       await Promise.all(
         allStashes.map(async stashId => {
-          console.log(stashId);
           const stakingInfo = await apiPromise.derive.staking.query(stashId);
 
           result[stashId] = stakingInfo;
