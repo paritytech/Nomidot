@@ -1347,6 +1347,7 @@ type MotionStatus {
   blockNumber: BlockNumber!
   motion: Motion!
   status: String!
+  uniqueStatus: String
 }
 
 type MotionStatusConnection {
@@ -1360,6 +1361,7 @@ input MotionStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   motion: MotionCreateOneWithoutMotionStatusInput!
   status: String!
+  uniqueStatus: String
 }
 
 input MotionStatusCreateManyWithoutMotionInput {
@@ -1371,6 +1373,7 @@ input MotionStatusCreateWithoutMotionInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
+  uniqueStatus: String
 }
 
 type MotionStatusEdge {
@@ -1383,11 +1386,14 @@ enum MotionStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type MotionStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String
 }
 
 input MotionStatusScalarWhereInput {
@@ -1419,6 +1425,20 @@ input MotionStatusScalarWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [MotionStatusScalarWhereInput!]
   OR: [MotionStatusScalarWhereInput!]
   NOT: [MotionStatusScalarWhereInput!]
@@ -1446,14 +1466,17 @@ input MotionStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   motion: MotionUpdateOneRequiredWithoutMotionStatusInput
   status: String
+  uniqueStatus: String
 }
 
 input MotionStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input MotionStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input MotionStatusUpdateManyWithoutMotionInput {
@@ -1476,6 +1499,7 @@ input MotionStatusUpdateManyWithWhereNestedInput {
 input MotionStatusUpdateWithoutMotionDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   status: String
+  uniqueStatus: String
 }
 
 input MotionStatusUpdateWithWhereUniqueWithoutMotionInput {
@@ -1520,6 +1544,20 @@ input MotionStatusWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [MotionStatusWhereInput!]
   OR: [MotionStatusWhereInput!]
   NOT: [MotionStatusWhereInput!]
@@ -1527,6 +1565,7 @@ input MotionStatusWhereInput {
 
 input MotionStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type MotionSubscriptionPayload {
@@ -3264,6 +3303,7 @@ type ProposalStatus {
   blockNumber: BlockNumber!
   proposal: Proposal!
   status: String!
+  uniqueStatus: String
 }
 
 type ProposalStatusConnection {
@@ -3277,6 +3317,7 @@ input ProposalStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   proposal: ProposalCreateOneWithoutProposalStatusInput!
   status: String!
+  uniqueStatus: String
 }
 
 input ProposalStatusCreateManyWithoutProposalInput {
@@ -3288,6 +3329,7 @@ input ProposalStatusCreateWithoutProposalInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
+  uniqueStatus: String
 }
 
 type ProposalStatusEdge {
@@ -3300,11 +3342,14 @@ enum ProposalStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type ProposalStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String
 }
 
 input ProposalStatusScalarWhereInput {
@@ -3336,6 +3381,20 @@ input ProposalStatusScalarWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [ProposalStatusScalarWhereInput!]
   OR: [ProposalStatusScalarWhereInput!]
   NOT: [ProposalStatusScalarWhereInput!]
@@ -3363,14 +3422,17 @@ input ProposalStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   proposal: ProposalUpdateOneRequiredWithoutProposalStatusInput
   status: String
+  uniqueStatus: String
 }
 
 input ProposalStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input ProposalStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input ProposalStatusUpdateManyWithoutProposalInput {
@@ -3393,6 +3455,7 @@ input ProposalStatusUpdateManyWithWhereNestedInput {
 input ProposalStatusUpdateWithoutProposalDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   status: String
+  uniqueStatus: String
 }
 
 input ProposalStatusUpdateWithWhereUniqueWithoutProposalInput {
@@ -3437,6 +3500,20 @@ input ProposalStatusWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [ProposalStatusWhereInput!]
   OR: [ProposalStatusWhereInput!]
   NOT: [ProposalStatusWhereInput!]
@@ -3444,6 +3521,7 @@ input ProposalStatusWhereInput {
 
 input ProposalStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type ProposalSubscriptionPayload {
@@ -3766,6 +3844,7 @@ type ReferendumStatus {
   blockNumber: BlockNumber!
   referendum: Referendum!
   status: String!
+  uniqueStatus: String
 }
 
 type ReferendumStatusConnection {
@@ -3779,6 +3858,7 @@ input ReferendumStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   referendum: ReferendumCreateOneWithoutReferendumStatusInput!
   status: String!
+  uniqueStatus: String
 }
 
 input ReferendumStatusCreateManyWithoutReferendumInput {
@@ -3790,6 +3870,7 @@ input ReferendumStatusCreateWithoutReferendumInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
+  uniqueStatus: String
 }
 
 type ReferendumStatusEdge {
@@ -3802,11 +3883,14 @@ enum ReferendumStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type ReferendumStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String
 }
 
 input ReferendumStatusScalarWhereInput {
@@ -3838,6 +3922,20 @@ input ReferendumStatusScalarWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [ReferendumStatusScalarWhereInput!]
   OR: [ReferendumStatusScalarWhereInput!]
   NOT: [ReferendumStatusScalarWhereInput!]
@@ -3865,14 +3963,17 @@ input ReferendumStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   referendum: ReferendumUpdateOneRequiredWithoutReferendumStatusInput
   status: String
+  uniqueStatus: String
 }
 
 input ReferendumStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input ReferendumStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input ReferendumStatusUpdateManyWithoutReferendumInput {
@@ -3895,6 +3996,7 @@ input ReferendumStatusUpdateManyWithWhereNestedInput {
 input ReferendumStatusUpdateWithoutReferendumDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   status: String
+  uniqueStatus: String
 }
 
 input ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput {
@@ -3939,6 +4041,20 @@ input ReferendumStatusWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [ReferendumStatusWhereInput!]
   OR: [ReferendumStatusWhereInput!]
   NOT: [ReferendumStatusWhereInput!]
@@ -3946,6 +4062,7 @@ input ReferendumStatusWhereInput {
 
 input ReferendumStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type ReferendumSubscriptionPayload {
@@ -4957,6 +5074,7 @@ type TreasuryStatus {
   blockNumber: BlockNumber!
   treasurySpendProposal: TreasurySpendProposal!
   status: String!
+  uniqueStatus: String
 }
 
 type TreasuryStatusConnection {
@@ -4970,6 +5088,7 @@ input TreasuryStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput!
   status: String!
+  uniqueStatus: String
 }
 
 input TreasuryStatusCreateManyWithoutTreasurySpendProposalInput {
@@ -4981,6 +5100,7 @@ input TreasuryStatusCreateWithoutTreasurySpendProposalInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
+  uniqueStatus: String
 }
 
 type TreasuryStatusEdge {
@@ -4993,11 +5113,14 @@ enum TreasuryStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type TreasuryStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String
 }
 
 input TreasuryStatusScalarWhereInput {
@@ -5029,6 +5152,20 @@ input TreasuryStatusScalarWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [TreasuryStatusScalarWhereInput!]
   OR: [TreasuryStatusScalarWhereInput!]
   NOT: [TreasuryStatusScalarWhereInput!]
@@ -5056,14 +5193,17 @@ input TreasuryStatusUpdateInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   treasurySpendProposal: TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput
   status: String
+  uniqueStatus: String
 }
 
 input TreasuryStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input TreasuryStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput {
@@ -5086,6 +5226,7 @@ input TreasuryStatusUpdateManyWithWhereNestedInput {
 input TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput {
   blockNumber: BlockNumberUpdateOneRequiredInput
   status: String
+  uniqueStatus: String
 }
 
 input TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposalInput {
@@ -5130,6 +5271,20 @@ input TreasuryStatusWhereInput {
   status_not_starts_with: String
   status_ends_with: String
   status_not_ends_with: String
+  uniqueStatus: String
+  uniqueStatus_not: String
+  uniqueStatus_in: [String!]
+  uniqueStatus_not_in: [String!]
+  uniqueStatus_lt: String
+  uniqueStatus_lte: String
+  uniqueStatus_gt: String
+  uniqueStatus_gte: String
+  uniqueStatus_contains: String
+  uniqueStatus_not_contains: String
+  uniqueStatus_starts_with: String
+  uniqueStatus_not_starts_with: String
+  uniqueStatus_ends_with: String
+  uniqueStatus_not_ends_with: String
   AND: [TreasuryStatusWhereInput!]
   OR: [TreasuryStatusWhereInput!]
   NOT: [TreasuryStatusWhereInput!]
@@ -5137,6 +5292,7 @@ input TreasuryStatusWhereInput {
 
 input TreasuryStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type Validator {

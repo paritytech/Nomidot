@@ -1218,13 +1218,17 @@ export type MotionStatusOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "status_ASC"
-  | "status_DESC";
+  | "status_DESC"
+  | "uniqueStatus_ASC"
+  | "uniqueStatus_DESC";
 
 export type ProposalStatusOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "status_ASC"
-  | "status_DESC";
+  | "status_DESC"
+  | "uniqueStatus_ASC"
+  | "uniqueStatus_DESC";
 
 export type PreimageArgumentOrderByInput =
   | "id_ASC"
@@ -1244,13 +1248,17 @@ export type ReferendumStatusOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "status_ASC"
-  | "status_DESC";
+  | "status_DESC"
+  | "uniqueStatus_ASC"
+  | "uniqueStatus_DESC";
 
 export type TreasuryStatusOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "status_ASC"
-  | "status_DESC";
+  | "status_DESC"
+  | "uniqueStatus_ASC"
+  | "uniqueStatus_DESC";
 
 export type MotionOrderByInput =
   | "id_ASC"
@@ -1922,6 +1930,20 @@ export interface MotionStatusWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<MotionStatusWhereInput[] | MotionStatusWhereInput>;
   OR?: Maybe<MotionStatusWhereInput[] | MotionStatusWhereInput>;
   NOT?: Maybe<MotionStatusWhereInput[] | MotionStatusWhereInput>;
@@ -2139,6 +2161,20 @@ export interface ProposalStatusWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
   OR?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
   NOT?: Maybe<ProposalStatusWhereInput[] | ProposalStatusWhereInput>;
@@ -2330,6 +2366,20 @@ export interface ReferendumStatusWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
   OR?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
   NOT?: Maybe<ReferendumStatusWhereInput[] | ReferendumStatusWhereInput>;
@@ -2454,6 +2504,20 @@ export interface TreasuryStatusWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<TreasuryStatusWhereInput[] | TreasuryStatusWhereInput>;
   OR?: Maybe<TreasuryStatusWhereInput[] | TreasuryStatusWhereInput>;
   NOT?: Maybe<TreasuryStatusWhereInput[] | TreasuryStatusWhereInput>;
@@ -2465,6 +2529,7 @@ export type MotionProposalArgumentWhereUniqueInput = AtLeastOne<{
 
 export type MotionStatusWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  uniqueStatus?: Maybe<String>;
 }>;
 
 export type NominationWhereUniqueInput = AtLeastOne<{
@@ -2648,6 +2713,7 @@ export type ProposalWhereUniqueInput = AtLeastOne<{
 
 export type ProposalStatusWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  uniqueStatus?: Maybe<String>;
 }>;
 
 export type ReferendumWhereUniqueInput = AtLeastOne<{
@@ -2657,6 +2723,7 @@ export type ReferendumWhereUniqueInput = AtLeastOne<{
 
 export type ReferendumStatusWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  uniqueStatus?: Maybe<String>;
 }>;
 
 export type RewardWhereUniqueInput = AtLeastOne<{
@@ -2857,6 +2924,7 @@ export type TreasurySpendProposalWhereUniqueInput = AtLeastOne<{
 
 export type TreasuryStatusWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  uniqueStatus?: Maybe<String>;
 }>;
 
 export type ValidatorWhereUniqueInput = AtLeastOne<{
@@ -3310,6 +3378,7 @@ export interface MotionStatusCreateWithoutMotionInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface PreimageCreateOneWithoutMotionInput {
@@ -3358,6 +3427,7 @@ export interface ProposalStatusCreateWithoutProposalInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface PreimageArgumentCreateManyWithoutPreimageInput {
@@ -3420,6 +3490,7 @@ export interface ReferendumStatusCreateWithoutReferendumInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface TreasurySpendProposalCreateOneWithoutMotionInput {
@@ -3452,6 +3523,7 @@ export interface TreasuryStatusCreateWithoutTreasurySpendProposalInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface MotionUpdateInput {
@@ -3633,6 +3705,7 @@ export interface MotionStatusUpdateWithWhereUniqueWithoutMotionInput {
 export interface MotionStatusUpdateWithoutMotionDataInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface MotionStatusUpsertWithWhereUniqueWithoutMotionInput {
@@ -3670,6 +3743,20 @@ export interface MotionStatusScalarWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<MotionStatusScalarWhereInput[] | MotionStatusScalarWhereInput>;
   OR?: Maybe<MotionStatusScalarWhereInput[] | MotionStatusScalarWhereInput>;
   NOT?: Maybe<MotionStatusScalarWhereInput[] | MotionStatusScalarWhereInput>;
@@ -3682,6 +3769,7 @@ export interface MotionStatusUpdateManyWithWhereNestedInput {
 
 export interface MotionStatusUpdateManyDataInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface PreimageUpdateOneWithoutMotionInput {
@@ -3765,6 +3853,7 @@ export interface ProposalStatusUpdateWithWhereUniqueWithoutProposalInput {
 export interface ProposalStatusUpdateWithoutProposalDataInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ProposalStatusUpsertWithWhereUniqueWithoutProposalInput {
@@ -3802,6 +3891,20 @@ export interface ProposalStatusScalarWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<
     ProposalStatusScalarWhereInput[] | ProposalStatusScalarWhereInput
   >;
@@ -3818,6 +3921,7 @@ export interface ProposalStatusUpdateManyWithWhereNestedInput {
 
 export interface ProposalStatusUpdateManyDataInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ProposalUpsertWithoutPreimageInput {
@@ -4096,6 +4200,7 @@ export interface ReferendumStatusUpdateWithWhereUniqueWithoutReferendumInput {
 export interface ReferendumStatusUpdateWithoutReferendumDataInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ReferendumStatusUpsertWithWhereUniqueWithoutReferendumInput {
@@ -4133,6 +4238,20 @@ export interface ReferendumStatusScalarWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<
     ReferendumStatusScalarWhereInput[] | ReferendumStatusScalarWhereInput
   >;
@@ -4151,6 +4270,7 @@ export interface ReferendumStatusUpdateManyWithWhereNestedInput {
 
 export interface ReferendumStatusUpdateManyDataInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ReferendumUpsertWithoutPreimageInput {
@@ -4225,6 +4345,7 @@ export interface TreasuryStatusUpdateWithWhereUniqueWithoutTreasurySpendProposal
 export interface TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface TreasuryStatusUpsertWithWhereUniqueWithoutTreasurySpendProposalInput {
@@ -4262,6 +4383,20 @@ export interface TreasuryStatusScalarWhereInput {
   status_not_starts_with?: Maybe<String>;
   status_ends_with?: Maybe<String>;
   status_not_ends_with?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
+  uniqueStatus_not?: Maybe<String>;
+  uniqueStatus_in?: Maybe<String[] | String>;
+  uniqueStatus_not_in?: Maybe<String[] | String>;
+  uniqueStatus_lt?: Maybe<String>;
+  uniqueStatus_lte?: Maybe<String>;
+  uniqueStatus_gt?: Maybe<String>;
+  uniqueStatus_gte?: Maybe<String>;
+  uniqueStatus_contains?: Maybe<String>;
+  uniqueStatus_not_contains?: Maybe<String>;
+  uniqueStatus_starts_with?: Maybe<String>;
+  uniqueStatus_not_starts_with?: Maybe<String>;
+  uniqueStatus_ends_with?: Maybe<String>;
+  uniqueStatus_not_ends_with?: Maybe<String>;
   AND?: Maybe<
     TreasuryStatusScalarWhereInput[] | TreasuryStatusScalarWhereInput
   >;
@@ -4278,6 +4413,7 @@ export interface TreasuryStatusUpdateManyWithWhereNestedInput {
 
 export interface TreasuryStatusUpdateManyDataInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface TreasurySpendProposalUpsertWithoutMotionInput {
@@ -4368,6 +4504,7 @@ export interface MotionStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   motion: MotionCreateOneWithoutMotionStatusInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface MotionCreateOneWithoutMotionStatusInput {
@@ -4397,6 +4534,7 @@ export interface MotionStatusUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   motion?: Maybe<MotionUpdateOneRequiredWithoutMotionStatusInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface MotionUpdateOneRequiredWithoutMotionStatusInput {
@@ -4431,6 +4569,7 @@ export interface MotionUpsertWithoutMotionStatusInput {
 
 export interface MotionStatusUpdateManyMutationInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface NominationCreateInput {
@@ -4784,6 +4923,7 @@ export interface ProposalStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   proposal: ProposalCreateOneWithoutProposalStatusInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ProposalCreateOneWithoutProposalStatusInput {
@@ -4803,6 +4943,7 @@ export interface ProposalStatusUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   proposal?: Maybe<ProposalUpdateOneRequiredWithoutProposalStatusInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ProposalUpdateOneRequiredWithoutProposalStatusInput {
@@ -4827,6 +4968,7 @@ export interface ProposalUpsertWithoutProposalStatusInput {
 
 export interface ProposalStatusUpdateManyMutationInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ReferendumCreateInput {
@@ -4908,6 +5050,7 @@ export interface ReferendumStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   referendum: ReferendumCreateOneWithoutReferendumStatusInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ReferendumCreateOneWithoutReferendumStatusInput {
@@ -4928,6 +5071,7 @@ export interface ReferendumStatusUpdateInput {
   blockNumber?: Maybe<BlockNumberUpdateOneRequiredInput>;
   referendum?: Maybe<ReferendumUpdateOneRequiredWithoutReferendumStatusInput>;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ReferendumUpdateOneRequiredWithoutReferendumStatusInput {
@@ -4953,6 +5097,7 @@ export interface ReferendumUpsertWithoutReferendumStatusInput {
 
 export interface ReferendumStatusUpdateManyMutationInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface RewardCreateInput {
@@ -5120,6 +5265,7 @@ export interface TreasuryStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput;
   status: String;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface TreasurySpendProposalCreateOneWithoutTreasuryStatusInput {
@@ -5142,6 +5288,7 @@ export interface TreasuryStatusUpdateInput {
     TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput
   >;
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput {
@@ -5167,6 +5314,7 @@ export interface TreasurySpendProposalUpsertWithoutTreasuryStatusInput {
 
 export interface TreasuryStatusUpdateManyMutationInput {
   status?: Maybe<String>;
+  uniqueStatus?: Maybe<String>;
 }
 
 export interface ValidatorCreateInput {
@@ -6385,6 +6533,7 @@ export interface MotionProposalArgumentNullablePromise
 export interface MotionStatus {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface MotionStatusPromise
@@ -6394,6 +6543,7 @@ export interface MotionStatusPromise
   blockNumber: <T = BlockNumberPromise>() => T;
   motion: <T = MotionPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface MotionStatusSubscription
@@ -6403,6 +6553,7 @@ export interface MotionStatusSubscription
   blockNumber: <T = BlockNumberSubscription>() => T;
   motion: <T = MotionSubscription>() => T;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface MotionStatusNullablePromise
@@ -6412,6 +6563,7 @@ export interface MotionStatusNullablePromise
   blockNumber: <T = BlockNumberPromise>() => T;
   motion: <T = MotionPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface Preimage {
@@ -6596,6 +6748,7 @@ export interface ProposalNullablePromise
 export interface ProposalStatus {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface ProposalStatusPromise
@@ -6605,6 +6758,7 @@ export interface ProposalStatusPromise
   blockNumber: <T = BlockNumberPromise>() => T;
   proposal: <T = ProposalPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface ProposalStatusSubscription
@@ -6614,6 +6768,7 @@ export interface ProposalStatusSubscription
   blockNumber: <T = BlockNumberSubscription>() => T;
   proposal: <T = ProposalSubscription>() => T;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProposalStatusNullablePromise
@@ -6623,6 +6778,7 @@ export interface ProposalStatusNullablePromise
   blockNumber: <T = BlockNumberPromise>() => T;
   proposal: <T = ProposalPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface PreimageArgument {
@@ -6765,6 +6921,7 @@ export interface ReferendumNullablePromise
 export interface ReferendumStatus {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface ReferendumStatusPromise
@@ -6774,6 +6931,7 @@ export interface ReferendumStatusPromise
   blockNumber: <T = BlockNumberPromise>() => T;
   referendum: <T = ReferendumPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface ReferendumStatusSubscription
@@ -6783,6 +6941,7 @@ export interface ReferendumStatusSubscription
   blockNumber: <T = BlockNumberSubscription>() => T;
   referendum: <T = ReferendumSubscription>() => T;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ReferendumStatusNullablePromise
@@ -6792,6 +6951,7 @@ export interface ReferendumStatusNullablePromise
   blockNumber: <T = BlockNumberPromise>() => T;
   referendum: <T = ReferendumPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface TreasurySpendProposal {
@@ -6871,6 +7031,7 @@ export interface TreasurySpendProposalNullablePromise
 export interface TreasuryStatus {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface TreasuryStatusPromise
@@ -6880,6 +7041,7 @@ export interface TreasuryStatusPromise
   blockNumber: <T = BlockNumberPromise>() => T;
   treasurySpendProposal: <T = TreasurySpendProposalPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface TreasuryStatusSubscription
@@ -6889,6 +7051,7 @@ export interface TreasuryStatusSubscription
   blockNumber: <T = BlockNumberSubscription>() => T;
   treasurySpendProposal: <T = TreasurySpendProposalSubscription>() => T;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface TreasuryStatusNullablePromise
@@ -6898,6 +7061,7 @@ export interface TreasuryStatusNullablePromise
   blockNumber: <T = BlockNumberPromise>() => T;
   treasurySpendProposal: <T = TreasurySpendProposalPromise>() => T;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface MotionConnection {
@@ -8694,6 +8858,7 @@ export interface MotionStatusSubscriptionPayloadSubscription
 export interface MotionStatusPreviousValues {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface MotionStatusPreviousValuesPromise
@@ -8701,6 +8866,7 @@ export interface MotionStatusPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface MotionStatusPreviousValuesSubscription
@@ -8708,6 +8874,7 @@ export interface MotionStatusPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface NominationSubscriptionPayload {
@@ -9050,6 +9217,7 @@ export interface ProposalStatusSubscriptionPayloadSubscription
 export interface ProposalStatusPreviousValues {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface ProposalStatusPreviousValuesPromise
@@ -9057,6 +9225,7 @@ export interface ProposalStatusPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface ProposalStatusPreviousValuesSubscription
@@ -9064,6 +9233,7 @@ export interface ProposalStatusPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ReferendumSubscriptionPayload {
@@ -9150,6 +9320,7 @@ export interface ReferendumStatusSubscriptionPayloadSubscription
 export interface ReferendumStatusPreviousValues {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface ReferendumStatusPreviousValuesPromise
@@ -9157,6 +9328,7 @@ export interface ReferendumStatusPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface ReferendumStatusPreviousValuesSubscription
@@ -9164,6 +9336,7 @@ export interface ReferendumStatusPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface RewardSubscriptionPayload {
@@ -9476,6 +9649,7 @@ export interface TreasuryStatusSubscriptionPayloadSubscription
 export interface TreasuryStatusPreviousValues {
   id: ID_Output;
   status: String;
+  uniqueStatus?: String;
 }
 
 export interface TreasuryStatusPreviousValuesPromise
@@ -9483,6 +9657,7 @@ export interface TreasuryStatusPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   status: () => Promise<String>;
+  uniqueStatus: () => Promise<String>;
 }
 
 export interface TreasuryStatusPreviousValuesSubscription
@@ -9490,6 +9665,7 @@ export interface TreasuryStatusPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   status: () => Promise<AsyncIterator<String>>;
+  uniqueStatus: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ValidatorSubscriptionPayload {

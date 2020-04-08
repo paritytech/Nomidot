@@ -162,6 +162,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
                 },
               },
               status,
+              uniqueStatus: `${referendumIndex}_${status}`,
             },
           },
           voteThreshold: voteThreshold.toString(),

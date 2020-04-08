@@ -121,6 +121,7 @@ type MotionStatus {
   blockNumber: BlockNumber! @relation(name: "MotionStatusAtBlockNumber", link: INLINE)
   motion: Motion! @relation(name: "MotionStatusFromMotion", link: INLINE)
   status: String!
+  uniqueStatus: String @unique
 }
 
 type Proposal {
@@ -138,6 +139,7 @@ type ProposalStatus {
   blockNumber: BlockNumber! @relation(name: "ProposalStatusAtBlockNumber", link: INLINE)
   proposal: Proposal! @relation(name: "ProposalStatusFromProposal", link: INLINE)
   status: String!
+  uniqueStatus: String @unique
 }
 
 type Preimage {
@@ -185,6 +187,7 @@ type ReferendumStatus {
   blockNumber: BlockNumber! @relation(name: "ReferendumStatusAtBlockNumber", link: INLINE)
   referendum: Referendum! @relation(name: "ReferendumStatusFromReferendum", link: INLINE)
   status: String!
+  uniqueStatus: String @unique
 }
 
 type BlockIndex {
@@ -210,4 +213,5 @@ type TreasuryStatus {
   blockNumber: BlockNumber! @relation(name: "TreasuryStatusAtBlockNumber", link: INLINE)
   treasurySpendProposal: TreasurySpendProposal! @relation(name: "TreasuryStatusFromTreasurySpendProposal", link: INLINE)
   status: String!
+  uniqueStatus: String @unique
 }

@@ -121,6 +121,7 @@ const createTreasury: Task<NomidotTreasury[]> = {
                 },
               },
               status,
+              uniqueStatus: `${treasuryProposalId}_${status}`,
             },
           },
         });
