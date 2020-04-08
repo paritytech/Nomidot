@@ -35,7 +35,7 @@ export interface SystemContextType {
   genesisHash?: BlockHash;
   header?: Header;
   health?: Health;
-  isSystemReady?: boolean;
+  isSystemReady: boolean;
   name?: Text;
   properties?: ChainProperties;
   version?: Text;
