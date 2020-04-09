@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
+
+
+### Features
+
+* accounts context ([#228](https://github.com/paritytech/Nomidot/issues/228)) ([909f380](https://github.com/paritytech/Nomidot/commit/909f3809a2e22e2977ccfcbeca66150171e88744))
+* accounts page ([#256](https://github.com/paritytech/Nomidot/issues/256)) ([1120cba](https://github.com/paritytech/Nomidot/commit/1120cbae9202c244d1b118e3f7c89ce64a7eb6a7))
+* cache accounts context results ([#285](https://github.com/paritytech/Nomidot/issues/285)) ([c25e304](https://github.com/paritytech/Nomidot/commit/c25e304cba0633bc6660543a43ea1edd66fb8b8d))
+* new header ([#269](https://github.com/paritytech/Nomidot/issues/269)) ([f0a34fb](https://github.com/paritytech/Nomidot/commit/f0a34fb45ca3526f09969f9b178cdd62a0de86bf))
+
+
+
+
+
 ## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
 
 

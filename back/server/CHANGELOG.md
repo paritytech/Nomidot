@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
+
+
+### Bug Fixes
+
+* replicasets ([#246](https://github.com/paritytech/Nomidot/issues/246)) ([101d39c](https://github.com/paritytech/Nomidot/commit/101d39cba8ab0c94376ea74f27fdbe64649f0151))
+* server deployment strategy, nodewatcher replicas ([#270](https://github.com/paritytech/Nomidot/issues/270)) ([7ccc2de](https://github.com/paritytech/Nomidot/commit/7ccc2de4b541d1b260df28d1e6324f9438440dda))
+* Use domains instead of ips ([#278](https://github.com/paritytech/Nomidot/issues/278)) ([a806ada](https://github.com/paritytech/Nomidot/commit/a806adaf632b0d7d852d6894145a2677c33266f2))
+
+
+
+
+
 ## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
 
 

@@ -133,6 +133,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
             },
           },
           status,
+          uniqueStatus: `${mPId}_${status}`,
         });
       })
     );

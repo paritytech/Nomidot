@@ -39,15 +39,15 @@ export interface HealthContextType {
  * @param health - The health of the light node
  */
 function getNodeStatus(
-  provider: ProviderInterface,
-  header: Header | undefined,
-  health: Health | undefined
+  provider?: ProviderInterface,
+  header?: Header,
+  health?: Health
 ): Omit<HealthContextType, 'isSyncing'> {
   let best = 0;
   let isNodeConnected = false;
   let hasPeers = false;
 
-  if (provider.isConnected() && health && header) {
+  if (provider && provider.isConnected() && health && header) {
     isNodeConnected = true;
     best = header.number.toNumber();
 
@@ -69,7 +69,7 @@ export const HealthContext: React.Context<HealthContextType> = React.createConte
 
 export interface HealthContextProviderProps {
   children?: React.ReactElement;
-  provider: ProviderInterface;
+  provider?: ProviderInterface;
 }
 
 // Track if we we're already syncing
@@ -86,6 +86,10 @@ export function HealthContextProvider(
   // set isSyncing to true
   useEffect(() => {
     let timer: number | undefined;
+
+    if (!health) {
+      return;
+    }
 
     if (!wasSyncing && health.isSyncing.eq(true)) {
       wasSyncing = true;
