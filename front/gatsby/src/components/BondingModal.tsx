@@ -22,6 +22,7 @@ import {
   Modal,
   Stacked,
   StackedHorizontal,
+  WrapperDiv,
 } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -203,10 +204,8 @@ const BondingModal = (): React.ReactElement => {
   return (
     <Modal trigger={<Button>New Bond</Button>}>
       <Modal.Header>Bonding Preferences</Modal.Header>
-      <Modal.Content image>
+      <Modal.Content>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-          <StackedHorizontal alignItems='stretch' justifyContent='space-around'>
-            <Stacked justifyContent='flex-start' alignItems='flex-start'>
               <b>Choose Stash:</b>
               {accountForStash ? (
                 <>
@@ -228,8 +227,6 @@ const BondingModal = (): React.ReactElement => {
               ) : (
                 <Spinner active inline />
               )}
-            </Stacked>
-            <Stacked justifyContent='flex-start' alignItems='flex-start'>
               <b>Choose Controller:</b>
               {accountForController ? (
                 <>
@@ -251,10 +248,7 @@ const BondingModal = (): React.ReactElement => {
               ) : (
                 <Spinner active inline />
               )}
-            </Stacked>
-          </StackedHorizontal>
           <Margin top />
-          <Stacked justifyContent='space-around'>
             <Dropdown
               fluid
               placeholder='Reward Destination'
@@ -268,16 +262,13 @@ const BondingModal = (): React.ReactElement => {
               label='UNIT'
               labelPosition='right'
               min={0}
-              onChange={handler(setBondAmount)}
+              onChange={() => console.log('change')}
               placeholder='e.g. 1.00'
               type='number'
               value={String(bondAmount)}
             />
-            <Margin top />
-            <Button onClick={signAndSubmitBond}>Submit Bond</Button>
-          </Stacked>
-          <Margin top />
           <Modal.Description>
+            <Button onClick={signAndSubmitBond}>Submit Bond</Button>
             <ErrorText>{bondingError}</ErrorText>
           </Modal.Description>
         </Stacked>

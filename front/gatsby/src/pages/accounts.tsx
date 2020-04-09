@@ -37,29 +37,37 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
     const thisInjectedController = allAccounts.find(
       (injectedAccount: InjectedAccountWithMeta) =>
-        injectedAccount.address === account && !allStashes.includes(account)
+        injectedAccount.address === account &&
+        !allStashes.includes(injectedAccount.address)
     );
 
     return (
       <>
         <Table.Cell padded='very'>
-          {staking ? (
+          {loadingAccountStaking ? (
+            <Spinner active inline />
+          ) : !staking ? (
+            'no staking info'
+          ) : (
             <AddressSummary
-              address={staking.controllerId?.toHuman()}
+              address={
+                staking.controllerId?.toHuman && staking.controllerId?.toHuman()
+              }
               api={api}
               name={thisInjectedController?.meta.name}
               noBalance
               size='tiny'
             />
-          ) : (
-            <Spinner active inline />
           )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {staking ? (
-            staking.stakingLedger?.active.toHuman()
-          ) : (
+          {loadingAccountStaking ? (
             <Spinner inline active />
+          ) : !staking ? (
+            'no staking info'
+          ) : (
+            staking.stakingLedger?.active.toHuman &&
+            staking.stakingLedger?.active.toHuman()
           )}
         </Table.Cell>
       </>
@@ -74,7 +82,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
 
     return (
       <Table.Cell padded='very'>
-        {loadingAccountStaking ? (
+        {!allStashes ? (
           <Spinner active inline />
         ) : (
           <AddressSummary
@@ -116,25 +124,27 @@ const AccountsList = (_props: Props): React.ReactElement => {
   };
 
   const renderBalanceColumns = (account: string) => {
+    const thisAccount = accountBalanceMap[account];
+
     return (
       <>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account] ? (
-            accountBalanceMap[account].lockedBalance.toHuman()
+          {thisAccount && thisAccount.lockedBalance.toHuman ? (
+            thisAccount.lockedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account] ? (
-            accountBalanceMap[account].reservedBalance.toHuman()
+          {thisAccount && thisAccount.reservedBalance.toHuman ? (
+            thisAccount.reservedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Table.Cell>
         <Table.Cell padded='very'>
-          {accountBalanceMap[account] ? (
-            accountBalanceMap[account].freeBalance.toHuman()
+          {thisAccount && thisAccount.freeBalance.toHuman ? (
+            thisAccount.freeBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
@@ -164,12 +174,12 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
+  // FIXME doesnt make sense to render balacne here because it's not clear to the user whether the balance is for the stash or the controller. Would make sense to defer that to account details page.
   const renderBondedAccountRow = (account: string): React.ReactElement => {
     return (
       <Table.Row key={shortid.generate()}>
         {renderStashColumn(account)}
         {renderStakingQueryColumns(account)}
-        {renderBalanceColumns(account)}
         {renderActionsForBonded()}
       </Table.Row>
     );
@@ -186,9 +196,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
             <Table.HeaderCell>Stash</Table.HeaderCell>
             <Table.HeaderCell>Controller</Table.HeaderCell>
             <Table.HeaderCell>Bonded Amount</Table.HeaderCell>
-            <Table.HeaderCell>Locked</Table.HeaderCell>
-            <Table.HeaderCell>Reserved Balance</Table.HeaderCell>
-            <Table.HeaderCell>Transferrable</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -197,7 +204,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
             ? allStashes.map((account: string) =>
                 renderBondedAccountRow(account)
               )
-            : null}
+            : 'No Bonded Accounts'}
         </Table.Body>
       </Table>
     );
