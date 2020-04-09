@@ -7,20 +7,50 @@ import { useLocalStorage } from '@substrate/local-storage';
 import { Icon } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { createRef } from 'react';
-import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
+import styled from 'styled-components';
 
 import { APP_TITLE } from '../../../util';
-import {
-  BlockHeader,
-  EraHeader,
-  SessionHeader,
-  StakingHeader,
-} from './Subheaders';
 
 interface Props extends RouteComponentProps {
   handleToggle: () => void;
 }
+
+const ResponsiveMenu = styled.div`
+  display: flex;
+  width: 100%;
+  height: 5rem;
+  padding: 20px;
+  marginbottom: 20px;
+  background: white;
+`;
+
+const Burger = styled(Icon)`
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const CartIcon = styled.div`
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  display: flex;
+  alignitems: center;
+  justifycontent: center;
+  height: 50px;
+  width: 50px;
+`;
+
+const Logo = styled.h2`
+  position: absolute;
+  left: 4rem;
+  top: 1.8rem;
+`;
 
 export default function Header(props: Props): React.ReactElement {
   const { handleToggle } = props;
@@ -34,24 +64,14 @@ export default function Header(props: Props): React.ReactElement {
 
   return (
     <Sticky context={contextRef}>
-      <Menu stackable>
-        <Menu.Item>
-          <Icon name='bars' onClick={handleToggle} />
-        </Menu.Item>
-        <Menu.Item>
-          <h2>{APP_TITLE}</h2>
-        </Menu.Item>
-        <Menu.Menu stackable='true' position='right'>
-          <BlockHeader />
-          <EraHeader />
-          <SessionHeader />
-          <StakingHeader />
-          <Menu.Item>
-            <Icon link name='cart' size='large' onClick={navToCartPage} />
-            <p>{cartItemsCount}</p>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
+      <ResponsiveMenu>
+        <Burger name='bars' onClick={handleToggle} />
+        <Logo>{APP_TITLE}</Logo>
+        <CartIcon>
+          <Icon link name='cart' size='large' onClick={navToCartPage} />
+          {cartItemsCount}
+        </CartIcon>
+      </ResponsiveMenu>
     </Sticky>
   );
 }
