@@ -21,9 +21,9 @@ const ResponsiveMenu = styled.div`
   width: 100%;
   height: 5rem;
   padding: 20px;
-  marginBottom: 20px;
+  marginbottom: 20px;
   background: white;
-`
+`;
 
 const Burger = styled(Icon)`
   position: absolute;
@@ -40,8 +40,8 @@ const CartIcon = styled.div`
   right: 2rem;
   top: 2rem;
   display: flex;
-  alignItems: center;
-  justifyContent: center;
+  alignitems: center;
+  justifycontent: center;
   height: 50px;
   width: 50px;
 `;

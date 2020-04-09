@@ -68,7 +68,7 @@ export const TxQueueContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   enqueue: (extrinsic: Extrinsic, details: ExtrinsicDetails) => {
     console.error(INIT_ERROR);
-    return 0;
+    return 0 as number; // i have no idea why eslint needs this
   },
   txQueue: [] as PendingExtrinsic[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

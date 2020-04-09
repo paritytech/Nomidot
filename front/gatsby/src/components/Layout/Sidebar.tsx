@@ -1,7 +1,13 @@
 import { navigate } from 'gatsby';
 import React from 'react';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
-import { BlockHeader, EraHeader, SessionHeader, StakingHeader } from './Header/Subheaders';
+
+import {
+  BlockHeader,
+  EraHeader,
+  SessionHeader,
+  StakingHeader,
+} from './Header/Subheaders';
 
 interface Props {
   handleToggle: () => void;

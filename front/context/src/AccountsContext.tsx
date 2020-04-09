@@ -183,7 +183,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       api.setSigner(extension.signer);
       apiPromise.setSigner(extension.signer);
     }
-  }
+  };
   const fetchCachedRpcResults = () => {
     const cachedStashes = localStorage.getItem('allStashes');
     const cachedBalances = localStorage.getItem('derivedBalances');
@@ -205,7 +205,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     setSigner();
-  }, [isExtensionReady])
+  }, [isExtensionReady]);
 
   useEffect(() => {
     fetchAccounts();

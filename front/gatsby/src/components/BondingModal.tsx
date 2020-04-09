@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { createType } from '@polkadot/types';
 import {
   AccountsContext,
   ApiContext,
@@ -80,8 +80,14 @@ const BondingModal = (): React.ReactElement => {
   const [txId, setTxId] = useState<number>();
 
   const checkFees = async () => {
-    if (apiPromise && isApiReady && accountForStash && accountForController && bondAmount && extrinsic) {
-
+    if (
+      apiPromise &&
+      isApiReady &&
+      accountForStash &&
+      accountForController &&
+      bondAmount &&
+      extrinsic
+    ) {
       const fees = await apiPromise.derive.balances.fees();
       const accountNonce = await apiPromise.query.system.account(
         accountForStash
@@ -136,7 +142,7 @@ const BondingModal = (): React.ReactElement => {
         rewardDestination
       );
 
-      setExtrinsic(submitBondExtrinsic)
+      setExtrinsic(submitBondExtrinsic);
     }
   }, [accountForController, api, isApiReady]);
 
@@ -165,7 +171,7 @@ const BondingModal = (): React.ReactElement => {
       signAndSubmit(txId);
       navigate('/accounts');
     }
-  }, [txId, txQueue])
+  }, [txId, txQueue]);
 
   const selectStash = (address: string) => {
     setAccountForStash(address);
@@ -182,7 +188,7 @@ const BondingModal = (): React.ReactElement => {
     setRewardDestination(value as RewardDestination);
   };
 
-  const signAndSubmitBond = async () => {
+  const signAndSubmitBond = () => {
     if (
       apiPromise &&
       accountForController &&
@@ -200,76 +206,81 @@ const BondingModal = (): React.ReactElement => {
       };
 
       const id = enqueue(extrinsic, details);
-      setTxId(id);
+      setTxId((id as unknown) as number);
     }
   };
 
   return (
-    <Modal closeIcon closeOnDimmerClick dimmer trigger={<Button>New Bond</Button>}>
+    <Modal
+      closeIcon
+      closeOnDimmerClick
+      dimmer
+      trigger={<Button>New Bond</Button>}
+    >
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-              <b>Choose Stash:</b>
-              {accountForStash ? (
-                <>
-                  <InputAddress
-                    accounts={allAccounts}
-                    fromKeyring={false}
-                    onChangeAddress={selectStash}
-                    value={accountForStash}
-                    width='175px'
-                  />
-                  {loadingBalances ? (
-                    <Spinner active inline />
-                  ) : (
-                    <BalanceDisplay
-                      allBalances={accountBalanceMap[accountForStash]}
-                    />
-                  )}
-                </>
-              ) : (
+          <b>Choose Stash:</b>
+          {accountForStash ? (
+            <>
+              <InputAddress
+                accounts={allAccounts}
+                fromKeyring={false}
+                onChangeAddress={selectStash}
+                value={accountForStash}
+                width='175px'
+              />
+              {loadingBalances ? (
                 <Spinner active inline />
-              )}
-              <b>Choose Controller:</b>
-              {accountForController ? (
-                <>
-                  <InputAddress
-                    accounts={allAccounts}
-                    fromKeyring={false}
-                    onChangeAddress={selectController}
-                    value={accountForController}
-                    width='175px'
-                  />
-                  {loadingBalances ? (
-                    <Spinner active inline />
-                  ) : (
-                    <BalanceDisplay
-                      allBalances={accountBalanceMap[accountForController]}
-                    />
-                  )}
-                </>
               ) : (
-                <Spinner active inline />
+                <BalanceDisplay
+                  allBalances={accountBalanceMap[accountForStash]}
+                />
               )}
+            </>
+          ) : (
+            <Spinner active inline />
+          )}
+          <b>Choose Controller:</b>
+          {accountForController ? (
+            <>
+              <InputAddress
+                accounts={allAccounts}
+                fromKeyring={false}
+                onChangeAddress={selectController}
+                value={accountForController}
+                width='175px'
+              />
+              {loadingBalances ? (
+                <Spinner active inline />
+              ) : (
+                <BalanceDisplay
+                  allBalances={accountBalanceMap[accountForController]}
+                />
+              )}
+            </>
+          ) : (
+            <Spinner active inline />
+          )}
           <Margin top />
-            <Dropdown
-              fluid
-              placeholder='Reward Destination'
-              selection
-              onChange={handleSetRewardDestination}
-              options={rewardDestinationOptions}
-            />
-            <Margin top />
-            <Input
-              fluid
-              label='UNIT'
-              labelPosition='right'
-              min={0}
-              onChange={handler(setBondAmount)}
-              placeholder='e.g. 1.00'
-              type='number'
-              value={bondAmount}
-            />
+          <Dropdown
+            fluid
+            placeholder='Reward Destination'
+            selection
+            onChange={handleSetRewardDestination}
+            options={rewardDestinationOptions}
+          />
+          <Margin top />
+          <Input
+            fluid
+            label='UNIT'
+            labelPosition='right'
+            min={0}
+            onChange={handler(setBondAmount)}
+            placeholder='e.g. 1.00'
+            type='number'
+            value={bondAmount}
+          />
           <Modal.Description>
             <Button onClick={signAndSubmitBond}>Submit Bond</Button>
             <ErrorText>{bondingError}</ErrorText>

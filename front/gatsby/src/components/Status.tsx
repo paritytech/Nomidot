@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { formatBalance } from '@polkadot/util';
-import { TxQueueContext, ExtrinsicDetails } from '@substrate/context';
+import { ExtrinsicDetails, TxQueueContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { polkadotOfficialTheme } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ const fadeIn = keyframes`
   100% {
     opacity: 1;
   }
-`
+`;
 
 const StatusNotifier = styled.div`
   animation: 1s ${fadeIn} ease-out;
@@ -32,23 +32,24 @@ const StatusNotifier = styled.div`
   border-radius: 24px;
   color: white;
   z-index: 10000;
-`
+`;
 
 const PendingStatusNotifier = styled(StatusNotifier)`
   background: ${polkadotOfficialTheme.lightBlue2};
-`
+`;
 
 const ErrorStatusNotifier = styled(StatusNotifier)`
   background: ${polkadotOfficialTheme.hotPink};
-`
+`;
 
 const SuccessStatusNotifier = styled(StatusNotifier)`
   background: ${polkadotOfficialTheme.neonBlue};
-`
-
+`;
 
 export const Status = () => {
-  const { errorObservable, successObservable, txQueue } = useContext(TxQueueContext);
+  const { errorObservable, successObservable, txQueue } = useContext(
+    TxQueueContext
+  );
 
   const [errorMsg, setError] = useState<string>();
   const [pendingMsg, setPending] = useState<string>();
@@ -57,48 +58,61 @@ export const Status = () => {
   useEffect(() => {
     const errorSub = errorObservable.subscribe(({ error }) => {
       setPending(undefined);
-      setError(error)
+      setError(error);
       setTimeout(() => {
         setError(undefined);
       }, 5000);
-    })
+    });
 
     return () => errorSub.unsubscribe();
   }, []);
 
   useEffect(() => {
-    const successSub = successObservable.subscribe((extrinsicDetails: ExtrinsicDetails) => {
-      const message = `Extrinsic ${extrinsicDetails.methodCall} of amount ${formatBalance(extrinsicDetails.amount)} was sent succesfully! 🎉`;
-      setPending(undefined);
-      setSuccess(message);
+    const successSub = successObservable.subscribe(
+      (extrinsicDetails: ExtrinsicDetails) => {
+        const message = `Extrinsic ${
+          extrinsicDetails.methodCall
+        } of amount ${formatBalance(
+          extrinsicDetails.amount
+        )} was sent succesfully! 🎉`;
+        setPending(undefined);
+        setSuccess(message);
 
-      setTimeout(() => {
-        setSuccess(undefined);
-      }, 5000);
-    })
+        setTimeout(() => {
+          setSuccess(undefined);
+        }, 5000);
+      }
+    );
 
     return () => successSub.unsubscribe();
   }, []);
 
   useEffect(() => {
     if (txQueue.length) {
-      const msg = `Submitting ${txQueue[0].details.methodCall} with amount ${formatBalance(txQueue[0].details.amount)}...`;
+      const msg = `Submitting ${
+        txQueue[0].details.methodCall
+      } with amount ${formatBalance(txQueue[0].details.amount)}...`;
 
       setPending(msg);
     }
   }, [txQueue]);
 
   if (errorMsg) {
-    return <ErrorStatusNotifier> {errorMsg} </ErrorStatusNotifier>
+    return <ErrorStatusNotifier> {errorMsg} </ErrorStatusNotifier>;
   }
 
   if (pendingMsg) {
-    return <PendingStatusNotifier>{pendingMsg}<Spinner active inline /></PendingStatusNotifier>
+    return (
+      <PendingStatusNotifier>
+        {pendingMsg}
+        <Spinner active inline />
+      </PendingStatusNotifier>
+    );
   }
 
   if (successMsg) {
-    return <SuccessStatusNotifier> {successMsg} </SuccessStatusNotifier>
+    return <SuccessStatusNotifier> {successMsg} </SuccessStatusNotifier>;
   }
 
   return null;
-}
+};
