@@ -4,8 +4,9 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
-import { global } from '@substrate/design-system';
+import { GlobalStyle, polkadotOfficialTheme } from '@substrate/ui-components';
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import { AccountsContextProvider } from '../context/src/AccountsContext';
 import { ApiContextProvider } from '../context/src/ApiContext';
@@ -15,10 +16,9 @@ import {
 } from '../context/src/SystemContext';
 import { TxQueueContextProvider } from '../context/src/TxQueueContext';
 import client from './src/apollo';
-import { Layout, Seo } from './src/components';
+import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';
 
-const { GlobalStyle } = global;
 const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/');
 
 export const wrapRootElement = ({ element }) => (
@@ -29,11 +29,9 @@ export const wrapRootElement = ({ element }) => (
           {isSystemReady => {
             return (
               isSystemReady && (
-                <TxQueueContextProvider>
-                  <AccountsContextProvider originName={APP_SLUG}>
-                    {element}
-                  </AccountsContextProvider>
-                </TxQueueContextProvider>
+                <AccountsContextProvider originName={APP_SLUG}>
+                  <TxQueueContextProvider>{element}</TxQueueContextProvider>
+                </AccountsContextProvider>
               )
             );
           }}
@@ -44,9 +42,12 @@ export const wrapRootElement = ({ element }) => (
 );
 
 export const wrapPageElement = ({ element, props }) => (
-  <Layout {...props}>
-    <Seo title='Polkadot/Kusama Staking Portal' />
-    <GlobalStyle />
-    {element}
-  </Layout>
+  <ThemeProvider theme={polkadotOfficialTheme}>
+    <Layout {...props}>
+      <Seo title='Polkadot/Kusama Staking Portal' />
+      <GlobalStyle />
+      <Status />
+      {element}
+    </Layout>
+  </ThemeProvider>
 );
