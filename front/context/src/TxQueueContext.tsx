@@ -68,6 +68,7 @@ export const TxQueueContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   enqueue: (extrinsic: Extrinsic, details: ExtrinsicDetails) => {
     console.error(INIT_ERROR);
+    return 0;
   },
   txQueue: [] as PendingExtrinsic[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -126,8 +127,9 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
 
   /**
    * Add a tx to the queue
+   * return tx id
    */
-  const enqueue = (extrinsic: Extrinsic, details: ExtrinsicDetails): void => {
+  const enqueue = (extrinsic: Extrinsic, details: ExtrinsicDetails): number => {
     const extrinsicId = txCounter;
     setTxCounter(txCounter + 1);
 
@@ -157,6 +159,8 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
         },
       })
     );
+
+    return extrinsicId;
   };
 
   /**

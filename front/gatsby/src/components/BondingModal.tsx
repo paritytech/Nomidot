@@ -76,6 +76,7 @@ const BondingModal = (): React.ReactElement => {
   );
   const [allFees, setAllFees] = useState<BN>();
   const [allTotal, setAllTotal] = useState<BN>();
+  const [txId, setTxId] = useState<number>();
 
   const checkFees = async () => {
     if (apiPromise && isApiReady && accountForStash && accountForController && bondAmount && extrinsic) {
@@ -158,6 +159,12 @@ const BondingModal = (): React.ReactElement => {
     rewardDestination,
   ]);
 
+  useEffect(() => {
+    if (txId) {
+      signAndSubmit(txId);
+    }
+  }, [txId])
+
   const selectStash = (address: string) => {
     setAccountForStash(address);
   };
@@ -190,13 +197,8 @@ const BondingModal = (): React.ReactElement => {
         senderPair: accountForStash,
       };
 
-      enqueue(extrinsic, details);
-
-      const pending = txQueue.find(pending => pending.details.methodCall === 'staking.bond');
-
-      if (pending) {
-        signAndSubmit(pending.id);
-      }
+      const id = enqueue(extrinsic, details);
+      setTxId(id);
     }
   };
 

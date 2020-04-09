@@ -15,7 +15,7 @@ import {
 } from '../context/src/SystemContext';
 import { TxQueueContextProvider } from '../context/src/TxQueueContext';
 import client from './src/apollo';
-import { Layout, Seo } from './src/components';
+import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';
 
 const { GlobalStyle } = global;
@@ -47,6 +47,7 @@ export const wrapPageElement = ({ element, props }) => (
   <Layout {...props}>
     <Seo title='Polkadot/Kusama Staking Portal' />
     <GlobalStyle />
+    <Status />
     {element}
   </Layout>
 );

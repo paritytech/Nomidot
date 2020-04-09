@@ -62,7 +62,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
 
   // context
-  const { apiPromise, isApiReady } = useContext(ApiContext);
+  const { api, apiPromise, isApiReady } = useContext(ApiContext);
   const { chain } = useContext(SystemContext);
 
   // state
@@ -179,7 +179,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [chain, originName]);
 
   const setSigner = () => {
-    if (apiPromise && extension && isExtensionReady) {
+    if (api && apiPromise && extension && isExtensionReady) {
+      api.setSigner(extension.signer);
       apiPromise.setSigner(extension.signer);
     }
   }
