@@ -4,8 +4,9 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
-import { global } from '@substrate/design-system';
+import { GlobalStyle, polkadotOfficialTheme } from '@substrate/ui-components';
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import { AccountsContextProvider } from '../context/src/AccountsContext';
 import { ApiContextProvider } from '../context/src/ApiContext';
@@ -18,7 +19,6 @@ import client from './src/apollo';
 import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';
 
-const { GlobalStyle } = global;
 const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/');
 
 export const wrapRootElement = ({ element }) => (
@@ -44,10 +44,12 @@ export const wrapRootElement = ({ element }) => (
 );
 
 export const wrapPageElement = ({ element, props }) => (
-  <Layout {...props}>
-    <Seo title='Polkadot/Kusama Staking Portal' />
-    <GlobalStyle />
-    <Status />
-    {element}
-  </Layout>
+  <ThemeProvider theme={polkadotOfficialTheme}>
+    <Layout {...props}>
+      <Seo title='Polkadot/Kusama Staking Portal' />
+      <GlobalStyle />
+      <Status />
+      {element}
+    </Layout>
+  </ThemeProvider>
 );
