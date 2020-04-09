@@ -145,6 +145,7 @@ const createProposal: Task<NomidotProposal[]> = {
                 },
               },
               status,
+              uniqueStatus: `${proposalId}_${status}`,
             },
           },
         });

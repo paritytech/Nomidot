@@ -110,6 +110,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
             },
           },
           status,
+          uniqueStatus: `${pId}_${status}`,
         });
       })
     );
