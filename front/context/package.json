@@ -17,6 +17,9 @@
     "start": "yarn build --watch",
     "test": "echo skipped"
   },
+  "dependencies": {
+    "@substrate/local-storage": "^2.2.9"
+  },
   "peerDependencies": {
     "react": "^16.9"
   }
