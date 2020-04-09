@@ -58,6 +58,9 @@ export const Status = () => {
     const errorSub = errorObservable.subscribe(({ error }) => {
       setPending(undefined);
       setError(error)
+      setTimeout(() => {
+        setError(undefined);
+      }, 5000);
     })
 
     return () => errorSub.unsubscribe();
@@ -68,6 +71,10 @@ export const Status = () => {
       const message = `Extrinsic ${extrinsicDetails.methodCall} of amount ${formatBalance(extrinsicDetails.amount)} was sent succesfully! 🎉`;
       setPending(undefined);
       setSuccess(message);
+
+      setTimeout(() => {
+        setSuccess(undefined);
+      }, 5000);
     })
 
     return () => successSub.unsubscribe();

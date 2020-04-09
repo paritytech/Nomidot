@@ -24,6 +24,7 @@ import {
   Stacked,
 } from '@substrate/ui-components';
 import BN from 'bn.js';
+import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { validateFees } from '../util/validateExtrinsic';
@@ -68,14 +69,14 @@ const BondingModal = (): React.ReactElement => {
     currentAccount
   );
   const [accountForStash, setAccountForStash] = useState(currentAccount);
+  const [allFees, setAllFees] = useState<BN>();
+  const [allTotal, setAllTotal] = useState<BN>();
   const [bondAmount, setBondAmount] = useState<string>('');
   const [bondingError, setBondingError] = useState<Error>();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
-  const [allFees, setAllFees] = useState<BN>();
-  const [allTotal, setAllTotal] = useState<BN>();
   const [txId, setTxId] = useState<number>();
 
   const checkFees = async () => {
@@ -162,8 +163,9 @@ const BondingModal = (): React.ReactElement => {
   useEffect(() => {
     if (txId) {
       signAndSubmit(txId);
+      navigate('/accounts');
     }
-  }, [txId])
+  }, [txId, txQueue])
 
   const selectStash = (address: string) => {
     setAccountForStash(address);
@@ -203,7 +205,7 @@ const BondingModal = (): React.ReactElement => {
   };
 
   return (
-    <Modal closeIcon dimmer trigger={<Button>New Bond</Button>}>
+    <Modal closeIcon closeOnDimmerClick dimmer trigger={<Button>New Bond</Button>}>
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content>
         <Stacked alignItems='stretch' justifyContent='space-between'>
