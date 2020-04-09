@@ -1347,7 +1347,7 @@ type MotionStatus {
   blockNumber: BlockNumber!
   motion: Motion!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type MotionStatusConnection {
@@ -1361,7 +1361,7 @@ input MotionStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   motion: MotionCreateOneWithoutMotionStatusInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input MotionStatusCreateManyWithoutMotionInput {
@@ -1373,7 +1373,7 @@ input MotionStatusCreateWithoutMotionInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type MotionStatusEdge {
@@ -1393,7 +1393,7 @@ enum MotionStatusOrderByInput {
 type MotionStatusPreviousValues {
   id: ID!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input MotionStatusScalarWhereInput {
@@ -3303,7 +3303,7 @@ type ProposalStatus {
   blockNumber: BlockNumber!
   proposal: Proposal!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type ProposalStatusConnection {
@@ -3317,7 +3317,7 @@ input ProposalStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   proposal: ProposalCreateOneWithoutProposalStatusInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input ProposalStatusCreateManyWithoutProposalInput {
@@ -3329,7 +3329,7 @@ input ProposalStatusCreateWithoutProposalInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type ProposalStatusEdge {
@@ -3349,7 +3349,7 @@ enum ProposalStatusOrderByInput {
 type ProposalStatusPreviousValues {
   id: ID!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input ProposalStatusScalarWhereInput {
@@ -3844,7 +3844,7 @@ type ReferendumStatus {
   blockNumber: BlockNumber!
   referendum: Referendum!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type ReferendumStatusConnection {
@@ -3858,7 +3858,7 @@ input ReferendumStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   referendum: ReferendumCreateOneWithoutReferendumStatusInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input ReferendumStatusCreateManyWithoutReferendumInput {
@@ -3870,7 +3870,7 @@ input ReferendumStatusCreateWithoutReferendumInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type ReferendumStatusEdge {
@@ -3890,7 +3890,7 @@ enum ReferendumStatusOrderByInput {
 type ReferendumStatusPreviousValues {
   id: ID!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input ReferendumStatusScalarWhereInput {
@@ -5074,7 +5074,7 @@ type TreasuryStatus {
   blockNumber: BlockNumber!
   treasurySpendProposal: TreasurySpendProposal!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type TreasuryStatusConnection {
@@ -5088,7 +5088,7 @@ input TreasuryStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput!
   treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input TreasuryStatusCreateManyWithoutTreasurySpendProposalInput {
@@ -5100,7 +5100,7 @@ input TreasuryStatusCreateWithoutTreasurySpendProposalInput {
   id: ID
   blockNumber: BlockNumberCreateOneInput!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 type TreasuryStatusEdge {
@@ -5120,7 +5120,7 @@ enum TreasuryStatusOrderByInput {
 type TreasuryStatusPreviousValues {
   id: ID!
   status: String!
-  uniqueStatus: String
+  uniqueStatus: String!
 }
 
 input TreasuryStatusScalarWhereInput {

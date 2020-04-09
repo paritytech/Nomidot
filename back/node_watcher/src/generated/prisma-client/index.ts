@@ -3378,7 +3378,7 @@ export interface MotionStatusCreateWithoutMotionInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface PreimageCreateOneWithoutMotionInput {
@@ -3427,7 +3427,7 @@ export interface ProposalStatusCreateWithoutProposalInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface PreimageArgumentCreateManyWithoutPreimageInput {
@@ -3490,7 +3490,7 @@ export interface ReferendumStatusCreateWithoutReferendumInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface TreasurySpendProposalCreateOneWithoutMotionInput {
@@ -3523,7 +3523,7 @@ export interface TreasuryStatusCreateWithoutTreasurySpendProposalInput {
   id?: Maybe<ID_Input>;
   blockNumber: BlockNumberCreateOneInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface MotionUpdateInput {
@@ -4504,7 +4504,7 @@ export interface MotionStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   motion: MotionCreateOneWithoutMotionStatusInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface MotionCreateOneWithoutMotionStatusInput {
@@ -4923,7 +4923,7 @@ export interface ProposalStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   proposal: ProposalCreateOneWithoutProposalStatusInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface ProposalCreateOneWithoutProposalStatusInput {
@@ -5050,7 +5050,7 @@ export interface ReferendumStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   referendum: ReferendumCreateOneWithoutReferendumStatusInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface ReferendumCreateOneWithoutReferendumStatusInput {
@@ -5265,7 +5265,7 @@ export interface TreasuryStatusCreateInput {
   blockNumber: BlockNumberCreateOneInput;
   treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput;
   status: String;
-  uniqueStatus?: Maybe<String>;
+  uniqueStatus: String;
 }
 
 export interface TreasurySpendProposalCreateOneWithoutTreasuryStatusInput {
@@ -6533,7 +6533,7 @@ export interface MotionProposalArgumentNullablePromise
 export interface MotionStatus {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface MotionStatusPromise
@@ -6748,7 +6748,7 @@ export interface ProposalNullablePromise
 export interface ProposalStatus {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface ProposalStatusPromise
@@ -6921,7 +6921,7 @@ export interface ReferendumNullablePromise
 export interface ReferendumStatus {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface ReferendumStatusPromise
@@ -7031,7 +7031,7 @@ export interface TreasurySpendProposalNullablePromise
 export interface TreasuryStatus {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface TreasuryStatusPromise
@@ -8858,7 +8858,7 @@ export interface MotionStatusSubscriptionPayloadSubscription
 export interface MotionStatusPreviousValues {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface MotionStatusPreviousValuesPromise
@@ -9217,7 +9217,7 @@ export interface ProposalStatusSubscriptionPayloadSubscription
 export interface ProposalStatusPreviousValues {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface ProposalStatusPreviousValuesPromise
@@ -9320,7 +9320,7 @@ export interface ReferendumStatusSubscriptionPayloadSubscription
 export interface ReferendumStatusPreviousValues {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface ReferendumStatusPreviousValuesPromise
@@ -9649,7 +9649,7 @@ export interface TreasuryStatusSubscriptionPayloadSubscription
 export interface TreasuryStatusPreviousValues {
   id: ID_Output;
   status: String;
-  uniqueStatus?: String;
+  uniqueStatus: String;
 }
 
 export interface TreasuryStatusPreviousValuesPromise
