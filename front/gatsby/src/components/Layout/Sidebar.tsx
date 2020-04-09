@@ -22,12 +22,6 @@ export const VerticalSidebar = ({ handleToggle, visible }: Props) => (
       <Icon name='close' onClick={handleToggle} />
     </Menu.Item>
 
-    <Menu.Item>
-      <BlockHeader />
-      <EraHeader />
-      <SessionHeader />
-      <StakingHeader />
-    </Menu.Item>
     <Menu.Item as='a' onClick={() => navigate('/accounts')}>
       <Icon name='home' />
       Accounts
@@ -39,6 +33,13 @@ export const VerticalSidebar = ({ handleToggle, visible }: Props) => (
     <Menu.Item as='a' onClick={() => navigate('/cart')}>
       <Icon name='cart' />
       Cart
+    </Menu.Item>
+
+    <Menu.Item>
+      <BlockHeader />
+      <EraHeader />
+      <SessionHeader />
+      <StakingHeader />
     </Menu.Item>
   </Sidebar>
 );

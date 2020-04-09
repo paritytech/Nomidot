@@ -203,7 +203,7 @@ const BondingModal = (): React.ReactElement => {
   };
 
   return (
-    <Modal trigger={<Button>New Bond</Button>}>
+    <Modal closeIcon dimmer trigger={<Button>New Bond</Button>}>
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content>
         <Stacked alignItems='stretch' justifyContent='space-between'>
