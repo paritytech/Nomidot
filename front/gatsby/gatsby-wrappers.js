@@ -29,11 +29,9 @@ export const wrapRootElement = ({ element }) => (
           {isSystemReady => {
             return (
               isSystemReady && (
-                <TxQueueContextProvider>
                   <AccountsContextProvider originName={APP_SLUG}>
                     {element}
                   </AccountsContextProvider>
-                </TxQueueContextProvider>
               )
             );
           }}

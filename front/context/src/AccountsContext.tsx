@@ -179,8 +179,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [chain, originName]);
 
   const setSigner = () => {
-    if (apiPromise && extension) {
-      apiPromise.setSigner(extension?.signer);
+    if (apiPromise && extension && isExtensionReady) {
+      apiPromise.setSigner(extension.signer);
     }
   }
   const fetchCachedRpcResults = () => {
@@ -204,6 +204,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     setSigner();
+  }, [isExtensionReady])
+
+  useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
   }, []);
