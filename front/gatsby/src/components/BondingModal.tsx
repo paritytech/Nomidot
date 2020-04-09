@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { createType } from '@polkadot/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import {
   AccountsContext,
   ApiContext,
+  ExtrinsicDetails,
   handler,
   TxQueueContext,
 } from '@substrate/context';
@@ -24,7 +27,6 @@ import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { validateFees } from '../util/validateExtrinsic';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 enum RewardDestination {
   'Stash',
@@ -59,7 +61,8 @@ const BondingModal = (): React.ReactElement => {
     currentAccount,
     loadingBalances,
   } = useContext(AccountsContext);
-  const { apiPromise, isApiReady } = useContext(ApiContext);
+  const { api, apiPromise, isApiReady } = useContext(ApiContext);
+  const { enqueue, signAndSubmit, txQueue } = useContext(TxQueueContext);
 
   const [accountForController, setAccountForController] = useState(
     currentAccount
@@ -67,7 +70,7 @@ const BondingModal = (): React.ReactElement => {
   const [accountForStash, setAccountForStash] = useState(currentAccount);
   const [bondAmount, setBondAmount] = useState<string>('');
   const [bondingError, setBondingError] = useState<Error>();
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'>>();
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
@@ -124,8 +127,8 @@ const BondingModal = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    if (accountForController && apiPromise && isApiReady) {
-      const submitBondExtrinsic = apiPromise.tx.staking.bond(
+    if (accountForController && api && isApiReady) {
+      const submitBondExtrinsic = api.tx.staking.bond(
         accountForController,
         new BN(bondAmount),
         rewardDestination
@@ -133,7 +136,7 @@ const BondingModal = (): React.ReactElement => {
 
       setExtrinsic(submitBondExtrinsic)
     }
-  }, [accountForController, apiPromise, isApiReady]);
+  }, [accountForController, api, isApiReady]);
 
   useEffect(() => {
     if (currentAccount) {
@@ -179,7 +182,21 @@ const BondingModal = (): React.ReactElement => {
       allTotal &&
       extrinsic
     ) {
-      await extrinsic.signAndSend(accountForStash);
+      const details: ExtrinsicDetails = {
+        allFees,
+        allTotal,
+        amount: createType(api.registry, 'Balance', bondAmount),
+        methodCall: 'staking.bond',
+        senderPair: accountForStash,
+      };
+
+      enqueue(extrinsic, details);
+
+      const pending = txQueue.find(pending => pending.details.methodCall === 'staking.bond');
+
+      if (pending) {
+        signAndSubmit(pending.id);
+      }
     }
   };
 
