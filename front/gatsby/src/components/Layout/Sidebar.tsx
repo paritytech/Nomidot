@@ -14,7 +14,7 @@ const CloseIcon = styled(Icon)`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
 interface Props {
   handleToggle: () => void;
@@ -23,9 +23,9 @@ interface Props {
 
 export const VerticalSidebar = ({ handleToggle, visible }: Props) => {
   const handleNavigation = (path: string) => {
-    handleToggle(); 
+    handleToggle();
     navigate(path);
-  }
+  };
 
   return (
     <Sidebar
@@ -61,5 +61,5 @@ export const VerticalSidebar = ({ handleToggle, visible }: Props) => {
         <StakingHeader />
       </Menu.Item>
     </Sidebar>
-  )
-}
+  );
+};

@@ -6,18 +6,15 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import {
-  AddressSummary,
-  List
-} from '@substrate/ui-components';
+import { AddressSummary, List } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
-import media from 'styled-media-query';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
 import BondingModal from '../components/BondingModal';
-import { Table, Tr, Tb, Tc, Th, Thead } from '../components/Table';
+import { Table, Tb, Tc, Th, Thead, Tr } from '../components/Table';
 import { toShortAddress } from '../util';
 
 const AccountsPageGrid = styled.div`
@@ -27,7 +24,7 @@ const AccountsPageGrid = styled.div`
   padding: 3rem;
   width: 100%;
 
-  ${media.lessThan("medium")`
+  ${media.lessThan('medium')`
     padding: 0;
     display: inline-block;
   `}
@@ -39,11 +36,11 @@ const AccountsPageLeft = styled.div`
   justify-content: space-between;
   align-items: stretch;
   height: 100%;
-`
+`;
 
 const BottomLeftItem = styled.div`
   margin-top: 5rem;
-`
+`;
 
 const AccountsPageRight = styled.div`
   flex: 1;
@@ -51,10 +48,10 @@ const AccountsPageRight = styled.div`
   align-items: stretch;
   height: 100%;
 
-  ${media.lessThan("medium")`
+  ${media.lessThan('medium')`
     display: none;
   `}
-`
+`;
 
 type Props = RouteComponentProps;
 
@@ -146,7 +143,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
       </Tc>
     );
   };
-
 
   const renderBalanceColumns = (account: string) => {
     const thisAccount = accountBalanceMap[account];
@@ -268,8 +264,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     <AccountsPageGrid>
       <AccountsPageLeft>
         {renderBondedAccounts()}
-        <BottomLeftItem>{renderUnbondedAccounts()}
-        </BottomLeftItem>
+        <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem>
       </AccountsPageLeft>
 
       <AccountsPageRight>
@@ -277,7 +272,9 @@ const AccountsList = (_props: Props): React.ReactElement => {
           <List.Header>Actions</List.Header>
           <hr />
           <List.Content>
-            <List.Item><BondingModal /></List.Item>
+            <List.Item>
+              <BondingModal />
+            </List.Item>
           </List.Content>
         </List>
       </AccountsPageRight>

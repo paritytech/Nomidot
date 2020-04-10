@@ -61,10 +61,10 @@ export default function Header(props: Props): React.ReactElement {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   const contextRef = createRef();
-  
+
   const navToAccountsPage = (): void => {
     navigate('/accounts');
-  }
+  };
 
   const navToCartPage = (): void => {
     navigate('/cart');
