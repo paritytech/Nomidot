@@ -6,3 +6,4 @@ export * from './Layout';
 export * from './Cart';
 export * from './Seo';
 export * from './Status';
+export * from './Table';

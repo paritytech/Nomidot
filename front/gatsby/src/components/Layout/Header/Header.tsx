@@ -48,8 +48,12 @@ const CartIcon = styled.div`
 
 const Logo = styled.h2`
   position: absolute;
-  left: 4rem;
-  top: 1.8rem;
+  left: 5rem;
+  top: -0.2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default function Header(props: Props): React.ReactElement {
@@ -57,6 +61,10 @@ export default function Header(props: Props): React.ReactElement {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   const contextRef = createRef();
+  
+  const navToAccountsPage = (): void => {
+    navigate('/accounts');
+  }
 
   const navToCartPage = (): void => {
     navigate('/cart');
@@ -66,7 +74,7 @@ export default function Header(props: Props): React.ReactElement {
     <Sticky context={contextRef}>
       <ResponsiveMenu>
         <Burger name='bars' onClick={handleToggle} />
-        <Logo>{APP_TITLE}</Logo>
+        <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
         <CartIcon>
           <Icon link name='cart' size='large' onClick={navToCartPage} />
           {cartItemsCount}
