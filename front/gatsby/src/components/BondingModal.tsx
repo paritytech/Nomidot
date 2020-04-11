@@ -299,6 +299,4 @@ const BondingModal = (): React.ReactElement => {
   );
 };
 
-export {
-  BondingModal
-};
+export { BondingModal };

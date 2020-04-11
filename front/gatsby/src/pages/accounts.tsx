@@ -13,7 +13,16 @@ import shortid from 'shortid';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
-import { AddressSummary, BondingModal, Table, Tb, Tc, Th, Thead, Tr } from '../components';
+import {
+  AddressSummary,
+  BondingModal,
+  Table,
+  Tb,
+  Tc,
+  Th,
+  Thead,
+  Tr,
+} from '../components';
 import { toShortAddress } from '../util';
 
 const AccountsPageGrid = styled.div`
@@ -219,11 +228,13 @@ const AccountsList = (_props: Props): React.ReactElement => {
           </Tr>
         </Thead>
         <Tb>
-          {allStashes.length
-            ? allStashes.map((account: string) =>
-                renderBondedAccountRow(account)
-              )
-            : <Tr><Tc rowSpan={4}>No Bonded Accounts</Tc></Tr>}
+          {allStashes.length ? (
+            allStashes.map((account: string) => renderBondedAccountRow(account))
+          ) : (
+            <Tr>
+              <Tc rowSpan={4}>No Bonded Accounts</Tc>
+            </Tr>
+          )}
         </Tb>
       </Table>
     );

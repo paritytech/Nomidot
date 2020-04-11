@@ -14,22 +14,19 @@ import { OrientationType, SizeType } from './types';
 const Layout = styled.div`
   padding: 2px;
 
-  &> * {
+  & > * {
     margin: 1px 10px;
   }
-`
+`;
 
 type AddressSummaryProps = {
   address?: string;
   api: ApiRx;
   detailed?: boolean;
-  isNominator?: boolean;
-  isValidator?: boolean;
   name?: string;
   noPlaceholderName?: boolean;
   noBalance?: boolean;
   orientation?: OrientationType;
-  type?: 'stash' | 'controller';
   size?: SizeType;
   withShortAddress?: boolean;
 };
@@ -74,52 +71,41 @@ function renderDetails(
 ): React.ReactElement {
   const {
     detailed,
-    isNominator,
-    isValidator,
     name = PLACEHOLDER_NAME,
     noBalance,
     noPlaceholderName,
     orientation,
     size = 'medium',
-    type,
     withShortAddress,
   } = summaryProps;
 
   return (
     <>
-        {noPlaceholderName ? null : name}
-        {withShortAddress && renderShortAddress(address)}
-        {!noBalance && (
-          <Balance
-            address={address}
-            api={api}
-            detailed={detailed}
-            orientation={orientation}
-            fontSize={FONT_SIZES[size] as FontSize}
-          />
-        )}
+      {noPlaceholderName ? null : name}
+      {withShortAddress && renderShortAddress(address)}
+      {!noBalance && (
+        <Balance
+          address={address}
+          api={api}
+          detailed={detailed}
+          orientation={orientation}
+          fontSize={FONT_SIZES[size] as FontSize}
+        />
+      )}
     </>
   );
 }
 
 export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
-  const {
-    address,
-    api,
-    size = 'medium',
-  } = props;
+  const { address, api, size = 'medium' } = props;
 
   if (address) {
     return (
       <Layout>
-        {
-          renderIcon(address, size)
-        }
-        {
-          renderDetails(address, api, props)
-        }
+        {renderIcon(address, size)}
+        {renderDetails(address, api, props)}
       </Layout>
-    )
+    );
   } else {
     return <Spinner />;
   }
