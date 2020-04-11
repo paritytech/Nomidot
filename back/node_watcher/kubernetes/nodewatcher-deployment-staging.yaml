@@ -27,6 +27,12 @@ spec:
           ports:
             - name: prisma-4466
               containerPort: 4466
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"    
           env:
             - name: PRISMA_CONFIG
               valueFrom:
@@ -47,13 +53,19 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: cloudsql-db-credentials
-                  key: dbname
+                  key: dbname        
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.16
           command: ["/cloud_sql_proxy",
           "--dir=/cloudsql",
           "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:0.0.0.0:5432",
           "-credential_file=/secrets/cloudsql/credentials.json"]
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
           volumeMounts:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
