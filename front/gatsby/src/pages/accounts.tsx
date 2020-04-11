@@ -6,15 +6,14 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import { AddressSummary, List } from '@substrate/ui-components';
+import { List } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
-import BondingModal from '../components/BondingModal';
-import { Table, Tb, Tc, Th, Thead, Tr } from '../components/Table';
+import { AddressSummary, BondingModal, Table, Tb, Tc, Th, Thead, Tr } from '../components';
 import { toShortAddress } from '../util';
 
 const AccountsPageGrid = styled.div`
@@ -224,7 +223,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
             ? allStashes.map((account: string) =>
                 renderBondedAccountRow(account)
               )
-            : 'No Bonded Accounts'}
+            : <Tr><Tc rowSpan={4}>No Bonded Accounts</Tc></Tr>}
         </Tb>
       </Table>
     );
