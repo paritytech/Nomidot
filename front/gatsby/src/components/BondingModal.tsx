@@ -19,17 +19,17 @@ import {
   ErrorText,
   Input,
   InputAddress,
+  List,
   Margin,
   Modal,
   Stacked,
-  List,
 } from '@substrate/ui-components';
 import BN from 'bn.js';
 import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { Button } from './Button';
 import { validateFees } from '../util/validateExtrinsic';
+import { Button } from './Button';
 
 enum RewardDestination {
   'Stash',
@@ -219,7 +219,11 @@ const BondingModal = (): React.ReactElement => {
       closeIcon
       closeOnDimmerClick
       dimmer
-      trigger={<List.Item><Button neutral>New Bond</Button></List.Item>}
+      trigger={
+        <List.Item>
+          <Button neutral>New Bond</Button>
+        </List.Item>
+      }
     >
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content>

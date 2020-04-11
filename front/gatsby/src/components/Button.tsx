@@ -28,39 +28,43 @@ export const Button = styled.a<ButtonProps>`
     color: white;
   }
 
-  ${props => props.primary && css`
-    background: white;
-    border: 2px solid ${polkadotOfficialTheme.hotPink};
-    color: ${polkadotOfficialTheme.hotPink};
-
-    &:hover {
-      cursor: pointer;
+  ${props =>
+    props.primary &&
+    css`
+      background: white;
+      border: 2px solid ${polkadotOfficialTheme.hotPink};
       color: ${polkadotOfficialTheme.hotPink};
 
-    }
-  `}
+      &:hover {
+        cursor: pointer;
+        color: ${polkadotOfficialTheme.hotPink};
+      }
+    `}
 
-  ${props => props.secondary && css`
-    background: white;
-    border: 2px solid ${polkadotOfficialTheme.neonBlue};
-    color: ${polkadotOfficialTheme.neonBlue};
-
-    &:hover {
-      cursor: pointer;
+  ${props =>
+    props.secondary &&
+    css`
+      background: white;
+      border: 2px solid ${polkadotOfficialTheme.neonBlue};
       color: ${polkadotOfficialTheme.neonBlue};
 
-    }
-  `}
+      &:hover {
+        cursor: pointer;
+        color: ${polkadotOfficialTheme.neonBlue};
+      }
+    `}
 
-  ${props => props.neutral && css`
-    background: white;
-    border: 2px solid ${polkadotOfficialTheme.black};
-    color: ${polkadotOfficialTheme.black};
-
-    &:hover {
-      cursor: pointer;
+  ${props =>
+    props.neutral &&
+    css`
+      background: white;
+      border: 2px solid ${polkadotOfficialTheme.black};
       color: ${polkadotOfficialTheme.black};
-      background: ${polkadotOfficialTheme.white};
-    }
-  `}
-`
+
+      &:hover {
+        cursor: pointer;
+        color: ${polkadotOfficialTheme.black};
+        background: ${polkadotOfficialTheme.white};
+      }
+    `}
+`;
