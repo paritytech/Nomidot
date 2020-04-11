@@ -10,11 +10,19 @@ import { getMainDefinition } from 'apollo-utilities';
 import * as ws from 'ws';
 // <service-name>.<namespace>:port
 const httpLink = new HttpLink({
-  uri: `${process.env.NODE_ENV === 'production' ? 'http://nomidot-server.nomidot-staging:4000' : 'http://127.0.0.1:4000'}`,
+  uri: `${
+    process.env.NODE_ENV === 'production'
+      ? 'http://nomidot-server.nomidot-staging:4000'
+      : 'http://127.0.0.1:4000'
+  }`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `${process.env.NODE_ENV === 'production' ? 'ws://nomidot-server.nomidot-staging:4000' : 'ws://127.0.0.1:4000'}`,
+  uri: `${
+    process.env.NODE_ENV === 'production'
+      ? 'ws://nomidot-server.nomidot-staging:4000'
+      : 'ws://127.0.0.1:4000'
+  }`,
   options: {
     reconnect: true,
   },
