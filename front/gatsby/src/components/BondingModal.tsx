@@ -11,7 +11,7 @@ import {
   handler,
   TxQueueContext,
 } from '@substrate/context';
-import { Button, Spinner } from '@substrate/design-system';
+import { Spinner } from '@substrate/design-system';
 import {
   BalanceDisplay,
   Dropdown,
@@ -19,6 +19,7 @@ import {
   ErrorText,
   Input,
   InputAddress,
+  List,
   Margin,
   Modal,
   Stacked,
@@ -28,6 +29,7 @@ import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { validateFees } from '../util/validateExtrinsic';
+import { Button } from './Button';
 
 enum RewardDestination {
   'Stash',
@@ -132,6 +134,8 @@ const BondingModal = (): React.ReactElement => {
       setBondingError('Please select a reward destination.');
       return;
     }
+
+    setBondingError(undefined);
   };
 
   useEffect(() => {
@@ -215,7 +219,11 @@ const BondingModal = (): React.ReactElement => {
       closeIcon
       closeOnDimmerClick
       dimmer
-      trigger={<Button>New Bond</Button>}
+      trigger={
+        <List.Item>
+          <Button neutral>New Bond</Button>
+        </List.Item>
+      }
     >
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content>
