@@ -80,6 +80,7 @@ export default function Header(props: Props): React.ReactElement {
           {cartItemsCount}
         </CartIcon>
       </ResponsiveMenu>
+      <hr />
     </Sticky>
   );
 }

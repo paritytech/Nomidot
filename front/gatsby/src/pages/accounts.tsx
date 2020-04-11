@@ -45,6 +45,7 @@ const BottomLeftItem = styled.div`
 const AccountsPageRight = styled.div`
   flex: 1;
   display: flex column;
+  justify-content: center;
   align-items: stretch;
   height: 100%;
 
@@ -210,13 +211,12 @@ const AccountsList = (_props: Props): React.ReactElement => {
       <Table>
         <Thead>
           <Tr>
-            <Th>Bonded</Th>
+            <Th>Bonded Accounts</Th>
           </Tr>
           <Tr>
             <Th>Stash</Th>
             <Th>Controller</Th>
             <Th>Bonded Amount</Th>
-            <Th></Th>
           </Tr>
         </Thead>
         <Tb>
@@ -235,15 +235,14 @@ const AccountsList = (_props: Props): React.ReactElement => {
       <Table>
         <Thead>
           <Tr>
-            <Th>Unbonded</Th>
+            <Th>Unbonded Accounts</Th>
           </Tr>
           <Tr>
             <Th>Account</Th>
             <Th>Address</Th>
             <Th>Locked</Th>
             <Th>Reserved Balance</Th>
-            <Th>Transferable</Th>
-            <Th></Th>
+            <Th>Transferrable</Th>
           </Tr>
         </Thead>
         <Tb>
@@ -272,9 +271,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
           <List.Header>Actions</List.Header>
           <hr />
           <List.Content>
-            <List.Item>
-              <BondingModal />
-            </List.Item>
+            <BondingModal />
           </List.Content>
         </List>
       </AccountsPageRight>

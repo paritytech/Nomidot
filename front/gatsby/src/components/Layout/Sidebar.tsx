@@ -30,7 +30,7 @@ export const VerticalSidebar = ({ handleToggle, visible }: Props) => {
   return (
     <Sidebar
       as={Menu}
-      animation='scale down'
+      animation='overlay'
       direction='left'
       icon='labeled'
       vertical

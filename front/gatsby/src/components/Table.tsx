@@ -7,11 +7,12 @@ import media from 'styled-media-query';
 
 export const Table = styled.table`
   width: 100%;
-  display: inline-block;
+  display: table;
   margin: 1rem;
 
   ${media.lessThan('large')`
   /* screen width is less than 1170px (large)*/
+    display: inline-block;
     width: 45rem;
     overflow-x: scroll;
   `}
@@ -27,34 +28,26 @@ export const Table = styled.table`
   `}
 `;
 
-export const Tc = styled.td`
-  padding: 1rem;
-`;
-
 export const Thead = styled.thead`
-  display: flex column;
-  justify-content: space-between;
-  align-items: stretch;
   padding: 1rem 2rem;
+  text-align: left;
 `;
 
 export const Th = styled.th`
-  display: flex column;
-  justify-content: space-between;
-  align-items: stretch;
   padding: 1rem 2rem;
+  text-align: left;
 `;
 
 export const Tb = styled.tbody`
   white-space: nowrap;
-  display: flex column;
-  justify-content: space-between;
-  align-items: stretch;
 `;
 
 export const Tr = styled.tr`
-  display: flex column;
-  justify-content: space-between;
-  align-items: stretch;
+  display: table-row;
   padding: 2rem;
+`;
+
+export const Tc = styled.td`
+  display: table-cell;
+  padding: 1rem;
 `;
