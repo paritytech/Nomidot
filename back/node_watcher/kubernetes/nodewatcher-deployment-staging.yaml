@@ -27,12 +27,13 @@ spec:
           ports:
             - name: prisma-4466
               containerPort: 4466
-          requests:
-            memory: "1280Mi"
-            cpu: "250m"
-          limits:
-            memory: "2560Mi"
-            cpu: "500m"
+          resources:
+            requests:
+              memory: "1280Mi"
+              cpu: "250m"
+            limits:
+              memory: "2560Mi"
+              cpu: "500m"
           env:
             - name: PRISMA_CONFIG
               valueFrom:
@@ -60,12 +61,13 @@ spec:
           "--dir=/cloudsql",
           "-instances=test-installations-222013:europe-west1:kusama-etl=tcp:0.0.0.0:5432",
           "-credential_file=/secrets/cloudsql/credentials.json"]
-          requests:
-            memory: "16Mi"
-            cpu: "250m"
-          limits:
-            memory: "32Mi"
-            cpu: "500m"
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "250m"
+            limits:
+              memory: "32Mi"
+              cpu: "500m"
           volumeMounts:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
