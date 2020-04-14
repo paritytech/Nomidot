@@ -5,23 +5,46 @@
 import { polkadotOfficialTheme } from '@substrate/ui-components';
 import styled, { css } from 'styled-components';
 
+type ButtonSizeProp = 'tiny' | 'small' | 'big' | 'huge';
+
+const ButtonSizeMap = {
+  'tiny': {
+    width: '4rem',
+    height: '1rem'
+  },
+  'small': {
+    width: '7rem',
+    height: '2rem',
+    // padding: '0.2rem 1rem'
+  },
+  'big': {
+    width: '9rem',
+    height: '3rem'
+  },
+  'huge': {
+    width: '11rem',
+    height: '4rem'
+  }
+}
+
 interface ButtonProps {
   primary?: boolean; // blue
   secondary?: boolean; // pink
   neutral?: boolean; // black
+  size?: ButtonSizeProp;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const Button = styled.a<ButtonProps>`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.9rem 0.5rem;
-  margin: 0.5rem 1rem;
-  width: 11rem;
-  text-align: center;
   background: ${polkadotOfficialTheme.hotPink};
-  color: white;
+  border-radius: 3px;
   border: 2px solid white;
+  color: white;
+  display: inline-block;
+  padding: 0.2rem 1rem;
+  text-align: center;  
+  height: ${props => ButtonSizeMap[props.size || 'small'].height} 
+  width: ${props => ButtonSizeMap[props.size || 'small'].width};
 
   &:hover {
     cursor: pointer;

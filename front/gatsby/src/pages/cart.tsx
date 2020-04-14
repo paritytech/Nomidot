@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { Button, Subheading } from '@substrate/design-system';
+import { Subheading } from '@substrate/design-system';
 import { Container, Grid, StackedHorizontal } from '@substrate/ui-components';
 import React from 'react';
 
-import { LoadableCartItems } from '../components';
+import { Button, LoadableCartItems, NominationDetails } from '../components';
 import { clearCart } from '../util/cartHelpers';
 
 type Props = RouteComponentProps;
@@ -20,7 +20,7 @@ const Cart = (_props: Props): React.ReactElement => {
           <Grid.Column floated='left' width='6'>
             <StackedHorizontal justifyContent='space-between'>
               <Subheading>Your Cart: </Subheading>
-              <Button appearance='outline' onClick={clearCart} size='tiny'>
+              <Button neutral onClick={clearCart}>
                 Clear
               </Button>
             </StackedHorizontal>
@@ -30,8 +30,8 @@ const Cart = (_props: Props): React.ReactElement => {
           <Grid.Column width='6'>
             <LoadableCartItems />
           </Grid.Column>
-          <Grid.Column width='4' floated='right'>
-            <Button>Checkout</Button>
+          <Grid.Column width='9' floated='right'>
+            <NominationDetails />
           </Grid.Column>
         </Grid.Row>
       </Grid>

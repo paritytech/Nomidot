@@ -17,6 +17,7 @@ import {
 import { navigate } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 
+import { NominationDetails } from '../NominationDetails';
 import {
   getCartItems,
   removeCartItem,
@@ -83,7 +84,7 @@ const CartItems = (): React.ReactElement => {
                       onClick={removeItemFromCart}
                       data-key={item}
                     />
-                    {/* TODO: <NominationDetails address={address} /> */}
+                    <NominationDetails address={address} />
                   </StackedHorizontal>
                 </WithSpaceAround>
               </List.Item>

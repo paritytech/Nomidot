@@ -7,6 +7,7 @@ export * from './BondingModal';
 export * from './Button';
 export * from './Cart';
 export * from './Layout';
+export * from './NominationDetails';
 export * from './Seo';
 export * from './Status';
 export * from './Table';
