@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.24](https://github.com/paritytech/Nomidot/compare/v0.3.23...v0.3.24) (2020-04-14)
+
+
+### Bug Fixes
+
+* **context:** Add local-storage dep ([#294](https://github.com/paritytech/Nomidot/issues/294)) ([f652190](https://github.com/paritytech/Nomidot/commit/f65219085f11c68e1f5d6eb4a8e1fb3bf3f57c46))
+
+
+### Features
+
+* extension signer ([#290](https://github.com/paritytech/Nomidot/issues/290)) ([97a6611](https://github.com/paritytech/Nomidot/commit/97a6611162be7d59f5010084906c9c968d17ed78))
+
+
+
+
+
 ## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.24](https://github.com/paritytech/Nomidot/compare/v0.3.23...v0.3.24) (2020-04-14)
+
+
+### Features
+
+* set cpu/mem requests and limits for prisma and cloudsql ([#298](https://github.com/paritytech/Nomidot/issues/298)) ([9ab8811](https://github.com/paritytech/Nomidot/commit/9ab8811a75bdb32caa5001f84f6ed377cf01ced8))
+
+
+
+
+
 ## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
 
 
