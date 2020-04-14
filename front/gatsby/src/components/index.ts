@@ -11,3 +11,4 @@ export * from './NominationDetails';
 export * from './Seo';
 export * from './Status';
 export * from './Table';
+export * from './Typography';

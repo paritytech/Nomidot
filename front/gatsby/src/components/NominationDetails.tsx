@@ -2,49 +2,90 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { List, Modal } from '@substrate/ui-components';
-import React, { useState } from 'react';
+import { EraIndex } from '@polkadot/types/interfaces';
+import { ApiContext, handler } from '@substrate/context';
+import { Spinner } from '@substrate/design-system';
+import { Input } from '@substrate/ui-components';
+import BN from 'bn.js';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import { AccountsDropdown } from './AccountsDropdown';
+import { SubHeader, Text } from './Typography';
 
 const ContentArea = styled.div`
   flex: 1;
   display: flex column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
 `
 
-const ModalSubHeader = styled.p`
-  color: #c0c0c0;
-  font-weight: 300;
-  font-size: 16px;
-  font-family: code sans-serif;
+const SummaryDiv = styled.div`
+  display: flex column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 10px;
+  height: 250px;
 `
+
+const SummaryDivItem = styled.div`
+  flex: 1;
+  margin: 4px 3px;
+  padding: 7px 0;
+`
+
+const EstimationDiv = styled.div`
+
+`;
 
 export const NominationDetails = (_props: any): React.ReactElement => {
+  const { apiPromise, isApiReady } = useContext(ApiContext);
+  const [bondDuration, setBondDuration] = useState<EraIndex>();
+  const [nominationAmount, setNominationAmount] = useState<string>('');
+
+  const fetchStakingConstants = async () => {
+    if (isApiReady) {
+      const bondingDuration = await apiPromise?.consts.staking.bondingDuration;
+
+      setBondDuration(bondingDuration?.toHuman());
+    }
+  }
+
+  useEffect(() => {
+    fetchStakingConstants();
+  }, [isApiReady]);
+
   return (
     <ContentArea>
-    <div>
-      <List>
-        <List.Header><ModalSubHeader>Summary: </ModalSubHeader></List.Header>
-        Nominate as: <AccountsDropdown />
-        <List.Item>
-          Nomination Period: {} eras
-        </List.Item>
-        <List.Item>
-          Nomination Amount: {} KSM
-        </List.Item>
-        <List.Item>
-          {16} Validators: 
-        </List.Item>
-      </List>
-    </div>
+      <SubHeader>Summary: </SubHeader>
+      <SummaryDiv>
+        <SummaryDivItem>
+          <b>Nominate as:</b>
+          <AccountsDropdown />  
+        </SummaryDivItem>
+        <SummaryDivItem>
+          <b>Bonding Duration:</b>
+          {bondDuration} eras
+        </SummaryDivItem>
+        <SummaryDivItem>
+          <b>Nomination Amount: </b>
+          <Input
+            fluid
+            label='UNIT'
+            labelPosition='right'
+            min={0}
+            onChange={handler(setNominationAmount)}
+            placeholder='e.g. 1.00'
+            type='number'
+            value={nominationAmount}
+            />
+        </SummaryDivItem>
+      </SummaryDiv>
 
-    <div>
-      <ModalSubHeader>Estimated Rewards: </ModalSubHeader>
-    </div>
+      <SubHeader>Estimated Rewards: </SubHeader>
+      <EstimationDiv>
+      </EstimationDiv>
   </ContentArea>
   );
 };
