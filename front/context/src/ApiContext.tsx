@@ -19,43 +19,63 @@ export const ApiContext: React.Context<ApiContextType> = React.createContext(
   {} as ApiContextType
 );
 
+export interface ApiType {
+  withPromise?: boolean;
+  withRxjs?: boolean;
+}
+
 export interface ApiContextProviderProps {
   children?: React.ReactElement;
   provider: ProviderInterface;
-  promise?: boolean;
+  type?: ApiType;
 }
 
 export function ApiContextProvider(
   props: ApiContextProviderProps
 ): React.ReactElement {
-  const { children = null, provider, promise } = props;
+  const {
+    children = null,
+    provider,
+    type = { withRxjs: true, withPromise: false },
+  } = props;
   const [api, setApi] = useState<ApiRx>(new ApiRx({ provider }));
   const [apiPromise, setApiPromise] = useState<ApiPromise>(
     new ApiPromise({ provider })
   );
   const [isReady, setIsReady] = useState(false);
+  const { withPromise, withRxjs } = type;
 
   useEffect(() => {
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
-    if (promise) {
+    if (!withPromise && !withRxjs) {
+      l.error(
+        `At least one of the api type withPromise or withRxjs should be set`
+      );
+    }
+
+    if (withPromise) {
       setApiPromise(new ApiPromise({ provider }));
-    } else {
+    }
+
+    if (withRxjs) {
       setApi(new ApiRx({ provider }));
     }
     setIsReady(false);
-  }, [provider, promise]);
+  }, [provider, withPromise, withRxjs]);
 
   useEffect(() => {
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
-    if (promise) {
+    if (withPromise) {
       apiPromise.isReady.then(_ => {
         setIsReady(true);
       });
-    } else {
+    }
+
+    if (withRxjs) {
       const subscription = api.isReady.subscribe(() => {
         l.log(`Api ready, app is ready to use`);
 
@@ -64,7 +84,7 @@ export function ApiContextProvider(
 
       return (): void => subscription.unsubscribe();
     }
-  }, [api, apiPromise.isReady, promise]);
+  }, [api, apiPromise.isReady, withPromise, withRxjs]);
 
   return (
     <ApiContext.Provider value={{ api, apiPromise, isApiReady: isReady }}>
