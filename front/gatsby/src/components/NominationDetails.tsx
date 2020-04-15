@@ -42,11 +42,13 @@ const EstimationDiv = styled.div`
 
 interface Props {
   nominationAmount: string,
-  setNominationAmount: React.Dispatch<React.SetStateAction<string>>;
+  handleUserInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const NominationDetails = (props: Props): React.ReactElement => {
-  const { api, apiPromise, isApiReady } = useContext(ApiContext);
+  const { handleUserInputChange, nominationAmount } = props;
+
+  const { apiPromise, isApiReady } = useContext(ApiContext);
   const [bondDuration, setBondDuration] = useState<EraIndex>();
 
   const fetchStakingConstants = async () => {
@@ -80,7 +82,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
             label='UNIT'
             labelPosition='right'
             min={0}
-            onChange={handler(setNominationAmount)}
+            onChange={handleUserInputChange}
             placeholder='e.g. 1.00'
             type='number'
             value={nominationAmount}

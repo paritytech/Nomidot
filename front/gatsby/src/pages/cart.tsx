@@ -50,8 +50,10 @@ const RightSide = styled.div`
 type Props = RouteComponentProps;
 
 const Cart = (_props: Props): React.ReactElement => {
-  const { currentAccount } = useContext(AccountsContext);
-  const { api, apiPromise, isApiReady } = useContext(ApiContext);
+  const { accountBalanceMap, currentAccount, currentAccountNonce } = useContext(AccountsContext);
+  const { api, apiPromise, isApiReady, fees } = useContext(ApiContext);
+  const [allFees, setAllFees] = useState<BN>();
+  const [allTotal, setAllTotal] = useState<BN>();
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
   const [cartItems, setCartItems] = useState<string[]>([]);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
@@ -62,30 +64,29 @@ const Cart = (_props: Props): React.ReactElement => {
       apiPromise &&
       isApiReady &&
       currentAccount &&
+      currentAccountNonce &&
       nominationAmount &&
-      extrinsic
+      extrinsic &&
+      fees
     ) {
-      const fees = await apiPromise.derive.balances.fees();
-      const accountNonce = await apiPromise.query.system.account(currentAccount);
 
       const [feeErrors, total, fee] = validateFees(
-        accountNonce,
+        currentAccountNonce,
         new BN(nominationAmount),
-        currentAccount,
+        accountBalanceMap[currentAccount],
         extrinsic,
         fees
       );
 
       setAllTotal(total);
       setAllFees(fee);
-
-      if (feeErrors) {
-        setBondingError(feeErrors[0]);
-      } else {
-        setBondingError(undefined);
-      }
     }
   };
+
+  const handleUserInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    setNominationAmount(value);
+    checkFees();
+  }
 
   const setExtrinsicDetails = () => {
     const extrinsic = api.tx.staking.nominate(cartItems);
@@ -117,7 +118,7 @@ const Cart = (_props: Props): React.ReactElement => {
       </LeftSide>
 
       <RightSide>
-        <NominationDetails nominationAmount={nominationAmount} setNominationAmount={setNominationAmount} />
+        <NominationDetails nominationAmount={nominationAmount} handleUserInputChange={handleUserInputChange} />
       </RightSide>
     </CartPageContainer>
   );

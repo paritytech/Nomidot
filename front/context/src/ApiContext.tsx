@@ -4,13 +4,16 @@
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { DeriveFees } from '@polkadot/api-derive/types';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
+import { take } from 'rxjs/operators';
 
 export interface ApiContextType {
-  api: ApiRx; // From @polkadot/api\
+  api: ApiRx; // From @polkadot/api
   apiPromise?: ApiPromise;
   isApiReady: boolean;
+  fees?: DeriveFees;
 }
 
 const l = logger('api-context');
@@ -33,6 +36,7 @@ export function ApiContextProvider(
   const [apiPromise, setApiPromise] = useState<ApiPromise>(
     new ApiPromise({ provider })
   );
+  const [fees, setFees] = useState<DeriveFees>();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -66,8 +70,20 @@ export function ApiContextProvider(
     }
   }, [api, apiPromise.isReady, promise]);
 
+  useEffect(() => {
+    const sub = api.derive.balances.fees()
+      .pipe(
+        take(1)
+      )
+      .subscribe((result) => {
+        setFees(result);
+      });
+
+    return () => sub.unsubscribe()
+  }, [])
+
   return (
-    <ApiContext.Provider value={{ api, apiPromise, isApiReady: isReady }}>
+    <ApiContext.Provider value={{ api, apiPromise, isApiReady: isReady, fees }}>
       {children}
     </ApiContext.Provider>
   );

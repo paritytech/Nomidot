@@ -79,7 +79,6 @@ const CartItems = (props: Props): React.ReactElement => {
                       onClick={removeItemFromCart}
                       data-key={item}
                     />
-                    <NominationDetails address={address} />
                   </StackedHorizontal>
                 </WithSpaceAround>
               </List.Item>

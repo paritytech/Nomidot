@@ -11,7 +11,7 @@ import {
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
 import { Option } from '@polkadot/types';
-import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import { AccountId, AccountInfo, StakingLedger } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import { writeStorage } from '@substrate/local-storage';
@@ -36,6 +36,7 @@ interface AccountsContext {
   // allControllers: StakingLedger[];
   allStashes: string[];
   currentAccount?: string;
+  currentAccountNonce?: AccountInfo;
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
@@ -75,10 +76,19 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     StashControllerMap
   >({});
   const [currentAccount, setCurrentAccount] = useState<string>();
+  const [currentAccountNonce, setCurrentAccountNonce] = useState<AccountInfo>();
   const [extension, setExtension] = useState<InjectedExtension>();
   const [loadingBalances, setLoadingBalances] = useState(true);
   const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
   const [isExtensionReady, setIsExtensionReady] = useState(false);
+
+  const getAccountNonce = async () => {
+    if (apiPromise && isApiReady) {
+      const nonce = await apiPromise.query.system.account<AccountInfo>(currentAccount);
+
+      setCurrentAccountNonce(nonce);
+    }
+  }
 
   const getDerivedBalances = async () => {
     if (allAccounts && apiPromise && isApiReady) {
@@ -179,9 +189,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [chain, originName]);
 
   const setSigner = () => {
-    if (api && apiPromise && extension && isExtensionReady) {
-      api.setSigner(extension.signer);
-      apiPromise.setSigner(extension.signer);
+    if (extension && isExtensionReady) {
+      if (api) {
+        api.setSigner(extension.signer);
+      }
+
+      if (apiPromise) {
+        apiPromise.setSigner(extension.signer);
+      }
     }
   };
   const fetchCachedRpcResults = () => {
@@ -221,6 +236,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     getDerivedBalances();
   }, [allStashes, apiPromise, isApiReady]);
 
+  useEffect(() => {
+    getAccountNonce();
+  }, [currentAccount]);
+
   return (
     <AccountsContext.Provider
       value={{
@@ -229,6 +248,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         // allControllers,
         allStashes,
         currentAccount,
+        currentAccountNonce,
         get extension(): InjectedExtension {
           if (!extension) {
             throw new Error(
