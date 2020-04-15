@@ -13,9 +13,8 @@ const ButtonSizeMap = {
     height: '1rem'
   },
   'small': {
-    width: '7rem',
-    height: '2rem',
-    // padding: '0.2rem 1rem'
+    width: '22px',
+    height: '8px'
   },
   'big': {
     width: '9rem',
@@ -41,7 +40,7 @@ export const Button = styled.a<ButtonProps>`
   border: 2px solid white;
   color: white;
   display: inline-block;
-  padding: 0.2rem 1rem;
+  padding: 5px 10px;
   text-align: center;  
   height: ${props => ButtonSizeMap[props.size || 'small'].height} 
   width: ${props => ButtonSizeMap[props.size || 'small'].width};

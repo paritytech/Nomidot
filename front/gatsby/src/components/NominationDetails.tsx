@@ -13,6 +13,7 @@ import media from 'styled-media-query';
 
 import { AccountsDropdown } from './AccountsDropdown';
 import { SubHeader, Text } from './Typography';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -39,10 +40,14 @@ const EstimationDiv = styled.div`
 
 `;
 
-export const NominationDetails = (_props: any): React.ReactElement => {
-  const { apiPromise, isApiReady } = useContext(ApiContext);
+interface Props {
+  nominationAmount: string,
+  setNominationAmount: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const NominationDetails = (props: Props): React.ReactElement => {
+  const { api, apiPromise, isApiReady } = useContext(ApiContext);
   const [bondDuration, setBondDuration] = useState<EraIndex>();
-  const [nominationAmount, setNominationAmount] = useState<string>('');
 
   const fetchStakingConstants = async () => {
     if (isApiReady) {
@@ -51,11 +56,11 @@ export const NominationDetails = (_props: any): React.ReactElement => {
       setBondDuration(bondingDuration?.toHuman());
     }
   }
-
+  
   useEffect(() => {
     fetchStakingConstants();
   }, [isApiReady]);
-
+  
   return (
     <ContentArea>
       <SubHeader>Summary: </SubHeader>

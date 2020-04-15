@@ -3,8 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiContext } from '@substrate/context';
-import { Button, Subheading } from '@substrate/design-system';
-import { useLocalStorage } from '@substrate/local-storage';
 import {
   AddressSummary,
   Icon,
@@ -15,30 +13,28 @@ import {
   WithSpaceAround,
 } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
-import { NominationDetails } from '../NominationDetails';
+import { Button, NominationDetails, SubHeader } from '../index';
 import {
-  getCartItems,
   removeCartItem,
   stripAddressFromCartItem,
 } from '../../util/cartHelpers';
 
-const CartItems = (): React.ReactElement => {
-  const [cartItemsCount] = useLocalStorage('cartItemsCount');
+interface Props {
+  cartItems: string[];
+  cartItemsCount: number
+}
+
+const CartItems = (props: Props): React.ReactElement => {
+  const { cartItems, cartItemsCount } = props;
+
   const { api } = useContext(ApiContext);
-  const [cartItems, setCartItems] = useState<string[]>([]);
-
-  useEffect(() => {
-    const _cartItems = getCartItems();
-
-    setCartItems(_cartItems);
-  }, [cartItemsCount]);
-
+  
   const renderCartEmpty = (): React.ReactElement => {
     return (
       <Stacked>
-        <Subheading>Cart Empty</Subheading>
+        <SubHeader>Cart Empty</SubHeader>
         <p>you should add some validators to nominate...</p>
         <Button onClick={(): Promise<void> => navigate('/validators')}>
           Take Me There!
@@ -52,9 +48,8 @@ const CartItems = (): React.ReactElement => {
       dataset: { key },
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
-    // FIXME: use store.js and subscribe events so this update happens immediately (not on refresh).
     if (key) {
-      removeCartItem(key, Number(cartItemsCount));
+      removeCartItem(key, cartItemsCount);
     } else {
       alert('Something went wrong. Please try again later.');
     }
