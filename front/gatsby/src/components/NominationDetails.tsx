@@ -5,11 +5,13 @@
 import { EraIndex } from '@polkadot/types/interfaces';
 import { ApiContext } from '@substrate/context';
 import { Input } from '@substrate/ui-components';
+import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import { AccountsDropdown, StatItem, SubHeader } from './index';
+import { calcRewards } from '../util';
 
 const ContentArea = styled.div`
   display: flex column;
@@ -52,6 +54,8 @@ export const NominationDetails = (props: Props): React.ReactElement => {
 
   const { apiPromise, isApiReady } = useContext(ApiContext);
   const [bondDuration, setBondDuration] = useState<EraIndex>();
+  const [estimatedReward, setEstimatedReward] = useState<BN>();
+  const [rate, setRate] = useState<number>();
 
   const fetchStakingConstants = async () => {
     if (isApiReady) {
@@ -64,6 +68,16 @@ export const NominationDetails = (props: Props): React.ReactElement => {
   useEffect(() => {
     fetchStakingConstants();
   }, [isApiReady]);
+
+  useEffect(() => {
+    if (nominationAmount) {
+      // FIXME
+      const rate = calcRewards();
+
+      setRate(rate);
+      setEstimatedReward(new BN(nominationAmount).muln(rate));
+    }
+  }, [nominationAmount, rate]);
 
   return (
     <ContentArea>
@@ -94,8 +108,8 @@ export const NominationDetails = (props: Props): React.ReactElement => {
 
       <SubHeader>Estimated Rewards: </SubHeader>
       <EstimationDiv>
-        <StatItem title='Rate' value='16%' />
-        <StatItem title='Value' value='2494 DOTs ($1324354 USD)' />
+        <StatItem title='Rate' value={rate?.toString()} />
+        <StatItem title='Value' value={estimatedReward?.toString()} />
       </EstimationDiv>
     </ContentArea>
   );
