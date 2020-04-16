@@ -23,7 +23,7 @@ import React, {
   useState,
 } from 'react';
 
-import { ApiContext } from './ApiContext';
+import { ApiPromiseContext } from './ApiPromiseContext';
 import { SystemContext } from './SystemContext';
 import { getStashes, IS_SSR } from './util';
 
