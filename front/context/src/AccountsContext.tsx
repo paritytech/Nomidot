@@ -62,7 +62,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
 
   // context
-  const { api, apiPromise, isApiReady } = useContext(ApiContext);
+  const { api, isApiReady } = useContext(ApiPromiseContext);
   const { chain } = useContext(SystemContext);
 
   // state
@@ -81,7 +81,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
   const getDerivedBalances = async () => {
-    if (allAccounts && apiPromise && isApiReady) {
+    if (allAccounts && api && isApiReady) {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
@@ -89,7 +89,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       await Promise.all(
         addresses.map(async (address: string) => {
-          const derivedBalances = await apiPromise.derive.balances.all(address);
+          const derivedBalances = await api.derive.balances.all(address);
 
           result[address] = derivedBalances;
         })
@@ -102,12 +102,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   };
 
   const getDerivedStaking = async () => {
-    if (allStashes && apiPromise && isApiReady) {
+    if (allStashes && api && isApiReady) {
       const result: StashControllerMap = {};
 
       await Promise.all(
         allStashes.map(async stashId => {
-          const stakingInfo = await apiPromise.derive.staking.query(stashId);
+          const stakingInfo = await api.derive.staking.query(stashId);
 
           result[stashId] = stakingInfo;
         })
@@ -119,16 +119,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   };
 
   const getStashInfo = async () => {
-    if (isApiReady && apiPromise && allAccounts) {
+    if (isApiReady && api && allAccounts) {
       setLoadingAccountStaking(true);
       const addresses = allAccounts.map(account => account.address);
 
       const allBonded: Option<
         AccountId
-      >[] = await apiPromise.query.staking?.bonded.multi(addresses);
+      >[] = await api.query.staking?.bonded.multi(addresses);
       const allLedger: Option<
         StakingLedger
-      >[] = await apiPromise.query.staking.ledger.multi(addresses);
+      >[] = await api.query.staking.ledger.multi(addresses);
 
       const stashes: string[] = getStashes(addresses, allBonded, allLedger);
 
@@ -179,9 +179,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [chain, originName]);
 
   const setSigner = () => {
-    if (api && apiPromise && extension && isExtensionReady) {
+    if (api && extension && isExtensionReady) {
       api.setSigner(extension.signer);
-      apiPromise.setSigner(extension.signer);
     }
   };
   const fetchCachedRpcResults = () => {
@@ -214,12 +213,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     getStashInfo();
-  }, [allAccounts, apiPromise, isApiReady]);
+  }, [allAccounts, api, isApiReady]);
 
   useEffect(() => {
     getDerivedStaking();
     getDerivedBalances();
-  }, [allStashes, apiPromise, isApiReady]);
+  }, [allStashes, api, isApiReady]);
 
   return (
     <AccountsContext.Provider
