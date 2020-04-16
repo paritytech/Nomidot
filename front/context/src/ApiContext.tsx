@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { DeriveFees } from '@polkadot/api-derive/types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
@@ -71,16 +71,17 @@ export function ApiContextProvider(
   }, [api, apiPromise.isReady, promise]);
 
   useEffect(() => {
-    const sub = api.derive.balances.fees()
-      .pipe(
-        take(1)
-      )
-      .subscribe((result) => {
-        setFees(result);
-      });
+    if (isReady) {
+      const sub = api.derive.balances
+        .fees()
+        .pipe(take(1))
+        .subscribe(result => {
+          setFees(result);
+        });
 
-    return () => sub.unsubscribe()
-  }, [])
+      return () => sub.unsubscribe();
+    }
+  }, [isReady]);
 
   return (
     <ApiContext.Provider value={{ api, apiPromise, isApiReady: isReady, fees }}>

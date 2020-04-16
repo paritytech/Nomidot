@@ -3,45 +3,47 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EraIndex } from '@polkadot/types/interfaces';
-import { ApiContext, handler } from '@substrate/context';
-import { Spinner } from '@substrate/design-system';
+import { ApiContext } from '@substrate/context';
 import { Input } from '@substrate/ui-components';
-import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
-import { AccountsDropdown } from './AccountsDropdown';
-import { SubHeader, Text } from './Typography';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { AccountsDropdown, StatItem, SubHeader } from './index';
 
 const ContentArea = styled.div`
-  flex: 1;
   display: flex column;
   justify-content: flex-start;
   align-items: stretch;
-`
+  padding: 2rem;
+
+  ${media.lessThan('medium')`
+    display: flex column;
+  `}
+`;
 
 const SummaryDiv = styled.div`
   display: flex column;
   justify-content: space-around;
   align-items: flex-start;
   padding: 10px;
-  height: 250px;
-`
+  height: 50%;
+`;
 
 const SummaryDivItem = styled.div`
   flex: 1;
   margin: 4px 3px;
   padding: 7px 0;
-`
+`;
 
 const EstimationDiv = styled.div`
-
+  flex: 1;
+  margin: 4px 3px;
+  padding: 7px 0;
 `;
 
 interface Props {
-  nominationAmount: string,
+  nominationAmount: string;
   handleUserInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -57,26 +59,26 @@ export const NominationDetails = (props: Props): React.ReactElement => {
 
       setBondDuration(bondingDuration?.toHuman());
     }
-  }
-  
+  };
+
   useEffect(() => {
     fetchStakingConstants();
   }, [isApiReady]);
-  
+
   return (
     <ContentArea>
       <SubHeader>Summary: </SubHeader>
       <SummaryDiv>
         <SummaryDivItem>
-          <b>Nominate as:</b>
-          <AccountsDropdown />  
+          <StatItem title='Nominate as: '>
+            <AccountsDropdown />
+          </StatItem>
         </SummaryDivItem>
         <SummaryDivItem>
-          <b>Bonding Duration:</b>
-          {bondDuration} eras
+          <StatItem title='Bonding Duration: ' value={`${bondDuration} eras`} />
         </SummaryDivItem>
         <SummaryDivItem>
-          <b>Nomination Amount: </b>
+          <StatItem title='Nomination Amount: ' />
           <Input
             fluid
             label='UNIT'
@@ -86,13 +88,15 @@ export const NominationDetails = (props: Props): React.ReactElement => {
             placeholder='e.g. 1.00'
             type='number'
             value={nominationAmount}
-            />
+          />
         </SummaryDivItem>
       </SummaryDiv>
 
       <SubHeader>Estimated Rewards: </SubHeader>
       <EstimationDiv>
+        <StatItem title='Rate' value='16%' />
+        <StatItem title='Value' value='2494 DOTs ($1324354 USD)' />
       </EstimationDiv>
-  </ContentArea>
+    </ContentArea>
   );
 };

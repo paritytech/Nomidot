@@ -290,7 +290,9 @@ const BondingModal = (): React.ReactElement => {
             value={bondAmount}
           />
           <Modal.Description>
-            <Button size='huge' onClick={signAndSubmitBond}>Submit Bond</Button>
+            <Button size='huge' onClick={signAndSubmitBond}>
+              Submit Bond
+            </Button>
             <ErrorText>{bondingError}</ErrorText>
           </Modal.Description>
         </Stacked>

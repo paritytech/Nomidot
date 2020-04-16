@@ -11,7 +11,11 @@ import {
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
 import { Option } from '@polkadot/types';
-import { AccountId, AccountInfo, StakingLedger } from '@polkadot/types/interfaces';
+import {
+  AccountId,
+  AccountInfo,
+  StakingLedger,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import { writeStorage } from '@substrate/local-storage';
@@ -84,11 +88,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const getAccountNonce = async () => {
     if (apiPromise && isApiReady) {
-      const nonce = await apiPromise.query.system.account<AccountInfo>(currentAccount);
+      const nonce = await apiPromise.query.system.account<AccountInfo>(
+        currentAccount
+      );
 
       setCurrentAccountNonce(nonce);
     }
-  }
+  };
 
   const getDerivedBalances = async () => {
     if (allAccounts && apiPromise && isApiReady) {

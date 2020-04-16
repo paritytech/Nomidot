@@ -15,22 +15,22 @@ import {
 import { navigate } from 'gatsby';
 import React, { useContext } from 'react';
 
-import { Button, NominationDetails, SubHeader } from '../index';
 import {
   removeCartItem,
   stripAddressFromCartItem,
 } from '../../util/cartHelpers';
+import { Button, NominationDetails, SubHeader } from '../index';
 
 interface Props {
   cartItems: string[];
-  cartItemsCount: number
+  cartItemsCount: number;
 }
 
 const CartItems = (props: Props): React.ReactElement => {
   const { cartItems, cartItemsCount } = props;
 
   const { api } = useContext(ApiContext);
-  
+
   const renderCartEmpty = (): React.ReactElement => {
     return (
       <Stacked>

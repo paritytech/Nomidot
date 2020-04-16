@@ -8,28 +8,29 @@ import styled, { css } from 'styled-components';
 type ButtonSizeProp = 'tiny' | 'small' | 'big' | 'huge';
 
 const ButtonSizeMap = {
-  'tiny': {
+  tiny: {
     width: '4rem',
-    height: '1rem'
+    height: '1rem',
   },
-  'small': {
+  small: {
     width: '22px',
-    height: '8px'
+    height: '8px',
   },
-  'big': {
+  big: {
     width: '9rem',
-    height: '3rem'
+    height: '3rem',
   },
-  'huge': {
+  huge: {
     width: '11rem',
-    height: '4rem'
-  }
-}
+    height: '4rem',
+  },
+};
 
 interface ButtonProps {
   primary?: boolean; // blue
   secondary?: boolean; // pink
   neutral?: boolean; // black
+  disabled?: boolean;
   size?: ButtonSizeProp;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
@@ -41,7 +42,7 @@ export const Button = styled.a<ButtonProps>`
   color: white;
   display: inline-block;
   padding: 5px 10px;
-  text-align: center;  
+  text-align: center;
   height: ${props => ButtonSizeMap[props.size || 'small'].height} 
   width: ${props => ButtonSizeMap[props.size || 'small'].width};
 
@@ -49,6 +50,14 @@ export const Button = styled.a<ButtonProps>`
     cursor: pointer;
     color: white;
   }
+
+  ${props =>
+    props.disabled &&
+    css`
+      :disabled {
+        background: black;
+      }
+    `}
 
   ${props =>
     props.primary &&
