@@ -165,7 +165,11 @@ const Cart = (_props: Props): React.ReactElement => {
           nominationAmount={nominationAmount}
           handleUserInputChange={handleUserInputChange}
         />
-        {errors.length ? <ErrorText>{errors[0]}</ErrorText> : <Icon name='check' color='green' />}
+        {errors.length ? (
+          <ErrorText>{errors[0]}</ErrorText>
+        ) : (
+          <Icon name='check' color='green' />
+        )}
       </RightSide>
     </CartPageContainer>
   );

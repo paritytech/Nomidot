@@ -4,6 +4,7 @@
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 import { DeriveFees } from '@polkadot/api-derive/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
@@ -12,6 +13,7 @@ import { take } from 'rxjs/operators';
 export interface ApiContextType {
   api: ApiRx; // From @polkadot/api
   apiPromise?: ApiPromise;
+  bondDuration?: EraIndex;
   isApiReady: boolean;
   fees?: DeriveFees;
 }
@@ -36,6 +38,7 @@ export function ApiContextProvider(
   const [apiPromise, setApiPromise] = useState<ApiPromise>(
     new ApiPromise({ provider })
   );
+  const [bondDuration, setBondDuration] = useState<EraIndex>();
   const [fees, setFees] = useState<DeriveFees>();
   const [isReady, setIsReady] = useState(false);
 
@@ -79,12 +82,16 @@ export function ApiContextProvider(
           setFees(result);
         });
 
+      const bondingDuration = api.consts.staking.bondingDuration;
+
+      setBondDuration(bondingDuration?.toHuman());
+
       return () => sub.unsubscribe();
     }
   }, [isReady]);
 
   return (
-    <ApiContext.Provider value={{ api, apiPromise, isApiReady: isReady, fees }}>
+    <ApiContext.Provider value={{ api, apiPromise, bondDuration, isApiReady: isReady, fees }}>
       {children}
     </ApiContext.Provider>
   );

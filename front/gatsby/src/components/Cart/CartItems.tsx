@@ -19,7 +19,7 @@ import {
   removeCartItem,
   stripAddressFromCartItem,
 } from '../../util/cartHelpers';
-import { Button, NominationDetails, SubHeader } from '../index';
+import { Button, SubHeader } from '../index';
 
 interface Props {
   cartItems: string[];

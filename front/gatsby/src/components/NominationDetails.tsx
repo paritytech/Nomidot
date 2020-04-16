@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EraIndex } from '@polkadot/types/interfaces';
 import { ApiContext } from '@substrate/context';
 import { Input } from '@substrate/ui-components';
 import BN from 'bn.js';
@@ -10,8 +9,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
-import { AccountsDropdown, StatItem, SubHeader } from './index';
 import { calcRewards } from '../util';
+import { AccountsDropdown, StatItem, SubHeader } from './index';
 
 const ContentArea = styled.div`
   display: flex column;
@@ -52,22 +51,9 @@ interface Props {
 export const NominationDetails = (props: Props): React.ReactElement => {
   const { handleUserInputChange, nominationAmount } = props;
 
-  const { apiPromise, isApiReady } = useContext(ApiContext);
-  const [bondDuration, setBondDuration] = useState<EraIndex>();
+  const { bondDuration } = useContext(ApiContext);
   const [estimatedReward, setEstimatedReward] = useState<BN>();
   const [rate, setRate] = useState<number>();
-
-  const fetchStakingConstants = async () => {
-    if (isApiReady) {
-      const bondingDuration = await apiPromise?.consts.staking.bondingDuration;
-
-      setBondDuration(bondingDuration?.toHuman());
-    }
-  };
-
-  useEffect(() => {
-    fetchStakingConstants();
-  }, [isApiReady]);
 
   useEffect(() => {
     if (nominationAmount) {
