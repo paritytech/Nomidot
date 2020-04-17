@@ -23,8 +23,7 @@ import React, {
   useState,
 } from 'react';
 
-import { ApiPromiseContext } from './ApiPromiseContext';
-import { SystemContext } from './SystemContext';
+import { ApiPromiseContext, SystemContext } from './index';
 import { getStashes, IS_SSR } from './util';
 
 type AccountBalanceMap = Record<string, DeriveBalancesAll>;

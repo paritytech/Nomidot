@@ -112,8 +112,6 @@ const BondingModal = (): React.ReactElement => {
       extrinsic &&
       fees
     ) {
-      
-
       const [feeErrors, total, fee] = validateFees(
         accountNonce,
         new BN(bondAmount),
@@ -177,7 +175,7 @@ const BondingModal = (): React.ReactElement => {
   }, [currentAccount]);
 
   useEffect(() => {
-    if (apiPromise) {
+    if (api) {
       checkUserInputs();
       checkFees();
     }
@@ -185,7 +183,7 @@ const BondingModal = (): React.ReactElement => {
     accountForStash,
     accountForController,
     bondAmount,
-    apiPromise,
+    api,
     rewardDestination,
   ]);
 
@@ -213,7 +211,7 @@ const BondingModal = (): React.ReactElement => {
 
   const signAndSubmitBond = () => {
     if (
-      apiPromise &&
+      api &&
       accountForController &&
       accountForStash &&
       allFees &&
