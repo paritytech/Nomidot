@@ -4,8 +4,8 @@
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 import { DeriveFees } from '@polkadot/api-derive/types';
-import { EraIndex } from '@polkadot/types/interfaces';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
@@ -91,7 +91,9 @@ export function ApiContextProvider(
   }, [isReady]);
 
   return (
-    <ApiContext.Provider value={{ api, apiPromise, bondDuration, isApiReady: isReady, fees }}>
+    <ApiContext.Provider
+      value={{ api, apiPromise, bondDuration, isApiReady: isReady, fees }}
+    >
       {children}
     </ApiContext.Provider>
   );
