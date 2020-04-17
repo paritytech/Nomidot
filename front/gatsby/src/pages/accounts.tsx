@@ -4,7 +4,7 @@
 
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, ApiContext } from '@substrate/context';
+import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { List } from '@substrate/ui-components';
 import React, { useContext } from 'react';
@@ -72,7 +72,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     loadingAccountStaking,
     stashControllerMap,
   } = useContext(AccountsContext);
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
 
   const renderStakingQueryColumns = (account: string) => {
     const staking = stashControllerMap[account];

@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 
-export interface ApiContextProviderProps {
+export interface ApiRxContextProviderProps {
   children?: React.ReactElement;
   provider: ProviderInterface;
 }

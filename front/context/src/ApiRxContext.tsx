@@ -6,7 +6,7 @@ import { ApiRx } from '@polkadot/api';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 
-import { ApiContextProviderProps } from './types';
+import { ApiRxContextProviderProps } from './types';
 
 export interface ApiRxContextType {
   api: ApiRx; // From @polkadot/api\
@@ -20,7 +20,7 @@ export const ApiRxContext: React.Context<ApiRxContextType> = React.createContext
 );
 
 export function ApiRxContextProvider(
-  props: ApiContextProviderProps
+  props: ApiRxContextProviderProps
 ): React.ReactElement {
   const { children = null, provider } = props;
   const [apiRx, setApiRx] = useState<ApiRx>(new ApiRx({ provider }));

@@ -6,7 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 
-import { ApiContextProviderProps } from './types';
+import { ApiRxContextProviderProps } from './types';
 
 export interface ApiPromiseContextType {
   api: ApiPromise; // From @polkadot/api\
@@ -20,7 +20,7 @@ export const ApiPromiseContext: React.Context<ApiPromiseContextType> = React.cre
 );
 
 export function ApiPromiseContextProvider(
-  props: ApiContextProviderProps
+  props: ApiRxContextProviderProps
 ): React.ReactElement {
   const { children = null, provider } = props;
   const [apiPromise, setApiPromise] = useState<ApiPromise>(

@@ -8,13 +8,7 @@ import { GlobalStyle, polkadotOfficialTheme } from '@substrate/ui-components';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { AccountsContextProvider } from '../context/src/AccountsContext';
-import { ApiContextProvider } from '../context/src/ApiContext';
-import {
-  SystemContext,
-  SystemContextProvider,
-} from '../context/src/SystemContext';
-import { TxQueueContextProvider } from '../context/src/TxQueueContext';
+import { AccountsContextProvider, ApiRxContextProvider, SystemContext, SystemContextProvider, TxQueueContextProvider } from '@substrate/context';
 import client from './src/apollo';
 import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';
@@ -23,7 +17,7 @@ const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/');
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
-    <ApiContextProvider provider={WS_PROVIDER}>
+    <ApiRxContextProvider provider={WS_PROVIDER}>
       <SystemContextProvider provider={WS_PROVIDER}>
         <SystemContext.Consumer>
           {isSystemReady => {
@@ -37,7 +31,7 @@ export const wrapRootElement = ({ element }) => (
           }}
         </SystemContext.Consumer>
       </SystemContextProvider>
-    </ApiContextProvider>
+    </ApiRxContextProvider>
   </ApolloProvider>
 );
 

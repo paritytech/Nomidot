@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
 import {
   AccountsContext,
-  ApiContext,
+  ApiRxContext,
   ExtrinsicDetails,
   handler,
   TxQueueContext,
@@ -64,7 +64,7 @@ const BondingModal = (): React.ReactElement => {
     currentAccount,
     loadingBalances,
   } = useContext(AccountsContext);
-  const { api, apiPromise, isApiReady } = useContext(ApiContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit, txQueue } = useContext(TxQueueContext);
 
   const [accountForController, setAccountForController] = useState(
