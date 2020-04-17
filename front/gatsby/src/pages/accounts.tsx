@@ -156,24 +156,31 @@ const AccountsList = (_props: Props): React.ReactElement => {
   const renderBalanceColumns = (account: string) => {
     const thisAccount = accountBalanceMap[account];
 
+    // all these checks are a sign something else is wrong
     return (
       <>
         <Tc>
-          {thisAccount && thisAccount.lockedBalance.toHuman ? (
+          {thisAccount &&
+          thisAccount.lockedBalance &&
+          thisAccount.lockedBalance.toHuman ? (
             thisAccount.lockedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Tc>
         <Tc>
-          {thisAccount && thisAccount.reservedBalance.toHuman ? (
+          {thisAccount &&
+          thisAccount.reservedBalance &&
+          thisAccount.reservedBalance.toHuman ? (
             thisAccount.reservedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Tc>
         <Tc>
-          {thisAccount && thisAccount.freeBalance.toHuman ? (
+          {thisAccount &&
+          thisAccount.freeBalance &&
+          thisAccount.freeBalance.toHuman ? (
             thisAccount.freeBalance.toHuman()
           ) : (
             <Spinner active inline />

@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveFees } from '@polkadot/api-derive/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
 import { AccountInfo } from '@polkadot/types/interfaces';
 import {
@@ -28,7 +28,7 @@ import {
 } from '@substrate/ui-components';
 import BN from 'bn.js';
 import { navigate } from 'gatsby';
-import React, { useContext, useEffect, useState, Suspense } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
 import { validateFees } from '../util/validateExtrinsic';
@@ -88,7 +88,10 @@ const BondingModal = (): React.ReactElement => {
 
   useEffect(() => {
     if (api && isApiReady) {
-      const sub = api.derive.balances.fees().pipe(take(1)).subscribe((result: DeriveFees) => setFees(result))
+      const sub = api.derive.balances
+        .fees()
+        .pipe(take(1))
+        .subscribe((result: DeriveFees) => setFees(result));
 
       return () => sub.unsubscribe();
     }
@@ -96,7 +99,10 @@ const BondingModal = (): React.ReactElement => {
 
   useEffect(() => {
     if (api && isApiReady) {
-      const sub = api.query.system.account<AccountInfo>(accountForStash).pipe(take(1)).subscribe((result: AccountInfo) => setAccountNonce(result));
+      const sub = api.query.system
+        .account<AccountInfo>(accountForStash)
+        .pipe(take(1))
+        .subscribe((result: AccountInfo) => setAccountNonce(result));
 
       return () => sub.unsubscribe();
     }

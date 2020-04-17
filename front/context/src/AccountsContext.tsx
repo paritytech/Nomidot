@@ -22,8 +22,10 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
-import { ApiPromiseContext, SystemContext } from './index';
+import { ApiRxContext, SystemContext } from './index';
 import { getStashes, IS_SSR } from './util';
 
 type AccountBalanceMap = Record<string, DeriveBalancesAll>;
@@ -61,11 +63,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
 
   // context
-  const { api, isApiReady } = useContext(ApiPromiseContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
   const { chain } = useContext(SystemContext);
 
   // state
   const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
+  const [allBonded, setAllBonded] = useState<Option<AccountId>[]>();
+  const [allLedger, setAllLedger] = useState<Option<StakingLedger>[]>();
+
   const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>(
     {}
   );
@@ -79,20 +84,24 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
-  const getDerivedBalances = async () => {
-    if (allAccounts && api && isApiReady) {
+  const getDerivedBalances = () => {
+    if (allAccounts) {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
       const result: AccountBalanceMap = {};
 
-      await Promise.all(
-        addresses.map(async (address: string) => {
-          const derivedBalances = await api.derive.balances.all(address);
+      // Yuck, cannot do multi on derives...
+      addresses.map((address: string) => {
+        const sub = api.derive.balances
+          .all(address)
+          .pipe(take(1))
+          .subscribe((derivedBalances: DeriveBalancesAll) => {
+            result[address] = derivedBalances;
+          });
 
-          result[address] = derivedBalances;
-        })
-      );
+        return sub.unsubscribe();
+      });
 
       setAccountBalanceMap(result);
       writeStorage('derivedBalances', JSON.stringify(result));
@@ -100,42 +109,46 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   };
 
-  const getDerivedStaking = async () => {
-    if (allStashes && api && isApiReady) {
+  const getDerivedStaking = () => {
+    if (allStashes) {
       const result: StashControllerMap = {};
 
-      await Promise.all(
-        allStashes.map(async stashId => {
-          const stakingInfo = await api.derive.staking.query(stashId);
+      allStashes.map(stashId => {
+        const sub = api.derive.staking
+          .query(stashId)
+          .pipe(take(1))
+          .subscribe((stakingInfo: DeriveStakingQuery) => {
+            result[stashId] = stakingInfo;
+          });
 
-          result[stashId] = stakingInfo;
-        })
-      );
+        return sub.unsubscribe();
+      });
 
       setStashControllerMap(result);
       writeStorage('derivedStaking', JSON.stringify(result));
     }
   };
 
-  const getStashInfo = async () => {
+  const getStashInfo = (): Subscription[] | undefined => {
     if (isApiReady && api && allAccounts) {
       setLoadingAccountStaking(true);
       const addresses = allAccounts.map(account => account.address);
 
-      const allBonded: Option<
-        AccountId
-      >[] = await api.query.staking?.bonded.multi(addresses);
-      const allLedger: Option<
-        StakingLedger
-      >[] = await api.query.staking.ledger.multi(addresses);
+      const bondSub = api.query.staking?.bonded
+        .multi<Option<AccountId>>(addresses)
+        .pipe(take(1))
+        .subscribe((result: Option<AccountId>[]) => {
+          setAllBonded(result);
+        });
 
-      const stashes: string[] = getStashes(addresses, allBonded, allLedger);
+      const ledgerSub = api.query.staking.ledger
+        .multi<Option<StakingLedger>>(addresses)
+        .pipe(take(1))
+        .subscribe((result: Option<StakingLedger>[]) => {
+          setAllLedger(result);
+        });
 
-      writeStorage('allStashes', JSON.stringify(stashes));
-
-      setAllStashes(stashes);
-
-      setLoadingAccountStaking(false);
+      return [bondSub, ledgerSub];
     }
   };
 
@@ -206,17 +219,42 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [isExtensionReady]);
 
   useEffect(() => {
+    if (allBonded && allLedger) {
+      const addresses = allAccounts.map(account => account.address);
+
+      const stashes: string[] = getStashes(addresses, allBonded, allLedger);
+
+      writeStorage('allStashes', JSON.stringify(stashes));
+
+      setAllStashes(stashes);
+
+      setLoadingAccountStaking(false);
+    }
+  }, [allBonded, allLedger]);
+
+  useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
   }, []);
 
   useEffect(() => {
-    getStashInfo();
+    const result = getStashInfo();
+
+    if (result) {
+      const [unsub1, unsub2] = result;
+
+      return () => {
+        unsub1.unsubscribe();
+        unsub2.unsubscribe();
+      };
+    }
   }, [allAccounts, api, isApiReady]);
 
   useEffect(() => {
-    getDerivedStaking();
-    getDerivedBalances();
+    if (api && isApiReady) {
+      getDerivedStaking();
+      getDerivedBalances();
+    }
   }, [allStashes, api, isApiReady]);
 
   return (

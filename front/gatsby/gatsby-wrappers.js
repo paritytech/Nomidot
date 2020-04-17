@@ -4,7 +4,13 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
-import { AccountsContextProvider, ApiRxContextProvider, SystemContext, SystemContextProvider, TxQueueContextProvider } from '@substrate/context';
+import {
+  AccountsContextProvider,
+  ApiRxContextProvider,
+  SystemContext,
+  SystemContextProvider,
+  TxQueueContextProvider,
+} from '@substrate/context';
 import { GlobalStyle, polkadotOfficialTheme } from '@substrate/ui-components';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
