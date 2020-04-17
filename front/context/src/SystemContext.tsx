@@ -68,10 +68,6 @@ export function SystemContextProvider(
   const [rpc, setRpc] = useState<Rpc>();
 
   useEffect(() => {
-    if (!provider) {
-      return;
-    }
-
     // When we change provider, reset everything
     setChain(undefined);
     setGenesisHash(undefined);
@@ -80,6 +76,10 @@ export function SystemContextProvider(
     setName(undefined);
     setProperties(undefined);
     setVersion(undefined);
+
+    if (!provider) {
+      return;
+    }
 
     // Create a new RPC client each time we change provider
     setRpc(new Rpc(registryRef.current, provider));

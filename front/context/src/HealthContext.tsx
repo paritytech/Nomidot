@@ -84,10 +84,6 @@ export function HealthContextProvider(
 
   // When we change provider, reset `isSyncing` to true
   useEffect(() => {
-    if (!provider) {
-      return;
-    }
-
     setIsSyncing(true);
   }, [provider]);
 
