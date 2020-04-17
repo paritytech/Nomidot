@@ -5,16 +5,13 @@
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
 import { ApiContextProvider } from '@substrate/context';
+import { SystemContext, SystemContextProvider } from '@substrate/context';
+import { TxQueueContextProvider } from '@substrate/context';
 import { AccountsContextProvider } from '@substrate/context';
 import { GlobalStyle, polkadotOfficialTheme } from '@substrate/ui-components';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import {
-  SystemContext,
-  SystemContextProvider,
-} from '../context/src/SystemContext';
-import { TxQueueContextProvider } from '../context/src/TxQueueContext';
 import client from './src/apollo';
 import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';
