@@ -4,11 +4,11 @@
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { WsProvider } from '@polkadot/api';
+import { AccountsContextProvider, ApiRxContextProvider, SystemContext, SystemContextProvider, TxQueueContextProvider } from '@substrate/context';
 import { GlobalStyle, polkadotOfficialTheme } from '@substrate/ui-components';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { AccountsContextProvider, ApiRxContextProvider, SystemContext, SystemContextProvider, TxQueueContextProvider } from '@substrate/context';
 import client from './src/apollo';
 import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';

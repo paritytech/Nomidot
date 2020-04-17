@@ -3,7 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { DeriveFees } from '@polkadot/api-derive/types';
 import { createType } from '@polkadot/types';
+import { AccountInfo } from '@polkadot/types/interfaces';
 import {
   AccountsContext,
   ApiRxContext,
@@ -26,7 +28,8 @@ import {
 } from '@substrate/ui-components';
 import BN from 'bn.js';
 import { navigate } from 'gatsby';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, Suspense } from 'react';
+import { take } from 'rxjs/operators';
 
 import { validateFees } from '../util/validateExtrinsic';
 import { Button } from './Button';
@@ -71,29 +74,45 @@ const BondingModal = (): React.ReactElement => {
     currentAccount
   );
   const [accountForStash, setAccountForStash] = useState(currentAccount);
+  const [accountNonce, setAccountNonce] = useState<AccountInfo>();
   const [allFees, setAllFees] = useState<BN>();
   const [allTotal, setAllTotal] = useState<BN>();
   const [bondAmount, setBondAmount] = useState<string>('');
   const [bondingError, setBondingError] = useState<Error>();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
+  const [fees, setFees] = useState<DeriveFees>();
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
   const [txId, setTxId] = useState<number>();
 
-  const checkFees = async () => {
+  useEffect(() => {
+    if (api && isApiReady) {
+      const sub = api.derive.balances.fees().pipe(take(1)).subscribe((result: DeriveFees) => setFees(result))
+
+      return () => sub.unsubscribe();
+    }
+  }, [api, isApiReady]);
+
+  useEffect(() => {
+    if (api && isApiReady) {
+      const sub = api.query.system.account<AccountInfo>(accountForStash).pipe(take(1)).subscribe((result: AccountInfo) => setAccountNonce(result));
+
+      return () => sub.unsubscribe();
+    }
+  }, [accountForStash, api, isApiReady]);
+
+  const checkFees = () => {
     if (
-      apiPromise &&
       isApiReady &&
       accountForStash &&
       accountForController &&
+      accountNonce &&
       bondAmount &&
-      extrinsic
+      extrinsic &&
+      fees
     ) {
-      const fees = await apiPromise.derive.balances.fees();
-      const accountNonce = await apiPromise.query.system.account(
-        accountForStash
-      );
+      
 
       const [feeErrors, total, fee] = validateFees(
         accountNonce,
