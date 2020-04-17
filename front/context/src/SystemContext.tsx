@@ -68,6 +68,15 @@ export function SystemContextProvider(
   const [rpc, setRpc] = useState<Rpc>();
 
   useEffect(() => {
+    // When we change provider, reset everything
+    setChain(undefined);
+    setGenesisHash(undefined);
+    setHeader(undefined);
+    setHealth(undefined);
+    setName(undefined);
+    setProperties(undefined);
+    setVersion(undefined);
+
     if (!provider) {
       return;
     }
