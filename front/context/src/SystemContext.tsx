@@ -72,6 +72,15 @@ export function SystemContextProvider(
       return;
     }
 
+    // When we change provider, reset everything
+    setChain(undefined);
+    setGenesisHash(undefined);
+    setHeader(undefined);
+    setHealth(undefined);
+    setName(undefined);
+    setProperties(undefined);
+    setVersion(undefined);
+
     // Create a new RPC client each time we change provider
     setRpc(new Rpc(registryRef.current, provider));
   }, [provider]);

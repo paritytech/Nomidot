@@ -82,6 +82,15 @@ export function HealthContextProvider(
   const { header, health } = useContext(SystemContext);
   const [isSyncing, setIsSyncing] = useState(true);
 
+  // When we change provider, reset `isSyncing` to true
+  useEffect(() => {
+    if (!provider) {
+      return;
+    }
+
+    setIsSyncing(true);
+  }, [provider]);
+
   // We wait for 2 seconds, and if we've been syncing for 2 seconds, then we
   // set isSyncing to true
   useEffect(() => {
