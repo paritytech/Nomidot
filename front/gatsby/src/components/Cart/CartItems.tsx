@@ -25,7 +25,7 @@ import {
 
 const CartItems = (): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
-  const { api } = useContext(ApiRxContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
   const [cartItems, setCartItems] = useState<string[]>([]);
 
   useEffect(() => {
@@ -58,6 +58,11 @@ const CartItems = (): React.ReactElement => {
       alert('Something went wrong. Please try again later.');
     }
   };
+
+  if (!api || !isApiReady) {
+    console.warn('Api not set');
+    return <></>;
+  }
 
   return (
     <List animated relaxed>

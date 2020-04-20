@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { ApiRxContextProviderProps } from './types';
 
 export interface ApiPromiseContextType {
-  api: ApiPromise; // From @polkadot/api\
+  api: ApiPromise | undefined; // From @polkadot/api\
   isApiReady: boolean;
 }
 
@@ -23,9 +23,7 @@ export function ApiPromiseContextProvider(
   props: ApiRxContextProviderProps
 ): React.ReactElement {
   const { children = null, provider } = props;
-  const [apiPromise, setApiPromise] = useState<ApiPromise>(
-    new ApiPromise({ provider })
-  );
+  const [apiPromise, setApiPromise] = useState<ApiPromise>();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -41,11 +39,13 @@ export function ApiPromiseContextProvider(
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
-    apiPromise.isReady.then(_ => {
-      l.log(`Api ready.`);
-      setIsReady(true);
-    });
-  }, [apiPromise.isReady]);
+    if (apiPromise) {
+      apiPromise.isReady.then(_ => {
+        l.log(`Api ready.`);
+        setIsReady(true);
+      });
+    }
+  }, [apiPromise]);
 
   return (
     <ApiPromiseContext.Provider

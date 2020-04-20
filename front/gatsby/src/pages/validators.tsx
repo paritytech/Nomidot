@@ -28,7 +28,7 @@ interface JoinValidatorOffline extends Validator {
 }
 
 const CurrentElectedList = (): React.ReactElement => {
-  const { api } = useContext(ApiRxContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
 
   const [currentElected, setCurrentElected] = useState<
     JoinValidatorOffline[]
@@ -112,6 +112,11 @@ const CurrentElectedList = (): React.ReactElement => {
   };
 
   const renderValidatorsTable = (): React.ReactElement => {
+    if (!api || !isApiReady) {
+      console.warn('Api not set');
+      return <></>;
+    }
+
     return (
       <Table celled padded striped size='large'>
         <Table.Header>

@@ -86,7 +86,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
   const getDerivedBalances = (): Subscriptions | undefined => {
-    if (allAccounts) {
+    if (isApiReady && api && allAccounts) {
       setLoadingBalances(true);
       const addresses = allAccounts.map(account => account.address);
 
@@ -113,7 +113,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   };
 
   const getDerivedStaking = (): Subscriptions | undefined => {
-    if (allStashes) {
+    if (isApiReady && api && allStashes) {
       const result: StashControllerMap = {};
 
       const subs = allStashes.map(stashId => {

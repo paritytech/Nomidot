@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { ApiRxContextProviderProps } from './types';
 
 export interface ApiRxContextType {
-  api: ApiRx; // From @polkadot/api\
+  api: ApiRx | undefined; // From @polkadot/api\
   isApiReady: boolean;
 }
 
@@ -23,7 +23,7 @@ export function ApiRxContextProvider(
   props: ApiRxContextProviderProps
 ): React.ReactElement {
   const { children = null, provider } = props;
-  const [apiRx, setApiRx] = useState<ApiRx>(new ApiRx({ provider }));
+  const [apiRx, setApiRx] = useState<ApiRx>();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -38,14 +38,18 @@ export function ApiRxContextProvider(
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
-    const subscription = apiRx.isReady.subscribe(() => {
-      l.log(`Api ready.`);
+    let subscription: any;
 
-      setIsReady(true);
-    });
+    if (apiRx) {
+      subscription = apiRx.isReady.subscribe(() => {
+        l.log(`Api ready.`);
 
-    return (): void => subscription.unsubscribe();
-  }, [apiRx.isReady]);
+        setIsReady(true);
+      });
+    }
+
+    return (): void => subscription && subscription.unsubscribe();
+  }, [apiRx]);
 
   return (
     <ApiRxContext.Provider value={{ api: apiRx, isApiReady: isReady }}>

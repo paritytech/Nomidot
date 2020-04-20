@@ -11,7 +11,7 @@ import HeaderItem from '../HeaderItem';
 import { EraHead } from '../types';
 
 const EraHeader = (): React.ReactElement => {
-  const { api } = useContext(ApiRxContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
   const queryData = useQuery(LATEST_ERA_QUERY);
   const [eraHead, setEraHead] = useState<EraHead>();
@@ -33,7 +33,7 @@ const EraHeader = (): React.ReactElement => {
   }, [data, eraHead]);
 
   useEffect(() => {
-    if (queryData && queryData.data) {
+    if (queryData && queryData.data && api && isApiReady) {
       const {
         data: { eras },
       } = queryData;
@@ -44,7 +44,7 @@ const EraHeader = (): React.ReactElement => {
         totalPoints: api.createType('Points', eras[0].totalPoints),
       });
     }
-  }, [api, queryData]);
+  }, [api, isApiReady, queryData]);
 
   return (
     <HeaderItem
