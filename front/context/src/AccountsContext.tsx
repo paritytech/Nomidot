@@ -93,12 +93,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const getAccountNonce = (): Subscription | undefined => {
     if (api && isApiReady) {
-      const sub = api.query.system.account<AccountInfo>(currentAccount)
+      const sub = api.query.system
+        .account<AccountInfo>(currentAccount)
         .pipe(take(1))
         .subscribe((nonce: AccountInfo) => {
           setCurrentAccountNonce(nonce);
         });
-      
+
       return sub;
     }
   };
@@ -288,7 +289,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     const sub = getAccountNonce();
-    
+
     return () => sub?.unsubscribe();
   }, [currentAccount]);
 

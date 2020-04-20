@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiRxContext } from '@substrate/context';
-import { useLocalStorage } from '@substrate/local-storage';
 import {
   AddressSummary,
   Icon,

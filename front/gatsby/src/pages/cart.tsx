@@ -7,7 +7,7 @@ import { createType } from '@polkadot/types';
 import { RouteComponentProps } from '@reach/router';
 import {
   AccountsContext,
-  ApiContext,
+  ApiRxContext,
   ExtrinsicDetails,
   TxQueueContext,
 } from '@substrate/context';
@@ -60,7 +60,7 @@ const Cart = (_props: Props): React.ReactElement => {
   const { accountBalanceMap, currentAccount, currentAccountNonce } = useContext(
     AccountsContext
   );
-  const { api, apiPromise, isApiReady, fees } = useContext(ApiContext);
+  const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
   const [allFees, setAllFees] = useState<BN>();
   const [allTotal, setAllTotal] = useState<BN>();
@@ -73,7 +73,7 @@ const Cart = (_props: Props): React.ReactElement => {
 
   const checkFees = (): void => {
     if (
-      apiPromise &&
+      api &&
       isApiReady &&
       currentAccount &&
       currentAccountNonce &&
@@ -111,7 +111,7 @@ const Cart = (_props: Props): React.ReactElement => {
   };
 
   const submitNomination = () => {
-    if (apiPromise && allFees && allTotal && currentAccount && extrinsic) {
+    if (api && allFees && allTotal && currentAccount && extrinsic) {
       const details: ExtrinsicDetails = {
         allFees,
         allTotal,

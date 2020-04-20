@@ -3,13 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiRx } from '@polkadot/api';
+import { DeriveFees } from '@polkadot/api-derive/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
+import { take } from 'rxjs/operators';
 
 import { ApiRxContextProviderProps } from './types';
 
 export interface ApiRxContextType {
-  api: ApiRx; // From @polkadot/api\
+  api: ApiRx; // From @polkadot/api
+  bondingDuration?: EraIndex;
+  fees?: DeriveFees;
   isApiReady: boolean;
 }
 
@@ -24,6 +29,8 @@ export function ApiRxContextProvider(
 ): React.ReactElement {
   const { children = null, provider } = props;
   const [apiRx, setApiRx] = useState<ApiRx>(new ApiRx({ provider }));
+  const [bondingDuration, setBondingDuration] = useState<EraIndex>();
+  const [fees, setFees] = useState<DeriveFees>();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -47,8 +54,24 @@ export function ApiRxContextProvider(
     return (): void => subscription.unsubscribe();
   }, [apiRx.isReady]);
 
+  useEffect(() => {
+    const subscription = apiRx.derive.balances
+      .fees()
+      .pipe(take(1))
+      .subscribe(derivedFees => {
+        setFees(derivedFees);
+      });
+
+    const duration = apiRx.consts.staking.bondingDuration;
+    setBondingDuration(duration);
+
+    return (): void => subscription.unsubscribe();
+  }, [isReady]);
+
   return (
-    <ApiRxContext.Provider value={{ api: apiRx, isApiReady: isReady }}>
+    <ApiRxContext.Provider
+      value={{ api: apiRx, bondingDuration, fees, isApiReady: isReady }}
+    >
       {children}
     </ApiRxContext.Provider>
   );
