@@ -41,9 +41,13 @@
   },
   "scripts": {
     "build": "gatsby build",
+    "analyze": "node scripts/analyze.js",
     "start": "gatsby develop",
     "start:prod": "yarn build && yarn serve",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
+  "devDependencies": {
+    "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.8"
   }
 }

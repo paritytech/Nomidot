@@ -1,6 +1,13 @@
 /* eslint-disable */
 module.exports = {
   plugins: [
+    {
+      resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
+      options: {
+        analyzerPort: 8888,
+        production: true,
+      },
+    },
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-manifest',
