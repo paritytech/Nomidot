@@ -1,6 +1,6 @@
 {
   "name": "@substrate/node-watcher",
-  "version": "0.3.25",
+  "version": "0.4.0",
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Apache-2.0",
   "description": "Extract, Transform, Load Kusama/Polkadot history into a PostgreSQL DB",
