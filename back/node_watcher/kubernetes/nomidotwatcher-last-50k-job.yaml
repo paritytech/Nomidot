@@ -27,7 +27,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:38a6b84caa0d609e4a3baea54570fe71e5f39d826dab92e6e3d7c656931c3c47
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:f88f02e79cfc2c5a8f59ab2fae50f26eda40f1bd7ee4cc8c8b07b194c11d2cee
           imagePullPolicy: Always
           env:
             - name: PRISMA_ENDPOINT
@@ -35,9 +35,9 @@ spec:
             - name: ARCHIVE_NODE_ENDPOINT
               value: ws://polkassembly-rpc-internal-0.parity-prod.parity.io:9944
             - name: START_FROM
-              value: '1679901'
+              value: '1919357'
             - name: BLOCK_IDENTIFIER
-              value: 'last-50k-1'
+              value: 'last-50k-2'
             - name: MAX_LAG
               value: '10'
           command: ["yarn", "start"]

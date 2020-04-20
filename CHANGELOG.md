@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.25](https://github.com/paritytech/Nomidot/compare/v0.3.24...v0.3.25) (2020-04-20)
+
+
+### Bug Fixes
+
+* **context:** Reset context parameters when we change provider ([#303](https://github.com/paritytech/Nomidot/issues/303)) ([bfc9c0e](https://github.com/paritytech/Nomidot/commit/bfc9c0e7db80dd58d15f32e638ceb9267d24bf59))
+
+
+### Features
+
+* Split ApiContext into ApiPromiseContext and ApiRxContext ([#302](https://github.com/paritytech/Nomidot/issues/302)) ([ef85664](https://github.com/paritytech/Nomidot/commit/ef856649a429b5ff2f45e71bc9be193bc05ec16c))
+
+
+
+
+
 ## [0.3.24](https://github.com/paritytech/Nomidot/compare/v0.3.23...v0.3.24) (2020-04-14)
 
 
@@ -212,7 +228,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* Make ApiContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+* Make ApiRxContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
 
 
 

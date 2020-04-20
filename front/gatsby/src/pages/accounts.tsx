@@ -4,7 +4,7 @@
 
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, ApiContext } from '@substrate/context';
+import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { List } from '@substrate/ui-components';
 import React, { useContext } from 'react';
@@ -72,7 +72,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     loadingAccountStaking,
     stashControllerMap,
   } = useContext(AccountsContext);
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
 
   const renderStakingQueryColumns = (account: string) => {
     const staking = stashControllerMap[account];
@@ -156,24 +156,31 @@ const AccountsList = (_props: Props): React.ReactElement => {
   const renderBalanceColumns = (account: string) => {
     const thisAccount = accountBalanceMap[account];
 
+    // all these checks are a sign something else is wrong
     return (
       <>
         <Tc>
-          {thisAccount && thisAccount.lockedBalance.toHuman ? (
+          {thisAccount &&
+          thisAccount.lockedBalance &&
+          thisAccount.lockedBalance.toHuman ? (
             thisAccount.lockedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Tc>
         <Tc>
-          {thisAccount && thisAccount.reservedBalance.toHuman ? (
+          {thisAccount &&
+          thisAccount.reservedBalance &&
+          thisAccount.reservedBalance.toHuman ? (
             thisAccount.reservedBalance.toHuman()
           ) : (
             <Spinner active inline />
           )}
         </Tc>
         <Tc>
-          {thisAccount && thisAccount.freeBalance.toHuman ? (
+          {thisAccount &&
+          thisAccount.freeBalance &&
+          thisAccount.freeBalance.toHuman ? (
             thisAccount.freeBalance.toHuman()
           ) : (
             <Spinner active inline />

@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiContext } from '@substrate/context';
+import { ApiRxContext } from '@substrate/context';
+import { useLocalStorage } from '@substrate/local-storage';
 import {
   AddressSummary,
   Icon,
@@ -29,7 +30,7 @@ interface Props {
 const CartItems = (props: Props): React.ReactElement => {
   const { cartItems, cartItemsCount } = props;
 
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
 
   const renderCartEmpty = (): React.ReactElement => {
     return (
