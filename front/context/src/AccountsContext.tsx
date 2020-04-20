@@ -121,7 +121,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           .query(stashId)
           .pipe(take(1))
           .subscribe((stakingInfo: DeriveStakingQuery) => {
-            console.log('staking -> ', stakingInfo);
             result[stashId] = stakingInfo;
           });
 
@@ -150,7 +149,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .multi<Option<StakingLedger>>(addresses)
         .pipe(take(1))
         .subscribe((result: Option<StakingLedger>[]) => {
-          console.log('ledger -> ', result);
           setAllLedger(result);
         });
 
@@ -247,10 +245,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     const allSubs = getStashInfo();
 
     if (allSubs) {
-      return () => allSubs.forEach((sub) => {
-        console.log('in here...')
-        sub.unsubscribe();
-      });
+      return () =>
+        allSubs.forEach(sub => {
+          sub.unsubscribe();
+        });
     }
   }, [allAccounts, api, isApiReady]);
 
@@ -258,16 +256,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (api && isApiReady) {
       const stakingSubHandlers = getDerivedStaking();
       const balanceSubHandlers = getDerivedBalances();
-      
-      const allSubs = [
-        ...balanceSubHandlers,
-        ...stakingSubHandlers
-      ]
+
+      const allSubs = [...balanceSubHandlers, ...stakingSubHandlers];
 
       if (allSubs) {
-        return () => allSubs.forEach((sub) => {
-          sub.unsubscribe()
-        })
+        return () =>
+          allSubs.forEach(sub => {
+            sub.unsubscribe();
+          });
       }
     }
   }, [allStashes, api, isApiReady]);
