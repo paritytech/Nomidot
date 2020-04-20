@@ -212,11 +212,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const setDefaultAccount = () => {
     if (allAccounts.length) {
-      setCurrentAccount(
-        allAccounts[0].address
-      );
+      setCurrentAccount(allAccounts[0].address);
     }
-  }
+  };
 
   const setSigner = () => {
     if (api && extension && isExtensionReady) {
@@ -300,7 +298,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     setDefaultAccount();
-  }, [allAccounts])
+  }, [allAccounts]);
 
   return (
     <AccountsContext.Provider

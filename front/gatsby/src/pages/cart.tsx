@@ -12,7 +12,7 @@ import {
   TxQueueContext,
 } from '@substrate/context';
 import { useLocalStorage } from '@substrate/local-storage';
-import { ErrorText, Icon } from '@substrate/ui-components';
+import { ErrorText } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -102,7 +102,7 @@ const Cart = (_props: Props): React.ReactElement => {
     }
   };
 
-  const checkUserInputs = () => {
+  const checkUserInputs = (): void => {
     // check nominate as has enough balance
     if (!currentAccount) {
       setError('Please select an account to nominate as.');
@@ -111,14 +111,16 @@ const Cart = (_props: Props): React.ReactElement => {
       const derivedBalances = accountBalanceMap[currentAccount];
 
       if (derivedBalances.freeBalance <= allTotal) {
-        setError('This account does not have enough balance to perform this extrinsic.');
+        setError(
+          'This account does not have enough balance to perform this extrinsic.'
+        );
         return;
       }
     } else {
       setError(undefined);
       return;
     }
-  }
+  };
 
   const handleUserInputChange = ({
     target: { value },
@@ -127,7 +129,7 @@ const Cart = (_props: Props): React.ReactElement => {
     checkFees();
   };
 
-  const setExtrinsicDetails = () => {
+  const setExtrinsicDetails = (): void => {
     if (isApiReady) {
       const extrinsic = api.tx.staking.nominate(cartItems);
 
@@ -135,7 +137,7 @@ const Cart = (_props: Props): React.ReactElement => {
     }
   };
 
-  const submitNomination = () => {
+  const submitNomination = (): void => {
     if (api && allFees && allTotal && currentAccount && extrinsic) {
       const details: ExtrinsicDetails = {
         allFees,
@@ -194,9 +196,7 @@ const Cart = (_props: Props): React.ReactElement => {
         {error ? (
           <ErrorText>{error}</ErrorText>
         ) : (
-          <Button onClick={submitNomination}>
-            Nominate!
-          </Button>
+          <Button onClick={submitNomination}>Nominate!</Button>
         )}
       </RightSide>
     </CartPageContainer>

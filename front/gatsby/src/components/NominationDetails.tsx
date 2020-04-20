@@ -7,7 +7,6 @@ import { Input } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import media from 'styled-media-query';
 
 import { calcRewards } from '../util';
 import { AccountsDropdown, StatItem, SubHeader } from './index';
@@ -69,7 +68,6 @@ export const NominationDetails = (props: Props): React.ReactElement => {
 
   return (
     <ContentArea>
-      <SubHeader>Summary: </SubHeader>
       <SummaryDiv>
         <SummaryDivItem>
           <StatItem title='Nominate as: '>
@@ -100,7 +98,10 @@ export const NominationDetails = (props: Props): React.ReactElement => {
       <SubHeader>Estimated Rewards: </SubHeader>
       <EstimationDiv>
         <StatItem title='Rate' value={rate ? rate.toString() : '0'} />
-        <StatItem title='Value' value={estimatedReward ? estimatedReward.toString() : '0'} />
+        <StatItem
+          title='Value'
+          value={estimatedReward ? estimatedReward.toString() : '0'}
+        />
       </EstimationDiv>
     </ContentArea>
   );

@@ -57,11 +57,11 @@ export function ApiRxContextProvider(
   useEffect(() => {
     if (isReady) {
       const subscription = apiRx.derive.balances
-      .fees()
-      .pipe(take(1))
-      .subscribe(derivedFees => {
-        setFees(derivedFees);
-      });
+        .fees()
+        .pipe(take(1))
+        .subscribe(derivedFees => {
+          setFees(derivedFees);
+        });
 
       const duration = apiRx.consts.staking.bondingDuration;
       setBondingDuration(duration);
