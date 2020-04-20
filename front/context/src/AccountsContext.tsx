@@ -205,13 +205,18 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       });
 
       setAccounts(_web3Accounts);
-      setCurrentAccount(
-        _web3Accounts && _web3Accounts[0] && _web3Accounts[0].address
-      );
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsExtensionReady(true);
     }
   }, [chain, originName]);
+
+  const setDefaultAccount = () => {
+    if (allAccounts.length) {
+      setCurrentAccount(
+        allAccounts[0].address
+      );
+    }
+  }
 
   const setSigner = () => {
     if (api && extension && isExtensionReady) {
@@ -292,6 +297,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
     return () => sub?.unsubscribe();
   }, [currentAccount]);
+
+  useEffect(() => {
+    setDefaultAccount();
+  }, [allAccounts])
 
   return (
     <AccountsContext.Provider

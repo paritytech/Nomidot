@@ -17,10 +17,6 @@ const ContentArea = styled.div`
   justify-content: flex-start;
   align-items: stretch;
   padding: 2rem;
-
-  ${media.lessThan('medium')`
-    display: flex column;
-  `}
 `;
 
 const SummaryDiv = styled.div`
@@ -38,9 +34,15 @@ const SummaryDivItem = styled.div`
 `;
 
 const EstimationDiv = styled.div`
-  flex: 1;
+  display: flex;
+  justify-content: space-around;
   margin: 4px 3px;
   padding: 7px 0;
+
+  > h2 {
+    flex: 1;
+    margin: 0;
+  }
 `;
 
 interface Props {
@@ -97,8 +99,8 @@ export const NominationDetails = (props: Props): React.ReactElement => {
 
       <SubHeader>Estimated Rewards: </SubHeader>
       <EstimationDiv>
-        <StatItem title='Rate' value={rate?.toString()} />
-        <StatItem title='Value' value={estimatedReward?.toString()} />
+        <StatItem title='Rate' value={rate ? rate.toString() : '0'} />
+        <StatItem title='Value' value={estimatedReward ? estimatedReward.toString() : '0'} />
       </EstimationDiv>
     </ContentArea>
   );

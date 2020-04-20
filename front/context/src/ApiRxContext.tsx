@@ -55,17 +55,19 @@ export function ApiRxContextProvider(
   }, [apiRx.isReady]);
 
   useEffect(() => {
-    const subscription = apiRx.derive.balances
+    if (isReady) {
+      const subscription = apiRx.derive.balances
       .fees()
       .pipe(take(1))
       .subscribe(derivedFees => {
         setFees(derivedFees);
       });
 
-    const duration = apiRx.consts.staking.bondingDuration;
-    setBondingDuration(duration);
+      const duration = apiRx.consts.staking.bondingDuration;
+      setBondingDuration(duration);
 
-    return (): void => subscription.unsubscribe();
+      return (): void => subscription.unsubscribe();
+    }
   }, [isReady]);
 
   return (

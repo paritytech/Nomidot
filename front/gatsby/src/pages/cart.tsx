@@ -32,7 +32,8 @@ const CartPageContainer = styled.div`
   padding: 18px;
 
   ${media.lessThan('medium')`
-    display: flex column;
+    display: flex;
+    flex-direction: column;
   `}
 `;
 
@@ -45,13 +46,19 @@ const HeadingDiv = styled.div`
 const LeftSide = styled.div`
   display: flex column;
   flex: 1;
-  padding: 10px;
+  padding: 18px;
 `;
 
 const RightSide = styled.div`
   flex: 2;
-  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
   margin-left: 30px;
+
+  > a {
+    float: right;
+  }
 `;
 
 type Props = RouteComponentProps;
@@ -67,7 +74,7 @@ const Cart = (_props: Props): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
   const [cartItems, setCartItems] = useState<string[]>([]);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
-  const [errors, setErrors] = useState<string[]>([]);
+  const [error, setError] = useState<string>();
   const [nominationAmount, setNominationAmount] = useState<string>('');
   const [txId, setTxId] = useState<number>();
 
@@ -91,9 +98,27 @@ const Cart = (_props: Props): React.ReactElement => {
 
       setAllTotal(total);
       setAllFees(fee);
-      setErrors(feeErrors);
+      setError(feeErrors[0] || undefined);
     }
   };
+
+  const checkUserInputs = () => {
+    // check nominate as has enough balance
+    if (!currentAccount) {
+      setError('Please select an account to nominate as.');
+      return;
+    } else if (allTotal) {
+      const derivedBalances = accountBalanceMap[currentAccount];
+
+      if (derivedBalances.freeBalance <= allTotal) {
+        setError('This account does not have enough balance to perform this extrinsic.');
+        return;
+      }
+    } else {
+      setError(undefined);
+      return;
+    }
+  }
 
   const handleUserInputChange = ({
     target: { value },
@@ -139,6 +164,10 @@ const Cart = (_props: Props): React.ReactElement => {
     setExtrinsicDetails();
   }, [isApiReady, cartItems]);
 
+  useEffect(() => {
+    checkUserInputs();
+  }, [currentAccount, nominationAmount]);
+
   return (
     <CartPageContainer>
       <LeftSide>
@@ -157,18 +186,17 @@ const Cart = (_props: Props): React.ReactElement => {
       <RightSide>
         <HeadingDiv>
           <SubHeader>Review Details: </SubHeader>
-          <Button primary disabled onClick={submitNomination}>
-            Nominate!
-          </Button>
         </HeadingDiv>
         <NominationDetails
           nominationAmount={nominationAmount}
           handleUserInputChange={handleUserInputChange}
         />
-        {errors.length ? (
-          <ErrorText>{errors[0]}</ErrorText>
+        {error ? (
+          <ErrorText>{error}</ErrorText>
         ) : (
-          <Icon name='check' color='green' />
+          <Button onClick={submitNomination}>
+            Nominate!
+          </Button>
         )}
       </RightSide>
     </CartPageContainer>
