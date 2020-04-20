@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/paritytech/Nomidot/compare/v0.3.25...v0.4.0) (2020-04-20)
+
+**Note:** Version bump only for package nomidot
+
+
+
+
+
 ## [0.3.25](https://github.com/paritytech/Nomidot/compare/v0.3.24...v0.3.25) (2020-04-20)
 
 
