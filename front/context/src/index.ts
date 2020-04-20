@@ -4,7 +4,8 @@
 
 export * from './AccountsContext';
 export * from './AlertsContext';
-export * from './ApiContext';
+export * from './ApiPromiseContext';
+export * from './ApiRxContext';
 export * from './HealthContext';
 export * from './SystemContext';
 export * from './TxQueueContext';

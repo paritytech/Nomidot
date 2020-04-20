@@ -212,7 +212,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* Make ApiContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+* Make ApiRxContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
 
 
 

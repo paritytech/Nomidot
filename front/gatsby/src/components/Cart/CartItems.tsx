@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiContext } from '@substrate/context';
+import { ApiRxContext } from '@substrate/context';
 import { Button, Subheading } from '@substrate/design-system';
 import { useLocalStorage } from '@substrate/local-storage';
 import {
@@ -25,7 +25,7 @@ import {
 
 const CartItems = (): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
   const [cartItems, setCartItems] = useState<string[]>([]);
 
   useEffect(() => {
