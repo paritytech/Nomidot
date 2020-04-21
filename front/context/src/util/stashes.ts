@@ -6,34 +6,24 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { Option } from '@polkadot/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
-// function getControllers(
-//   allAccounts: string[],
-//   stashes: string[],
-//   ownBonded: Option<AccountId>[],
-//   ownLedger: Option<StakingLedger>[]
-// ): string[] {
-//   // filter out everything that's a stash
-//   const filter1 = allAccounts.filter((account) => stashes.includes(account));
-
-//   // filter out everything that's in ownBonded
-//   const filter2 = filter1.filter((account) => ownBonded.forEach((bonded) => bonded.unwrap().toHuman() !== account))
-
-//   return filter2;
-// }
-
-function getControllers(accounts: InjectedAccountWithMeta[], stashControllerMap: Record<string, DeriveStakingQuery>): InjectedAccountWithMeta[] {
+function getControllers(
+  accounts: InjectedAccountWithMeta[],
+  stashControllerMap: Record<string, DeriveStakingQuery>
+): InjectedAccountWithMeta[] {
   const allStakingInfo = Object.values(stashControllerMap);
   const allControllers: InjectedAccountWithMeta[] = [];
-  
-  accounts.forEach((account) => {
-    allStakingInfo.forEach((staking) => {
-      if (staking.controllerId && staking.controllerId.toHuman() === account.address) {
-        allControllers.push(account)
-      }
-    })
-  })
 
-  console.log('controller s=> ', allControllers);
+  accounts.forEach(account => {
+    allStakingInfo.forEach(staking => {
+      if (
+        staking.controllerId &&
+        staking.controllerId.toHuman() === account.address
+      ) {
+        allControllers.push(account);
+      }
+    });
+  });
+
   return allControllers;
 }
 
@@ -60,7 +50,4 @@ function getStashes(
   return result;
 }
 
-export {
-  getControllers,
-  getStashes
-};
+export { getControllers, getStashes };

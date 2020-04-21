@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountsContext } from '@substrate/context';
+import { AccountsContext, getControllers } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
 import React, { useContext } from 'react';
@@ -13,11 +13,12 @@ interface Props {
 
 export const AccountsDropdown = (props: Props): React.ReactElement => {
   const { onlyControllers } = props;
-  const { allAccounts, allControllers, currentAccount, setCurrentAccount } = useContext(
-    AccountsContext
-  );
-
-  console.log(allControllers);
+  const {
+    allAccounts,
+    currentAccount,
+    setCurrentAccount,
+    stashControllerMap,
+  } = useContext(AccountsContext);
 
   if (!allAccounts || !currentAccount) {
     return <Spinner inline />;
@@ -25,7 +26,11 @@ export const AccountsDropdown = (props: Props): React.ReactElement => {
 
   return (
     <InputAddress
-      accounts={onlyControllers ? allControllers : allAccounts}
+      accounts={
+        onlyControllers
+          ? getControllers(allAccounts, stashControllerMap)
+          : allAccounts
+      }
       fromKeyring={false}
       onChangeAddress={setCurrentAccount}
       value={currentAccount}

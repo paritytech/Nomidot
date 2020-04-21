@@ -80,7 +80,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>(
     {}
   );
-  const [allControllers, setAllControllers] = useState<InjectedAccountWithMeta[]>([]);
+  const [allControllers, setAllControllers] = useState<
+    InjectedAccountWithMeta[]
+  >([]);
   const [allStashes, setAllStashes] = useState<string[]>([]);
   const [stashControllerMap, setStashControllerMap] = useState<
     StashControllerMap
@@ -212,8 +214,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [chain, originName]);
 
   const setDefaultAccount = () => {
-    if (allAccounts.length) {
+    if (allAccounts.length && !currentAccount) {
       setCurrentAccount(allAccounts[0].address);
+      writeStorage('currentAccount', allAccounts[0].address);
     }
   };
 
@@ -222,6 +225,15 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       api.setSigner(extension.signer);
     }
   };
+
+  const fetchCachedUserSession = () => {
+    const cachedCurrentAccount = localStorage.getItem('currentAccount');
+
+    if (cachedCurrentAccount) {
+      setCurrentAccount(JSON.parse(cachedCurrentAccount) as string);
+    }
+  };
+
   const fetchCachedRpcResults = () => {
     const cachedStashes = localStorage.getItem('allStashes');
     const cachedControllers = localStorage.getItem('allControllers');
@@ -234,7 +246,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
 
     if (cachedControllers) {
-      const asControllerArray = JSON.parse(cachedControllers) as InjectedAccountWithMeta[];
+      const asControllerArray = JSON.parse(
+        cachedControllers
+      ) as InjectedAccountWithMeta[];
 
       setAllControllers(asControllerArray);
     }
@@ -253,15 +267,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [isExtensionReady]);
 
   useEffect(() => {
-    if (stashControllerMap) {
-      console.log('stashcontrollermap  -> ', stashControllerMap);
-      
-      const controllers: InjectedAccountWithMeta[] = getControllers(allAccounts, stashControllerMap);
+    const controllers: InjectedAccountWithMeta[] = getControllers(
+      allAccounts,
+      stashControllerMap
+    );
 
-      writeStorage('allControllers', JSON.stringify(controllers));
-      setAllControllers(controllers);
-    }
-  }, [stashControllerMap])
+    writeStorage('allControllers', JSON.stringify(controllers));
+    setAllControllers(controllers);
+  }, [stashControllerMap]);
 
   useEffect(() => {
     if (allBonded && allLedger) {
@@ -270,13 +283,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const stashes: string[] = getStashes(addresses, allBonded, allLedger);
 
       writeStorage('allStashes', JSON.stringify(stashes));
-      
+
       setAllStashes(stashes);
       setLoadingAccountStaking(false);
     }
   }, [allBonded, allLedger]);
 
   useEffect(() => {
+    fetchCachedUserSession();
     fetchAccounts();
     fetchCachedRpcResults();
   }, []);
@@ -309,6 +323,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [allStashes, api, isApiReady]);
 
   useEffect(() => {
+    writeStorage('currentAccount', JSON.stringify(currentAccount));
+
     const sub = getAccountNonce();
 
     return () => sub?.unsubscribe();

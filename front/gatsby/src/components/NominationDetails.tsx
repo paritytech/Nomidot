@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiRxContext, AccountsContext } from '@substrate/context';
+import { AccountsContext, ApiRxContext } from '@substrate/context';
+import { Spinner } from '@substrate/design-system';
 import { Input } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
@@ -22,8 +23,6 @@ const SummaryDiv = styled.div`
   display: flex column;
   justify-content: space-around;
   align-items: flex-start;
-  padding: 10px;
-  height: 50%;
 `;
 
 const SummaryDivItem = styled.div`
@@ -54,6 +53,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
   const { currentAccount, stashControllerMap } = useContext(AccountsContext);
   const { bondingDuration } = useContext(ApiRxContext);
   const [estimatedReward, setEstimatedReward] = useState<BN>();
+  const [impliedStash, setImpliedStash] = useState<string>();
   const [rate, setRate] = useState<number>();
 
   useEffect(() => {
@@ -66,6 +66,17 @@ export const NominationDetails = (props: Props): React.ReactElement => {
     }
   }, [nominationAmount, rate]);
 
+  useEffect(() => {
+    const stash = Object.values(stashControllerMap).find(
+      derivedStaking =>
+        derivedStaking.controllerId?.toHuman() === currentAccount
+    )?.stashId;
+
+    console.log('implied -> ', stash);
+
+    setImpliedStash(stash?.toHuman());
+  }, [currentAccount]);
+
   return (
     <ContentArea>
       <SummaryDiv>
@@ -75,8 +86,8 @@ export const NominationDetails = (props: Props): React.ReactElement => {
           </StatItem>
         </SummaryDivItem>
         <SummaryDivItem>
-          <StatItem title='Implied Stash: '>
-            {currentAccount && stashControllerMap[currentAccount]}
+          <StatItem title='Implied Stash: ' value={impliedStash}>
+            {!impliedStash && <Spinner active inline />}
           </StatItem>
         </SummaryDivItem>
         <SummaryDivItem>

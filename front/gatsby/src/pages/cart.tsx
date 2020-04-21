@@ -64,9 +64,12 @@ const RightSide = styled.div`
 type Props = RouteComponentProps;
 
 const Cart = (_props: Props): React.ReactElement => {
-  const { accountBalanceMap, allStashes, currentAccount, currentAccountNonce } = useContext(
-    AccountsContext
-  );
+  const {
+    accountBalanceMap,
+    allStashes,
+    currentAccount,
+    currentAccountNonce,
+  } = useContext(AccountsContext);
   const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
   const [allFees, setAllFees] = useState<BN>();
@@ -106,7 +109,8 @@ const Cart = (_props: Props): React.ReactElement => {
     if (!currentAccount) {
       setError('Please select an account to nominate as.');
       return;
-    } else if (allTotal) { // check nominateAs has enough balance
+    } else if (allTotal) {
+      // check nominateAs has enough balance
       const derivedBalances = accountBalanceMap[currentAccount];
 
       if (derivedBalances.freeBalance <= allTotal) {
@@ -115,8 +119,9 @@ const Cart = (_props: Props): React.ReactElement => {
         );
         return;
       }
-    } else if (!allStashes.includes(currentAccount)) { // check nominateAs is bonded
-      setError('Account not bonded (must be either stash or controller).')
+    } else if (!allStashes.includes(currentAccount)) {
+      // check nominateAs is bonded
+      setError('Account not bonded (must be either stash or controller).');
     } else {
       setError(undefined);
       return;
