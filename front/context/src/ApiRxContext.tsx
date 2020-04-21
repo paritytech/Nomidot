@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContextProviderProps } from './types';
+import { useDidUpdateEffect } from './util';
 
 export interface ApiRxContextType {
   api: ApiRx; // From @polkadot/api
@@ -33,7 +34,7 @@ export function ApiRxContextProvider(
   const [fees, setFees] = useState<DeriveFees>();
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
+  useDidUpdateEffect(() => {
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.

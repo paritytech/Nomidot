@@ -6,3 +6,4 @@ export * from './provider';
 export * from './ssr';
 export * from './stashes';
 export * from './ui';
+export * from './useEffect';
