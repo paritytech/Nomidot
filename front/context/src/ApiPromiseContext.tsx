@@ -7,6 +7,7 @@ import { logger } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 
 import { ApiRxContextProviderProps } from './types';
+import { useDidUpdateEffect } from './util';
 
 export interface ApiPromiseContextType {
   api: ApiPromise; // From @polkadot/api\
@@ -28,7 +29,7 @@ export function ApiPromiseContextProvider(
   );
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
+  useDidUpdateEffect(() => {
     // We want to fetch all the information again each time we reconnect. We
     // might be connecting to a different node, or the node might have changed
     // settings.
