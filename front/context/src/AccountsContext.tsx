@@ -24,6 +24,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useReducer,
   useState,
 } from 'react';
 import { Subscription } from 'rxjs';
@@ -52,7 +53,64 @@ interface AccountsContext {
   stashControllerMap: StashControllerMap;
 }
 
+interface State {
+  accountBalanceMap: AccountBalanceMap;
+  allAccounts: InjectedAccountWithMeta[];
+  allControllers: InjectedAccountWithMeta[];
+  allStashes: string[];
+  currentAccount?: string;
+  currentAccountNonce?: AccountInfo;
+  readonly extension: InjectedExtension;
+  isExtensionReady: boolean;
+  loadingAccountStaking: boolean;
+  loadingBalances: boolean;
+  stashControllerMap: StashControllerMap;
+}
+
 const l = logger('accounts-context');
+
+const INITIAL_STATE = {
+  accountBalanceMap: {} as AccountBalanceMap,
+  allAccounts: [] as InjectedAccountWithMeta[],
+  allControllers: [] as InjectedAccountWithMeta[],
+  allStashes: [] as string[],
+  currentAccount: undefined,
+  currentAccountNonce: undefined,
+  extension: undefined,
+  isExtensionReady: false,
+  loadingAccountStaking: true,
+  loadingBalances: true,
+  stashControllerMap: {} as StashControllerMap
+}
+
+const stateReducer = (state: State, action: any) => {
+  switch (action.type) {
+    case 'setAccountBalanceMap':
+      return { accountBalanceMap: action.accountBalanceMap }
+    case 'setAllAccounts':
+      return { allAccounts: action.allAccounts }
+    case 'setAllControllers':
+      return { allControllers: action.allControllers }
+    case 'setAllStashes':
+      return { allStashes: action.allStashes }
+    case 'setCurrentAccount':
+      return { currentAccount: action.currentAccount }
+    case 'setCurrentAccountNonce':
+      return { currentAccountNonce: action.currentAccountNonce }
+    case 'setExtension':
+      return { extension: action.extension }
+    case 'setIsExtensionReady':
+      return { isExtensionReady: action.isExtensionReady }
+    case 'setLoadingAccountStaking':
+      return { loadingAccountStaking: action.loadingAccountStaking }
+    case 'setLoadingBalances':
+      return { loadingBalances: action.loadingBalances }
+    case 'setStashControllerMap':
+      return { stashControllerMap: action.stashControllerMap }
+    default:
+      return state;
+  }
+}
 
 export const AccountsContext = createContext({} as AccountsContext);
 
