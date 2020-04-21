@@ -30,7 +30,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContext, SystemContext } from './index';
-import { getStashes, IS_SSR } from './util';
+import { getControllers, getStashes, IS_SSR } from './util';
 
 type AccountBalanceMap = Record<string, DeriveBalancesAll>;
 type StashControllerMap = Record<string, DeriveStakingQuery>;
@@ -39,7 +39,7 @@ type Subscriptions = Subscription[];
 interface AccountsContext {
   accountBalanceMap: AccountBalanceMap;
   allAccounts: InjectedAccountWithMeta[];
-  // allControllers: StakingLedger[];
+  allControllers: InjectedAccountWithMeta[];
   allStashes: string[];
   currentAccount?: string;
   currentAccountNonce?: AccountInfo;
@@ -80,6 +80,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>(
     {}
   );
+  const [allControllers, setAllControllers] = useState<InjectedAccountWithMeta[]>([]);
   const [allStashes, setAllStashes] = useState<string[]>([]);
   const [stashControllerMap, setStashControllerMap] = useState<
     StashControllerMap
@@ -223,12 +224,19 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   };
   const fetchCachedRpcResults = () => {
     const cachedStashes = localStorage.getItem('allStashes');
+    const cachedControllers = localStorage.getItem('allControllers');
     const cachedBalances = localStorage.getItem('derivedBalances');
     const cachedStaking = localStorage.getItem('derivedStaking');
 
     if (cachedStashes) {
       const asStashArray = JSON.parse(cachedStashes) as string[];
       setAllStashes(asStashArray);
+    }
+
+    if (cachedControllers) {
+      const asControllerArray = JSON.parse(cachedControllers) as InjectedAccountWithMeta[];
+
+      setAllControllers(asControllerArray);
     }
 
     if (cachedBalances) {
@@ -245,15 +253,25 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [isExtensionReady]);
 
   useEffect(() => {
+    if (stashControllerMap) {
+      console.log('stashcontrollermap  -> ', stashControllerMap);
+      
+      const controllers: InjectedAccountWithMeta[] = getControllers(allAccounts, stashControllerMap);
+
+      writeStorage('allControllers', JSON.stringify(controllers));
+      setAllControllers(controllers);
+    }
+  }, [stashControllerMap])
+
+  useEffect(() => {
     if (allBonded && allLedger) {
       const addresses = allAccounts.map(account => account.address);
 
       const stashes: string[] = getStashes(addresses, allBonded, allLedger);
 
       writeStorage('allStashes', JSON.stringify(stashes));
-
+      
       setAllStashes(stashes);
-
       setLoadingAccountStaking(false);
     }
   }, [allBonded, allLedger]);
@@ -298,14 +316,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   useEffect(() => {
     setDefaultAccount();
-  }, [allAccounts]);
+  }, [allAccounts, isExtensionReady]);
 
   return (
     <AccountsContext.Provider
       value={{
         accountBalanceMap,
         allAccounts,
-        // allControllers,
+        allControllers,
         allStashes,
         currentAccount,
         currentAccountNonce,

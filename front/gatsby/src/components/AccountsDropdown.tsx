@@ -7,10 +7,17 @@ import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 
-export const AccountsDropdown = (): React.ReactElement => {
-  const { allAccounts, currentAccount, setCurrentAccount } = useContext(
+interface Props {
+  onlyControllers: boolean; // filter only controllers
+}
+
+export const AccountsDropdown = (props: Props): React.ReactElement => {
+  const { onlyControllers } = props;
+  const { allAccounts, allControllers, currentAccount, setCurrentAccount } = useContext(
     AccountsContext
   );
+
+  console.log(allControllers);
 
   if (!allAccounts || !currentAccount) {
     return <Spinner inline />;
@@ -18,11 +25,11 @@ export const AccountsDropdown = (): React.ReactElement => {
 
   return (
     <InputAddress
-      accounts={allAccounts}
+      accounts={onlyControllers ? allControllers : allAccounts}
       fromKeyring={false}
       onChangeAddress={setCurrentAccount}
       value={currentAccount}
-      width='175px'
+      width='3rem'
     />
   );
 };

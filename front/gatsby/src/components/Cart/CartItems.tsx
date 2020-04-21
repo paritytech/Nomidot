@@ -36,7 +36,7 @@ const CartItems = (props: Props): React.ReactElement => {
       <Stacked>
         <SubHeader>Cart Empty</SubHeader>
         <p>you should add some validators to nominate...</p>
-        <Button primary onClick={(): Promise<void> => navigate('/validators')}>
+        <Button neutral onClick={(): Promise<void> => navigate('/validators')}>
           Take Me There!
         </Button>
       </Stacked>
