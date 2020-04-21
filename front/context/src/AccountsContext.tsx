@@ -11,7 +11,11 @@ import {
   InjectedExtension,
 } from '@polkadot/extension-inject/types';
 import { Option } from '@polkadot/types';
-import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import {
+  AccountId,
+  AccountInfo,
+  StakingLedger,
+} from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import { writeStorage } from '@substrate/local-storage';
@@ -26,7 +30,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContext, SystemContext } from './index';
-import { getStashes, IS_SSR } from './util';
+import { getControllers, getStashes, IS_SSR } from './util';
 
 type AccountBalanceMap = Record<string, DeriveBalancesAll>;
 type StashControllerMap = Record<string, DeriveStakingQuery>;
@@ -35,9 +39,10 @@ type Subscriptions = Subscription[];
 interface AccountsContext {
   accountBalanceMap: AccountBalanceMap;
   allAccounts: InjectedAccountWithMeta[];
-  // allControllers: StakingLedger[];
+  allControllers: InjectedAccountWithMeta[];
   allStashes: string[];
   currentAccount?: string;
+  currentAccountNonce?: AccountInfo;
   readonly extension: InjectedExtension;
   fetchAccounts: () => Promise<void>;
   isExtensionReady: boolean;
@@ -75,15 +80,32 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>(
     {}
   );
+  const [allControllers, setAllControllers] = useState<
+    InjectedAccountWithMeta[]
+  >([]);
   const [allStashes, setAllStashes] = useState<string[]>([]);
   const [stashControllerMap, setStashControllerMap] = useState<
     StashControllerMap
   >({});
   const [currentAccount, setCurrentAccount] = useState<string>();
+  const [currentAccountNonce, setCurrentAccountNonce] = useState<AccountInfo>();
   const [extension, setExtension] = useState<InjectedExtension>();
   const [loadingBalances, setLoadingBalances] = useState(true);
   const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
   const [isExtensionReady, setIsExtensionReady] = useState(false);
+
+  const getAccountNonce = (): Subscription | undefined => {
+    if (api && isApiReady) {
+      const sub = api.query.system
+        .account<AccountInfo>(currentAccount)
+        .pipe(take(1))
+        .subscribe((nonce: AccountInfo) => {
+          setCurrentAccountNonce(nonce);
+        });
+
+      return sub;
+    }
+  };
 
   const getDerivedBalances = (): Subscriptions | undefined => {
     if (allAccounts) {
@@ -186,27 +208,49 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       });
 
       setAccounts(_web3Accounts);
-      setCurrentAccount(
-        _web3Accounts && _web3Accounts[0] && _web3Accounts[0].address
-      );
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       setIsExtensionReady(true);
     }
   }, [chain, originName]);
+
+  const setDefaultAccount = () => {
+    if (allAccounts.length && !currentAccount) {
+      setCurrentAccount(allAccounts[0].address);
+      writeStorage('currentAccount', allAccounts[0].address);
+    }
+  };
 
   const setSigner = () => {
     if (api && extension && isExtensionReady) {
       api.setSigner(extension.signer);
     }
   };
+
+  const fetchCachedUserSession = () => {
+    const cachedCurrentAccount = localStorage.getItem('currentAccount');
+
+    if (cachedCurrentAccount) {
+      setCurrentAccount(JSON.parse(cachedCurrentAccount) as string);
+    }
+  };
+
   const fetchCachedRpcResults = () => {
     const cachedStashes = localStorage.getItem('allStashes');
+    const cachedControllers = localStorage.getItem('allControllers');
     const cachedBalances = localStorage.getItem('derivedBalances');
     const cachedStaking = localStorage.getItem('derivedStaking');
 
     if (cachedStashes) {
       const asStashArray = JSON.parse(cachedStashes) as string[];
       setAllStashes(asStashArray);
+    }
+
+    if (cachedControllers) {
+      const asControllerArray = JSON.parse(
+        cachedControllers
+      ) as InjectedAccountWithMeta[];
+
+      setAllControllers(asControllerArray);
     }
 
     if (cachedBalances) {
@@ -223,6 +267,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [isExtensionReady]);
 
   useEffect(() => {
+    const controllers: InjectedAccountWithMeta[] = getControllers(
+      allAccounts,
+      stashControllerMap
+    );
+
+    writeStorage('allControllers', JSON.stringify(controllers));
+    setAllControllers(controllers);
+  }, [stashControllerMap]);
+
+  useEffect(() => {
     if (allBonded && allLedger) {
       const addresses = allAccounts.map(account => account.address);
 
@@ -231,12 +285,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       writeStorage('allStashes', JSON.stringify(stashes));
 
       setAllStashes(stashes);
-
       setLoadingAccountStaking(false);
     }
   }, [allBonded, allLedger]);
 
   useEffect(() => {
+    fetchCachedUserSession();
     fetchAccounts();
     fetchCachedRpcResults();
   }, []);
@@ -268,14 +322,27 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   }, [allStashes, api, isApiReady]);
 
+  useEffect(() => {
+    writeStorage('currentAccount', JSON.stringify(currentAccount));
+
+    const sub = getAccountNonce();
+
+    return () => sub?.unsubscribe();
+  }, [currentAccount]);
+
+  useEffect(() => {
+    setDefaultAccount();
+  }, [allAccounts, isExtensionReady]);
+
   return (
     <AccountsContext.Provider
       value={{
         accountBalanceMap,
         allAccounts,
-        // allControllers,
+        allControllers,
         allStashes,
         currentAccount,
+        currentAccountNonce,
         get extension(): InjectedExtension {
           if (!extension) {
             throw new Error(

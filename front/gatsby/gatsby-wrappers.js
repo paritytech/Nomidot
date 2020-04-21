@@ -19,7 +19,7 @@ import client from './src/apollo';
 import { Layout, Seo, Status } from './src/components';
 import { APP_SLUG } from './src/util';
 
-const WS_PROVIDER = new WsProvider('wss://cc3-5.kusama.network/');
+const WS_PROVIDER = new WsProvider('wss://kusama-rpc.polkadot.io/');
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
