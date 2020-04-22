@@ -492,16 +492,3 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     </AccountsContext.Provider>
   );
 }
-
-// if (!extension) {
-//   throw new Error(
-//     'Please use `extension` only after `isExtensionReady` is set to true'
-//   );
-// }
-
-// if (IS_SSR) {
-//   throw new Error('Window does not exist during SSR');
-// }
-
-// return extension;
-// },
