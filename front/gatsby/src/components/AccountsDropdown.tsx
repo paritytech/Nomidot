@@ -29,7 +29,7 @@ export const AccountsDropdown = (props: Props): React.ReactElement => {
   const handleOnChangeAddress = (address: string) => {
     dispatch({
       type: 'setCurrentAccount',
-      currentAccount: address
+      data: address
     })
   }
 

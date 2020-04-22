@@ -89,39 +89,44 @@ enum ActionTypes {
   'setStashControllerMap'
 }
 
+/**
+ * See: https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript
+**/
+type ValueOf<T> = T[keyof T];
+
 interface Action {
   type: keyof typeof ActionTypes,
-  data: any // FIXME
+  data: ValueOf<State> // FIXME: this works but is not very precise, which is why we need the ... as `{type}` on all the action.data in stateReducer
 }
 
 const stateReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'setAccountBalanceMap':
-      return { ...state, accountBalanceMap: action.data }
+      return { ...state, accountBalanceMap: action.data as AccountBalanceMap }
     case 'setAllAccounts':
-      return { ...state, allAccounts: action.data }
+      return { ...state, allAccounts: action.data as InjectedAccountWithMeta[] }
     case 'setAllBonded':
-      return { ...state, allBonded: action.data }
+      return { ...state, allBonded: action.data as Option<AccountId>[] }
     case 'setAllControllers':
-      return { ...state, allControllers: action.data }
+      return { ...state, allControllers: action.data as InjectedAccountWithMeta[] }
     case 'setAllLedger':
-      return { ...state, allLedger: action.data }
+      return { ...state, allLedger: action.data as Option<StakingLedger>[] }
     case 'setAllStashes':
-      return { ...state, allStashes: action.data }
+      return { ...state, allStashes: action.data as string[] }
     case 'setCurrentAccount':
-      return { ...state, currentAccount: action.data }
+      return { ...state, currentAccount: action.data as string }
     case 'setCurrentAccountNonce':
-      return { ...state, currentAccountNonce: action.data }
+      return { ...state, currentAccountNonce: action.data as AccountInfo }
     case 'setExtension':
-      return { ...state, extension: action.data }
+      return { ...state, extension: action.data as InjectedExtension }
     case 'setIsExtensionReady':
-      return { ...state, isExtensionReady: action.data }
+      return { ...state, isExtensionReady: action.data as boolean }
     case 'setLoadingAccountStaking':
-      return { ...state, loadingAccountStaking: action.data }
+      return { ...state, loadingAccountStaking: action.data as boolean }
     case 'setLoadingBalances':
-      return { ...state, loadingBalances: action.data }
+      return { ...state, loadingBalances: action.data as boolean }
     case 'setStashControllerMap':
-      return { ...state, stashControllerMap: action.data }
+      return { ...state, stashControllerMap: action.data as StashControllerMap }
     default:
       return state;
   }
@@ -179,7 +184,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       const result: AccountBalanceMap = {};
 
-      // Yuck, cannot do multi on derives...
+      // n.b. cannot do multi on derives...
       const subs = addresses.map((address: string) => {
         const sub = api.derive.balances
           .all(address)
@@ -285,7 +290,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         type: 'setExtension',
         data: extensions[0] // accounts, signer
       })
-      console.log('here i am ...')
+
       const _web3Accounts = await web3Accounts();
 
       _web3Accounts.map((account: InjectedAccountWithMeta) => {

@@ -77,8 +77,6 @@ export const NominationDetails = (props: Props): React.ReactElement => {
         derivedStaking.controllerId?.toHuman() === currentAccount
     )?.stashId;
 
-    console.log('implied -> ', stash);
-
     setImpliedStash(stash?.toHuman());
   }, [currentAccount]);
 
