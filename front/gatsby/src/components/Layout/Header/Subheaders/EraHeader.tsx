@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
-import { ApiContext } from '@substrate/context';
-import { ItemStats } from '@substrate/design-system';
+import { ApiRxContext } from '@substrate/context';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { ERAS_SUBSCRIPTION, LATEST_ERA_QUERY } from '../../../../util/graphql';
+import HeaderItem from '../HeaderItem';
 import { EraHead } from '../types';
 
 const EraHeader = (): React.ReactElement => {
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
   const queryData = useQuery(LATEST_ERA_QUERY);
   const [eraHead, setEraHead] = useState<EraHead>();
@@ -47,15 +47,13 @@ const EraHeader = (): React.ReactElement => {
   }, [api, queryData]);
 
   return (
-    <>
-      <ItemStats
-        title='Era Index:'
-        subtitle={`total points: ${
-          eraHead ? eraHead.totalPoints.toString() : 'fetching....'
-        }`}
-        value={eraHead ? eraHead.index.toString() : 'fetching....'}
-      />
-    </>
+    <HeaderItem
+      title='Era Index:'
+      subtitle={`total points: ${
+        eraHead ? eraHead.totalPoints.toString() : 'fetching....'
+      }`}
+      value={eraHead ? eraHead.index.toString() : 'fetching....'}
+    />
   );
 };
 

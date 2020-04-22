@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiContext } from '@substrate/context';
-import { Button, Subheading } from '@substrate/design-system';
-import { useLocalStorage } from '@substrate/local-storage';
+import { ApiRxContext } from '@substrate/context';
 import {
   AddressSummary,
   Icon,
@@ -15,31 +13,30 @@ import {
   WithSpaceAround,
 } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 import {
-  getCartItems,
   removeCartItem,
   stripAddressFromCartItem,
 } from '../../util/cartHelpers';
+import { Button, SubHeader } from '../index';
 
-const CartItems = (): React.ReactElement => {
-  const [cartItemsCount] = useLocalStorage('cartItemsCount');
-  const { api } = useContext(ApiContext);
-  const [cartItems, setCartItems] = useState<string[]>([]);
+interface Props {
+  cartItems: string[];
+  cartItemsCount: number;
+}
 
-  useEffect(() => {
-    const _cartItems = getCartItems();
+const CartItems = (props: Props): React.ReactElement => {
+  const { cartItems, cartItemsCount } = props;
 
-    setCartItems(_cartItems);
-  }, [cartItemsCount]);
+  const { api } = useContext(ApiRxContext);
 
   const renderCartEmpty = (): React.ReactElement => {
     return (
       <Stacked>
-        <Subheading>Cart Empty</Subheading>
+        <SubHeader>Cart Empty</SubHeader>
         <p>you should add some validators to nominate...</p>
-        <Button onClick={(): Promise<void> => navigate('/validators')}>
+        <Button neutral onClick={(): Promise<void> => navigate('/validators')}>
           Take Me There!
         </Button>
       </Stacked>
@@ -51,9 +48,8 @@ const CartItems = (): React.ReactElement => {
       dataset: { key },
     },
   }: React.MouseEvent<HTMLButtonElement>): void => {
-    // FIXME: use store.js and subscribe events so this update happens immediately (not on refresh).
     if (key) {
-      removeCartItem(key, Number(cartItemsCount));
+      removeCartItem(key, cartItemsCount);
     } else {
       alert('Something went wrong. Please try again later.');
     }
@@ -83,7 +79,6 @@ const CartItems = (): React.ReactElement => {
                       onClick={removeItemFromCart}
                       data-key={item}
                     />
-                    {/* TODO: <NominationDetails address={address} /> */}
                   </StackedHorizontal>
                 </WithSpaceAround>
               </List.Item>

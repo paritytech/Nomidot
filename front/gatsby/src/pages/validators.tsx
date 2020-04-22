@@ -4,7 +4,7 @@
 
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { ApiContext } from '@substrate/context';
+import { ApiRxContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
   AddressSummary,
@@ -28,7 +28,7 @@ interface JoinValidatorOffline extends Validator {
 }
 
 const CurrentElectedList = (): React.ReactElement => {
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
 
   const [currentElected, setCurrentElected] = useState<
     JoinValidatorOffline[]

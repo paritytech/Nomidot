@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/paritytech/Nomidot/compare/v0.4.0...v0.4.1) (2020-04-21)
+
+
+### Bug Fixes
+
+* **context:** Don't instantiate API twice ([#311](https://github.com/paritytech/Nomidot/issues/311)) ([95ad21e](https://github.com/paritytech/Nomidot/commit/95ad21e629e97cd614a1957bb7bac2831db03ab1))
+
+
+
+
+
+# [0.4.0](https://github.com/paritytech/Nomidot/compare/v0.3.25...v0.4.0) (2020-04-20)
+
+**Note:** Version bump only for package @substrate/context
+
+
+
+
+
+## [0.3.25](https://github.com/paritytech/Nomidot/compare/v0.3.24...v0.3.25) (2020-04-20)
+
+
+### Bug Fixes
+
+* **context:** Reset context parameters when we change provider ([#303](https://github.com/paritytech/Nomidot/issues/303)) ([bfc9c0e](https://github.com/paritytech/Nomidot/commit/bfc9c0e7db80dd58d15f32e638ceb9267d24bf59))
+
+
+### Features
+
+* Split ApiContext into ApiPromiseContext and ApiRxContext ([#302](https://github.com/paritytech/Nomidot/issues/302)) ([ef85664](https://github.com/paritytech/Nomidot/commit/ef856649a429b5ff2f45e71bc9be193bc05ec16c))
+
+
+
+
+
+## [0.3.24](https://github.com/paritytech/Nomidot/compare/v0.3.23...v0.3.24) (2020-04-14)
+
+
+### Bug Fixes
+
+* **context:** Add local-storage dep ([#294](https://github.com/paritytech/Nomidot/issues/294)) ([f652190](https://github.com/paritytech/Nomidot/commit/f65219085f11c68e1f5d6eb4a8e1fb3bf3f57c46))
+
+
+### Features
+
+* extension signer ([#290](https://github.com/paritytech/Nomidot/issues/290)) ([97a6611](https://github.com/paritytech/Nomidot/commit/97a6611162be7d59f5010084906c9c968d17ed78))
+
+
+
+
+
+## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
+
+
+### Bug Fixes
+
+* **context:** Make provider optional in contexts ([#291](https://github.com/paritytech/Nomidot/issues/291)) ([5a129e0](https://github.com/paritytech/Nomidot/commit/5a129e05bcb6c37cc59ac25249052da6ea5bca54))
+
+
+### Features
+
+* accounts context ([#228](https://github.com/paritytech/Nomidot/issues/228)) ([909f380](https://github.com/paritytech/Nomidot/commit/909f3809a2e22e2977ccfcbeca66150171e88744))
+* accounts page ([#256](https://github.com/paritytech/Nomidot/issues/256)) ([1120cba](https://github.com/paritytech/Nomidot/commit/1120cbae9202c244d1b118e3f7c89ce64a7eb6a7))
+* cache accounts context results ([#285](https://github.com/paritytech/Nomidot/issues/285)) ([c25e304](https://github.com/paritytech/Nomidot/commit/c25e304cba0633bc6660543a43ea1edd66fb8b8d))
+
+
+
+
+
 ## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
 
 
@@ -89,7 +158,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* Make ApiContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
+* Make ApiRxContext take a `provider` prop ([#84](https://github.com/paritytech/Nomidot/issues/84)) ([a5bcfaa](https://github.com/paritytech/Nomidot/commit/a5bcfaab28198356fb0e9050c8cb791ae862dad7))
 
 
 

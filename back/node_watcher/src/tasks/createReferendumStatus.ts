@@ -111,6 +111,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
               },
             },
             status,
+            uniqueStatus: `${referendumId}_${status}`,
           });
         })
       );

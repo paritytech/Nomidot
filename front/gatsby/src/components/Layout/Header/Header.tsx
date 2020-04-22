@@ -4,54 +4,83 @@
 
 import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
-import { Icon, Menu } from '@substrate/ui-components';
-import { Link, navigate } from 'gatsby';
-import React from 'react';
+import { Icon } from '@substrate/ui-components';
+import { navigate } from 'gatsby';
+import React, { createRef } from 'react';
+import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
+import styled from 'styled-components';
 
 import { APP_TITLE } from '../../../util';
-import { AccountsDropdown } from '../../AccountsDropdown';
-import {
-  BlockHeader,
-  EraHeader,
-  SessionHeader,
-  StakingHeader,
-} from './Subheaders';
 
-type Props = RouteComponentProps;
+interface Props extends RouteComponentProps {
+  handleToggle: () => void;
+}
 
-export default function Header(_props: Props): React.ReactElement {
+const ResponsiveMenu = styled.div`
+  display: flex;
+  width: 100%;
+  height: 5rem;
+  padding: 20px;
+  marginbottom: 20px;
+  background: white;
+`;
+
+const Burger = styled(Icon)`
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const CartIcon = styled.div`
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  display: flex;
+  alignitems: center;
+  justifycontent: center;
+  height: 50px;
+  width: 50px;
+`;
+
+const Logo = styled.h2`
+  position: absolute;
+  left: 5rem;
+  top: -0.2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export default function Header(props: Props): React.ReactElement {
+  const { handleToggle } = props;
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
+
+  const contextRef = createRef();
+
+  const navToAccountsPage = (): void => {
+    navigate('/accounts');
+  };
 
   const navToCartPage = (): void => {
     navigate('/cart');
   };
 
   return (
-    <>
-      <Menu>
-        <Menu.Item>
-          <h2>{APP_TITLE}</h2>
-        </Menu.Item>
-        <Menu.Menu>
-          <Menu.Item>
-            <Link to='/accounts'>Accounts</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to='/validators'>Validators</Link>
-          </Menu.Item>
-        </Menu.Menu>
-        <Menu.Menu position='right'>
-          <BlockHeader />
-          <EraHeader />
-          <SessionHeader />
-          <StakingHeader />
-          <AccountsDropdown />
-          <Menu.Item>
-            <Icon link name='cart' size='large' onClick={navToCartPage} />
-            <p>{cartItemsCount}</p>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-    </>
+    <Sticky context={contextRef}>
+      <ResponsiveMenu>
+        <Burger name='bars' onClick={handleToggle} />
+        <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
+        <CartIcon>
+          <Icon link name='cart' size='large' onClick={navToCartPage} />
+          {cartItemsCount}
+        </CartIcon>
+      </ResponsiveMenu>
+      <hr />
+    </Sticky>
   );
 }

@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/paritytech/Nomidot/compare/v0.4.0...v0.4.1) (2020-04-21)
+
+**Note:** Version bump only for package @substrate/node-watcher
+
+
+
+
+
+## [0.3.25](https://github.com/paritytech/Nomidot/compare/v0.3.24...v0.3.25) (2020-04-20)
+
+**Note:** Version bump only for package @substrate/node-watcher
+
+
+
+
+
+## [0.3.24](https://github.com/paritytech/Nomidot/compare/v0.3.23...v0.3.24) (2020-04-14)
+
+
+### Bug Fixes
+
+* field resource ([#299](https://github.com/paritytech/Nomidot/issues/299)) ([d59e216](https://github.com/paritytech/Nomidot/commit/d59e21616ee779775dd6400cf44bb88d138e9360))
+
+
+### Features
+
+* set cpu/mem requests and limits for prisma and cloudsql ([#298](https://github.com/paritytech/Nomidot/issues/298)) ([9ab8811](https://github.com/paritytech/Nomidot/commit/9ab8811a75bdb32caa5001f84f6ed377cf01ced8))
+
+
+
+
+
+## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
+
+
+### Bug Fixes
+
+* archive node endpoint, nodewatcher endpoint 1.5 ([#274](https://github.com/paritytech/Nomidot/issues/274)) ([62a6ae7](https://github.com/paritytech/Nomidot/commit/62a6ae7c86d42ed125d3dff0597573369c56a901))
+* log era only on new idx ([#262](https://github.com/paritytech/Nomidot/issues/262)) ([a82db81](https://github.com/paritytech/Nomidot/commit/a82db8158801a29bee48730c98518234dc52509f))
+* remove fillin-job, update image for last50k ([#272](https://github.com/paritytech/Nomidot/issues/272)) ([dce3843](https://github.com/paritytech/Nomidot/commit/dce38433e460f017c8c7a3ec71ed5193ed047d32))
+* replicasets ([#246](https://github.com/paritytech/Nomidot/issues/246)) ([101d39c](https://github.com/paritytech/Nomidot/commit/101d39cba8ab0c94376ea74f27fdbe64649f0151))
+* server deployment strategy, nodewatcher replicas ([#270](https://github.com/paritytech/Nomidot/issues/270)) ([7ccc2de](https://github.com/paritytech/Nomidot/commit/7ccc2de4b541d1b260df28d1e6324f9438440dda))
+* uncomment nomidot tasks ([#252](https://github.com/paritytech/Nomidot/issues/252)) ([cc121f5](https://github.com/paritytech/Nomidot/commit/cc121f58d70970a1ad8ba5d48df6600e84a59cc5))
+* Use domains instead of ips ([#278](https://github.com/paritytech/Nomidot/issues/278)) ([a806ada](https://github.com/paritytech/Nomidot/commit/a806adaf632b0d7d852d6894145a2677c33266f2))
+* v1.5 sync ([#265](https://github.com/paritytech/Nomidot/issues/265)) ([5d2fd70](https://github.com/paritytech/Nomidot/commit/5d2fd70bccf64facae1e6cfe7103af197a1f5e7a))
+
+
+### Features
+
+* 1 replica for nodewatcher deployment ([#277](https://github.com/paritytech/Nomidot/issues/277)) ([46bb5ea](https://github.com/paritytech/Nomidot/commit/46bb5eaf97e3d9925c4fb99dfd953929004b8e96))
+* v1.5 sync ([#255](https://github.com/paritytech/Nomidot/issues/255)) ([d394ee5](https://github.com/paritytech/Nomidot/commit/d394ee5929824e442e8594083663e72796729d3a))
+
+
+
+
+
 ## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
 
 

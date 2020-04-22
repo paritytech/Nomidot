@@ -2,15 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveFees } from '@polkadot/api-derive/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
+import { AccountInfo } from '@polkadot/types/interfaces';
 import {
   AccountsContext,
-  ApiContext,
+  ApiRxContext,
   ExtrinsicDetails,
   handler,
   TxQueueContext,
 } from '@substrate/context';
-import { Button, Spinner } from '@substrate/design-system';
+import { Spinner } from '@substrate/design-system';
 import {
   BalanceDisplay,
   Dropdown,
@@ -18,15 +21,18 @@ import {
   ErrorText,
   Input,
   InputAddress,
+  List,
   Margin,
   Modal,
   Stacked,
-  StackedHorizontal,
 } from '@substrate/ui-components';
 import BN from 'bn.js';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { navigate } from 'gatsby';
+import React, { useContext, useEffect, useState } from 'react';
+import { take } from 'rxjs/operators';
 
 import { validateFees } from '../util/validateExtrinsic';
+import { Button } from './Button';
 
 enum RewardDestination {
   'Stash',
@@ -61,39 +67,62 @@ const BondingModal = (): React.ReactElement => {
     currentAccount,
     loadingBalances,
   } = useContext(AccountsContext);
-  const { api, apiPromise } = useContext(ApiContext);
-  const { enqueue } = useContext(TxQueueContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
+  const { enqueue, signAndSubmit, txQueue } = useContext(TxQueueContext);
 
   const [accountForController, setAccountForController] = useState(
     currentAccount
   );
   const [accountForStash, setAccountForStash] = useState(currentAccount);
+  const [accountNonce, setAccountNonce] = useState<AccountInfo>();
+  const [allFees, setAllFees] = useState<BN>();
+  const [allTotal, setAllTotal] = useState<BN>();
   const [bondAmount, setBondAmount] = useState<string>('');
   const [bondingError, setBondingError] = useState<Error>();
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
+  const [fees, setFees] = useState<DeriveFees>();
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
-  const [allFees, setAllFees] = useState<BN>();
-  const [allTotal, setAllTotal] = useState<BN>();
+  const [txId, setTxId] = useState<number>();
 
-  const checkFees = useCallback(async () => {
-    if (apiPromise && accountForStash && accountForController && bondAmount) {
-      const submitBondExtrinsic = api.tx.staking.bond(
-        accountForController,
-        new BN(bondAmount),
-        rewardDestination
-      );
+  useEffect(() => {
+    if (api && isApiReady) {
+      const sub = api.derive.balances
+        .fees()
+        .pipe(take(1))
+        .subscribe((result: DeriveFees) => setFees(result));
 
-      const fees = await apiPromise.derive.balances.fees();
-      const accountNonce = await apiPromise.query.system.account(
-        accountForStash
-      );
+      return () => sub.unsubscribe();
+    }
+  }, [api, isApiReady]);
 
+  useEffect(() => {
+    if (api && isApiReady) {
+      const sub = api.query.system
+        .account<AccountInfo>(accountForStash)
+        .pipe(take(1))
+        .subscribe((result: AccountInfo) => setAccountNonce(result));
+
+      return () => sub.unsubscribe();
+    }
+  }, [accountForStash, api, isApiReady]);
+
+  const checkFees = () => {
+    if (
+      isApiReady &&
+      accountForStash &&
+      accountForController &&
+      accountNonce &&
+      bondAmount &&
+      extrinsic &&
+      fees
+    ) {
       const [feeErrors, total, fee] = validateFees(
         accountNonce,
         new BN(bondAmount),
         accountBalanceMap[accountForStash],
-        submitBondExtrinsic,
+        extrinsic,
         fees
       );
 
@@ -106,7 +135,7 @@ const BondingModal = (): React.ReactElement => {
         setBondingError(undefined);
       }
     }
-  }, [apiPromise, accountForStash, accountForController, bondAmount]);
+  };
 
   const checkUserInputs = () => {
     if (!accountForStash) {
@@ -128,7 +157,21 @@ const BondingModal = (): React.ReactElement => {
       setBondingError('Please select a reward destination.');
       return;
     }
+
+    setBondingError(undefined);
   };
+
+  useEffect(() => {
+    if (accountForController && api && isApiReady) {
+      const submitBondExtrinsic = api.tx.staking.bond(
+        accountForController,
+        new BN(bondAmount),
+        rewardDestination
+      );
+
+      setExtrinsic(submitBondExtrinsic);
+    }
+  }, [accountForController, api, isApiReady]);
 
   useEffect(() => {
     if (currentAccount) {
@@ -138,7 +181,7 @@ const BondingModal = (): React.ReactElement => {
   }, [currentAccount]);
 
   useEffect(() => {
-    if (apiPromise) {
+    if (api) {
       checkUserInputs();
       checkFees();
     }
@@ -146,10 +189,16 @@ const BondingModal = (): React.ReactElement => {
     accountForStash,
     accountForController,
     bondAmount,
-    apiPromise,
-    checkFees,
+    api,
     rewardDestination,
   ]);
+
+  useEffect(() => {
+    if (txId) {
+      signAndSubmit(txId);
+      navigate('/accounts');
+    }
+  }, [txId, txQueue]);
 
   const selectStash = (address: string) => {
     setAccountForStash(address);
@@ -168,18 +217,13 @@ const BondingModal = (): React.ReactElement => {
 
   const signAndSubmitBond = () => {
     if (
-      apiPromise &&
+      api &&
       accountForController &&
       accountForStash &&
       allFees &&
-      allTotal
+      allTotal &&
+      extrinsic
     ) {
-      const submitBondExtrinsic = api.tx.staking.bond(
-        accountForController,
-        new BN(bondAmount),
-        rewardDestination
-      );
-
       const details: ExtrinsicDetails = {
         allFees,
         allTotal,
@@ -188,88 +232,90 @@ const BondingModal = (): React.ReactElement => {
         senderPair: accountForStash,
       };
 
-      enqueue(submitBondExtrinsic, details);
+      const id = enqueue(extrinsic, details);
+      setTxId((id as unknown) as number);
     }
   };
 
   return (
-    <Modal trigger={<Button>New Bond</Button>}>
+    <Modal
+      closeIcon
+      closeOnDimmerClick
+      dimmer
+      trigger={
+        <List.Item>
+          <Button neutral>New Bond</Button>
+        </List.Item>
+      }
+    >
       <Modal.Header>Bonding Preferences</Modal.Header>
-      <Modal.Content image>
+      <Modal.Content>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-          <StackedHorizontal alignItems='stretch' justifyContent='space-around'>
-            <Stacked justifyContent='flex-start' alignItems='flex-start'>
-              <b>Choose Stash:</b>
-              {accountForStash ? (
-                <>
-                  <InputAddress
-                    accounts={allAccounts}
-                    fromKeyring={false}
-                    onChangeAddress={selectStash}
-                    value={accountForStash}
-                    width='175px'
-                  />
-                  {loadingBalances ? (
-                    <Spinner active inline />
-                  ) : (
-                    <BalanceDisplay
-                      allBalances={accountBalanceMap[accountForStash]}
-                    />
-                  )}
-                </>
-              ) : (
+          <b>Choose Stash:</b>
+          {accountForStash ? (
+            <>
+              <InputAddress
+                accounts={allAccounts}
+                fromKeyring={false}
+                onChangeAddress={selectStash}
+                value={accountForStash}
+                width='175px'
+              />
+              {loadingBalances ? (
                 <Spinner active inline />
-              )}
-            </Stacked>
-            <Stacked justifyContent='flex-start' alignItems='flex-start'>
-              <b>Choose Controller:</b>
-              {accountForController ? (
-                <>
-                  <InputAddress
-                    accounts={allAccounts}
-                    fromKeyring={false}
-                    onChangeAddress={selectController}
-                    value={accountForController}
-                    width='175px'
-                  />
-                  {loadingBalances ? (
-                    <Spinner active inline />
-                  ) : (
-                    <BalanceDisplay
-                      allBalances={accountBalanceMap[accountForController]}
-                    />
-                  )}
-                </>
               ) : (
-                <Spinner active inline />
+                <BalanceDisplay
+                  allBalances={accountBalanceMap[accountForStash]}
+                />
               )}
-            </Stacked>
-          </StackedHorizontal>
+            </>
+          ) : (
+            <Spinner active inline />
+          )}
+          <b>Choose Controller:</b>
+          {accountForController ? (
+            <>
+              <InputAddress
+                accounts={allAccounts}
+                fromKeyring={false}
+                onChangeAddress={selectController}
+                value={accountForController}
+                width='175px'
+              />
+              {loadingBalances ? (
+                <Spinner active inline />
+              ) : (
+                <BalanceDisplay
+                  allBalances={accountBalanceMap[accountForController]}
+                />
+              )}
+            </>
+          ) : (
+            <Spinner active inline />
+          )}
           <Margin top />
-          <Stacked justifyContent='space-around'>
-            <Dropdown
-              fluid
-              placeholder='Reward Destination'
-              selection
-              onChange={handleSetRewardDestination}
-              options={rewardDestinationOptions}
-            />
-            <Margin top />
-            <Input
-              fluid
-              label='UNIT'
-              labelPosition='right'
-              min={0}
-              onChange={handler(setBondAmount)}
-              placeholder='e.g. 1.00'
-              type='number'
-              value={String(bondAmount)}
-            />
-            <Margin top />
-            <Button onClick={signAndSubmitBond}>Submit Bond</Button>
-          </Stacked>
+          <Dropdown
+            fluid
+            placeholder='Reward Destination'
+            selection
+            onChange={handleSetRewardDestination}
+            options={rewardDestinationOptions}
+          />
           <Margin top />
+          <Input
+            fluid
+            label='UNIT'
+            labelPosition='right'
+            min={0}
+            onChange={handler(setBondAmount)}
+            placeholder='e.g. 1.00'
+            type='number'
+            value={bondAmount}
+          />
           <Modal.Description>
+            <Button size='huge' onClick={signAndSubmitBond}>
+              Submit Bond
+            </Button>
             <ErrorText>{bondingError}</ErrorText>
           </Modal.Description>
         </Stacked>
@@ -278,4 +324,4 @@ const BondingModal = (): React.ReactElement => {
   );
 };
 
-export default BondingModal;
+export { BondingModal };

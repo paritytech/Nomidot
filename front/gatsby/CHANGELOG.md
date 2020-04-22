@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/paritytech/Nomidot/compare/v0.4.0...v0.4.1) (2020-04-21)
+
+**Note:** Version bump only for package @substrate/nomidot-gatsby
+
+
+
+
+
+# [0.4.0](https://github.com/paritytech/Nomidot/compare/v0.3.25...v0.4.0) (2020-04-20)
+
+**Note:** Version bump only for package @substrate/nomidot-gatsby
+
+
+
+
+
+## [0.3.25](https://github.com/paritytech/Nomidot/compare/v0.3.24...v0.3.25) (2020-04-20)
+
+
+### Features
+
+* Split ApiContext into ApiPromiseContext and ApiRxContext ([#302](https://github.com/paritytech/Nomidot/issues/302)) ([ef85664](https://github.com/paritytech/Nomidot/commit/ef856649a429b5ff2f45e71bc9be193bc05ec16c))
+
+
+
+
+
+## [0.3.24](https://github.com/paritytech/Nomidot/compare/v0.3.23...v0.3.24) (2020-04-14)
+
+
+### Bug Fixes
+
+* **context:** Add local-storage dep ([#294](https://github.com/paritytech/Nomidot/issues/294)) ([f652190](https://github.com/paritytech/Nomidot/commit/f65219085f11c68e1f5d6eb4a8e1fb3bf3f57c46))
+* address summary stretchy thing ([#297](https://github.com/paritytech/Nomidot/issues/297)) ([cc95952](https://github.com/paritytech/Nomidot/commit/cc9595239115e6cc9a8fdb19dcdad049834bdd1f))
+* styling for tables and account page ([#295](https://github.com/paritytech/Nomidot/issues/295)) ([96c8dde](https://github.com/paritytech/Nomidot/commit/96c8dde74ce5b5d59bd8365ceb2525e4a58409fa))
+
+
+### Features
+
+* extension signer ([#290](https://github.com/paritytech/Nomidot/issues/290)) ([97a6611](https://github.com/paritytech/Nomidot/commit/97a6611162be7d59f5010084906c9c968d17ed78))
+* server, node endpionts per env ([#296](https://github.com/paritytech/Nomidot/issues/296)) ([895a9ca](https://github.com/paritytech/Nomidot/commit/895a9ca3d6381d8de900050a244a28b2f6852d3d))
+
+
+
+
+
+## [0.3.23](https://github.com/paritytech/Nomidot/compare/v0.3.22...v0.3.23) (2020-04-09)
+
+
+### Features
+
+* accounts context ([#228](https://github.com/paritytech/Nomidot/issues/228)) ([909f380](https://github.com/paritytech/Nomidot/commit/909f3809a2e22e2977ccfcbeca66150171e88744))
+* accounts page ([#256](https://github.com/paritytech/Nomidot/issues/256)) ([1120cba](https://github.com/paritytech/Nomidot/commit/1120cbae9202c244d1b118e3f7c89ce64a7eb6a7))
+* cache accounts context results ([#285](https://github.com/paritytech/Nomidot/issues/285)) ([c25e304](https://github.com/paritytech/Nomidot/commit/c25e304cba0633bc6660543a43ea1edd66fb8b8d))
+* new header ([#269](https://github.com/paritytech/Nomidot/issues/269)) ([f0a34fb](https://github.com/paritytech/Nomidot/commit/f0a34fb45ca3526f09969f9b178cdd62a0de86bf))
+
+
+
+
+
 ## [0.3.22](https://github.com/paritytech/Nomidot/compare/v0.3.21...v0.3.22) (2020-03-18)
 
 

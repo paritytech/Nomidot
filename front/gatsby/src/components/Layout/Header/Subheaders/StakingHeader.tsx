@@ -4,17 +4,17 @@
 
 import { useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { ApiContext } from '@substrate/context';
-import { ItemStats } from '@substrate/design-system';
+import { ApiRxContext } from '@substrate/context';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { STAKING_SUBSCRIPTION } from '../../../../util/graphql';
+import HeaderItem from '../HeaderItem';
 import { StakingHead } from '../types';
 
 const StakingHeader = (): React.ReactElement => {
   const { data } = useSubscription(STAKING_SUBSCRIPTION);
   const [stakeHead, setStakeHead] = useState<StakingHead>();
-  const { api } = useContext(ApiContext);
+  const { api } = useContext(ApiRxContext);
 
   useEffect(() => {
     if (data) {
@@ -35,7 +35,7 @@ const StakingHeader = (): React.ReactElement => {
   }, [api, data, stakeHead]);
 
   return (
-    <ItemStats
+    <HeaderItem
       title='Total Stake'
       subtitle={null}
       value={stakeHead ? formatBalance(stakeHead.totalStake) : 'fetching...'}

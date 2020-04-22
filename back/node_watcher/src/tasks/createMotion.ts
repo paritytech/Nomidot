@@ -217,6 +217,7 @@ const createMotion: Task<NomidotMotion[]> = {
                 },
               },
               status,
+              uniqueStatus: `${motionProposalId}_${status}`,
             },
           },
         });
