@@ -71,8 +71,8 @@ const AccountsList = (_props: Props): React.ReactElement => {
       allAccounts,
       allStashes,
       loadingAccountStaking,
-      stashControllerMap
-    }
+      stashControllerMap,
+    },
   } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
 

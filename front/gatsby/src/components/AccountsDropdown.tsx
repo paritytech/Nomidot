@@ -14,12 +14,8 @@ interface Props {
 export const AccountsDropdown = (props: Props): React.ReactElement => {
   const { onlyControllers } = props;
   const {
-    state: {
-      allAccounts,
-      currentAccount,
-      stashControllerMap
-    },
-    dispatch
+    state: { allAccounts, currentAccount, stashControllerMap },
+    dispatch,
   } = useContext(AccountsContext);
 
   if (!allAccounts || !currentAccount) {
@@ -29,9 +25,9 @@ export const AccountsDropdown = (props: Props): React.ReactElement => {
   const handleOnChangeAddress = (address: string) => {
     dispatch({
       type: 'setCurrentAccount',
-      data: address
-    })
-  }
+      data: address,
+    });
+  };
 
   return (
     <InputAddress

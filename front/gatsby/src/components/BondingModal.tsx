@@ -62,12 +62,7 @@ type Error = string;
 
 const BondingModal = (): React.ReactElement => {
   const {
-    state: {
-      accountBalanceMap,
-      allAccounts,
-      currentAccount,
-      loadingBalances
-    }
+    state: { accountBalanceMap, allAccounts, currentAccount, loadingBalances },
   } = useContext(AccountsContext);
   const { api, isApiReady } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit, txQueue } = useContext(TxQueueContext);

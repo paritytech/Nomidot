@@ -21,13 +21,13 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import { writeStorage } from '@substrate/local-storage';
 import React, {
   createContext,
+  Dispatch,
+  ReducerAction,
+  ReducerState,
   useCallback,
   useContext,
   useEffect,
   useReducer,
-  ReducerState,
-  ReducerAction,
-  Dispatch
 } from 'react';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -70,7 +70,7 @@ const INITIAL_STATE: State = {
   isExtensionReady: false,
   loadingAccountStaking: true,
   loadingBalances: true,
-  stashControllerMap: {} as StashControllerMap
+  stashControllerMap: {} as StashControllerMap,
 };
 
 enum ActionTypes {
@@ -86,55 +86,64 @@ enum ActionTypes {
   'setIsExtensionReady',
   'setLoadingAccountStaking',
   'setLoadingBalances',
-  'setStashControllerMap'
+  'setStashControllerMap',
 }
 
 /**
  * See: https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript
-**/
+ **/
 type ValueOf<T> = T[keyof T];
 
 interface Action {
-  type: keyof typeof ActionTypes,
-  data: ValueOf<State> // FIXME: this works but is not very precise, which is why we need the ... as `{type}` on all the action.data in stateReducer
+  type: keyof typeof ActionTypes;
+  data: ValueOf<State>; // FIXME: this works but is not very precise, which is why we need the ... as `{type}` on all the action.data in stateReducer
 }
 
 const stateReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'setAccountBalanceMap':
-      return { ...state, accountBalanceMap: action.data as AccountBalanceMap }
+      return { ...state, accountBalanceMap: action.data as AccountBalanceMap };
     case 'setAllAccounts':
-      return { ...state, allAccounts: action.data as InjectedAccountWithMeta[] }
+      return {
+        ...state,
+        allAccounts: action.data as InjectedAccountWithMeta[],
+      };
     case 'setAllBonded':
-      return { ...state, allBonded: action.data as Option<AccountId>[] }
+      return { ...state, allBonded: action.data as Option<AccountId>[] };
     case 'setAllControllers':
-      return { ...state, allControllers: action.data as InjectedAccountWithMeta[] }
+      return {
+        ...state,
+        allControllers: action.data as InjectedAccountWithMeta[],
+      };
     case 'setAllLedger':
-      return { ...state, allLedger: action.data as Option<StakingLedger>[] }
+      return { ...state, allLedger: action.data as Option<StakingLedger>[] };
     case 'setAllStashes':
-      return { ...state, allStashes: action.data as string[] }
+      return { ...state, allStashes: action.data as string[] };
     case 'setCurrentAccount':
-      return { ...state, currentAccount: action.data as string }
+      return { ...state, currentAccount: action.data as string };
     case 'setCurrentAccountNonce':
-      return { ...state, currentAccountNonce: action.data as AccountInfo }
+      return { ...state, currentAccountNonce: action.data as AccountInfo };
     case 'setExtension':
-      return { ...state, extension: action.data as InjectedExtension }
+      return { ...state, extension: action.data as InjectedExtension };
     case 'setIsExtensionReady':
-      return { ...state, isExtensionReady: action.data as boolean }
+      return { ...state, isExtensionReady: action.data as boolean };
     case 'setLoadingAccountStaking':
-      return { ...state, loadingAccountStaking: action.data as boolean }
+      return { ...state, loadingAccountStaking: action.data as boolean };
     case 'setLoadingBalances':
-      return { ...state, loadingBalances: action.data as boolean }
+      return { ...state, loadingBalances: action.data as boolean };
     case 'setStashControllerMap':
-      return { ...state, stashControllerMap: action.data as StashControllerMap }
+      return {
+        ...state,
+        stashControllerMap: action.data as StashControllerMap,
+      };
     default:
       return state;
   }
-}
+};
 
 interface AccountsContext {
-  state: ReducerState<typeof stateReducer>,
-  dispatch: Dispatch<ReducerAction<typeof stateReducer>>
+  state: ReducerState<typeof stateReducer>;
+  dispatch: Dispatch<ReducerAction<typeof stateReducer>>;
 }
 
 export const AccountsContext = createContext({} as AccountsContext);
@@ -166,7 +175,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .subscribe((nonce: AccountInfo) => {
           dispatch({
             type: 'setCurrentAccountNonce',
-            data: nonce
+            data: nonce,
           });
         });
 
@@ -178,9 +187,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (state.allAccounts) {
       dispatch({
         type: 'setLoadingBalances',
-        data: true
+        data: true,
       });
-      const addresses = state.allAccounts.map((account: InjectedAccountWithMeta) => account.address);
+      const addresses = state.allAccounts.map(
+        (account: InjectedAccountWithMeta) => account.address
+      );
 
       const result: AccountBalanceMap = {};
 
@@ -198,12 +209,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setAccountBalanceMap',
-        data: result
+        data: result,
       });
       writeStorage('derivedBalances', JSON.stringify(result));
       dispatch({
         type: 'setLoadingBalances',
-        data: false
+        data: false,
       });
       return subs;
     }
@@ -226,7 +237,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setStashControllerMap',
-        data: result
+        data: result,
       });
       writeStorage('derivedStaking', JSON.stringify(result));
       return subs;
@@ -237,9 +248,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (isApiReady && api && state.allAccounts) {
       dispatch({
         type: 'setLoadingAccountStaking',
-        data: true
+        data: true,
       });
-      const addresses = state.allAccounts.map((account: InjectedAccountWithMeta) => account.address);
+      const addresses = state.allAccounts.map(
+        (account: InjectedAccountWithMeta) => account.address
+      );
 
       const bondSub = api.query.staking?.bonded
         .multi<Option<AccountId>>(addresses)
@@ -247,7 +260,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .subscribe((result: Option<AccountId>[]) => {
           dispatch({
             type: 'setAllBonded',
-            data: result
+            data: result,
           });
         });
 
@@ -257,7 +270,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .subscribe((result: Option<StakingLedger>[]) => {
           dispatch({
             type: 'setAllLedger',
-            data: result
+            data: result,
           });
         });
 
@@ -288,8 +301,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setExtension',
-        data: extensions[0] // accounts, signer
-      })
+        data: extensions[0], // accounts, signer
+      });
 
       const _web3Accounts = await web3Accounts();
 
@@ -299,12 +312,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setAllAccounts',
-        data: _web3Accounts
+        data: _web3Accounts,
       });
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       dispatch({
         type: 'setIsExtensionReady',
-        data: true
+        data: true,
       });
     }
   }, [chain, originName]);
@@ -313,9 +326,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (state.allAccounts.length && !state.currentAccount) {
       dispatch({
         type: 'setCurrentAccount',
-        data: state.allAccounts[0].address
+        data: state.allAccounts[0].address,
       });
-      writeStorage('currentAccount', JSON.stringify(state.allAccounts[0].address));
+      writeStorage(
+        'currentAccount',
+        JSON.stringify(state.allAccounts[0].address)
+      );
     }
   };
 
@@ -327,13 +343,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const fetchCachedUserSession = () => {
     const cachedCurrentAccount = localStorage.getItem('currentAccount');
-    const parsed = cachedCurrentAccount && JSON.parse(cachedCurrentAccount) as string;
+    const parsed =
+      cachedCurrentAccount && (JSON.parse(cachedCurrentAccount) as string);
 
     if (parsed) {
       dispatch({
         type: 'setCurrentAccount',
-        data: parsed
-      })
+        data: parsed,
+      });
     }
   };
 
@@ -347,8 +364,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const asStashArray = JSON.parse(cachedStashes) as string[];
       dispatch({
         type: 'setAllStashes',
-        data: asStashArray
-      })
+        data: asStashArray,
+      });
     }
 
     if (cachedControllers) {
@@ -358,21 +375,21 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setAllControllers',
-        data: asControllerArray
+        data: asControllerArray,
       });
     }
 
     if (cachedBalances) {
       dispatch({
         type: 'setAccountBalanceMap',
-        data: JSON.parse(cachedBalances) as AccountBalanceMap
+        data: JSON.parse(cachedBalances) as AccountBalanceMap,
       });
     }
 
     if (cachedStaking) {
       dispatch({
         type: 'setStashControllerMap',
-        data: JSON.parse(cachedStaking) as StashControllerMap
+        data: JSON.parse(cachedStaking) as StashControllerMap,
       });
     }
   };
@@ -390,25 +407,31 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     writeStorage('allControllers', JSON.stringify(controllers));
     dispatch({
       type: 'setAllControllers',
-      data: controllers
+      data: controllers,
     });
   }, [state.stashControllerMap]);
 
   useEffect(() => {
     if (state.allBonded && state.allLedger) {
-      const addresses = state.allAccounts.map((account: InjectedAccountWithMeta) => account.address);
+      const addresses = state.allAccounts.map(
+        (account: InjectedAccountWithMeta) => account.address
+      );
 
-      const stashes: string[] = getStashes(addresses, state.allBonded, state.allLedger);
+      const stashes: string[] = getStashes(
+        addresses,
+        state.allBonded,
+        state.allLedger
+      );
 
       writeStorage('allStashes', JSON.stringify(stashes));
 
       dispatch({
         type: 'setAllStashes',
-        data: stashes
+        data: stashes,
       });
       dispatch({
         type: 'setLoadingAccountStaking',
-        data: false
+        data: false,
       });
     }
   }, [state.allBonded, state.allLedger]);
@@ -462,7 +485,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     <AccountsContext.Provider
       value={{
         state,
-        dispatch
+        dispatch,
       }}
     >
       {children}

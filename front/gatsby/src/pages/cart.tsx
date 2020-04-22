@@ -69,8 +69,8 @@ const Cart = (_props: Props): React.ReactElement => {
       accountBalanceMap,
       allStashes,
       currentAccount,
-      currentAccountNonce
-    }
+      currentAccountNonce,
+    },
   } = useContext(AccountsContext);
   const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
