@@ -14,14 +14,23 @@ interface Props {
 export const AccountsDropdown = (props: Props): React.ReactElement => {
   const { onlyControllers } = props;
   const {
-    allAccounts,
-    currentAccount,
-    setCurrentAccount,
-    stashControllerMap,
+    state: {
+      allAccounts,
+      currentAccount,
+      stashControllerMap
+    },
+    dispatch
   } = useContext(AccountsContext);
 
   if (!allAccounts || !currentAccount) {
     return <Spinner inline />;
+  }
+
+  const handleOnChangeAddress = (address: string) => {
+    dispatch({
+      type: 'setCurrentAccount',
+      currentAccount: address
+    })
   }
 
   return (
@@ -32,7 +41,7 @@ export const AccountsDropdown = (props: Props): React.ReactElement => {
           : allAccounts
       }
       fromKeyring={false}
-      onChangeAddress={setCurrentAccount}
+      onChangeAddress={handleOnChangeAddress}
       value={currentAccount}
       width='3rem'
     />

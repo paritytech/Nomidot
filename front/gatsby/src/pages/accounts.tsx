@@ -66,11 +66,13 @@ type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
   const {
-    accountBalanceMap,
-    allAccounts,
-    allStashes,
-    loadingAccountStaking,
-    stashControllerMap,
+    state: {
+      accountBalanceMap,
+      allAccounts,
+      allStashes,
+      loadingAccountStaking,
+      stashControllerMap
+    }
   } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
 

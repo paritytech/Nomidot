@@ -451,25 +451,3 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
 // return extension;
 // },
-
-
-// const [allAccounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-  // const [allBonded, setAllBonded] = useState<Option<AccountId>[]>();
-  // const [allLedger, setAllLedger] = useState<Option<StakingLedger>[]>();
-
-  // const [accountBalanceMap, setAccountBalanceMap] = useState<AccountBalanceMap>(
-  //   {}
-  // );
-  // const [allControllers, setAllControllers] = useState<
-  //   InjectedAccountWithMeta[]
-  // >([]);
-  // const [allStashes, setAllStashes] = useState<string[]>([]);
-  // const [stashControllerMap, setStashControllerMap] = useState<
-  //   StashControllerMap
-  // >({});
-  // const [currentAccount, setCurrentAccount] = useState<string>();
-  // const [currentAccountNonce, setCurrentAccountNonce] = useState<AccountInfo>();
-  // const [extension, setExtension] = useState<InjectedExtension>();
-  // const [loadingBalances, setLoadingBalances] = useState(true);
-  // const [loadingAccountStaking, setLoadingAccountStaking] = useState(true);
-  // const [isExtensionReady, setIsExtensionReady] = useState(false);

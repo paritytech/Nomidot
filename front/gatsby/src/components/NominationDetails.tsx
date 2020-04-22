@@ -50,7 +50,12 @@ interface Props {
 
 export const NominationDetails = (props: Props): React.ReactElement => {
   const { handleUserInputChange, nominationAmount } = props;
-  const { currentAccount, stashControllerMap } = useContext(AccountsContext);
+  const {
+    state: {
+      currentAccount,
+      stashControllerMap
+    }
+  } = useContext(AccountsContext);
   const { bondingDuration } = useContext(ApiRxContext);
   const [estimatedReward, setEstimatedReward] = useState<BN>();
   const [impliedStash, setImpliedStash] = useState<string>();
