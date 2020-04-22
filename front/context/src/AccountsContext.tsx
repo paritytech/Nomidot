@@ -73,30 +73,55 @@ const INITIAL_STATE: State = {
   stashControllerMap: {} as StashControllerMap
 };
 
-const stateReducer = (state: State, action: any) => {
+enum ActionTypes {
+  'setAccountBalanceMap',
+  'setAllAccounts',
+  'setAllBonded',
+  'setAllControllers',
+  'setAllLedger',
+  'setAllStashes',
+  'setCurrentAccount',
+  'setCurrentAccountNonce',
+  'setExtension',
+  'setIsExtensionReady',
+  'setLoadingAccountStaking',
+  'setLoadingBalances',
+  'setStashControllerMap'
+}
+
+interface Action {
+  type: keyof typeof ActionTypes,
+  data: any // FIXME
+}
+
+const stateReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'setAccountBalanceMap':
-      return { ...state, accountBalanceMap: action.accountBalanceMap }
+      return { ...state, accountBalanceMap: action.data }
     case 'setAllAccounts':
-      return { ...state, allAccounts: action.allAccounts }
+      return { ...state, allAccounts: action.data }
+    case 'setAllBonded':
+      return { ...state, allBonded: action.data }
     case 'setAllControllers':
-      return { ...state, allControllers: action.allControllers }
+      return { ...state, allControllers: action.data }
+    case 'setAllLedger':
+      return { ...state, allLedger: action.data }
     case 'setAllStashes':
-      return { ...state, allStashes: action.allStashes }
+      return { ...state, allStashes: action.data }
     case 'setCurrentAccount':
-      return { ...state, currentAccount: action.currentAccount }
+      return { ...state, currentAccount: action.data }
     case 'setCurrentAccountNonce':
-      return { ...state, currentAccountNonce: action.currentAccountNonce }
+      return { ...state, currentAccountNonce: action.data }
     case 'setExtension':
-      return { ...state, extension: action.extension }
+      return { ...state, extension: action.data }
     case 'setIsExtensionReady':
-      return { ...state, isExtensionReady: action.isExtensionReady }
+      return { ...state, isExtensionReady: action.data }
     case 'setLoadingAccountStaking':
-      return { ...state, loadingAccountStaking: action.loadingAccountStaking }
+      return { ...state, loadingAccountStaking: action.data }
     case 'setLoadingBalances':
-      return { ...state, loadingBalances: action.loadingBalances }
+      return { ...state, loadingBalances: action.data }
     case 'setStashControllerMap':
-      return { ...state, stashControllerMap: action.stashControllerMap }
+      return { ...state, stashControllerMap: action.data }
     default:
       return state;
   }
@@ -136,7 +161,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .subscribe((nonce: AccountInfo) => {
           dispatch({
             type: 'setCurrentAccountNonce',
-            currentAccountNonce: nonce
+            data: nonce
           });
         });
 
@@ -148,7 +173,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (state.allAccounts) {
       dispatch({
         type: 'setLoadingBalances',
-        loadingBalance: true
+        data: true
       });
       const addresses = state.allAccounts.map((account: InjectedAccountWithMeta) => account.address);
 
@@ -168,12 +193,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setAccountBalanceMap',
-        accountBalanceMap: result
+        data: result
       });
       writeStorage('derivedBalances', JSON.stringify(result));
       dispatch({
         type: 'setLoadingBalances',
-        loadingBalance: false
+        data: false
       });
       return subs;
     }
@@ -196,7 +221,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setStashControllerMap',
-        stashControllerMap: result
+        data: result
       });
       writeStorage('derivedStaking', JSON.stringify(result));
       return subs;
@@ -207,7 +232,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (isApiReady && api && state.allAccounts) {
       dispatch({
         type: 'setLoadingAccountStaking',
-        loadingAccountStaking: true
+        data: true
       });
       const addresses = state.allAccounts.map((account: InjectedAccountWithMeta) => account.address);
 
@@ -217,7 +242,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .subscribe((result: Option<AccountId>[]) => {
           dispatch({
             type: 'setAllBonded',
-            allBonded: result
+            data: result
           });
         });
 
@@ -227,7 +252,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         .subscribe((result: Option<StakingLedger>[]) => {
           dispatch({
             type: 'setAllLedger',
-            allLedger: result
+            data: result
           });
         });
 
@@ -258,9 +283,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setExtension',
-        extension: extensions[0] // accounts, signer
+        data: extensions[0] // accounts, signer
       })
-
+      console.log('here i am ...')
       const _web3Accounts = await web3Accounts();
 
       _web3Accounts.map((account: InjectedAccountWithMeta) => {
@@ -268,13 +293,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       });
 
       dispatch({
-        type: 'setAccounts',
-        allAccounts: _web3Accounts
+        type: 'setAllAccounts',
+        data: _web3Accounts
       });
       l.log(`Accounts ready, encoded to ss58 prefix of ${chain}`);
       dispatch({
         type: 'setIsExtensionReady',
-        isExtensionReady: true
+        data: true
       });
     }
   }, [chain, originName]);
@@ -283,9 +308,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (state.allAccounts.length && !state.currentAccount) {
       dispatch({
         type: 'setCurrentAccount',
-        currentAccount: state.allAccounts[0].address
+        data: state.allAccounts[0].address
       });
-      writeStorage('currentAccount', state.allAccounts[0].address);
+      writeStorage('currentAccount', JSON.stringify(state.allAccounts[0].address));
     }
   };
 
@@ -297,11 +322,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   const fetchCachedUserSession = () => {
     const cachedCurrentAccount = localStorage.getItem('currentAccount');
+    const parsed = cachedCurrentAccount && JSON.parse(cachedCurrentAccount) as string;
 
-    if (cachedCurrentAccount) {
+    if (parsed) {
       dispatch({
         type: 'setCurrentAccount',
-        currentAccount: JSON.parse(cachedCurrentAccount) as string
+        data: parsed
       })
     }
   };
@@ -316,7 +342,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const asStashArray = JSON.parse(cachedStashes) as string[];
       dispatch({
         type: 'setAllStashes',
-        allStashes: asStashArray
+        data: asStashArray
       })
     }
 
@@ -327,21 +353,21 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setAllControllers',
-        allControllers: asControllerArray
+        data: asControllerArray
       });
     }
 
     if (cachedBalances) {
       dispatch({
         type: 'setAccountBalanceMap',
-        accountBalanceMap: JSON.parse(cachedBalances) as AccountBalanceMap
-      })
+        data: JSON.parse(cachedBalances) as AccountBalanceMap
+      });
     }
 
     if (cachedStaking) {
       dispatch({
         type: 'setStashControllerMap',
-        stashControllerMap: JSON.parse(cachedStaking) as StashControllerMap
+        data: JSON.parse(cachedStaking) as StashControllerMap
       });
     }
   };
@@ -359,7 +385,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     writeStorage('allControllers', JSON.stringify(controllers));
     dispatch({
       type: 'setAllControllers',
-      allControllers: controllers
+      data: controllers
     });
   }, [state.stashControllerMap]);
 
@@ -373,11 +399,11 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setAllStashes',
-        allStashes: stashes
+        data: stashes
       });
       dispatch({
         type: 'setLoadingAccountStaking',
-        loadingAccountStaking: false
+        data: false
       });
     }
   }, [state.allBonded, state.allLedger]);
