@@ -1,0 +1,38 @@
+# workflow for automatically bumping npm version
+# and publishing @substrate packages when PRs with -{patch, minor, major} get merged to master
+name: CD
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: contains(github.ref, "-release-patch")
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+  minor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: contains(github.ref, "-release-minor")
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+  major:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: contains(github.ref, "-release-major")
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
