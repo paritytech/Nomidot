@@ -9,7 +9,7 @@
     "build": "yarn clean && lerna run build --stream --scope @substrate/context --scope @substrate/node-watcher --scope @substrate/nomidot-server --scope @substrate/nomidot-gatsby",
     "netlify": "cd front/gatsby && yarn build",
     "clean": "rimraf front/**/lib back/**/lib front/**/.cache back/**/.cache",
-    "lerna:bump": "lerna version --conventional-commits",
+    "lerna:bump": "lerna version",
     "lerna:publish": "yarn build && lerna publish from-git",
     "lint": "tsc --noEmit && node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --ext js,ts,tsx .",
     "start": "cd ./front/gatsby && yarn start",

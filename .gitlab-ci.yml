@@ -34,12 +34,32 @@ linux-test:
 lerna-patch:
   stage: release
   script:
-    - yarn lerna:bump
+    - yarn lerna:bump patch
     - yarn lerna:publish 
   only:
     - master
     - tags
-    # - ^\w.*-release.*$
+    # - ^\w.*-release-patch.*$
+
+lerna-minor:
+  stage: release
+  script:
+    - yarn lerna:bump minor
+    - yarn lerna:publish 
+  only:
+    - master
+    - tags
+    # - ^\w.*-release-minor.*$
+
+lerna-major:
+  stage: release
+  script:
+    - yarn lerna:bump major
+    - yarn lerna:publish 
+  only:
+    - master
+    - tags
+    # - ^\w.*-release-major.*$
 
 #### stage:                        dockerize
 
