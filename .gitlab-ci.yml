@@ -38,8 +38,7 @@ lerna-patch:
     - yarn lerna:publish 
   only:
     - master
-    - tags
-    # - ^\w.*-release-patch.*$
+    # - /^\w.*-release-patch.*$/
 
 lerna-minor:
   stage: release
@@ -48,8 +47,7 @@ lerna-minor:
     - yarn lerna:publish 
   only:
     - master
-    - tags
-    # - ^\w.*-release-minor.*$
+    # - /^\w.*-release-minor.*$/
 
 lerna-major:
   stage: release
@@ -58,8 +56,7 @@ lerna-major:
     - yarn lerna:publish 
   only:
     - master
-    - tags
-    # - ^\w.*-release-major.*$
+    # - /^\w.*-release-major.*$/
 
 #### stage:                        dockerize
 
