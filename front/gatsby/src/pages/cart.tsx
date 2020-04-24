@@ -110,11 +110,10 @@ const Cart = (_props: Props): React.ReactElement => {
     api,
     currentAccount,
     currentAccountNonce,
-    nominationAmount,
     extrinsic,
     fees,
     isApiReady,
-    nominationAmount
+    nominationAmount,
   ]);
 
   const checkUserInputs = useCallback((): void => {
@@ -138,7 +137,7 @@ const Cart = (_props: Props): React.ReactElement => {
       setError(undefined);
       return;
     }
-  }, [allStashes, allTotal, currentAccount]);
+  }, [accountBalanceMap, allStashes, allTotal, currentAccount]);
 
   const handleUserInputChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
@@ -161,7 +160,15 @@ const Cart = (_props: Props): React.ReactElement => {
       const id = enqueue(extrinsic, details);
       setTxId(id);
     }
-  }, [api, allFees, allTotal, currentAccount, extrinsic, enqueue]);
+  }, [
+    api,
+    allFees,
+    allTotal,
+    currentAccount,
+    extrinsic,
+    enqueue,
+    nominationAmount,
+  ]);
 
   useEffect(() => {
     txId && signAndSubmit(txId);

@@ -5,7 +5,7 @@
 import { AccountsContext, getControllers } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 interface Props {
   onlyControllers: boolean; // filter only controllers
@@ -18,16 +18,19 @@ export const AccountsDropdown = (props: Props): React.ReactElement => {
     dispatch,
   } = useContext(AccountsContext);
 
+  const handleOnChangeAddress = useCallback(
+    (address: string): void => {
+      dispatch({
+        type: 'setCurrentAccount',
+        data: address,
+      });
+    },
+    [dispatch]
+  );
+
   if (!allAccounts || !currentAccount) {
     return <Spinner inline />;
   }
-
-  const handleOnChangeAddress = (address: string) => {
-    dispatch({
-      type: 'setCurrentAccount',
-      data: address,
-    });
-  };
 
   return (
     <InputAddress

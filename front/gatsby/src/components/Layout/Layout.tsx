@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Segment, Sidebar } from 'semantic-ui-react';
 
 import { LoadableHeader } from './Header';

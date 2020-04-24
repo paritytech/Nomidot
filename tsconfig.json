@@ -1,5 +1,5 @@
 {
-  "exclude": ["**/generated/**/*", "node_modules", "public", ".cache"],
+  "exclude": ["**/generated/**/*", "node_modules", "public", ".cache", ""],
   "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",

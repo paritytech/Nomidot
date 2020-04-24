@@ -6,5 +6,5 @@
     }
   },
   "extends": "../../tsconfig",
-  "exclude": [".cache", "public", "*.js"],
+  "exclude": [".cache", "public"],
 }
