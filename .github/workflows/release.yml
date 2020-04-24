@@ -1,0 +1,55 @@
+# workflow for automatically bumping npm version
+# and publishing @substrate packages when PRs with -{patch, minor, major} get merged to master
+name: CD
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.org/
+          scope: '@substrate'
+      
+      - name: Yarn
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+          
+      - name: Patch
+        if: contains(github.ref, "-release-patch")
+        steps:
+          - uses: actions/checkout@v2
+          - run: yarn lerna:bump patch
+          - run: yarn lerna:publish
+            env:
+              NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      
+      - name: Minor
+        if: contains(github.ref, "-release-minor")
+        steps:
+          - uses: actions/checkout@v2
+          - run: yarn lerna:bump minor
+          - run: yarn lerna:publish
+            env:
+              NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Major
+        if: contains(github.ref, "-release-major")
+        steps:
+          - uses: actions/checkout@v2
+          - run: yarn lerna:bump major
+          - run: yarn lerna:publish
+            env:
+              NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
