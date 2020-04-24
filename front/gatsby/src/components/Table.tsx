@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import * as React from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
-export const Table = styled.table`
+export const Table = React.memo(styled.table`
   width: 100%;
   display: table;
   margin: 1rem;
@@ -26,7 +27,7 @@ export const Table = styled.table`
   /* screen width is less than 768px (medium) */
     width: 10rem;
   `}
-`;
+`);
 
 export const Thead = styled.thead`
   padding: 1rem 2rem;

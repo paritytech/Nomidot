@@ -11,7 +11,7 @@ interface Props {
   onlyControllers: boolean; // filter only controllers
 }
 
-export const AccountsDropdown = (props: Props): React.ReactElement => {
+export const AccountsDropdown = React.memo((props: Props): React.ReactElement => {
   const { onlyControllers } = props;
   const {
     state: { allAccounts, currentAccount, stashControllerMap },
@@ -45,4 +45,4 @@ export const AccountsDropdown = (props: Props): React.ReactElement => {
       width='3rem'
     />
   );
-};
+});

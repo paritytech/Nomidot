@@ -20,7 +20,7 @@ interface Props {
   value?: string;
 }
 
-export const StatItem = (props: Props): React.ReactElement => {
+export const StatItem = React.memo((props: Props): React.ReactElement => {
   const { children, title, value } = props;
 
   return (
@@ -30,4 +30,4 @@ export const StatItem = (props: Props): React.ReactElement => {
       {children}
     </Wrapper>
   );
-};
+});
