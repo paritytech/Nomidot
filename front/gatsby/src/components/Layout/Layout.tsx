@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Segment, Sidebar } from 'semantic-ui-react';
 
 import { LoadableHeader } from './Header';
@@ -17,7 +17,7 @@ export function Layout(props: Props): React.ReactElement {
   const { children } = props;
   const [visible, setVisible] = useState(false);
 
-  const toggleSidebar = () => {
+  const toggleSidebar = (): void => {
     setVisible(!visible);
   };
 

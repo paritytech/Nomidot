@@ -43,8 +43,8 @@ export const Button = styled.a<ButtonProps>`
   display: inline-block;
   padding: 5px 10px;
   text-align: center;
-  height: ${props => ButtonSizeMap[props.size || 'small'].height} 
-  width: ${props => ButtonSizeMap[props.size || 'small'].width};
+  height: ${(props): string => ButtonSizeMap[props.size || 'small'].height} 
+  width: ${(props): string => ButtonSizeMap[props.size || 'small'].width};
 
   &:hover {
     cursor: pointer;

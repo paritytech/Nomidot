@@ -21,8 +21,11 @@ interface Props {
   visible: boolean;
 }
 
-export const VerticalSidebar = ({ handleToggle, visible }: Props) => {
-  const handleNavigation = (path: string) => {
+export const VerticalSidebar = ({
+  handleToggle,
+  visible,
+}: Props): React.ReactElement => {
+  const handleNavigation = (path: string): void => {
     handleToggle();
     navigate(path);
   };

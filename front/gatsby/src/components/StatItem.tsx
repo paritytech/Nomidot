@@ -20,7 +20,7 @@ interface Props {
   value?: string;
 }
 
-export const StatItem = (props: Props) => {
+export const StatItem = (props: Props): React.ReactElement => {
   const { children, title, value } = props;
 
   return (
