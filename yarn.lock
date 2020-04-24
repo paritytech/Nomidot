@@ -2788,11 +2788,6 @@
     resolve-from "^5.0.0"
     ts-dedent "^1.1.0"
 
-"@substrate/context@^0.3.25":
-  version "0.4.0"
-  dependencies:
-    "@substrate/local-storage" "^2.2.9"
-
 "@substrate/design-system@^1.0.9":
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/@substrate/design-system/-/design-system-1.0.13.tgz#abd739a72489ce2925614061e82613ed6624b6ef"

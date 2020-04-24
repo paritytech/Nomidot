@@ -50,7 +50,9 @@ interface Props {
 
 export const NominationDetails = (props: Props): React.ReactElement => {
   const { handleUserInputChange, nominationAmount } = props;
-  const { currentAccount, stashControllerMap } = useContext(AccountsContext);
+  const {
+    state: { currentAccount, stashControllerMap },
+  } = useContext(AccountsContext);
   const { bondingDuration } = useContext(ApiRxContext);
   const [estimatedReward, setEstimatedReward] = useState<BN>();
   const [impliedStash, setImpliedStash] = useState<string>();
@@ -71,8 +73,6 @@ export const NominationDetails = (props: Props): React.ReactElement => {
       derivedStaking =>
         derivedStaking.controllerId?.toHuman() === currentAccount
     )?.stashId;
-
-    console.log('implied -> ', stash);
 
     setImpliedStash(stash?.toHuman());
   }, [currentAccount]);

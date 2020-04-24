@@ -65,10 +65,12 @@ type Props = RouteComponentProps;
 
 const Cart = (_props: Props): React.ReactElement => {
   const {
-    accountBalanceMap,
-    allStashes,
-    currentAccount,
-    currentAccountNonce,
+    state: {
+      accountBalanceMap,
+      allStashes,
+      currentAccount,
+      currentAccountNonce,
+    },
   } = useContext(AccountsContext);
   const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
