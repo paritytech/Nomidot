@@ -251,7 +251,7 @@ const BondingModal = (): React.ReactElement => {
     allTotal,
     bondAmount,
     extrinsic,
-    enqueue
+    enqueue,
   ]);
 
   return (
