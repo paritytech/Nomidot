@@ -167,23 +167,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   // state
   const [state, dispatch] = useReducer(stateReducer, INITIAL_STATE);
 
-  const getAccountNonce = (): Subscription | undefined => {
-    if (api && isApiReady) {
-      const sub = api.query.system
-        .account<AccountInfo>(state.currentAccount)
-        .pipe(take(1))
-        .subscribe((nonce: AccountInfo) => {
-          dispatch({
-            type: 'setCurrentAccountNonce',
-            data: nonce,
-          });
-        });
-
-      return sub;
-    }
-  };
-
-  const getDerivedBalances = (): Subscriptions | undefined => {
+  const getDerivedBalances = useCallback((): Subscriptions | undefined => {
     if (state.allAccounts) {
       dispatch({
         type: 'setLoadingBalances',
@@ -218,9 +202,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       });
       return subs;
     }
-  };
+  }, [state.allAccounts]);
 
-  const getDerivedStaking = (): Subscriptions | undefined => {
+  const getDerivedStaking = useCallback((): Subscriptions | undefined => {
     if (state.allStashes) {
       const result: StashControllerMap = {};
 
@@ -242,9 +226,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       writeStorage('derivedStaking', JSON.stringify(result));
       return subs;
     }
-  };
+  }, [api, state.allStashes]);
 
-  const getStashInfo = (): Subscriptions | undefined => {
+  const getStashInfo = useCallback((): Subscriptions | undefined => {
     if (isApiReady && api && state.allAccounts) {
       dispatch({
         type: 'setLoadingAccountStaking',
@@ -276,7 +260,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       return [bondSub, ledgerSub];
     }
-  };
+  }, [api, isApiReady, state.allAccounts]);
 
   /**
    * Fetch accounts from the extension
@@ -447,7 +431,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const allSubs = [...balanceSubHandlers, ...stakingSubHandlers];
 
       if (allSubs) {
-        return () =>
+        return (): void =>
           allSubs.forEach(sub => {
             sub.unsubscribe();
           });
@@ -462,12 +446,28 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   ]);
 
   useEffect(() => {
+    const getAccountNonce = (): Subscription | undefined => {
+      if (api && isApiReady) {
+        const sub = api.query.system
+          .account<AccountInfo>(state.currentAccount)
+          .pipe(take(1))
+          .subscribe((nonce: AccountInfo) => {
+            dispatch({
+              type: 'setCurrentAccountNonce',
+              data: nonce,
+            });
+          });
+
+        return sub;
+      }
+    };
+
     writeStorage('currentAccount', JSON.stringify(state.currentAccount));
 
     const sub = getAccountNonce();
 
     return (): void => sub?.unsubscribe();
-  }, [getAccountNonce, state.currentAccount]);
+  }, [state.allAccounts, state.currentAccount]);
 
   // set default account
   useEffect(() => {
