@@ -9,30 +9,46 @@ on:
     branches: [ master ]
 
 jobs:
-  patch:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.org/
+      
+      - name: Yarn
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+          
+      - name: Patch
         if: contains(github.ref, "-release-patch")
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-  minor:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+          - uses: actions/checkout@v2
+          - run: yarn lerna:bump patch
+          - run: yarn lerna:publish
+            env:
+              NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      
+      - name: Minor
         if: contains(github.ref, "-release-minor")
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-  major:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+          - uses: actions/checkout@v2
+          - run: yarn lerna:bump minor
+          - run: yarn lerna:publish
+            env:
+              NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Major
         if: contains(github.ref, "-release-major")
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+        steps:
+          - uses: actions/checkout@v2
+          - run: yarn lerna:bump major
+          - run: yarn lerna:publish
+            env:
+              NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
