@@ -108,7 +108,6 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [
     accountBalanceMap,
     api,
-    api.tx.staking,
     currentAccount,
     currentAccountNonce,
     nominationAmount,
@@ -175,12 +174,12 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [cartItemsCount]);
 
   useEffect(() => {
-    if (isApiReady) {
+    if (api && isApiReady) {
       const extrinsic = api.tx.staking.nominate(cartItems);
 
       setExtrinsic(extrinsic);
     }
-  }, [isApiReady, cartItems]);
+  }, [api, isApiReady, cartItems]);
 
   useEffect(() => {
     checkUserInputs();
