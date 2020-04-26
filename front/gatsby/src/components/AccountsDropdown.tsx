@@ -5,13 +5,13 @@
 import { AccountsContext, getControllers } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
-import React, { useCallback, useContext } from 'react';
+import React, { memo, useCallback, useContext } from 'react';
 
 interface Props {
   onlyControllers: boolean; // filter only controllers
 }
 
-export const AccountsDropdown = React.memo((props: Props): React.ReactElement => {
+const AccountsDropdown = function(props: Props): React.ReactElement {
   const { onlyControllers } = props;
   const {
     state: { allAccounts, currentAccount, stashControllerMap },
@@ -45,4 +45,6 @@ export const AccountsDropdown = React.memo((props: Props): React.ReactElement =>
       width='3rem'
     />
   );
-});
+};
+
+export default memo(AccountsDropdown);

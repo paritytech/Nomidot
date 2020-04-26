@@ -467,7 +467,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     const sub = getAccountNonce();
 
     return (): void => sub?.unsubscribe();
-  }, [state.allAccounts, state.currentAccount]);
+  }, [api, isApiReady, state.allAccounts, state.currentAccount]);
 
   // set default account
   useEffect(() => {
