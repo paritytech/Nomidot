@@ -9,6 +9,7 @@ metadata:
     app: nomidot-staging
 spec:
   loadBalancerIP: 35.189.196.74
+  externalTrafficPolicy: Local
   type: LoadBalancer
   selector:
     app: nomidot-server
