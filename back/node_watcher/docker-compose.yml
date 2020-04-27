@@ -2,18 +2,19 @@ version: '3.7'
 services:
   main:
     build: ./
-  postgres:
-    image: postgres:12.1
-    restart: always
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_USER: prisma
-      POSTGRES_PASSWORD: prisma
-    volumes:
-      - postgres:/var/lib/postgresql/data
+  # postgres:
+  #   image: postgres:12.1
+  #   restart: always
+  #   ports:
+  #     - '5432:5432'
+  #   environment:
+  #     POSTGRES_USER: prisma
+  #     POSTGRES_PASSWORD: prisma
+  #   volumes:
+  #     - postgres:/var/lib/postgresql/data
   prisma:
     image: prismagraphql/prisma:1.34
+    network_mode: "host"
     restart: always
     ports:
       - '4466:4466'
@@ -24,8 +25,8 @@ services:
           default:
             connector: postgres
             host: postgres
-            user: prisma
-            password: prisma
+            user: postgres
+            password: postgres
             rawAccess: true
             port: 5432
             migrations: true

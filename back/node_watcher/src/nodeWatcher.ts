@@ -3,13 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { getSpecTypes } from '@polkadot/types-known';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
+import fetch, { Response } from 'node-fetch';
 
 import { prisma } from './generated/prisma-client';
-import { nomidotTasks } from './tasks';
-import { Cached } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT =
   process.env.ARCHIVE_NODE_ENDPOINT || 'wss://kusama-rpc.polkadot.io/';
@@ -80,7 +77,6 @@ export async function nodeWatcher(): Promise<unknown> {
         const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
         let blockIndexId = '';
         let blockIndex = parseInt(process.env.START_FROM || '0');
-        let currentSpecVersion = api.createType('u32', -1);
         const lastKnownBestFinalized = (
           await api.derive.chain.bestNumberFinalized()
         ).toNumber();
@@ -142,67 +138,20 @@ export async function nodeWatcher(): Promise<unknown> {
           l.warn(`lastKnownBestBlock: ${lastKnownBestBlock}`);
           l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
 
-          const blockNumber: BlockNumber = api.createType(
-            'BlockNumber',
-            blockIndex
-          );
-          l.warn(`block: ${blockNumber}`);
-
-          const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber);
-          l.warn(`hash: ${blockHash}`);
-
-          // check spec version
-          const runtimeVersion = await api.rpc.state.getRuntimeVersion(
-            blockHash
-          );
-          const newSpecVersion = runtimeVersion.specVersion;
-
-          // if spec version was bumped, update metadata in api registry
-          if (newSpecVersion.gt(currentSpecVersion)) {
-            l.warn(
-              `bumped spec version to ${newSpecVersion}, fetching new metadata`
-            );
-            const rpcMeta = await api.rpc.state.getMetadata(blockHash);
-            currentSpecVersion = newSpecVersion;
-
-            // based on the node spec & chain, inject specific type overrides
-            const chain = await api.rpc.system.chain();
-            api.registry.register(
-              getSpecTypes(
-                api.registry,
-                chain,
-                runtimeVersion.specName,
-                runtimeVersion.specVersion
-              )
-            );
-            api.registry.setMetadata(rpcMeta);
+          if (!process.env.TASK_RUNNER_SERVER) {
+            throw new Error('TASK_RUNNER_SERVER env var not set');
           }
 
-          const [events, sessionIndex] = await Promise.all([
-            await api.query.system.events.at(blockHash),
-            await api.query.session.currentIndex.at(blockHash),
-          ]);
-
-          const cached: Cached = {
-            events,
-            sessionIndex,
-          };
-
-          // execute watcher tasks
-          for await (const task of nomidotTasks) {
-            l.warn(`Task --- ${task.name}`);
-
-            const result = await task.read(blockHash, cached, api);
-
-            try {
-              l.warn(`Writing: ${JSON.stringify(result)}`);
-              await task.write(blockNumber, result);
-            } catch (e) {
-              // Write task might throw errors such as unique constraints violated,
-              // we ignore those.
-              l.error(e);
+          const result = await fetch(
+            `${process.env.TASK_RUNNER_SERVER}/runtask`,
+            {
+              method: 'post',
+              body: JSON.stringify({ blockIndex }),
+              headers: { 'Content-Type': 'application/json' },
             }
-          }
+          ).then((res: Response) => res.json());
+
+          l.warn(`result:`, result);
 
           blockIndex += 1;
 
