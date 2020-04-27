@@ -91,7 +91,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
         const isCurrentPreimage = function(
           imageOpt: Option<OldPreimage> | Option<PreimageStatus>
         ): imageOpt is Option<PreimageStatus> {
-          return !!imageOpt && !api.query.democracy.dispatchQueue.at(blockHash);
+          return !!imageOpt && !api.query.democracy.dispatchQueue;
         };
 
         let proposal: Proposal | undefined;
