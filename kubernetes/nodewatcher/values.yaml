@@ -1,0 +1,46 @@
+# Default values for polkassembly.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+chainName: kusamaOrPolkadot
+imagePullSecrets: ""
+nodeSelector: {}
+dockerTag: master
+
+cloudsql:
+  commandline:
+    args: "-instances=<copy-from-gcp-sql-overview>=tcp:5432"
+  instanceCredentials: from-gitlab-vars
+
+nodewatcher:
+  name: nodewatcher
+  replicaCount: 1
+
+  dbName: name
+  dbUser: user
+  dbPassword: from-gitlab-vars
+
+  image:
+    repository: prismagraphql/prisma:1.34
+    pullPolicy: IfNotPresent
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  podSecurityContext: {}
+  securityContext: {}
+
+  service:
+    type: ClusterIP
+    port: 4466
+
+  resources:
+    requests:
+      memory: "1280Mi"
+      cpu: "250m"
+    limits:
+      memory: "2560Mi"
+      cpu: "500m"
+
+  tolerations: []
+  affinity: {}
