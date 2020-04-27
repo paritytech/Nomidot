@@ -31,6 +31,26 @@ type OldPreimage = ITuple<PreimageInfo>;
 
 const l = logger('Task: Preimage');
 
+const isCurrentPreimage = function(api: ApiPromise,
+  imageOpt: Option<OldPreimage> | Option<PreimageStatus>
+): imageOpt is Option<PreimageStatus> {
+  return !!imageOpt && !api.query.democracy.dispatchQueue;
+};
+
+let proposal: Proposal | undefined;
+
+const constructProposal = function(api: ApiPromise, bytes: Bytes): Proposal | undefined {
+  let proposal: Proposal | undefined;
+
+  try {
+    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
+  } catch (error) {
+    l.log(error);
+  }
+
+  return proposal;
+};
+
 /*
  *  ======= Table (Preimage) ======
  */
@@ -88,26 +108,6 @@ const createPreimage: Task<NomidotPreimage[]> = {
           preimageArguments.hash
         );
 
-        const isCurrentPreimage = function(
-          imageOpt: Option<OldPreimage> | Option<PreimageStatus>
-        ): imageOpt is Option<PreimageStatus> {
-          return !!imageOpt && !api.query.democracy.dispatchQueue;
-        };
-
-        let proposal: Proposal | undefined;
-
-        const constructProposal = function(bytes: Bytes): Proposal | undefined {
-          let proposal: Proposal | undefined;
-
-          try {
-            proposal = api.registry.createType('Proposal', bytes.toU8a(true));
-          } catch (error) {
-            l.log(error);
-          }
-
-          return proposal;
-        };
-
         const preimage = preimageRaw.unwrapOr(null);
 
         if (!preimage) {
@@ -124,13 +124,15 @@ const createPreimage: Task<NomidotPreimage[]> = {
           return null;
         }
 
-        if (isCurrentPreimage(preimageRaw)) {
+        if (isCurrentPreimage(api, preimageRaw)) {
           const { data } = preimage.asAvailable;
 
-          proposal = constructProposal(data);
+          proposal = constructProposal(api, data);
         } else {
+          const [bytes] = preimage as unknown as OldPreimage
           proposal = constructProposal(
-            ((preimage as unknown) as OldPreimage)[0]
+            api,
+            bytes
           );
         }
 
