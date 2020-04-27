@@ -62,10 +62,7 @@ type Error = string;
 
 const BondingModal = (): React.ReactElement => {
   const {
-    accountBalanceMap,
-    allAccounts,
-    currentAccount,
-    loadingBalances,
+    state: { accountBalanceMap, allAccounts, currentAccount, loadingBalances },
   } = useContext(AccountsContext);
   const { api, isApiReady } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit, txQueue } = useContext(TxQueueContext);
@@ -313,7 +310,9 @@ const BondingModal = (): React.ReactElement => {
             value={bondAmount}
           />
           <Modal.Description>
-            <Button onClick={signAndSubmitBond}>Submit Bond</Button>
+            <Button size='huge' onClick={signAndSubmitBond}>
+              Submit Bond
+            </Button>
             <ErrorText>{bondingError}</ErrorText>
           </Modal.Description>
         </Stacked>

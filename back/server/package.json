@@ -1,6 +1,6 @@
 {
   "name": "@substrate/nomidot-server",
-  "version": "0.3.24",
+  "version": "0.5.0",
   "author": "Parity Technologies <admin@parity.io>",
   "description": "Backend server for Nomidot",
   "license": "Apache-2.0",

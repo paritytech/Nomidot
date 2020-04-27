@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/paritytech/Nomidot/compare/v0.4.1...v0.5.0) (2020-04-24)
+
+**Note:** Version bump only for package @substrate/node-watcher
+
+
+
+
+
+## [0.4.1](https://github.com/paritytech/Nomidot/compare/v0.4.0...v0.4.1) (2020-04-21)
+
+**Note:** Version bump only for package @substrate/node-watcher
+
+
+
+
+
 ## [0.3.25](https://github.com/paritytech/Nomidot/compare/v0.3.24...v0.3.25) (2020-04-20)
 
 **Note:** Version bump only for package @substrate/node-watcher

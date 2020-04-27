@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/paritytech/Nomidot/compare/v0.4.1...v0.5.0) (2020-04-24)
+
+
+### Features
+
+* nominate ([#300](https://github.com/paritytech/Nomidot/issues/300)) ([c6a72a4](https://github.com/paritytech/Nomidot/commit/c6a72a4c2fba8ad3a2ea886cfc7c2465ea1c2c00))
+
+
+
+
+
+## [0.4.1](https://github.com/paritytech/Nomidot/compare/v0.4.0...v0.4.1) (2020-04-21)
+
+**Note:** Version bump only for package @substrate/nomidot-gatsby
+
+
+
+
+
 # [0.4.0](https://github.com/paritytech/Nomidot/compare/v0.3.25...v0.4.0) (2020-04-20)
 
 **Note:** Version bump only for package @substrate/nomidot-gatsby
