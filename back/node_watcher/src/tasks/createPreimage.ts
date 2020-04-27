@@ -91,7 +91,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
         const isCurrentPreimage = function(
           imageOpt: Option<OldPreimage> | Option<PreimageStatus>
         ): imageOpt is Option<PreimageStatus> {
-          return !!imageOpt && !api.query.democracy.dispatchQueue;
+          return !!imageOpt && !api.query.democracy.dispatchQueue.at(blockHash);
         };
 
         let proposal: Proposal | undefined;
@@ -133,11 +133,6 @@ const createPreimage: Task<NomidotPreimage[]> = {
             ((preimage as unknown) as OldPreimage)[0]
           );
         }
-
-        // const proposal = api.createType(
-        //   'Proposal',
-        //   preimage[0].toU8a(true)
-        // );
 
         if (!proposal) {
           l.log(
