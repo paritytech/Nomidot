@@ -5,12 +5,12 @@ metadata:
   namespace: nodewatcher-staging
   labels:
     stage: staging
-    name:  nodewatcher-v1.5
-    app:  nodewatcher-v1.5
+    name: nodewatcher-v1.5
+    app: nodewatcher-v1.5
 spec:
   selector:
     matchLabels:
-      app:  nodewatcher-v1.5
+      app: nodewatcher-v1.5
   replicas: 1
   strategy:
     type: RollingUpdate
@@ -18,8 +18,8 @@ spec:
     metadata:
       labels:
         stage: staging
-        name:  nodewatcher-v1.5
-        app:  nodewatcher-v1.5
+        name: nodewatcher-v1.5
+        app: nodewatcher-v1.5
     spec:
       containers:
         - name: prisma
@@ -28,11 +28,11 @@ spec:
             - name: prisma-4466
               containerPort: 4466
           env:
-            - name: PRISMA_CONFIG
+            - name: PRISMA_CONFIG_v1.5
               valueFrom:
                 secretKeyRef:
-                  name: prisma-config
-                  key: prisma-config
+                  name: prisma-config-v1.5
+                  key: prisma-config-v1.5
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
