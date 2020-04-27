@@ -62,7 +62,7 @@ function waitLagLimit(
 export async function nodeWatcher(): Promise<unknown> {
   return new Promise((_, reject) => {
     let keepLooping = true;
-    let provider: WsProvider | null = new WsProvider(ARCHIVE_NODE_ENDPOINT);
+    let provider: WsProvider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
     ApiPromise.create({ provider })
       .then(async api => {
@@ -247,7 +247,6 @@ export async function nodeWatcher(): Promise<unknown> {
       })
       .catch(e => {
         keepLooping = false;
-        provider = null;
         reject(new Error(`Connection error: ${e}`));
       });
   });
