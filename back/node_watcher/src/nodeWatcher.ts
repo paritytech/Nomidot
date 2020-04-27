@@ -45,7 +45,7 @@ function reachedLimitLag(
 function waitLagLimit(
   api: ApiPromise,
   blockIndex: number
-): Promise<{ unsub: () => void; bestBlock: number }> {
+): Promise<{ unsub: (() => void) | null; bestBlock: number | null }> {
   return new Promise(resolve => {
     async function wait(): Promise<void> {
       const unsub = await api.derive.chain.bestNumber(bestBlock => {
@@ -62,7 +62,7 @@ function waitLagLimit(
 export async function nodeWatcher(): Promise<unknown> {
   return new Promise((_, reject) => {
     let keepLooping = true;
-    const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
+    let provider: WsProvider | null = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
     ApiPromise.create({ provider })
       .then(async api => {
@@ -85,7 +85,7 @@ export async function nodeWatcher(): Promise<unknown> {
         let lastKnownBestFinalized = (
           await api.derive.chain.bestNumberFinalized()
         ).toNumber();
-        let lastKnownBestBlock = (
+        let lastKnownBestBlock: number | null = (
           await api.derive.chain.bestNumber()
         ).toNumber();
 
@@ -118,14 +118,17 @@ export async function nodeWatcher(): Promise<unknown> {
             // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
             if (
               blockIndex > lastKnownBestFinalized &&
-              !reachedLimitLag(blockIndex, lastKnownBestBlock)
+              !reachedLimitLag(blockIndex, lastKnownBestBlock!)
             ) {
               l.warn(
                 `Waiting for finalization or a max lag of ${MAX_LAG} blocks.`
               );
-              const { unsub, bestBlock } = await waitLagLimit(api, blockIndex);
+              let { unsub, bestBlock } = await waitLagLimit(api, blockIndex);
               unsub && unsub();
               lastKnownBestBlock = bestBlock;
+
+              unsub = null;
+              bestBlock = null;
               continue;
             }
           } else {
@@ -242,6 +245,7 @@ export async function nodeWatcher(): Promise<unknown> {
       })
       .catch(e => {
         keepLooping = false;
+        provider = null;
         reject(new Error(`Connection error: ${e}`));
       });
   });
