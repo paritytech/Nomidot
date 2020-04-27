@@ -224,10 +224,7 @@ export async function nodeWatcher(): Promise<unknown> {
               l.error(e);
             }
             
-            // manually clean up references
-            blockNumber = null;
-            blockHash = null;
-            cached = null;
+            // clean reference
             result = null;
           }
 
@@ -241,6 +238,11 @@ export async function nodeWatcher(): Promise<unknown> {
               id: blockIndexId,
             },
           });
+
+          // manually clean up references
+          blockNumber = null;
+          blockHash = null;
+          cached = null;
         }
       })
       .catch(e => {
