@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.nodewatcher.name }}-service
+  labels:
+    {{- include "nodewatcher.nodewatcher.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nodewatcher.service.type }}
+  ports:
+    - port: {{ .Values.nodewatcher.service.port }}
+      protocol: TCP
+  selector:
+    {{- include "nodewatcher.nodewatcher.selectorLabels" . | nindent 4 }}
