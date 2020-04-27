@@ -22,7 +22,7 @@
     ]
   },
   "dependencies": {
-    "@polkadot/api": "^1.11.2"
+    "@polkadot/api": "^1.12.0-beta.10"
   },
   "devDependencies": {
     "@polkadot/dev": "^0.52.11",
