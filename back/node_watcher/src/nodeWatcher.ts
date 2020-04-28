@@ -5,7 +5,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { getSpecTypes } from '@polkadot/types-known';
 import { Metadata, Text, u32 } from '@polkadot/types';
-import { BlockNumber, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, RuntimeVersion, SessionIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma, BlockIndex } from './generated/prisma-client';
@@ -82,14 +82,14 @@ export async function nodeWatcher(): Promise<unknown> {
         let blockIndexId = '';
         let blockIndex = parseInt(process.env.START_FROM || '0');
         let currentSpecVersion = api.createType('u32', -1);
-        let lastKnownBestFinalized = (
+        let lastKnownBestFinalized: number | null = (
           await api.derive.chain.bestNumberFinalized()
         ).toNumber();
         let lastKnownBestBlock: number | null = (
           await api.derive.chain.bestNumber()
         ).toNumber();
 
-        let existingBlockIndex = await prisma.blockIndexes({
+        let existingBlockIndex: BlockIndex[] | null = await prisma.blockIndexes({
           where: {
             identifier: blockIdentifier,
           },
@@ -117,7 +117,7 @@ export async function nodeWatcher(): Promise<unknown> {
             // if we reached the last finalized block
             // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
             if (
-              blockIndex > lastKnownBestFinalized &&
+              blockIndex > lastKnownBestFinalized! &&
               !reachedLimitLag(blockIndex, lastKnownBestBlock!)
             ) {
               l.warn(
@@ -133,11 +133,11 @@ export async function nodeWatcher(): Promise<unknown> {
             }
           } else {
             // MAX_LAG isn't set, only the finalization matters
-            if (blockIndex > lastKnownBestFinalized) {
+            if (blockIndex > lastKnownBestFinalized!) {
               l.warn('Waiting for finalization.');
               let { unsub, bestFinalizedBlock } = await waitFinalized(
                 api,
-                lastKnownBestFinalized
+                lastKnownBestFinalized!
               );
               unsub && unsub();
               lastKnownBestBlock = bestFinalizedBlock!;
@@ -199,7 +199,7 @@ export async function nodeWatcher(): Promise<unknown> {
             rpcMeta = null;
           }
 
-          let [events, sessionIndex] = await Promise.all([
+          let [events, sessionIndex]: [EventRecord[] | null, SessionIndex | null] = await Promise.all([
             await api.query.system.events.at(blockHash),
             await api.query.session.currentIndex.at(blockHash),
           ]);
@@ -243,6 +243,11 @@ export async function nodeWatcher(): Promise<unknown> {
           blockNumber = null;
           blockHash = null;
           cached = null;
+          events = null;
+          existingBlockIndex = null;
+          lastKnownBestBlock = null;
+          lastKnownBestFinalized = null;
+          sessionIndex = null;
         }
       })
       .catch(e => {
