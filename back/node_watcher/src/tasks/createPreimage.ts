@@ -15,7 +15,7 @@ import {
 import { ITuple } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Motion as PrismaMotion, Proposal as PrismaProposal, Referendum as PrismaReferendum } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { preimageStatus } from '../util/statuses';
 import {
@@ -67,7 +67,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
   ): Promise<NomidotPreimage[]> => {
     const { events } = cached;
 
-    const preimageEvents = filterEvents(
+    let preimageEvents = filterEvents(
       events,
       'democracy',
       preimageStatus.NOTED
@@ -76,9 +76,9 @@ const createPreimage: Task<NomidotPreimage[]> = {
     const results: NomidotPreimage[] = [];
     await Promise.all(
       preimageEvents.map(async ({ event }) => {
-        const types = event.typeDef;
+        let types = event.typeDef;
 
-        const preimageArgumentsRaw: NomidotPreimageRawEvent = event.data.reduce(
+        let preimageArgumentsRaw: NomidotPreimageRawEvent | null = event.data.reduce(
           (prev, curr, index) => {
             const type = types[index].type;
 
@@ -101,18 +101,18 @@ const createPreimage: Task<NomidotPreimage[]> = {
           return null;
         }
 
-        const preimageArguments: NomidotPreimageEvent = {
+        let preimageArguments: NomidotPreimageEvent = {
           hash: preimageArgumentsRaw.Hash,
           depositAmount: preimageArgumentsRaw.Balance,
           author: preimageArgumentsRaw.AccountId,
         };
 
-        const preimageRaw = await api.query.democracy.preimages.at(
+        let preimageRaw: Option<PreimageStatus> | null = await api.query.democracy.preimages.at(
           blockHash,
           preimageArguments.hash
         );
 
-        const preimage = preimageRaw.unwrapOr(null);
+        let preimage = preimageRaw!.unwrapOr(null);
 
         if (!preimage) {
           l.log(
@@ -128,7 +128,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           return null;
         }
 
-        if (isCurrentPreimage(api, preimageRaw)) {
+        if (isCurrentPreimage(api, preimageRaw!)) {
           const { data } = preimage.asAvailable;
 
           proposal = constructProposal(api, data);
@@ -148,19 +148,20 @@ const createPreimage: Task<NomidotPreimage[]> = {
           proposal.callIndex
         );
 
-        const params = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
+        let params: string[] | null = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
           name.toString()
         );
-        const values = proposal.args;
+        let values = proposal.args;
 
-        const preImageArguments =
+        let preImageArguments: any =
           proposal.args &&
           params &&
           params.map((name, index) => {
             return { name, value: values[index].toString() };
           });
 
-        const result = {
+        // FIXME any
+        let result: any = {
           author: preimageArguments.author,
           depositAmount: preimageArguments.depositAmount,
           hash: preimageArguments.hash,
@@ -173,6 +174,14 @@ const createPreimage: Task<NomidotPreimage[]> = {
 
         results.push(result);
         l.log(`Nomidot Preimage: ${JSON.stringify(result)}`);
+
+        // explicitly clean references
+        result = null;
+        params = null;
+        preimage = null;
+        preimageRaw = null;
+        preImageArguments = null;
+        preimageArgumentsRaw = null;
       })
     );
 
@@ -192,24 +201,24 @@ const createPreimage: Task<NomidotPreimage[]> = {
           status,
         } = prop;
 
-        const motion = await prisma.motions({
+        let motion: PrismaMotion[] | null = await prisma.motions({
           where: { preimageHash: h.toString() },
           orderBy: 'motionProposalId_DESC',
         });
 
-        const proposals = await prisma.proposals({
+        let proposals: PrismaProposal[] | null = await prisma.proposals({
           where: { preimageHash: h.toString() },
           orderBy: 'proposalId_DESC',
         });
 
-        const referenda = await prisma.referendums({
+        let referenda: PrismaReferendum[] | null = await prisma.referendums({
           where: { preimageHash: h.toString() },
           orderBy: 'referendumId_DESC',
         });
 
-        const m = motion[0];
-        const p = proposals[0];
-        const r = referenda[0];
+        let m = motion[0];
+        let p = proposals[0];
+        let r = referenda[0];
 
         await prisma.createPreimage({
           author: author.toString(),
@@ -253,6 +262,11 @@ const createPreimage: Task<NomidotPreimage[]> = {
             : null,
           section,
         });
+
+        // explicitly clean references
+        motion = null;
+        proposals = null;
+        referenda = null;
       })
     );
   },
