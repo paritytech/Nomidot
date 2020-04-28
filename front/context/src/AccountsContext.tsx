@@ -33,7 +33,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContext, SystemContext } from './index';
-import { getControllers, getStashes, isJsonString, IS_SSR } from './util';
+import { getControllers, getStashes, IS_SSR } from './util';
 
 const l = logger('accounts-context');
 
