@@ -4,10 +4,10 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { GenericCall } from '@polkadot/types';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, Proposal } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Preimage, TreasurySpendProposal } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { motionStatus, preimageStatus } from '../util/statuses';
 import {
@@ -32,7 +32,7 @@ const createMotion: Task<NomidotMotion[]> = {
   ): Promise<NomidotMotion[]> => {
     const { events } = cached;
 
-    const motionEvents = filterEvents(events, 'council', motionStatus.PROPOSED);
+    let motionEvents: EventRecord[] | null = filterEvents(events, 'council', motionStatus.PROPOSED);
 
     const results: NomidotMotion[] = [];
 
@@ -79,28 +79,28 @@ const createMotion: Task<NomidotMotion[]> = {
           return;
         }
 
-        const motionProposalRaw = await api.query.council.proposalOf.at(
+        let motionProposalRaw = await api.query.council.proposalOf.at(
           blockHash,
           motionRawEvent.Hash
         );
 
-        const motionProposal = motionProposalRaw.unwrapOr(null);
+        let motionProposal = motionProposalRaw.unwrapOr(null);
 
         if (!motionProposal) {
           l.log(`No motionProposal found for the hash ${motionRawEvent.Hash}`);
           return;
         }
 
-        const proposal = api.createType('Proposal', motionProposal);
+        let proposal: Proposal | null = api.createType('Proposal', motionProposal);
 
         const { meta, method, section } = api.registry.findMetaCall(
           proposal.callIndex
         );
 
-        const params = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
+        let params: string[] | null = GenericCall.filterOrigin(proposal.meta).map(({ name }) =>
           name.toString()
         );
-        const values = proposal.args;
+        let values = proposal.args;
         let preimageHash: string | null = null;
 
         const motionProposalArguments: NomidotArgument[] = [];
@@ -118,7 +118,7 @@ const createMotion: Task<NomidotMotion[]> = {
             }
           });
 
-        const result: NomidotMotion = {
+        let result: NomidotMotion | null = {
           author: motionRawEvent.AccountId,
           memberCount: motionRawEvent.MemberCount,
           metaDescription: meta.documentation.toString(),
@@ -133,6 +133,12 @@ const createMotion: Task<NomidotMotion[]> = {
 
         l.log(`Nomidot Motion: ${JSON.stringify(result)}`);
         results.push(result);
+
+        // explicitly clean references
+        params = null;
+        proposal = null;
+        preimageHash = null;
+        result = null;
       })
     );
 
@@ -154,7 +160,7 @@ const createMotion: Task<NomidotMotion[]> = {
           status,
         } = prop;
 
-        const preimages = preimageHash
+        let preimages = preimageHash
           ? await prisma.preimages({
               where: { hash: preimageHash.toString() },
             })
@@ -163,7 +169,7 @@ const createMotion: Task<NomidotMotion[]> = {
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const notedPreimage = preimages?.length
+        let notedPreimage: Preimage | null = preimages?.length
           ? preimages.filter(async preimage => {
               await prisma.preimageStatuses({
                 where: {
@@ -173,7 +179,7 @@ const createMotion: Task<NomidotMotion[]> = {
             })[0]
           : null;
 
-        const treasurySpendProposals =
+        let treasurySpendProposals: TreasurySpendProposal[] | null =
           section === 'treasury' &&
           mPA.length > 0 &&
           mPA[0].name === 'proposal_id'
@@ -221,6 +227,11 @@ const createMotion: Task<NomidotMotion[]> = {
             },
           },
         });
+
+        // explicitly clean references
+        preimages = null;
+        notedPreimage = null;
+        treasurySpendProposals = null;
       })
     );
   },

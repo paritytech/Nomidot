@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, Motion } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -30,7 +30,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
     const { events } = cached;
     // Proposed is handled by createMotion task
     // Voted should be handled by a vote tracking tasks
-    const motionEvents = events.filter(
+    let motionEvents: EventRecord[] | null = events.filter(
       ({ event: { method, section } }) =>
         section === 'council' &&
         method !== motionStatus.VOTED &&
@@ -45,7 +45,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
 
     await Promise.all(
       motionEvents.map(async ({ event: { data, method, typeDef } }) => {
-        const motionRawEvent: NomidotMotionRawEvent = data.reduce(
+        let motionRawEvent: NomidotMotionRawEvent | null = data.reduce(
           (result, curr, index) => {
             const type = typeDef[index].type;
 
@@ -66,7 +66,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
 
         // Get the latest motion with this proposal hash
         // that is still active (hence not approved, disapproved..)
-        const relatedMotions = await prisma.motions({
+        let relatedMotions: Motion[] | null = await prisma.motions({
           where: {
             AND: [
               {
@@ -88,7 +88,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
           },
         });
 
-        const relatedMotion = relatedMotions[0];
+        let relatedMotion = relatedMotions[0];
 
         if (!relatedMotion) {
           l.error(
@@ -104,9 +104,15 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
 
         l.log(`Nomidot Motion Status Update: ${JSON.stringify(result)}`);
         results.push(result);
+        
+        // explicitly clean references
+        motionRawEvent = null;
+        relatedMotions = null;
       })
     );
-
+    
+    // explicitly clean references
+    motionEvents = null;
     return results;
   },
   write: async (
