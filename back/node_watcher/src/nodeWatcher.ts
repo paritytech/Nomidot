@@ -82,7 +82,7 @@ export async function nodeWatcher(): Promise<unknown> {
         let blockIndexId = '';
         let blockIndex = parseInt(process.env.START_FROM || '0');
         let currentSpecVersion = api.createType('u32', -1);
-        let lastKnownBestFinalized: number | null = (
+        let lastKnownBestFinalized: number = (
           await api.derive.chain.bestNumberFinalized()
         ).toNumber();
         let lastKnownBestBlock: number | null = (
@@ -117,7 +117,7 @@ export async function nodeWatcher(): Promise<unknown> {
             // if we reached the last finalized block
             // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
             if (
-              blockIndex > lastKnownBestFinalized! &&
+              blockIndex > lastKnownBestFinalized &&
               !reachedLimitLag(blockIndex, lastKnownBestBlock!)
             ) {
               l.warn(
@@ -133,7 +133,7 @@ export async function nodeWatcher(): Promise<unknown> {
             }
           } else {
             // MAX_LAG isn't set, only the finalization matters
-            if (blockIndex > lastKnownBestFinalized!) {
+            if (blockIndex > lastKnownBestFinalized) {
               l.warn('Waiting for finalization.');
               let { unsub, bestFinalizedBlock } = await waitFinalized(
                 api,
@@ -246,7 +246,6 @@ export async function nodeWatcher(): Promise<unknown> {
           events = null;
           existingBlockIndex = null;
           lastKnownBestBlock = null;
-          lastKnownBestFinalized = null;
           sessionIndex = null;
         }
       })

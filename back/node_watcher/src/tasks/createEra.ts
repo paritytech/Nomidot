@@ -6,6 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { Option } from '@polkadot/types';
 import {
   BlockNumber,
+  EraIndex,
   EraPoints,
   EraRewardPoints,
   Hash,
@@ -28,8 +29,8 @@ const createEra: Task<NomidotEra> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotEra> => {
-    const idx = await api.query.staking.currentEra.at(blockHash);
-    let points;
+    let idx: Option<EraIndex> | null = await api.query.staking.currentEra.at(blockHash);
+    let points: EraPoints | EraRewardPoints | null = null;
     let currentEraStartSessionIndex;
     let result = {} as NomidotEra;
 
@@ -43,26 +44,32 @@ const createEra: Task<NomidotEra> = {
     } else {
       points = await api.query.staking.erasRewardPoints.at<EraRewardPoints>(
         blockHash,
-        idx.unwrapOrDefault()
+        idx!.unwrapOrDefault()
       );
       currentEraStartSessionIndex = await api.query.staking.erasStartSessionIndex.at<
         Option<SessionIndex>
-      >(blockHash, idx.unwrapOrDefault());
+      >(blockHash, idx!.unwrapOrDefault());
 
       result = {
-        idx,
+        idx: idx!,
         points,
         startSessionIndex: currentEraStartSessionIndex.unwrapOrDefault(),
       };
     }
 
-    const eraIndexAlreadyExists = await prisma.$exists.era({
-      index: idx.unwrapOrDefault().toNumber(),
+    let eraIndexAlreadyExists: boolean | null = await prisma.$exists.era({
+      index: idx!.unwrapOrDefault().toNumber(),
     });
 
     if (!eraIndexAlreadyExists) {
       l.log(`NomidotEra: ${JSON.stringify(result)}`);
     }
+
+    // explicitly dereference
+    idx = null;
+    currentEraStartSessionIndex = null;
+    eraIndexAlreadyExists = null;
+    points = null;
 
     return result;
   },
@@ -74,7 +81,7 @@ const createEra: Task<NomidotEra> = {
     const { idx, points, startSessionIndex } = value;
 
     // check if record exists
-    const eraIndexAlreadyExists = await prisma.$exists.era({
+    let eraIndexAlreadyExists: boolean | null = await prisma.$exists.era({
       index: idx.unwrapOrDefault().toNumber(),
     });
 
@@ -105,6 +112,9 @@ const createEra: Task<NomidotEra> = {
         },
       });
     }
+
+    // explicitly dereference
+    eraIndexAlreadyExists = null;
   },
 };
 

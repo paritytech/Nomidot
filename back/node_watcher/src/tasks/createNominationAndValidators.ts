@@ -150,6 +150,11 @@ const createNominationAndValidators: Task<Set<
     blockNumber: BlockNumber,
     values: Set<NomidotNominationAndValidators>
   ) => {
+    console.log('noms and vals => ', values);
+    if (!values.size) {
+      return;
+    }
+    
     for await (const nominationsAndValidators of values) {
       const {
         stakedAmount,
