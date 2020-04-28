@@ -33,7 +33,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContext, SystemContext } from './index';
-import { getControllers, getStashes, IS_SSR } from './util';
+import { getControllers, getStashes, isJsonString, IS_SSR } from './util';
 
 const l = logger('accounts-context');
 
@@ -306,19 +306,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   }, [chain, originName]);
 
-  const fetchCachedUserSession = useCallback((): void => {
-    const cachedCurrentAccount = localStorage.getItem('currentAccount');
-    const parsed =
-      cachedCurrentAccount && (JSON.parse(cachedCurrentAccount) as string);
-
-    if (parsed) {
-      dispatch({
-        type: 'setCurrentAccount',
-        data: parsed,
-      });
-    }
-  }, []);
-
   const fetchCachedRpcResults = useCallback((): void => {
     const cachedStashes = localStorage.getItem('allStashes');
     const cachedControllers = localStorage.getItem('allControllers');
@@ -407,10 +394,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [state.allAccounts, state.allBonded, state.allLedger]);
 
   useEffect(() => {
-    fetchCachedUserSession();
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [fetchAccounts, fetchCachedRpcResults, fetchCachedUserSession]);
+  }, [fetchAccounts, fetchCachedRpcResults]);
 
   useEffect(() => {
     const allSubs = getStashInfo();
