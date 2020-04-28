@@ -3,8 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { GenericCall } from '@polkadot/types';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { Bytes, GenericCall, Option } from '@polkadot/types';
+import {
+  AccountId,
+  Balance,
+  BlockNumber,
+  Hash,
+  PreimageStatus,
+  Proposal,
+} from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -18,7 +26,30 @@ import {
   Task,
 } from './types';
 
+type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
+type OldPreimage = ITuple<PreimageInfo>;
+
 const l = logger('Task: Preimage');
+
+const isCurrentPreimage = function(api: ApiPromise,
+  imageOpt: Option<OldPreimage> | Option<PreimageStatus>
+): imageOpt is Option<PreimageStatus> {
+  return !!imageOpt && !api.query.democracy.dispatchQueue;
+};
+
+let proposal: Proposal | undefined;
+
+const constructProposal = function(api: ApiPromise, bytes: Bytes): Proposal | undefined {
+  let proposal: Proposal | undefined;
+
+  try {
+    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
+  } catch (error) {
+    l.log(error);
+  }
+
+  return proposal;
+};
 
 /*
  *  ======= Table (Preimage) ======
@@ -76,6 +107,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           blockHash,
           preimageArguments.hash
         );
+
         const preimage = preimageRaw.unwrapOr(null);
 
         if (!preimage) {
@@ -85,7 +117,31 @@ const createPreimage: Task<NomidotPreimage[]> = {
           return null;
         }
 
-        const proposal = api.createType('Proposal', preimage[0].toU8a(true));
+        if (preimage.isMissing) {
+          l.log(
+            `The preimage status is missing for preimage hash ${preimageArguments.hash}`
+          );
+          return null;
+        }
+
+        if (isCurrentPreimage(api, preimageRaw)) {
+          const { data } = preimage.asAvailable;
+
+          proposal = constructProposal(api, data);
+        } else {
+          const [bytes] = preimage as unknown as OldPreimage
+          proposal = constructProposal(
+            api,
+            bytes
+          );
+        }
+
+        if (!proposal) {
+          l.log(
+            `The proposal is missing for preimage hash ${preimageArguments.hash}`
+          );
+          return null;
+        }
 
         const { meta, method, section } = api.registry.findMetaCall(
           proposal.callIndex
