@@ -21,18 +21,18 @@
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
-    "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:v1.2.32 . && docker tag nomidot_watcher:v1.2.32 eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.32 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.32 && rm yarn.lock",
+    "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:v1.2.33 . && docker tag nomidot_watcher:v1.2.33 eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.33 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.33 && rm yarn.lock",
     "local": "BLOCK_IDENTIFIER=0 START_FROM=0 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start",
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {
-    "@polkadot/api": "^1.9.1",
-    "@types/bn.js": "^4.11.6",
+    "@polkadot/api": "^1.12.0-beta.10",
     "p-retry": "^4.2.0",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.51.5",
+    "@polkadot/dev": "^0.52.11",
+    "@types/bn.js": "^4.11.6",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-simple-import-sort": "^5.0.0",
     "ts-node": "^8.6.2",
