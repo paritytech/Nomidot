@@ -76,7 +76,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
   } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
 
-  const renderStakingQueryColumns = (account: string) => {
+  const renderStakingQueryColumns = (account: string): React.ReactElement => {
     const staking = stashControllerMap[account];
 
     const thisInjectedController = allAccounts.find(
@@ -118,7 +118,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  const renderStashColumn = (account: string) => {
+  const renderStashColumn = (account: string): React.ReactElement => {
     const thisInjectedStash = allAccounts.find(
       (injectedAccount: InjectedAccountWithMeta) =>
         injectedAccount.address === account
@@ -141,7 +141,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  const renderActionsForBonded = () => {
+  const renderActionsForBonded = (): React.ReactElement => {
     return (
       <Tc>
         <Dropdown text='Actions'>
@@ -155,7 +155,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  const renderBalanceColumns = (account: string) => {
+  const renderBalanceColumns = (account: string): React.ReactElement => {
     const thisAccount = accountBalanceMap[account];
 
     // all these checks are a sign something else is wrong
@@ -223,7 +223,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  const renderBondedAccounts = () => {
+  const renderBondedAccounts = (): React.ReactElement => {
     return (
       <Table>
         <Thead>
@@ -249,7 +249,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  const renderUnbondedAccounts = () => {
+  const renderUnbondedAccounts = (): React.ReactElement => {
     return (
       <Table>
         <Thead>

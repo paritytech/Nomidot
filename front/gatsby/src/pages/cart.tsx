@@ -14,7 +14,7 @@ import {
 import { useLocalStorage } from '@substrate/local-storage';
 import { ErrorText } from '@substrate/ui-components';
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
@@ -83,7 +83,7 @@ const Cart = (_props: Props): React.ReactElement => {
   const [nominationAmount, setNominationAmount] = useState<string>('');
   const [txId, setTxId] = useState<number>();
 
-  const checkFees = (): void => {
+  const checkFees = useCallback((): void => {
     if (
       api &&
       isApiReady &&
@@ -105,9 +105,18 @@ const Cart = (_props: Props): React.ReactElement => {
       setAllFees(fee);
       setError(feeErrors[0] || undefined);
     }
-  };
+  }, [
+    accountBalanceMap,
+    api,
+    currentAccount,
+    currentAccountNonce,
+    extrinsic,
+    fees,
+    isApiReady,
+    nominationAmount,
+  ]);
 
-  const checkUserInputs = (): void => {
+  const checkUserInputs = useCallback((): void => {
     if (!currentAccount) {
       setError('Please select an account to nominate as.');
       return;
@@ -128,24 +137,17 @@ const Cart = (_props: Props): React.ReactElement => {
       setError(undefined);
       return;
     }
-  };
+  }, [accountBalanceMap, allStashes, allTotal, currentAccount]);
 
-  const handleUserInputChange = ({
-    target: { value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setNominationAmount(value);
-    checkFees();
-  };
+  const handleUserInputChange = useCallback(
+    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
+      setNominationAmount(value);
+      checkFees();
+    },
+    [checkFees, setNominationAmount]
+  );
 
-  const setExtrinsicDetails = (): void => {
-    if (isApiReady) {
-      const extrinsic = api.tx.staking.nominate(cartItems);
-
-      setExtrinsic(extrinsic);
-    }
-  };
-
-  const submitNomination = (): void => {
+  const submitNomination = useCallback((): void => {
     if (api && allFees && allTotal && currentAccount && extrinsic) {
       const details: ExtrinsicDetails = {
         allFees,
@@ -158,11 +160,19 @@ const Cart = (_props: Props): React.ReactElement => {
       const id = enqueue(extrinsic, details);
       setTxId(id);
     }
-  };
+  }, [
+    api,
+    allFees,
+    allTotal,
+    currentAccount,
+    extrinsic,
+    enqueue,
+    nominationAmount,
+  ]);
 
   useEffect(() => {
     txId && signAndSubmit(txId);
-  }, [txId]);
+  }, [txId, signAndSubmit]);
 
   useEffect(() => {
     const _cartItems = getCartItems();
@@ -171,12 +181,16 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [cartItemsCount]);
 
   useEffect(() => {
-    setExtrinsicDetails();
-  }, [isApiReady, cartItems]);
+    if (api && isApiReady) {
+      const extrinsic = api.tx.staking.nominate(cartItems);
+
+      setExtrinsic(extrinsic);
+    }
+  }, [api, isApiReady, cartItems]);
 
   useEffect(() => {
     checkUserInputs();
-  }, [currentAccount, nominationAmount]);
+  }, [checkUserInputs, currentAccount, nominationAmount]);
 
   return (
     <CartPageContainer>

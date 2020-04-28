@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { polkadotOfficialTheme } from '@substrate/ui-components';
+import React, { memo } from 'react';
 import styled, { css } from 'styled-components';
 
 type ButtonSizeProp = 'tiny' | 'small' | 'big' | 'huge';
@@ -35,7 +36,7 @@ interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export const Button = styled.a<ButtonProps>`
+export const Button = memo(styled.a<ButtonProps>`
   background: ${polkadotOfficialTheme.hotPink};
   border-radius: 3px;
   border: 2px solid white;
@@ -43,8 +44,8 @@ export const Button = styled.a<ButtonProps>`
   display: inline-block;
   padding: 5px 10px;
   text-align: center;
-  height: ${props => ButtonSizeMap[props.size || 'small'].height} 
-  width: ${props => ButtonSizeMap[props.size || 'small'].width};
+  height: ${(props): string => ButtonSizeMap[props.size || 'small'].height} 
+  width: ${(props): string => ButtonSizeMap[props.size || 'small'].width};
 
   &:hover {
     cursor: pointer;
@@ -98,4 +99,4 @@ export const Button = styled.a<ButtonProps>`
         background: ${polkadotOfficialTheme.white};
       }
     `}
-`;
+`);

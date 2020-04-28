@@ -28,7 +28,7 @@ import {
 } from '@substrate/ui-components';
 import BN from 'bn.js';
 import { navigate } from 'gatsby';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
 import { validateFees } from '../util/validateExtrinsic';
@@ -90,7 +90,7 @@ const BondingModal = (): React.ReactElement => {
         .pipe(take(1))
         .subscribe((result: DeriveFees) => setFees(result));
 
-      return () => sub.unsubscribe();
+      return (): void => sub.unsubscribe();
     }
   }, [api, isApiReady]);
 
@@ -101,11 +101,11 @@ const BondingModal = (): React.ReactElement => {
         .pipe(take(1))
         .subscribe((result: AccountInfo) => setAccountNonce(result));
 
-      return () => sub.unsubscribe();
+      return (): void => sub.unsubscribe();
     }
   }, [accountForStash, api, isApiReady]);
 
-  const checkFees = () => {
+  const checkFees = useCallback((): void => {
     if (
       isApiReady &&
       accountForStash &&
@@ -132,9 +132,18 @@ const BondingModal = (): React.ReactElement => {
         setBondingError(undefined);
       }
     }
-  };
+  }, [
+    accountBalanceMap,
+    accountForStash,
+    accountForController,
+    accountNonce,
+    bondAmount,
+    extrinsic,
+    fees,
+    isApiReady,
+  ]);
 
-  const checkUserInputs = () => {
+  const checkUserInputs = useCallback((): void => {
     if (!accountForStash) {
       setBondingError('Please select an account to use as your stash.');
       return;
@@ -156,7 +165,7 @@ const BondingModal = (): React.ReactElement => {
     }
 
     setBondingError(undefined);
-  };
+  }, [accountForStash, accountForController, rewardDestination]);
 
   useEffect(() => {
     if (accountForController && api && isApiReady) {
@@ -168,7 +177,7 @@ const BondingModal = (): React.ReactElement => {
 
       setExtrinsic(submitBondExtrinsic);
     }
-  }, [accountForController, api, isApiReady]);
+  }, [accountForController, api, bondAmount, isApiReady, rewardDestination]);
 
   useEffect(() => {
     if (currentAccount) {
@@ -183,10 +192,12 @@ const BondingModal = (): React.ReactElement => {
       checkFees();
     }
   }, [
+    api,
     accountForStash,
     accountForController,
     bondAmount,
-    api,
+    checkFees,
+    checkUserInputs,
     rewardDestination,
   ]);
 
@@ -195,24 +206,24 @@ const BondingModal = (): React.ReactElement => {
       signAndSubmit(txId);
       navigate('/accounts');
     }
-  }, [txId, txQueue]);
+  }, [signAndSubmit, txId, txQueue]);
 
-  const selectStash = (address: string) => {
+  const selectStash = useCallback((address: string): void => {
     setAccountForStash(address);
-  };
+  }, []);
 
-  const selectController = (address: string) => {
+  const selectController = useCallback((address: string): void => {
     setAccountForController(address);
-  };
+  }, []);
 
-  const handleSetRewardDestination = (
-    _event: React.SyntheticEvent,
-    { value }: DropdownProps
-  ) => {
-    setRewardDestination(value as RewardDestination);
-  };
+  const handleSetRewardDestination = useCallback(
+    (_event: React.SyntheticEvent, { value }: DropdownProps) => {
+      setRewardDestination(value as RewardDestination);
+    },
+    []
+  );
 
-  const signAndSubmitBond = () => {
+  const signAndSubmitBond = useCallback(() => {
     if (
       api &&
       accountForController &&
@@ -232,7 +243,16 @@ const BondingModal = (): React.ReactElement => {
       const id = enqueue(extrinsic, details);
       setTxId((id as unknown) as number);
     }
-  };
+  }, [
+    api,
+    accountForController,
+    accountForStash,
+    allFees,
+    allTotal,
+    bondAmount,
+    extrinsic,
+    enqueue,
+  ]);
 
   return (
     <Modal

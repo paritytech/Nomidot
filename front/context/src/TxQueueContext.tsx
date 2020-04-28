@@ -29,7 +29,7 @@ export interface ExtrinsicDetails {
   senderPair: AddressOrPair;
 }
 
-function isSenderPairKeyring(senderPair: AddressOrPair) {
+function isSenderPairKeyring(senderPair: AddressOrPair): boolean | undefined {
   if ((senderPair as KeyringPair).decodePkcs8 !== undefined) {
     return true;
   }

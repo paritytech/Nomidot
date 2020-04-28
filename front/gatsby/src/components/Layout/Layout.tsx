@@ -17,7 +17,7 @@ export function Layout(props: Props): React.ReactElement {
   const { children } = props;
   const [visible, setVisible] = useState(false);
 
-  const toggleSidebar = () => {
+  const toggleSidebar = (): void => {
     setVisible(!visible);
   };
 
