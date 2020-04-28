@@ -46,7 +46,7 @@ const SuccessStatusNotifier = styled(StatusNotifier)`
   background: ${polkadotOfficialTheme.neonBlue};
 `;
 
-export const Status = () => {
+export const Status = (): React.ReactElement | null => {
   const { errorObservable, successObservable, txQueue } = useContext(
     TxQueueContext
   );
@@ -64,8 +64,8 @@ export const Status = () => {
       }, 5000);
     });
 
-    return () => errorSub.unsubscribe();
-  }, []);
+    return (): void => errorSub.unsubscribe();
+  }, [errorObservable]);
 
   useEffect(() => {
     const successSub = successObservable.subscribe(
@@ -84,8 +84,8 @@ export const Status = () => {
       }
     );
 
-    return () => successSub.unsubscribe();
-  }, []);
+    return (): void => successSub.unsubscribe();
+  }, [successObservable]);
 
   useEffect(() => {
     if (txQueue.length) {

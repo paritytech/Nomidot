@@ -31,7 +31,8 @@ type OldPreimage = ITuple<PreimageInfo>;
 
 const l = logger('Task: Preimage');
 
-const isCurrentPreimage = function(api: ApiPromise,
+const isCurrentPreimage = function(
+  api: ApiPromise,
   imageOpt: Option<OldPreimage> | Option<PreimageStatus>
 ): imageOpt is Option<PreimageStatus> {
   return !!imageOpt && !api.query.democracy.dispatchQueue;
@@ -39,7 +40,10 @@ const isCurrentPreimage = function(api: ApiPromise,
 
 let proposal: Proposal | undefined;
 
-const constructProposal = function(api: ApiPromise, bytes: Bytes): Proposal | undefined {
+const constructProposal = function(
+  api: ApiPromise,
+  bytes: Bytes
+): Proposal | undefined {
   let proposal: Proposal | undefined;
 
   try {
@@ -129,11 +133,8 @@ const createPreimage: Task<NomidotPreimage[]> = {
 
           proposal = constructProposal(api, data);
         } else {
-          const [bytes] = preimage as unknown as OldPreimage
-          proposal = constructProposal(
-            api,
-            bytes
-          );
+          const [bytes] = (preimage as unknown) as OldPreimage;
+          proposal = constructProposal(api, bytes);
         }
 
         if (!proposal) {
