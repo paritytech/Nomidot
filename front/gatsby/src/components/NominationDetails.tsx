@@ -75,7 +75,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
     )?.stashId;
 
     setImpliedStash(stash?.toHuman());
-  }, [currentAccount]);
+  }, [currentAccount, stashControllerMap]);
 
   return (
     <ContentArea>
