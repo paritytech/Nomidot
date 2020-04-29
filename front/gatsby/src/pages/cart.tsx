@@ -186,9 +186,8 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [api, isApiReady, cartItems]);
 
   useEffect(() => {
-    checkFees();
     checkUserInputs();
-  }, [checkUserInputs, checkFees, currentAccount, nominationAmount]);
+  }, [checkUserInputs, currentAccount, nominationAmount]);
 
   return (
     <CartPageContainer>
