@@ -21,8 +21,9 @@
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
-    "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:v1.2.33 . && docker tag nomidot_watcher:v1.2.33 eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.33 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.33 && rm yarn.lock",
-    "local": "BLOCK_IDENTIFIER=0 START_FROM=0 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start",
+    "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:v1.2.34 . && docker tag nomidot_watcher:v1.2.34 eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.34 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.34 && rm yarn.lock",
+    "reset": "PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn prisma reset",
+    "local": "BLOCK_IDENTIFIER=2084783 START_FROM=2084783 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start",
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {
