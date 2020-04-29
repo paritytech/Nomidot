@@ -6,6 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { createType, Option, Vec } from '@polkadot/types';
 import {
   AccountId,
+  Balance,
   BlockNumber,
   EraIndex,
   Exposure,
@@ -32,57 +33,76 @@ const createStake: Task<NomidotStake> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotStake> => {
-    let totalStaked = new BN(0);
-    const stakersInfoForEachCurrentElectedValidator: Exposure[] = [];
+    let totalStaked: BN = new BN(0);
+    let stakersInfoForEachCurrentElectedValidator: Exposure[] | null = [];
 
     if (api.query.staking.currentElected) {
-      const currentElected: AccountId[] = await api.query.staking.currentElected.at(
+      let currentElected: AccountId[] | null = await api.query.staking.currentElected.at(
         blockHash
       );
 
-      await Promise.all(
-        currentElected.map(async stashId => {
-          const exposure: Exposure = await api.query.staking.stakers.at(
-            blockHash,
-            stashId
-          );
-
-          stakersInfoForEachCurrentElectedValidator.push(exposure);
-        })
-      );
+      if (currentElected) {
+        await Promise.all(
+          currentElected.map(async stashId => {
+            let exposure: Exposure | null = await api.query.staking.stakers.at(
+              blockHash,
+              stashId
+            );
+  
+            stakersInfoForEachCurrentElectedValidator!.push(exposure!);
+  
+            // explicitly clean reference
+            exposure = null;
+          })
+        );
+  
+        // explicitly clean reference
+        currentElected = null;
+      }
     } else {
-      const queuedKeys: Vec<ITuple<
+      let queuedKeys: Vec<ITuple<
         [AccountId, Keys]
-      >> = await api.query.session.queuedKeys.at(blockHash);
-      const validators = await api.query.session.validators.at(blockHash);
+      >> | null = await api.query.session.queuedKeys.at(blockHash);
+      let validators: Vec<ValidatorId> | null = await api.query.session.validators.at(blockHash);
 
-      const currentElected = queuedKeys
+      let currentElected: AccountId[] | null = queuedKeys!
         .map(key => key[0])
         .filter((accountId: AccountId) =>
-          validators.includes(accountId as ValidatorId)
+          validators!.includes(accountId as ValidatorId)
         );
 
-      const currentEra: Option<EraIndex> = await api.query.staking.currentEra.at(
+      let currentEra: Option<EraIndex> | null = await api.query.staking.currentEra.at(
         blockHash
       );
 
-      await Promise.all(
-        currentElected.map(async stashId => {
-          const exposure: Exposure = await api.query.staking.erasStakers.at(
-            blockHash,
-            currentEra.unwrapOrDefault(),
-            stashId
-          );
+      if (currentElected) {
+        await Promise.all(
+          currentElected.map(async stashId => {
+            let exposure: Exposure | null = await api.query.staking.erasStakers.at(
+              blockHash,
+              currentEra!.unwrapOrDefault(),
+              stashId
+            );
+  
+            stakersInfoForEachCurrentElectedValidator!.push(exposure!);
+          })
+        );
+      }
 
-          stakersInfoForEachCurrentElectedValidator.push(exposure);
-        })
-      );
+      // explicitly clean references
+      currentElected = null;
+      currentEra = null;
+      queuedKeys = null;
+      validators = null;
     }
 
     stakersInfoForEachCurrentElectedValidator.map(exposure => {
       if (exposure) {
-        const bondTotal = exposure.total.unwrap();
-        totalStaked = totalStaked.add(bondTotal);
+        let bondTotal: Balance | null = exposure.total.unwrap();
+        totalStaked = totalStaked!.add(bondTotal);
+        
+        // explicitly clean reference
+        bondTotal = null;
       }
     });
 
@@ -91,7 +111,9 @@ const createStake: Task<NomidotStake> = {
     };
 
     l.log(`Nomidot Stake: ${JSON.stringify(result)}`);
-
+    
+    // explicitly clean references
+    stakersInfoForEachCurrentElectedValidator = null;
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotStake) => {

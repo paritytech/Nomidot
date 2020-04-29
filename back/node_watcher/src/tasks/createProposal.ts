@@ -3,6 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
+import { Vec } from '@polkadot/types';
+import { ITuple } from '@polkadot/types/types';
 import {
   AccountId,
   BlockNumber,
@@ -11,7 +13,7 @@ import {
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Preimage } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { preimageStatus, proposalStatus } from '../util/statuses';
 import {
@@ -45,7 +47,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
     await Promise.all(
       proposalEvents.map(async ({ event: { data, typeDef } }) => {
-        const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
+        let proposalRawEvent: NomidotProposalRawEvent | null = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
 
@@ -70,19 +72,19 @@ const createProposal: Task<NomidotProposal[]> = {
           return null;
         }
 
-        const proposalArguments: NomidotProposalEvent = {
+        let proposalArguments: NomidotProposalEvent | null = {
           depositAmount: proposalRawEvent.Balance,
           proposalId: proposalRawEvent.PropIndex,
         };
 
-        const publicProps = await api.query.democracy.publicProps.at(blockHash);
+        let publicProps: Vec<ITuple<[PropIndex, Hash, AccountId]>> | null = await api.query.democracy.publicProps.at(blockHash);
 
-        const [, preimageHash, author] = publicProps.filter(
+        let [, preimageHash, author] = publicProps!.filter(
           ([idNumber]: [PropIndex, Hash, AccountId]) =>
-            idNumber.toNumber() === proposalArguments.proposalId
+            idNumber.toNumber() === proposalArguments!.proposalId
         )[0];
 
-        const result: NomidotProposal = {
+        let result: NomidotProposal | null  = {
           author,
           depositAmount: proposalArguments.depositAmount,
           proposalId: proposalArguments.proposalId,
@@ -92,6 +94,12 @@ const createProposal: Task<NomidotProposal[]> = {
 
         l.log(`Nomidot Proposal: ${JSON.stringify(result)}`);
         results.push(result);
+        
+        // explicitly clean references
+        proposalArguments = null;
+        proposalRawEvent = null;
+        publicProps = null;
+        result = null;
       })
     );
 
@@ -108,14 +116,14 @@ const createProposal: Task<NomidotProposal[]> = {
           status,
         } = prop;
 
-        const preimages = await prisma.preimages({
+        let preimages: Preimage[] | null = await prisma.preimages({
           where: { hash: preimageHash.toString() },
         });
 
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const notedPreimage =
+        let notedPreimage =
           preimages.length &&
           preimages.filter(async preimage => {
             await prisma.preimageStatuses({
@@ -149,6 +157,8 @@ const createProposal: Task<NomidotProposal[]> = {
             },
           },
         });
+
+        preimages = null;
       })
     );
   },

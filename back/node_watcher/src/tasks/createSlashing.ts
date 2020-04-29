@@ -24,7 +24,7 @@ const createSlashing: Task<NomidotSlashing[]> = {
     api: ApiPromise
   ): Promise<NomidotSlashing[]> => {
     const { events } = cached;
-    const slashEvents = filterEvents(events, 'staking', 'Slash');
+    let slashEvents: EventRecord[] | null = filterEvents(events, 'staking', 'Slash');
 
     const result: NomidotSlashing[] = [];
 
@@ -37,12 +37,15 @@ const createSlashing: Task<NomidotSlashing[]> = {
 
     l.log(`Nomidot Slashing: ${JSON.stringify(result)}`);
 
+    slashEvents = null;
+
     return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSlashing[]) => {
     await Promise.all(
       value.map(async slashEvent => {
         const { who, amount } = slashEvent;
+
         await prisma.createSlashing({
           blockNumber: {
             connect: {

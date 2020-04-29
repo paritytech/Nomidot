@@ -24,7 +24,7 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
   ): Promise<NomidotHeartBeat[]> => {
     const { events, sessionIndex } = cached;
 
-    const heartbeatEvents: EventRecord[] = filterEvents(
+    let heartbeatEvents: EventRecord[] | null = filterEvents(
       events,
       'imOnline',
       'HeartbeatReceived'
@@ -34,6 +34,7 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
 
     if (heartbeatEvents) {
       heartbeatEvents.map(({ event: { data } }) => {
+        console.log('event data => ', data);
         data.map(authorityId => {
           result.push({
             authorityId,
@@ -44,6 +45,8 @@ const createHeartBeat: Task<NomidotHeartBeat[]> = {
     }
 
     l.log(`Heartbeat: ${JSON.stringify(result)}`);
+
+    heartbeatEvents = null;
 
     return Promise.resolve(result);
   },

@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Referendum as PrismaReferendum } from '../generated/prisma-client';
 import { referendumStatus } from '../util/statuses';
 import {
   Cached,
@@ -31,7 +31,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
 
     // The "Started" event is taken care of by the createReferendum
     // task, so we need to filter it out.
-    const referendumEvents = events.filter(
+    let referendumEvents: EventRecord[] | null = events.filter(
       ({ event: { method, section } }) =>
         section === 'democracy' &&
         Object.values(referendumStatus)
@@ -47,7 +47,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
 
     await Promise.all(
       referendumEvents.map(async ({ event: { data, typeDef, method } }) => {
-        const referendumRawEvent: NomidotReferendumRawEvent = data.reduce(
+        let referendumRawEvent: NomidotReferendumRawEvent | null = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
             return {
@@ -68,7 +68,7 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
           return null;
         }
 
-        const relatedReferendum = await prisma.referendum({
+        let relatedReferendum: PrismaReferendum | null = await prisma.referendum({
           referendumId: referendumRawEvent.ReferendumIndex,
         });
 
@@ -79,14 +79,22 @@ const createReferendumStatus: Task<NomidotReferendumStatusUpdate[]> = {
           return [];
         }
 
-        const result: NomidotReferendumStatusUpdate = {
+        let result: NomidotReferendumStatusUpdate | null = {
           referendumId: referendumRawEvent.ReferendumIndex,
           status: method,
         };
         l.log(`Nomidot Referendum Status Update: ${JSON.stringify(result)}`);
         results.push(result);
+        
+        // explicitly clean references
+        referendumRawEvent = null;
+        relatedReferendum = null;
+        result = null;
       })
     );
+    
+    // explicitly clean references
+    referendumEvents = null;
 
     return results;
   },

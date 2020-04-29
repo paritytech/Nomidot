@@ -4,12 +4,13 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { getSpecTypes } from '@polkadot/types-known';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { Metadata, Text, u32 } from '@polkadot/types';
+import { BlockNumber, EventRecord, Hash, RuntimeVersion, SessionIndex } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from './generated/prisma-client';
+import { prisma, BlockIndex } from './generated/prisma-client';
 import { nomidotTasks } from './tasks';
-import { Cached } from './tasks/types';
+import { Cached, Nomidot } from './tasks/types';
 
 const ARCHIVE_NODE_ENDPOINT =
   process.env.ARCHIVE_NODE_ENDPOINT || 'wss://kusama-rpc.polkadot.io/';
@@ -20,7 +21,7 @@ const l = logger('node-watcher');
 function waitFinalized(
   api: ApiPromise,
   lastKnownBestFinalized: number
-): Promise<{ unsub: () => void; bestFinalizedBlock: number }> {
+): Promise<{ unsub: (() => void) | null; bestFinalizedBlock: number | null }> {
   return new Promise(resolve => {
     async function wait(): Promise<void> {
       const unsub = await api.derive.chain.bestNumberFinalized(best => {
@@ -44,7 +45,7 @@ function reachedLimitLag(
 function waitLagLimit(
   api: ApiPromise,
   blockIndex: number
-): Promise<{ unsub: () => void; bestBlock: number }> {
+): Promise<{ unsub: (() => void) | null; bestBlock: number | null }> {
   return new Promise(resolve => {
     async function wait(): Promise<void> {
       const unsub = await api.derive.chain.bestNumber(bestBlock => {
@@ -61,7 +62,7 @@ function waitLagLimit(
 export async function nodeWatcher(): Promise<unknown> {
   return new Promise((_, reject) => {
     let keepLooping = true;
-    const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
+    let provider: WsProvider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
     ApiPromise.create({ provider })
       .then(async api => {
@@ -77,31 +78,34 @@ export async function nodeWatcher(): Promise<unknown> {
           reject(new Error(`Api disconnected: ${e}`));
         });
 
-        const blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
+        let blockIdentifier = process.env.BLOCK_IDENTIFIER || 'IDENTIFIER';
         let blockIndexId = '';
         let blockIndex = parseInt(process.env.START_FROM || '0');
         let currentSpecVersion = api.createType('u32', -1);
-        const lastKnownBestFinalized = (
+        let lastKnownBestFinalized: number = (
           await api.derive.chain.bestNumberFinalized()
         ).toNumber();
-        let lastKnownBestBlock = (
+        let lastKnownBestBlock: number | null = (
           await api.derive.chain.bestNumber()
         ).toNumber();
 
-        const existingBlockIndex = await prisma.blockIndexes({
+        let existingBlockIndex: BlockIndex[] | null = await prisma.blockIndexes({
           where: {
             identifier: blockIdentifier,
           },
         });
 
         if (existingBlockIndex.length === 0) {
-          const result = await prisma.createBlockIndex({
+          let result: BlockIndex | null = await prisma.createBlockIndex({
             identifier: blockIdentifier,
             startFrom: blockIndex,
             index: blockIndex,
           });
 
           blockIndexId = result.id;
+
+          // manually clean up reference
+          result = null;
         } else {
           blockIndexId = existingBlockIndex[0].id;
           blockIndex = existingBlockIndex[0].index;
@@ -114,26 +118,33 @@ export async function nodeWatcher(): Promise<unknown> {
             // MAX_LAG is set but we haven't reached the lag limit yet, we need to wait
             if (
               blockIndex > lastKnownBestFinalized &&
-              !reachedLimitLag(blockIndex, lastKnownBestBlock)
+              !reachedLimitLag(blockIndex, lastKnownBestBlock!)
             ) {
               l.warn(
                 `Waiting for finalization or a max lag of ${MAX_LAG} blocks.`
               );
-              const { unsub, bestBlock } = await waitLagLimit(api, blockIndex);
+              let { unsub, bestBlock } = await waitLagLimit(api, blockIndex);
               unsub && unsub();
               lastKnownBestBlock = bestBlock;
+
+              unsub = null;
+              bestBlock = null;
               continue;
             }
           } else {
             // MAX_LAG isn't set, only the finalization matters
             if (blockIndex > lastKnownBestFinalized) {
               l.warn('Waiting for finalization.');
-              const { unsub, bestFinalizedBlock } = await waitFinalized(
+              let { unsub, bestFinalizedBlock } = await waitFinalized(
                 api,
-                lastKnownBestFinalized
+                lastKnownBestFinalized!
               );
               unsub && unsub();
-              lastKnownBestBlock = bestFinalizedBlock;
+              lastKnownBestBlock = bestFinalizedBlock!;
+
+              // manually clean up references
+              unsub = null;
+              bestFinalizedBlock = null;
               continue;
             }
           }
@@ -142,66 +153,79 @@ export async function nodeWatcher(): Promise<unknown> {
           l.warn(`lastKnownBestBlock: ${lastKnownBestBlock}`);
           l.warn(`lastKnownBestFinalized: ${lastKnownBestFinalized}`);
 
-          const blockNumber: BlockNumber = api.createType(
+          let blockNumber: BlockNumber | null = api.createType(
             'BlockNumber',
             blockIndex
           );
           l.warn(`block: ${blockNumber}`);
 
-          const blockHash: Hash = await api.rpc.chain.getBlockHash(blockNumber);
+          let blockHash: Hash | null = await api.rpc.chain.getBlockHash(blockNumber);
           l.warn(`hash: ${blockHash}`);
 
           // check spec version
-          const runtimeVersion = await api.rpc.state.getRuntimeVersion(
+          let runtimeVersion: RuntimeVersion | null = await api.rpc.state.getRuntimeVersion(
             blockHash
           );
-          const newSpecVersion = runtimeVersion.specVersion;
+          let newSpecVersion: u32 | null = runtimeVersion.specVersion;
 
           // if spec version was bumped, update metadata in api registry
           if (newSpecVersion.gt(currentSpecVersion)) {
             l.warn(
               `bumped spec version to ${newSpecVersion}, fetching new metadata`
             );
-            const rpcMeta = await api.rpc.state.getMetadata(blockHash);
+            let rpcMeta: Metadata | null = await api.rpc.state.getMetadata(blockHash);
             currentSpecVersion = newSpecVersion;
 
             // based on the node spec & chain, inject specific type overrides
-            const chain = await api.rpc.system.chain();
-            api.registry.register(
-              getSpecTypes(
-                api.registry,
-                chain,
-                runtimeVersion.specName,
-                runtimeVersion.specVersion
-              )
-            );
+            let chain: Text | null = await api.rpc.system.chain();
+
+            if (chain) {
+              api.registry.register(
+                getSpecTypes(
+                  api.registry,
+                  chain,
+                  runtimeVersion.specName,
+                  runtimeVersion.specVersion
+                )
+              );
+            }
+
             api.registry.setMetadata(rpcMeta);
+
+            // manually clean up references
+            runtimeVersion = null;
+            newSpecVersion = null;
+            chain = null;
+            rpcMeta = null;
           }
 
-          const [events, sessionIndex] = await Promise.all([
+          let [events, sessionIndex]: [EventRecord[] | null, SessionIndex | null] = await Promise.all([
             await api.query.system.events.at(blockHash),
             await api.query.session.currentIndex.at(blockHash),
           ]);
 
-          const cached: Cached = {
+          let cached: Cached | null = {
             events,
             sessionIndex,
           };
 
           // execute watcher tasks
-          for await (const task of nomidotTasks) {
+          for await (let task of nomidotTasks) {
             l.warn(`Task --- ${task.name}`);
 
-            const result = await task.read(blockHash, cached, api);
+            let result: Nomidot | null = await task.read(blockHash!, cached!, api);
 
             try {
               l.warn(`Writing: ${JSON.stringify(result)}`);
-              await task.write(blockNumber, result);
+              await task.write(blockNumber!, result);
             } catch (e) {
               // Write task might throw errors such as unique constraints violated,
               // we ignore those.
               l.error(e);
             }
+            
+            // clean reference
+            result = null;
           }
 
           blockIndex += 1;
@@ -214,6 +238,15 @@ export async function nodeWatcher(): Promise<unknown> {
               id: blockIndexId,
             },
           });
+
+          // manually clean up references
+          blockNumber = null;
+          blockHash = null;
+          cached = null;
+          events = null;
+          existingBlockIndex = null;
+          lastKnownBestBlock = null;
+          sessionIndex = null;
         }
       })
       .catch(e => {

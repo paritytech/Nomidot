@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { Option } from '@polkadot/types';
+import { BlockNumber, Hash, ReferendumInfo } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Referendum as PrismaReferendum, Preimage } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { getReferendumStatus } from '../util/getReferendumStatus';
 import { preimageStatus, referendumStatus } from '../util/statuses';
@@ -31,7 +32,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
   ): Promise<NomidotReferendum[]> => {
     const { events } = cached;
 
-    const referendumEvents = filterEvents(
+    let referendumEvents = filterEvents(
       events,
       'democracy',
       referendumStatus.STARTED
@@ -41,7 +42,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
 
     await Promise.all(
       referendumEvents.map(async ({ event: { data, typeDef } }) => {
-        const referendumRawEvent: NomidotReferendumRawEvent = data.reduce(
+        let referendumRawEvent: NomidotReferendumRawEvent | null = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
 
@@ -70,12 +71,12 @@ const createReferendum: Task<NomidotReferendum[]> = {
           return null;
         }
 
-        const referendumInfoRaw = await api.query.democracy.referendumInfoOf.at(
+        let referendumInfoRaw: Option<ReferendumInfo> | null = await api.query.democracy.referendumInfoOf.at(
           blockHash,
           referendumRawEvent.ReferendumIndex
         );
 
-        const referendumInfo = getReferendumStatus(referendumInfoRaw);
+        let referendumInfo = getReferendumStatus(referendumInfoRaw!);
 
         if (!referendumInfo) {
           l.error(
@@ -84,7 +85,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           return null;
         }
 
-        const result: NomidotReferendum = {
+        let result: NomidotReferendum | null = {
           delay: referendumInfo.delay,
           end: referendumInfo.end,
           preimageHash: referendumInfo.proposalHash,
@@ -95,6 +96,11 @@ const createReferendum: Task<NomidotReferendum[]> = {
 
         l.log(`Nomidot Referendum: ${JSON.stringify(result)}`);
         results.push(result);
+        
+        // explicitly clean references
+        referendumInfo = null;
+        referendumInfoRaw = null;
+        result = null;
       })
     );
 
@@ -116,7 +122,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
           voteThreshold,
         } = referendum;
 
-        const preimages = await prisma.preimages({
+        let preimages: Preimage[] | null = await prisma.preimages({
           where: {
             hash: preimageHash.toString(),
           },
@@ -125,7 +131,7 @@ const createReferendum: Task<NomidotReferendum[]> = {
         // preimage aren't uniquely identified with their hash
         // however, there can only be one preimage with the status "Noted"
         // at a time
-        const notedPreimage = preimages.length
+        let notedPreimage: Preimage | undefined | null = preimages.length
           ? preimages.filter(async preimage => {
               await prisma.preimageStatuses({
                 where: {
@@ -167,6 +173,10 @@ const createReferendum: Task<NomidotReferendum[]> = {
           },
           voteThreshold: voteThreshold.toString(),
         });
+        
+        // explicitly clean references
+        notedPreimage = null;
+        preimages = null;
       })
     );
   },

@@ -7,7 +7,6 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { filterEvents } from '../util/filterEvents';
 import { Cached, NomidotSession, Task } from './types';
 
 const l = logger('Task: Session');
@@ -22,13 +21,9 @@ const createSession: Task<NomidotSession> = {
     cached: Cached,
     _api: ApiPromise
   ): Promise<NomidotSession> => {
-    const { events, sessionIndex } = cached;
-
-    const didNewSessionStart =
-      filterEvents(events, 'session', 'NewSession').length > 0;
+    const { sessionIndex } = cached;
 
     const result = {
-      didNewSessionStart,
       idx: sessionIndex,
     };
 
@@ -37,9 +32,11 @@ const createSession: Task<NomidotSession> = {
     return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
-    const { didNewSessionStart, idx } = value;
+    const { idx } = value;
 
-    if (didNewSessionStart) {
+    let exists: boolean | null = await prisma.$exists.session({ index: idx.toNumber() });
+
+    if (!exists) {
       await prisma.createSession({
         index: idx.toNumber(),
         start: {
@@ -49,6 +46,8 @@ const createSession: Task<NomidotSession> = {
         },
       });
     }
+
+    exists = null;
   },
 };
 

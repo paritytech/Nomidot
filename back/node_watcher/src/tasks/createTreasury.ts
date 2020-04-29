@@ -7,6 +7,7 @@ import { Option } from '@polkadot/types';
 import {
   BlockNumber,
   Hash,
+  EventRecord,
   TreasuryProposal,
 } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
@@ -35,7 +36,7 @@ const createTreasury: Task<NomidotTreasury[]> = {
   ): Promise<NomidotTreasury[]> => {
     const { events } = cached;
 
-    const treasuryEvents = filterEvents(
+    let treasuryEvents: EventRecord[] | null = filterEvents(
       events,
       'treasury',
       treasuryProposalStatus.PROPOSED
@@ -45,7 +46,7 @@ const createTreasury: Task<NomidotTreasury[]> = {
 
     await Promise.all(
       treasuryEvents.map(async ({ event: { data, typeDef } }) => {
-        const treasuryRawEvent: NomidotTreasuryRawEvent = data.reduce(
+        let treasuryRawEvent: NomidotTreasuryRawEvent | null = data.reduce(
           (prev, curr, index) => {
             const type = typeDef[index].type;
 
@@ -67,18 +68,18 @@ const createTreasury: Task<NomidotTreasury[]> = {
           return null;
         }
 
-        const treasuryProposalRaw: Option<TreasuryProposal> = await api.query.treasury.proposals.at(
+        let treasuryProposalRaw: Option<TreasuryProposal> | null = await api.query.treasury.proposals.at(
           blockHash,
           treasuryRawEvent.ProposalIndex
         );
 
-        if (treasuryProposalRaw.isNone) {
+        if (treasuryProposalRaw!.isNone) {
           l.error('Expected data missing in treasuryProposalRaw');
           return null;
         }
 
-        const treasuryProposal = treasuryProposalRaw.unwrap();
-        const result: NomidotTreasury = {
+        let treasuryProposal: TreasuryProposal | null = treasuryProposalRaw!.unwrap();
+        let result: NomidotTreasury | null = {
           treasuryProposalId: treasuryRawEvent.ProposalIndex,
           proposer: treasuryProposal.proposer,
           beneficiary: treasuryProposal.beneficiary,
@@ -90,9 +91,17 @@ const createTreasury: Task<NomidotTreasury[]> = {
         l.log(`Nomidot Treasury: ${JSON.stringify(result)}`);
 
         results.push(result);
+
+        // explicitly clean references
+        treasuryProposal = null;
+        treasuryProposalRaw = null;
+        treasuryRawEvent = null;
+        result = null;
       })
     );
 
+    // explicitly clean references
+    treasuryEvents = null;
     return results;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTreasury[]) => {

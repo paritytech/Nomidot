@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Council as PrismaCouncil } from '../generated/prisma-client';
 import { Cached, NomidotCouncil, Task } from './types';
 
 const l = logger('Task: Councils');
@@ -21,9 +21,9 @@ const createCouncil: Task<NomidotCouncil> = {
     cached: Cached,
     api: ApiPromise
   ): Promise<NomidotCouncil> => {
-    const { events } = cached;
+    let { events } = cached;
 
-    const electionEvents = events.filter(
+    let electionEvents: EventRecord[] | null = events.filter(
       ({ event: { method, section } }) =>
         section === 'electionsPhragmen' &&
         ['MemberKicked', 'MemberRenounced', 'NewTerm'].includes(method)
@@ -38,12 +38,15 @@ const createCouncil: Task<NomidotCouncil> = {
     result = await api.query.council.members.at(blockHash);
 
     l.log(`Nomidot Council: ${JSON.stringify(result)}`);
+    
+    // explicitly dereference
+    electionEvents = null;
 
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotCouncil) => {
     if (value.length) {
-      const newCouncil = await prisma.createCouncil({
+      let newCouncil: PrismaCouncil | null = await prisma.createCouncil({
         blockNumber: {
           connect: {
             number: blockNumber.toNumber(),
@@ -56,12 +59,12 @@ const createCouncil: Task<NomidotCouncil> = {
           create: {
             address: _address.toString(),
             councils: {
-              connect: { id: newCouncil.id },
+              connect: { id: newCouncil!.id },
             },
           },
           update: {
             councils: {
-              connect: { id: newCouncil.id },
+              connect: { id: newCouncil!.id },
             },
           },
           where: {
@@ -69,6 +72,9 @@ const createCouncil: Task<NomidotCouncil> = {
           },
         });
       });
+      
+      // explicitly dereference
+      newCouncil = null;
     }
   },
 };

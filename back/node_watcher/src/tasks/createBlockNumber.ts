@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
+import { HeaderExtended } from '@polkadot/api-derive';
 import { createType } from '@polkadot/types';
 import { BlockNumber, Hash, Moment } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { BlockNumberCreateInput, prisma } from '../generated/prisma-client';
+import { BlockNumberCreateInput, BlockNumber as PrismaBlockNumber, prisma } from '../generated/prisma-client';
 import { Cached, NomidotBlock, Task } from './types';
 
 const l = logger('Task: BlockNumber');
@@ -22,17 +23,21 @@ const createBlockNumber: Task<NomidotBlock> = {
     cached: Cached,
     api: ApiPromise
   ): Promise<NomidotBlock> => {
-    const [author] = await api.derive.chain.getHeader(blockHash);
+    let headerExtended: HeaderExtended | undefined | null = await api.derive.chain.getHeader(blockHash);
 
-    const startDateTime: Moment = await api.query.timestamp.now.at(blockHash);
+    let startDateTime: Moment | null = await api.query.timestamp.now.at(blockHash);
 
-    const result: NomidotBlock = {
-      authoredBy: createType(api.registry, 'AccountId', author[1]),
+    let result: NomidotBlock = {
+      authoredBy: createType(api.registry, 'AccountId', headerExtended!.author),
       hash: blockHash,
-      startDateTime,
+      startDateTime: startDateTime!,
     };
 
     l.log(`NomidotBlock: ${JSON.stringify(result)}`);
+
+    // explicitly dereference
+    headerExtended = null;
+    startDateTime = null;
 
     return result;
   },
@@ -51,14 +56,21 @@ const createBlockNumber: Task<NomidotBlock> = {
       });
     }
 
-    const write = await prisma.createBlockNumber({
-      number: blockNumber.toNumber(),
-      authoredBy: authoredBy.toString(),
-      startDateTime: new Date(startDateTime.toNumber()).toISOString(),
-      hash: hash.toHex(),
-    } as BlockNumberCreateInput);
+    let exists = await prisma.$exists.blockNumber({ number: blockNumber.toNumber() });
 
-    l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
+    if (!exists) {
+      let write: PrismaBlockNumber | null = await prisma.createBlockNumber({
+        number: blockNumber.toNumber(),
+        authoredBy: authoredBy.toString(),
+        startDateTime: new Date(startDateTime.toNumber()).toISOString(),
+        hash: hash.toHex(),
+      } as BlockNumberCreateInput);
+  
+      l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
+  
+      // explicitly dereference
+      write = null;
+    }
   },
 };
 
