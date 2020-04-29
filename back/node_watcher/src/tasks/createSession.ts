@@ -22,13 +22,9 @@ const createSession: Task<NomidotSession> = {
     cached: Cached,
     _api: ApiPromise
   ): Promise<NomidotSession> => {
-    const { events, sessionIndex } = cached;
-
-    const didNewSessionStart =
-      filterEvents(events, 'session', 'NewSession').length > 0;
+    const { sessionIndex } = cached;
 
     const result = {
-      didNewSessionStart,
       idx: sessionIndex,
     };
 
@@ -37,9 +33,11 @@ const createSession: Task<NomidotSession> = {
     return Promise.resolve(result);
   },
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
-    const { didNewSessionStart, idx } = value;
+    const { idx } = value;
 
-    if (didNewSessionStart) {
+    let exists = await prisma.$exists.session({ index: idx.toNumber() })
+
+    if (!exists) {
       await prisma.createSession({
         index: idx.toNumber(),
         start: {
