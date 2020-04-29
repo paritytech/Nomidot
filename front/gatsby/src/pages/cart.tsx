@@ -130,9 +130,6 @@ const Cart = (_props: Props): React.ReactElement => {
         );
         return;
       }
-    } else if (!allStashes.includes(currentAccount)) {
-      // check nominateAs is bonded
-      setError('Account not bonded (must be either stash or controller).');
     } else {
       setError(undefined);
       return;
@@ -189,8 +186,9 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [api, isApiReady, cartItems]);
 
   useEffect(() => {
+    checkFees();
     checkUserInputs();
-  }, [checkUserInputs, currentAccount, nominationAmount]);
+  }, [checkUserInputs, checkFees, currentAccount, nominationAmount]);
 
   return (
     <CartPageContainer>
