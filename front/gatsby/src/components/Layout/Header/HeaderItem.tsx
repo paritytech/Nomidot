@@ -13,25 +13,35 @@ interface Props {
 
 const ItemWrapper = styled.div`
   display: flex column;
-  justifycontent: flex-start;
-  alignitems: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
-  padding: 1rem 1rem;
+  padding: 2px 2px;
 `;
 
 const Title = styled.p`
+  color: white;
   font-weight: 100;
   font-family: code sans-serif;
+  font-size: 12px;
+  line-height: -1px;
+  margin: 0;
 `;
 
-const Value = styled.h3`
+const Value = styled.p`
   font-family: code sans-serif;
+  font-size: 16px;
+  color: white;
+  line-height: -1px;
+  margin: 0;
 `;
 
-const Subtitle = styled.small`
+const Subtitle = styled.p`
+  font-size: 12px;
   font-weight: 600;
-  color: #c0c0c0;
+  color: white;
   font-family: code sans-serif;
+  line-height: -1px;
 `;
 
 const HeaderItem = (props: Props): React.ReactElement => {

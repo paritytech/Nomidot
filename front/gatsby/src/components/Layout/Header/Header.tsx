@@ -8,8 +8,10 @@ import { Icon } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { createRef } from 'react';
 import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
+import media from 'styled-media-query';
 import styled from 'styled-components';
 
+import { BlockHeader } from './Subheaders';
 import { APP_TITLE } from '../../../util';
 
 interface Props extends RouteComponentProps {
@@ -17,18 +19,22 @@ interface Props extends RouteComponentProps {
 }
 
 const ResponsiveMenu = styled.div`
-  display: flex;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
   width: 100%;
   height: 5rem;
-  padding: 20px;
-  marginbottom: 20px;
-  background: white;
+  padding: 30px;
+  margin-bottom: 20px;
+  background: black;
+  color: white;
 `;
 
 const Burger = styled(Icon)`
-  position: absolute;
-  left: 2rem;
-  top: 2rem;
+  color: white;
+  flex: 1;
+  padding: 0 10px;
+  margin: 0 10px;
 
   &:hover {
     cursor: pointer;
@@ -36,25 +42,37 @@ const Burger = styled(Icon)`
 `;
 
 const CartIcon = styled.div`
-  position: absolute;
-  right: 2rem;
-  top: 2rem;
+  color: white;
   display: flex;
-  alignitems: center;
-  justifycontent: center;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
   height: 50px;
   width: 50px;
 `;
 
 const Logo = styled.h2`
-  position: absolute;
-  left: 5rem;
-  top: -0.2rem;
+  flex: 1 1 auto;
+  color: white;
+  padding: 0 10px;
+  margin: 0 55rem 0 0;
 
   &:hover {
     cursor: pointer;
   }
+
+  ${media.lessThan('medium')`
+    margin-right: 13rem;
+  `}
+
+  ${media.lessThan('small')`
+    margin-right: 3rem;
+  `}
 `;
+
+const BlockCounter = styled(BlockHeader) `
+  flex: 2 1 auto;
+`
 
 export default function Header(props: Props): React.ReactElement {
   const { handleToggle } = props;
@@ -75,12 +93,12 @@ export default function Header(props: Props): React.ReactElement {
       <ResponsiveMenu>
         <Burger name='bars' onClick={handleToggle} />
         <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
+        <BlockCounter />
         <CartIcon>
           <Icon link name='cart' size='large' onClick={navToCartPage} />
           {cartItemsCount}
         </CartIcon>
       </ResponsiveMenu>
-      <hr />
     </Sticky>
   );
 }

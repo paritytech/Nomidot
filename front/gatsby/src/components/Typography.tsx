@@ -23,6 +23,7 @@ export const StatItemTitle = styled.p`
   font-size: 1rem;
   font-family: ${MAIN_FONT}
   font-weight: 200;
+  line-height: -1px;
   margin-bottom: 0;
 `;
 
@@ -30,4 +31,5 @@ export const StatItemValue = styled.span`
   font-family: ${SECONDARY_FONT};
   font-size: 1.5rem;
   font-weight: 600;
+  line-height: -1px;
 `;
