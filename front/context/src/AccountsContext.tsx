@@ -347,13 +347,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, []);
 
   const fetchCachedUserSession = useCallback((): void => {
-    let cachedAccount = localStorage.getItem('currentAccount');
+    const cachedAccount = localStorage.getItem('currentAccount');
 
     if (cachedAccount !== null) {
       dispatch({
         type: 'setCurrentAccount',
-        data: JSON.parse(cachedAccount)
-      })
+        data: JSON.parse(cachedAccount),
+      });
     }
   }, []);
 

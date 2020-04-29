@@ -4,7 +4,7 @@
 
 import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import { AddressSummary, Input } from '@substrate/ui-components';
+import { Input } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -87,9 +87,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
         </SummaryDivItem>
         <SummaryDivItem>
           <StatItem title='Implied Stash: '>
-            {impliedStash
-              ? impliedStash
-              : <Spinner active inline />}
+            {impliedStash ? impliedStash : <Spinner active inline />}
           </StatItem>
         </SummaryDivItem>
         <SummaryDivItem>

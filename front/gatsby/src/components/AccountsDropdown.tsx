@@ -14,11 +14,7 @@ interface Props {
 const AccountsDropdown = function(props: Props): React.ReactElement {
   const { onlyControllers } = props;
   const {
-    state: {
-      allAccounts,
-      currentAccount,
-      stashControllerMap
-    },
+    state: { allAccounts, currentAccount, stashControllerMap },
     dispatch,
   } = useContext(AccountsContext);
 
