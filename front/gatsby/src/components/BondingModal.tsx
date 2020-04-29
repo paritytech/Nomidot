@@ -95,7 +95,7 @@ const BondingModal = (): React.ReactElement => {
   }, [api, isApiReady]);
 
   useEffect(() => {
-    if (api && isApiReady) {
+    if (api && isApiReady && accountForStash) {
       const sub = api.query.system
         .account<AccountInfo>(accountForStash)
         .pipe(take(1))

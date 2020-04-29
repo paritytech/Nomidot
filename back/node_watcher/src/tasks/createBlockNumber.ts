@@ -51,14 +51,20 @@ const createBlockNumber: Task<NomidotBlock> = {
       });
     }
 
-    const write = await prisma.createBlockNumber({
+    const exists = await prisma.$exists.blockNumber({
       number: blockNumber.toNumber(),
-      authoredBy: authoredBy.toString(),
-      startDateTime: new Date(startDateTime.toNumber()).toISOString(),
-      hash: hash.toHex(),
-    } as BlockNumberCreateInput);
+    });
 
-    l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
+    if (!exists) {
+      const write = await prisma.createBlockNumber({
+        number: blockNumber.toNumber(),
+        authoredBy: authoredBy.toString(),
+        startDateTime: new Date(startDateTime.toNumber()).toISOString(),
+        hash: hash.toHex(),
+      } as BlockNumberCreateInput);
+
+      l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
+    }
   },
 };
 
