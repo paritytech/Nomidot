@@ -8,11 +8,11 @@ import { Icon } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
 import React, { createRef } from 'react';
 import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
-import media from 'styled-media-query';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
-import { BlockHeader } from './Subheaders';
 import { APP_TITLE } from '../../../util';
+import { BlockHeader } from './Subheaders';
 
 interface Props extends RouteComponentProps {
   handleToggle: () => void;
@@ -70,9 +70,9 @@ const Logo = styled.h2`
   `}
 `;
 
-const BlockCounter = styled(BlockHeader) `
+const BlockCounter = styled(BlockHeader)`
   flex: 2 1 auto;
-`
+`;
 
 export default function Header(props: Props): React.ReactElement {
   const { handleToggle } = props;
