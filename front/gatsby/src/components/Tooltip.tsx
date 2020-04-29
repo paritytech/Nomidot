@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Icon } from '@substrate/ui-components';
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 interface TooltipProps {
@@ -17,12 +17,12 @@ const Tooltip = styled.div<TooltipProps>`
   border-radius: 3px;
   height: ${props => props.height || '50%'};
   width: ${props => props.width || '100%'};
-  display: ${props => props.closed ? 'none' : 'inline-block'}
+  display: ${props => (props.closed ? 'none' : 'inline-block')};
 `;
 
 const TooltipContent = styled.div`
   padding: 8px 18px;
-`
+`;
 
 const Close = styled(Icon)`
   padding: 10px;
@@ -30,10 +30,10 @@ const Close = styled(Icon)`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
 interface ClosableTooltipProps {
-  children: React.ReactElement;
+  children: React.ReactNode;
 }
 
 export const ClosableTooltip = (props: ClosableTooltipProps) => {
@@ -47,9 +47,7 @@ export const ClosableTooltip = (props: ClosableTooltipProps) => {
   return (
     <Tooltip closed={closeTooltip}>
       <Close name='close' onClick={handleClose} />
-      <TooltipContent>
-        {children}
-      </TooltipContent>
+      <TooltipContent>{children}</TooltipContent>
     </Tooltip>
-  )
-}
+  );
+};
