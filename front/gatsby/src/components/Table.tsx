@@ -17,14 +17,9 @@ export const Table = styled.table`
     overflow-x: scroll;
   `}
 
-  ${media.lessThan('medium')`
-  /* screen width is less than 768px (medium) */
-    width: 40rem;
-  `}
-
   ${media.lessThan('small')`
   /* screen width is less than 768px (medium) */
-    width: 10rem;
+    width: 25rem;
   `}
 `;
 

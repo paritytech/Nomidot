@@ -11,7 +11,7 @@ const Wrapper = styled.h2`
   display: flex column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-top: 18px;
+  margin-top: 10px;
 `;
 
 interface Props {
