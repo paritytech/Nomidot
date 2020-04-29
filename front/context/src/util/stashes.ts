@@ -17,6 +17,7 @@ function getControllers(
     allStakingInfo.forEach(staking => {
       if (
         staking.controllerId &&
+        staking.controllerId.toHuman &&
         staking.controllerId.toHuman() === account.address
       ) {
         allControllers.push(account);
