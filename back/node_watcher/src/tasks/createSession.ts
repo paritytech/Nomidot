@@ -7,7 +7,6 @@ import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
-import { filterEvents } from '../util/filterEvents';
 import { Cached, NomidotSession, Task } from './types';
 
 const l = logger('Task: Session');
@@ -35,7 +34,7 @@ const createSession: Task<NomidotSession> = {
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
     const { idx } = value;
 
-    let exists = await prisma.$exists.session({ index: idx.toNumber() })
+    const exists = await prisma.$exists.session({ index: idx.toNumber() });
 
     if (!exists) {
       await prisma.createSession({

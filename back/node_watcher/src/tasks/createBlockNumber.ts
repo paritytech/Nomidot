@@ -51,8 +51,8 @@ const createBlockNumber: Task<NomidotBlock> = {
       });
     }
 
-    let exists = await prisma.$exists.blockNumber({
-      number: blockNumber.toNumber()
+    const exists = await prisma.$exists.blockNumber({
+      number: blockNumber.toNumber(),
     });
 
     if (!exists) {
@@ -62,7 +62,7 @@ const createBlockNumber: Task<NomidotBlock> = {
         startDateTime: new Date(startDateTime.toNumber()).toISOString(),
         hash: hash.toHex(),
       } as BlockNumberCreateInput);
-  
+
       l.log(`Prisma Block Number: ${JSON.stringify(write)}`);
     }
   },
