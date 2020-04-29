@@ -274,9 +274,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const extensions: InjectedExtension[] = await web3Enable(originName);
 
       if (!extensions.length) {
-        alert(
-          'No extension found. Please install PolkadotJS extension.'
-        );
+        alert('No extension found. Please install PolkadotJS extension.');
         return;
       }
 
@@ -361,7 +359,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         state.allAccounts,
         state.stashControllerMap
       );
-  
+
       writeStorage('allControllers', JSON.stringify(controllers));
       dispatch({
         type: 'setAllControllers',
@@ -372,7 +370,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   // set stashes from accounts in injected extension
   useEffect(() => {
-    if (state.allBonded && state.allLedger && state.extension && state.isExtensionReady) {
+    if (
+      state.allBonded &&
+      state.allLedger &&
+      state.extension &&
+      state.isExtensionReady
+    ) {
       const addresses = state.allAccounts.map(
         (account: InjectedAccountWithMeta) => account.address
       );
@@ -394,7 +397,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         data: false,
       });
     }
-  }, [state.allAccounts, state.allBonded, state.allLedger, state.extension, state.isExtensionReady]);
+  }, [
+    state.allAccounts,
+    state.allBonded,
+    state.allLedger,
+    state.extension,
+    state.isExtensionReady,
+  ]);
 
   useEffect(() => {
     fetchAccounts();
@@ -402,7 +411,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [typeof window, fetchAccounts, fetchCachedRpcResults]);
 
   useEffect(() => {
-    if (state.extension, state.isExtensionReady) {
+    if ((state.extension, state.isExtensionReady)) {
       const allSubs = getStashInfo();
 
       if (allSubs) {
@@ -412,7 +421,14 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
           });
       }
     }
-  }, [api, getStashInfo, isApiReady, state.allAccounts, state.extension, state.isExtensionReady, ]);
+  }, [
+    api,
+    getStashInfo,
+    isApiReady,
+    state.allAccounts,
+    state.extension,
+    state.isExtensionReady,
+  ]);
 
   useEffect(() => {
     if (api && isApiReady && state.extension) {
@@ -434,7 +450,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     getDerivedBalances,
     getDerivedStaking,
     state.allStashes,
-    state.isExtensionReady
+    state.isExtensionReady,
   ]);
 
   // set current account nonce
@@ -451,7 +467,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
                 data: nonce,
               });
             });
-  
+
           return sub;
         }
       };
@@ -460,7 +476,13 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
       return (): void => sub?.unsubscribe();
     }
-  }, [api, isApiReady, state.allAccounts, state.currentAccount, state.extension]);
+  }, [
+    api,
+    isApiReady,
+    state.allAccounts,
+    state.currentAccount,
+    state.extension,
+  ]);
 
   // set default account
   useEffect(() => {

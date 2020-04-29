@@ -12,7 +12,9 @@ interface Props {
 
 const IndexPage = (props: Props): React.ReactElement => {
   const { children } = props;
-  const { state: { extension } } = useContext(AccountsContext);
+  const {
+    state: { extension },
+  } = useContext(AccountsContext);
 
   useEffect(() => {
     if (!extension) {
