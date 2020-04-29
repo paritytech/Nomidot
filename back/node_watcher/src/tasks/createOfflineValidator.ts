@@ -37,11 +37,14 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
       'SomeOffline'
     );
 
+    console.log('some offline -> ', someOfflineEvents);
+
     const result: NomidotOfflineValidator[] = [];
 
     if (someOfflineEvents && someOfflineEvents.length) {
       someOfflineEvents.map(({ event: { data } }: EventRecord) => {
         data.map(idTuples => {
+          console.log('idtuples => ', idTuples);
           // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
           // @ts-ignore
           idTuples.map((idTuple: IdentificationTuple) => {
@@ -49,6 +52,7 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
             const fullId: FullIdentification = idTuple[1];
             const { total, own, others } = fullId;
 
+            console.log('tupel ', idTuple);
             result.push({
               sessionIndex,
               validatorId,

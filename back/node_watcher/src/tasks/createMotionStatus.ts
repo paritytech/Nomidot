@@ -6,7 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { BlockNumber, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { Motion, prisma } from '../generated/prisma-client';
+import { Motion as PrismaMotion, prisma } from '../generated/prisma-client';
 import { motionStatus } from '../util/statuses';
 import {
   Cached,
@@ -66,7 +66,7 @@ const createMotion: Task<NomidotMotionStatusUpdate[]> = {
 
         // Get the latest motion with this proposal hash
         // that is still active (hence not approved, disapproved..)
-        let relatedMotions: Motion[] | null = await prisma.motions({
+        let relatedMotions: PrismaMotion[] | null = await prisma.motions({
           where: {
             AND: [
               {

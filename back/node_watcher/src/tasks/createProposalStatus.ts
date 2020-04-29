@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, Hash, EventRecord } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
-import { prisma } from '../generated/prisma-client';
+import { prisma, Proposal as PrismaProposal } from '../generated/prisma-client';
 import { filterEvents } from '../util/filterEvents';
 import { proposalStatus } from '../util/statuses';
 import {
@@ -30,7 +30,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
   ): Promise<NomidotProposalStatusUpdate[]> => {
     const { events } = cached;
 
-    const proposalEvents = filterEvents(
+    let proposalEvents: EventRecord[] | null = filterEvents(
       events,
       'democracy',
       proposalStatus.TABLED
@@ -44,7 +44,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
 
     await Promise.all(
       proposalEvents.map(async ({ event: { data, typeDef } }) => {
-        const proposalRawEvent: NomidotProposalRawEvent = data.reduce(
+        let proposalRawEvent: NomidotProposalRawEvent | null = data.reduce(
           (result, curr, index) => {
             const type = typeDef[index].type;
 
@@ -63,7 +63,7 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
           return null;
         }
 
-        const relatedProposal = await prisma.proposal({
+        let relatedProposal: PrismaProposal | null = await prisma.proposal({
           proposalId: proposalRawEvent.PropIndex,
         });
 
@@ -74,16 +74,23 @@ const createProposal: Task<NomidotProposalStatusUpdate[]> = {
           return null;
         }
 
-        const result: NomidotProposalStatusUpdate = {
+        let result: NomidotProposalStatusUpdate | null = {
           proposalId: proposalRawEvent.PropIndex,
           status: proposalStatus.TABLED,
         };
 
         l.log(`Nomidot Proposal Status Update: ${JSON.stringify(result)}`);
         results.push(result);
+        
+        // explicitly clean references
+        proposalRawEvent = null;
+        result = null;
+        relatedProposal = null;
       })
     );
-
+    
+    // explicitly clean references
+    proposalEvents = null;
     return results;
   },
   write: async (
