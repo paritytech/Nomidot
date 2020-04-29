@@ -134,7 +134,7 @@ const Cart = (_props: Props): React.ReactElement => {
       setError(undefined);
       return;
     }
-  }, [accountBalanceMap, allStashes, allTotal, currentAccount]);
+  }, [accountBalanceMap, allTotal, currentAccount]);
 
   const handleUserInputChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
