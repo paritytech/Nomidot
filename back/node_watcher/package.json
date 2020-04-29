@@ -23,7 +23,7 @@
     "build": "tsc",
     "docker": "cp ../../yarn.lock . && docker build -t nomidot_watcher:v1.2.33 . && docker tag nomidot_watcher:v1.2.33 eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.33 && docker push eu.gcr.io/test-installations-222013/nomidot_watcher:v1.2.33 && rm yarn.lock",
     "reset": "PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn prisma reset",
-    "local": "BLOCK_IDENTIFIER=2082393 START_FROM=2082393 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start",
+    "local": "BLOCK_IDENTIFIER=2086165 START_FROM=2086165 PRISMA_ENDPOINT=http://127.0.0.1:4466 yarn start",
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {

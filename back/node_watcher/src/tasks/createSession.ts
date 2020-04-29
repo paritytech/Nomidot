@@ -34,7 +34,9 @@ const createSession: Task<NomidotSession> = {
   write: async (blockNumber: BlockNumber, value: NomidotSession) => {
     const { idx } = value;
 
-    if (!prisma.$exists.session({ index: idx.toNumber() })) {
+    let exists: boolean | null = await prisma.$exists.session({ index: idx.toNumber() });
+
+    if (!exists) {
       await prisma.createSession({
         index: idx.toNumber(),
         start: {
@@ -44,6 +46,8 @@ const createSession: Task<NomidotSession> = {
         },
       });
     }
+
+    exists = null;
   },
 };
 

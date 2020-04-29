@@ -31,28 +31,24 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
   ): Promise<NomidotOfflineValidator[]> => {
     const { events, sessionIndex } = cached;
     // At the end of the session, these validators were found to be offline.
-    const someOfflineEvents: EventRecord[] = filterEvents(
+    let someOfflineEvents: EventRecord[] | null = filterEvents(
       events,
       'imOnline',
       'SomeOffline'
     );
-
-    console.log('some offline -> ', someOfflineEvents);
 
     const result: NomidotOfflineValidator[] = [];
 
     if (someOfflineEvents && someOfflineEvents.length) {
       someOfflineEvents.map(({ event: { data } }: EventRecord) => {
         data.map(idTuples => {
-          console.log('idtuples => ', idTuples);
           // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
           // @ts-ignore
           idTuples.map((idTuple: IdentificationTuple) => {
-            const validatorId: ValidatorId = idTuple[0];
-            const fullId: FullIdentification = idTuple[1];
-            const { total, own, others } = fullId;
+            let validatorId: ValidatorId | null = idTuple[0];
+            let fullId: FullIdentification | null = idTuple[1];
+            let { total, own, others } = fullId;
 
-            console.log('tupel ', idTuple);
             result.push({
               sessionIndex,
               validatorId,
@@ -60,6 +56,10 @@ const createOfflineValidator: Task<NomidotOfflineValidator[]> = {
               own,
               others,
             } as NomidotOfflineValidator);
+
+            // explicitly clean references
+            validatorId = null;
+            fullId = null;
           });
         });
       });

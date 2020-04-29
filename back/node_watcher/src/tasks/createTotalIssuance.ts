@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { Balance, BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -21,14 +21,16 @@ const createTotalIssuance: Task<NomidotTotalIssuance> = {
     _cached: Cached,
     api: ApiPromise
   ): Promise<NomidotTotalIssuance> => {
-    const amount = await api.query.balances.totalIssuance.at(blockHash);
+    let amount: Balance | null = await api.query.balances.totalIssuance.at(blockHash);
 
     const result = {
-      amount,
+      amount: amount!,
     };
 
     l.log(`Total Issuance: ${JSON.stringify(result)}`);
 
+    // explicitly clean reference
+    amount = null;
     return result;
   },
   write: async (blockNumber: BlockNumber, value: NomidotTotalIssuance) => {

@@ -56,7 +56,9 @@ const createBlockNumber: Task<NomidotBlock> = {
       });
     }
 
-    if (!prisma.$exists.blockNumber({ number: blockNumber.toNumber() })) {
+    let exists = await prisma.$exists.blockNumber({ number: blockNumber.toNumber() });
+
+    if (!exists) {
       let write: PrismaBlockNumber | null = await prisma.createBlockNumber({
         number: blockNumber.toNumber(),
         authoredBy: authoredBy.toString(),
