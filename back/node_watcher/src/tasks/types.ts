@@ -82,7 +82,6 @@ export interface NomidotNominationAndValidators {
 }
 
 export interface NomidotSession {
-  didNewSessionStart: boolean;
   idx: SessionIndex;
 }
 
