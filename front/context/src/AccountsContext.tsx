@@ -274,9 +274,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const extensions: InjectedExtension[] = await web3Enable(originName);
 
       if (!extensions.length) {
-        throw new Error(
-          'No extension found. Please install PolkadotJS extension.'
-        );
+        alert('No extension found. Please install PolkadotJS extension.');
+        return;
       }
 
       if (IS_SSR) {
@@ -355,21 +354,28 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
 
   // set controllers from accounts in injected extension
   useEffect(() => {
-    const controllers: InjectedAccountWithMeta[] = getControllers(
-      state.allAccounts,
-      state.stashControllerMap
-    );
+    if (state.extension && state.isExtensionReady) {
+      const controllers: InjectedAccountWithMeta[] = getControllers(
+        state.allAccounts,
+        state.stashControllerMap
+      );
 
-    writeStorage('allControllers', JSON.stringify(controllers));
-    dispatch({
-      type: 'setAllControllers',
-      data: controllers,
-    });
-  }, [state.allAccounts, state.stashControllerMap]);
+      writeStorage('allControllers', JSON.stringify(controllers));
+      dispatch({
+        type: 'setAllControllers',
+        data: controllers,
+      });
+    }
+  }, [state.allAccounts, state.extension, state.stashControllerMap]);
 
   // set stashes from accounts in injected extension
   useEffect(() => {
-    if (state.allBonded && state.allLedger) {
+    if (
+      state.allBonded &&
+      state.allLedger &&
+      state.extension &&
+      state.isExtensionReady
+    ) {
       const addresses = state.allAccounts.map(
         (account: InjectedAccountWithMeta) => account.address
       );
@@ -391,26 +397,41 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         data: false,
       });
     }
-  }, [state.allAccounts, state.allBonded, state.allLedger]);
+  }, [
+    state.allAccounts,
+    state.allBonded,
+    state.allLedger,
+    state.extension,
+    state.isExtensionReady,
+  ]);
 
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [fetchAccounts, fetchCachedRpcResults]);
+  }, [typeof window, fetchAccounts, fetchCachedRpcResults]);
 
   useEffect(() => {
-    const allSubs = getStashInfo();
+    if ((state.extension, state.isExtensionReady)) {
+      const allSubs = getStashInfo();
 
-    if (allSubs) {
-      return (): void =>
-        allSubs.forEach(sub => {
-          sub.unsubscribe();
-        });
+      if (allSubs) {
+        return (): void =>
+          allSubs.forEach(sub => {
+            sub.unsubscribe();
+          });
+      }
     }
-  }, [api, getStashInfo, isApiReady, state.allAccounts]);
+  }, [
+    api,
+    getStashInfo,
+    isApiReady,
+    state.allAccounts,
+    state.extension,
+    state.isExtensionReady,
+  ]);
 
   useEffect(() => {
-    if (api && isApiReady) {
+    if (api && isApiReady && state.extension) {
       const stakingSubHandlers = getDerivedStaking();
       const balanceSubHandlers = getDerivedBalances();
 
@@ -426,34 +447,42 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   }, [
     api,
     isApiReady,
-    state.allStashes,
     getDerivedBalances,
     getDerivedStaking,
+    state.allStashes,
+    state.isExtensionReady,
   ]);
 
+  // set current account nonce
   useEffect(() => {
-    const getAccountNonce = (): Subscription | undefined => {
-      if (api && isApiReady) {
-        const sub = api.query.system
-          .account<AccountInfo>(state.currentAccount)
-          .pipe(take(1))
-          .subscribe((nonce: AccountInfo) => {
-            dispatch({
-              type: 'setCurrentAccountNonce',
-              data: nonce,
+    if (state.extension) {
+      const getAccountNonce = (): Subscription | undefined => {
+        if (api && isApiReady) {
+          const sub = api.query.system
+            .account<AccountInfo>(state.currentAccount)
+            .pipe(take(1))
+            .subscribe((nonce: AccountInfo) => {
+              dispatch({
+                type: 'setCurrentAccountNonce',
+                data: nonce,
+              });
             });
-          });
 
-        return sub;
-      }
-    };
+          return sub;
+        }
+      };
 
-    writeStorage('currentAccount', JSON.stringify(state.currentAccount));
+      const sub = getAccountNonce();
 
-    const sub = getAccountNonce();
-
-    return (): void => sub?.unsubscribe();
-  }, [api, isApiReady, state.allAccounts, state.currentAccount]);
+      return (): void => sub?.unsubscribe();
+    }
+  }, [
+    api,
+    isApiReady,
+    state.allAccounts,
+    state.currentAccount,
+    state.extension,
+  ]);
 
   // set default account
   useEffect(() => {
