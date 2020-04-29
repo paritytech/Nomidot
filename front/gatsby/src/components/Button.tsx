@@ -10,20 +10,20 @@ type ButtonSizeProp = 'tiny' | 'small' | 'big' | 'huge';
 
 const ButtonSizeMap = {
   tiny: {
-    width: '4rem',
-    height: '1rem',
+    width: '12px',
+    height: '4px',
   },
   small: {
-    width: '22px',
-    height: '8px',
+    width: '21px',
+    height: '7px',
   },
   big: {
-    width: '9rem',
-    height: '3rem',
+    width: '42px',
+    height: '14px',
   },
   huge: {
-    width: '11rem',
-    height: '4rem',
+    width: '84px',
+    height: '28px',
   },
 };
 
