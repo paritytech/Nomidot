@@ -86,8 +86,8 @@ export const NominationDetails = (props: Props): React.ReactElement => {
           </StatItem>
         </SummaryDivItem>
         <SummaryDivItem>
-          <StatItem title='Implied Stash: ' value={impliedStash}>
-            {!impliedStash && <Spinner active inline />}
+          <StatItem title='Implied Stash: '>
+            {impliedStash ? impliedStash : <Spinner active inline />}
           </StatItem>
         </SummaryDivItem>
         <SummaryDivItem>
