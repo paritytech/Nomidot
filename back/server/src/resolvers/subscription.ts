@@ -24,7 +24,7 @@ import {
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
 
-const subscribeBlockNumbers = {
+const blockNumber = {
   subscribe: (
     parent: any,
     { blockNumberSubscriptionWhereInput }: Selectors,
@@ -43,7 +43,7 @@ const subscribeBlockNumbers = {
   },
 };
 
-const subscribeHeartBeats = {
+const heartBeat = {
   subscribe: (
     parent: any,
     { heartbeatSubscriptionWhereInput }: Selectors,
@@ -62,7 +62,7 @@ const subscribeHeartBeats = {
   },
 };
 
-const subscribeEras = {
+const era = {
   subscribe: (
     parent: any,
     { eraSubscriptionWhereInput }: Selectors,
@@ -81,7 +81,7 @@ const subscribeEras = {
   },
 };
 
-const subscribeOfflineValidators = {
+const offlineValidator = {
   subscribe: (
     parent: any,
     { offlineValidatorsSubscriptionWhereInput }: Selectors,
@@ -100,7 +100,7 @@ const subscribeOfflineValidators = {
   },
 };
 
-const subscribeNominations = {
+const nomination = {
   subscribe: (
     parent: any,
     { nominationSubscriptionWhereInput }: Selectors,
@@ -119,7 +119,7 @@ const subscribeNominations = {
   },
 };
 
-const subscribeRewards = {
+const reward = {
   subscribe: (
     parent: any,
     { rewardSubscriptionWhereInput }: Selectors,
@@ -138,7 +138,7 @@ const subscribeRewards = {
   },
 };
 
-const subscribeSessions = {
+const session = {
   subscribe: (
     parent: any,
     { sessionSubscriptionWhereInput }: Selectors,
@@ -157,7 +157,7 @@ const subscribeSessions = {
   },
 };
 
-const subscribeSlashings = {
+const slashing = {
   subscribe: (
     parent: any,
     { slashingSubscriptionWhereInput }: Selectors,
@@ -176,7 +176,7 @@ const subscribeSlashings = {
   },
 };
 
-const subscribeStakes = {
+const stake = {
   subscribe: (
     parent: any,
     { stakeSubscriptionWhereInput }: Selectors,
@@ -195,7 +195,7 @@ const subscribeStakes = {
   },
 };
 
-const subscribeValidators = {
+const validator = {
   subscribe: (
     parent: any,
     { validatorSubscriptionWhereInput }: Selectors,
@@ -267,16 +267,16 @@ const treasurySpendProposal = {
 };
 
 export const Subscription = {
-  subscribeBlockNumbers,
-  subscribeEras,
-  subscribeHeartBeats,
-  subscribeNominations,
-  subscribeOfflineValidators,
-  subscribeRewards,
-  subscribeSessions,
-  subscribeSlashings,
-  subscribeStakes,
-  subscribeValidators,
+  blockNumber,
+  era,
+  heartBeat,
+  nomination,
+  offlineValidator,
+  reward,
+  session,
+  slashing,
+  stake,
+  validator,
   motion,
   proposal,
   treasurySpendProposal,
