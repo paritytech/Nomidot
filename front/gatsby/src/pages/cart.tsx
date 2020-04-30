@@ -25,7 +25,7 @@ import {
   SubHeader,
 } from '../components';
 import { getCartItems, validateFees } from '../util';
-import { clearCart } from '../util/cartHelpers';
+import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';
 
 const CartPageContainer = styled.div`
   display: flex;
@@ -172,16 +172,18 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [txId, signAndSubmit]);
 
   useEffect(() => {
-    const _cartItems = getCartItems();
+    const cartItems: string[] = getCartItems();
+    
+    const selectedNominees: string[] = cartItems.map((item: string) => stripAddressFromCartItem(item));
 
-    setCartItems(_cartItems);
-  }, [cartItemsCount]);
+    setCartItems(selectedNominees);
+  }, []);
 
   useEffect(() => {
     if (api && isApiReady) {
-      const extrinsic = api.tx.staking.nominate(cartItems);
+      // const extrinsic = api.tx.staking.nominate(cartItems);
 
-      setExtrinsic(extrinsic);
+      // setExtrinsic(extrinsic);
     }
   }, [api, isApiReady, cartItems]);
 
@@ -215,7 +217,7 @@ const Cart = (_props: Props): React.ReactElement => {
         {error ? (
           <ErrorText>{error}</ErrorText>
         ) : (
-          <Button onClick={submitNomination}>Nominate!</Button>
+          <Button onClick={submitNomination} size='big' >Nominate!</Button>
         )}
       </RightSide>
     </CartPageContainer>

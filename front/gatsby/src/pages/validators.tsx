@@ -7,7 +7,6 @@ import { formatBalance } from '@polkadot/util';
 import { ApiRxContext } from '@substrate/context';
 import { Button, Spinner } from '@substrate/design-system';
 import {
-  AddressSummary,
   Container,
   FadedText,
   Table,
@@ -15,6 +14,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
+import { AddressSummary } from '../components';
 import { OfflineValidator, Validator } from '../types';
 import { addToCart } from '../util';
 import {
@@ -36,21 +36,17 @@ const CurrentElectedList = (): React.ReactElement => {
 
   const [sessionIndex, setSessionIndex] = useState(0);
 
-  const currentValidators = useQuery(CURRENT_ELECTED, {
-    variables: { sessionIndex },
-    pollInterval: 5000,
-  });
+  const currentValidators = useQuery(CURRENT_ELECTED);
 
-  const currentOffline = useQuery(OFFLINE_VALIDATORS, {
-    variables: { sessionIndex },
-    pollInterval: 5000,
-  });
+  const currentOffline = useQuery(OFFLINE_VALIDATORS);
 
   const currentSession = useSubscription(SESSIONS_SUBSCRIPTION);
 
   useEffect(() => {
     if (currentSession && currentSession.data) {
       const { sessions } = currentSession.data;
+
+      console.log('here i am session...');
 
       const index = sessions[0].index;
 
@@ -59,6 +55,7 @@ const CurrentElectedList = (): React.ReactElement => {
   }, [currentSession]);
 
   useEffect(() => {
+    console.log('here i am current validators...', currentValidators);
     if (currentValidators.data && currentValidators.data.validators) {
       const result: JoinValidatorOffline[] = [];
 
@@ -179,7 +176,7 @@ const CurrentElectedList = (): React.ReactElement => {
 
   return (
     <Container>
-      {currentElected ? renderValidatorsTable() : <Spinner inline />}
+      {renderValidatorsTable()}
     </Container>
   );
 };

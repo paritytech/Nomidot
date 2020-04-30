@@ -83,7 +83,7 @@ function renderDetails(
     <>
       {noPlaceholderName ? null : name}
       {withShortAddress && renderShortAddress(address)}
-      {!noBalance && (
+      {!noBalance && api.isReady && (
         <Balance
           address={address}
           api={api}
@@ -98,6 +98,8 @@ function renderDetails(
 
 export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
   const { address, api, size = 'medium' } = props;
+
+  console.log('address -> ', address);
 
   if (address) {
     return (
