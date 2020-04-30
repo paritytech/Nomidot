@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: nomidot-server
-          image: eu.gcr.io/test-installations-222013/nomidot-server@sha256:e9867ba36eca38f421ce1d3994bd09e613a7c064185a1197132ca2a65a3b94ad
+          image: eu.gcr.io/test-installations-222013/nomidot-server@sha256:daee5c1ab59ed616a3b8d1f79dcb537736ddf496ad4e190451de388782c4a665
           env:
             - name: PRISMA_ENDPOINT
               value: http://nodewatcher.nodewatcher-staging:4466
