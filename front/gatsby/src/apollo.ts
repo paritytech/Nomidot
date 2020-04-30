@@ -11,7 +11,7 @@ import * as ws from 'ws';
 // <service-name>.<namespace>:port
 const httpLink = new HttpLink({
   uri: `${
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'staging'
       ? 'http://nomidot-server.nomidot-staging:4000'
       : 'http://0.0.0.0:4000'
   }`,
@@ -19,7 +19,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new WebSocketLink({
   uri: `${
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'staging'
       ? 'ws://nomidot-server.nomidot-staging:4000'
       : 'ws://0.0.0.0:4000'
   }`,

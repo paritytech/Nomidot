@@ -9,4 +9,4 @@ RUN yarn
 WORKDIR /gatsby
 RUN yarn
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:staging"]

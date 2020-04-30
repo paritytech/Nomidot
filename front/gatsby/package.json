@@ -42,7 +42,7 @@
   "scripts": {
     "build": "gatsby build",
     "start": "gatsby develop",
-    "start:prod": "yarn build && yarn serve",
+    "start:staging": "yarn build && yarn serve",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   }
