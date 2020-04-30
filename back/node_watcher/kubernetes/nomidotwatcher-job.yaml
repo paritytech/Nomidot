@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: nomidotwatcher-2000000
+  name: nomidotwatcher-2010000
   namespace: nodewatcher-staging
   labels:
     stage: staging
     name: nomidotwatcher
     app: nomidotwatcher
-    job-name: nomidotwatcher-2000000
+    job-name: nomidotwatcher-2010000
 spec:
   manualSelector: true
   selector:
@@ -15,19 +15,19 @@ spec:
       stage: staging
       name: nomidotwatcher
       app: nomidotwatcher
-      job-name: nomidotwatcher-2000000
+      job-name: nomidotwatcher-2010000
   template:
     metadata:
       labels:
         stage: staging
         name: nomidotwatcher
         app: nomidotwatcher
-        job-name: nomidotwatcher-2000000
+        job-name: nomidotwatcher-2010000
     spec:
       restartPolicy: Never
       containers:
         - name: nomidotwatcher
-          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:086488aee19b982f83c557d6835c02fd1324affe9fb8b77b91b9f692413ddd7b
+          image: eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:b839e6e02f2338588465285b94ae5e332d57ee69b24058cbde694f8d1008c4cb
           imagePullPolicy: Always
           env:
             - name: PRISMA_ENDPOINT
@@ -35,7 +35,7 @@ spec:
             - name: ARCHIVE_NODE_ENDPOINT
               value: ws://polkassembly-rpc-internal-0.parity-prod.parity.io:9944
             - name: START_FROM
-              value: '2000000'
+              value: '2010000'
             - name: BLOCK_IDENTIFIER
               value: 'job-3'
             - name: MAX_LAG
