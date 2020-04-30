@@ -10,20 +10,20 @@ type ButtonSizeProp = 'tiny' | 'small' | 'big' | 'huge';
 
 const ButtonSizeMap = {
   tiny: {
-    width: '12px',
-    height: '4px',
+    width: '45px',
+    height: '15px',
   },
   small: {
-    width: '21px',
-    height: '7px',
+    width: '90px',
+    height: '30px',
   },
   big: {
-    width: '42px',
-    height: '14px',
+    width: '180px',
+    height: '60px',
   },
   huge: {
-    width: '84px',
-    height: '28px',
+    width: '260px',
+    height: '90px',
   },
 };
 
@@ -41,10 +41,12 @@ export const Button = memo(styled.a<ButtonProps>`
   border-radius: 3px;
   border: 2px solid white;
   color: white;
-  display: inline-block;
+  display: flex;
   padding: 5px 10px;
   text-align: center;
-  height: ${(props): string => ButtonSizeMap[props.size || 'small'].height} 
+  align-items: center;
+  justify-content: center;
+  height: ${(props): string => ButtonSizeMap[props.size || 'small'].height};
   width: ${(props): string => ButtonSizeMap[props.size || 'small'].width};
 
   &:hover {

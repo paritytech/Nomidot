@@ -13,4 +13,5 @@ export * from './Seo';
 export { default as StatItem } from './StatItem';
 export * from './Status';
 export * from './Table';
+export * from './Tooltip';
 export * from './Typography';

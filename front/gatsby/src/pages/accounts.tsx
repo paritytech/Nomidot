@@ -16,9 +16,12 @@ import media from 'styled-media-query';
 import {
   AddressSummary,
   BondingModal,
+  ClosableTooltip,
+  SubHeader,
   Table,
   Tb,
   Tc,
+  Text,
   Th,
   Thead,
   Tr,
@@ -55,7 +58,7 @@ const AccountsPageRight = styled.div`
   display: flex column;
   justify-content: center;
   align-items: stretch;
-  height: 100%;
+  height: 100vh;
 
   ${media.lessThan('medium')`
     display: none;
@@ -286,11 +289,30 @@ const AccountsList = (_props: Props): React.ReactElement => {
       </AccountsPageLeft>
 
       <AccountsPageRight>
+        <ClosableTooltip>
+          <SubHeader>Welcome!</SubHeader>
+          <Text>
+            In Kusama and Polkadot, you have two accounts that makes up a whole.
+            We call them a <b>Stash</b> and a <b>Controller.</b>
+          </Text>
+          <Text>
+            Think about this as something like a Savings and a Checking account.
+          </Text>
+          <Text>
+            In order to begin Nominating, we require you to connect these two
+            accounts. We call this process <b>creating a bond.</b>
+          </Text>
+          <Text>
+            Get started by clicking the <b>New Bond</b> button below.
+          </Text>
+        </ClosableTooltip>
         <List animated celled relaxed selection>
           <List.Header>Actions</List.Header>
           <hr />
           <List.Content>
-            <BondingModal />
+            <List.Item>
+              <BondingModal />
+            </List.Item>
           </List.Content>
         </List>
       </AccountsPageRight>
