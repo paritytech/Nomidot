@@ -17,14 +17,13 @@ const Query = {
       after,
       before,
       first,
-      last
+      last,
     });
   },
   eras(
     _parent: any,
     { where, orderBy, skip, after, before, first, last }: Selectors,
-    { prisma }: Context,
-    info: any
+    { prisma }: Context
   ) {
     return prisma.eras({
       where,
