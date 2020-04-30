@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { GraphQLServer } from 'graphql-yoga';
+import { Prisma } from 'prisma-binding';
 
 import { prisma } from './generated/prisma-client';
 import { Query } from './resolvers/query';
@@ -226,6 +227,12 @@ const resolvers = {
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
-  context: { prisma },
+  context: req => ({
+    req,
+    prisma: new Prisma({
+        typeDefs: 'src/generated/prisma.graphql',
+        endpoint: 'http://0.0.0.0:4466',
+    }),
+  }),
 });
 server.start(() => console.log('Server is running on http://localhost:4000'));

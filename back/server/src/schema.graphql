@@ -2,86 +2,112 @@
 # import * from './generated/prisma.graphql'
 
 type Query {
-  blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
-  eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
-  heartBeats(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HeartBeat]!
-  nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
-  offlineValidators(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OfflineValidator]!
-  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
-  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
-  slashings(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Slashing]!
-  stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
-  totalIssuances(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TotalIssuance]!
-  validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
-  
+  blockIndex(where: BlockIndexWhereUniqueInput!): BlockIndex
+  blockIndexes(where: BlockIndexWhereInput, orderBy: BlockIndexOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockIndex]!
+  blockIndexesConnection(where: BlockIndexWhereInput, orderBy: BlockIndexOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockIndexConnection!
   blockNumber(where: BlockNumberWhereUniqueInput!): BlockNumber
-  era(where: EraWhereUniqueInput!): Era
-  nomination(where: NominationWhereUniqueInput!): Nomination
-  reward(where: RewardWhereUniqueInput!): Reward
-  session(where: SessionWhereUniqueInput!): Session
-  slashing(where: SlashingWhereUniqueInput!): Slashing
-  stake(where: StakeWhereUniqueInput!): Stake
-  totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
-  validator(where: ValidatorWhereUniqueInput!): Validator
-  
+  blockNumbers(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockNumber]!
+  blockNumbersConnection(where: BlockNumberWhereInput, orderBy: BlockNumberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockNumberConnection!
   council(where: CouncilWhereUniqueInput!): Council
   councils(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Council]!
-
+  councilsConnection(where: CouncilWhereInput, orderBy: CouncilOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilConnection!
   councilMember(where: CouncilMemberWhereUniqueInput!): CouncilMember
   councilMembers(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CouncilMember]!
-
+  councilMembersConnection(where: CouncilMemberWhereInput, orderBy: CouncilMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CouncilMemberConnection!
+  era(where: EraWhereUniqueInput!): Era
+  eras(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Era]!
+  erasConnection(where: EraWhereInput, orderBy: EraOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EraConnection!
+  heartBeat(where: HeartBeatWhereUniqueInput!): HeartBeat
+  heartBeats(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HeartBeat]!
+  heartBeatsConnection(where: HeartBeatWhereInput, orderBy: HeartBeatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeartBeatConnection!
   motion(where: MotionWhereUniqueInput!): Motion
   motions(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Motion]!
-
+  motionsConnection(where: MotionWhereInput, orderBy: MotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionConnection!
   motionProposalArgument(where: MotionProposalArgumentWhereUniqueInput!): MotionProposalArgument
   motionProposalArguments(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionProposalArgument]!
-  
+  motionProposalArgumentsConnection(where: MotionProposalArgumentWhereInput, orderBy: MotionProposalArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionProposalArgumentConnection!
   motionStatus(where: MotionStatusWhereUniqueInput!): MotionStatus
   motionStatuses(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MotionStatus]!
-  
+  motionStatusesConnection(where: MotionStatusWhereInput, orderBy: MotionStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MotionStatusConnection!
+  nomination(where: NominationWhereUniqueInput!): Nomination
+  nominations(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nomination]!
+  nominationsConnection(where: NominationWhereInput, orderBy: NominationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NominationConnection!
+  offlineValidator(where: OfflineValidatorWhereUniqueInput!): OfflineValidator
+  offlineValidators(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OfflineValidator]!
+  offlineValidatorsConnection(where: OfflineValidatorWhereInput, orderBy: OfflineValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OfflineValidatorConnection!
   preimage(where: PreimageWhereUniqueInput!): Preimage
   preimages(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preimage]!
-  
+  preimagesConnection(where: PreimageWhereInput, orderBy: PreimageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageConnection!
   preimageArgument(where: PreimageArgumentWhereUniqueInput!): PreimageArgument
   preimageArguments(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageArgument]!
-  
+  preimageArgumentsConnection(where: PreimageArgumentWhereInput, orderBy: PreimageArgumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageArgumentConnection!
   preimageStatus(where: PreimageStatusWhereUniqueInput!): PreimageStatus
   preimageStatuses(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PreimageStatus]!
-  
+  preimageStatusesConnection(where: PreimageStatusWhereInput, orderBy: PreimageStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PreimageStatusConnection!
   proposal(where: ProposalWhereUniqueInput!): Proposal
   proposals(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Proposal]!
-  
+  proposalsConnection(where: ProposalWhereInput, orderBy: ProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalConnection!
   proposalStatus(where: ProposalStatusWhereUniqueInput!): ProposalStatus
   proposalStatuses(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProposalStatus]!
-  
-  treasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
-  treasurySpendProposals(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasurySpendProposal]!
-
-  treasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
-  treasuryStatuses(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus]!
-
+  proposalStatusesConnection(where: ProposalStatusWhereInput, orderBy: ProposalStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProposalStatusConnection!
   referendum(where: ReferendumWhereUniqueInput!): Referendum
   referendums(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Referendum]!
-  
+  referendumsConnection(where: ReferendumWhereInput, orderBy: ReferendumOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumConnection!
   referendumStatus(where: ReferendumStatusWhereUniqueInput!): ReferendumStatus
   referendumStatuses(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReferendumStatus]!
-  
-  
+  referendumStatusesConnection(where: ReferendumStatusWhereInput, orderBy: ReferendumStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferendumStatusConnection!
+  reward(where: RewardWhereUniqueInput!): Reward
+  rewards(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reward]!
+  rewardsConnection(where: RewardWhereInput, orderBy: RewardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RewardConnection!
+  session(where: SessionWhereUniqueInput!): Session
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
+  sessionsConnection(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SessionConnection!
+  slashing(where: SlashingWhereUniqueInput!): Slashing
+  slashings(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Slashing]!
+  slashingsConnection(where: SlashingWhereInput, orderBy: SlashingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SlashingConnection!
+  stake(where: StakeWhereUniqueInput!): Stake
+  stakes(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stake]!
+  stakesConnection(where: StakeWhereInput, orderBy: StakeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StakeConnection!
+  totalIssuance(where: TotalIssuanceWhereUniqueInput!): TotalIssuance
+  totalIssuances(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TotalIssuance]!
+  totalIssuancesConnection(where: TotalIssuanceWhereInput, orderBy: TotalIssuanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TotalIssuanceConnection!
+  treasurySpendProposal(where: TreasurySpendProposalWhereUniqueInput!): TreasurySpendProposal
+  treasurySpendProposals(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasurySpendProposal]!
+  treasurySpendProposalsConnection(where: TreasurySpendProposalWhereInput, orderBy: TreasurySpendProposalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasurySpendProposalConnection!
+  treasuryStatus(where: TreasuryStatusWhereUniqueInput!): TreasuryStatus
+  treasuryStatuses(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TreasuryStatus]!
+  treasuryStatusesConnection(where: TreasuryStatusWhereInput, orderBy: TreasuryStatusOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TreasuryStatusConnection!
+  validator(where: ValidatorWhereUniqueInput!): Validator
+  validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
+  validatorsConnection(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatorConnection!
+  node(id: ID!): Node
 }
 
 type Subscription {
-  subscribeBlockNumbers: BlockNumber
-  subscribeEras: Era
-  subscribeHeartBeats: HeartBeat
-  subscribeNominations: Nomination
-  subscribeOfflineValidators: OfflineValidator
-  subscribeRewards: Reward
-  subscribeSessions: Session
-  subscribeSlashings: Slashing
-  subscribeStakes: Stake
-  subscribeValidators: Validator
-  proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
+   blockIndex(where: BlockIndexSubscriptionWhereInput): BlockIndexSubscriptionPayload
+  blockNumber(where: BlockNumberSubscriptionWhereInput): BlockNumberSubscriptionPayload
+  council(where: CouncilSubscriptionWhereInput): CouncilSubscriptionPayload
+  councilMember(where: CouncilMemberSubscriptionWhereInput): CouncilMemberSubscriptionPayload
+  era(where: EraSubscriptionWhereInput): EraSubscriptionPayload
+  heartBeat(where: HeartBeatSubscriptionWhereInput): HeartBeatSubscriptionPayload
   motion(where: MotionSubscriptionWhereInput): MotionSubscriptionPayload
-  treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
+  motionProposalArgument(where: MotionProposalArgumentSubscriptionWhereInput): MotionProposalArgumentSubscriptionPayload
+  motionStatus(where: MotionStatusSubscriptionWhereInput): MotionStatusSubscriptionPayload
+  nomination(where: NominationSubscriptionWhereInput): NominationSubscriptionPayload
+  offlineValidator(where: OfflineValidatorSubscriptionWhereInput): OfflineValidatorSubscriptionPayload
+  preimage(where: PreimageSubscriptionWhereInput): PreimageSubscriptionPayload
+  preimageArgument(where: PreimageArgumentSubscriptionWhereInput): PreimageArgumentSubscriptionPayload
+  preimageStatus(where: PreimageStatusSubscriptionWhereInput): PreimageStatusSubscriptionPayload
+  proposal(where: ProposalSubscriptionWhereInput): ProposalSubscriptionPayload
+  proposalStatus(where: ProposalStatusSubscriptionWhereInput): ProposalStatusSubscriptionPayload
   referendum(where: ReferendumSubscriptionWhereInput): ReferendumSubscriptionPayload
+  referendumStatus(where: ReferendumStatusSubscriptionWhereInput): ReferendumStatusSubscriptionPayload
+  reward(where: RewardSubscriptionWhereInput): RewardSubscriptionPayload
+  session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
+  slashing(where: SlashingSubscriptionWhereInput): SlashingSubscriptionPayload
+  stake(where: StakeSubscriptionWhereInput): StakeSubscriptionPayload
+  totalIssuance(where: TotalIssuanceSubscriptionWhereInput): TotalIssuanceSubscriptionPayload
+  treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
+  treasuryStatus(where: TreasuryStatusSubscriptionWhereInput): TreasuryStatusSubscriptionPayload
+  validator(where: ValidatorSubscriptionWhereInput): ValidatorSubscriptionPayload
 }

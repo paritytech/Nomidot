@@ -12,10 +12,12 @@
     "start:dev": "PRISMA_ENDPOINT=http://0.0.0.0:4466 ts-node src/index.ts",
     "start": "ts-node src/index.ts",
     "prisma:deploy": "PRISMA_ENDPOINT=http://0.0.0.0:4466 yarn prisma deploy",
+    "gql:prepare": "PRISMA_ENDPOINT=http://0.0.0.0:4466 graphql prepare",
     "gql:get-schema": "PRISMA_ENDPOINT=http://0.0.0.0:4466 graphql get-schema -e dev --project prisma"
   },
   "dependencies": {
     "graphql-yoga": "1.18.3",
+    "prisma-binding": "^2.3.16",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {
