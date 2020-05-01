@@ -132,6 +132,9 @@ const resolvers = {
     preimage(parent: any) {
       return prisma.motion({ id: parent.id }).preimage();
     },
+    treasurySpendProposal(parent: any) {
+      return prisma.motion({ id: parent.id }).treasurySpendProposal();
+    },
   },
   MotionStatus: {
     blockNumber(parent: any) {
