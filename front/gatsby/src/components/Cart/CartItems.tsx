@@ -56,11 +56,9 @@ const CartItems = (props: Props): React.ReactElement => {
   };
 
   return (
-    <List animated relaxed>
+    <List relaxed>
       {cartItems.length
         ? cartItems.map((address: string) => {
-            console.log('cart  addr -> ', address);
-
             return (
               <List.Item key={address}>
                 <WithSpaceAround>

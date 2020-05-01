@@ -5,7 +5,7 @@
 import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { ApiRxContext } from '@substrate/context';
-import { Button, Spinner } from '@substrate/design-system';
+import { Spinner } from '@substrate/design-system';
 import {
   Container,
   FadedText,
@@ -14,7 +14,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
-import { AddressSummary } from '../components';
+import { AddressSummary, Button } from '../components';
 import { OfflineValidator, Validator } from '../types';
 import { addToCart } from '../util';
 import {

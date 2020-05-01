@@ -12,6 +12,9 @@ import { Balance } from '../Balance';
 import { OrientationType, SizeType } from './types';
 
 const Layout = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 2px;
 
   & > * {
@@ -46,17 +49,6 @@ function renderIcon(address: string, size: SizeType): React.ReactElement {
   );
 }
 
-type FontSizeType = {
-  [x: string]: string;
-};
-
-const FONT_SIZES: FontSizeType = {
-  tiny: 'small',
-  small: 'medium',
-  medium: 'large',
-  large: 'big',
-};
-
 function renderShortAddress(address: string): string {
   return address
     .slice(0, 8)
@@ -74,8 +66,6 @@ function renderDetails(
     name = PLACEHOLDER_NAME,
     noBalance,
     noPlaceholderName,
-    orientation,
-    size = 'medium',
     withShortAddress,
   } = summaryProps;
 
@@ -88,7 +78,6 @@ function renderDetails(
           address={address}
           api={api}
           detailed={detailed}
-          orientation={orientation}
         />
       )}
     </>
