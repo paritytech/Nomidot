@@ -15,9 +15,9 @@ interface TooltipProps {
 const Tooltip = styled.div<TooltipProps>`
   background: #f2f4f6;
   border-radius: 3px;
-  height: ${props => props.height || '50%'};
-  width: ${props => props.width || '100%'};
-  display: ${props => (props.closed ? 'none' : 'inline-block')};
+  height: ${(props): string => props.height || '50%'};
+  width: ${(props): string => props.width || '100%'};
+  display: ${(props): string => (props.closed ? 'none' : 'inline-block')};
 `;
 
 const TooltipContent = styled.div`
@@ -36,7 +36,7 @@ interface ClosableTooltipProps {
   children: React.ReactNode;
 }
 
-export const ClosableTooltip = (props: ClosableTooltipProps) => {
+export const ClosableTooltip = (props: ClosableTooltipProps): React.ReactElement => {
   const { children } = props;
   const [closeTooltip, setCloseTooltip] = useState(false);
 
