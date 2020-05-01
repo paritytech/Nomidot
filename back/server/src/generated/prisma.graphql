@@ -1,5 +1,5 @@
 # source: http://127.0.0.1:4466
-# timestamp: Sun Mar 08 2020 21:45:32 GMT+0100 (Central European Standard Time)
+# timestamp: Thu Apr 30 2020 18:02:36 GMT+0800 (Malaysia Time)
 
 type AggregateBlockIndex {
   count: Int!
@@ -2215,6 +2215,7 @@ type MotionStatus implements Node {
   blockNumber: BlockNumber!
   motion: Motion!
   status: String!
+  uniqueStatus: String!
 }
 
 """A connection to a list of items."""
@@ -2230,6 +2231,7 @@ type MotionStatusConnection {
 input MotionStatusCreateInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
   motion: MotionCreateOneWithoutMotionStatusInput!
 }
@@ -2242,6 +2244,7 @@ input MotionStatusCreateManyWithoutMotionInput {
 input MotionStatusCreateWithoutMotionInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
 }
 
@@ -2259,11 +2262,14 @@ enum MotionStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type MotionStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String!
 }
 
 input MotionStatusScalarWhereInput {
@@ -2355,6 +2361,46 @@ input MotionStatusScalarWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
 }
 
 type MotionStatusSubscriptionPayload {
@@ -2396,16 +2442,19 @@ input MotionStatusSubscriptionWhereInput {
 
 input MotionStatusUpdateInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
   motion: MotionUpdateOneRequiredWithoutMotionStatusInput
 }
 
 input MotionStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input MotionStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input MotionStatusUpdateManyWithoutMotionInput {
@@ -2427,6 +2476,7 @@ input MotionStatusUpdateManyWithWhereNestedInput {
 
 input MotionStatusUpdateWithoutMotionDataInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
 }
 
@@ -2530,12 +2580,53 @@ input MotionStatusWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
   blockNumber: BlockNumberWhereInput
   motion: MotionWhereInput
 }
 
 input MotionStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type MotionSubscriptionPayload {
@@ -5390,6 +5481,7 @@ type ProposalStatus implements Node {
   blockNumber: BlockNumber!
   proposal: Proposal!
   status: String!
+  uniqueStatus: String!
 }
 
 """A connection to a list of items."""
@@ -5405,6 +5497,7 @@ type ProposalStatusConnection {
 input ProposalStatusCreateInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
   proposal: ProposalCreateOneWithoutProposalStatusInput!
 }
@@ -5417,6 +5510,7 @@ input ProposalStatusCreateManyWithoutProposalInput {
 input ProposalStatusCreateWithoutProposalInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
 }
 
@@ -5434,11 +5528,14 @@ enum ProposalStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type ProposalStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String!
 }
 
 input ProposalStatusScalarWhereInput {
@@ -5530,6 +5627,46 @@ input ProposalStatusScalarWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
 }
 
 type ProposalStatusSubscriptionPayload {
@@ -5571,16 +5708,19 @@ input ProposalStatusSubscriptionWhereInput {
 
 input ProposalStatusUpdateInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
   proposal: ProposalUpdateOneRequiredWithoutProposalStatusInput
 }
 
 input ProposalStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input ProposalStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input ProposalStatusUpdateManyWithoutProposalInput {
@@ -5602,6 +5742,7 @@ input ProposalStatusUpdateManyWithWhereNestedInput {
 
 input ProposalStatusUpdateWithoutProposalDataInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
 }
 
@@ -5705,12 +5846,53 @@ input ProposalStatusWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
   blockNumber: BlockNumberWhereInput
   proposal: ProposalWhereInput
 }
 
 input ProposalStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type ProposalSubscriptionPayload {
@@ -6176,6 +6358,7 @@ type ReferendumStatus implements Node {
   blockNumber: BlockNumber!
   referendum: Referendum!
   status: String!
+  uniqueStatus: String!
 }
 
 """A connection to a list of items."""
@@ -6191,6 +6374,7 @@ type ReferendumStatusConnection {
 input ReferendumStatusCreateInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
   referendum: ReferendumCreateOneWithoutReferendumStatusInput!
 }
@@ -6203,6 +6387,7 @@ input ReferendumStatusCreateManyWithoutReferendumInput {
 input ReferendumStatusCreateWithoutReferendumInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
 }
 
@@ -6220,11 +6405,14 @@ enum ReferendumStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type ReferendumStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String!
 }
 
 input ReferendumStatusScalarWhereInput {
@@ -6316,6 +6504,46 @@ input ReferendumStatusScalarWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
 }
 
 type ReferendumStatusSubscriptionPayload {
@@ -6357,16 +6585,19 @@ input ReferendumStatusSubscriptionWhereInput {
 
 input ReferendumStatusUpdateInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
   referendum: ReferendumUpdateOneRequiredWithoutReferendumStatusInput
 }
 
 input ReferendumStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input ReferendumStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input ReferendumStatusUpdateManyWithoutReferendumInput {
@@ -6388,6 +6619,7 @@ input ReferendumStatusUpdateManyWithWhereNestedInput {
 
 input ReferendumStatusUpdateWithoutReferendumDataInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
 }
 
@@ -6491,12 +6723,53 @@ input ReferendumStatusWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
   blockNumber: BlockNumberWhereInput
   referendum: ReferendumWhereInput
 }
 
 input ReferendumStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type ReferendumSubscriptionPayload {
@@ -8264,6 +8537,7 @@ type TreasuryStatus implements Node {
   blockNumber: BlockNumber!
   treasurySpendProposal: TreasurySpendProposal!
   status: String!
+  uniqueStatus: String!
 }
 
 """A connection to a list of items."""
@@ -8279,6 +8553,7 @@ type TreasuryStatusConnection {
 input TreasuryStatusCreateInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
   treasurySpendProposal: TreasurySpendProposalCreateOneWithoutTreasuryStatusInput!
 }
@@ -8291,6 +8566,7 @@ input TreasuryStatusCreateManyWithoutTreasurySpendProposalInput {
 input TreasuryStatusCreateWithoutTreasurySpendProposalInput {
   id: ID
   status: String!
+  uniqueStatus: String!
   blockNumber: BlockNumberCreateOneInput!
 }
 
@@ -8308,11 +8584,14 @@ enum TreasuryStatusOrderByInput {
   id_DESC
   status_ASC
   status_DESC
+  uniqueStatus_ASC
+  uniqueStatus_DESC
 }
 
 type TreasuryStatusPreviousValues {
   id: ID!
   status: String!
+  uniqueStatus: String!
 }
 
 input TreasuryStatusScalarWhereInput {
@@ -8404,6 +8683,46 @@ input TreasuryStatusScalarWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
 }
 
 type TreasuryStatusSubscriptionPayload {
@@ -8445,16 +8764,19 @@ input TreasuryStatusSubscriptionWhereInput {
 
 input TreasuryStatusUpdateInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
   treasurySpendProposal: TreasurySpendProposalUpdateOneRequiredWithoutTreasuryStatusInput
 }
 
 input TreasuryStatusUpdateManyDataInput {
   status: String
+  uniqueStatus: String
 }
 
 input TreasuryStatusUpdateManyMutationInput {
   status: String
+  uniqueStatus: String
 }
 
 input TreasuryStatusUpdateManyWithoutTreasurySpendProposalInput {
@@ -8476,6 +8798,7 @@ input TreasuryStatusUpdateManyWithWhereNestedInput {
 
 input TreasuryStatusUpdateWithoutTreasurySpendProposalDataInput {
   status: String
+  uniqueStatus: String
   blockNumber: BlockNumberUpdateOneRequiredInput
 }
 
@@ -8579,12 +8902,53 @@ input TreasuryStatusWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  uniqueStatus: String
+
+  """All values that are not equal to given value."""
+  uniqueStatus_not: String
+
+  """All values that are contained in given list."""
+  uniqueStatus_in: [String!]
+
+  """All values that are not contained in given list."""
+  uniqueStatus_not_in: [String!]
+
+  """All values less than the given value."""
+  uniqueStatus_lt: String
+
+  """All values less than or equal the given value."""
+  uniqueStatus_lte: String
+
+  """All values greater than the given value."""
+  uniqueStatus_gt: String
+
+  """All values greater than or equal the given value."""
+  uniqueStatus_gte: String
+
+  """All values containing the given string."""
+  uniqueStatus_contains: String
+
+  """All values not containing the given string."""
+  uniqueStatus_not_contains: String
+
+  """All values starting with the given string."""
+  uniqueStatus_starts_with: String
+
+  """All values not starting with the given string."""
+  uniqueStatus_not_starts_with: String
+
+  """All values ending with the given string."""
+  uniqueStatus_ends_with: String
+
+  """All values not ending with the given string."""
+  uniqueStatus_not_ends_with: String
   blockNumber: BlockNumberWhereInput
   treasurySpendProposal: TreasurySpendProposalWhereInput
 }
 
 input TreasuryStatusWhereUniqueInput {
   id: ID
+  uniqueStatus: String
 }
 
 type Validator implements Node {
