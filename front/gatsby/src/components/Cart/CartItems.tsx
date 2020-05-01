@@ -14,11 +14,8 @@ import {
 import { navigate } from 'gatsby';
 import React, { useContext } from 'react';
 
+import { removeCartItem } from '../../util/cartHelpers';
 import { AddressSummary } from '../index';
-import {
-  removeCartItem,
-  stripAddressFromCartItem,
-} from '../../util/cartHelpers';
 import { Button, SubHeader } from '../index';
 
 interface Props {
@@ -36,7 +33,11 @@ const CartItems = (props: Props): React.ReactElement => {
       <Stacked>
         <SubHeader>Cart Empty</SubHeader>
         <p>you should add some validators to nominate...</p>
-        <Button neutral size='big' onClick={(): Promise<void> => navigate('/validators')}>
+        <Button
+          neutral
+          size='big'
+          onClick={(): Promise<void> => navigate('/validators')}
+        >
           Take Me There!
         </Button>
       </Stacked>

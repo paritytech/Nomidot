@@ -6,11 +6,7 @@ import { useQuery, useSubscription } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import {
-  Container,
-  FadedText,
-  Table,
-} from '@substrate/ui-components';
+import { Container, FadedText, Table } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
@@ -34,23 +30,9 @@ const CurrentElectedList = (): React.ReactElement => {
     JoinValidatorOffline[]
   >();
 
-  const [sessionIndex, setSessionIndex] = useState(0);
-
   const currentValidators = useQuery(CURRENT_ELECTED);
 
   const currentOffline = useQuery(OFFLINE_VALIDATORS);
-
-  const currentSession = useSubscription(SESSIONS_SUBSCRIPTION);
-
-  useEffect(() => {
-    if (currentSession && currentSession.data) {
-      const { sessions } = currentSession.data;
-
-      const index = sessions[0].index;
-
-      setSessionIndex(index);
-    }
-  }, [currentSession]);
 
   useEffect(() => {
     if (currentValidators.data && currentValidators.data.validators) {
@@ -171,11 +153,7 @@ const CurrentElectedList = (): React.ReactElement => {
     );
   };
 
-  return (
-    <Container>
-      {renderValidatorsTable()}
-    </Container>
-  );
+  return <Container>{renderValidatorsTable()}</Container>;
 };
 
 export default CurrentElectedList;

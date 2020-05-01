@@ -74,11 +74,7 @@ function renderDetails(
       {noPlaceholderName ? null : name}
       {withShortAddress && renderShortAddress(address)}
       {!noBalance && (
-        <Balance
-          address={address}
-          api={api}
-          detailed={detailed}
-        />
+        <Balance address={address} api={api} detailed={detailed} />
       )}
     </>
   );

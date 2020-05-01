@@ -174,18 +174,19 @@ const Cart = (_props: Props): React.ReactElement => {
   useEffect(() => {
     const cartItems: string[] = getCartItems();
 
-    console.log('cart items => ', cartItems)
-    
-    const selectedNominees: string[] = cartItems.map((item: string) => stripAddressFromCartItem(item));
+    console.log('cart items => ', cartItems);
+
+    const selectedNominees: string[] = cartItems.map((item: string) =>
+      stripAddressFromCartItem(item)
+    );
 
     setCartItems(selectedNominees);
   }, []);
 
   useEffect(() => {
     if (api && isApiReady) {
-      // const extrinsic = api.tx.staking.nominate(cartItems);
-
-      // setExtrinsic(extrinsic);
+      const extrinsic = api.tx.staking.nominate(cartItems);
+      setExtrinsic(extrinsic);
     }
   }, [api, isApiReady, cartItems]);
 
@@ -219,7 +220,9 @@ const Cart = (_props: Props): React.ReactElement => {
         {error ? (
           <ErrorText>{error}</ErrorText>
         ) : (
-          <Button onClick={submitNomination} size='big' >Nominate!</Button>
+          <Button onClick={submitNomination} size='big'>
+            Nominate!
+          </Button>
         )}
       </RightSide>
     </CartPageContainer>
