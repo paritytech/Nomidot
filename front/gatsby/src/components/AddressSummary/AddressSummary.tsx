@@ -5,10 +5,10 @@
 import ApiRx from '@polkadot/api/rx';
 import IdentityIcon from '@polkadot/react-identicon';
 import { Spinner } from '@substrate/design-system';
-import { Balance, FontSize } from '@substrate/ui-components';
 import React from 'react';
 import styled from 'styled-components';
 
+import { Balance } from '../Balance';
 import { OrientationType, SizeType } from './types';
 
 const Layout = styled.div`
@@ -83,13 +83,12 @@ function renderDetails(
     <>
       {noPlaceholderName ? null : name}
       {withShortAddress && renderShortAddress(address)}
-      {!noBalance && api.isReady && (
+      {!noBalance && (
         <Balance
           address={address}
           api={api}
           detailed={detailed}
           orientation={orientation}
-          fontSize={FONT_SIZES[size] as FontSize}
         />
       )}
     </>
@@ -98,8 +97,6 @@ function renderDetails(
 
 export function AddressSummary(props: AddressSummaryProps): React.ReactElement {
   const { address, api, size = 'medium' } = props;
-
-  console.log('address -> ', address);
 
   if (address) {
     return (

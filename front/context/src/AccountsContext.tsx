@@ -37,8 +37,8 @@ import { getControllers, getStashes, IS_SSR } from './util';
 
 const l = logger('accounts-context');
 
-type AccountBalanceMap = Record<string, DeriveBalancesAll>;
-type StashControllerMap = Record<string, DeriveStakingQuery>;
+export type AccountBalanceMap = Record<string, DeriveBalancesAll>;
+export type StashControllerMap = Record<string, DeriveStakingQuery>;
 type Subscriptions = Subscription[];
 
 interface State {

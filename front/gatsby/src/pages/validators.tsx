@@ -46,8 +46,6 @@ const CurrentElectedList = (): React.ReactElement => {
     if (currentSession && currentSession.data) {
       const { sessions } = currentSession.data;
 
-      console.log('here i am session...');
-
       const index = sessions[0].index;
 
       setSessionIndex(index);
@@ -55,7 +53,6 @@ const CurrentElectedList = (): React.ReactElement => {
   }, [currentSession]);
 
   useEffect(() => {
-    console.log('here i am current validators...', currentValidators);
     if (currentValidators.data && currentValidators.data.validators) {
       const result: JoinValidatorOffline[] = [];
 

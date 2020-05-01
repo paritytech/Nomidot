@@ -173,6 +173,8 @@ const Cart = (_props: Props): React.ReactElement => {
 
   useEffect(() => {
     const cartItems: string[] = getCartItems();
+
+    console.log('cart items => ', cartItems)
     
     const selectedNominees: string[] = cartItems.map((item: string) => stripAddressFromCartItem(item));
 

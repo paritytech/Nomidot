@@ -59,15 +59,15 @@ const CartItems = (props: Props): React.ReactElement => {
     <List animated relaxed>
       {cartItems.length
         ? cartItems.map((address: string) => {
-            console.log(address);
+            console.log('cart  addr -> ', address);
 
             return (
               <List.Item key={address}>
                 <WithSpaceAround>
                   <StackedHorizontal>
                     <AddressSummary
-                      address={address}
                       api={api}
+                      address={address}
                       noPlaceholderName
                       orientation='horizontal'
                       size='small'
