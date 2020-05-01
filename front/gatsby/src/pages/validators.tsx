@@ -14,18 +14,15 @@ import {
   AddressSummary,
   Button,
   Table,
-  Thead,
-  Th,
   Tb,
+  Tc,
+  Th,
+  Thead,
   Tr,
-  Tc
- } from '../components';
+} from '../components';
 import { OfflineValidator, Validator } from '../types';
 import { addToCart } from '../util';
-import {
-  CURRENT_ELECTED,
-  OFFLINE_VALIDATORS,
-} from '../util/graphql';
+import { CURRENT_ELECTED, OFFLINE_VALIDATORS } from '../util/graphql';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
