@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
+import { encodeAddress } from '@polkadot/util-crypto';
 import { writeStorage } from '@substrate/local-storage';
 
 export function toShortAddress(address: string | AccountId): string {
@@ -34,8 +35,11 @@ export function getCurrCartCount(): number {
   return count;
 }
 
-export function addToCart(stash: string): void {
-  writeStorage(`cart:${stash}`, stash);
+// stash/controller id's are stored by their public key by the nodewatcher so they need to be encoded first.
+export function addToCart(stashPubKey: string): void {
+  const stashid = encodeAddress(stashPubKey, 2);
+
+  writeStorage(`cart:${stashid}`, stashid);
   const currCartCount = getCurrCartCount();
   writeStorage(`cartItemsCount`, currCartCount);
 }

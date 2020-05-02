@@ -71,7 +71,10 @@ export const NominationDetails = (props: Props): React.ReactElement => {
   useEffect(() => {
     const stash = Object.values(stashControllerMap).find(
       derivedStaking =>
-        derivedStaking.controllerId?.toHuman() === currentAccount
+        derivedStaking &&
+        derivedStaking.controllerId &&
+        derivedStaking.controllerId.toHuman &&
+        derivedStaking.controllerId.toHuman() === currentAccount
     )?.stashId;
 
     setImpliedStash(stash?.toHuman());

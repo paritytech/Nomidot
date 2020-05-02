@@ -25,7 +25,7 @@ import {
   SubHeader,
 } from '../components';
 import { getCartItems, validateFees } from '../util';
-import { clearCart } from '../util/cartHelpers';
+import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';
 
 const CartPageContainer = styled.div`
   display: flex;
@@ -65,12 +65,7 @@ type Props = RouteComponentProps;
 
 const Cart = (_props: Props): React.ReactElement => {
   const {
-    state: {
-      accountBalanceMap,
-      allStashes,
-      currentAccount,
-      currentAccountNonce,
-    },
+    state: { accountBalanceMap, currentAccount, currentAccountNonce },
   } = useContext(AccountsContext);
   const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
@@ -134,7 +129,7 @@ const Cart = (_props: Props): React.ReactElement => {
       setError(undefined);
       return;
     }
-  }, [accountBalanceMap, allStashes, allTotal, currentAccount]);
+  }, [accountBalanceMap, allTotal, currentAccount]);
 
   const handleUserInputChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
@@ -172,15 +167,20 @@ const Cart = (_props: Props): React.ReactElement => {
   }, [txId, signAndSubmit]);
 
   useEffect(() => {
-    const _cartItems = getCartItems();
+    const cartItems: string[] = getCartItems();
 
-    setCartItems(_cartItems);
-  }, [cartItemsCount]);
+    console.log('cart items => ', cartItems);
+
+    const selectedNominees: string[] = cartItems.map((item: string) =>
+      stripAddressFromCartItem(item)
+    );
+
+    setCartItems(selectedNominees);
+  }, []);
 
   useEffect(() => {
     if (api && isApiReady) {
       const extrinsic = api.tx.staking.nominate(cartItems);
-
       setExtrinsic(extrinsic);
     }
   }, [api, isApiReady, cartItems]);
@@ -215,7 +215,9 @@ const Cart = (_props: Props): React.ReactElement => {
         {error ? (
           <ErrorText>{error}</ErrorText>
         ) : (
-          <Button onClick={submitNomination}>Nominate!</Button>
+          <Button onClick={submitNomination} size='big'>
+            Nominate!
+          </Button>
         )}
       </RightSide>
     </CartPageContainer>

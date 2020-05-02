@@ -4,7 +4,6 @@
 
 import { ApiRxContext } from '@substrate/context';
 import {
-  AddressSummary,
   Icon,
   List,
   Margin,
@@ -15,10 +14,8 @@ import {
 import { navigate } from 'gatsby';
 import React, { useContext } from 'react';
 
-import {
-  removeCartItem,
-  stripAddressFromCartItem,
-} from '../../util/cartHelpers';
+import { removeCartItem } from '../../util/cartHelpers';
+import { AddressSummary } from '../index';
 import { Button, SubHeader } from '../index';
 
 interface Props {
@@ -36,7 +33,11 @@ const CartItems = (props: Props): React.ReactElement => {
       <Stacked>
         <SubHeader>Cart Empty</SubHeader>
         <p>you should add some validators to nominate...</p>
-        <Button neutral onClick={(): Promise<void> => navigate('/validators')}>
+        <Button
+          neutral
+          size='big'
+          onClick={(): Promise<void> => navigate('/validators')}
+        >
           Take Me There!
         </Button>
       </Stacked>
@@ -56,18 +57,16 @@ const CartItems = (props: Props): React.ReactElement => {
   };
 
   return (
-    <List animated relaxed>
+    <List relaxed>
       {cartItems.length
-        ? cartItems.map((item: string) => {
-            const address = stripAddressFromCartItem(item);
-
+        ? cartItems.map((address: string) => {
             return (
-              <List.Item key={item}>
+              <List.Item key={address}>
                 <WithSpaceAround>
                   <StackedHorizontal>
                     <AddressSummary
-                      address={address}
                       api={api}
+                      address={address}
                       noPlaceholderName
                       orientation='horizontal'
                       size='small'
@@ -77,7 +76,7 @@ const CartItems = (props: Props): React.ReactElement => {
                       name='close'
                       link
                       onClick={removeItemFromCart}
-                      data-key={item}
+                      data-key={address}
                     />
                   </StackedHorizontal>
                 </WithSpaceAround>

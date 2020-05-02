@@ -2,26 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useQuery, useSubscription } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { ApiRxContext } from '@substrate/context';
-import { Button, Spinner } from '@substrate/design-system';
-import {
-  AddressSummary,
-  Container,
-  FadedText,
-  Table,
-} from '@substrate/ui-components';
+import { Spinner } from '@substrate/design-system';
+import { Container, FadedText } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 import shortid from 'shortid';
 
+import {
+  AddressSummary,
+  Button,
+  Table,
+  Tb,
+  Tc,
+  Th,
+  Thead,
+  Tr,
+} from '../components';
 import { OfflineValidator, Validator } from '../types';
 import { addToCart } from '../util';
-import {
-  CURRENT_ELECTED,
-  OFFLINE_VALIDATORS,
-  SESSIONS_SUBSCRIPTION,
-} from '../util/graphql';
+import { CURRENT_ELECTED, OFFLINE_VALIDATORS } from '../util/graphql';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
@@ -34,29 +35,9 @@ const CurrentElectedList = (): React.ReactElement => {
     JoinValidatorOffline[]
   >();
 
-  const [sessionIndex, setSessionIndex] = useState(0);
+  const currentValidators = useQuery(CURRENT_ELECTED);
 
-  const currentValidators = useQuery(CURRENT_ELECTED, {
-    variables: { sessionIndex },
-    pollInterval: 5000,
-  });
-
-  const currentOffline = useQuery(OFFLINE_VALIDATORS, {
-    variables: { sessionIndex },
-    pollInterval: 5000,
-  });
-
-  const currentSession = useSubscription(SESSIONS_SUBSCRIPTION);
-
-  useEffect(() => {
-    if (currentSession && currentSession.data) {
-      const { sessions } = currentSession.data;
-
-      const index = sessions[0].index;
-
-      setSessionIndex(index);
-    }
-  }, [currentSession]);
+  const currentOffline = useQuery(OFFLINE_VALIDATORS);
 
   useEffect(() => {
     if (currentValidators.data && currentValidators.data.validators) {
@@ -113,27 +94,27 @@ const CurrentElectedList = (): React.ReactElement => {
 
   const renderValidatorsTable = (): React.ReactElement => {
     return (
-      <Table celled padded striped size='large'>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell> Offline </Table.HeaderCell>
-            <Table.HeaderCell>Stash</Table.HeaderCell>
-            <Table.HeaderCell>Controller</Table.HeaderCell>
-            <Table.HeaderCell>Commission</Table.HeaderCell>
-            <Table.HeaderCell> </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <Table>
+        <Thead>
+          <Tr>
+            <Th> Offline </Th>
+            <Th>Stash</Th>
+            <Th>Controller</Th>
+            <Th>Commission</Th>
+            <Th> </Th>
+          </Tr>
+        </Thead>
+        <Tb>
           {currentElected ? (
             currentElected.map(
               ({ stash, controller, preferences, wasOfflineThisSession }) => (
-                <Table.Row textAlign='center' key={shortid.generate()}>
-                  <Table.Cell textAlign='center'>
+                <Tr key={shortid.generate()}>
+                  <Tc>
                     <FadedText>
                       {JSON.stringify(wasOfflineThisSession)}
                     </FadedText>
-                  </Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  </Tc>
+                  <Tc>
                     <AddressSummary
                       address={stash}
                       api={api}
@@ -141,8 +122,8 @@ const CurrentElectedList = (): React.ReactElement => {
                       noBalance
                       noPlaceholderName
                     />
-                  </Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  </Tc>
+                  <Tc>
                     <AddressSummary
                       address={controller}
                       api={api}
@@ -150,8 +131,8 @@ const CurrentElectedList = (): React.ReactElement => {
                       noBalance
                       noPlaceholderName
                     />
-                  </Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  </Tc>
+                  <Tc>
                     <FadedText>
                       {formatBalance(
                         api
@@ -159,29 +140,25 @@ const CurrentElectedList = (): React.ReactElement => {
                           .commission.toString()
                       )}
                     </FadedText>
-                  </Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  </Tc>
+                  <Tc>
                     <Button onClick={handleAddToCart} data-stash={stash}>
                       {' '}
                       Add To Cart{' '}
                     </Button>
-                  </Table.Cell>
-                </Table.Row>
+                  </Tc>
+                </Tr>
               )
             )
           ) : (
             <Spinner inline />
           )}
-        </Table.Body>
+        </Tb>
       </Table>
     );
   };
 
-  return (
-    <Container>
-      {currentElected ? renderValidatorsTable() : <Spinner inline />}
-    </Container>
-  );
+  return <Container>{renderValidatorsTable()}</Container>;
 };
 
 export default CurrentElectedList;

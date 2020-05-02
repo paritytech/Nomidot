@@ -5,13 +5,16 @@
 import ApiRx from '@polkadot/api/rx';
 import IdentityIcon from '@polkadot/react-identicon';
 import { Spinner } from '@substrate/design-system';
-import { Balance, FontSize } from '@substrate/ui-components';
 import React from 'react';
 import styled from 'styled-components';
 
+import { Balance } from '../Balance';
 import { OrientationType, SizeType } from './types';
 
 const Layout = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 2px;
 
   & > * {
@@ -46,17 +49,6 @@ function renderIcon(address: string, size: SizeType): React.ReactElement {
   );
 }
 
-type FontSizeType = {
-  [x: string]: string;
-};
-
-const FONT_SIZES: FontSizeType = {
-  tiny: 'small',
-  small: 'medium',
-  medium: 'large',
-  large: 'big',
-};
-
 function renderShortAddress(address: string): string {
   return address
     .slice(0, 8)
@@ -74,8 +66,6 @@ function renderDetails(
     name = PLACEHOLDER_NAME,
     noBalance,
     noPlaceholderName,
-    orientation,
-    size = 'medium',
     withShortAddress,
   } = summaryProps;
 
@@ -84,13 +74,7 @@ function renderDetails(
       {noPlaceholderName ? null : name}
       {withShortAddress && renderShortAddress(address)}
       {!noBalance && (
-        <Balance
-          address={address}
-          api={api}
-          detailed={detailed}
-          orientation={orientation}
-          fontSize={FONT_SIZES[size] as FontSize}
-        />
+        <Balance address={address} api={api} detailed={detailed} />
       )}
     </>
   );
