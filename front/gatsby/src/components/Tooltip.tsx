@@ -36,7 +36,9 @@ interface ClosableTooltipProps {
   children: React.ReactNode;
 }
 
-export const ClosableTooltip = (props: ClosableTooltipProps): React.ReactElement => {
+export const ClosableTooltip = (
+  props: ClosableTooltipProps
+): React.ReactElement => {
   const { children } = props;
   const [closeTooltip, setCloseTooltip] = useState(false);
 
