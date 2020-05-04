@@ -1,0 +1,19 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nodewatcher-server-ingress
+  labels:
+    app: nodewatcher-server
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.entryPoints: "https,http"
+spec:
+  rules:
+  - host: test.nodewatcher-server.polkassembly.io
+    http:
+      paths:
+      - backend:
+          serviceName: nodewatcher-server
+          servicePort: 4000
+        path: /

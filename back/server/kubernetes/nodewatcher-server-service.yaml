@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nodewatcher-server
+  name: nodewatcher-server
+spec:
+  ports:
+  - name: nodewatcher-server
+    port: 4000
+    protocol: TCP
+  selector:
+    app: nomidot-server
+  type: ClusterIP
