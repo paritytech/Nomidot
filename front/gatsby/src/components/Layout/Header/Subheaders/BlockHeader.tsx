@@ -12,7 +12,7 @@ import { BlockHead } from '../types';
 
 const BlockHeader = (): React.ReactElement => {
   const { data } = useQuery(LATEST_BLOCK, {
-    pollInterval: 5000
+    pollInterval: 5000,
   });
   const [blockHead, setBlockHead] = useState<BlockHead>();
 

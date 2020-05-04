@@ -14,7 +14,7 @@ export const LATEST_BLOCK = gql`
       startDateTime
     }
   }
-`
+`;
 
 export const LATEST_ERA_QUERY = gql`
   query {

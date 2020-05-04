@@ -25,7 +25,7 @@ const ItemWrapper = styled.div`
 `;
 
 const Title = styled.p<SubtextProps>`
-  color: ${props => props.inverted ? 'black' : 'white'};
+  color: ${props => (props.inverted ? 'black' : 'white')};
   font-weight: 100;
   font-family: code sans-serif;
   font-size: 12px;
@@ -36,7 +36,7 @@ const Title = styled.p<SubtextProps>`
 const Value = styled.p<SubtextProps>`
   font-family: code sans-serif;
   font-size: 16px;
-  color: ${props => props.inverted ? 'black' : 'white'};
+  color: ${props => (props.inverted ? 'black' : 'white')};
   line-height: -1px;
   margin: 0;
 `;
@@ -44,7 +44,7 @@ const Value = styled.p<SubtextProps>`
 const Subtitle = styled.p<SubtextProps>`
   font-size: 12px;
   font-weight: 600;
-  color: ${props => props.inverted ? 'black' : 'white'};
+  color: ${props => (props.inverted ? 'black' : 'white')};
   font-family: code sans-serif;
   line-height: -1px;
 `;

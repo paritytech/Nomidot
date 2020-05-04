@@ -6,8 +6,7 @@ import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
 
 import {
-  LATEST_SESSION_QUERY,
-  SESSIONS_SUBSCRIPTION,
+  LATEST_SESSION_QUERY
 } from '../../../../util/graphql';
 import HeaderItem from '../HeaderItem';
 import { SessionHead } from '../types';

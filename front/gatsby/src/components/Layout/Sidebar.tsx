@@ -46,7 +46,7 @@ export const VerticalSidebar = ({
       width='wide'
     >
       <CloseIcon name='close' onClick={handleToggle} />
-      
+
       <Menu.Item as='a' onClick={(): void => handleNavigation('/accounts')}>
         Accounts
       </Menu.Item>

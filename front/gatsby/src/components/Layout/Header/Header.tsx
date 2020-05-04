@@ -6,12 +6,12 @@ import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
 import { Icon } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { createRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import { APP_TITLE } from '../../../util';
-import { BlockHeader, SessionHeader } from './Subheaders';
+import { BlockHeader } from './Subheaders';
 
 interface Props extends RouteComponentProps {
   handleToggle: () => void;
