@@ -45,7 +45,7 @@ interface Props {
   stashId: string;
 }
 
-const BondExtraModal = (props: Props) => {
+const BondExtraModal = (props: Props): React.ReactElement => {
   const { stashId } = props;
 
   /* context */
@@ -101,7 +101,10 @@ const BondExtraModal = (props: Props) => {
       }
     }
   }, [
+    api,
     accountBalanceMap,
+    isApiReady,
+    loadingBalances,
     stashId,
     stashControllerMap,
     currentAccountNonce,
@@ -128,8 +131,7 @@ const BondExtraModal = (props: Props) => {
         'This will drop your stash account below its existential deposit. While this is technically possible, it is highly inadvisable and unsupported through Nomi.'
       );
     }
-  }, [accountBalanceMap, fees, maxAdditional]);
-
+  }, [accountBalanceMap, fees, maxAdditional, stashId]);
 
   /* set the extrinsic, to be signed and submitted */
   useEffect(() => {
@@ -184,21 +186,13 @@ const BondExtraModal = (props: Props) => {
       const id = enqueue(extrinsic, details);
       setTxId(id);
     }
-  }, [
-    api,
-    stashId,
-    allFees,
-    allTotal,
-    maxAdditional,
-    extrinsic,
-    enqueue,
-  ]);
+  }, [api, stashId, allFees, allTotal, maxAdditional, extrinsic, enqueue]);
 
   const handleUserInputChange = useCallback(
     ({ target: { value } }) => {
       setMaxAdditional(new BN(value));
     },
-    [maxAdditional]
+    []
   );
 
   return (

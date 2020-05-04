@@ -44,7 +44,7 @@ export function Balance(props: BalanceProps): React.ReactElement {
       });
 
     return (): void => balanceSub.unsubscribe();
-  }, [address]);
+  }, [address, api.isReady]);
 
   return (
     <BalanceDisplay

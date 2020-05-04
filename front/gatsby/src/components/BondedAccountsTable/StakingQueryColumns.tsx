@@ -10,7 +10,9 @@ import React, { useContext } from 'react';
 import { AddressSummary, Tc } from '../index';
 import { StakingQueryColumnsProps } from './types';
 
-const StakingQueryColumns = (props: StakingQueryColumnsProps): React.ReactElement => {
+const StakingQueryColumns = (
+  props: StakingQueryColumnsProps
+): React.ReactElement => {
   const { account, api } = props;
   const {
     state: {
@@ -60,6 +62,6 @@ const StakingQueryColumns = (props: StakingQueryColumnsProps): React.ReactElemen
       </Tc>
     </>
   );
-}
+};
 
 export default React.memo(StakingQueryColumns);
