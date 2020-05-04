@@ -2,23 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useSubscription } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
 
 import { toShortAddress } from '../../../../util';
-import { BLOCKS_SUBSCRIPTION } from '../../../../util/graphql';
+import { LATEST_BLOCK } from '../../../../util/graphql';
 import HeaderItem from '../HeaderItem';
 import { BlockHead } from '../types';
 
 const BlockHeader = (): React.ReactElement => {
-  const { data } = useSubscription(BLOCKS_SUBSCRIPTION);
+  const { data } = useQuery(LATEST_BLOCK, {
+    pollInterval: 5000
+  });
   const [blockHead, setBlockHead] = useState<BlockHead>();
 
   useEffect(() => {
     if (data) {
-      const {
-        subscribeBlockNumbers: { number, authoredBy, hash, startDateTime },
-      } = data;
+      const { blockNumbers } = data;
+      const block = blockNumbers[0];
+      const { number, authoredBy, hash, startDateTime } = block;
 
       if (!blockHead || number > blockHead.number) {
         setBlockHead({
