@@ -7,8 +7,7 @@ import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { List } from '@substrate/ui-components';
-import React, { useContext, useCallback } from 'react';
-import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
+import React, { useContext } from 'react';
 import shortid from 'shortid';
 import styled from 'styled-components';
 import media from 'styled-media-query';
@@ -16,6 +15,7 @@ import media from 'styled-media-query';
 import {
   AddressSummary,
   BondingModal,
+  BondedAccountsTable,
   ClosableTooltip,
   SubHeader,
   Table,
@@ -25,7 +25,6 @@ import {
   Th,
   Thead,
   Tr,
-  BondExtraModal,
 } from '../components';
 import { toShortAddress } from '../util';
 
@@ -79,85 +78,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
     },
   } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
-
-  const renderStakingQueryColumns = (account: string): React.ReactElement => {
-    const staking = stashControllerMap[account];
-
-    const thisInjectedController = allAccounts.find(
-      (injectedAccount: InjectedAccountWithMeta) =>
-        injectedAccount.address === account &&
-        !allStashes.includes(injectedAccount.address)
-    );
-
-    return (
-      <>
-        <Tc>
-          {loadingAccountStaking ? (
-            <Spinner active inline />
-          ) : !staking ? (
-            'no staking info'
-          ) : (
-            <AddressSummary
-              address={
-                staking.controllerId?.toHuman && staking.controllerId?.toHuman()
-              }
-              api={api}
-              name={thisInjectedController?.meta.name}
-              noBalance
-              size='tiny'
-            />
-          )}
-        </Tc>
-        <Tc>
-          {loadingAccountStaking ? (
-            <Spinner inline active />
-          ) : !staking ? (
-            'no staking info'
-          ) : (
-            staking.stakingLedger?.active.toHuman &&
-            staking.stakingLedger?.active.toHuman()
-          )}
-        </Tc>
-      </>
-    );
-  };
-
-  const renderStashColumn = (account: string): React.ReactElement => {
-    const thisInjectedStash = allAccounts.find(
-      (injectedAccount: InjectedAccountWithMeta) =>
-        injectedAccount.address === account
-    );
-
-    return (
-      <Tc>
-        {!allStashes ? (
-          <Spinner active inline />
-        ) : (
-          <AddressSummary
-            address={account}
-            api={api}
-            name={thisInjectedStash?.meta.name}
-            noBalance
-            size='tiny'
-          />
-        )}
-      </Tc>
-    );
-  };
-
-  const renderActionsForBonded = (stashId: string): React.ReactElement => {
-    return (
-      <Tc>
-        <Dropdown text='Actions'>
-          <Dropdown.Menu>
-            <Dropdown.Item text='Set Controller' />
-            <BondExtraModal stashId={stashId} controllerId={stashControllerMap[stashId]} />
-            <Dropdown.Item text='Change Reward Preferences' />
-          </Dropdown.Menu>
-        </Dropdown>
-      </Tc>
-    );
-  };
 
   const renderBalanceColumns = (account: string): React.ReactElement => {
     const thisAccount = accountBalanceMap[account];
@@ -216,43 +136,6 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  // FIXME doesnt make sense to render balacne here because it's not clear to the user whether the balance is for the stash or the controller. Would make sense to defer that to account details page.
-  const renderBondedAccountRow = (account: string): React.ReactElement => {
-    return (
-      <Tr key={shortid.generate()}>
-        {renderStashColumn(account)}
-        {renderStakingQueryColumns(account)}
-        {renderActionsForBonded(account)}
-      </Tr>
-    );
-  };
-
-  const renderBondedAccounts = (): React.ReactElement => {
-    return (
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Bonded Accounts</Th>
-          </Tr>
-          <Tr>
-            <Th>Stash</Th>
-            <Th>Controller</Th>
-            <Th>Bonded Amount</Th>
-          </Tr>
-        </Thead>
-        <Tb>
-          {allStashes.length ? (
-            allStashes.map((account: string) => renderBondedAccountRow(account))
-          ) : (
-            <Tr>
-              <Tc rowSpan={4}>No Bonded Accounts</Tc>
-            </Tr>
-          )}
-        </Tb>
-      </Table>
-    );
-  };
-
   const renderUnbondedAccounts = (): React.ReactElement => {
     return (
       <Table>
@@ -285,7 +168,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
   return (
     <AccountsPageGrid>
       <AccountsPageLeft>
-        {renderBondedAccounts()}
+        <BondedAccountsTable api={api} />
         <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem>
       </AccountsPageLeft>
 

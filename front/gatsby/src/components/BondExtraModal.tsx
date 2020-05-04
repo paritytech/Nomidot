@@ -3,33 +3,81 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
-import { ApiRxContext, TxQueueContext } from '@substrate/context';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { ApiRxContext, TxQueueContext, AccountsContext } from '@substrate/context';
 import { Input } from '@substrate/ui-components';
 import BN from 'bn.js';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal'
 
 import { Button, ClosableTooltip, SubHeader, Text } from './index';
+import { validateFees } from '../util';
 
 interface Props {
   stashId: string,
-  stakingLedger: DeriveStakingQuery
 }
 
 const BondExtraModal = (props: Props) => {
-  const { stashId, stakingLedger } = props;
-  const { api } = useContext(ApiRxContext);
+  const { stashId } = props;
+  const { api, fees } = useContext(ApiRxContext);
+  const { state: { accountBalanceMap, currentAccountNonce, stashControllerMap } } = useContext(AccountsContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
-  const [maxAdditional, setMaxAdditional] = useState(new BN(0));
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
+  const [allFees, setAllFees] = useState<BN>();
+  const [allTotal, setAllTotal] = useState<BN>();
+  const [error, setError] = useState<string>();
+  const [maxAdditional, setMaxAdditional] = useState<BN>();
 
-  console.log('staking ledger -> ', stakingLedger);
+  useEffect(() => {
+    if (api && maxAdditional) {
+      setExtrinsic(api.tx.staking.bondExtra(maxAdditional));
+    }
+  }, [api, maxAdditional])
 
   const submitBondExtra = useCallback(() => {
-    const extrinsic = api.tx.staking.bondExtra(maxAdditional);
 
   
   }, []);
+
+
+  const checkFees = useCallback((): void => {
+    if (
+      api &&
+      stashId &&
+      stashControllerMap &&
+      currentAccountNonce &&
+      maxAdditional &&
+      extrinsic &&
+      fees
+    ) {
+      const [feeErrors, total, fee] = validateFees(
+        currentAccountNonce,
+        new BN(maxAdditional),
+        accountBalanceMap[stashId],
+        extrinsic,
+        fees
+      );
+
+      setAllTotal(total);
+      setAllFees(fee);
+
+      if (feeErrors) {
+        setError(feeErrors[0]);
+      } else {
+        setError(undefined);
+      }
+    }
+  }, [
+    accountBalanceMap,
+    stashId,
+    stashControllerMap,
+    currentAccountNonce,
+    maxAdditional,
+    extrinsic,
+    fees
+  ]);
+
 
   const handleUserInputChange = useCallback(({ target: { value }}) => {
     setMaxAdditional(new BN(value));
@@ -40,7 +88,6 @@ const BondExtraModal = (props: Props) => {
       closeIcon
       closeOnDimmerClick
       dimmer
-      open
       trigger={
        <Dropdown.Item text='Bond More Funds' />
       }
@@ -58,7 +105,11 @@ const BondExtraModal = (props: Props) => {
         <SubHeader>Bond from:</SubHeader>
         <Text>{stashId}</Text>
         <SubHeader>To:</SubHeader>
-        {/* <Text>{stakingLedger.controllerId}</Text> */}
+        <Text>
+          {
+            stashControllerMap[stashId] 
+            && stashControllerMap[stashId].controllerId?.toHuman
+            && stashControllerMap[stashId].controllerId?.toHuman()}</Text>
 
         <SubHeader>Amount:</SubHeader>  
         <Input
