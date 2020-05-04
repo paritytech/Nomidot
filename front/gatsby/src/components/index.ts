@@ -17,3 +17,4 @@ export * from './Status';
 export * from './Table';
 export * from './Tooltip';
 export * from './Typography';
+export { default as UnbondedAccountsTable } from './UnbondedAccountsTable';

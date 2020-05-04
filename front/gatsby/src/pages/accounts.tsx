@@ -2,31 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiRxContext } from '@substrate/context';
-import { Spinner } from '@substrate/design-system';
 import { List } from '@substrate/ui-components';
 import React, { useContext } from 'react';
-import shortid from 'shortid';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import {
-  AddressSummary,
   BondingModal,
   BondedAccountsTable,
   ClosableTooltip,
   SubHeader,
-  Table,
-  Tb,
-  Tc,
   Text,
-  Th,
-  Thead,
-  Tr,
+  UnbondedAccountsTable
 } from '../components';
-import { toShortAddress } from '../util';
 
 const AccountsPageGrid = styled.div`
   display: flex;
@@ -73,103 +63,17 @@ const AccountsList = (_props: Props): React.ReactElement => {
       accountBalanceMap,
       allAccounts,
       allStashes,
-      loadingAccountStaking,
-      stashControllerMap,
     },
   } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
-
-  const renderBalanceColumns = (account: string): React.ReactElement => {
-    const thisAccount = accountBalanceMap[account];
-
-    // all these checks are a sign something else is wrong
-    return (
-      <>
-        <Tc>
-          {thisAccount &&
-          thisAccount.lockedBalance &&
-          thisAccount.lockedBalance.toHuman ? (
-            thisAccount.lockedBalance.toHuman()
-          ) : (
-            <Spinner active inline />
-          )}
-        </Tc>
-        <Tc>
-          {thisAccount &&
-          thisAccount.reservedBalance &&
-          thisAccount.reservedBalance.toHuman ? (
-            thisAccount.reservedBalance.toHuman()
-          ) : (
-            <Spinner active inline />
-          )}
-        </Tc>
-        <Tc>
-          {thisAccount &&
-          thisAccount.freeBalance &&
-          thisAccount.freeBalance.toHuman ? (
-            thisAccount.freeBalance.toHuman()
-          ) : (
-            <Spinner active inline />
-          )}
-        </Tc>
-      </>
-    );
-  };
-
-  const renderUnbondedAccountRow = (
-    account: InjectedAccountWithMeta
-  ): React.ReactElement => {
-    return (
-      <Tr key={shortid.generate()}>
-        <Tc>
-          <AddressSummary
-            address={account.address}
-            api={api}
-            name={account.meta.name}
-            noBalance
-            size='tiny'
-          />
-        </Tc>
-        <Tc>{toShortAddress(account.address)}</Tc>
-        {renderBalanceColumns(account.address)}
-      </Tr>
-    );
-  };
-
-  const renderUnbondedAccounts = (): React.ReactElement => {
-    return (
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Unbonded Accounts</Th>
-          </Tr>
-          <Tr>
-            <Th>Account</Th>
-            <Th>Address</Th>
-            <Th>Locked</Th>
-            <Th>Reserved Balance</Th>
-            <Th>Transferrable</Th>
-          </Tr>
-        </Thead>
-        <Tb>
-          {allAccounts
-            .filter(
-              (account: InjectedAccountWithMeta) =>
-                !allStashes.includes(account.address)
-            )
-            .map((account: InjectedAccountWithMeta) =>
-              renderUnbondedAccountRow(account)
-            )}
-        </Tb>
-      </Table>
-    );
-  };
 
   return (
     <AccountsPageGrid>
       <AccountsPageLeft>
         <BondedAccountsTable api={api} />
-        <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem>
+        <BottomLeftItem>
+          <UnbondedAccountsTable api={api} />
+        </BottomLeftItem>
       </AccountsPageLeft>
 
       <AccountsPageRight>
