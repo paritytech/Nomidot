@@ -6,6 +6,16 @@ import gql from 'graphql-tag';
 
 // ******* QUERIES *******
 
+export const LATEST_BLOCK = gql`
+  query {
+    blockNumbers(last: 1) {
+      authoredBy
+      number
+      startDateTime
+    }
+  }
+`;
+
 export const LATEST_ERA_QUERY = gql`
   query {
     eras(last: 1) {
@@ -20,6 +30,17 @@ export const LATEST_SESSION_QUERY = gql`
   query {
     sessions(last: 1) {
       index
+    }
+  }
+`;
+
+export const LATEST_STAKE = gql`
+  query {
+    stakes(last: 1) {
+      blockNumber {
+        number
+      }
+      totalStake
     }
   }
 `;
@@ -61,7 +82,7 @@ export const OFFLINE_VALIDATORS = gql`
 
 export const BLOCKS_SUBSCRIPTION = gql`
   subscription {
-    subscribeBlockNumbers {
+    blockNumber {
       authoredBy
       hash
       number
@@ -72,7 +93,7 @@ export const BLOCKS_SUBSCRIPTION = gql`
 
 export const ERAS_SUBSCRIPTION = gql`
   subscription {
-    subscribeEras {
+    era {
       index
       individualPoints
       totalPoints
@@ -82,7 +103,7 @@ export const ERAS_SUBSCRIPTION = gql`
 
 export const SESSIONS_SUBSCRIPTION = gql`
   subscription {
-    subscribeSessions {
+    session {
       index
     }
   }
@@ -90,7 +111,7 @@ export const SESSIONS_SUBSCRIPTION = gql`
 
 export const STAKING_SUBSCRIPTION = gql`
   subscription {
-    subscribeStakes {
+    stake {
       blockNumber {
         number
       }

@@ -6,8 +6,7 @@ import { RouteComponentProps } from '@reach/router';
 import { useLocalStorage } from '@substrate/local-storage';
 import { Icon } from '@substrate/ui-components';
 import { navigate } from 'gatsby';
-import React, { createRef } from 'react';
-import Sticky from 'semantic-ui-react/dist/commonjs/modules/Sticky';
+import React from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
@@ -24,7 +23,7 @@ const ResponsiveMenu = styled.div`
   align-items: center;
   width: 100%;
   height: 5rem;
-  padding: 30px;
+  padding: 50px;
   margin-bottom: 20px;
   background: black;
   color: white;
@@ -78,8 +77,6 @@ export default function Header(props: Props): React.ReactElement {
   const { handleToggle } = props;
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
-  const contextRef = createRef();
-
   const navToAccountsPage = (): void => {
     navigate('/accounts');
   };
@@ -89,16 +86,14 @@ export default function Header(props: Props): React.ReactElement {
   };
 
   return (
-    <Sticky context={contextRef}>
-      <ResponsiveMenu>
-        <Burger name='bars' onClick={handleToggle} />
-        <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
-        <BlockCounter />
-        <CartIcon>
-          <Icon link name='cart' size='large' onClick={navToCartPage} />
-          {cartItemsCount}
-        </CartIcon>
-      </ResponsiveMenu>
-    </Sticky>
+    <ResponsiveMenu>
+      <Burger name='bars' onClick={handleToggle} />
+      <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
+      <BlockCounter />
+      <CartIcon>
+        <Icon link name='cart' size='large' onClick={navToCartPage} />
+        {cartItemsCount}
+      </CartIcon>
+    </ResponsiveMenu>
   );
 }

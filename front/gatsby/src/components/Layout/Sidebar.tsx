@@ -1,7 +1,13 @@
+// Copyright 2018-2020 @paritytech/Nomidot authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import { navigate } from 'gatsby';
 import React, { useCallback } from 'react';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 import styled from 'styled-components';
+
+import { EraHeader, SessionHeader, StakingHeader } from './Header/Subheaders';
 
 const CloseIcon = styled(Icon)`
   float: left;
@@ -50,6 +56,12 @@ export const VerticalSidebar = ({
       <Menu.Item as='a' onClick={(): void => handleNavigation('/cart')}>
         Cart
       </Menu.Item>
+
+      <Menu.Menu>
+        <EraHeader inverted />
+        <SessionHeader inverted />
+        <StakingHeader inverted />
+      </Menu.Menu>
     </Sidebar>
   );
 };

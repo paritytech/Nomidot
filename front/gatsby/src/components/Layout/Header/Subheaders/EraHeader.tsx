@@ -10,7 +10,12 @@ import { ERAS_SUBSCRIPTION, LATEST_ERA_QUERY } from '../../../../util/graphql';
 import HeaderItem from '../HeaderItem';
 import { EraHead } from '../types';
 
-const EraHeader = (): React.ReactElement => {
+interface Props {
+  inverted?: boolean;
+}
+
+const EraHeader = (props: Props): React.ReactElement => {
+  const { inverted } = props;
   const { api } = useContext(ApiRxContext);
   const { data } = useSubscription(ERAS_SUBSCRIPTION);
   const queryData = useQuery(LATEST_ERA_QUERY);
@@ -48,6 +53,7 @@ const EraHeader = (): React.ReactElement => {
 
   return (
     <HeaderItem
+      inverted={inverted}
       title='Era Index:'
       subtitle={`total points: ${
         eraHead ? eraHead.totalPoints.toString() : 'fetching....'
