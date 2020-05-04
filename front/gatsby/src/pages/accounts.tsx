@@ -7,7 +7,7 @@ import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { List } from '@substrate/ui-components';
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
 import styled from 'styled-components';
@@ -25,6 +25,7 @@ import {
   Th,
   Thead,
   Tr,
+  BondExtraModal,
 } from '../components';
 import { toShortAddress } from '../util';
 
@@ -150,7 +151,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
         <Dropdown text='Actions'>
           <Dropdown.Menu>
             <Dropdown.Item text='Set Controller' />
-            <Dropdown.Item text='Bond More Funds' />
+            <BondExtraModal />
             <Dropdown.Item text='Change Reward Preferences' />
           </Dropdown.Menu>
         </Dropdown>

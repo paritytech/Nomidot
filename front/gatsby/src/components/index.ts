@@ -4,6 +4,7 @@
 
 export { default as AccountsDropdown } from './AccountsDropdown';
 export * from './AddressSummary';
+export { default as BondExtraModal } from './BondExtraModal';
 export * from './BondingModal';
 export * from './Button';
 export * from './Cart';

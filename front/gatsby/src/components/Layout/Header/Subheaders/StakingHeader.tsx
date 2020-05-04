@@ -19,7 +19,6 @@ const StakingHeader = (props: Props): React.ReactElement => {
   const { inverted } = props;
   const queryData = useQuery(LATEST_STAKE);
   const [stakeHead, setStakeHead] = useState<StakingHead>();
-  const { api } = useContext(ApiRxContext);
 
   useEffect(() => {
     if (queryData && queryData.data) {
@@ -32,7 +31,7 @@ const StakingHeader = (props: Props): React.ReactElement => {
         totalStake: stakes[0].totalStake,
       });
     }
-  }, [api, queryData, stakeHead]);
+  }, [queryData]);
 
   return (
     <HeaderItem
