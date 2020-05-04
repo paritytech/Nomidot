@@ -19,7 +19,7 @@ import {
   Tc,
   Tr,
   BondExtraModal,
-} from '../index';
+} from './index';
 
 interface BondedAccountsTableProps {
   api: ApiRx;
@@ -37,7 +37,7 @@ interface ActionsForBondedProps {
   stashId: string;
 }
 
-const ActionsForBonded = (props: ActionsForBondedProps): React.
+const ActionsForBonded = React.memo((props: ActionsForBondedProps): React.
 ReactElement => {
   const { stashId } = props;
 
@@ -53,9 +53,9 @@ ReactElement => {
       </Dropdown>
     </Tc>
   );
-};
+});
 
-const StashColumn = (props: StashColumnProps): React.ReactElement => {
+const StashColumn = React.memo((props: StashColumnProps): React.ReactElement => {
   const { account, api } = props;
   const { state: { allAccounts, allStashes } } = useContext(AccountsContext);
 
@@ -79,9 +79,9 @@ const StashColumn = (props: StashColumnProps): React.ReactElement => {
       )}
     </Tc>
   );
-};
+});
 
-const StakingQueryColumns = (props: StakingQueryColumnsProps): React.ReactElement => {
+const StakingQueryColumns = React.memo((props: StakingQueryColumnsProps): React.ReactElement => {
   const { account, api } = props;
   const { state: { allAccounts, allStashes, loadingAccountStaking, stashControllerMap} } = useContext(AccountsContext);
 
@@ -124,10 +124,10 @@ const StakingQueryColumns = (props: StakingQueryColumnsProps): React.ReactElemen
       </Tc>
     </>
   );
-};
+});
 
-// FIXME doesnt make sense to render balacne here because it's not clear to the user whether the balance is for the stash or the controller. Would make sense to defer that to account details page.
-const BondedAccountRow = (props: BondedAccountRowProps): React.ReactElement => {
+// n.b. doesnt make sense to render balacne here because it's not clear to the user whether the balance is for the stash or the controller. Would make sense to defer that to account details page.
+const BondedAccountRow = React.memo((props: BondedAccountRowProps): React.ReactElement => {
   console.log('rerendered...')
   const { account, api } = props;
 
@@ -138,7 +138,7 @@ const BondedAccountRow = (props: BondedAccountRowProps): React.ReactElement => {
       <ActionsForBonded stashId={account} />
     </Tr>
   );
-};
+});
 
 const BondedAccountsTable = (props: BondedAccountsTableProps): React.ReactElement => {
   const { api } = props;
