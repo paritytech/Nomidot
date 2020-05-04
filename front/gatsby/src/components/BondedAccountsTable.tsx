@@ -157,7 +157,7 @@ const BondedAccountsTable = (props: BondedAccountsTableProps): React.ReactElemen
         </Tr>
       </Thead>
       <Tb>
-        {allStashes.length ? ( allStashes.map((account: string) => <BondedAccountRow account={account} api={api} />)
+        {allStashes.length ? ( allStashes.map((account: string) => <BondedAccountRow account={account} api={api} key={account}/>)
         ) : (
           <Tr>
             <Tc rowSpan={4}>No Bonded Accounts</Tc>

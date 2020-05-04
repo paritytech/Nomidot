@@ -118,7 +118,7 @@ const UnbondedAccountsTable = (props: UnbondedAccountsTableProps): React.ReactEl
               !allStashes.includes(account.address)
           )
           .map((account: InjectedAccountWithMeta) =>
-            <UnbondedAccountRow account={account} api={api} />
+            <UnbondedAccountRow account={account} api={api} key={account.address} />
           )}
       </Tb>
     </Table>

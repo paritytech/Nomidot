@@ -341,4 +341,4 @@ const BondingModal = (): React.ReactElement => {
   );
 };
 
-export { BondingModal };
+export default React.memo(BondingModal);

@@ -16,7 +16,9 @@ const LENGTH_ERA = 1;
 const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
 type Error = string;
+// type Warning = string;
 type Errors = Error[];
+// type Warnings = Warning[];
 
 /**
  * Make sure derived validations (fees, minimal amount) are correct.
@@ -29,6 +31,9 @@ export function validateFees(
   extrinsic: SubmittableExtrinsic<'promise' | 'rxjs'>,
   fees: DeriveFees
 ): [Errors, BN, BN] {
+  const errors = [] as Errors;
+  // const warnings = [] as Warnings; // TODO: things like existential deposit, long unbonding times
+
   const txLength =
     SIGNATURE_SIZE +
     compactToU8a(accountNonce.nonce).length +
@@ -41,12 +46,12 @@ export function validateFees(
   const allTotal = amount
     .add(allFees)
     .add(isCreation ? fees.creationFee : new BN(0));
-  const hasAvailable = currentBalance.freeBalance.gte(allTotal);
-  const isRemovable = currentBalance.votingBalance
+
+  const hasAvailable = currentBalance?.freeBalance.gte(allTotal);
+  const isRemovable = currentBalance?.votingBalance
     .sub(allTotal)
     .lte(fees.existentialDeposit);
   const overLimit = txLength >= MAX_SIZE_BYTES;
-  const errors = [] as Errors;
 
   if (!hasAvailable) {
     errors.push(

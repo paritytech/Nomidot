@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { AccountsContext, ApiRxContext } from '@substrate/context';
+import { ApiRxContext } from '@substrate/context';
 import { List } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
@@ -58,13 +58,6 @@ const AccountsPageRight = styled.div`
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
-  const {
-    state: {
-      accountBalanceMap,
-      allAccounts,
-      allStashes,
-    },
-  } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
 
   return (
