@@ -3,9 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { ApiRxContext, TxQueueContext, AccountsContext } from '@substrate/context';
+import { createType } from '@polkadot/types';
+import { AccountsContext, ApiRxContext, ExtrinsicDetails, TxQueueContext } from '@substrate/context';
 import { ErrorText, Input } from '@substrate/ui-components';
 import BN from 'bn.js';
+import { navigate } from 'gatsby';
 import React, { useCallback, useContext, useState, useEffect } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal'
@@ -34,22 +36,40 @@ interface Props {
 
 const BondExtraModal = (props: Props) => {
   const { stashId } = props;
+
+  /* context */
   const { api, isApiReady, fees } = useContext(ApiRxContext);
-  const { state: { accountBalanceMap, currentAccountNonce, stashControllerMap } } = useContext(AccountsContext);
+  const { state: { accountBalanceMap, currentAccountNonce, loadingBalances, stashControllerMap } } = useContext(AccountsContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
+
+  /* state */
   const [allFees, setAllFees] = useState<BN>();
   const [allTotal, setAllTotal] = useState<BN>();
   const [canSubmit, setCanSubmit] = useState(false);
+  const [controllerId, setControllerId] = useState<string>();
   const [error, setError] = useState<string>();
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
   const [maxAdditional, setMaxAdditional] = useState<BN>(new BN(0));
+  const [txId, setTxId] = useState<number>();
 
+  /* set the extrinsic, to be signed and submitted */
   useEffect(() => {
     if (api && isApiReady && maxAdditional) {
       setExtrinsic(api.tx.staking.bondExtra(maxAdditional));
     }
   }, [api, isApiReady, maxAdditional]);
+  
+  /* set the controllerId */
+  useEffect(() => {
+    if (stashId && stashControllerMap) {
+      setControllerId(
+        stashControllerMap[stashId] 
+        && stashControllerMap[stashId].controllerId?.toHuman
+        && stashControllerMap[stashId].controllerId?.toHuman());
+    }
+  }, [api, isApiReady, stashId, stashControllerMap])
 
+  /* validate user inputs, fees */
   useEffect(() => {
     if (api && isApiReady) {
       checkUserInputs();
@@ -62,21 +82,56 @@ const BondExtraModal = (props: Props) => {
     maxAdditional
   ]);
 
+  /* set whether button should be disabled */
   useEffect(() => {
     if (!error) {
       setCanSubmit(true);
     }
   }, [error])
 
-  const submitBondExtra = useCallback(() => {
+  useEffect(() => {
+    if (txId) {
+      signAndSubmit(txId);
+      navigate('/accounts');
+    }
+  }, [txId])
 
-  
-  }, []);
+  const submitBondExtra = useCallback(() => {
+    if (
+      api &&
+      stashId &&
+      allFees &&
+      allTotal &&
+      extrinsic
+    ) {
+      const details: ExtrinsicDetails = {
+        allFees,
+        allTotal,
+        amount: createType(api.registry, 'Balance', maxAdditional),
+        methodCall: 'staking.bondExtra',
+        senderPair: stashId,
+      };
+
+      const id = enqueue(extrinsic, details);
+      setTxId(id);
+    }
+  }, [
+    api,
+    controllerId,
+    stashId,
+    allFees,
+    allTotal,
+    maxAdditional,
+    extrinsic,
+    enqueue,
+  ]);
 
   const checkFees = useCallback((): void => {
     if (
       api &&
       isApiReady &&
+      accountBalanceMap &&
+      !loadingBalances &&
       stashId &&
       stashControllerMap &&
       currentAccountNonce &&
@@ -153,9 +208,7 @@ const BondExtraModal = (props: Props) => {
           <LayoutRowItem>
             <SubHeader>To:</SubHeader>
             <AddressSummary 
-                address={stashControllerMap[stashId] 
-                        && stashControllerMap[stashId].controllerId?.toHuman
-                        && stashControllerMap[stashId].controllerId?.toHuman()}
+                address={controllerId}
                 api={api}
                 size='small' />
           </LayoutRowItem>
@@ -179,7 +232,7 @@ const BondExtraModal = (props: Props) => {
 
       <Modal.Description>
         <ErrorText>{error}</ErrorText>
-        <Button float='right' size='big' onClick={submitBondExtra}>Bond Extra</Button>
+        <Button disabled={!canSubmit} float='right' size='big' onClick={submitBondExtra}>Bond Extra</Button>
       </Modal.Description>
     </Modal>
   )

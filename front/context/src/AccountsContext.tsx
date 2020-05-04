@@ -195,6 +195,9 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         type: 'setAccountBalanceMap',
         data: result,
       });
+
+      console.log('abm -> ', result);
+
       writeStorage('derivedBalances', JSON.stringify(result));
       dispatch({
         type: 'setLoadingBalances',
