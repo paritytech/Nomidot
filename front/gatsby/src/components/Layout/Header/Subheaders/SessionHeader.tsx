@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useQuery, useSubscription } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -12,24 +12,14 @@ import {
 import HeaderItem from '../HeaderItem';
 import { SessionHead } from '../types';
 
-const SessionHeader = (): React.ReactElement => {
+interface Props {
+  inverted?: boolean;
+}
+
+const SessionHeader = (props: Props): React.ReactElement => {
+  const { inverted = false } = props;
   const queryData = useQuery(LATEST_SESSION_QUERY);
-  const { data } = useSubscription(SESSIONS_SUBSCRIPTION);
   const [sessionHead, setSessionHead] = useState<SessionHead>();
-
-  useEffect(() => {
-    if (data) {
-      const {
-        subscribeSessions: { index },
-      } = data;
-
-      if (!sessionHead || index > sessionHead.index) {
-        setSessionHead({
-          index,
-        });
-      }
-    }
-  }, [data, sessionHead]);
 
   useEffect(() => {
     if (queryData && queryData.data) {
@@ -45,6 +35,7 @@ const SessionHeader = (): React.ReactElement => {
 
   return (
     <HeaderItem
+      inverted={inverted}
       title='Session'
       value={sessionHead?.index.toString() || 'fetching...'}
     />

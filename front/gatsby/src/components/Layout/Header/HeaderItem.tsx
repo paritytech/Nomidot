@@ -6,9 +6,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  inverted?: boolean;
   title: string;
   subtitle?: string | React.ReactNode;
   value: string;
+}
+
+interface SubtextProps {
+  inverted?: boolean;
 }
 
 const ItemWrapper = styled.div`
@@ -19,8 +24,8 @@ const ItemWrapper = styled.div`
   padding: 2px 2px;
 `;
 
-const Title = styled.p`
-  color: white;
+const Title = styled.p<SubtextProps>`
+  color: ${props => props.inverted ? 'black' : 'white'};
   font-weight: 100;
   font-family: code sans-serif;
   font-size: 12px;
@@ -28,30 +33,30 @@ const Title = styled.p`
   margin: 0;
 `;
 
-const Value = styled.p`
+const Value = styled.p<SubtextProps>`
   font-family: code sans-serif;
   font-size: 16px;
-  color: white;
+  color: ${props => props.inverted ? 'black' : 'white'};
   line-height: -1px;
   margin: 0;
 `;
 
-const Subtitle = styled.p`
+const Subtitle = styled.p<SubtextProps>`
   font-size: 12px;
   font-weight: 600;
-  color: white;
+  color: ${props => props.inverted ? 'black' : 'white'};
   font-family: code sans-serif;
   line-height: -1px;
 `;
 
 const HeaderItem = (props: Props): React.ReactElement => {
-  const { title, subtitle, value } = props;
+  const { inverted = false, title, subtitle, value } = props;
 
   return (
     <ItemWrapper>
-      <Title>{title}</Title>
-      <Value>{value}</Value>
-      <Subtitle>{subtitle}</Subtitle>
+      <Title inverted={inverted}>{title}</Title>
+      <Value inverted={inverted}>{value}</Value>
+      <Subtitle inverted={inverted}>{subtitle}</Subtitle>
     </ItemWrapper>
   );
 };

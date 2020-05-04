@@ -34,6 +34,17 @@ export const LATEST_SESSION_QUERY = gql`
   }
 `;
 
+export const LATEST_STAKE = gql`
+  query {
+    stakes(last: 1) {
+      blockNumber {
+        number
+      }
+      totalStake
+    }
+  }
+`;
+
 export const CURRENT_ELECTED = gql`
   query {
     validators(last: 200) {

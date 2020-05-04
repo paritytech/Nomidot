@@ -2,40 +2,41 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useSubscription } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
 import { ApiRxContext } from '@substrate/context';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { STAKING_SUBSCRIPTION } from '../../../../util/graphql';
+import { LATEST_STAKE } from '../../../../util/graphql';
 import HeaderItem from '../HeaderItem';
 import { StakingHead } from '../types';
 
-const StakingHeader = (): React.ReactElement => {
-  const { data } = useSubscription(STAKING_SUBSCRIPTION);
+interface Props {
+  inverted?: boolean;
+}
+
+const StakingHeader = (props: Props): React.ReactElement => {
+  const { inverted } = props;
+  const queryData = useQuery(LATEST_STAKE);
   const [stakeHead, setStakeHead] = useState<StakingHead>();
   const { api } = useContext(ApiRxContext);
 
   useEffect(() => {
-    if (data) {
+    if (queryData && queryData.data) {
       const {
-        subscribeStakes: {
-          blockNumber: { number },
-          totalStake,
-        },
-      } = data;
+        data: { stakes },
+      } = queryData;
 
-      if (!stakeHead || stakeHead.blockNumber > number) {
-        setStakeHead({
-          blockNumber: number,
-          totalStake,
-        });
-      }
+      setStakeHead({
+        blockNumber: stakes[0].number,
+        totalStake: stakes[0].totalStake,
+      });
     }
-  }, [api, data, stakeHead]);
+  }, [api, queryData, stakeHead]);
 
   return (
     <HeaderItem
+      inverted={inverted}
       title='Total Stake'
       subtitle={null}
       value={stakeHead ? formatBalance(stakeHead.totalStake) : 'fetching...'}
