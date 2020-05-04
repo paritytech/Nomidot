@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveStakingQuery } from '@polkadot/api-derive/types';
 import { ApiRxContext, TxQueueContext } from '@substrate/context';
 import { Input } from '@substrate/ui-components';
 import BN from 'bn.js';
@@ -9,12 +10,20 @@ import React, { useCallback, useContext, useState } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal'
 
-import { Button, ClosableTooltip, Text } from './index';
+import { Button, ClosableTooltip, SubHeader, Text } from './index';
 
-const BondExtraModal = () => {
+interface Props {
+  stashId: string,
+  stakingLedger: DeriveStakingQuery
+}
+
+const BondExtraModal = (props: Props) => {
+  const { stashId, stakingLedger } = props;
   const { api } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
   const [maxAdditional, setMaxAdditional] = useState(new BN(0));
+
+  console.log('staking ledger -> ', stakingLedger);
 
   const submitBondExtra = useCallback(() => {
     const extrinsic = api.tx.staking.bondExtra(maxAdditional);
@@ -46,6 +55,12 @@ const BondExtraModal = () => {
         </Text>
       </ClosableTooltip>
       <Modal.Content>
+        <SubHeader>Bond from:</SubHeader>
+        <Text>{stashId}</Text>
+        <SubHeader>To:</SubHeader>
+        {/* <Text>{stakingLedger.controllerId}</Text> */}
+
+        <SubHeader>Amount:</SubHeader>  
         <Input
           fluid
           label='UNIT'
@@ -59,7 +74,7 @@ const BondExtraModal = () => {
       </Modal.Content>
 
       <Modal.Description>
-        <Button primary onClick={submitBondExtra}>Bond Extra</Button>
+        <Button float='right' size='big' onClick={submitBondExtra}>Bond Extra</Button>
       </Modal.Description>
     </Modal>
   )

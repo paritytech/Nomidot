@@ -145,13 +145,13 @@ const AccountsList = (_props: Props): React.ReactElement => {
     );
   };
 
-  const renderActionsForBonded = (): React.ReactElement => {
+  const renderActionsForBonded = (stashId: string): React.ReactElement => {
     return (
       <Tc>
         <Dropdown text='Actions'>
           <Dropdown.Menu>
             <Dropdown.Item text='Set Controller' />
-            <BondExtraModal />
+            <BondExtraModal stashId={stashId} controllerId={stashControllerMap[stashId]} />
             <Dropdown.Item text='Change Reward Preferences' />
           </Dropdown.Menu>
         </Dropdown>
@@ -222,7 +222,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
       <Tr key={shortid.generate()}>
         {renderStashColumn(account)}
         {renderStakingQueryColumns(account)}
-        {renderActionsForBonded()}
+        {renderActionsForBonded(account)}
       </Tr>
     );
   };
