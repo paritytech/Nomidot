@@ -38,7 +38,8 @@ interface ButtonProps {
 }
 
 export const Button = memo(styled.a<ButtonProps>`
-  background: ${(props): string => props.disabled ? '#f2f4f6' : polkadotOfficialTheme.hotPink};
+  background: ${(props): string =>
+    props.disabled ? '#f2f4f6' : polkadotOfficialTheme.hotPink};
   border-radius: 3px;
   border: 2px solid white;
   color: white;
@@ -52,8 +53,8 @@ export const Button = memo(styled.a<ButtonProps>`
   width: ${(props): string => ButtonSizeMap[props.size || 'small'].width};
 
   &:hover {
-    pointer-events: ${(props): string => props.disabled ? 'none' : 'default'};
-    cursor: ${(props): string => props.disabled ? 'pointer' : 'default'}
+    pointer-events: ${(props): string => (props.disabled ? 'none' : 'default')};
+    cursor: ${(props): string => (props.disabled ? 'pointer' : 'default')}
     color: white;
   }
 

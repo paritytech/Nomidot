@@ -4,7 +4,7 @@
 
 export { default as AccountsDropdown } from './AccountsDropdown';
 export * from './AddressSummary';
-export { default as BondedAccountsTable } from './BondedAccountsTable';
+export * from './BondedAccountsTable';
 export { default as BondExtraModal } from './BondExtraModal';
 export { default as BondingModal } from './BondingModal';
 export * from './Button';
@@ -17,4 +17,4 @@ export * from './Status';
 export * from './Table';
 export * from './Tooltip';
 export * from './Typography';
-export { default as UnbondedAccountsTable } from './UnbondedAccountsTable';
+export * from './UnbondedAccountsTable';

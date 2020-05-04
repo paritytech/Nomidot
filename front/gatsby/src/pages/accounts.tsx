@@ -10,12 +10,12 @@ import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import {
-  BondingModal,
   BondedAccountsTable,
+  BondingModal,
   ClosableTooltip,
   SubHeader,
   Text,
-  UnbondedAccountsTable
+  UnbondedAccountsTable,
 } from '../components';
 
 const AccountsPageGrid = styled.div`

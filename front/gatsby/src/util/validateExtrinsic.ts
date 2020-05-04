@@ -33,7 +33,7 @@ export function validateFees(
 ): [Errors, BN, BN] {
   const errors = [] as Errors;
   // const warnings = [] as Warnings; // TODO: things like existential deposit, long unbonding times
-console.log('validating....');
+  console.log('validating....');
   const txLength =
     SIGNATURE_SIZE +
     compactToU8a(accountNonce.nonce).length +

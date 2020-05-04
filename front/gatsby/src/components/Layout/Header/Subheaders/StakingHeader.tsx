@@ -4,8 +4,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { ApiRxContext } from '@substrate/context';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LATEST_STAKE } from '../../../../util/graphql';
 import HeaderItem from '../HeaderItem';
