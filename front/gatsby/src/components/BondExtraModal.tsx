@@ -188,12 +188,9 @@ const BondExtraModal = (props: Props): React.ReactElement => {
     }
   }, [api, stashId, allFees, allTotal, maxAdditional, extrinsic, enqueue]);
 
-  const handleUserInputChange = useCallback(
-    ({ target: { value } }) => {
-      setMaxAdditional(new BN(value));
-    },
-    []
-  );
+  const handleUserInputChange = useCallback(({ target: { value } }) => {
+    setMaxAdditional(new BN(value));
+  }, []);
 
   return (
     <Modal
