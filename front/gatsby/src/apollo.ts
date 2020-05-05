@@ -13,7 +13,7 @@ const httpLink = new HttpLink({
   uri: `${
     process.env.NODE_ENV === 'production'
       ? 'http://nomidot-server.nomidot-staging:4000'
-      : 'http://35.189.196.74:4000'
+      : 'https://test.nodewatcher-server.polkassembly.io/'
   }`,
 });
 
@@ -21,7 +21,7 @@ const wsLink = new WebSocketLink({
   uri: `${
     process.env.NODE_ENV === 'production'
       ? 'ws://nomidot-server.nomidot-staging:4000'
-      : 'ws://35.189.196.74:4000'
+      : 'wss://test.nodewatcher-server.polkassembly.io/'
   }`,
   options: {
     reconnect: true,
