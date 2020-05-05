@@ -4,8 +4,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import { ApiRxContext } from '@substrate/context';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LATEST_STAKE } from '../../../../util/graphql';
 import HeaderItem from '../HeaderItem';
@@ -19,7 +18,6 @@ const StakingHeader = (props: Props): React.ReactElement => {
   const { inverted } = props;
   const queryData = useQuery(LATEST_STAKE);
   const [stakeHead, setStakeHead] = useState<StakingHead>();
-  const { api } = useContext(ApiRxContext);
 
   useEffect(() => {
     if (queryData && queryData.data) {
