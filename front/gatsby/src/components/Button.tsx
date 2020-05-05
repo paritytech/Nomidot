@@ -66,43 +66,43 @@ export const Button = memo(styled.a<ButtonProps>`
   ${(props): FlattenSimpleInterpolation | null =>
     props.primary
       ? css`
-        background: white;
-        border: 2px solid ${polkadotOfficialTheme.hotPink};
-        color: ${polkadotOfficialTheme.hotPink};
-
-        &:hover {
-          cursor: pointer;
+          background: white;
+          border: 2px solid ${polkadotOfficialTheme.hotPink};
           color: ${polkadotOfficialTheme.hotPink};
-        }
-      `
+
+          &:hover {
+            cursor: pointer;
+            color: ${polkadotOfficialTheme.hotPink};
+          }
+        `
       : null}
 
   ${(props): FlattenSimpleInterpolation | null =>
     props.secondary
       ? css`
-        background: white;
-        border: 2px solid ${polkadotOfficialTheme.neonBlue};
-        color: ${polkadotOfficialTheme.neonBlue};
-
-        &:hover {
-          cursor: pointer;
+          background: white;
+          border: 2px solid ${polkadotOfficialTheme.neonBlue};
           color: ${polkadotOfficialTheme.neonBlue};
-        }
-      `
-    : null}
+
+          &:hover {
+            cursor: pointer;
+            color: ${polkadotOfficialTheme.neonBlue};
+          }
+        `
+      : null}
 
   ${(props): FlattenSimpleInterpolation | null =>
     props.neutral
       ? css`
-        background: white;
-        border: 2px solid ${polkadotOfficialTheme.black};
-        color: ${polkadotOfficialTheme.black};
-
-        &:hover {
-          cursor: pointer;
+          background: white;
+          border: 2px solid ${polkadotOfficialTheme.black};
           color: ${polkadotOfficialTheme.black};
-          background: ${polkadotOfficialTheme.white};
-        }
-      `
+
+          &:hover {
+            cursor: pointer;
+            color: ${polkadotOfficialTheme.black};
+            background: ${polkadotOfficialTheme.white};
+          }
+        `
       : null}
 `);
