@@ -9,7 +9,7 @@ import { Container } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { SubHeader, Text, ValidatorsTable } from '../components';
-import { LATEST_SESSION_QUERY} from '../util/graphql';
+import { LATEST_SESSION_QUERY } from '../util/graphql';
 
 const CurrentElectedList = (): React.ReactElement => {
   const { api } = useContext(ApiRxContext);
@@ -20,26 +20,24 @@ const CurrentElectedList = (): React.ReactElement => {
   useEffect(() => {
     if (sessionQueryData && sessionQueryData.data) {
       const {
-        data: {
-          sessions
-        }
+        data: { sessions },
       } = sessionQueryData;
 
       setCurrentSession(sessions[0].index);
     }
-  }, [sessionQueryData])
+  }, [sessionQueryData]);
 
   return (
     <Container>
       <SubHeader>Session:</SubHeader>
       <Text>{currentSession?.toString()}</Text>
-      {
-        currentSession
-          ? <ValidatorsTable api={api} currentSession={currentSession} />
-          : <Spinner active inline />
-      }
+      {currentSession ? (
+        <ValidatorsTable api={api} currentSession={currentSession} />
+      ) : (
+        <Spinner active inline />
+      )}
     </Container>
-  )
+  );
 };
 
 export default CurrentElectedList;

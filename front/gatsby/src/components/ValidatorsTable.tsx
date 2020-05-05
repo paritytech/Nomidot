@@ -5,15 +5,13 @@
 import { useQuery } from '@apollo/react-hooks';
 import { ApiRx } from '@polkadot/api';
 import { formatBalance } from '@polkadot/util';
-import { ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import { Container, FadedText, Icon } from '@substrate/ui-components';
-import React, { useContext, useEffect, useState } from 'react';
+import { FadedText, Icon } from '@substrate/ui-components';
+import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import {
   AddressSummary,
-  Button,
   Table,
   Tb,
   Tc,
@@ -23,18 +21,22 @@ import {
 } from '../components';
 import { OfflineValidator, Validator } from '../types';
 import { addToCart } from '../util';
-import { CURRENT_ELECTED, CURRENT_NOMINATIONS, OFFLINE_VALIDATORS } from '../util/graphql';
+import {
+  CURRENT_ELECTED,
+  CURRENT_NOMINATIONS,
+  OFFLINE_VALIDATORS,
+} from '../util/graphql';
 
 interface JoinValidatorOffline extends Validator {
   wasOfflineThisSession: boolean;
 }
 
 interface Props {
-  api: ApiRx,
-  currentSession: number
+  api: ApiRx;
+  currentSession: number;
 }
 
-const ValidatorsTable = (props: Props) => {
+const ValidatorsTable = (props: Props): React.ReactElement => {
   const { api, currentSession } = props;
   const [currentElected, setCurrentElected] = useState<
     JoinValidatorOffline[]
@@ -42,25 +44,24 @@ const ValidatorsTable = (props: Props) => {
 
   const currentValidators = useQuery(CURRENT_ELECTED, {
     variables: {
-      sessionIndex: currentSession
-    }
+      sessionIndex: currentSession,
+    },
   });
 
   const currentNominations = useQuery(CURRENT_NOMINATIONS, {
     variables: {
-      sessionIndex: currentSession
-    }
+      sessionIndex: currentSession,
+    },
   });
 
-  const currentOffline = useQuery(OFFLINE_VALIDATORS,  {
+  const currentOffline = useQuery(OFFLINE_VALIDATORS, {
     variables: {
-      sessionIndex: currentSession
-    }
+      sessionIndex: currentSession,
+    },
   });
 
   useEffect(() => {
     console.log('nominantion data => ', currentNominations);
-
   }, [currentNominations]);
 
   useEffect(() => {
@@ -134,9 +135,7 @@ const ValidatorsTable = (props: Props) => {
             ({ stash, controller, preferences, wasOfflineThisSession }) => (
               <Tr key={shortid.generate()}>
                 <Tc>
-                  <FadedText>
-                    {JSON.stringify(wasOfflineThisSession)}
-                  </FadedText>
+                  <FadedText>{JSON.stringify(wasOfflineThisSession)}</FadedText>
                 </Tc>
                 <Tc>
                   <AddressSummary
@@ -166,7 +165,11 @@ const ValidatorsTable = (props: Props) => {
                   </FadedText>
                 </Tc>
                 <Tc>
-                  <Icon onClick={handleAddToCart} data-stash={stash} name='add to cart' />
+                  <Icon
+                    onClick={handleAddToCart}
+                    data-stash={stash}
+                    name='add to cart'
+                  />
                 </Tc>
               </Tr>
             )
@@ -176,8 +179,7 @@ const ValidatorsTable = (props: Props) => {
         )}
       </Tb>
     </Table>
-  )
-
-}
+  );
+};
 
 export default React.memo(ValidatorsTable);

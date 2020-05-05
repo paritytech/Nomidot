@@ -46,8 +46,8 @@ export const LATEST_STAKE = gql`
 `;
 
 export const CURRENT_ELECTED = gql`
- query Validators($sessionIndex: Int!) {
-  validators(where: { session: { index: $sessionIndex }}, last: 220) {
+  query Validators($sessionIndex: Int!) {
+    validators(where: { session: { index: $sessionIndex } }, last: 220) {
       controller
       stash
       preferences
@@ -55,10 +55,9 @@ export const CURRENT_ELECTED = gql`
   }
 `;
 
-
 export const CURRENT_NOMINATIONS = gql`
   query Nominators($sessionIndex: Int!) {
-    nominations(where: { session: { index: $sessionIndex }}) {
+    nominations(where: { session: { index: $sessionIndex } }) {
       validatorController
       validatorStash
       nominatorStash
@@ -70,7 +69,7 @@ export const CURRENT_NOMINATIONS = gql`
 
 export const OFFLINE_VALIDATORS = gql`
   query OfflineValidators($sessionIndex: Int!) {
-    offlineValidators(where: { session: { index: $sessionIndex }}) {
+    offlineValidators(where: { session: { index: $sessionIndex } }) {
       validatorId
       total
       own
