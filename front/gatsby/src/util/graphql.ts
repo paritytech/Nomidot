@@ -45,6 +45,22 @@ export const LATEST_STAKE = gql`
   }
 `;
 
+/**
+ * Join the two queries below to get a result like following:
+ * 
+ * table1 {
+ *  validatorController,
+ *  validatorStash,
+ *  nominatorStash,
+ *  nominatorController,
+ *  preferences
+ *  stakedAmount
+ * }
+ * 
+ * count {
+ * }
+ */
+
 export const CURRENT_ELECTED = gql`
   query Validators($sessionIndex: Int!) {
     validators(where: { session: { index: $sessionIndex } }, last: 220) {
@@ -56,7 +72,7 @@ export const CURRENT_ELECTED = gql`
 `;
 
 export const CURRENT_NOMINATIONS = gql`
-  query Nominators($sessionIndex: Int!) {
+  query Nominations($sessionIndex: Int!) {
     nominations(where: { session: { index: $sessionIndex } }) {
       validatorController
       validatorStash

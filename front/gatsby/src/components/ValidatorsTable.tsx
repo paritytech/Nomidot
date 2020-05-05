@@ -4,9 +4,11 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { ApiRx } from '@polkadot/api';
+import { ValidatorPrefs } from '@polkadot/types/interfaces';
 import { formatBalance } from '@polkadot/util';
 import { Spinner } from '@substrate/design-system';
 import { FadedText, Icon } from '@substrate/ui-components';
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
@@ -19,7 +21,7 @@ import {
   Thead,
   Tr,
 } from '../components';
-import { OfflineValidator, Validator } from '../types';
+import { OfflineValidator, Nomination } from '../types';
 import { addToCart } from '../util';
 import {
   CURRENT_ELECTED,
@@ -27,8 +29,18 @@ import {
   OFFLINE_VALIDATORS,
 } from '../util/graphql';
 
-interface JoinValidatorOffline extends Validator {
+// TODO also join with prefernces
+interface JoinNominationsAndOffline extends Nomination {
   wasOfflineThisSession: boolean;
+}
+
+interface TableRowData {
+  validatorController: string,
+  validatorStash: string,
+  nominators: string[], // by stash
+  stakedAmount: BN, // sum up all the staked amounts
+  // preferences: ValidatorPrefs,
+  wasOfflineThisSession: boolean
 }
 
 interface Props {
@@ -39,14 +51,10 @@ interface Props {
 const ValidatorsTable = (props: Props): React.ReactElement => {
   const { api, currentSession } = props;
   const [currentElected, setCurrentElected] = useState<
-    JoinValidatorOffline[]
+  JoinNominationsAndOffline[]
   >();
 
-  const currentValidators = useQuery(CURRENT_ELECTED, {
-    variables: {
-      sessionIndex: currentSession,
-    },
-  });
+  const [tableData, setTableData] = useState<TableRowData[]>();
 
   const currentNominations = useQuery(CURRENT_NOMINATIONS, {
     variables: {
@@ -61,50 +69,8 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
   });
 
   useEffect(() => {
-    console.log('nominantion data => ', currentNominations);
-  }, [currentNominations]);
-
-  useEffect(() => {
-    if (currentValidators.data && currentValidators.data.validators) {
-      const result: JoinValidatorOffline[] = [];
-
-      /*
-       * FIXME: do this on server side
-       * in theory not great, but unnoticeable in practice
-       * O(N*M) where N = |validators|, M = |offline|
-       */
-      if (currentOffline.data && currentOffline.data.offlineValidators) {
-        currentValidators.data.validators.map((validator: Validator) => {
-          currentOffline.data.offlineValidators.map(
-            (offline: OfflineValidator) => {
-              if (
-                validator.stash === offline.validatorId ||
-                validator.controller === offline.validatorId
-              ) {
-                result.push({
-                  ...validator,
-                  wasOfflineThisSession: true,
-                });
-              } else {
-                result.push({
-                  ...validator,
-                  wasOfflineThisSession: false,
-                });
-              }
-            }
-          );
-        });
-      } else {
-        currentValidators.data.validators.map((validator: Validator) => {
-          result.push({
-            ...validator,
-            wasOfflineThisSession: false,
-          });
-        });
-      }
-      setCurrentElected(result);
-    }
-  }, [currentValidators, currentOffline]);
+    
+  }, [currentNominations, currentOffline]);
 
   const handleAddToCart = ({
     currentTarget: {
@@ -132,7 +98,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
       <Tb>
         {currentElected ? (
           currentElected.map(
-            ({ stash, controller, preferences, wasOfflineThisSession }) => (
+            ({ nominatorStash, nominatorController, validatorStash, validatorController, stakedAmount, wasOfflineThisSession }) => (
               <Tr key={shortid.generate()}>
                 <Tc>
                   <FadedText>{JSON.stringify(wasOfflineThisSession)}</FadedText>
