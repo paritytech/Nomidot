@@ -32,7 +32,7 @@ const StakingHeader = (props: Props): React.ReactElement => {
         totalStake: stakes[0].totalStake,
       });
     }
-  }, [api, queryData, stakeHead]);
+  }, [queryData]);
 
   return (
     <HeaderItem
