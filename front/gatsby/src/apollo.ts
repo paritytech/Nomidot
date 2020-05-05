@@ -21,7 +21,7 @@ const wsLink = new WebSocketLink({
   uri: `${
     process.env.NODE_ENV === 'production'
       ? 'ws://nomidot-server.nomidot-staging:4000'
-      : 'ws://test.nodewatcher-server.polkassembly.io/'
+      : 'wss://test.nodewatcher-server.polkassembly.io/'
   }`,
   options: {
     reconnect: true,
