@@ -46,8 +46,8 @@ export const LATEST_STAKE = gql`
 `;
 
 export const CURRENT_ELECTED = gql`
-  query {
-    validators(last: 200) {
+ query Validators($sessionIndex: Int!) {
+  validators(where: { session: { index: $sessionIndex }}, last: 220) {
       controller
       stash
       preferences

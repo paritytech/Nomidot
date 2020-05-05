@@ -4,6 +4,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { ApiRxContext } from '@substrate/context';
+import { Spinner } from '@substrate/design-system';
 import { Container } from '@substrate/ui-components';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -32,7 +33,11 @@ const CurrentElectedList = (): React.ReactElement => {
     <Container>
       <SubHeader>Session:</SubHeader>
       <Text>{currentSession?.toString()}</Text>
-      <ValidatorsTable api={api} currentSession={currentSession} />
+      {
+        currentSession
+          ? <ValidatorsTable api={api} currentSession={currentSession} />
+          : <Spinner active inline />
+      }
     </Container>
   )
 };

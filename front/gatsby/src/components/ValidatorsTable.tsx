@@ -31,7 +31,7 @@ interface JoinValidatorOffline extends Validator {
 
 interface Props {
   api: ApiRx,
-  currentSession?: number
+  currentSession: number
 }
 
 const ValidatorsTable = (props: Props) => {
@@ -40,15 +40,23 @@ const ValidatorsTable = (props: Props) => {
     JoinValidatorOffline[]
   >();
 
-  const currentValidators = useQuery(CURRENT_ELECTED);
-
-  const currentNominations = currentSession && useQuery(CURRENT_NOMINATIONS, {
+  const currentValidators = useQuery(CURRENT_ELECTED, {
     variables: {
       sessionIndex: currentSession
     }
   });
 
-  const currentOffline = useQuery(OFFLINE_VALIDATORS);
+  const currentNominations = useQuery(CURRENT_NOMINATIONS, {
+    variables: {
+      sessionIndex: currentSession
+    }
+  });
+
+  const currentOffline = useQuery(OFFLINE_VALIDATORS,  {
+    variables: {
+      sessionIndex: currentSession
+    }
+  });
 
   useEffect(() => {
     console.log('nominantion data => ', currentNominations);
