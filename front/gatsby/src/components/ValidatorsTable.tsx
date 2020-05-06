@@ -4,12 +4,10 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { ApiRx } from '@polkadot/api';
-import {
-  ValidatorPrefs
-} from '@polkadot/types/interfaces';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, hexToBn } from '@polkadot/util';
 import { Spinner } from '@substrate/design-system';
-import { FadedText, Icon } from '@substrate/ui-components';
+import { writeStorage } from '@substrate/local-storage';
+import { Icon } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
@@ -27,6 +25,7 @@ interface Props {
 const ValidatorsTable = (props: Props): React.ReactElement => {
   const { api, currentSession } = props;
 
+  const [shouldFetch, setShouldFetch] = useState<boolean>(false);
   const [tableData, setTableData] = useState<TableRowData>();
 
   const currentNominations = useQuery(CURRENT_NOMINATIONS, {
@@ -50,6 +49,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
   useEffect(() => {
     if (
       api &&
+      shouldFetch &&
       currentNominations &&
       currentNominations.data &&
       currentOffline &&
@@ -65,8 +65,28 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
       );
 
       setTableData(result);
+      writeStorage('cachedSession', JSON.stringify(currentSession));
+      writeStorage('tableData', JSON.stringify(result));
     }
-  }, [api, currentNominations, currentOffline]);
+  }, [api, currentNominations, currentOffline, shouldFetch]);
+
+  useEffect(() => {
+    const cachedTableDataSession = localStorage.getItem('cachedSession');
+
+    if (
+      !cachedTableDataSession ||
+      JSON.parse(cachedTableDataSession) !== currentSession
+    ) {
+      setShouldFetch(true);
+    } else {
+      const cachedTableData = localStorage.getItem('tableData');
+
+      if (cachedTableData) {
+        setTableData(JSON.parse(cachedTableData) as TableRowData);
+      }
+    }
+
+  }, [])
 
   const handleAddToCart = ({
     currentTarget: {
@@ -107,9 +127,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
               return (
                 <Tr key={shortid.generate()}>
                   <Tc>
-                    <FadedText>
-                      {JSON.stringify(wasOfflineThisSession)}
-                    </FadedText>
+                    {JSON.stringify(wasOfflineThisSession)}
                   </Tc>
                   <Tc>
                     <AddressSummary
@@ -130,16 +148,18 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
                     />
                   </Tc>
                   <Tc>{nominators.size}</Tc>
-                  <Tc>{formatBalance(stakedAmount.toString())}</Tc>
                   <Tc>
-                  <FadedText>
+                    {stakedAmount instanceof BN
+                      ? formatBalance(stakedAmount)
+                      : formatBalance(hexToBn(stakedAmount))
+                  }</Tc>
+                  <Tc>
                     {
                       preferences
                         ? formatBalance(api.createType('ValidatorPrefs', preferences)
                         .commission.toString())
                         : '0'
                     }
-                  </FadedText>
                 </Tc>
                   <Tc>
                     <Icon

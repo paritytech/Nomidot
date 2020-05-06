@@ -28,7 +28,7 @@ export interface TableRowData {
     validatorController: string;
     validatorStash: string;
     nominators: Set<string>; // by stash, deduped
-    stakedAmount: BN; // sum up all the staked amounts
+    stakedAmount: BN | string; // sum up all the staked amounts. It's Union string because when cached in localstorage it stores the hex version.
     preferences?: ValidatorPrefs,
     wasOfflineThisSession: boolean;
   };
