@@ -85,7 +85,6 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
         setTableData(JSON.parse(cachedTableData) as TableRowData);
       }
     }
-
   }, [])
 
   const handleAddToCart = ({
@@ -124,6 +123,8 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
               preferences,
               wasOfflineThisSession,
             }) => {
+              console.log('nominators => ', nominators);
+
               return (
                 <Tr key={shortid.generate()}>
                   <Tc>
@@ -147,7 +148,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
                       noPlaceholderName
                     />
                   </Tc>
-                  <Tc>{nominators.size}</Tc>
+                  <Tc>{nominators.length}</Tc>
                   <Tc>
                     {stakedAmount instanceof BN
                       ? formatBalance(stakedAmount)

@@ -8,9 +8,10 @@
 
 import { ApiRx } from '@polkadot/api';
 import { createType } from '@polkadot/types';
-import { ValidatorPrefs } from '@polkadot/types/interfaces';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
+
+import BN from 'bn.js';
 
 import { Nomination, OfflineValidator, Validator, TableRowData } from '../types';
 
@@ -87,14 +88,12 @@ export function joinDataIntoTableRow(
   result.map((value: JoinNominationsAndOffline) => {
     // entry doesnt exist yet
     if (!final[value.validatorStash]) {
-      const nominatorsSet: Set<string> = new Set();
       const preferences = currentValidators.find((validator: Validator) => validator.stash === value.validatorStash)?.preferences;
       
-      nominatorsSet.add(value.nominatorStash);
       final[value.validatorStash] = {
         validatorController: value.validatorController,
         validatorStash: value.validatorStash,
-        nominators: nominatorsSet,
+        nominators: [value.nominatorStash],
         stakedAmount: createType(
           api.registry,
           'Balance',
@@ -105,22 +104,20 @@ export function joinDataIntoTableRow(
       };
     } else {
       // entry exists
-
-      const nominators = final[value.validatorStash].nominators.add(
-        value.nominatorStash
-      );
-      const stakedAmount = final[value.validatorStash].stakedAmount.add(
+      const stakedAmount = (final[value.validatorStash].stakedAmount as BN).add(
         createType(api.registry, 'Balance', value.stakedAmount).toBn()
       ); // need to cast it to the polkadotjs type first...
-
+      
       final[value.validatorStash] = {
         ...final[value.validatorStash],
-        nominators,
         stakedAmount,
       };
+
+      final[value.validatorStash].nominators.push(value.nominatorStash);
     }
   });
 
   console.log('final => ', final);
+
   return final;
 }
