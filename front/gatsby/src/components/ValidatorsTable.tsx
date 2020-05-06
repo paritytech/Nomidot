@@ -13,9 +13,13 @@ import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import { AddressSummary, Table, Tb, Tc, Th, Thead, Tr } from '../components';
-import { addToCart, joinDataIntoTableRow } from '../util';
-import { CURRENT_NOMINATIONS, CURRENT_VALIDATORS, OFFLINE_VALIDATORS } from '../util/graphql';
 import { TableRowData } from '../types';
+import { addToCart, joinDataIntoTableRow } from '../util';
+import {
+  CURRENT_NOMINATIONS,
+  CURRENT_VALIDATORS,
+  OFFLINE_VALIDATORS,
+} from '../util/graphql';
 
 interface Props {
   api: ApiRx;
@@ -68,7 +72,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
       writeStorage('cachedSession', JSON.stringify(currentSession));
       writeStorage('tableData', JSON.stringify(result));
     }
-  }, [api, currentNominations, currentOffline, shouldFetch]);
+  }, [api, currentNominations, currentOffline, currentSession, currentValidators, shouldFetch]);
 
   useEffect(() => {
     const cachedTableDataSession = localStorage.getItem('cachedSession');
@@ -85,7 +89,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
         setTableData(JSON.parse(cachedTableData) as TableRowData);
       }
     }
-  }, [])
+  }, [currentSession]);
 
   const handleAddToCart = ({
     currentTarget: {
@@ -123,13 +127,9 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
               preferences,
               wasOfflineThisSession,
             }) => {
-              console.log('nominators => ', nominators);
-
               return (
                 <Tr key={shortid.generate()}>
-                  <Tc>
-                    {JSON.stringify(wasOfflineThisSession)}
-                  </Tc>
+                  <Tc>{JSON.stringify(wasOfflineThisSession)}</Tc>
                   <Tc>
                     <AddressSummary
                       address={validatorStash}
@@ -152,16 +152,17 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
                   <Tc>
                     {stakedAmount instanceof BN
                       ? formatBalance(stakedAmount)
-                      : formatBalance(hexToBn(stakedAmount))
-                  }</Tc>
+                      : formatBalance(hexToBn(stakedAmount))}
+                  </Tc>
                   <Tc>
-                    {
-                      preferences
-                        ? formatBalance(api.createType('ValidatorPrefs', preferences)
-                        .commission.toString())
-                        : '0'
-                    }
-                </Tc>
+                    {preferences
+                      ? formatBalance(
+                          api
+                            .createType('ValidatorPrefs', preferences)
+                            .commission.toString()
+                        )
+                      : '0'}
+                  </Tc>
                   <Tc>
                     <Icon
                       onClick={handleAddToCart}

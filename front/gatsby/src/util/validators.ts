@@ -10,10 +10,14 @@ import { ApiRx } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-
 import BN from 'bn.js';
 
-import { Nomination, OfflineValidator, Validator, TableRowData } from '../types';
+import {
+  Nomination,
+  OfflineValidator,
+  TableRowData,
+  Validator,
+} from '../types';
 
 // TODO also join with prefernces
 interface JoinNominationsAndOffline {
@@ -88,8 +92,10 @@ export function joinDataIntoTableRow(
   result.map((value: JoinNominationsAndOffline) => {
     // entry doesnt exist yet
     if (!final[value.validatorStash]) {
-      const preferences = currentValidators.find((validator: Validator) => validator.stash === value.validatorStash)?.preferences;
-      
+      const preferences = currentValidators.find(
+        (validator: Validator) => validator.stash === value.validatorStash
+      )?.preferences;
+
       final[value.validatorStash] = {
         validatorController: value.validatorController,
         validatorStash: value.validatorStash,
@@ -107,7 +113,7 @@ export function joinDataIntoTableRow(
       const stakedAmount = (final[value.validatorStash].stakedAmount as BN).add(
         createType(api.registry, 'Balance', value.stakedAmount).toBn()
       ); // need to cast it to the polkadotjs type first...
-      
+
       final[value.validatorStash] = {
         ...final[value.validatorStash],
         stakedAmount,
@@ -116,8 +122,6 @@ export function joinDataIntoTableRow(
       final[value.validatorStash].nominators.push(value.nominatorStash);
     }
   });
-
-  console.log('final => ', final);
 
   return final;
 }

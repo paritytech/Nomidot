@@ -29,7 +29,7 @@ export interface TableRowData {
     validatorStash: string;
     nominators: Array<string>; // by stash
     stakedAmount: BN | string; // sum up all the staked amounts. It's Union string because when cached in localstorage it stores the hex version.
-    preferences?: ValidatorPrefs,
+    preferences?: ValidatorPrefs;
     wasOfflineThisSession: boolean;
   };
 }
