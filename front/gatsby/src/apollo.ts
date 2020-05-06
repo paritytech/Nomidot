@@ -9,7 +9,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import * as ws from 'ws';
 
-// TODO: 
+// TODO:
 // <service-name>.<namespace>:port
 const httpLink = new HttpLink({
   uri: `${
