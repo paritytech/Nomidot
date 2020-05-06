@@ -4,6 +4,9 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { ApiRx } from '@polkadot/api';
+import {
+  ValidatorPrefs
+} from '@polkadot/types/interfaces';
 import { formatBalance } from '@polkadot/util';
 import { Spinner } from '@substrate/design-system';
 import { FadedText, Icon } from '@substrate/ui-components';
@@ -12,25 +15,9 @@ import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import { AddressSummary, Table, Tb, Tc, Th, Thead, Tr } from '../components';
-import { Nomination } from '../types';
 import { addToCart, joinDataIntoTableRow } from '../util';
-import { CURRENT_NOMINATIONS, OFFLINE_VALIDATORS } from '../util/graphql';
-
-// TODO also join with prefernces
-interface JoinNominationsAndOffline extends Nomination {
-  wasOfflineThisSession: boolean;
-}
-
-interface TableRowData {
-  [validatorStash: string]: {
-    validatorController: string;
-    validatorStash: string;
-    nominators: Set<string>; // by stash, deduped
-    stakedAmount: BN; // sum up all the staked amounts
-    // preferences: ValidatorPrefs,
-    wasOfflineThisSession: boolean;
-  };
-}
+import { CURRENT_NOMINATIONS, CURRENT_VALIDATORS, OFFLINE_VALIDATORS } from '../util/graphql';
+import { TableRowData } from '../types';
 
 interface Props {
   api: ApiRx;
@@ -54,18 +41,27 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
     },
   });
 
+  const currentValidators = useQuery(CURRENT_VALIDATORS, {
+    variables: {
+      sessionIndex: currentSession,
+    },
+  });
+
   useEffect(() => {
     if (
       api &&
       currentNominations &&
       currentNominations.data &&
       currentOffline &&
-      currentOffline.data
+      currentOffline.data &&
+      currentValidators &&
+      currentValidators.data
     ) {
       const result: TableRowData = joinDataIntoTableRow(
         api,
         currentNominations.data.nominations,
-        currentOffline.data.offlineValidators
+        currentOffline.data.offlineValidators,
+        currentValidators.data.validators
       );
 
       setTableData(result);
@@ -93,6 +89,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
           <Th>Validator Controller</Th>
           <Th>Nominators</Th>
           <Th>Staked Amount</Th>
+          <Th>Commission</Th>
           <Th> </Th>
         </Tr>
       </Thead>
@@ -104,6 +101,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
               validatorStash,
               nominators,
               stakedAmount,
+              preferences,
               wasOfflineThisSession,
             }) => {
               return (
@@ -133,15 +131,16 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
                   </Tc>
                   <Tc>{nominators.size}</Tc>
                   <Tc>{formatBalance(stakedAmount.toString())}</Tc>
-                  {/* <Tc>
+                  <Tc>
                   <FadedText>
-                    {formatBalance(
-                      api
-                        .createType('ValidatorPrefs', preferences)
-                        .commission.toString()
-                    )}
+                    {
+                      preferences
+                        ? formatBalance(api.createType('ValidatorPrefs', preferences)
+                        .commission.toString())
+                        : '0'
+                    }
                   </FadedText>
-                </Tc> */}
+                </Tc>
                   <Tc>
                     <Icon
                       onClick={handleAddToCart}

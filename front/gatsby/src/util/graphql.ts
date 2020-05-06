@@ -61,7 +61,7 @@ export const LATEST_STAKE = gql`
  * }
  */
 
-export const CURRENT_ELECTED = gql`
+export const CURRENT_VALIDATORS = gql`
   query Validators($sessionIndex: Int!) {
     validators(where: { session: { index: $sessionIndex } }, last: 220) {
       controller

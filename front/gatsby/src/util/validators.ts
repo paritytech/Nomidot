@@ -8,11 +8,11 @@
 
 import { ApiRx } from '@polkadot/api';
 import { createType } from '@polkadot/types';
+import { ValidatorPrefs } from '@polkadot/types/interfaces';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import BN from 'bn.js';
 
-import { Nomination, OfflineValidator } from '../types';
+import { Nomination, OfflineValidator, Validator, TableRowData } from '../types';
 
 // TODO also join with prefernces
 interface JoinNominationsAndOffline {
@@ -24,21 +24,11 @@ interface JoinNominationsAndOffline {
   wasOfflineThisSession: boolean;
 }
 
-interface TableRowData {
-  [validatorStash: string]: {
-    validatorController: string;
-    validatorStash: string;
-    nominators: Set<string>; // by stash, deduped
-    stakedAmount: BN; // sum up all the staked amounts
-    // preferences: ValidatorPrefs,
-    wasOfflineThisSession: boolean;
-  };
-}
-// , currentValidators: Validator[]
 export function joinDataIntoTableRow(
   api: ApiRx,
   currentNominations: Nomination[],
-  currentOffline: OfflineValidator[]
+  currentOffline: OfflineValidator[],
+  currentValidators: Validator[]
 ): TableRowData {
   const currentOfflineDecoded: OfflineValidator[] = [];
   const dedup: Set<JoinNominationsAndOffline> = new Set();
@@ -56,7 +46,6 @@ export function joinDataIntoTableRow(
     currentOffline.map((offline: OfflineValidator) => {
       const pubkey = u8aToHex(decodeAddress(offline.validatorId));
 
-      console.log('pub key -=> ', pubkey);
       currentOfflineDecoded.push({
         ...offline,
         validatorId: pubkey,
@@ -66,7 +55,7 @@ export function joinDataIntoTableRow(
   /*
    * FIXME: do this on server side
    * in theory not great, but unnoticeable in practice
-   * O(N*M) where N = |validators|, M = |offline|
+   * O(N*M) where N = |nominations|, M = |offline|
    */
   currentNominations.map((nomination: Nomination) => {
     if (currentOfflineDecoded.length) {
@@ -99,6 +88,8 @@ export function joinDataIntoTableRow(
     // entry doesnt exist yet
     if (!final[value.validatorStash]) {
       const nominatorsSet: Set<string> = new Set();
+      const preferences = currentValidators.find((validator: Validator) => validator.stash === value.validatorStash)?.preferences;
+      
       nominatorsSet.add(value.nominatorStash);
       final[value.validatorStash] = {
         validatorController: value.validatorController,
@@ -109,6 +100,7 @@ export function joinDataIntoTableRow(
           'Balance',
           value.stakedAmount
         ).toBn(), // need to cast it to the polkadotjs type first...
+        preferences,
         wasOfflineThisSession: value.wasOfflineThisSession,
       };
     } else {
@@ -125,10 +117,10 @@ export function joinDataIntoTableRow(
         ...final[value.validatorStash],
         nominators,
         stakedAmount,
-        wasOfflineThisSession: value.wasOfflineThisSession,
       };
     }
   });
 
+  console.log('final => ', final);
   return final;
 }
