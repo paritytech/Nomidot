@@ -72,7 +72,14 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
       writeStorage('cachedSession', JSON.stringify(currentSession));
       writeStorage('tableData', JSON.stringify(result));
     }
-  }, [api, currentNominations, currentOffline, currentSession, currentValidators, shouldFetch]);
+  }, [
+    api,
+    currentNominations,
+    currentOffline,
+    currentSession,
+    currentValidators,
+    shouldFetch,
+  ]);
 
   useEffect(() => {
     const cachedTableDataSession = localStorage.getItem('cachedSession');
