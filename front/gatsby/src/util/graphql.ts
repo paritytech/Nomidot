@@ -85,11 +85,11 @@ export const CURRENT_NOMINATIONS = gql`
 
 export const OFFLINE_VALIDATORS = gql`
   query OfflineValidators($sessionIndex: Int!) {
-    offlineValidators(where: { session: { index: $sessionIndex } }) {
+    offlineValidators(where: { sessionIndex: { index: $sessionIndex }}) {
       validatorId
-      total
-      own
-      others
+      # total
+      # own
+      # others
     }
   }
 `;
