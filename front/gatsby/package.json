@@ -41,6 +41,7 @@
   },
   "scripts": {
     "build": "gatsby build",
+    "docker": "cp ../../yarn.lock . && docker build -t nomidot-front:v0.5.0 . && docker tag nomidot-front:v0.5.0 eu.gcr.io/test-installations-222013/nomidot-front:v0.5.0 && docker push eu.gcr.io/test-installations-222013/nomidot-front:v0.5.0 && rm yarn.lock",
     "start": "gatsby develop",
     "start:prod": "yarn build && yarn serve",
     "serve": "gatsby serve",
