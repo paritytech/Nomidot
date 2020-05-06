@@ -9,7 +9,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import * as ws from 'ws';
 
-// TODO:
+// TODO: get a production env and domain, i.e. decide a name and buy a domain
 // <service-name>.<namespace>:port
 const httpLink = new HttpLink({
   uri: `${
