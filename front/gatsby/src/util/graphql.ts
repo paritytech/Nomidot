@@ -47,7 +47,7 @@ export const LATEST_STAKE = gql`
 
 /**
  * Join the two queries below to get a result like following:
- * 
+ *
  * table1 {
  *  validatorController,
  *  validatorStash,
@@ -56,7 +56,7 @@ export const LATEST_STAKE = gql`
  *  preferences
  *  stakedAmount
  * }
- * 
+ *
  * count {
  * }
  */
@@ -85,7 +85,7 @@ export const CURRENT_NOMINATIONS = gql`
 
 export const OFFLINE_VALIDATORS = gql`
   query OfflineValidators($sessionIndex: Int!) {
-    offlineValidators(where: { sessionIndex: { index: $sessionIndex }}) {
+    offlineValidators(where: { sessionIndex: { index: $sessionIndex } }) {
       validatorId
       # total
       # own

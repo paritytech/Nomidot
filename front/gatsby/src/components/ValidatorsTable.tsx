@@ -4,7 +4,6 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { ApiRx } from '@polkadot/api';
-import { ValidatorPrefs } from '@polkadot/types/interfaces';
 import { formatBalance } from '@polkadot/util';
 import { Spinner } from '@substrate/design-system';
 import { FadedText, Icon } from '@substrate/ui-components';
@@ -12,22 +11,10 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
-import {
-  AddressSummary,
-  Table,
-  Tb,
-  Tc,
-  Th,
-  Thead,
-  Tr,
-} from '../components';
-import { OfflineValidator, Nomination } from '../types';
+import { AddressSummary, Table, Tb, Tc, Th, Thead, Tr } from '../components';
+import { Nomination } from '../types';
 import { addToCart, joinDataIntoTableRow } from '../util';
-import {
-  CURRENT_ELECTED,
-  CURRENT_NOMINATIONS,
-  OFFLINE_VALIDATORS,
-} from '../util/graphql';
+import { CURRENT_NOMINATIONS, OFFLINE_VALIDATORS } from '../util/graphql';
 
 // TODO also join with prefernces
 interface JoinNominationsAndOffline extends Nomination {
@@ -36,13 +23,13 @@ interface JoinNominationsAndOffline extends Nomination {
 
 interface TableRowData {
   [validatorStash: string]: {
-    validatorController: string,
-    validatorStash: string,
-    nominators: Set<string>, // by stash, deduped
-    stakedAmount: BN, // sum up all the staked amounts
+    validatorController: string;
+    validatorStash: string;
+    nominators: Set<string>; // by stash, deduped
+    stakedAmount: BN; // sum up all the staked amounts
     // preferences: ValidatorPrefs,
-    wasOfflineThisSession: boolean
-  }
+    wasOfflineThisSession: boolean;
+  };
 }
 
 interface Props {
@@ -52,9 +39,6 @@ interface Props {
 
 const ValidatorsTable = (props: Props): React.ReactElement => {
   const { api, currentSession } = props;
-  const [currentElected, setCurrentElected] = useState<
-  JoinNominationsAndOffline[]
-  >();
 
   const [tableData, setTableData] = useState<TableRowData>();
 
@@ -71,17 +55,22 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
   });
 
   useEffect(() => {
-    console.log('currentNominations => ', currentNominations);
-    console.log('offline => ', currentOffline);
-
-    if (currentNominations && currentNominations.data && currentOffline && currentOffline.data) {
-      const result: TableRowData = joinDataIntoTableRow(api, currentNominations.data.nominations, currentOffline.data.offlineValidators);
-
-      console.log('result => ', result);
+    if (
+      api &&
+      currentNominations &&
+      currentNominations.data &&
+      currentOffline &&
+      currentOffline.data
+    ) {
+      const result: TableRowData = joinDataIntoTableRow(
+        api,
+        currentNominations.data.nominations,
+        currentOffline.data.offlineValidators
+      );
 
       setTableData(result);
     }
-  }, [currentNominations, currentOffline]);
+  }, [api, currentNominations, currentOffline]);
 
   const handleAddToCart = ({
     currentTarget: {
@@ -108,38 +97,43 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
         </Tr>
       </Thead>
       <Tb>
-        {tableData 
-          ? (Object.values(tableData).map(({ validatorController, validatorStash, nominators, stakedAmount, wasOfflineThisSession }) => {
-            return (
-              <Tr key={shortid.generate()}>
-                <Tc>
-                  <FadedText>{JSON.stringify(wasOfflineThisSession)}</FadedText>
-                </Tc>
-                <Tc>
-                  <AddressSummary
-                    address={validatorStash}
-                    api={api}
-                    size='small'
-                    noBalance
-                    noPlaceholderName
-                  />
-                </Tc>
-                <Tc>
-                  <AddressSummary
-                    address={validatorController}
-                    api={api}
-                    size='small'
-                    noBalance
-                    noPlaceholderName
-                  />
-                </Tc>
-                <Tc>
-                  {nominators.size}
-                </Tc>
-                <Tc>
-                  {formatBalance(stakedAmount.toString())}
-                </Tc>
-                {/* <Tc>
+        {tableData ? (
+          Object.values(tableData).map(
+            ({
+              validatorController,
+              validatorStash,
+              nominators,
+              stakedAmount,
+              wasOfflineThisSession,
+            }) => {
+              return (
+                <Tr key={shortid.generate()}>
+                  <Tc>
+                    <FadedText>
+                      {JSON.stringify(wasOfflineThisSession)}
+                    </FadedText>
+                  </Tc>
+                  <Tc>
+                    <AddressSummary
+                      address={validatorStash}
+                      api={api}
+                      size='small'
+                      noBalance
+                      noPlaceholderName
+                    />
+                  </Tc>
+                  <Tc>
+                    <AddressSummary
+                      address={validatorController}
+                      api={api}
+                      size='small'
+                      noBalance
+                      noPlaceholderName
+                    />
+                  </Tc>
+                  <Tc>{nominators.size}</Tc>
+                  <Tc>{formatBalance(stakedAmount.toString())}</Tc>
+                  {/* <Tc>
                   <FadedText>
                     {formatBalance(
                       api
@@ -148,19 +142,20 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
                     )}
                   </FadedText>
                 </Tc> */}
-                <Tc>
-                  <Icon
-                    onClick={handleAddToCart}
-                    data-stash={validatorStash}
-                    name='add to cart'
-                  />
-                </Tc>
-              </Tr>
-            )
-          }))
-          : (
-            <Spinner inline />
-          )}
+                  <Tc>
+                    <Icon
+                      onClick={handleAddToCart}
+                      data-stash={validatorStash}
+                      name='add to cart'
+                    />
+                  </Tc>
+                </Tr>
+              );
+            }
+          )
+        ) : (
+          <Spinner inline />
+        )}
       </Tb>
     </Table>
   );
