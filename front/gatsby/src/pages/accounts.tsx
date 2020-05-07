@@ -71,7 +71,7 @@ const GreyedOutArea = styled.div`
   background: ${polkadotOfficialTheme.grey};
   height: 20rem;
   opacity: 0.5;
-`
+`;
 
 type Props = RouteComponentProps;
 
@@ -293,12 +293,24 @@ const AccountsList = (_props: Props): React.ReactElement => {
   return (
     <AccountsPageGrid>
       <AccountsPageLeft>
-        {
-          extensionNotFound
-            ? <GreyedOutArea> <SubHeader> Download <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>Polkadot.js Extension</a> to Continue</SubHeader></GreyedOutArea>
-            : <>{renderBondedAccounts()}
-            <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem></>
-        }
+        {extensionNotFound ? (
+          <GreyedOutArea>
+            {' '}
+            <SubHeader>
+              {' '}
+              Download{' '}
+              <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>
+                Polkadot.js Extension
+              </a>{' '}
+              to Continue
+            </SubHeader>
+          </GreyedOutArea>
+        ) : (
+          <>
+            {renderBondedAccounts()}
+            <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem>
+          </>
+        )}
       </AccountsPageLeft>
 
       <AccountsPageRight>

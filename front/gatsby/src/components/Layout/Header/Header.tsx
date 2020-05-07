@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RouteComponentProps } from '@reach/router'
-import { AccountsContext } from '@substrate/context';;
+import { RouteComponentProps } from '@reach/router';
+import { AccountsContext } from '@substrate/context';
 import { useLocalStorage } from '@substrate/local-storage';
 import { Icon, polkadotOfficialTheme } from '@substrate/ui-components';
 import { Link, navigate } from 'gatsby';
@@ -29,7 +29,7 @@ const PrimaryMenu = styled.div`
   padding: 50px;
   background: black;
   color: white;
-`
+`;
 
 const SecondaryMenu = styled.div`
   display: flex !important;
@@ -40,7 +40,7 @@ const SecondaryMenu = styled.div`
   padding: 15px;
   background: ${polkadotOfficialTheme.hotPink};
   color: white;
-`
+`;
 
 const NavLink = styled(Link)`
   color: white;
@@ -87,17 +87,12 @@ const BlockCounter = styled(BlockHeader)`
 
 const ExtensionStatus = styled.p`
   color: white;
-`
-
-const ExtensionNotificationArea = styled.span`
-  flex: 4 1 auto
-  padding: 0 15px
-  width: 100px;
-  margin: 0 4rem 0 0;
-`
+`;
 
 export default function Header(_props: Props): React.ReactElement {
-  const { state: { extensionNotFound } } = useContext(AccountsContext);
+  const {
+    state: { extensionNotFound },
+  } = useContext(AccountsContext);
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   const navToAccountsPage = (): void => {
@@ -117,17 +112,24 @@ export default function Header(_props: Props): React.ReactElement {
           <NavLink to='/validators'>Validators</NavLink>
         </LinkArea>
         <BlockCounter />
-        {
-          !extensionNotFound &&  <CartIcon>
-          <Icon link name='cart' size='large' onClick={navToCartPage} />
-          {cartItemsCount}
-        </CartIcon>
-        }
+        {!extensionNotFound && (
+          <CartIcon>
+            <Icon link name='cart' size='large' onClick={navToCartPage} />
+            {cartItemsCount}
+          </CartIcon>
+        )}
       </PrimaryMenu>
-        {
-            extensionNotFound
-              && <SecondaryMenu><ExtensionStatus>Extension not found. Please download <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>Polkadot.js Extension</a>to use Nomi</ExtensionStatus></SecondaryMenu>
-        }
+      {extensionNotFound && (
+        <SecondaryMenu>
+          <ExtensionStatus>
+            Extension not found. Please download{' '}
+            <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>
+              Polkadot.js Extension
+            </a>
+            to use Nomi
+          </ExtensionStatus>
+        </SecondaryMenu>
+      )}
     </ResponsiveMenu>
   );
 }

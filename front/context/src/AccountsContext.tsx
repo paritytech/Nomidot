@@ -129,7 +129,7 @@ const stateReducer = (state: State, action: Action): State => {
     case 'setExtension':
       return { ...state, extension: action.data as InjectedExtension };
     case 'setExtensionNotFound':
-      return { ...state, extensionNotFound: action.data as boolean};
+      return { ...state, extensionNotFound: action.data as boolean };
     case 'setIsExtensionReady':
       return { ...state, isExtensionReady: action.data as boolean };
     case 'setLoadingAccountStaking':
@@ -281,7 +281,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       if (!extensions.length) {
         dispatch({
           type: 'setExtensionNotFound',
-          data: true
+          data: true,
         });
         return;
       }
