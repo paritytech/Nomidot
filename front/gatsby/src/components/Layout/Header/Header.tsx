@@ -13,7 +13,7 @@ import media from 'styled-media-query';
 import { APP_TITLE } from '../../../util';
 import { BlockHeader } from './Subheaders';
 
-interface Props extends RouteComponentProps {}
+type Props = RouteComponentProps;
 
 const ResponsiveMenu = styled.div`
   display: flex !important;
@@ -31,7 +31,7 @@ const NavLink = styled(Link)`
   color: white;
   flex: 1 1 auto;
   margin: 0 12px;
-`
+`;
 
 const LinkArea = styled.div`
   margin: 0 45rem 0 0;
