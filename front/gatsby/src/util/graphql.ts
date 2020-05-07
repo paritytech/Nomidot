@@ -45,9 +45,25 @@ export const LATEST_STAKE = gql`
   }
 `;
 
-export const CURRENT_ELECTED = gql`
-  query {
-    validators(last: 200) {
+/**
+ * Join the two queries below to get a result like following:
+ *
+ * table1 {
+ *  validatorController,
+ *  validatorStash,
+ *  nominatorStash,
+ *  nominatorController,
+ *  preferences
+ *  stakedAmount
+ * }
+ *
+ * count {
+ * }
+ */
+
+export const CURRENT_VALIDATORS = gql`
+  query Validators($sessionIndex: Int!) {
+    validators(where: { session: { index: $sessionIndex } }, last: 220) {
       controller
       stash
       preferences
@@ -56,8 +72,8 @@ export const CURRENT_ELECTED = gql`
 `;
 
 export const CURRENT_NOMINATIONS = gql`
-  query Nominators($sessionIndex: Int!) {
-    nominators(where: { session: { index: $sessionIndex } }, last: 150) {
+  query Nominations($sessionIndex: Int!) {
+    nominations(where: { session: { index: $sessionIndex } }) {
       validatorController
       validatorStash
       nominatorStash
@@ -69,7 +85,7 @@ export const CURRENT_NOMINATIONS = gql`
 
 export const OFFLINE_VALIDATORS = gql`
   query OfflineValidators($sessionIndex: Int!) {
-    offlineValidators(last: 40) {
+    offlineValidators(where: { sessionIndex: { index: $sessionIndex } }) {
       validatorId
       # total
       # own

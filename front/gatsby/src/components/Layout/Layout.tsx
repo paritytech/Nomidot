@@ -3,11 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import React, { useState } from 'react';
-import { Segment, Sidebar } from 'semantic-ui-react';
+import React from 'react';
 
 import { LoadableHeader } from './Header';
-import { VerticalSidebar } from './Sidebar';
 
 interface Props extends RouteComponentProps {
   children: React.ReactNode;
@@ -15,19 +13,11 @@ interface Props extends RouteComponentProps {
 
 export function Layout(props: Props): React.ReactElement {
   const { children } = props;
-  const [visible, setVisible] = useState(false);
-
-  const toggleSidebar = (): void => {
-    setVisible(!visible);
-  };
 
   return (
-    <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }}>
-      <VerticalSidebar handleToggle={toggleSidebar} visible={visible} />
-      <Sidebar.Pusher>
-        <LoadableHeader handleToggle={toggleSidebar} {...props} />
-        {children}
-      </Sidebar.Pusher>
-    </Sidebar.Pushable>
+    <>
+      <LoadableHeader {...props} />
+      {children}
+    </>
   );
 }

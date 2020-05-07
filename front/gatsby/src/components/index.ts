@@ -18,3 +18,4 @@ export * from './Table';
 export * from './Tooltip';
 export * from './Typography';
 export * from './UnbondedAccountsTable';
+export { default as ValidatorsTable } from './ValidatorsTable';

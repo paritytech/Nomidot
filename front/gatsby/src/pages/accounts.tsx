@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import { ApiRxContext } from '@substrate/context';
-import { List } from '@substrate/ui-components';
+import { AccountsContext, ApiRxContext } from '@substrate/context';
+import { Spinner } from '@substrate/design-system';
+import { List, polkadotOfficialTheme } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
@@ -55,18 +56,45 @@ const AccountsPageRight = styled.div`
   `}
 `;
 
+const GreyedOutArea = styled.div`
+  padding: 8rem;
+  text-align: center;
+  background: ${polkadotOfficialTheme.grey};
+  height: 20rem;
+  opacity: 0.5;
+`;
+
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
+  const {
+    state: {
+      extensionNotFound,
+    },
+  } = useContext(AccountsContext);
   const { api } = useContext(ApiRxContext);
 
   return (
     <AccountsPageGrid>
       <AccountsPageLeft>
         <BondedAccountsTable api={api} />
-        <BottomLeftItem>
-          <UnbondedAccountsTable api={api} />
-        </BottomLeftItem>
+        {extensionNotFound ? (
+          <GreyedOutArea>
+            {' '}
+            <SubHeader>
+              {' '}
+              Download{' '}
+              <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>
+                Polkadot.js Extension
+              </a>{' '}
+              to Continue
+            </SubHeader>
+          </GreyedOutArea>
+        ) : (
+          <BottomLeftItem>
+            <UnbondedAccountsTable api={api} />
+          </BottomLeftItem>
+        )}
       </AccountsPageLeft>
 
       <AccountsPageRight>

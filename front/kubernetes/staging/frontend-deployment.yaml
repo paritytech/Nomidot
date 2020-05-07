@@ -1,22 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nomidot-frontend
-  namespace: nomidot-frontend-staging
+  name: nomidot-front
+  namespace: nomidot
 spec:
   selector:
     matchLabels:
-      app: nomidot-frontend
-      tier: frontend
+      app: nomidot-front
       track: stable
   replicas: 1
   template:
     metadata:
       labels:
-        app: nomidot-frontend
-        tier: frontend
+        app: nomidot-front
         track: stable
     spec:
       containers:
-      - name: nomidot-frontend
-        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:d5bd86633f2aa41a8cbbb0e46e634b03388a816ea55864cc0da853f4b3851eea
+      - name: nomidot-front
+        image: eu.gcr.io/test-installations-222013/nomidot-frontend@sha256:af39dfec5c8f17c69d5fceefe55b51b467b433a464bc7061ee635a88e2209cd4
+        imagePullPolicy: Always
+        env:
+          - name: NODE_ENV
+            value: staging

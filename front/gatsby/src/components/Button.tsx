@@ -4,7 +4,7 @@
 
 import { polkadotOfficialTheme } from '@substrate/ui-components';
 import React, { memo } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 
 type ButtonSizeProp = 'tiny' | 'small' | 'big' | 'huge';
 
@@ -58,43 +58,55 @@ export const Button = memo(styled.a<ButtonProps>`
     color: white;
   }
 
-  ${props =>
-    props.primary &&
-    css`
-      background: white;
-      border: 2px solid ${polkadotOfficialTheme.hotPink};
-      color: ${polkadotOfficialTheme.hotPink};
+  ${(props): FlattenSimpleInterpolation | null =>
+    props.disabled
+      ? css`
+          :disabled {
+            background: black;
+          }
+        `
+      : null}
 
-      &:hover {
-        cursor: pointer;
-        color: ${polkadotOfficialTheme.hotPink};
-      }
-    `}
+  ${(props): FlattenSimpleInterpolation | null =>
+    props.primary
+      ? css`
+          background: white;
+          border: 2px solid ${polkadotOfficialTheme.hotPink};
+          color: ${polkadotOfficialTheme.hotPink};
 
-  ${props =>
-    props.secondary &&
-    css`
-      background: white;
-      border: 2px solid ${polkadotOfficialTheme.neonBlue};
-      color: ${polkadotOfficialTheme.neonBlue};
+          &:hover {
+            cursor: pointer;
+            color: ${polkadotOfficialTheme.hotPink};
+          }
+        `
+      : null}
 
-      &:hover {
-        cursor: pointer;
-        color: ${polkadotOfficialTheme.neonBlue};
-      }
-    `}
+  ${(props): FlattenSimpleInterpolation | null =>
+    props.secondary
+      ? css`
+          background: white;
+          border: 2px solid ${polkadotOfficialTheme.neonBlue};
+          color: ${polkadotOfficialTheme.neonBlue};
 
-  ${props =>
-    props.neutral &&
-    css`
-      background: white;
-      border: 2px solid ${polkadotOfficialTheme.black};
-      color: ${polkadotOfficialTheme.black};
+          &:hover {
+            cursor: pointer;
+            color: ${polkadotOfficialTheme.neonBlue};
+          }
+        `
+      : null}
 
-      &:hover {
-        cursor: pointer;
-        color: ${polkadotOfficialTheme.black};
-        background: ${polkadotOfficialTheme.white};
-      }
-    `}
+  ${(props): FlattenSimpleInterpolation | null =>
+    props.neutral
+      ? css`
+          background: white;
+          border: 2px solid ${polkadotOfficialTheme.black};
+          color: ${polkadotOfficialTheme.black};
+
+          &:hover {
+            cursor: pointer;
+            color: ${polkadotOfficialTheme.black};
+            background: ${polkadotOfficialTheme.white};
+          }
+        `
+      : null}
 `);

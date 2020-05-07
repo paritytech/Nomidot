@@ -51,6 +51,7 @@ interface State {
   currentAccount?: string;
   currentAccountNonce?: AccountInfo;
   readonly extension?: InjectedExtension;
+  extensionNotFound: boolean;
   isExtensionReady: boolean;
   loadingAccountStaking: boolean;
   loadingBalances: boolean;
@@ -67,6 +68,7 @@ const INITIAL_STATE: State = {
   currentAccount: undefined,
   currentAccountNonce: undefined,
   extension: undefined,
+  extensionNotFound: false,
   isExtensionReady: false,
   loadingAccountStaking: true,
   loadingBalances: true,
@@ -83,6 +85,7 @@ enum ActionTypes {
   'setCurrentAccount',
   'setCurrentAccountNonce',
   'setExtension',
+  'setExtensionNotFound',
   'setIsExtensionReady',
   'setLoadingAccountStaking',
   'setLoadingBalances',
@@ -125,6 +128,8 @@ const stateReducer = (state: State, action: Action): State => {
       return { ...state, currentAccountNonce: action.data as AccountInfo };
     case 'setExtension':
       return { ...state, extension: action.data as InjectedExtension };
+    case 'setExtensionNotFound':
+      return { ...state, extensionNotFound: action.data as boolean };
     case 'setIsExtensionReady':
       return { ...state, isExtensionReady: action.data as boolean };
     case 'setLoadingAccountStaking':
@@ -277,7 +282,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       const extensions: InjectedExtension[] = await web3Enable(originName);
 
       if (!extensions.length) {
-        alert('No extension found. Please install PolkadotJS extension.');
+        dispatch({
+          type: 'setExtensionNotFound',
+          data: true,
+        });
         return;
       }
 

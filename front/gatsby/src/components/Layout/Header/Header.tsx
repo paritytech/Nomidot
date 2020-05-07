@@ -3,41 +3,53 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
+import { AccountsContext } from '@substrate/context';
 import { useLocalStorage } from '@substrate/local-storage';
-import { Icon } from '@substrate/ui-components';
-import { navigate } from 'gatsby';
-import React from 'react';
+import { Icon, polkadotOfficialTheme } from '@substrate/ui-components';
+import { Link, navigate } from 'gatsby';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import { APP_TITLE } from '../../../util';
 import { BlockHeader } from './Subheaders';
 
-interface Props extends RouteComponentProps {
-  handleToggle: () => void;
-}
+type Props = RouteComponentProps;
 
 const ResponsiveMenu = styled.div`
+  display: flex column !important;
+`;
+
+const PrimaryMenu = styled.div`
   display: flex !important;
   justify-content: center !important;
   align-items: center;
   width: 100%;
   height: 5rem;
   padding: 50px;
-  margin-bottom: 20px;
   background: black;
   color: white;
 `;
 
-const Burger = styled(Icon)`
+const SecondaryMenu = styled.div`
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center;
+  width: 100%;
+  height: 2rem;
+  padding: 15px;
+  background: ${polkadotOfficialTheme.hotPink};
   color: white;
-  flex: 1;
-  padding: 0 10px;
-  margin: 0 10px;
+`;
 
-  &:hover {
-    cursor: pointer;
-  }
+const NavLink = styled(Link)`
+  color: white;
+  flex: 1 1 auto;
+  margin: 0 12px;
+`;
+
+const LinkArea = styled.div`
+  margin: 0 45rem 0 0;
 `;
 
 const CartIcon = styled.div`
@@ -54,7 +66,7 @@ const Logo = styled.h2`
   flex: 1 1 auto;
   color: white;
   padding: 0 10px;
-  margin: 0 55rem 0 0;
+  margin: 0 10px 0 0;
 
   &:hover {
     cursor: pointer;
@@ -73,8 +85,14 @@ const BlockCounter = styled(BlockHeader)`
   flex: 2 1 auto;
 `;
 
-export default function Header(props: Props): React.ReactElement {
-  const { handleToggle } = props;
+const ExtensionStatus = styled.p`
+  color: white;
+`;
+
+export default function Header(_props: Props): React.ReactElement {
+  const {
+    state: { extensionNotFound },
+  } = useContext(AccountsContext);
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
 
   const navToAccountsPage = (): void => {
@@ -87,13 +105,31 @@ export default function Header(props: Props): React.ReactElement {
 
   return (
     <ResponsiveMenu>
-      <Burger name='bars' onClick={handleToggle} />
-      <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
-      <BlockCounter />
-      <CartIcon>
-        <Icon link name='cart' size='large' onClick={navToCartPage} />
-        {cartItemsCount}
-      </CartIcon>
+      <PrimaryMenu>
+        <Logo onClick={navToAccountsPage}>{APP_TITLE}</Logo>
+        <LinkArea>
+          <NavLink to='/accounts'>Accounts</NavLink>
+          <NavLink to='/validators'>Validators</NavLink>
+        </LinkArea>
+        <BlockCounter />
+        {!extensionNotFound && (
+          <CartIcon>
+            <Icon link name='cart' size='large' onClick={navToCartPage} />
+            {cartItemsCount}
+          </CartIcon>
+        )}
+      </PrimaryMenu>
+      {extensionNotFound && (
+        <SecondaryMenu>
+          <ExtensionStatus>
+            Extension not found. Please download{' '}
+            <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>
+              Polkadot.js Extension
+            </a>
+            to use Nomi
+          </ExtensionStatus>
+        </SecondaryMenu>
+      )}
     </ResponsiveMenu>
   );
 }
