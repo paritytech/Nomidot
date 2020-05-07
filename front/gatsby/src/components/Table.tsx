@@ -45,4 +45,5 @@ export const Tr = styled.tr`
 export const Tc = styled.td`
   display: table-cell;
   padding: 1rem;
+  text-align: center;
 `;
