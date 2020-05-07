@@ -32,7 +32,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { take } from 'rxjs/operators';
 
 import { validateFees } from '../util/validateExtrinsic';
-import { Button } from './Button';
+import { Button, SubHeader } from './index';
 
 enum RewardDestination {
   'Stash',
@@ -65,7 +65,7 @@ const BondingModal = (): React.ReactElement => {
     state: { accountBalanceMap, allAccounts, currentAccount, loadingBalances },
   } = useContext(AccountsContext);
   const { api, isApiReady } = useContext(ApiRxContext);
-  const { enqueue, signAndSubmit, txQueue } = useContext(TxQueueContext);
+  const { enqueue, signAndSubmit, state: { txQueue } } = useContext(TxQueueContext);
 
   const [accountForController, setAccountForController] = useState(
     currentAccount
@@ -241,7 +241,8 @@ const BondingModal = (): React.ReactElement => {
       };
 
       const id = enqueue(extrinsic, details);
-      setTxId((id as unknown) as number);
+      console.log(id);
+      setTxId(id);
     }
   }, [
     api,
@@ -268,7 +269,7 @@ const BondingModal = (): React.ReactElement => {
       <Modal.Header>Bonding Preferences</Modal.Header>
       <Modal.Content>
         <Stacked alignItems='stretch' justifyContent='space-between'>
-          <b>Choose Stash:</b>
+          <SubHeader>Choose Stash:</SubHeader>
           {accountForStash ? (
             <>
               <InputAddress
@@ -289,7 +290,7 @@ const BondingModal = (): React.ReactElement => {
           ) : (
             <Spinner active inline />
           )}
-          <b>Choose Controller:</b>
+          <SubHeader>Choose Controller:</SubHeader>
           {accountForController ? (
             <>
               <InputAddress
@@ -311,6 +312,7 @@ const BondingModal = (): React.ReactElement => {
             <Spinner active inline />
           )}
           <Margin top />
+          <SubHeader>Reward Destination</SubHeader>
           <Dropdown
             fluid
             placeholder='Reward Destination'
@@ -319,6 +321,7 @@ const BondingModal = (): React.ReactElement => {
             options={rewardDestinationOptions}
           />
           <Margin top />
+          <SubHeader>Bond Amount:</SubHeader>
           <Input
             fluid
             label='UNIT'
@@ -330,7 +333,7 @@ const BondingModal = (): React.ReactElement => {
             value={bondAmount}
           />
           <Modal.Description>
-            <Button size='big' onClick={signAndSubmitBond}>
+            <Button float='right' size='big' onClick={signAndSubmitBond}>
               Submit Bond
             </Button>
             <ErrorText>{bondingError}</ErrorText>

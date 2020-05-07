@@ -33,6 +33,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContext, SystemContext } from './index';
+import { ValueOf } from './types'
 import { getControllers, getStashes, IS_SSR } from './util';
 
 const l = logger('accounts-context');
@@ -91,11 +92,6 @@ enum ActionTypes {
   'setLoadingBalances',
   'setStashControllerMap',
 }
-
-/**
- * See: https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript
- **/
-type ValueOf<T> = T[keyof T];
 
 interface Action {
   type: keyof typeof ActionTypes;

@@ -47,7 +47,7 @@ const SuccessStatusNotifier = styled(StatusNotifier)`
 `;
 
 export const Status = (): React.ReactElement | null => {
-  const { errorObservable, successObservable, txQueue } = useContext(
+  const { errorObservable, successObservable, state: { txQueue } } = useContext(
     TxQueueContext
   );
 

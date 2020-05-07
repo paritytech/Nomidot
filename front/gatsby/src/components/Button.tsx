@@ -32,6 +32,7 @@ interface ButtonProps {
   secondary?: boolean; // pink
   neutral?: boolean; // black
   disabled?: boolean;
+  float?: string;
   size?: ButtonSizeProp;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
@@ -42,6 +43,7 @@ export const Button = memo(styled.a<ButtonProps>`
   border: 2px solid white;
   color: white;
   display: flex;
+  float: ${(props): string => props.float || 'none'};
   padding: 5px 10px;
   text-align: center;
   align-items: center;
