@@ -9,7 +9,7 @@ import { Spinner } from '@substrate/design-system';
 import { writeStorage } from '@substrate/local-storage';
 import { Icon } from '@substrate/ui-components';
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import shortid from 'shortid';
 
 import { AddressSummary, Table, Tb, Tc, Th, Thead, Tr } from '../components';
@@ -20,6 +20,7 @@ import {
   CURRENT_VALIDATORS,
   OFFLINE_VALIDATORS,
 } from '../util/graphql';
+import { AccountsContext } from '@substrate/context';
 
 interface Props {
   api: ApiRx;
@@ -28,7 +29,7 @@ interface Props {
 
 const ValidatorsTable = (props: Props): React.ReactElement => {
   const { api, currentSession } = props;
-
+  const { state: { extensionNotFound } } = useContext(AccountsContext);
   const [shouldFetch, setShouldFetch] = useState<boolean>(false);
   const [tableData, setTableData] = useState<TableRowData>();
 
@@ -171,11 +172,14 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
                       : '0'}
                   </Tc>
                   <Tc>
-                    <Icon
+                    {
+                      !extensionNotFound &&  <Icon
                       onClick={handleAddToCart}
                       data-stash={validatorStash}
                       name='add to cart'
                     />
+                    }
+                   
                   </Tc>
                 </Tr>
               );

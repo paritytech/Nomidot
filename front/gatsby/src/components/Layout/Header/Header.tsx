@@ -117,10 +117,12 @@ export default function Header(_props: Props): React.ReactElement {
           <NavLink to='/validators'>Validators</NavLink>
         </LinkArea>
         <BlockCounter />
-        <CartIcon>
+        {
+          !extensionNotFound &&  <CartIcon>
           <Icon link name='cart' size='large' onClick={navToCartPage} />
           {cartItemsCount}
         </CartIcon>
+        }
       </PrimaryMenu>
         {
             extensionNotFound
