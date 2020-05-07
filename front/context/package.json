@@ -18,6 +18,7 @@
     "test": "echo skipped"
   },
   "dependencies": {
+    "@polkadot/api": "^1.13.1",
     "@substrate/local-storage": "^2.2.9"
   },
   "peerDependencies": {
