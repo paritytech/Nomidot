@@ -6,7 +6,7 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import { List } from '@substrate/ui-components';
+import { List, polkadotOfficialTheme } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
@@ -65,6 +65,14 @@ const AccountsPageRight = styled.div`
   `}
 `;
 
+const GreyedOutArea = styled.div`
+  padding: 8rem;
+  text-align: center;
+  background: ${polkadotOfficialTheme.grey};
+  height: 20rem;
+  opacity: 0.5;
+`;
+
 type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
@@ -73,6 +81,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
       accountBalanceMap,
       allAccounts,
       allStashes,
+      extensionNotFound,
       loadingAccountStaking,
       stashControllerMap,
     },
@@ -284,8 +293,24 @@ const AccountsList = (_props: Props): React.ReactElement => {
   return (
     <AccountsPageGrid>
       <AccountsPageLeft>
-        {renderBondedAccounts()}
-        <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem>
+        {extensionNotFound ? (
+          <GreyedOutArea>
+            {' '}
+            <SubHeader>
+              {' '}
+              Download{' '}
+              <a href='https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'>
+                Polkadot.js Extension
+              </a>{' '}
+              to Continue
+            </SubHeader>
+          </GreyedOutArea>
+        ) : (
+          <>
+            {renderBondedAccounts()}
+            <BottomLeftItem>{renderUnbondedAccounts()}</BottomLeftItem>
+          </>
+        )}
       </AccountsPageLeft>
 
       <AccountsPageRight>
