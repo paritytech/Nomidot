@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountsContext } from '@substrate/context';
 import { navigate } from 'gatsby';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -12,17 +11,10 @@ interface Props {
 
 const IndexPage = (props: Props): React.ReactElement => {
   const { children } = props;
-  const {
-    state: { extension },
-  } = useContext(AccountsContext);
 
   useEffect(() => {
-    if (!extension) {
-      navigate('/install');
-    } else {
-      navigate('/accounts');
-    }
-  }, [extension]);
+    navigate('/validators');
+  }, []);
 
   return <div>{children}</div>;
 };
