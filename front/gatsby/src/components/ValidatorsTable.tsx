@@ -114,7 +114,7 @@ const ValidatorsTable = (props: Props): React.ReactElement => {
     <Table>
       <Thead>
         <Tr>
-          <Th>Was Offline This Session</Th>
+          <Th>Was Offline</Th>
           <Th>Validator Stash</Th>
           <Th>Validator Controller</Th>
           <Th>Nominators</Th>

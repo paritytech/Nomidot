@@ -15,19 +15,23 @@ interface Props extends RouteComponentProps {
 
 export function Layout(props: Props): React.ReactElement {
   const { children } = props;
-  const [visible, setVisible] = useState(false);
+  // const [visible, setVisible] = useState(false);
 
-  const toggleSidebar = (): void => {
-    setVisible(!visible);
-  };
+  // const toggleSidebar = (): void => {
+  //   setVisible(!visible);
+  // };
 
   return (
-    <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }}>
-      <VerticalSidebar handleToggle={toggleSidebar} visible={visible} />
-      <Sidebar.Pusher>
-        <LoadableHeader handleToggle={toggleSidebar} {...props} />
-        {children}
-      </Sidebar.Pusher>
-    </Sidebar.Pushable>
+    <>
+      <LoadableHeader {...props} />
+      {children}
+    </>
   );
+  //   <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }}>
+  //     <VerticalSidebar handleToggle={toggleSidebar} visible={visible} />
+  //     <Sidebar.Pusher>
+        
+  //     </Sidebar.Pusher>
+  //   </Sidebar.Pushable>
+  // );
 }
