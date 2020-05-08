@@ -330,7 +330,7 @@ const BondingModal = (): React.ReactElement => {
             value={bondAmount}
           />
           <Modal.Description>
-            <Button size='big' onClick={signAndSubmitBond}>
+            <Button float='right' size='big' onClick={signAndSubmitBond}>
               Submit Bond
             </Button>
             <ErrorText>{bondingError}</ErrorText>
@@ -341,4 +341,4 @@ const BondingModal = (): React.ReactElement => {
   );
 };
 
-export { BondingModal };
+export default React.memo(BondingModal);

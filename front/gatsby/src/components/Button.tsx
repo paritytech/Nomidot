@@ -32,16 +32,19 @@ interface ButtonProps {
   secondary?: boolean; // pink
   neutral?: boolean; // black
   disabled?: boolean;
+  float?: string;
   size?: ButtonSizeProp;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const Button = memo(styled.a<ButtonProps>`
-  background: ${polkadotOfficialTheme.hotPink};
+  background: ${(props): string =>
+    props.disabled ? '#f2f4f6' : polkadotOfficialTheme.hotPink};
   border-radius: 3px;
   border: 2px solid white;
   color: white;
   display: flex;
+  float: ${(props): string => props.float || 'none'};
   padding: 5px 10px;
   text-align: center;
   align-items: center;
@@ -50,7 +53,8 @@ export const Button = memo(styled.a<ButtonProps>`
   width: ${(props): string => ButtonSizeMap[props.size || 'small'].width};
 
   &:hover {
-    cursor: pointer;
+    pointer-events: ${(props): string => (props.disabled ? 'none' : 'default')};
+    cursor: ${(props): string => (props.disabled ? 'pointer' : 'default')}
     color: white;
   }
 
