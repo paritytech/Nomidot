@@ -27,7 +27,7 @@
     "start": "node -r ts-node/register --max-old-space-size=8192 ./src/index.ts"
   },
   "dependencies": {
-    "@polkadot/api": "^1.12.0-beta.10",
+    "@polkadot/api": "^1.13.1",
     "p-retry": "^4.2.0",
     "prisma-client-lib": "1.34.10"
   },
