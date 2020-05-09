@@ -11,8 +11,10 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { Balance } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { Subject } from 'rxjs';
+
+import { ValueOf } from './types';
 
 const l = logger('tx-queue');
 
@@ -52,6 +54,37 @@ export interface PendingExtrinsic {
   unsubscribe: () => void;
 }
 
+interface State {
+  txCounter: number;
+  txQueue: PendingExtrinsic[];
+}
+
+const INITIAL_STATE: State = {
+  txCounter: 0,
+  txQueue: [],
+};
+
+enum ActionTypes {
+  'setTxCounter',
+  'setTxQueue',
+}
+
+interface Action {
+  type: keyof typeof ActionTypes;
+  data: ValueOf<State>; // FIXME: this works but is not very precise, which is why we need the ... as `{type}` on all the action.data in stateReducer
+}
+
+const stateReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'setTxCounter':
+      return { ...state, txCounter: action.data as number };
+    case 'setTxQueue':
+      return { ...state, txQueue: action.data as PendingExtrinsic[] };
+    default:
+      return state;
+  }
+};
+
 export interface EnqueueParams extends ExtrinsicDetails {
   extrinsic: Extrinsic;
 }
@@ -61,6 +94,7 @@ interface Props {
 }
 
 const cancelObservable = new Subject<{ msg: string }>();
+const statusObservable = new Subject<{ msg: string }>();
 const successObservable = new Subject<ExtrinsicDetails>();
 const errorObservable = new Subject<{ error: string }>();
 
@@ -70,44 +104,55 @@ export const TxQueueContext = createContext({
     console.error(INIT_ERROR);
     return 0 as number; // i have no idea why eslint needs this
   },
-  txQueue: [] as PendingExtrinsic[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   signAndSubmit: (extrinsicId: number) => {
     console.error(INIT_ERROR);
   },
+  state: INITIAL_STATE,
   clear: () => {
     console.error(INIT_ERROR);
   },
   cancelObservable,
+  statusObservable,
   successObservable,
   errorObservable,
 });
 
 export function TxQueueContextProvider(props: Props): React.ReactElement {
-  const [txCounter, setTxCounter] = useState(0); // Number of tx sent in total
-  const [txQueue, setTxQueue] = useState([] as PendingExtrinsic[]);
+  const [state, dispatch] = useReducer(stateReducer, INITIAL_STATE);
 
   /**
    * Replace tx with id `extrinsicId` with a new tx
    */
   const replaceTx = (extrinsicId: number, newTx: PendingExtrinsic): void => {
-    setTxQueue((prevTxQueue: PendingExtrinsic[]) =>
-      prevTxQueue.map((tx: PendingExtrinsic) =>
-        tx.id === extrinsicId ? newTx : tx
-      )
+    const { txQueue } = state;
+
+    const newTxQueue = txQueue.map((tx: PendingExtrinsic) =>
+      tx.id === extrinsicId ? newTx : tx
     );
+
+    dispatch({
+      type: 'setTxQueue',
+      data: newTxQueue,
+    });
   };
 
   /**
    * Clear the txQueue.
    */
   const clear = (): void => {
+    const { txQueue } = state;
     const msg: string[] = [];
     txQueue.forEach(({ extrinsic: { method }, unsubscribe }) => {
       msg.push(`${method.sectionName}.${method.methodName}`);
       unsubscribe();
     });
-    setTxQueue([]);
+
+    dispatch({
+      type: 'setTxQueue',
+      data: [],
+    });
+
     l.log('Cleared all extrinsics');
     cancelObservable.next({
       msg: `cleared the following extrinsic(s): ${msg.join(' ')}`,
@@ -118,10 +163,16 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
    * Unsubscribe the tx with id `extrinsicId`
    */
   const closeTxSubscription = (extrinsicId: number): void => {
+    const { txQueue } = state;
+
     const tx = txQueue.find(tx => tx.id === extrinsicId);
     if (tx) {
       tx.unsubscribe();
-      setTxQueue(txQueue.filter(tx => tx.id !== extrinsicId));
+
+      dispatch({
+        type: 'setTxQueue',
+        data: txQueue.filter(tx => tx.id !== extrinsicId),
+      });
     }
   };
 
@@ -130,8 +181,13 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
    * return tx id
    */
   const enqueue = (extrinsic: Extrinsic, details: ExtrinsicDetails): number => {
+    const { txCounter, txQueue } = state;
+
     const extrinsicId = txCounter;
-    setTxCounter(txCounter + 1);
+    dispatch({
+      type: 'setTxCounter',
+      data: txCounter + 1,
+    });
 
     l.log(
       `Queued extrinsic #${extrinsicId} from ${
@@ -142,8 +198,9 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
       details
     );
 
-    setTxQueue(
-      txQueue.concat({
+    dispatch({
+      type: 'setTxQueue',
+      data: txQueue.concat({
         details,
         extrinsic,
         id: extrinsicId,
@@ -157,8 +214,8 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
         unsubscribe: () => {
           /* Do nothing on unsubscribe at this stage */
         },
-      })
-    );
+      }),
+    });
 
     return extrinsicId;
   };
@@ -167,6 +224,8 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
    * Sign and send the tx with id `extrinsicId`
    */
   const signAndSubmit = (extrinsicId: number): void => {
+    const { txQueue } = state;
+
     const pendingExtrinsic = txQueue.find(tx => tx.id === extrinsicId);
 
     if (!pendingExtrinsic) {
@@ -190,11 +249,16 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
       .signAndSend(senderPair) // send the extrinsic
       .subscribe(
         (txResult: SubmittableResult) => {
+          console.log('tx result received => ', txResult);
+
           const {
             status: { isFinalized, isDropped, isUsurped },
           } = txResult;
 
           l.log(`Extrinsic #${extrinsicId} has new status:`, txResult);
+          statusObservable.next({
+            msg: `Extrinsic #${extrinsicId} has new status: ${txResult.status.toHuman()}`,
+          });
 
           replaceTx(extrinsicId, {
             ...pendingExtrinsic,
@@ -247,8 +311,9 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
         clear,
         enqueue,
         signAndSubmit,
-        txQueue,
+        state,
         successObservable,
+        statusObservable,
         errorObservable,
         cancelObservable,
       }}

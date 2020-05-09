@@ -47,13 +47,29 @@ const SuccessStatusNotifier = styled(StatusNotifier)`
 `;
 
 export const Status = (): React.ReactElement | null => {
-  const { errorObservable, successObservable, txQueue } = useContext(
-    TxQueueContext
-  );
+  const {
+    errorObservable,
+    statusObservable,
+    successObservable,
+    state: { txQueue },
+  } = useContext(TxQueueContext);
 
   const [errorMsg, setError] = useState<string>();
   const [pendingMsg, setPending] = useState<string>();
+  const [statusMsg, setStatus] = useState<string>();
   const [successMsg, setSuccess] = useState<string>();
+
+  useEffect(() => {
+    const statusSub = statusObservable.subscribe(({ msg }) => {
+      setPending(undefined);
+      setStatus(msg);
+      setTimeout(() => {
+        setStatus(undefined);
+      }, 5000);
+    });
+
+    return (): void => statusSub.unsubscribe();
+  }, [statusObservable]);
 
   useEffect(() => {
     const errorSub = errorObservable.subscribe(({ error }) => {
@@ -88,14 +104,14 @@ export const Status = (): React.ReactElement | null => {
   }, [successObservable]);
 
   useEffect(() => {
-    if (txQueue.length) {
+    if (txQueue.length && !successMsg && !statusMsg) {
       const msg = `Submitting ${
         txQueue[0].details.methodCall
       } with amount ${formatBalance(txQueue[0].details.amount)}...`;
 
       setPending(msg);
     }
-  }, [txQueue]);
+  }, [statusMsg, successMsg, txQueue]);
 
   if (errorMsg) {
     return <ErrorStatusNotifier> {errorMsg} </ErrorStatusNotifier>;
@@ -105,6 +121,15 @@ export const Status = (): React.ReactElement | null => {
     return (
       <PendingStatusNotifier>
         {pendingMsg}
+        <Spinner active inline />
+      </PendingStatusNotifier>
+    );
+  }
+
+  if (statusMsg) {
+    return (
+      <PendingStatusNotifier>
+        {statusMsg}
         <Spinner active inline />
       </PendingStatusNotifier>
     );

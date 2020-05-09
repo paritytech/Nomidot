@@ -33,6 +33,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ApiRxContext, SystemContext } from './index';
+import { ValueOf } from './types';
 import { getControllers, getStashes, IS_SSR } from './util';
 
 const l = logger('accounts-context');
@@ -91,11 +92,6 @@ enum ActionTypes {
   'setLoadingBalances',
   'setStashControllerMap',
 }
-
-/**
- * See: https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript
- **/
-type ValueOf<T> = T[keyof T];
 
 interface Action {
   type: keyof typeof ActionTypes;
@@ -164,7 +160,7 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-
+  const WINDOW_TYPE = typeof window;
   // context
   const { api, isApiReady } = useContext(ApiRxContext);
   const { chain } = useContext(SystemContext);
@@ -385,7 +381,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         data: controllers,
       });
     }
-  }, [state.allAccounts, state.extension, state.stashControllerMap]);
+  }, [
+    state.allAccounts,
+    state.extension,
+    state.isExtensionReady,
+    state.stashControllerMap,
+  ]);
 
   // set stashes from accounts in injected extension
   useEffect(() => {
@@ -427,7 +428,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [typeof window, fetchAccounts, fetchCachedRpcResults]);
+  }, [WINDOW_TYPE, fetchAccounts, fetchCachedRpcResults]);
 
   useEffect(() => {
     if ((state.extension, state.isExtensionReady)) {
@@ -469,6 +470,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     getDerivedBalances,
     getDerivedStaking,
     state.allStashes,
+    state.extension,
     state.isExtensionReady,
   ]);
 
