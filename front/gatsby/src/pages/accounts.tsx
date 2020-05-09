@@ -6,7 +6,7 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import { List, polkadotOfficialTheme } from '@substrate/ui-components';
+import { List, polkadotOfficialTheme, Margin } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
@@ -86,7 +86,7 @@ const AccountsList = (_props: Props): React.ReactElement => {
       stashControllerMap,
     },
   } = useContext(AccountsContext);
-  const { api } = useContext(ApiRxContext);
+  const { api, isApiReady } = useContext(ApiRxContext);
 
   const renderStakingQueryColumns = (account: string): React.ReactElement => {
     const staking = stashControllerMap[account];
@@ -331,15 +331,15 @@ const AccountsList = (_props: Props): React.ReactElement => {
             Get started by clicking the <b>New Bond</b> button below.
           </Text>
         </ClosableTooltip>
-        <List animated celled relaxed selection>
-          <List.Header>Actions</List.Header>
-          <hr />
-          <List.Content>
-            <List.Item>
-              <BondingModal />
-            </List.Item>
-          </List.Content>
-        </List>
+        <Margin top />
+        <SubHeader>Actions</SubHeader>
+        <hr />
+        {
+          isApiReady && accountBalanceMap
+            ? <BondingModal />
+            : <Spinner active inline />
+        }
+        
       </AccountsPageRight>
     </AccountsPageGrid>
   );
