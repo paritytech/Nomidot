@@ -6,7 +6,7 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { RouteComponentProps } from '@reach/router';
 import { AccountsContext, ApiRxContext } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
-import { List, polkadotOfficialTheme, Margin } from '@substrate/ui-components';
+import { Margin, polkadotOfficialTheme } from '@substrate/ui-components';
 import React, { useContext } from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import shortid from 'shortid';
@@ -334,12 +334,11 @@ const AccountsList = (_props: Props): React.ReactElement => {
         <Margin top />
         <SubHeader>Actions</SubHeader>
         <hr />
-        {
-          isApiReady && accountBalanceMap
-            ? <BondingModal />
-            : <Spinner active inline />
-        }
-        
+        {isApiReady && accountBalanceMap ? (
+          <BondingModal />
+        ) : (
+          <Spinner active inline />
+        )}
       </AccountsPageRight>
     </AccountsPageGrid>
   );

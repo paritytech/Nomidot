@@ -160,7 +160,7 @@ interface Props {
 
 export function AccountsContextProvider(props: Props): React.ReactElement {
   const { children, originName } = props;
-
+  const WINDOW_TYPE = typeof window;
   // context
   const { api, isApiReady } = useContext(ApiRxContext);
   const { chain } = useContext(SystemContext);
@@ -381,7 +381,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         data: controllers,
       });
     }
-  }, [state.allAccounts, state.extension, state.stashControllerMap]);
+  }, [
+    state.allAccounts,
+    state.extension,
+    state.isExtensionReady,
+    state.stashControllerMap,
+  ]);
 
   // set stashes from accounts in injected extension
   useEffect(() => {
@@ -423,7 +428,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [typeof window, fetchAccounts, fetchCachedRpcResults]);
+  }, [WINDOW_TYPE, fetchAccounts, fetchCachedRpcResults]);
 
   useEffect(() => {
     if ((state.extension, state.isExtensionReady)) {
@@ -465,6 +470,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     getDerivedBalances,
     getDerivedStaking,
     state.allStashes,
+    state.extension,
     state.isExtensionReady,
   ]);
 

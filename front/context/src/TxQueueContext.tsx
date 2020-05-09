@@ -11,7 +11,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { Balance } from '@polkadot/types/interfaces';
 import { logger } from '@polkadot/util';
 import BN from 'bn.js';
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { Subject } from 'rxjs';
 
 import { ValueOf } from './types';
