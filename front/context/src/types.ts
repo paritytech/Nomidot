@@ -9,7 +9,6 @@ export interface ApiRxContextProviderProps {
   provider: ProviderInterface;
 }
 
-
 /**
  * See: https://stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript
  **/

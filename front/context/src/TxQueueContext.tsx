@@ -61,12 +61,12 @@ interface State {
 
 const INITIAL_STATE: State = {
   txCounter: 0,
-  txQueue: []
-}
+  txQueue: [],
+};
 
 enum ActionTypes {
   'setTxCounter',
-  'setTxQueue'
+  'setTxQueue',
 }
 
 interface Action {
@@ -76,14 +76,14 @@ interface Action {
 
 const stateReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'setTxCounter': 
-      return { ...state, txCounter: action.data as number}
+    case 'setTxCounter':
+      return { ...state, txCounter: action.data as number };
     case 'setTxQueue':
-      return { ...state, txQueue: action.data as PendingExtrinsic[]}
+      return { ...state, txQueue: action.data as PendingExtrinsic[] };
     default:
       return state;
   }
-}
+};
 
 export interface EnqueueParams extends ExtrinsicDetails {
   extrinsic: Extrinsic;
@@ -94,6 +94,7 @@ interface Props {
 }
 
 const cancelObservable = new Subject<{ msg: string }>();
+const statusObservable = new Subject<{ msg: string }>();
 const successObservable = new Subject<ExtrinsicDetails>();
 const errorObservable = new Subject<{ error: string }>();
 
@@ -112,6 +113,7 @@ export const TxQueueContext = createContext({
     console.error(INIT_ERROR);
   },
   cancelObservable,
+  statusObservable,
   successObservable,
   errorObservable,
 });
@@ -125,14 +127,14 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
   const replaceTx = (extrinsicId: number, newTx: PendingExtrinsic): void => {
     const { txQueue } = state;
 
-    let newTxQueue = txQueue.map((tx: PendingExtrinsic) =>
+    const newTxQueue = txQueue.map((tx: PendingExtrinsic) =>
       tx.id === extrinsicId ? newTx : tx
     );
 
     dispatch({
       type: 'setTxQueue',
-      data: newTxQueue
-    })
+      data: newTxQueue,
+    });
   };
 
   /**
@@ -148,7 +150,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
 
     dispatch({
       type: 'setTxQueue',
-      data: []
+      data: [],
     });
 
     l.log('Cleared all extrinsics');
@@ -169,7 +171,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
 
       dispatch({
         type: 'setTxQueue',
-        data: txQueue.filter(tx => tx.id !== extrinsicId)
+        data: txQueue.filter(tx => tx.id !== extrinsicId),
       });
     }
   };
@@ -184,7 +186,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
     const extrinsicId = txCounter;
     dispatch({
       type: 'setTxCounter',
-      data: txCounter + 1
+      data: txCounter + 1,
     });
 
     l.log(
@@ -212,8 +214,8 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
         unsubscribe: () => {
           /* Do nothing on unsubscribe at this stage */
         },
-      })
-    })
+      }),
+    });
 
     return extrinsicId;
   };
@@ -254,6 +256,9 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
           } = txResult;
 
           l.log(`Extrinsic #${extrinsicId} has new status:`, txResult);
+          statusObservable.next({
+            msg: `Extrinsic #${extrinsicId} has new status: ${txResult.status.toHuman()}`,
+          });
 
           replaceTx(extrinsicId, {
             ...pendingExtrinsic,
@@ -308,6 +313,7 @@ export function TxQueueContextProvider(props: Props): React.ReactElement {
         signAndSubmit,
         state,
         successObservable,
+        statusObservable,
         errorObservable,
         cancelObservable,
       }}

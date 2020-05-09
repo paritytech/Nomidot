@@ -65,7 +65,11 @@ const BondingModal = (): React.ReactElement => {
     state: { accountBalanceMap, allAccounts, currentAccount, loadingBalances },
   } = useContext(AccountsContext);
   const { api, isApiReady } = useContext(ApiRxContext);
-  const { enqueue, signAndSubmit, state: { txQueue } } = useContext(TxQueueContext);
+  const {
+    enqueue,
+    signAndSubmit,
+    state: { txQueue },
+  } = useContext(TxQueueContext);
 
   const [accountForController, setAccountForController] = useState(
     currentAccount
@@ -81,6 +85,7 @@ const BondingModal = (): React.ReactElement => {
   const [rewardDestination, setRewardDestination] = useState<RewardDestination>(
     RewardDestination.Staked
   );
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [txId, setTxId] = useState<number>();
 
   useEffect(() => {
@@ -159,13 +164,18 @@ const BondingModal = (): React.ReactElement => {
       return;
     }
 
+    if (new BN(bondAmount).lten(1000)) {
+      setBondingError('Minimum bond amount is 1000 Units');
+      return;
+    }
+
     if (!rewardDestination) {
       setBondingError('Please select a reward destination.');
       return;
     }
 
     setBondingError(undefined);
-  }, [accountForStash, accountForController, rewardDestination]);
+  }, [accountForStash, accountForController, bondAmount, rewardDestination]);
 
   useEffect(() => {
     if (accountForController && api && isApiReady) {
@@ -202,11 +212,12 @@ const BondingModal = (): React.ReactElement => {
   ]);
 
   useEffect(() => {
-    if (txId) {
+    if (txId !== undefined && !isSubmitted) {
       signAndSubmit(txId);
+      setIsSubmitted(true);
       navigate('/accounts');
     }
-  }, [signAndSubmit, txId, txQueue]);
+  }, [isSubmitted, signAndSubmit, txId, txQueue]);
 
   const selectStash = useCallback((address: string): void => {
     setAccountForStash(address);
@@ -241,7 +252,7 @@ const BondingModal = (): React.ReactElement => {
       };
 
       const id = enqueue(extrinsic, details);
-      console.log(id);
+
       setTxId(id);
     }
   }, [
@@ -333,9 +344,13 @@ const BondingModal = (): React.ReactElement => {
             value={bondAmount}
           />
           <Modal.Description>
-            <Button float='right' size='big' onClick={signAndSubmitBond}>
-              Submit Bond
-            </Button>
+            {isSubmitted ? (
+              <Spinner active inline />
+            ) : (
+              <Button float='right' size='big' onClick={signAndSubmitBond}>
+                Submit Bond
+              </Button>
+            )}
             <ErrorText>{bondingError}</ErrorText>
           </Modal.Description>
         </Stacked>
