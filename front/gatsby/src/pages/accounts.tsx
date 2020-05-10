@@ -68,9 +68,7 @@ type Props = RouteComponentProps;
 
 const AccountsList = (_props: Props): React.ReactElement => {
   const {
-    state: {
-      extensionNotFound,
-    },
+    state: { accountBalanceMap, extensionNotFound },
   } = useContext(AccountsContext);
   const { api, isApiReady } = useContext(ApiRxContext);
 
