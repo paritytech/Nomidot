@@ -1,0 +1,19 @@
+// Copyright 2018-2020 @paritytech/Nomidot authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { ApiRx } from '@polkadot/api';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+
+export interface BalanceColumnsProps {
+  account: string;
+}
+
+export interface UnbondedAccountRowProps {
+  account: InjectedAccountWithMeta;
+  api: ApiRx;
+}
+
+export interface UnbondedAccountsTableProps {
+  api: ApiRx;
+}

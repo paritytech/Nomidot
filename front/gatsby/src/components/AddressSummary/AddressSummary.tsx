@@ -13,7 +13,7 @@ import { OrientationType, SizeType } from './types';
 
 const Layout = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   padding: 2px;
 
