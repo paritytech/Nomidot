@@ -4,7 +4,7 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { createType, Compact } from '@polkadot/types';
-import { Balance } from '@polkadot/types/interfaces';
+import { Balance, ElectionStatus } from '@polkadot/types/interfaces';
 import { RouteComponentProps } from '@reach/router';
 import {
   AccountsContext,
@@ -16,14 +16,17 @@ import { useLocalStorage } from '@substrate/local-storage';
 import { ErrorText } from '@substrate/ui-components';
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { take } from 'rxjs/operators';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import {
   Button,
+  ClosableTooltip,
   LoadableCartItems,
   NominationDetails,
   SubHeader,
+  Text
 } from '../components';
 import { getCartItems, validateFees } from '../util';
 import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';
@@ -81,11 +84,21 @@ const Cart = (_props: Props): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
   const [cartItems, setCartItems] = useState<string[]>([]);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
+  const [eraElectionStatus, setEraElectionStatus] = useState<ElectionStatus>();
   const [error, setError] = useState<string>();
   const [impliedStash, setImpliedStash] = useState<string>();
   const [nominationAmount, setNominationAmount] = useState<Compact<Balance>>();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [txId, setTxId] = useState<number>();
+
+  useEffect(() => {
+    const sub = api.query.staking.eraElectionStatus()
+      .pipe(
+        take(1)
+      ).subscribe((status: ElectionStatus) => setEraElectionStatus(status))
+
+    return () => sub.unsubscribe();
+  }, [])
 
   const checkFees = useCallback((): void => {
     if (
@@ -214,6 +227,12 @@ const Cart = (_props: Props): React.ReactElement => {
       </LeftSide>
 
       <RightSide>
+        <ClosableTooltip height='25%'>
+          <SubHeader>Before you continue...</SubHeader>
+          <Text>You are submitting the <b>intention</b> to nominate these accounts for the <b>next era.</b></Text>
+
+          <Text><b>Payouts will happen at the end of an era</b>, at which point you will have the ability to claim your portion of the rewards.</Text>
+        </ClosableTooltip>
         <HeadingDiv>
           <SubHeader>Review Details: </SubHeader>
         </HeadingDiv>
