@@ -20,11 +20,7 @@ export function Layout(props: Props): React.ReactElement {
   return (
     <>
       <LoadableHeader {...props} />
-      {
-        isApiReady
-          ? children
-          : <Loading active /> 
-        }
+      {isApiReady ? children : <Loading active />}
     </>
   );
 }

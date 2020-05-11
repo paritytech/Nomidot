@@ -58,7 +58,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
     if (nominationAmount) {
       // FIXME
       const rate = calcRewards();
-      
+
       setRate(rate);
       setEstimatedReward(nominationAmount.muln(rate));
     }

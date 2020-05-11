@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { createType, Compact } from '@polkadot/types';
+import { Compact, createType } from '@polkadot/types';
 import { Balance, ElectionStatus } from '@polkadot/types/interfaces';
 import { RouteComponentProps } from '@reach/router';
 import {
@@ -26,9 +26,9 @@ import {
   LoadableCartItems,
   NominationDetails,
   SubHeader,
-  Text
+  Text,
 } from '../components';
-import { getCartItems, validateFees, APP_SLUG } from '../util';
+import { getCartItems, validateFees } from '../util';
 import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';
 
 const CartPageContainer = styled.div`
@@ -68,12 +68,17 @@ const RightSide = styled.div`
 type Props = RouteComponentProps;
 
 /*
-* N.b. Wwhatever amount is Bonded to the Controller is the amount that will be nominated. There is no way to nominate a fraction of the bond.
-*/
+ * N.b. Wwhatever amount is Bonded to the Controller is the amount that will be nominated. There is no way to nominate a fraction of the bond.
+ */
 const Cart = (_props: Props): React.ReactElement => {
   /* context */
   const {
-    state: { accountBalanceMap, currentAccount, currentAccountNonce, stashControllerMap },
+    state: {
+      accountBalanceMap,
+      currentAccount,
+      currentAccountNonce,
+      stashControllerMap,
+    },
   } = useContext(AccountsContext);
   const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
@@ -92,15 +97,15 @@ const Cart = (_props: Props): React.ReactElement => {
   const [txId, setTxId] = useState<number>();
 
   useEffect(() => {
-    const sub = api.query.staking.eraElectionStatus()
-      .pipe(
-        take(1)
-      ).subscribe((status: ElectionStatus) => {
+    const sub = api.query.staking
+      .eraElectionStatus()
+      .pipe(take(1))
+      .subscribe((status: ElectionStatus) => {
         setEraElectionStatus(status.isClose);
-      })
+      });
 
-    return () => sub.unsubscribe();
-  }, [])
+    return (): void => sub.unsubscribe();
+  }, []);
 
   const checkFees = useCallback((): void => {
     if (
@@ -132,7 +137,7 @@ const Cart = (_props: Props): React.ReactElement => {
     extrinsic,
     fees,
     isApiReady,
-    nominationAmount
+    nominationAmount,
   ]);
 
   const submitNomination = useCallback((): void => {
@@ -148,14 +153,7 @@ const Cart = (_props: Props): React.ReactElement => {
       const id = enqueue(extrinsic, details);
       setTxId(id);
     }
-  }, [
-    api,
-    allFees,
-    allTotal,
-    currentAccount,
-    extrinsic,
-    enqueue
-  ]);
+  }, [api, allFees, allTotal, currentAccount, extrinsic, enqueue, nominationAmount]);
 
   useEffect(() => {
     if (txId !== undefined && !isSubmitted) {
@@ -203,15 +201,11 @@ const Cart = (_props: Props): React.ReactElement => {
         setError('Please select an account to nominate as.');
         return;
       }
-      
+
       setError(undefined);
       checkFees();
     }
-  }, [
-    api,
-    currentAccount,
-    isApiReady
-  ]);
+  }, [api, checkFees, currentAccount, isApiReady]);
 
   return (
     <CartPageContainer>
@@ -231,45 +225,45 @@ const Cart = (_props: Props): React.ReactElement => {
       <RightSide>
         <ClosableTooltip height='25%'>
           <SubHeader>Before you continue...</SubHeader>
-          <Text>You are submitting the <b>intention</b> to nominate these accounts for the <b>next era.</b></Text>
+          <Text>
+            You are submitting the <b>intention</b> to nominate these accounts
+            for the <b>next era.</b>
+          </Text>
 
-          <Text><b>Payouts will happen at the end of an era</b>, at which point you will have the ability to claim your portion of the rewards.</Text>
+          <Text>
+            <b>Payouts will happen at the end of an era</b>, at which point you
+            will have the ability to claim your portion of the rewards.
+          </Text>
         </ClosableTooltip>
-        {
-          isEraStatusValid
-            ? (
-              <>
-                <HeadingDiv>
-                  <SubHeader>Review Details: </SubHeader>
-                </HeadingDiv>
-                <NominationDetails
-                  impliedStash={impliedStash}
-                  nominationAmount={nominationAmount && nominationAmount.toBn()}
-                />
-                {error ? (
-                  <ErrorText>{error}</ErrorText>
-                ) : (
-                  <Button onClick={submitNomination} size='big'>
-                    Nominate!
-                  </Button>
-                )}
-              </>
-            )
-            : (
-              <>
-                <SubHeader>Please come back later.</SubHeader>
-                <Text>
-                  You cannot submit a nomination while there is an ongoing election for the next era validator set.
-                </Text>
-              </>
-            )
-        }
-
-        
+        {isEraStatusValid ? (
+          <>
+            <HeadingDiv>
+              <SubHeader>Review Details: </SubHeader>
+            </HeadingDiv>
+            <NominationDetails
+              impliedStash={impliedStash}
+              nominationAmount={nominationAmount && nominationAmount.toBn()}
+            />
+            {error ? (
+              <ErrorText>{error}</ErrorText>
+            ) : (
+              <Button onClick={submitNomination} size='big'>
+                Nominate!
+              </Button>
+            )}
+          </>
+        ) : (
+          <>
+            <SubHeader>Please come back later.</SubHeader>
+            <Text>
+              You cannot submit a nomination while there is an ongoing election
+              for the next era validator set.
+            </Text>
+          </>
+        )}
       </RightSide>
     </CartPageContainer>
   );
 };
 
 export default Cart;
-
