@@ -73,7 +73,7 @@ const RightSide = styled.div`
 type Props = RouteComponentProps;
 
 /*
- * N.b. Wwhatever amount is Bonded to the Controller is the amount that will be nominated. There is no way to nominate a fraction of the bond.
+ * N.b. Whatever amount is Bonded to the Controller is the amount that will be nominated. There is no way to nominate a fraction of the bond.
  */
 const Cart = (_props: Props): React.ReactElement => {
   /* context */
@@ -254,6 +254,7 @@ const Cart = (_props: Props): React.ReactElement => {
               <SubHeader>Review Details: </SubHeader>
             </HeadingDiv>
             <NominationDetails
+              allFees={allFees}
               impliedStash={impliedStash}
               nominationAmount={nominationAmount && nominationAmount.toBn()}
             />

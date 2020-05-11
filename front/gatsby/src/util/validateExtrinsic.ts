@@ -20,7 +20,7 @@ type Errors = Error[];
 
 /**
  * Make sure derived validations (fees, minimal amount) are correct.
- * @see https://github.com/polkadot-js/apps/blob/master/packages/ui-signer/src/Checks/index.tsx#L63-L111
+ * @see https://github.com/polkadot-js/apps/tree/master/packages/react-signer
  */
 export function validateFees(
   accountNonce: AccountInfo,
@@ -41,10 +41,14 @@ export function validateFees(
   const allTotal = amount
     .add(allFees)
     .add(isCreation ? fees.creationFee : new BN(0));
-  const hasAvailable = currentBalance.freeBalance.gte(allTotal);
-  const isRemovable = currentBalance.votingBalance
+
+  const hasAvailable = extrinsic.method.methodName === 'transfer' ? currentBalance.freeBalance.gte(allTotal) : true;
+
+  // Other activities that may lock up the funds are permitted
+  const isRemovable = extrinsic.method.methodName === 'transfer' ? currentBalance.votingBalance
     .sub(allTotal)
-    .lte(fees.existentialDeposit);
+    .lte(fees.existentialDeposit) : false;
+
   const overLimit = txLength >= MAX_SIZE_BYTES;
   const errors = [] as Errors;
 

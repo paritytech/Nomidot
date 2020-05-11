@@ -19,37 +19,35 @@ const ContentArea = styled.div`
   padding: 2rem;
 `;
 
-const SummaryDiv = styled.div`
+const Div = styled.div`
   display: flex column;
   justify-content: space-around;
   align-items: flex-start;
 `;
 
-const SummaryDivItem = styled.div`
+const DivItem = styled.div`
   flex: 1;
   margin: 4px 3px;
   padding: 7px 0;
 `;
 
-const EstimationDiv = styled.div`
+const DivItemMulti = styled.div`
+  flex: 1;
   display: flex;
-  justify-content: space-around;
   margin: 4px 3px;
+  justify-content: space-around;
+  align-items: flex-start;
   padding: 7px 0;
-
-  > h2 {
-    flex: 1;
-    margin: 0;
-  }
 `;
 
 interface Props {
+  allFees?: BN;
   impliedStash?: string;
   nominationAmount?: BN;
 }
 
 export const NominationDetails = (props: Props): React.ReactElement => {
-  const { impliedStash, nominationAmount } = props;
+  const { allFees, impliedStash, nominationAmount } = props;
   const { bondingDuration } = useContext(ApiRxContext);
   const [estimatedReward, setEstimatedReward] = useState<BN>();
   const [rate, setRate] = useState<number>();
@@ -66,33 +64,43 @@ export const NominationDetails = (props: Props): React.ReactElement => {
 
   return (
     <ContentArea>
-      <SummaryDiv>
-        <SummaryDivItem>
+      <Div>
+        <DivItem>
           <StatItem title='Nominate with Controller: '>
             <AccountsDropdown onlyControllers />
           </StatItem>
-        </SummaryDivItem>
-        <SummaryDivItem>
+        </DivItem>
+        <DivItem>
           <StatItem title='Implied Stash: '>
             {impliedStash ? impliedStash : <Spinner active inline />}
           </StatItem>
-        </SummaryDivItem>
-        <SummaryDivItem>
+        </DivItem>
+        <DivItemMulti>
           <StatItem
             title='Bonding Duration: '
             value={`${bondingDuration} eras`}
           />
-        </SummaryDivItem>
-      </SummaryDiv>
+          <StatItem
+            title='Nomination Amount: '
+            value={`${formatBalance(nominationAmount)}`}
+          />
+          <StatItem
+            title='Txn Fees: '
+            value={`${formatBalance(allFees)}`}
+          />
+        </DivItemMulti>
+      </Div>
 
       <SubHeader>Estimated Rewards: </SubHeader>
-      <EstimationDiv>
-        <StatItem title='Rate' value={rate ? rate.toString() : '0'} />
-        <StatItem
-          title='Value'
-          value={estimatedReward ? formatBalance(estimatedReward) : '0'}
-        />
-      </EstimationDiv>
+      <Div>
+        <DivItemMulti>
+          <StatItem title='Rate' value={rate ? rate.toString() : '0'} />
+          <StatItem
+            title='Value'
+            value={estimatedReward ? formatBalance(estimatedReward) : '0'}
+          />
+        </DivItemMulti>
+      </Div>
     </ContentArea>
   );
 };
