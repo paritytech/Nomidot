@@ -27,7 +27,7 @@ import {
   NominationDetails,
   SubHeader,
   Text,
-  Tooltip
+  Tooltip,
 } from '../components';
 import { getCartItems, validateFees } from '../util';
 import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';

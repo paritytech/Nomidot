@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { AccountsContext, getControllers } from '@substrate/context';
 import { Spinner } from '@substrate/design-system';
 import { InputAddress } from '@substrate/ui-components';
@@ -34,17 +33,19 @@ const AccountsDropdown = function(props: Props): React.ReactElement {
     return <Spinner inline active />;
   }
 
-  return  <InputAddress
-              accounts={
-                onlyControllers
-                  ? getControllers(allAccounts, stashControllerMap)
-                  : allAccounts
-              }
-              fromKeyring={false}
-              onChangeAddress={handleOnChangeAddress}
-              value={currentAccount}
-              width={width || '3rem'}
-            />
+  return (
+    <InputAddress
+      accounts={
+        onlyControllers
+          ? getControllers(allAccounts, stashControllerMap)
+          : allAccounts
+      }
+      fromKeyring={false}
+      onChangeAddress={handleOnChangeAddress}
+      value={currentAccount}
+      width={width || '3rem'}
+    />
+  );
 };
 
 export default AccountsDropdown;

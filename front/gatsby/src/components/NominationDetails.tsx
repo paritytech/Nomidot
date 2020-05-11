@@ -84,10 +84,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
             title='Nomination Amount: '
             value={`${formatBalance(nominationAmount)}`}
           />
-          <StatItem
-            title='Txn Fees: '
-            value={`${formatBalance(allFees)}`}
-          />
+          <StatItem title='Txn Fees: ' value={`${formatBalance(allFees)}`} />
         </DivItemMulti>
       </Div>
 
@@ -96,7 +93,7 @@ export const NominationDetails = (props: Props): React.ReactElement => {
         <DivItemMulti>
           <StatItem title='Rate' value={rate ? rate.toString() : '0'} />
           <StatItem
-            title='Value'
+            title='Your estimated rewards from this era'
             value={estimatedReward ? formatBalance(estimatedReward) : '0'}
           />
         </DivItemMulti>

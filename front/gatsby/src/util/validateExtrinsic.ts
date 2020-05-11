@@ -42,12 +42,16 @@ export function validateFees(
     .add(allFees)
     .add(isCreation ? fees.creationFee : new BN(0));
 
-  const hasAvailable = extrinsic.method.methodName === 'transfer' ? currentBalance.freeBalance.gte(allTotal) : true;
+  const hasAvailable =
+    extrinsic.method.methodName === 'transfer'
+      ? currentBalance.freeBalance.gte(allTotal)
+      : true;
 
   // Other activities that may lock up the funds are permitted
-  const isRemovable = extrinsic.method.methodName === 'transfer' ? currentBalance.votingBalance
-    .sub(allTotal)
-    .lte(fees.existentialDeposit) : false;
+  const isRemovable =
+    extrinsic.method.methodName === 'transfer'
+      ? currentBalance.votingBalance.sub(allTotal).lte(fees.existentialDeposit)
+      : false;
 
   const overLimit = txLength >= MAX_SIZE_BYTES;
   const errors = [] as Errors;

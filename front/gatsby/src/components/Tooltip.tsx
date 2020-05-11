@@ -19,7 +19,8 @@ export const Tooltip = styled.div<TooltipProps>`
   width: ${(props): string => props.width || '100%'};
   display: ${(props): string => (props.closed ? 'none' : 'inline-block')};
 
-  > div, p {
+  > div,
+  p {
     padding: 5px 18px;
   }
 `;

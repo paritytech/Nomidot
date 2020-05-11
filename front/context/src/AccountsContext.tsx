@@ -355,7 +355,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     if (cachedAccount !== null) {
       dispatch({
         type: 'setCurrentAccount',
-        data: JSON.parse(cachedAccount) as string
+        data: JSON.parse(cachedAccount) as string,
       });
     }
   }, []);
@@ -429,7 +429,12 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     fetchAccounts();
     fetchCachedRpcResults();
     fetchCachedUserSession();
-  }, [WINDOW_TYPE, fetchAccounts, fetchCachedRpcResults, fetchCachedUserSession]);
+  }, [
+    WINDOW_TYPE,
+    fetchAccounts,
+    fetchCachedRpcResults,
+    fetchCachedUserSession,
+  ]);
 
   useEffect(() => {
     if ((state.extension, state.isExtensionReady)) {
@@ -513,10 +518,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
         type: 'setCurrentAccount',
         data: state.allAccounts[0].address,
       });
-      writeStorage(
-        'currentAccount',
-        state.allAccounts[0].address
-      );
+      writeStorage('currentAccount', state.allAccounts[0].address);
     }
   }, [state.allAccounts, state.currentAccount, state.isExtensionReady]);
 
