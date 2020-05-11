@@ -153,7 +153,15 @@ const Cart = (_props: Props): React.ReactElement => {
       const id = enqueue(extrinsic, details);
       setTxId(id);
     }
-  }, [api, allFees, allTotal, currentAccount, extrinsic, enqueue, nominationAmount]);
+  }, [
+    api,
+    allFees,
+    allTotal,
+    currentAccount,
+    extrinsic,
+    enqueue,
+    nominationAmount,
+  ]);
 
   useEffect(() => {
     if (txId !== undefined && !isSubmitted) {
