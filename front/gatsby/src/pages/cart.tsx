@@ -28,7 +28,7 @@ import {
   SubHeader,
   Text
 } from '../components';
-import { getCartItems, validateFees } from '../util';
+import { getCartItems, validateFees, APP_SLUG } from '../util';
 import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';
 
 const CartPageContainer = styled.div`
@@ -84,7 +84,7 @@ const Cart = (_props: Props): React.ReactElement => {
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
   const [cartItems, setCartItems] = useState<string[]>([]);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
-  const [eraElectionStatus, setEraElectionStatus] = useState<ElectionStatus>();
+  const [isEraStatusValid, setEraElectionStatus] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [impliedStash, setImpliedStash] = useState<string>();
   const [nominationAmount, setNominationAmount] = useState<Compact<Balance>>();
@@ -95,7 +95,9 @@ const Cart = (_props: Props): React.ReactElement => {
     const sub = api.query.staking.eraElectionStatus()
       .pipe(
         take(1)
-      ).subscribe((status: ElectionStatus) => setEraElectionStatus(status))
+      ).subscribe((status: ElectionStatus) => {
+        setEraElectionStatus(status.isClose);
+      })
 
     return () => sub.unsubscribe();
   }, [])
@@ -233,23 +235,41 @@ const Cart = (_props: Props): React.ReactElement => {
 
           <Text><b>Payouts will happen at the end of an era</b>, at which point you will have the ability to claim your portion of the rewards.</Text>
         </ClosableTooltip>
-        <HeadingDiv>
-          <SubHeader>Review Details: </SubHeader>
-        </HeadingDiv>
-        <NominationDetails
-          impliedStash={impliedStash}
-          nominationAmount={nominationAmount && nominationAmount.toBn()}
-        />
-        {error ? (
-          <ErrorText>{error}</ErrorText>
-        ) : (
-          <Button onClick={submitNomination} size='big'>
-            Nominate!
-          </Button>
-        )}
+        {
+          isEraStatusValid
+            ? (
+              <>
+                <HeadingDiv>
+                  <SubHeader>Review Details: </SubHeader>
+                </HeadingDiv>
+                <NominationDetails
+                  impliedStash={impliedStash}
+                  nominationAmount={nominationAmount && nominationAmount.toBn()}
+                />
+                {error ? (
+                  <ErrorText>{error}</ErrorText>
+                ) : (
+                  <Button onClick={submitNomination} size='big'>
+                    Nominate!
+                  </Button>
+                )}
+              </>
+            )
+            : (
+              <>
+                <SubHeader>Please come back later.</SubHeader>
+                <Text>
+                  You cannot submit a nomination while there is an ongoing election for the next era validator set.
+                </Text>
+              </>
+            )
+        }
+
+        
       </RightSide>
     </CartPageContainer>
   );
 };
 
 export default Cart;
+
