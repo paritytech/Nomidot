@@ -12,7 +12,12 @@ import styled from 'styled-components';
 import media from 'styled-media-query';
 
 import { APP_TITLE } from '../../../util';
-import { BlockHeader } from './Subheaders';
+import {
+  BlockHeader,
+  EraHeader,
+  SessionHeader,
+  StakingHeader,
+} from './Subheaders';
 
 type Props = RouteComponentProps;
 
@@ -49,13 +54,12 @@ const NavLink = styled(Link)`
 `;
 
 const LinkArea = styled.div`
-  margin: 0 45rem 0 0;
+  margin: 0 30rem 0 0;
 `;
 
 const CartIcon = styled.div`
   color: white;
   display: flex;
-  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
   height: 50px;
@@ -79,10 +83,6 @@ const Logo = styled.h2`
   ${media.lessThan('small')`
     margin-right: 3rem;
   `}
-`;
-
-const BlockCounter = styled(BlockHeader)`
-  flex: 2 1 auto;
 `;
 
 const ExtensionStatus = styled.p`
@@ -111,7 +111,11 @@ export default function Header(_props: Props): React.ReactElement {
           <NavLink to='/accounts'>Accounts</NavLink>
           <NavLink to='/validators'>Validators</NavLink>
         </LinkArea>
-        <BlockCounter />
+
+        <StakingHeader />
+        <EraHeader />
+        <SessionHeader />
+        <BlockHeader />
         {!extensionNotFound && (
           <CartIcon>
             <Icon link name='cart' size='large' onClick={navToCartPage} />

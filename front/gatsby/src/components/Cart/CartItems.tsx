@@ -7,7 +7,6 @@ import {
   Icon,
   List,
   Margin,
-  Stacked,
   StackedHorizontal,
   WithSpaceAround,
 } from '@substrate/ui-components';
@@ -15,8 +14,7 @@ import { navigate } from 'gatsby';
 import React, { useContext } from 'react';
 
 import { removeCartItem } from '../../util/cartHelpers';
-import { AddressSummary } from '../index';
-import { Button, SubHeader } from '../index';
+import { AddressSummary, Button, SubHeader, Text, Tooltip } from '../index';
 
 interface Props {
   cartItems: string[];
@@ -30,17 +28,18 @@ const CartItems = (props: Props): React.ReactElement => {
 
   const renderCartEmpty = (): React.ReactElement => {
     return (
-      <Stacked>
+      <Tooltip>
         <SubHeader>Cart Empty</SubHeader>
-        <p>you should add some validators to nominate...</p>
+        <Text>you should add some validators to nominate...</Text>
         <Button
           neutral
           size='big'
+          float='right'
           onClick={(): Promise<void> => navigate('/validators')}
         >
           Take Me There!
         </Button>
-      </Stacked>
+      </Tooltip>
     );
   };
 

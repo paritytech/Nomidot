@@ -12,16 +12,17 @@ interface TooltipProps {
   width?: string;
 }
 
-const Tooltip = styled.div<TooltipProps>`
+export const Tooltip = styled.div<TooltipProps>`
   background: #f2f4f6;
   border-radius: 3px;
   height: ${(props): string => props.height || '50%'};
   width: ${(props): string => props.width || '100%'};
   display: ${(props): string => (props.closed ? 'none' : 'inline-block')};
-`;
 
-const TooltipContent = styled.div`
-  padding: 8px 18px;
+  > div,
+  p {
+    padding: 5px 18px;
+  }
 `;
 
 const Close = styled(Icon)`
@@ -33,13 +34,15 @@ const Close = styled(Icon)`
 `;
 
 interface ClosableTooltipProps {
+  height?: string;
+  width?: string;
   children: React.ReactNode;
 }
 
 export const ClosableTooltip = (
   props: ClosableTooltipProps
 ): React.ReactElement => {
-  const { children } = props;
+  const { children, height, width } = props;
   const [closeTooltip, setCloseTooltip] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -47,9 +50,9 @@ export const ClosableTooltip = (
   }, []);
 
   return (
-    <Tooltip closed={closeTooltip}>
+    <Tooltip closed={closeTooltip} height={height} width={width}>
       <Close name='close' onClick={handleClose} />
-      <TooltipContent>{children}</TooltipContent>
+      {children}
     </Tooltip>
   );
 };
