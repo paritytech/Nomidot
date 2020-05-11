@@ -27,6 +27,7 @@ import {
   NominationDetails,
   SubHeader,
   Text,
+  Tooltip
 } from '../components';
 import { getCartItems, validateFees } from '../util';
 import { clearCart, stripAddressFromCartItem } from '../util/cartHelpers';
@@ -62,6 +63,10 @@ const RightSide = styled.div`
 
   > a {
     float: right;
+  }
+
+  > div {
+    margin: 10px;
   }
 `;
 
@@ -231,7 +236,7 @@ const Cart = (_props: Props): React.ReactElement => {
       </LeftSide>
 
       <RightSide>
-        <ClosableTooltip height='25%'>
+        <ClosableTooltip height='200px'>
           <SubHeader>Before you continue...</SubHeader>
           <Text>
             You are submitting the <b>intention</b> to nominate these accounts
@@ -261,13 +266,13 @@ const Cart = (_props: Props): React.ReactElement => {
             )}
           </>
         ) : (
-          <>
+          <Tooltip height='100px'>
             <SubHeader>Please come back later.</SubHeader>
             <Text>
               You cannot submit a nomination while there is an ongoing election
               for the next era validator set.
             </Text>
-          </>
+          </Tooltip>
         )}
       </RightSide>
     </CartPageContainer>

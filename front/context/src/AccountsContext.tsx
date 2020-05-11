@@ -349,16 +349,16 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   }, []);
 
-  // const fetchCachedUserSession = useCallback((): void => {
-  //   const cachedAccount = localStorage.getItem('currentAccount');
+  const fetchCachedUserSession = useCallback((): void => {
+    const cachedAccount = localStorage.getItem('currentAccount');
 
-  //   if (cachedAccount !== null) {
-  //     dispatch({
-  //       type: 'setCurrentAccount',
-  //       data: JSON.parse(cachedAccount),
-  //     });
-  //   }
-  // }, []);
+    if (cachedAccount !== null) {
+      dispatch({
+        type: 'setCurrentAccount',
+        data: JSON.parse(cachedAccount) as string
+      });
+    }
+  }, []);
 
   // set signer
   useEffect(() => {
@@ -428,7 +428,8 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [WINDOW_TYPE, fetchAccounts, fetchCachedRpcResults]);
+    fetchCachedUserSession();
+  }, [WINDOW_TYPE, fetchAccounts, fetchCachedRpcResults, fetchCachedUserSession]);
 
   useEffect(() => {
     if ((state.extension, state.isExtensionReady)) {
@@ -514,7 +515,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
       });
       writeStorage(
         'currentAccount',
-        JSON.stringify(state.allAccounts[0].address)
+        state.allAccounts[0].address
       );
     }
   }, [state.allAccounts, state.currentAccount, state.isExtensionReady]);
