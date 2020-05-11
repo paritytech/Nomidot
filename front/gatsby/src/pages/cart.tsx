@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { createType } from '@polkadot/types';
+import { createType, Compact } from '@polkadot/types';
+import { Balance } from '@polkadot/types/interfaces';
 import { RouteComponentProps } from '@reach/router';
 import {
   AccountsContext,
@@ -63,19 +64,27 @@ const RightSide = styled.div`
 
 type Props = RouteComponentProps;
 
+/*
+* N.b. Wwhatever amount is Bonded to the Controller is the amount that will be nominated. There is no way to nominate a fraction of the bond.
+*/
 const Cart = (_props: Props): React.ReactElement => {
+  /* context */
   const {
-    state: { accountBalanceMap, currentAccount, currentAccountNonce },
+    state: { accountBalanceMap, currentAccount, currentAccountNonce, stashControllerMap },
   } = useContext(AccountsContext);
   const { api, isApiReady, fees } = useContext(ApiRxContext);
   const { enqueue, signAndSubmit } = useContext(TxQueueContext);
+
+  /* state */
   const [allFees, setAllFees] = useState<BN>();
   const [allTotal, setAllTotal] = useState<BN>();
   const [cartItemsCount] = useLocalStorage('cartItemsCount');
   const [cartItems, setCartItems] = useState<string[]>([]);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'rxjs'>>();
   const [error, setError] = useState<string>();
-  const [nominationAmount, setNominationAmount] = useState<string>('');
+  const [impliedStash, setImpliedStash] = useState<string>();
+  const [nominationAmount, setNominationAmount] = useState<Compact<Balance>>();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [txId, setTxId] = useState<number>();
 
   const checkFees = useCallback((): void => {
@@ -84,13 +93,13 @@ const Cart = (_props: Props): React.ReactElement => {
       isApiReady &&
       currentAccount &&
       currentAccountNonce &&
-      nominationAmount &&
       extrinsic &&
-      fees
+      fees &&
+      nominationAmount
     ) {
       const [feeErrors, total, fee] = validateFees(
         currentAccountNonce,
-        new BN(nominationAmount),
+        nominationAmount.toBn(),
         accountBalanceMap[currentAccount],
         extrinsic,
         fees
@@ -108,36 +117,8 @@ const Cart = (_props: Props): React.ReactElement => {
     extrinsic,
     fees,
     isApiReady,
-    nominationAmount,
+    nominationAmount
   ]);
-
-  const checkUserInputs = useCallback((): void => {
-    if (!currentAccount) {
-      setError('Please select an account to nominate as.');
-      return;
-    } else if (allTotal) {
-      // check nominateAs has enough balance
-      const derivedBalances = accountBalanceMap[currentAccount];
-
-      if (derivedBalances.freeBalance <= allTotal) {
-        setError(
-          'This account does not have enough balance to perform this extrinsic.'
-        );
-        return;
-      }
-    } else {
-      setError(undefined);
-      return;
-    }
-  }, [accountBalanceMap, allTotal, currentAccount]);
-
-  const handleUserInputChange = useCallback(
-    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
-      setNominationAmount(value);
-      checkFees();
-    },
-    [checkFees, setNominationAmount]
-  );
 
   const submitNomination = useCallback((): void => {
     if (api && allFees && allTotal && currentAccount && extrinsic) {
@@ -158,13 +139,31 @@ const Cart = (_props: Props): React.ReactElement => {
     allTotal,
     currentAccount,
     extrinsic,
-    enqueue,
-    nominationAmount,
+    enqueue
   ]);
 
   useEffect(() => {
-    txId && signAndSubmit(txId);
-  }, [txId, signAndSubmit]);
+    if (txId !== undefined && !isSubmitted) {
+      signAndSubmit(txId);
+      setIsSubmitted(true);
+    }
+  }, [isSubmitted, txId, signAndSubmit]);
+
+  useEffect(() => {
+    const derivedStaking = Object.values(stashControllerMap).find(
+      derivedStaking =>
+        derivedStaking &&
+        derivedStaking.controllerId &&
+        derivedStaking.controllerId.toHuman &&
+        derivedStaking.controllerId.toHuman() === currentAccount
+    );
+
+    const stash = derivedStaking?.stashId;
+    const activeBonded = derivedStaking?.stakingLedger?.active;
+
+    setImpliedStash(stash?.toHuman());
+    setNominationAmount(activeBonded);
+  }, [currentAccount, stashControllerMap]);
 
   useEffect(() => {
     const cartItems: string[] = getCartItems();
@@ -177,15 +176,27 @@ const Cart = (_props: Props): React.ReactElement => {
   }, []);
 
   useEffect(() => {
-    if (api && isApiReady) {
+    if (api && isApiReady && cartItems) {
       const extrinsic = api.tx.staking.nominate(cartItems);
       setExtrinsic(extrinsic);
     }
   }, [api, isApiReady, cartItems]);
 
   useEffect(() => {
-    checkUserInputs();
-  }, [checkUserInputs, currentAccount, nominationAmount]);
+    if (api && isApiReady) {
+      if (!currentAccount) {
+        setError('Please select an account to nominate as.');
+        return;
+      }
+      
+      setError(undefined);
+      checkFees();
+    }
+  }, [
+    api,
+    currentAccount,
+    isApiReady
+  ]);
 
   return (
     <CartPageContainer>
@@ -207,8 +218,8 @@ const Cart = (_props: Props): React.ReactElement => {
           <SubHeader>Review Details: </SubHeader>
         </HeadingDiv>
         <NominationDetails
-          nominationAmount={nominationAmount}
-          handleUserInputChange={handleUserInputChange}
+          impliedStash={impliedStash}
+          nominationAmount={nominationAmount && nominationAmount.toBn()}
         />
         {error ? (
           <ErrorText>{error}</ErrorText>

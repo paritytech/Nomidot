@@ -3,7 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RouteComponentProps } from '@reach/router';
-import React from 'react';
+import { ApiRxContext } from '@substrate/context';
+import { Loading } from '@substrate/ui-components';
+import React, { useContext } from 'react';
 
 import { LoadableHeader } from './Header';
 
@@ -13,11 +15,16 @@ interface Props extends RouteComponentProps {
 
 export function Layout(props: Props): React.ReactElement {
   const { children } = props;
+  const { isApiReady } = useContext(ApiRxContext);
 
   return (
     <>
       <LoadableHeader {...props} />
-      {children}
+      {
+        isApiReady
+          ? children
+          : <Loading active /> 
+        }
     </>
   );
 }
