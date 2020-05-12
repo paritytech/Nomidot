@@ -15,9 +15,7 @@
     "Postgres",
     "Polkadot"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": "https://github.com/paritytech/Nomidot",
   "scripts": {
     "build": "tsc",
