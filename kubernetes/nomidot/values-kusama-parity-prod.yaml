@@ -11,12 +11,4 @@ cloudsql:
 
 ## nodewatcher
 nodewatcher:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  dbName: kusama-nodewatcher
-  dbUser: admin
->>>>>>> 0437e02... nodeSelector and new values file for prod
-=======
->>>>>>> 47329d1... values for test-installations
   dbPassword: from-gitlab-vars

@@ -36,25 +36,11 @@ Common labels
 */}}
 {{- define "nomidot.labels" -}}
 chart: {{ include "nomidot.chart" . }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-{{ include "nomidot.selectorLabels" . }}
->>>>>>> 8ba937f... fv-wip-01
-=======
->>>>>>> bd347eb... restructured object labels
 {{- if .Chart.AppVersion }}
 version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 managed-by: {{ .Release.Service }}
-<<<<<<< HEAD
-<<<<<<< HEAD
 part-of: {{ include "nomidot.name" . }}
-=======
->>>>>>> 8ba937f... fv-wip-01
-=======
-part-of: {{ include "nomidot.name" . }}
->>>>>>> bd347eb... restructured object labels
 {{- end -}}
 
 {{/*
@@ -68,9 +54,6 @@ app: {{ include "nomidot.name" . }}
 Create unified labels for nomidot components
 */}}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 {{- define "nomidot.nodewatcher.labels" -}}
 {{ include "nomidot.labels" . }}
 {{ include "nomidot.nodewatcher.matchLabels" . }}
@@ -96,43 +79,6 @@ app: {{ .Values.frontend.name }}
 
 {{- define "nomidot.server.matchLabels" -}}
 app: {{ .Values.server.name }}
-<<<<<<< HEAD
-=======
-=======
-{{- define "nomidot.nodewatcher.selectorLabels" -}}
-chart: {{ include "nomidot.chart" . }}
-{{- if .Chart.AppVersion }}
-version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-managed-by: {{ .Release.Service }}
-app: {{ include "nomidot.nodewatcher.fullname" . }}
-=======
-{{- define "nomidot.nodewatcher.labels" -}}
-{{ include "nomidot.labels" . }}
-{{ include "nomidot.nodewatcher.matchLabels" . }}
->>>>>>> bd347eb... restructured object labels
-{{- end -}}
-
-{{- define "nomidot.nodewatcher.matchLabels" -}}
-app: {{ .Values.nodewatcher.name }}
-{{- end -}}
-
->>>>>>> 35317fc... added nodewatcher deployemten
-{{- define "nomidot.frontend.labels" -}}
-{{ include "nomidot.labels" . }}
-{{ include "nomidot.frontend.matchLabels" . }}
-{{- end -}}
-
-{{- define "nomidot.frontend.matchLabels" -}}
-<<<<<<< HEAD
-component: {{ .Values.frontend.name | quote }}
-{{ include "nomidot.selectorLabels" . }}
->>>>>>> 8ba937f... fv-wip-01
-=======
-app: {{ .Values.frontend.name }}
->>>>>>> bd347eb... restructured object labels
-=======
->>>>>>> 6233916... added server deployemten
 {{- end -}}
 
 {{- define "nomidot.frontend.fullname" -}}
@@ -147,8 +93,6 @@ app: {{ .Values.frontend.name }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
-<<<<<<< HEAD
-<<<<<<< HEAD
   
 {{- define "nomidot.nodewatcher.fullname" -}}
 {{- if .Values.nodewatcher.fullnameOverride -}}
@@ -176,43 +120,13 @@ app: {{ .Values.frontend.name }}
 {{- end -}}
 {{- end -}}
 
-<<<<<<< HEAD
-=======
-  
-<<<<<<< HEAD
->>>>>>> 238bd72... prismagraphql config added.
-=======
-{{- define "nomidot.nodewatcher.fullname" -}}
-{{- if .Values.nodewatcher.fullnameOverride -}}
-{{- .Values.nodewatcher.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- printf "%s-%s" .Release.Name .Values.nodewatcher.name | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s-%s" .Release.Name $name .Values.nodewatcher.name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-
->>>>>>> 35317fc... added nodewatcher deployemten
-=======
->>>>>>> 6233916... added server deployemten
 {{/*  
 Config for Prisma
 */}}
 {{- define "nodewatcher.prisma-config" }}
 port: 4466
 databases:
-<<<<<<< HEAD
-<<<<<<< HEAD
   {{ .Values.nodewatcher.dbName }}:
-=======
-  default:
->>>>>>> 238bd72... prismagraphql config added.
-=======
-  {{ .Values.nodewatcher.dbName }}:
->>>>>>> 0437e02... nodeSelector and new values file for prod
     connector: postgres
     host: 127.0.0.1
     user: {{ .Values.nodewatcher.dbUser }}
@@ -222,9 +136,3 @@ databases:
     migrations: true
     connectionLimit: 5
 {{- end }}
-<<<<<<< HEAD
-=======
-
->>>>>>> 8ba937f... fv-wip-01
-=======
->>>>>>> 238bd72... prismagraphql config added.

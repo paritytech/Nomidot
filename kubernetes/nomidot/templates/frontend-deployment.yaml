@@ -3,48 +3,16 @@ kind: Deployment
 metadata:
   name: {{ include "nomidot.frontend.fullname" . }}
   labels:
-<<<<<<< HEAD
-<<<<<<< HEAD
     {{- include "nomidot.frontend.labels" . | nindent 4 }}
-=======
-    {{- include "nomidot.labels" . | nindent 4 }}
->>>>>>> 8ba937f... fv-wip-01
-=======
-    {{- include "nomidot.frontend.labels" . | nindent 4 }}
->>>>>>> bd347eb... restructured object labels
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         {{- include "nomidot.frontend.matchLabels" . | nindent 8 }}
-=======
-      {{- include "nomidot.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      labels:
-        {{- include "nomidot.selectorLabels" . | nindent 8 }}
->>>>>>> 8ba937f... fv-wip-01
-=======
-      {{- include "nomidot.frontend.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      labels:
-        {{- include "nomidot.frontend.selectorLabels" . | nindent 8 }}
->>>>>>> 0437e02... nodeSelector and new values file for prod
-=======
-      {{- include "nomidot.frontend.matchLabels" . | nindent 6 }}
-  template:
-    metadata:
-      labels:
-        {{- include "nomidot.frontend.matchLabels" . | nindent 8 }}
->>>>>>> bd347eb... restructured object labels
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -52,41 +20,16 @@ spec:
     {{- end }}
       containers:
         - name: {{ include "nomidot.frontend.fullname" . }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          securityContext:
-            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
->>>>>>> 8ba937f... fv-wip-01
-=======
->>>>>>> f8c8994... use "...service.port" in container:
-          image: '{{ .Values.frontend.image.repository }}/{{ include "nomidot.frontend.fullname" . }}:{{ .Chart.AppVersion }}'
+          image: '{{ .Values.frontend.image.repository }}/{{ include "nomidot.frontend.fullname" . }}:{{ .Values.frontend.image.dockerTag }}'
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           ports:
             - name: http
-<<<<<<< HEAD
-<<<<<<< HEAD
               containerPort: {{ .Values.frontend.service.port }}
               protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.frontend.NODE_ENV }}
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
 {{- end }}
-
-=======
-              containerPort: 80
-=======
-              containerPort: {{ .Values.frontend.service.port }}
->>>>>>> f8c8994... use "...service.port" in container:
-              protocol: TCP
-{{- with .Values.nodeSelector }}
-      nodeSelector:
-<<<<<<< HEAD
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
->>>>>>> 8ba937f... fv-wip-01
-=======
-{{ toYaml . | indent 8 }}
-{{- end }}
-
->>>>>>> 0437e02... nodeSelector and new values file for prod
