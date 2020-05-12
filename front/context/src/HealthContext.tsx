@@ -72,7 +72,8 @@ export interface HealthContextProviderProps {
   provider?: ProviderInterface;
 }
 
-// Track if we we're already syncing
+// Track if we we're already syncing. Initialize to true, if the not is not
+// syncing, then it'll be changed to false.
 let wasSyncing = true;
 
 export function HealthContextProvider(
@@ -84,6 +85,7 @@ export function HealthContextProvider(
 
   // When we change provider, reset `isSyncing` to true
   useEffect(() => {
+    wasSyncing = true;
     setIsSyncing(true);
   }, [provider]);
 
