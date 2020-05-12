@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/paritytech/Nomidot/compare/v0.5.0...v0.5.1) (2020-05-12)
+
+
+### Bug Fixes
+
+* **context:** Reset syncing to true when chaning provider ([#353](https://github.com/paritytech/Nomidot/issues/353)) ([a4a6d1d](https://github.com/paritytech/Nomidot/commit/a4a6d1d1c54fd4cfade63e09791c76b7e0b5a041))
+* better ux for handling no extension found ([#347](https://github.com/paritytech/Nomidot/issues/347)) ([43a735d](https://github.com/paritytech/Nomidot/commit/43a735dd10de49be4b39afe47769e1f8ff376512))
+* cart page nomination UX ([#350](https://github.com/paritytech/Nomidot/issues/350)) ([7cd64cf](https://github.com/paritytech/Nomidot/commit/7cd64cf8defd7c3a5a698feacf46c562e8f37a44))
+* clean up eslint warnings in front/ ([#317](https://github.com/paritytech/Nomidot/issues/317)) ([97c0276](https://github.com/paritytech/Nomidot/commit/97c02763f78a4596eadaebfc3675665d9d396f9b))
+* need to click twice to submit ([#348](https://github.com/paritytech/Nomidot/issues/348)) ([d55f422](https://github.com/paritytech/Nomidot/commit/d55f422863d056a9534fa0fd51b34a50c3e3f607))
+* remove useless check ([#328](https://github.com/paritytech/Nomidot/issues/328)) ([aba72f7](https://github.com/paritytech/Nomidot/commit/aba72f71580af584b2ea71042a68e2436419e3e3))
+* tooltip about stash vs contorller ([#331](https://github.com/paritytech/Nomidot/issues/331)) ([b15a02d](https://github.com/paritytech/Nomidot/commit/b15a02d6dcd5df10e8fbac4f6c6b46ca97a94191))
+* useless cache ([#325](https://github.com/paritytech/Nomidot/issues/325)) ([132e481](https://github.com/paritytech/Nomidot/commit/132e48163e6e8caa03c0f6d9540942f677bf29ba))
+* validators page ([#337](https://github.com/paritytech/Nomidot/issues/337)) ([868e125](https://github.com/paritytech/Nomidot/commit/868e12531850a3c0d5dd08f8a86367ded5264c24))
+
+
+### Features
+
+* extension check ([#327](https://github.com/paritytech/Nomidot/issues/327)) ([d4948db](https://github.com/paritytech/Nomidot/commit/d4948db81a1cb1e64a6d5b1cdd0900412f5b1897))
+
+
+
+
+
 # [0.5.0](https://github.com/paritytech/Nomidot/compare/v0.4.1...v0.5.0) (2020-04-24)
 
 

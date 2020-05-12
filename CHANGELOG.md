@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/paritytech/Nomidot/compare/v0.5.0...v0.5.1) (2020-05-12)
+
+
+### Bug Fixes
+
+* **context:** Reset syncing to true when chaning provider ([#353](https://github.com/paritytech/Nomidot/issues/353)) ([a4a6d1d](https://github.com/paritytech/Nomidot/commit/a4a6d1d1c54fd4cfade63e09791c76b7e0b5a041))
+* better ux for handling no extension found ([#347](https://github.com/paritytech/Nomidot/issues/347)) ([43a735d](https://github.com/paritytech/Nomidot/commit/43a735dd10de49be4b39afe47769e1f8ff376512))
+* cart page nomination UX ([#350](https://github.com/paritytech/Nomidot/issues/350)) ([7cd64cf](https://github.com/paritytech/Nomidot/commit/7cd64cf8defd7c3a5a698feacf46c562e8f37a44))
+* change endpoint in dev env ([#343](https://github.com/paritytech/Nomidot/issues/343)) ([b20de78](https://github.com/paritytech/Nomidot/commit/b20de78af0841c5516b31de92e8c5e4ae8c6e694))
+* clean up eslint warnings in front/ ([#317](https://github.com/paritytech/Nomidot/issues/317)) ([97c0276](https://github.com/paritytech/Nomidot/commit/97c02763f78a4596eadaebfc3675665d9d396f9b))
+* docker, node_env, k8s image ([#345](https://github.com/paritytech/Nomidot/issues/345)) ([dc508f2](https://github.com/paritytech/Nomidot/commit/dc508f282b57bb925edadc8a34c543c081418034))
+* dont try to write on unique constraint invariant ([#326](https://github.com/paritytech/Nomidot/issues/326)) ([6102916](https://github.com/paritytech/Nomidot/commit/6102916c93d61271644a2cac9f8690e6b6359498))
+* effect dependency array bug in staking header ([#341](https://github.com/paritytech/Nomidot/issues/341)) ([79a51e2](https://github.com/paritytech/Nomidot/commit/79a51e2a1c4707030b473a1cdadd6d404df14de0))
+* frontend graphql ([#338](https://github.com/paritytech/Nomidot/issues/338)) ([2008028](https://github.com/paritytech/Nomidot/commit/2008028763566083f779f3cb7b3386e4d6cc665f))
+* need to click twice to submit ([#348](https://github.com/paritytech/Nomidot/issues/348)) ([d55f422](https://github.com/paritytech/Nomidot/commit/d55f422863d056a9534fa0fd51b34a50c3e3f607))
+* remove useless check ([#328](https://github.com/paritytech/Nomidot/issues/328)) ([aba72f7](https://github.com/paritytech/Nomidot/commit/aba72f71580af584b2ea71042a68e2436419e3e3))
+* simplify navigation ([#346](https://github.com/paritytech/Nomidot/issues/346)) ([ef8530a](https://github.com/paritytech/Nomidot/commit/ef8530ad734ded6e8a84357eec2b38e6fce4e62e))
+* tooltip about stash vs contorller ([#331](https://github.com/paritytech/Nomidot/issues/331)) ([b15a02d](https://github.com/paritytech/Nomidot/commit/b15a02d6dcd5df10e8fbac4f6c6b46ca97a94191))
+* useless cache ([#325](https://github.com/paritytech/Nomidot/issues/325)) ([132e481](https://github.com/paritytech/Nomidot/commit/132e48163e6e8caa03c0f6d9540942f677bf29ba))
+* validators page ([#337](https://github.com/paritytech/Nomidot/issues/337)) ([868e125](https://github.com/paritytech/Nomidot/commit/868e12531850a3c0d5dd08f8a86367ded5264c24))
+
+
+### Features
+
+* beef up validators table data ([#342](https://github.com/paritytech/Nomidot/issues/342)) ([b69e1d1](https://github.com/paritytech/Nomidot/commit/b69e1d1644ebf1e1407b647000c2394cc688b053))
+* extension check ([#327](https://github.com/paritytech/Nomidot/issues/327)) ([d4948db](https://github.com/paritytech/Nomidot/commit/d4948db81a1cb1e64a6d5b1cdd0900412f5b1897))
+
+
+
+
+
 # [0.5.0](https://github.com/paritytech/Nomidot/compare/v0.4.1...v0.5.0) (2020-04-24)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/paritytech/Nomidot/compare/v0.5.0...v0.5.1) (2020-05-12)
+
+
+### Bug Fixes
+
+* clean up eslint warnings in front/ ([#317](https://github.com/paritytech/Nomidot/issues/317)) ([97c0276](https://github.com/paritytech/Nomidot/commit/97c02763f78a4596eadaebfc3675665d9d396f9b))
+* dont try to write on unique constraint invariant ([#326](https://github.com/paritytech/Nomidot/issues/326)) ([6102916](https://github.com/paritytech/Nomidot/commit/6102916c93d61271644a2cac9f8690e6b6359498))
+
+
+
+
+
 # [0.5.0](https://github.com/paritytech/Nomidot/compare/v0.4.1...v0.5.0) (2020-04-24)
 
 **Note:** Version bump only for package @substrate/node-watcher
