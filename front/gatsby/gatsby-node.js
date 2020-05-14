@@ -7,11 +7,11 @@ const path = require('path');
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
-exports.onCreateWebpackConfig = function({ actions }) {
+exports.onCreateWebpackConfig = process.env.NODE_ENV === 'develoment' && function({ actions }) {
   actions.setWebpackConfig({
     resolve: {
       alias: {
-        '@substrate/context': path.resolve(__dirname, '../context/src'),
+        '@substrate/context': path.resolve(__dirname, '../context/src')
       },
     },
     node: {

@@ -41,8 +41,9 @@
   },
   "scripts": {
     "build": "gatsby build",
-    "docker": "cd .. && docker build -t nomidot-front:v0.5.0 . && docker tag nomidot-front:v0.5.0 eu.gcr.io/test-installations-222013/nomidot-front:v0.5.0",
-    "start": "gatsby develop",
+    "docker": "cp ../../yarn.lock . && docker build -t nomidot-front:v0.5.0 . && docker tag nomidot-front:v0.5.0 eu.gcr.io/test-installations-222013/nomidot-front:v0.5.0 && rm yarn.lock",
+    "start": "NODE_ENV=development gatsby develop",
+    "start:staging": "yarn serve",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   }
