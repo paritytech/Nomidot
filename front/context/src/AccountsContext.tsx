@@ -417,11 +417,7 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-  }, [
-    WINDOW_TYPE,
-    fetchAccounts,
-    fetchCachedRpcResults
-  ]);
+  }, [WINDOW_TYPE, fetchAccounts, fetchCachedRpcResults]);
 
   useEffect(() => {
     if ((state.extension, state.isExtensionReady)) {
