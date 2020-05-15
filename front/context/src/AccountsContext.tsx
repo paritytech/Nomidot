@@ -349,17 +349,6 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
     }
   }, []);
 
-  const fetchCachedUserSession = useCallback((): void => {
-    const cachedAccount = localStorage.getItem('currentAccount');
-
-    if (cachedAccount !== null) {
-      dispatch({
-        type: 'setCurrentAccount',
-        data: JSON.parse(cachedAccount) as string,
-      });
-    }
-  }, []);
-
   // set signer
   useEffect(() => {
     if (api && state.extension && state.isExtensionReady) {
@@ -428,12 +417,10 @@ export function AccountsContextProvider(props: Props): React.ReactElement {
   useEffect(() => {
     fetchAccounts();
     fetchCachedRpcResults();
-    fetchCachedUserSession();
   }, [
     WINDOW_TYPE,
     fetchAccounts,
-    fetchCachedRpcResults,
-    fetchCachedUserSession,
+    fetchCachedRpcResults
   ]);
 
   useEffect(() => {
