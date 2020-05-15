@@ -13,4 +13,4 @@ COPY ./public .
 
 EXPOSE 8000
 
-CMD ["yarn", "gatsby", "develop"] 
+CMD ["yarn", "gatsby", "serve"] 
