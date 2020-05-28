@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 # DASHBOARDS-CLUSTER-1 values for nomidot.
+=======
+# Default values for nomidot.
+>>>>>>> 5a905865e68b0bf6f1e7948a824aca63ef0c81f7
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 ## common values
+<<<<<<< HEAD
 imagePullSecrets:
   - name: {}
 
@@ -21,3 +26,12 @@ frontend:
       - host: test.nomidot.paritytech.io
         paths: []
     tls: []
+=======
+cloudsql:
+  commandline:
+    args: "-instances=test-installations-222013:europe-west1:kusama-etl"
+
+## nodewatcher
+nodewatcher:
+  dbPassword: from-gitlab-vars
+>>>>>>> 5a905865e68b0bf6f1e7948a824aca63ef0c81f7

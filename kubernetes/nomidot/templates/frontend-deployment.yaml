@@ -29,7 +29,6 @@ spec:
           env:
             - name: NODE_ENV
               value: {{ .Values.frontend.NODE_ENV }}
-{{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
 {{- end }}

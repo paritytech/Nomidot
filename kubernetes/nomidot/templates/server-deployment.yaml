@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nomidot.server.fullname" . }}
+  labels:
+    {{- include "nomidot.server.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.server.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "nomidot.server.matchLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "nomidot.server.matchLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ include "nomidot.server.fullname" . }}
+          image: '{{ .Values.server.image.repository }}/{{ include "nomidot.server.fullname" . }}:{{ .Chart.AppVersion }}'
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          env:
+            - name: PRISMA_ENDPOINT
+              value: http://{{ include "nomidot.nodewatcher.fullname" . }}:{{ .Values.nodewatcher.service.port }}
+          ports:
+            - name: server
+              containerPort: 4000
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
