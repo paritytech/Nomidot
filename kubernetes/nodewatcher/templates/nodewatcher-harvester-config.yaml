@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.harvester.name }}-config
+  labels:
+    {{- include "nodewatcher.harvester.labels" . | nindent 4 }}
+data:
+  {{- range $key, $val := .Values.harvester.config }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

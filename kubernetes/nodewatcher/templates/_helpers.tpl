@@ -33,6 +33,20 @@ heritage: {{ .Release.Service }}
 component: {{ .Values.server.name }}
 {{- end -}}
 
+
+{{- define "nodewatcher.harvester.labels" -}}
+{{ include "nodewatcher.harvester.matchLabels" . }}
+{{ include "nodewatcher.common.metaLabels" . }}
+{{- end -}}
+
+{{- define "nodewatcher.harvester.matchLabels" -}}
+{{ include "nodewatcher.common.matchLabels" . }}
+{{- end -}}
+
+{{- define "nodewatcher.harvester.selectorLabels" -}}
+component: {{ .Values.harvester.name }}
+{{- end -}}
+
 {{- define "nodewatcher.nodewatcher.labels" -}}
 {{ include "nodewatcher.nodewatcher.matchLabels" . }}
 {{ include "nodewatcher.common.metaLabels" . }}

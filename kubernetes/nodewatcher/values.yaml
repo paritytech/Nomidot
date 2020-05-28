@@ -44,3 +44,17 @@ nodewatcher:
 
   tolerations: []
   affinity: {}
+
+harvester:
+  name: harvester
+
+  image:
+    repository: "eu.gcr.io/test-installations-222013/nomidot_watcher@sha256:36bf710c39451a8054885be5bca"
+    pullPolicy: Allways
+
+  config:
+    PRISMA_ENDPOINT: http://nodewatcher-service:4466
+    ARCHIVE_NODE_ENDPOINT: ws://polkassembly-rpc-internal-0.parity-prod.parity.io:9944
+    START_FROM: '1919357'
+    BLOCK_IDENTIFIER: 'last-50k-2'
+    MAX_LAG: '10'

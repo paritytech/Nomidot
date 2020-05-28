@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.harvester.name }}
+  labels:
+    {{- include "nodewatcher.harvester.labels" . | nindent 4 }}
+spec:
+  manualSelector: true
+  selector:
+    matchLabels:
+      {{- include "nodewatcher.harvester.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nodewatcher.harvester.matchLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: {{ .Values.harvester.name }}
+          image: {{ .Values.harvester.image.repository }}
+          imagePullPolicy: {{ .Values.harvester.image.pullPolicy }}
+          env:
+          {{- range $key, $val := .Values.harvester.config }}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  key: {{ $key }}
+                  name: havester-config
+          {{- end }}
+          command: ["yarn", "start"]
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
