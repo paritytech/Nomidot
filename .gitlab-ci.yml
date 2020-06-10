@@ -1,15 +1,15 @@
-image: parity/kubetools:latest
+image:                             paritytech/kubetools:latest
 
 stages:
   - test
   - dockerize
 
-variables:
-  GIT_DEPTH:      '3'
-  SIMPLECOV:      'true'
-  KUBE_NAMESPACE: "nomidot"
-  CI_REGISTRY:    "paritytech"
-  DOCKER_TAG:     '$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA'
+variables:                         &default-vars
+  GIT_DEPTH:                       3
+  SIMPLECOV:                       'true'
+  KUBE_NAMESPACE:                  "nomidot"
+  CI_REGISTRY:                     "paritytech"
+  DOCKER_TAG:                      '$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA'
 
 cache:
   key: '${CI_JOB_NAME}'
@@ -18,8 +18,8 @@ cache:
     - packages/*/node_modules/
 
 linux-test:
-  stage: test
-  image: node:12
+  stage:                            test
+  image:                            node:12
   script:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH=$HOME/.yarn/bin:$PATH
@@ -34,11 +34,12 @@ linux-test:
 
 .dockerize_init:                   &dockerize_init
   variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://localhost:2375
+    <<:                            *default-vars
+    DOCKER_DRIVER:                 overlay2
+    DOCKER_HOST:                   tcp://localhost:2375
   tags:
     - kubernetes-parity-build
-  image: docker:git
+  image:                           docker:git
   services:
     - docker:dind
   before_script:
@@ -49,10 +50,10 @@ linux-test:
     - echo "$Docker_Hub_Pass_Parity" | docker login -u "$Docker_Hub_User_Parity" --password-stdin 
 
 dockerize-frontend:
-  stage: dockerize
+  stage:                           dockerize
   environment:
-    name: parity-build
-  <<: *dockerize_init
+    name:                          parity-build
+  <<:                              *dockerize_init
   script:
     - cd front
     - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
@@ -63,10 +64,10 @@ dockerize-frontend:
     # - /^fv-.*$/
 
 dockerize-server:
-  stage: dockerize
+  stage:                           dockerize
   environment:
-    name: parity-build
-  <<: *dockerize_init
+    name:                          parity-build
+  <<:                              *dockerize_init
   script:
     - cd back/server
     - cp ../../yarn.lock . && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
@@ -77,10 +78,10 @@ dockerize-server:
     # - /^fv-.*$/
 
 dockerize-nodewatcher:
-  stage: dockerize
+  stage:                           dockerize
   environment:
-    name: parity-build
-  <<: *dockerize_init
+    name:                          parity-build
+  <<:                              *dockerize_init
   script:
     - cd back/node_watcher
     - cp ../../yarn.lock . && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
