@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.5.2 move to @substrate/react-context (2020-09-16)
+This package has now been renamed to "@substrate/react-context" and will be hosted in its own repo: [https://github.com/paritytech/substrate-js-utils](https://github.com/paritytech/substrate-js-utils/tree/master/react-context)
+
+
 ## [0.5.1](https://github.com/paritytech/Nomidot/compare/v0.5.0...v0.5.1) (2020-05-12)
 
 
