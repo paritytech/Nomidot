@@ -2,12 +2,16 @@ FROM node:alpine3.10
 
 WORKDIR /gatsby
 
-COPY package.json .
-COPY yarn.lock .
+ENV NODE_ENV staging
 
-# Install dependencies
-RUN yarn
+COPY ./package.json .
 
-COPY . .
+RUN yarn install --production
 
-CMD ["yarn", "start:prod"]
+RUN yarn build
+
+COPY ./public .
+
+EXPOSE 9000
+
+CMD ["yarn", "gatsby", "serve"] 
