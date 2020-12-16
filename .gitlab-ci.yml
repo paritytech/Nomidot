@@ -33,20 +33,18 @@ linux-test:
 #### stage:                        dockerize
 
 .dockerize_init:                   &dockerize_init
-  variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://localhost:2375
   tags:
     - kubernetes-parity-build
-  image: docker:git
-  services:
-    - docker:dind
+  image:                           quay.io/buildah/stable
   before_script:
     - POD_NAME=$(echo ${CI_JOB_NAME} | sed -E 's/^[[:alnum:]:]+-//')
     - export DOCKER_IMAGE="${CI_REGISTRY}/${KUBE_NAMESPACE}-${POD_NAME}"
-    - export DOCKER_IMAGE_FULL_NAME=$DOCKER_IMAGE:$DOCKER_TAG
+    - export DOCKER_IMAGE_FULL_NAME="$DOCKER_IMAGE:$DOCKER_TAG"
     - echo $DOCKER_IMAGE_FULL_NAME
-    - echo "$Docker_Hub_Pass_Parity" | docker login -u "$Docker_Hub_User_Parity" --password-stdin 
+    - echo "$Docker_Hub_Pass_Parity" |
+        buildah login --username "$Docker_Hub_User_Parity" --password-stdin docker.io
+  after_script:
+    - buildah logout docker.io
 
 dockerize-frontend:
   stage: dockerize
@@ -55,8 +53,11 @@ dockerize-frontend:
   <<: *dockerize_init
   script:
     - cd front
-    - docker build -t "$DOCKER_IMAGE_FULL_NAME" .
-    - docker push "$DOCKER_IMAGE_FULL_NAME"
+    - buildah bud 
+      --squash
+      --format=docker
+      --tag "$DOCKER_IMAGE_FULL_NAME" .
+    - buildah push --format=v2s2 "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
     - tags
@@ -69,8 +70,12 @@ dockerize-server:
   <<: *dockerize_init
   script:
     - cd back/server
-    - cp ../../yarn.lock . && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
-    - docker push "$DOCKER_IMAGE_FULL_NAME"
+    - cp ../../yarn.lock .
+    - buildah bud
+      --squash
+      --format=docker
+      --tag "$DOCKER_IMAGE_FULL_NAME" .
+    - buildah push --format=v2s2 "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
     - tags
@@ -83,8 +88,12 @@ dockerize-nodewatcher:
   <<: *dockerize_init
   script:
     - cd back/node_watcher
-    - cp ../../yarn.lock . && docker build -t "$DOCKER_IMAGE_FULL_NAME" .
-    - docker push "$DOCKER_IMAGE_FULL_NAME"
+    - cp ../../yarn.lock .
+    - buildah bud
+      --squash
+      --format=docker
+      --tag "$DOCKER_IMAGE_FULL_NAME" .
+    - buildah push --format=v2s2 "$DOCKER_IMAGE_FULL_NAME"
   only:
     - master
     - tags
